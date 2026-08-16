@@ -80,6 +80,11 @@ Twelve items, above the sizing gate, so the scope-to-phase mapping is in §Phase
 
 ## Phases
 
+**Phase 0 — Resolve the one unknown.** S9a: the Netlify branch-deploy question. It is a
+five-minute UI check that has blocked a decision since 2026-07-30, it gates S9, and it corrects a
+claim `CLAUDE.md` currently states as fact. Ships: the settings recorded in-repo, and whichever
+document was wrong fixed.
+
 **Phase 1 — Decide.** S1, S2, S3, S6, S8, S9. Six interacting decisions; none of the edits are
 hard once made. Ships: a decisions table in this doc, approved, each decision naming its file.
 
@@ -252,27 +257,50 @@ That gives three rhythms, each doing one job:
 
 ### Process comparison
 
-| | **Today** | **Option 1 — one command** | **Option 2 — retire mini-release (recommended)** |
+| | **Today** | **Option 1 — one `/ship`, bounded 1–3 days** | **Option 2 — retire mini-release** |
 |---|---|---|---|
-| Per epic | `/mini-release`: patch bump + CHANGELOG stub + Done | nothing | CHANGELOG line → `[Unreleased]`, Done |
-| Daily | `/eod`: push, deploy, Chromatic, CI | — | `/eod`: push, deploy, Chromatic, CI, Done → Shipped |
-| Periodic | `/release`: MINOR bump, notes, header cap | `/release`: everything, 1–N epics, multi-day | `/release`: MINOR bump, notes, header cap |
-| Commands | 3 | 1 | 2 |
-| Version bumps per release | ~6 patch + 1 minor | 1 | 1 |
-| Unpushed exposure | ≤ 1 day | **up to a full release cycle** | ≤ 1 day |
-| SUG-265 Part A (prompt parity) | live defect | dissolved | **dissolved** |
+| Per epic | `/mini-release`: PATCH bump + backlog cleanup + Done | CHANGELOG line → `[Unreleased]`, Done | CHANGELOG line → `[Unreleased]`, Done |
+| Daily | `/eod`: push, deploy, Chromatic, CI | free mirror push only (**needs G12**) | `/eod`: push, deploy, Chromatic, CI, Done → Shipped |
+| Periodic | `/release`: MINOR bump, notes, header cap | `/ship` every 1–3 days: push, deploy, Chromatic, CI, version, notes, Done → Shipped | `/release`: version, notes, header cap |
+| Commands | **3** | **1** | **2** |
+| Version bumps per release | ~6 PATCH + 1 MINOR | 1 | 1 |
+| Deploys per release | 1 per day | 1 per 1–3 days | 1 per day |
+| Unpushed-to-`main` exposure | ≤ 1 day | ≤ 3 days, mitigated only if G12 says branch pushes are free | ≤ 1 day |
+| Bump level derived from | which command ran | **content — needs a new rule (G13)** | which command ran |
+| SUG-265 Part A | live defect | **dissolved** | **dissolved** |
 
-**Option 1 is the literal proposal and it fails on one thing.** Collapsing `/eod` into `/release`
-means code stays on one disk for the whole release cycle — 3 to 16 days at the measured cadence.
-That is SUG-231 exactly: 48 commits, one disk, two days, and that was considered bad enough to
-write a rule about. It also breaks the day-as-sprint model above, whose signal is an empty Done
-column each morning. Option 1 can only work if push is separated back out, at which point it is
-Option 2 with extra steps.
+#### Option 1, revised — bounded to 1–3 days it is a real contender
 
-**Option 2 keeps the daily push and retires the ceremony that was actually redundant.** It gives
-the same end state the question wants — one release covering 1–N epics over multiple days — and
-it kills SUG-265 Part A outright, because with `/mini-release` gone there are no two prompts to
-hold in parity.
+**The first pass rejected Option 1 using the wrong number.** "3 to 16 days on one disk" is the
+historical *MINOR* cadence, not a property of Option 1. Bound the release to **1–3 days** and the
+exposure objection mostly dissolves: at 1 day it is exactly what `/eod` does now, and at 3 days
+it is one weekend.
+
+Two things then make Option 1 attractive rather than merely tolerable:
+
+- **One command, one instruction surface.** Three prompts become one. That is the post-mortem's
+  central lesson applied to the release path, and it is a bigger win than the parity fix.
+- **`/mini-release`'s only unique product is a PATCH number.** Verified in
+  `docs/workflows/release-assistant-prompt.md` §Version Conventions: *"PATCH: per-epic
+  mini-releases only — one epic, version bump + backlog cleanup, **no CHANGELOG entry, no release
+  notes**."* It does not write the CHANGELOG; `[Unreleased]` is already maintained separately and
+  `/release` already promotes it. So the two-tier accumulation model this epic recommended is
+  **already the documented design** — the patch bump is the only thing sitting on top of it, and
+  it is the thing nobody reads.
+
+**What Option 1 turns on: one unverified fact.** Disk safety over a 1–3 day window depends on the
+free-branch-push escape hatch (`git push origin main:wip/<date>`, no deploy, no spend). Two
+documents disagree about whether that hatch exists — see G12. Resolve G12 and Option 1 is viable;
+if branch pushes do build, Option 1's exposure is unmitigated and Option 2 wins by default.
+
+**Option 2 remains the safe default** and needs no new facts: it keeps the daily push, retires
+the ceremony that was redundant, and reaches the same end state. Both options kill SUG-265 Part A,
+because both retire `/mini-release`.
+
+**Recommendation: resolve G12 first, then pick.** The two options differ only in whether the
+daily push is a separate command or the same command run daily, and that question is decided by
+whether a free daily mirror push is available. It is a five-minute check in the Netlify UI, and
+it has been unresolved since 2026-07-30.
 
 ### Gaps in Option 2
 
@@ -282,6 +310,8 @@ hold in parity.
 | G9 | **The footer version goes stale between releases.** `__APP_VERSION__` would show the last *released* version for up to 16 days rather than moving every epic. That is more honest than today, where it shows a patch nobody released, but it is a visible change. |
 | G10 | **`stats.releases` counts CHANGELOG version headings.** Fewer, larger releases means the count grows more slowly. History is unaffected; the trend line changes. Worth stating before someone reads it as a slowdown. |
 | G11 | **`/release` inherits `/mini-release`'s unique steps.** SUG-265 Part A names two: the `> Updated` header cap at 8 entries, and the Chromatic pre-check. Both must land in `/release` as part of the retirement, not be dropped with it. |
+| G12 | **Two documents disagree about whether branch pushes are free, and Option 1 depends on the answer.** `CLAUDE.md:105` states it as fact: *"Branch pushes do not trigger Netlify deploys, so they are free."* `SUG-265:64` records it as **Unknown**, because `netlify.toml` is entirely commented out and the build config lives in the Netlify UI — confirmed 2026-08-16, the file has no live directives. One of these is wrong, an always-loaded rule is asserting an unverified claim, and the answer decides Option 1. **Five-minute check in the Netlify UI; unresolved since 2026-07-30.** |
+| G13 | **Option 1 forces the version bump level to be derived from content, and nothing does that today.** §Version Conventions ties the level to *which command ran* — `/mini-release` → PATCH, `/release` → MINOR — not to what changed. Collapse the commands and that mapping has nothing left to key on. At a 1–3 day cadence, minting MINOR every time reaches 1.0 in about two months. Needs a real SemVer rule: new feature surface or schema field → MINOR, fixes and docs only → PATCH. Option 2 does not create this gap. |
 
 **S9 is rewritten to cover this**, since the mini-release cut cannot be decided without it.
 
@@ -299,7 +329,11 @@ hold in parity.
 
 ### Scope added by this section
 
-- [ ] **S9 — Decide the release model.** Options 1 / 2 above; if Option 2, retire
+- [ ] **S9a — Resolve G12 before deciding S9.** Check the Netlify UI for branch-deploy and
+      deploy-preview settings, record them in-repo, and correct whichever of `CLAUDE.md:105` or
+      `SUG-265:64` is wrong. Blocks S9 and inherited from SUG-265 — layer: tooling
+- [ ] **S9 — Decide the release model.** Options 1 / 2 above, gated on S9a; if Option 1, add the
+      content-derived bump rule (G13). Either way retire
       `docs/mini-release-prompt.md`, migrate its two unique steps into
       `docs/workflows/release-assistant-prompt.md` (G11), and define the release trigger (G8) —
       layer: process. **Closes SUG-265 Part A**, which exists only because two prompts must
