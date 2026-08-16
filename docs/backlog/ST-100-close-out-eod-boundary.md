@@ -26,81 +26,96 @@ Three rhythms, each doing one job, and only one of them spends:
 | Rhythm | Runs | Produces | Costs |
 |---|---|---|---|
 | **Epic** | hours | `Done`, a CHANGELOG line in `[Unreleased]`, doc moved to `docs/shipped/` | nothing |
-| **Ship** | daily | code live, `Done` → `Shipped`, CI verified | 1 deploy |
-| **Release** | when a version is worth cutting | version bump, CHANGELOG cut, release notes | nothing new |
+| **Ship** | when invoked — observed 1–14 days | code live, `Done` → `Shipped`, CI verified | 1 deploy |
+| **Release** | the same command with `--release` | version bump, CHANGELOG cut, release notes | nothing new |
 
-Whether Ship and Release are one command or two is **the decision below**.
+Ship and Release are one command with a flag — **the decision below**, and the cadence is not a design variable.
 
 Touches process and instruction files only. No schema, no GROQ, no `apps/web` render code, no
 content.
 
 ---
 
-## The decision — pick one before anything else
+## The decision — one command, a release flag, and a cadence nobody controls
 
-`/mini-release` is retired in all three options and is not in question: its only unique product
-is a PATCH version bump, it never writes the CHANGELOG, and 187 of them produced 33 releases
-anyone saw. Evidence in §A1.
+`/mini-release` is retired regardless. Its only unique product is a PATCH version bump, it never
+writes the CHANGELOG, and 187 of them produced 33 releases anyone saw (§A1). Not in question.
 
-What is in question is what replaces `/eod` + `/release`.
+### The correction that reframes everything
 
-### Pros and cons
+**None of these commands are automatic.** Every one is a human-invoked ritual, and the real
+observed interval is **1 day to 2 weeks** — days get skipped, attention wanders, a command that
+"runs daily" runs when someone remembers it. Stated by Bex 2026-08-16.
 
-| | **Opt 1 — one `/ship`, every 1–3 days** | **Opt 2 — `/eod` daily + `/release` periodic** | **Opt 3 — one `/ship`, daily, `--release` flag** |
+An earlier pass of this section compared the options on cadence and gave Options 2 and 3 "≤ 1
+day". **That was fiction.** It described the design's intent, not the system's behaviour, and it
+made two of the four arguments against Option 1 collapse the moment the assumption was named:
+
+| Argument against Option 1 | Status after the correction |
+|---|---|
+| CI feedback latency triples | **Void.** Every option's latency is 1–14 days. They are identical |
+| Disk safety becomes a habit | **Void.** It was always a habit. Option 2's "daily push" is a habit that fails the same way |
+| Blocking dependency on the bump rule (G13) | **Survives** — the only real differentiator |
+| Weakens the empty-`Done`-column signal | **Applies to all three.** Now a shared problem, not a comparison point |
+
+**Comparing these options on cadence is therefore meaningless.** They inherit the same human
+variance. The axis that actually separates designs is: *what happens on the days you do not run
+it, and what does not depend on you remembering.*
+
+### What that implies
+
+1. **Fewer commands is better on memory grounds, not elegance grounds.** Three commands are three
+   things to forget. This strengthens the collapse instinct rather than weakening it.
+2. **Anything safety-critical must not be a command at all.** Disk safety belongs in a
+   `post-commit` hook that mirror-pushes to a `wip/` branch — free, since `allowed_branches` is
+   `['main']` (§A2), and invisible, so it cannot be forgotten. That takes disk safety off the
+   cadence question entirely.
+3. **Every step must be interval-agnostic.** No "today's work" semantics anywhere. The command
+   operates on *everything currently `Done`*, whether that is one epic or fourteen days of them.
+   G7 is promoted from a Low gap to a core design constraint.
+4. **Detection belongs at the start of a session, not the end.** `/morning` already reports
+   unpushed commits and it is the more reliable touchpoint — sessions get started more reliably
+   than they get closed. The nag moves there.
+
+### Honest comparison
+
+Cadence columns removed, because they are the same for all three and are not a design property.
+
+| | **1 — one command** | **2 — two commands** | **3 — one command + flag** |
 |---|---|---|---|
-| Commands | **1** | 2 | **1** |
-| Prompt-parity defect class | **gone** | **gone** | **gone** |
-| Deploys per month | ~10–30 | ~30 | ~30 |
-| CI feedback latency | **up to 3 days** ⚠️ | ≤ 1 day | ≤ 1 day |
-| Disk exposure if the habit slips | up to 3 days ⚠️ | ≤ 1 day | ≤ 1 day |
-| Disk safety is | a remembered mirror push | **automatic — the daily command** | **automatic** |
-| Needs the bump-derivation rule (G13) | **yes, blocking** ⚠️ | no | no — the flag says it explicitly |
-| Chromatic review batch | up to 3 days of diffs ⚠️ | 1 day | 1 day |
-| `Done` column empties | every 1–3 days | **every morning** | **every morning** |
-| Version numbers minted | 1 per ship | 1 per release | 1 per release |
-| New unscoped work created | the sizing epic | none | none |
+| Things to remember to run | **1** | 2 | **1** |
+| Prompt-parity defect class | gone | gone | gone |
+| Real interval | 1–14 days | 1–14 days | 1–14 days |
+| Ships code and cuts a version | always together | separately | **separately, one command** |
+| Version minted per invocation | every time ⚠️ | only on `/release` | **only with the flag** |
+| Needs the G13 bump rule | **yes, blocking** ⚠️ | no | no |
+| Works unchanged after a 2-week gap | yes, if interval-agnostic | yes | yes |
+| Disk safety | hook, not the command | hook, not the command | hook, not the command |
 
-### The case against Option 1
+### Recommendation, revised
 
-You asked for it if there is one. There is. G12 removed the *disk* objection only; four things
-survive:
-
-1. **It has a blocking dependency on work you scoped as "future".** Collapse the commands and the
-   bump level loses the thing it keys on: which command ran. Nothing derives it from content
-   today (G13). So Option 1 cannot ship until the size/surface rule exists — the epic you said
-   should be scoped separately. Options 2 and 3 both ship without it.
-2. **CI feedback latency triples.** CI is the only thing verifying the build. At a 3-day cadence a
-   break introduced Monday surfaces Wednesday with two days of work stacked on it, and debugging
-   cost scales with what landed after. This has history: CI was red on `main` for 212 consecutive
-   runs, partly because nobody looked often enough.
-3. **Disk safety becomes a habit instead of a command.** Under Options 2 and 3 the daily command
-   *is* the push, so forgetting costs one day. Under Option 1 safety depends on remembering
-   `git push origin main:wip/<date>` on non-ship days. SUG-231 is the evidence that this habit
-   fails: 48 commits, one disk, two days.
-4. **It weakens the signal the Done/Shipped split was built to give.** An empty `Done` column each
-   morning is the proof the ship ran. If `Done` legitimately holds items for three days, the
-   signal stops being readable and the honesty the split bought is partly given back.
-
-None is fatal. All four are avoidable.
-
-### Recommendation — Option 3
-
-**Option 1's collapse without Option 1's costs.** One command, one prompt, one instruction
-surface, so the parity defect class disappears exactly as you want. But it runs daily, so CI
-latency, disk exposure and Chromatic batch size stay where they are today, and `Done` still
-empties every morning.
+**One command with a release flag.** Which is Option 3, but arrived at from your position rather
+than against it — the collapse is right, and the flag exists only to stop every invocation
+minting a version.
 
 ```
-/ship              push · deploy · Chromatic · CI · Done → Shipped
-/ship --release    all of the above, then version bump · CHANGELOG cut · notes
+/ship            everything Done → pushed, deployed, CI verified, Shipped
+/ship --release  the same, then version bump · CHANGELOG cut · release notes
 ```
 
-The version bump becomes an explicit human act rather than a derived one, so **G13 stops being
-blocking**. The sizing epic then becomes what you wanted it to be: a later improvement that
-automates a judgement, not a prerequisite gating this epic.
+Name to be decided — `/ship` was your placeholder and I have kept it as one. The naming question
+is real: it should not be `/eod`, because the honest cadence is not daily and a name that says
+"end of day" lies about when it runs.
 
-If you want Option 1 anyway, the honest path is a 1-day default with 2–3 days as the exception —
-which is Option 3 under a different name.
+**Why not pure Option 1 (version every time):** G13. Without a content-derived bump rule, every
+invocation mints a version, and at a 1–14 day interval that is anywhere from 2 to 30 versions a
+month with no way to tell which mattered. The flag is a one-word substitute for an entire epic.
+If the sizing epic (§A6) ships later, the flag can become a default with an override — but it
+does not have to exist first.
+
+**Open for tomorrow:** whether the flag should be inverted (`--no-release`, versioning by
+default), which is worth arguing if the honest interval turns out to be closer to 2 weeks than 2
+days. That is answerable from data once S9b measures actual run frequency.
 
 ---
 
@@ -114,8 +129,12 @@ Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases
       committed locally", with the `origin/main` guarantee re-homed to `Shipped` — layer: process
 - [ ] **S3 — Consolidate Chromatic to one place.** Currently three: close-out step 4 (Tier 1),
       `/mini-release` §0A, `/eod` Phase 3 step 2 — layer: process
-- [x] ~~**S4 — "Done but unpushed" signal.**~~ Closed by the Done/Shipped split — §A3
-- [x] ~~**S5 — Reopen path.**~~ Closed by the Done/Shipped split — §A3
+- [ ] **S4 — REOPENED 2026-08-16.** The Done/Shipped split closed this on the assumption that
+      `Done` empties every morning. At a 1–14 day interval it does not, so a filling `Done` column
+      stops being a signal and becomes the normal state. Needs a real one: age of the oldest
+      `Done` item, surfaced by `/morning` — layer: process/tooling
+- [x] ~~**S5 — Reopen path.**~~ Still closed — a red CI leaves items in `Done` regardless of
+      interval. §A3
 - [ ] **S6 — Reconcile the two disagreeing push rules** (§Mid-epic commit checkpoints threshold vs
       close-out's CI need), stating which governs, in both places — layer: process
 - [ ] **S7 — Record the `[skip ci]` trap** where a session writing a commit message meets it, and
@@ -133,6 +152,10 @@ Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases
 - [ ] **S11 — Write the Done → Shipped step**, including the close-then-set ordering G2 requires — layer: process/tooling
 - [ ] **S12 — Split the stats collector's `shipped` bucket** so the published roadmap stops
       reporting Done as shipped, or record why not (G4) — layer: tooling
+- [ ] **S13 — Move disk safety out of the command.** A `post-commit` hook mirror-pushing to
+      `wip/<date>`, free per §A2, so safety stops depending on memory (G15) — layer: tooling
+- [ ] **S14 — Make every step interval-agnostic.** No "today's work" semantics; operate on
+      everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer: process
 
 ---
 
@@ -158,11 +181,18 @@ Also S12. Ships: a recorded run, and an honest roadmap figure.
 
 ## Acceptance criteria
 
-- [ ] An epic that finishes mid-morning reaches `Done`, its CHANGELOG line written and its doc
-      moved, with zero network calls and zero credits spent
-- [ ] Exactly one command in the day pushes, deploys, or runs Chromatic
-- [ ] Step 1b's CI half is verifiably still enforced, just later: name the step that fails the day
-      if the run concludes `failure`
+- [ ] An epic finishing at any point reaches `Done`, its CHANGELOG line written and its doc moved,
+      with zero network calls and zero credits spent
+- [ ] Exactly one command pushes, deploys, or runs Chromatic, and it mints a version only with
+      `--release`
+- [ ] **Interval-agnostic, proven:** the command is run once after a gap of a week or more and
+      correctly ships every `Done` item accumulated in it, not just the most recent (G7)
+- [ ] **Disk safety needs no ritual:** commits reach a remote without anyone invoking anything,
+      demonstrated by making a commit and observing the mirror without running a command (G15)
+- [ ] `/morning` reports the age of the oldest `Done` item, and it is shown rising across a gap
+      and resetting after a run (S4, G16)
+- [ ] Step 1b's CI half is verifiably still enforced, just later: name the step that fails the run
+      if CI concludes `failure`
 - [ ] Every rule that currently says "origin/main" or "merged" as a `Done` precondition is
       rewritten or has a written reason it stays
 - [ ] The board distinguishes `Done` from `Shipped`, and one item is observed making the
@@ -190,8 +220,13 @@ Also S12. Ships: a recorded run, and an honest roadmap figure.
 
 **If, after 30 days, no epic has reached `Done` before its push — or items routinely land in
 `Shipped` having never paused in `Done` — revert to the current sequence and delete the split.**
-Either pattern means the day-as-sprint is not how the work arrives, and the extra state costs more
-than the friction it removed. Check date: 30 days after Phase 3 merges.
+Either pattern means the extra state costs more than the friction it removed. Check date: 30 days
+after Phase 3 merges.
+
+**Measured against invocations, not days.** At a 1–14 day interval, 30 days might contain two runs
+or twenty, and a criterion phrased in days would be judged on a sample of two. Require **at least
+five invocations** before the check is meaningful; if 30 days pass with fewer, extend to the fifth
+run and record why.
 
 ---
 
@@ -308,10 +343,17 @@ does not want to wait two weeks to launch, so the sprint compresses to a day.
 | **Done** | Work complete, reviewed, signed off. Not live. | Epic finishes | The session | No |
 | **Shipped** | On `origin/main`, deployed, CI green. Users have it. | The ship command | The ship command | Yes |
 
-**This closed two scope items rather than solving them.** S4 (a "Done but unpushed" signal) is
-unnecessary because the `Done` column *is* the signal, and an empty one each morning is proof the
-ship ran. S5 (a reopen path) is unnecessary because a red CI simply means nothing moves
-`Done` → `Shipped` that night. No un-Done, no ceremony.
+**This closed two scope items. One of them has since reopened.**
+
+S5 (a reopen path) stays closed: a red CI means nothing moves `Done` → `Shipped`, whatever the
+interval. No un-Done, no ceremony.
+
+> **S4 reopened 2026-08-16.** The argument was that the `Done` column *is* the signal, because an
+> empty one each morning proves the ship ran. **That assumed a daily cadence, and the observed
+> cadence is 1–14 days.** A column that fills for two weeks is not a signal, it is the normal
+> state, and "there is stuff in Done" carries no information. The replacement is not another
+> column: it is the **age of the oldest `Done` item**, surfaced by `/morning`. One number,
+> unambiguous, and it grows the longer you leave it. S4, G16.
 
 **The trade this makes.** Today's rule is strict because it prevents calling something Done that
 is stranded where nobody can see it (SUG-231: 48 commits, one disk, two days). Relaxing the
@@ -335,8 +377,12 @@ reintroduces SUG-231's failure with the warning light removed.
                    └──────────┘   │   (local)   │   └──────────┘  │
                                   └─────────────┘                 │
      epic 3        ┌──────────┐                                   │
-     ───────────▶  │ In Prog. │────────────── (unfinished) ───────┼──▶ tomorrow
+     ───────────▶  │ In Prog. │──────────── (unfinished) ─────────┼──▶ next run
                    └──────────┘                                   │
+                                                                  │
+     automatic, no ritual:  post-commit hook → wip/<date>         │
+       free (allowed_branches: ['main']), so disk safety          │
+       never depends on remembering to run anything (S13)         │
                                                                   │
      per epic, at DONE:                                           │
        · CHANGELOG line        → [Unreleased] buffer              │
@@ -345,7 +391,7 @@ reintroduces SUG-231's failure with the warning light removed.
        (no version bump — /mini-release retired)                  │
                                                                   ▼
    ══════════════════════════════════════════════════ /ship ══════════
-   DAILY  ·  the only step that spends
+   WHEN INVOKED (observed 1–14 days)  ·  the only step that spends
    ─────────────────────────────────────────────────────────────────────
                                                                   │
         ┌─────────────────────────────────────────────────────────┘
@@ -358,10 +404,10 @@ reintroduces SUG-231's failure with the warning light removed.
                                    CI red   │          │  code is LIVE.
                                             ▼          │  no version yet.
                             epics stay DONE, ship      │
-                            tomorrow (no un-Done)      │
+                            next run (no un-Done)      │
                                                        │
    ═════════════════════════════════ /ship --release ══╪═══════════════
-   WHEN A VERSION IS WORTH CUTTING  ·  no push, no spend
+   SAME COMMAND, WITH THE FLAG  ·  no extra push, no extra spend
    ─────────────────────────────────────────────────────────────────────
                                                        ▼
                           ┌─────────────┐   ┌────────────────────────┐
@@ -374,11 +420,12 @@ reintroduces SUG-231's failure with the warning light removed.
                                             release notes · header cap
 ```
 
-**Drawn as Option 3.** Under **Option 1** the two lower blocks merge and fire every 1–3 days.
-Under **Option 2** they are separate commands, `/eod` and `/release`.
+**Drawn as the recommendation:** one command, the lower block reached only with `--release`. Under
+pure Option 1 the two lower blocks merge and every invocation mints a version. Under Option 2 they
+are two separate commands.
 
-**Nothing waits for a release to go live.** Code ships daily; only the version number and the
-written notes accumulate. Launching and versioning were welded together, and separating them is
+**Nothing waits for a release to go live.** Code ships whenever the command runs; only the version
+number and the written notes accumulate beyond that. Launching and versioning were welded together, and separating them is
 what removes the wait without batching the deploy.
 
 ## A5 — Gaps
@@ -389,6 +436,8 @@ what removes the wait without batching the deploy.
 | G2 | **Closing an issue sets `Done`, not `Shipped`** | The `Item closed` workflow sets `Status: Done`. The ship command must close *then* set `Shipped`, in that order, or automation overwrites it. GitHub's built-ins cannot express "on push, Done → Shipped" | **Blocker** |
 | G3 | **Nothing moves Done → Shipped** | No automation exists. A scripted step: enumerate `Status: Done`, and after CI concludes `success`, close each and set `Shipped` | **Blocker** |
 | G4 | **`/platform/governance` already calls Done "shipped"** | `apps/web/scripts/stats/linear.js:5,128` buckets `completed` into a bucket named `shipped`, feeding the published roadmap. The site already reports Done as shipped, and Done can precede code being live. First chance to make the figure true. Ties to ST-96 | **High** |
+| G15 | **Disk safety depends on memory, and memory is the thing that fails** | No command runs automatically. A `post-commit` hook mirror-pushing to `wip/<date>` is free (`allowed_branches: ['main']`, §A2) and invisible, which takes safety off the cadence question entirely. Without it, every option's exposure is 1–14 days. S13 | **High** |
+| G16 | **The nag is at the wrong end of the session** | Unpushed-work detection currently lives at close (`/eod`). Sessions get *started* more reliably than they get *closed*, and `/morning` already reports unpushed commits — that is the touchpoint that actually fires. Move the nag, and add the age of the oldest `Done` item. S4, S14 | **High** |
 | G14 | **Credits per build unmeasured** | 1,000/month allowance. Every cadence argument here reasons about an unquantified cost — 30 deploys/month might be 3% of budget or 90%. Measure once and the question becomes arithmetic | **High** |
 | G13 | **Bump level has nothing to key on if the commands collapse** | §Version Conventions ties the level to which command ran. Option 1 removes that. At 1–3 days, minting MINOR each time reaches 1.0 in ~2 months. Needs a content-derived rule — §A6. **Blocking for Option 1 only** | High (Opt 1) |
 | G5 | **`docs/shipped/` no longer means shipped** | Close-out step 6 moves the doc at `Done`, but the directory is named for a state not yet reached. Move it at `Shipped`, or write down that the name predates the status | Medium |
@@ -397,7 +446,7 @@ what removes the wait without batching the deploy.
 | G9 | **Footer version goes stale between releases** | `__APP_VERSION__` shows the last *released* version rather than moving every epic. More honest than today, where it shows a patch nobody released, but visible | Low |
 | G10 | **`stats.releases` counts CHANGELOG headings** | Fewer, larger releases means a slower-growing count. History unaffected; the trend line changes. State it before someone reads it as a slowdown | Low |
 | G6 | **The 58 migrated issues used Done = shipped** | Their history means the old thing. Do not retrofit; the new meaning applies forward only | Low |
-| G7 | **A skipped ship breaks the day-as-sprint** | `Shipped` must mean "everything `Done` at push time", not "today's work", or a missed day silently drops from the batch | Low |
+| G7 | **Interval-agnosticism is a core constraint, not an edge case** | Promoted from Low 2026-08-16. The observed interval is 1–14 days, so "a skipped ship" is the normal case. Every step must operate on *everything currently `Done`*, never "today's work", or missed days silently drop from the batch. S14 | **Blocker** |
 | G12 | ~~Branch-push cost unknown~~ | **Resolved 2026-08-16** — §A2 | ✅ |
 
 ## A6 — Future epic: size-derived version bump
