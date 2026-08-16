@@ -55,7 +55,7 @@ Touches process and instruction files only: `CLAUDE.md`, `docs/epic-template.md`
 
 ## Scope
 
-Twelve items, above the sizing gate, so the scope-to-phase mapping is in §Phases. S4 and S5 are struck — the Done/Shipped model closed them.
+Twelve items, above the sizing gate, so the scope-to-phase mapping is in §Phases. S4 and S5 are struck — the Done/Shipped model closed them. S9 is widened by §Should mini-release, release and /eod collapse into one? and now covers retiring `/mini-release` entirely.
 
 - [ ] **S1 — Split step 1b.** `pnpm test:smoke` locally gates the epic; the CI conclusion moves
       to `/eod`, which already watches the run to a conclusion (Phase 3 step 5) — layer: process
@@ -72,9 +72,11 @@ Twelve items, above the sizing gate, so the scope-to-phase mapping is in §Phase
       vs. close-out's CI need), stating which governs, in both places. Inherited from SUG-265 — layer: process
 - [ ] **S7 — Record the `[skip ci]` trap** where a session writing a commit message will meet it,
       and adopt `skip-ci` as the safe spelling. Inherited from SUG-265 — layer: process
-- [ ] **S8 — Disposition SUG-265 Part B.** This epic absorbs it; Part A (prompt parity) is
-      unrelated and stays. Re-scope [#90](https://github.com/bex-sugartown/sugartown/issues/90)
-      to Part A only, or close it into this — layer: process
+- [ ] **S8 — Disposition all of SUG-265.** Part B is absorbed outright. Part A dissolves if S9
+      retires `/mini-release`, since parity between two prompts stops being a thing that can
+      drift — but only once its two unique steps have landed in `/release` (G11). Close
+      [#90](https://github.com/bex-sugartown/sugartown/issues/90) into this epic once S9 lands,
+      not before — layer: process
 
 ## Phases
 
@@ -155,7 +157,7 @@ un-Done.
        · CHANGELOG line        → [Unreleased] buffer              │
        · docs/backlog → shipped/                                  │
        · commit                                                   │
-       (version bump is NOT here — see S9, option C)              │
+       (no version bump — /mini-release retired, S9)              │
                                                                   ▼
    ══════════════════════════════════════════════════════ /eod ═══════
    AT EOD  ·  the only step that spends
@@ -164,20 +166,33 @@ un-Done.
         ┌─────────────────────────────────────────────────────────┘
         │
         ▼
-   ┌─────────┐  ┌────────┐  ┌──────┐  ┌────────┐  ┌────┐  ┌───────────┐
-   │ version │─▶│Chromatic│─▶│ push │─▶│Netlify │─▶│ CI │─▶│  SHIPPED  │
-   │  bump   │  │(Tier 1) │  │  ×1  │  │ deploy │  │run │  │ epics 1,2 │
-   │ ×1, day │  └────────┘  └──────┘  └────────┘  └────┘  └───────────┘
-   └─────────┘                                       │
-   [Unreleased] → [0.33.N]                           │ CI red
-   one version, every epic's line                    ▼
-                                          epics stay DONE, ship tomorrow
-                                          (no reopen, no un-Done)
+    ┌──────────┐  ┌──────┐  ┌─────────┐  ┌────┐  ┌───────────┐
+    │Chromatic │─▶│ push │─▶│ Netlify │─▶│ CI │─▶│  SHIPPED  │
+    │ (Tier 1) │  │  ×1  │  │ deploy  │  │run │  │ epics 1,2 │
+    └──────────┘  └──────┘  └─────────┘  └────┘  └───────────┘
+                                            │          │
+                                   CI red   │          │  code is LIVE.
+                                            ▼          │  no version yet.
+                            epics stay DONE, ship      │
+                            tomorrow (no un-Done)      │
+                                                       │
+   ═══════════════════════════════════════ /release ═══╪══════════════════
+   EVERY 3–16 DAYS  ·  1–N epics  ·  no push, no spend │
+   ─────────────────────────────────────────────────────────────────────
+                                                       ▼
+                          ┌─────────────┐   ┌────────────────────────┐
+                          │ MINOR bump  │──▶│ [Unreleased] → [0.34.0]│
+                          │  0.33 → .34 │   │ every epic's line, cut │
+                          └─────────────┘   │ into one release entry │
+                                            └────────────────────────┘
+                                                       │
+                                                       ▼
+                                            release notes · header cap
 ```
 
-Read the diagram as option **C**. Under **A** the version bump moves up into the per-epic block
-and the day mints one version per epic; under **B** the per-epic CHANGELOG line disappears and
-only the aggregated entry survives. S9 picks.
+**Nothing waits for a release to go live.** Code ships daily at `/eod`; only the version number
+and the written notes accumulate. That is the whole trick — launching and versioning were welded
+together, and separating them is what removes the wait without batching the deploy.
 
 ### What this does to the mini-release
 
@@ -193,11 +208,82 @@ Three ways to cut it, and the epic has to pick one:
 | **B. Per ship** | at Shipped, one per day | one aggregated entry | Semantically true — a version is a released artifact. But it is a *daily* release, not a mini one, and each epic loses its own version marker. |
 | **C. Split** | at Shipped, one per day | line per epic at Done, into `[Unreleased]` | Uses the buffer as designed. Every epic gets its own CHANGELOG line as it finishes; one version number marks what actually shipped. |
 
-**Recommendation: C.** It is the only option where the version number means what SemVer says it
-means and no epic loses its own entry, and it is the one the existing `[Unreleased]` buffer was
-built for. A is the status quo extended and mints phantom versions; B loses per-epic attribution.
+~~**Recommendation: C.**~~ **Superseded the same day** by §Should mini-release, release and /eod
+collapse into one? — all three options above assume the version bump happens *somewhere in the
+day*, and the measurement showed it should not happen daily at all. 187 patch bumps produced 33
+releases. The right cut is **C's CHANGELOG half with the bump moved out to `/release`**: a line
+per epic into `[Unreleased]` at Done, one MINOR bump every 3 to 16 days when a release is cut.
 
-Deciding this is scope item **S9**.
+The table stays because the reasoning against A and B still holds and the next reader will ask.
+Deciding this is scope item **S9**, now widened.
+
+### Should mini-release, release and /eod collapse into one?
+
+Raised 2026-08-16. Answered: **no, but `/mini-release` should be retired.** The batching model
+the question asks for already exists one layer up.
+
+**Measured first, 2026-08-16:**
+
+| | Count | Command |
+|---|---|---|
+| `chore(release): mini-release` commits | **187** | `git log --grep="chore(release): mini-release" \| wc -l` |
+| other `chore(release)` commits | **1** | same, inverted |
+| MINOR versions in `CHANGELOG.md` | **33** | `grep -cE "^## \[0\.[0-9]+\.0\]" CHANGELOG.md` |
+
+`v0.30.0` aggregated **ten** mini-releases across five days. `v0.29.0` aggregated six. A MINOR
+release *is already* "1 to 10 epics, possibly spanning days" — that is what `/release` does. So
+the structure being asked for is built and has run 33 times. What is redundant is the per-epic
+**version bump**: 187 of them produced 33 releases anyone saw, and only the last before each
+MINOR is ever served in the footer via `__APP_VERSION__`.
+
+**The distinction that makes this tractable: launching is not versioning.** Those two are welded
+today because a push deploys, so shipping code and minting a version happen in one motion. Pull
+them apart and nothing waits for a sprint — code ships daily at `/eod`; only the version number
+and the written release notes accumulate. The friction in "I don't want to wait a sprint to
+launch" is real, and it is entirely in the *push*, not in the version.
+
+That gives three rhythms, each doing one job:
+
+| Rhythm | Runs | Produces | Costs |
+|---|---|---|---|
+| **Epic** | hours | Done, a CHANGELOG line in `[Unreleased]`, doc moved | nothing |
+| **Ship** (`/eod`) | daily | code live, Done → Shipped, CI verified | 1 deploy |
+| **Release** (`/release`) | 3–16 days, 1–N epics | version bump, CHANGELOG cut, release notes | nothing new |
+
+### Process comparison
+
+| | **Today** | **Option 1 — one command** | **Option 2 — retire mini-release (recommended)** |
+|---|---|---|---|
+| Per epic | `/mini-release`: patch bump + CHANGELOG stub + Done | nothing | CHANGELOG line → `[Unreleased]`, Done |
+| Daily | `/eod`: push, deploy, Chromatic, CI | — | `/eod`: push, deploy, Chromatic, CI, Done → Shipped |
+| Periodic | `/release`: MINOR bump, notes, header cap | `/release`: everything, 1–N epics, multi-day | `/release`: MINOR bump, notes, header cap |
+| Commands | 3 | 1 | 2 |
+| Version bumps per release | ~6 patch + 1 minor | 1 | 1 |
+| Unpushed exposure | ≤ 1 day | **up to a full release cycle** | ≤ 1 day |
+| SUG-265 Part A (prompt parity) | live defect | dissolved | **dissolved** |
+
+**Option 1 is the literal proposal and it fails on one thing.** Collapsing `/eod` into `/release`
+means code stays on one disk for the whole release cycle — 3 to 16 days at the measured cadence.
+That is SUG-231 exactly: 48 commits, one disk, two days, and that was considered bad enough to
+write a rule about. It also breaks the day-as-sprint model above, whose signal is an empty Done
+column each morning. Option 1 can only work if push is separated back out, at which point it is
+Option 2 with extra steps.
+
+**Option 2 keeps the daily push and retires the ceremony that was actually redundant.** It gives
+the same end state the question wants — one release covering 1–N epics over multiple days — and
+it kills SUG-265 Part A outright, because with `/mini-release` gone there are no two prompts to
+hold in parity.
+
+### Gaps in Option 2
+
+| # | Gap | Detail |
+|---|---|---|
+| G8 | **Nothing triggers a release.** `/mini-release` fired automatically at close-out. `/release` needs a trigger: a shipped-epic count, elapsed days, or a human call. Undefined today because close-out always bumped. |
+| G9 | **The footer version goes stale between releases.** `__APP_VERSION__` would show the last *released* version for up to 16 days rather than moving every epic. That is more honest than today, where it shows a patch nobody released, but it is a visible change. |
+| G10 | **`stats.releases` counts CHANGELOG version headings.** Fewer, larger releases means the count grows more slowly. History is unaffected; the trend line changes. Worth stating before someone reads it as a slowdown. |
+| G11 | **`/release` inherits `/mini-release`'s unique steps.** SUG-265 Part A names two: the `> Updated` header cap at 8 entries, and the Chromatic pre-check. Both must land in `/release` as part of the retirement, not be dropped with it. |
+
+**S9 is rewritten to cover this**, since the mini-release cut cannot be decided without it.
 
 ### Gaps and blockers this model introduces
 
@@ -213,7 +299,11 @@ Deciding this is scope item **S9**.
 
 ### Scope added by this section
 
-- [ ] **S9 — Decide the mini-release cut** (A / B / C above) and rewrite `docs/mini-release-prompt.md` to match — layer: process
+- [ ] **S9 — Decide the release model.** Options 1 / 2 above; if Option 2, retire
+      `docs/mini-release-prompt.md`, migrate its two unique steps into
+      `docs/workflows/release-assistant-prompt.md` (G11), and define the release trigger (G8) —
+      layer: process. **Closes SUG-265 Part A**, which exists only because two prompts must
+      match.
 - [ ] **S10 — Add the `Shipped` status** to the board, via the UI, with a snapshot taken first (G1) — layer: tooling
 - [ ] **S11 — Write the Done → Shipped step in `/eod`**, including the close-then-set ordering G2 requires — layer: process/tooling
 - [ ] **S12 — Split the stats collector's `shipped` bucket** so the published roadmap distinguishes Done from Shipped, or record why it should not (G4) — layer: tooling
@@ -308,8 +398,12 @@ ordinary Sonnet work.
   this epic works within, not one it removes.
 - **Branch protection on `main`.** Deliberately absent (SUG-255) so merge-as-you-go is not
   blocked. Unchanged here.
-- **SUG-265 Part A** (`/release` vs `/mini-release` prompt parity). Unrelated to the cost
-  boundary and stays on [#90](https://github.com/bex-sugartown/sugartown/issues/90).
+- ~~**SUG-265 Part A** (`/release` vs `/mini-release` prompt parity).~~ **Pulled in 2026-08-16.**
+  If S9 retires `/mini-release`, Part A dissolves rather than being fixed — there is no second
+  prompt to hold in parity. Its two unique steps (the `> Updated` header cap, the Chromatic
+  pre-check) migrate into `/release` as part of the retirement, which is G11. This means ST-100
+  absorbs **all** of SUG-265, not just Part B, and [#90](https://github.com/bex-sugartown/sugartown/issues/90)
+  closes rather than being re-scoped. S8 records the disposition.
 - **Rewriting the 7-gate release flow.** It works.
 - **Reducing the number of deploys per day below one.** One deploy at `/eod` is the target, not
   zero.
