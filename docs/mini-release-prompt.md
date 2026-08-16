@@ -266,7 +266,7 @@ After all steps complete, AI prints:
 ━━━ MINI-RELEASE vX.Y.Z+1 COMPLETE ━━━━━━━━━━━━━━━━━━━━━━━━━━━
   ✅  package.json → X.Y.Z+1
   ✅  Committed: [hash]
-  ✅  Linear: SUG-XX → Done [or "no Linear issue linked"]
+  ✅  Issue: SUG-XX / ST-NN → Done [or "no issue linked"]
   ✅  Backlog cleaned: [deleted file(s) listed, or "no backlog file to remove"]
   ✅  Priority stack updated
 

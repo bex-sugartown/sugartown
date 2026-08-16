@@ -145,7 +145,7 @@ The merge strategy label convention (from CLAUDE.md):
 ```markdown
 ---
 **Epic:** ST-{n} — {Epic name}
-**GitHub Issue:** [#{n}](https://github.com/bex-sugartown/sugartown/issues/{n})
+**Issue:** [#{n}](https://github.com/bex-sugartown/sugartown/issues/{n})
 **Status:** Backlog
 **Priority:** {emoji} {label}
 **Merge strategy:** ({a or b}) {strategy label}

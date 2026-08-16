@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-98 — Apply the six post-mortem rule changes
 **GitHub Issue:** [#98](https://github.com/bex-sugartown/sugartown/issues/98)
-**Status:** Backlog
+**Status:** In Progress
 **Priority:** 🟡 Medium
 **Merge strategy:** (b) Single close-out — one session, one batched commit
 ---
@@ -40,11 +40,11 @@ commit under the Instruction & Rule File Write Gate.
 | 6.6 | One index, or one ID scheme | `docs/epic-template.md` |
 | 6.7 | Every new process carries a kill criterion at birth, with a date to check it | `docs/epic-template.md` |
 
-- [ ] Get the §8.3 decision (below) before writing anything — layer: process
-- [ ] Run the ST-99 v1 QA walkthrough on the resulting diff before committing — layer: process
-- [ ] Draft all six as diffs from scratchpad copies — layer: process
-- [ ] Instruction & Rule File Write Gate: show the exact diff, get approval — layer: process
-- [ ] Apply and commit as one batch — layer: process
+- [x] Get the §8.3 decision (below) before writing anything — layer: process
+- [x] Run the ST-99 v1 QA walkthrough on the resulting diff before committing — layer: process (run 3, 2 findings, both fixed)
+- [x] Draft all six as diffs from scratchpad copies — layer: process
+- [x] Instruction & Rule File Write Gate: show the exact diff, get approval — layer: process
+- [x] Apply and commit as one batch — layer: process
 
 ## Non-Goals
 
@@ -61,16 +61,45 @@ Post-mortem §8.3, stated as a standing note rather than resolved:
 > the same motion that started this, and warrants an explicit decision rather than an assumed
 > one.
 
-**Do not start the edits without answering it.** The options are: apply all six, apply a
-subset, or record a decision not to apply them and close this epic as won't-do. Any of the
-three is a legitimate outcome; the failure mode is drifting into the edits without choosing.
+**Decided 2026-08-16 (Bex): apply all six.** Reasoning given: the rules are tested into rather
+than assumed correct — ST-99's QA walkthrough runs on each change, and they are refined
+iteratively and slowly rather than being frozen on first write. That answers §8.3's objection
+directly: the surface grows, but not unexamined.
+
+Two additions were made in the same pass, both outside the original six and both requested:
+
+- **The `In Progress` transition is now an imperative step in CLAUDE.md**, not just a row in
+  the status table. It was stated only in `docs/epic-template.md`, so a session following the
+  close-out sequence never met it.
+- **A portability rule**: write "issue", never "Linear issue" or "GitHub issue", except where
+  the mechanics are genuinely platform-specific. Every rule here outlives the tracker it was
+  written under. Swept across CLAUDE.md, the epic template, the mini-release prompt and the
+  new-epic prompt; 58 older backlog docs still carry `**Linear Issue:**` and were deliberately
+  left, to migrate when there is a reason to open them.
 
 ## Acceptance Criteria
 
-- [ ] Each of the six is either applied, or has a written reason it was not
-- [ ] The §8.3 decision is recorded in this doc with its date
-- [ ] The Instruction & Rule File Write Gate was honoured: exact diff shown, explicit approval
+- [x] Each of the six is either applied, or has a written reason it was not — all six applied
+- [x] The §8.3 decision is recorded in this doc with its date
+- [x] The Instruction & Rule File Write Gate was honoured: exact diff shown, explicit approval
       received, before any write to `CLAUDE.md` or `docs/epic-template.md`
+
+## Where each rule landed
+
+| Rec | Rule | Landed |
+|---|---|---|
+| 6.1 | Name the reader before building the writer | `CLAUDE.md` §Building a mechanism, rule 1 |
+| 6.2 | A guard is never widened to fit a breach | `CLAUDE.md` §Building a mechanism, rule 2 |
+| 6.4 | A register is generated or it does not exist | `CLAUDE.md` §Building a mechanism, rule 3 |
+| 6.5 | Removal scope enumerates surfaces, not sections | `docs/epic-template.md` Pre-Execution gate |
+| 6.6 | One index, or one ID scheme | `docs/epic-template.md` Pre-Execution gate |
+| 6.7 | Kill criterion at birth | `docs/epic-template.md` Pre-Execution gate |
+
+## Close-out state
+
+**Not closeable yet.** CLAUDE.md §Issue Done = code on main requires the work to be on
+`origin/main`, and these commits are local only pending the end-of-day push. #98 stays
+`In Progress` until then. The rule is doing its job.
 
 ## Related
 

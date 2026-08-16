@@ -16,7 +16,7 @@ the GitHub issue number. Issue status is a byproduct of running this lifecycle, 
 maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 
 **1. Backlog** (`docs/backlog/ST-{n}-{name}.md`)
-- When authoring a new epic, **create the GitHub issue first**. Until 2026-09-09 tracker writes
+- When authoring a new epic, **create the issue first**. Until 2026-09-09 tracker writes
   go to GitHub only — CLAUDE.md §Tracker writes go to GitHub only
 - Use the GitHub issue number in the filename: `ST-95-liveness-probes-only.md`. Existing
   `SUG-{N}` files keep their Linear IDs and are never renumbered; the two ranges overlap, so the
@@ -41,11 +41,11 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 
 > **`docs/backlog/`** — full epic specs. The working document Claude Code reads during execution.
 > **`docs/shipped/`** — completed epics. Historical reference. (Renamed from `docs/prompts/`.)
-> **Linear** — tracking, prioritization, status. Short description + links. Not the full spec.
+> **The issue tracker** — tracking, prioritization, status. Short description + links. Not the full spec.
 
 ---
 
-**Linear Issue:** SUG-XX _(create the Linear issue first, then link it here)_
+**Issue:** [#NN](url) _(create the issue first, then link it here)_
 ## EPIC NAME: [REQUIRED]
 
 ---
@@ -119,9 +119,13 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 - [ ] **Component registry update** — if this epic creates, retires, or structurally changes a component: `docs/conventions/component-registry.md` is updated in the same commit. New component = new row with all health columns filled (Storybook, dark mode, DS primitive or web-only, ⚠️ gaps). Retired component = row removed or marked deprecated. This is not a post-epic cleanup step — the registry is updated at creation time, before the component ships.
 - [ ] **Technical diagram red-pen gate** — if this epic produces or publishes any technical/architecture diagram: the diagram source (SVG or Mermaid) is committed to `docs/diagrams/` and the red-pen claim table (element → evidence → enforced-by-code / measured / convention / roadmap) is completed before upload. Captions and alt text count as claims. Roadmap items are drawn dashed/labelled, never as current state. See CLAUDE.md §Technical diagram red-pen gate.
 
-> **Once this gate is clean:** transition the Linear issue's `state` to `In Progress` via
-> `save_issue` before making the first `Edit`/`Write` call. This is the concrete
-> "implementation begins" moment referenced in §Epic Lifecycle above.
+- [ ] **Kill criterion (epics that build a process, gate, validator, register, or cap)** — a stated condition under which the thing is removed, and a date to check it. Written into this doc before the first commit, not added at close-out. "It runs until someone notices it is useless" is what the governance layer did for seven weeks. Post-mortem 6.7.
+- [ ] **Removal scope enumerates surfaces, not sections (epics that remove or retire anything)** — list the *files and directories* the removal reaches, not the headings inside one file: `CLAUDE.md`, `.claude/skills/**`, `docs/workflows/`, `docs/conventions/`, `docs/epic-template.md`, CI config. SUG-284 scoped Phase 7 as sections of one file and left five pieces of residue that only a re-read found. Post-mortem 6.5.
+- [ ] **One index, or one ID scheme (epics that add anything register-shaped)** — if this epic introduces IDs, they join an existing scheme, or the epic ships a single generated index mapping every ID to its owner. Two ID namespaces with no index is the state that made the removed layer incomprehensible; there were six. Post-mortem 6.6. See also CLAUDE.md §Building a mechanism, rule 3.
+
+> **Once this gate is clean:** transition the issue to `In Progress` before making the first
+> `Edit`/`Write` call. This is the concrete "implementation begins" moment referenced in
+> §Epic Lifecycle above, and it happens *before* the work, not alongside it.
 
 ---
 
@@ -245,7 +249,7 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 > Decompose when the epic has more than 5 Scope items. Numbered phases do not trigger this.
 > Below that, skip this section — most Sugartown epics are single-session and gain nothing
 > from one work unit per Scope item. **Decomposition lives in this doc, not in Linear: one
-> epic is one Linear issue, never sub-issues.** Full definition and a worked example:
+> epic is one issue, never sub-issues.** Full definition and a worked example:
 > `docs/conventions/user-story-conventions.md`.
 
 - [ ] Sizing gate checked — epic crosses it / stays flat (state which)
@@ -661,7 +665,7 @@ State how re-running the script produces no change:
 6. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-7. **Update the tracker** — transition the epic's issue to **Done**. One epic is one issue, so there are no sub-issues to close. Until 2026-09-09 that is the GitHub issue, and Linear is not touched (CLAUDE.md §Tracker writes go to GitHub only).
+7. **Update the tracker** — transition the epic's issue to **Done**. One epic is one issue, so there are no sub-issues to close. Until 2026-09-09 the write goes to GitHub only (CLAUDE.md §Tracker writes go to GitHub only).
 8. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,

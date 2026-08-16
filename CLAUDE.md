@@ -87,7 +87,7 @@ When creating a new epic in `docs/backlog/`:
    prioritized in GitHub
 5. **Decompose above the sizing gate** — epics with more than 5 Scope items carry a
    scope-to-phase mapping in the epic doc. Numbered phases do not trigger it. **One epic is
-   one Linear issue; never file sub-issues.** See
+   one issue; never file sub-issues.** See
    `docs/conventions/user-story-conventions.md`
 
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
@@ -106,14 +106,14 @@ Commit after each independently-working feature. Do not save it all for one end-
 
 **When the epic runs directly on `main`**, pushing triggers a deploy, so the free-push escape hatch does not apply. **Above ~15 unpushed commits, or at any session end, either push and accept one deploy or create a `wip/<epic>` branch and push that.** (SUG-231: 48 commits existed nowhere but one disk for two days.)
 
-### Linear Done = code on main
+### Issue Done = code on main
 
-**Before transitioning any Linear issue to Done, confirm the work is merged to `origin/main`**, not merely pushed to a feature branch:
+**Before transitioning any issue to Done, confirm the work is merged to `origin/main`**, not merely pushed to a feature branch:
 ```bash
 git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main" || echo "NOT on main"
 ```
 
-The close-out sequence enforces this naturally (merge → mini-release → ship doc → Linear Done). This rule is the backstop for a skipped or partial close-out, e.g. a multi-phase epic where one phase did not merge.
+The close-out sequence enforces this naturally (merge → mini-release → ship doc → issue Done). This rule is the backstop for a skipped or partial close-out, e.g. a multi-phase epic where one phase did not merge.
 
 ### Issue status = workflow stage
 
@@ -128,6 +128,10 @@ maintained field:
 | Paused for any reason | Set by the human | `On Hold` |
 | Epic ships | Close-out sequence step 8 (below) | `Done` |
 
+**Set `In Progress` before the first `Edit`/`Write` call of an epic, not after.** The trigger is
+the Pre-Execution Completeness Gate coming clean (`docs/epic-template.md`). An epic whose work
+has started while its issue still reads `Todo` is invisible to anyone looking at the board.
+
 **`On Hold` is the one status a workflow step does not set.** It covers both a blocker outside
 your control and work deliberately parked, and it is the human's call in both directions.
 Exits to `In Progress` when work resumes, or to `Canceled` if it never does.
@@ -135,7 +139,13 @@ Exits to `In Progress` when work resumes, or to `Canceled` if it never does.
 `On Hold` exists on the GitHub board only; Linear has no equivalent, so the two are not a
 strict mirror. That ends with the trial (§Tracker writes go to GitHub only).
 
-**Linear is the priority queue; there is no second copy.**
+**Write "issue", not "Linear issue" or "GitHub issue".** Every rule in this repo outlives the
+tracker it was written under, and naming one bakes a migration into the prose. Name a platform
+only where the mechanics are platform-specific — a `gh` command, a field ID, a trial-scoped
+instruction about which tracker to write to. Everywhere else the word is `issue`.
+
+**There is one priority queue and no second copy.** During the trial it is the GitHub board
+(§Tracker writes go to GitHub only).
 `docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05.
 `/platform/governance` renders priority data from `stats.linearRoadmap`.
 
@@ -178,7 +188,7 @@ stale `Status` and is corrected by hand.
 
 ### Multi-phase epic merge cadence
 
-**Phases are execution units, not work items.** One epic is one Linear issue, one backlog
+**Phases are execution units, not work items.** One epic is one issue, one backlog
 doc, one mini-release, however many phases. Phases get checkboxes in the parent doc. A phase
 that outgrows the epic's Objective splits out via `/new-epic`.
 
@@ -301,6 +311,27 @@ Before adding `useOutletContext()`, `useContext()`, or any new hook to a compone
 3. If the hook's _logic_ depends on data that isn't available yet (e.g. `leadHero` before the page loads), put the guard inside the hook's callback or effect — not around the hook call itself.
 
 A hooks-order violation renders a blank page with a cryptic "change in order of Hooks" warning. The fix is always to move the hook up.
+
+### Building a mechanism — three rules
+
+A mechanism is anything built to make a rule hold: a validator, a generator, a cap, a register,
+a gate. All three rules come from the 2026-08-15 governance post-mortem, which is the record of
+what happens without them.
+
+**1. Name the reader before building the writer.** No generator ships before the thing that
+consumes its output exists. If you cannot name the file, page, or check that reads it, do not
+build it. (`governance.json` was generated on every build and read by nothing, for seven weeks.)
+
+**2. A guard is never widened to fit a breach.** When a cap, threshold, or limit is exceeded,
+either cut what breached it or retire the guard with a stated reason. Raising the number is not
+a third option. (The doc-budget cap was raised twice to accommodate the surface it existed to
+constrain.)
+
+**3. A register is generated or it does not exist.** Any table mapping IDs to owners, files to
+states, or rules to enforcement is derived from the repo by a command, never hand-maintained.
+A register you cannot regenerate is a stale document with a table in it, and every number in it
+is unverifiable without re-measuring by hand. (Five hand-maintained registers produced wrong
+counts in every direction, repeatedly.)
 
 ### No speculative fixes
 
@@ -843,7 +874,7 @@ When a `define:` entry is added to `apps/web/vite.config.js`, check whether it p
 
 Every new or modified component that has visual output must have a Storybook story before close-out. The story must cover: default state, all meaningful variants, and at least one edge case (long text, missing fields, empty arrays). Components without stories are invisible to Chromatic VRT.
 
-**Dark mode is a shipping AC, not a follow-up.** Before close-out, confirm in Storybook — not by assumption — that every story renders correctly on both `default` and `dark-pink-moon`. "Untested" in the registry's dark mode column is a blocking state, and a component entered that way needs an open Linear issue before the epic closes.
+**Dark mode is a shipping AC, not a follow-up.** Before close-out, confirm in Storybook — not by assumption — that every story renders correctly on both `default` and `dark-pink-moon`. "Untested" in the registry's dark mode column is a blocking state, and a component entered that way needs an open issue before the epic closes.
 
 ### Honesty over confidence
 
