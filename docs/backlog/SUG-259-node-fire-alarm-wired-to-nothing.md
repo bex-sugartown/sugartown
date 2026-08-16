@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-259 — Node: The Fire Alarm Was Wired to Nothing (working title)
 **Linear Issue:** [SUG-259](https://linear.app/sugartown/issue/SUG-259/node-the-fire-alarm-was-wired-to-nothing-working-title)
-**Status:** Backlog
+**Status:** Todo
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — draft, review, publish as one unit
 ---
@@ -105,7 +105,8 @@ v0.33.0). Post-mortem:
 
 ### Needs a decision, unowned
 
-- Part 2 has no tracking issue. New IDs start at `SUG-1000` per the migration plan.
+- Part 2 has no tracking issue. New IDs are `ST-{github issue number}` per the migration plan
+  §2.1 — file the GitHub issue first, then name the doc from the number it returns.
   Needs a `docs/backlog/SUG-{N}-*.md` doc and a GitHub issue.
 - Part 2's working title is retired. Five candidates recorded in the outline.
 - The `series` document does not exist for either configuration. Create it, set

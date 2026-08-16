@@ -1,12 +1,12 @@
 ---
-**Epic:** SUG-1003 — htmlSection XSS hardening: decide, then act
+**Epic:** ST-16 — htmlSection XSS hardening: decide, then act
 **GitHub Issue:** [#16](https://github.com/bex-sugartown/sugartown/issues/16)
 **Status:** Backlog
 **Priority:** 🟠 High
 **Merge strategy:** (a) Merge-as-you-go
 ---
 
-# SUG-1003 — htmlSection XSS hardening: decide, then act
+# ST-16 — htmlSection XSS hardening: decide, then act
 
 > First epic doc tracked in GitHub rather than Linear, per the migration trial
 > (`docs/briefs/linear-to-github-migration-plan.md` §2.1). `SUG-NNN` stays canonical; the

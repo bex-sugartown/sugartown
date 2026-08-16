@@ -1,12 +1,12 @@
 ---
-**Epic:** SUG-1004 — apps/studio has no typecheck script
+**Epic:** ST-22 — apps/studio has no typecheck script
 **GitHub Issue:** [#22](https://github.com/bex-sugartown/sugartown/issues/22)
 **Status:** Backlog
 **Priority:** 🟡 Medium
 **Merge strategy:** (a) Merge-as-you-go
 ---
 
-# SUG-1004 — apps/studio has no typecheck script
+# ST-22 — apps/studio has no typecheck script
 
 ## Background
 
@@ -23,7 +23,7 @@ This is the same shape as SUG-257 and SUG-258 but a different gate:
 |---|---|---|
 | SUG-257 | `apps/studio` | `lint` script — 86 pre-existing problems, measured 2026-07-27 |
 | SUG-258 | `apps/web` | lint covers `.js/.jsx` only; 32 `.ts/.tsx` files ungated |
-| **SUG-1004** | `apps/studio` | **`typecheck` script** |
+| **ST-22** | `apps/studio` | **`typecheck` script** |
 
 All three are "a gate that was assumed to run and does not" — the dominant failure shape in
 `docs/ai/agentic-caucus/incident-log.md` (6 of 14 incidents).
@@ -35,7 +35,7 @@ All three are "a gate that was assumed to run and does not" — the dominant fai
       lint errors 7 vs 84 because `turbo run` stops at the first failing package
 - [ ] Fix, or record the count and wire it warn-only with a stated deadline
 - [ ] Wire into CI once green
-- [ ] Consider closing SUG-257 and SUG-1004 together — same package, same class of gap
+- [ ] Consider closing SUG-257 and ST-22 together — same package, same class of gap
 
 ## Non-Goals
 

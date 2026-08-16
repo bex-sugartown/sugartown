@@ -1,15 +1,18 @@
 # PROMPT — Sugartown New Epic Assistant
 **Version:** v1 (2026-04-27)
 
-Run this to create a new backlog epic: Linear issue + backlog stub + commit.
+Run this to create a new backlog epic: GitHub issue (+ Linear mirror during the trial) + backlog stub + commit.
 
 ---
 
 ## What this skill produces
 
-- A new **Linear issue** in the Sugartown team with the correct title, description, and priority
-- A new **backlog stub file** at `docs/backlog/SUG-{N}-{kebab-name}.md` with standard header block and empty section stubs
-- A single commit: `docs(sug-{N}): add {title} backlog epic`
+- A new **GitHub issue** in `bex-sugartown/sugartown`, added to project 1 with `Priority` set —
+  its number is the epic's `ST-{n}` ID
+- A new **Linear issue** in the Sugartown team, mirroring it, until 2026-09-09 (CLAUDE.md
+  §Dual-write to GitHub during the migration trial)
+- A new **backlog stub file** at `docs/backlog/ST-{n}-{kebab-name}.md` with standard header block and empty section stubs
+- A single commit: `docs(st-{n}): add {title} backlog epic`
 
 This is a stub, not a full spec. The full spec is filled in when the epic is activated.
 
@@ -17,16 +20,17 @@ This is a stub, not a full spec. The full spec is filled in when the epic is act
 
 ## Invariants
 
-- The Linear issue must be created FIRST — the SUG-{N} ID it assigns is the canonical identifier for the file and commit.
-- Nothing is written to disk until the Linear issue exists and has a confirmed ID.
+- The GitHub issue must be created FIRST — the number it assigns is the epic's `ST-{n}` ID, and that is the canonical identifier for the file and commit. Never invent or derive the number.
+- Nothing is written to disk until the issue exists and its number has been read back.
 - The backlog file is committed in a single commit.
 - Do not pre-fill spec sections with guesses. Stub sections use "TODO" as a placeholder.
 - Linear status is a byproduct of this workflow, not separately maintained: `Backlog` at
   creation → `Todo` when the human prioritizes it for pickup → `In Progress` at activation
   (`docs/epic-template.md` Pre-Execution Completeness Gate) → `Done` at close-out (CLAUDE.md
   close-out sequence step 8).
-- A stated cross-epic dependency ("blocked on SUG-X") must be mirrored as a real Linear
+- A stated cross-epic dependency ("blocked on X") must be mirrored as a real Linear
   `blockedBy`/`blocks` relation in the same step it's written, not left as prose alone (SUG-246).
+  GitHub has no relation field, so state the dependency in the issue body there.
 
 ---
 
@@ -61,9 +65,26 @@ Options:
 
 ---
 
-## STEP 1 — CREATE LINEAR ISSUE
+## STEP 1 — CREATE THE ISSUE
 
-Use the Linear MCP tool `save_issue` to create the issue:
+**1a. GitHub first — this assigns the ID.**
+
+```bash
+gh issue create --title "{epic name}" --body "{one-line description}"
+```
+
+No ID in the title. Read back the issue number; it is the epic's `ST-{n}` ID. Then add it to
+the board and set its priority:
+
+```bash
+gh project item-add 1 --owner bex-sugartown --url {issue url}
+```
+
+Set `Priority` on the new item (`Urgent` / `High` / `Medium` / `Low`) to match Step 0. The
+`Issue added to project` workflow sets `Status: Backlog` automatically.
+
+**1b. Then Linear, mirroring it** — until 2026-09-09 only (CLAUDE.md §Dual-write to GitHub
+during the migration trial). Use the Linear MCP tool `save_issue`:
 
 - **team**: Sugartown (use `list_teams` if the team ID is unknown)
 - **title**: the epic name from Step 0
@@ -76,9 +97,10 @@ Use the Linear MCP tool `save_issue` to create the issue:
   - ⬛ Deferred → `4` (Low)
 - **status**: Backlog
 
-After creating the issue, read back the **issue identifier** (e.g. `SUG-87`). This is the canonical ID for the file and commit. Do not proceed without it.
+Report to the human both IDs: "GitHub #{n} created (ID: ST-{n}); Linear mirror SUG-{N}."
 
-Report to the human: "Linear issue created: [SUG-{N}](url)"
+The **GitHub number** is the canonical ID for the file and commit. The Linear identifier is
+recorded in the doc header for the duration of the trial and is not used for naming.
 
 ---
 
@@ -93,13 +115,13 @@ Convert the epic name to kebab-case:
 
 Example: "Token file sync audit" → `token-file-sync-audit`
 
-Full filename: `docs/backlog/SUG-{N}-{kebab-name}.md`
+Full filename: `docs/backlog/ST-{n}-{kebab-name}.md`, where `{n}` is the GitHub issue number from Step 1a.
 
 ---
 
 ## STEP 3 — CREATE BACKLOG STUB
 
-Create the file at `docs/backlog/SUG-{N}-{kebab-name}.md`. This is not a parking stub — it is the execution brief. Fill every section from the invocation context. Do not write `TODO` anywhere. If a section requires a codebase read that cannot happen now (e.g. auditing GROQ projections), write a **specific activation audit instruction** instead: "Activation audit: read `queries.js` `caseStudyBySlugQuery` before adding projection."
+Create the file at `docs/backlog/ST-{n}-{kebab-name}.md`. This is not a parking stub — it is the execution brief. Fill every section from the invocation context. Do not write `TODO` anywhere. If a section requires a codebase read that cannot happen now (e.g. auditing GROQ projections), write a **specific activation audit instruction** instead: "Activation audit: read `queries.js` `caseStudyBySlugQuery` before adding projection."
 
 The merge strategy label convention (from CLAUDE.md):
 - `(a)` → `(a) Merge-as-you-go — one commit per phase, one mini-release at end`
@@ -107,14 +129,15 @@ The merge strategy label convention (from CLAUDE.md):
 
 ```markdown
 ---
-**Epic:** SUG-{N} — {Epic name}
-**Linear Issue:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N})
+**Epic:** ST-{n} — {Epic name}
+**GitHub Issue:** [#{n}](https://github.com/bex-sugartown/sugartown/issues/{n})
+**Linear Issue:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N}) _(trial mirror; drop after 2026-09-09)_
 **Status:** Backlog
 **Priority:** {emoji} {label}
 **Merge strategy:** ({a or b}) {strategy label}
 ---
 
-# SUG-{N} — {Epic name}
+# ST-{n} — {Epic name}
 
 {One-line description}
 
@@ -201,15 +224,16 @@ section with "Not applicable — no shared CSS, token, or multi-page component c
 
 ## Related
 
-- **Linear:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N})
+- **GitHub:** [#{n}](https://github.com/bex-sugartown/sugartown/issues/{n})
+- **Linear:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N}) _(trial mirror)_
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
 ```
 
 ---
 
-## STEP 4 — SYNC LINEAR
+## STEP 4 — SYNC THE TRACKERS
 
-**Sync Linear status:** leave the issue as `Backlog`. The human sets `Todo` when they
+**Sync status:** leave the issue as `Backlog` in both. The human sets `Todo` when they
 prioritize it for pickup.
 
 **Sync dependency relations:** if the invocation context or epic doc states an explicit
@@ -223,8 +247,8 @@ the priority queue (SUG-246).
 ## STEP 5 — COMMIT
 
 ```bash
-git add docs/backlog/SUG-{N}-{kebab-name}.md
-git commit -m "docs(sug-{N}): add {epic name} backlog epic"
+git add docs/backlog/ST-{n}-{kebab-name}.md
+git commit -m "docs(st-{n}): add {epic name} backlog epic"
 ```
 
 ---
@@ -235,9 +259,10 @@ Print:
 
 ```
 ━━━ NEW EPIC CREATED ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅  Linear: SUG-{N} → {url} (status: Backlog)
-  ✅  Backlog stub: docs/backlog/SUG-{N}-{kebab-name}.md
-  ✅  Committed: docs(sug-{N}): add {epic name} backlog epic
+  ✅  GitHub: #{n} → {url} (status: Backlog, on project 1)
+  ✅  Linear: SUG-{N} → {url} (status: Backlog) — trial mirror
+  ✅  Backlog stub: docs/backlog/ST-{n}-{kebab-name}.md
+  ✅  Committed: docs(st-{n}): add {epic name} backlog epic
 
 Epic doc is a filled execution brief — Background, Objective, Scope, AC, and Technical Notes are populated.
 At activation: complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify
@@ -249,7 +274,7 @@ using docs/epic-template.md as the reference.
 
 ## Enforcement rules
 
-- Never guess the SUG-{N} number — always use the one returned by Linear after issue creation.
+- Never guess the `ST-{n}` number — always use the one GitHub returns after issue creation.
 - Never write to disk before Step 1 completes (no ID, no file).
 - Never leave Background, Objective, Scope, or Acceptance Criteria as `TODO` — fill from invocation context.
 - For sections requiring a codebase audit (Doc Type Coverage, Query Layer, Files to Modify), write a specific activation audit instruction, not `TODO`.

@@ -207,11 +207,13 @@ No separate gate for commit — "Write it" authorizes both the version bump and 
 
 ---
 
-## STEP 2B — LINEAR STATUS UPDATE
+## STEP 2B — TRACKER STATUS UPDATE
 
-After the version commit lands, update the Linear issue linked to this epic:
+After the version commit lands, update the issue linked to this epic. **Until 2026-09-09 this
+runs in both trackers** — CLAUDE.md §Dual-write to GitHub during the migration trial. In
+GitHub, `gh issue close {n}`; the `Item closed` project workflow sets `Status: Done`.
 
-1. Transition the parent issue (e.g. `SUG-5`) to **Done**
+1. Transition the parent issue (e.g. `SUG-5` or `ST-95`) to **Done**
 2. If the issue has sub-issues, transition all completed sub-issues to **Done** as well
 3. If any sub-issues are NOT complete (deferred to a follow-on epic), leave them open and note which ones in the mini-release completion output
 
@@ -234,11 +236,15 @@ rm docs/backlog/EPIC-content-state-governance.md  # if it exists
 
 Only delete files that match the shipped epic. Do not touch other backlog files.
 
-### 3B — Update Linear
+### 3B — Update the trackers
 
-Transition the shipped epic's Linear issue to `Done`. Linear is the priority queue; there is
+Transition the shipped epic's issue to `Done`. Linear is the priority queue; there is
 no second copy to reconcile. (`docs/backlog/sugartown-backlog-priorities.md` was retired
 2026-08-05.)
+
+**Until 2026-09-09, close the GitHub issue in the same step** — `gh issue close {n}`. The
+migration trial deliberately runs two trackers; both are updated together or the pair drifts.
+CLAUDE.md §Dual-write to GitHub during the migration trial.
 
 ### 3C — Commit backlog cleanup
 

@@ -1,12 +1,12 @@
 ---
-**Epic:** SUG-1005 — Nav content: trailing slashes and missing URLs
+**Epic:** ST-23 — Nav content: trailing slashes and missing URLs
 **GitHub Issue:** [#23](https://github.com/bex-sugartown/sugartown/issues/23)
 **Status:** Backlog
 **Priority:** 🔵 Low
 **Merge strategy:** (a) Merge-as-you-go
 ---
 
-# SUG-1005 — Nav content: trailing slashes and missing URLs
+# ST-23 — Nav content: trailing slashes and missing URLs
 
 ## Background
 

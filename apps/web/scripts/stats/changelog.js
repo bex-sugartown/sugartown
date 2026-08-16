@@ -53,8 +53,10 @@ export function collectChangelog() {
       .find(l => l.length > 0 && !l.startsWith('#') && !l.startsWith('---') && !l.startsWith('>'))
       || ''
 
-    const linearMatch = section.match(/\bSUG-(\d+)\b/)
-    const linearIssue = linearMatch ? `SUG-${linearMatch[1]}` : null
+    // Matches both eras: SUG-NNN (Linear) and ST-NNN (GitHub issue number).
+    // See docs/briefs/linear-to-github-migration-plan.md §2.1.
+    const linearMatch = section.match(/\b(SUG|ST)-(\d+)\b/)
+    const linearIssue = linearMatch ? `${linearMatch[1]}-${linearMatch[2]}` : null
     const kind = semverKind(pos.version, positions[i + 1]?.version)
 
     return { version: pos.version, date: pos.date, descriptor, kind, linearIssue }
@@ -87,13 +89,13 @@ export function collectChangelog() {
         const [date, subject] = line.split('|||')
         const m = subject?.match(/chore\(release\): mini-release v(\S+) — (.+)/)
         if (!m) return null
-        const linearMatch = subject.match(/\bSUG-(\d+)\b/)
+        const linearMatch = subject.match(/\b(SUG|ST)-(\d+)\b/)
         return {
           version: m[1],
           descriptor: m[2].trim(),
           kind: 'PATCH',
           date: date?.trim() ?? null,
-          linearIssue: linearMatch ? `SUG-${linearMatch[1]}` : null,
+          linearIssue: linearMatch ? `${linearMatch[1]}-${linearMatch[2]}` : null,
         }
       })
       .filter(Boolean)

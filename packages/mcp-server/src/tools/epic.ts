@@ -4,7 +4,7 @@ import { listRepoDir, mostRecentFile, readRepoFile } from '../lib/file-reader.js
 const BACKLOG_DIR = ['docs', 'backlog']
 
 export const getEpicInputSchema = {
-  id: z.string().optional().describe('Epic ID, e.g. "SUG-225" — matches a filename prefix. Omit to get the most recently modified epic in docs/backlog/'),
+  id: z.string().optional().describe('Epic ID, e.g. "SUG-225" (Linear era) or "ST-95" (GitHub era) — matches a filename prefix. Omit to get the most recently modified epic in docs/backlog/'),
 }
 
 export interface EpicResult {

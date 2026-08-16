@@ -49,7 +49,7 @@ step whose trigger did not fire is recorded as N/A with the reason, never silent
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
 7. **Mini-release** — run `/mini-release` for a patch bump and CHANGELOG stub. **Only on `main`, after the epic's commits are merged, never on an unmerged branch**, because `package.json`'s version is a shared counter and a branch computes "next version" from a disconnected view of it. Merge first, then run it from `main`. **Whenever this step is deferred** (strategy (b), or any other reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time. The CHANGELOG line and the version bump are separate obligations. A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed.
-8. **Update Linear** — transition the SUG-{N} issue to **Done**
+8. **Update the tracker** — transition the epic's issue to **Done**. Until 2026-09-09 this means Linear *and* GitHub — see §Dual-write to GitHub during the migration trial.
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first.
@@ -74,13 +74,15 @@ Every markdown file in the repo also follows `docs/conventions/machine-readable-
 sections that stand alone, front-loaded answers, resolved pronouns, ISO dates. Retrieval
 chunks all files the same way, whichever guide owns the content.
 
-### Epic authoring — Linear-first workflow
+### Epic authoring — issue-first workflow
 
 When creating a new epic in `docs/backlog/`:
 
-1. **Create a Linear backlog item first** — this assigns the SUG-{N} tracking ID
-2. **Name the file** `docs/backlog/SUG-{N}-{descriptive-name}.md`
-3. **Link the Linear issue** in the file header (`**Linear Issue:** SUG-{N}`)
+1. **Create the tracking issue first** — its number is the epic's ID. Until 2026-09-09, create
+   it in both trackers (§Dual-write to GitHub during the migration trial)
+2. **Name the file** `docs/backlog/ST-{github issue number}-{descriptive-name}.md`
+3. **Link the issue** in the file header (`**GitHub Issue:** [#{n}](url)`, plus
+   `**Linear Issue:** SUG-{N}` while the trial runs)
 4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
 5. **Decompose above the sizing gate** — epics with more than 5 Scope items carry a
    scope-to-phase mapping in the epic doc. Numbered phases do not trigger it. **One epic is
@@ -88,6 +90,12 @@ When creating a new epic in `docs/backlog/`:
    `docs/conventions/user-story-conventions.md`
 
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
+
+**Two ID eras, and they overlap.** `SUG-5`–`SUG-284` are Linear IDs on existing epics and never
+change. `ST-{n}` is a GitHub issue number on epics created from 2026-08-16. The prefix carries
+the era because the ranges collide: `SUG-93` is a legacy epic doc *and* GitHub issue #93 is a
+different epic. **Never mint a `SUG-` ID again, and never derive an `ST-` number — GitHub
+assigns it.** Full rationale: `docs/briefs/linear-to-github-migration-plan.md` §2.1.
 
 ### Mid-epic commit checkpoints
 
@@ -126,6 +134,31 @@ Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic
 §Epic Lifecycle. Cross-epic dependencies stated as "blocked on SUG-X" in a backlog doc must
 also exist as a real Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`) — a
 dependency written only as prose is invisible to anyone using Linear as the priority queue.
+
+### Dual-write to GitHub during the migration trial (expires 2026-09-09)
+
+**Temporary. Delete this section at the 2026-09-09 review** — see
+`docs/briefs/linear-to-github-migration-plan.md` §13. The trial runs both trackers in parallel,
+so **every Linear write in this file, `docs/epic-template.md`, and the skills is performed in
+GitHub too, in the same step.** Reads stay Linear-only; nothing here applies to querying the
+queue.
+
+| Linear write | GitHub mirror |
+|---|---|
+| Create issue | `gh issue create --title "{title}"` — no ID in the title. Add to project 1, set `Priority`. The number it returns is the epic's `ST-{n}` ID |
+| Status `Backlog` / `Todo` / `In Progress` | Set the project item's `Status` field |
+| Status `Done` (close-out step 8) | `gh issue close {n}` — the `Item closed` workflow sets `Status: Done` |
+| `blockedBy` / `blocks` relation | State it in the issue body; GitHub has no relation field |
+| Gap issue (e.g. dark-mode untested) | File in both |
+
+Three things this does not do. **It does not make GitHub authoritative** — Linear stays the
+priority queue until the review decides otherwise. **It does not close pre-existing drift**: the
+`Item closed` workflow is forward-looking only, so an issue closed before the automation existed
+keeps a stale `Status` and is corrected by hand. **It does not cover the stats collector**, which
+reads Linear's GraphQL API and is unaffected either way.
+
+If a write lands in one tracker and fails in the other, say so in the session output rather than
+leaving the pair silently split.
 
 ### Multi-phase epic merge cadence
 

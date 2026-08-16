@@ -49,11 +49,13 @@ gather what's missing.
 
 **Resolve before writing (or explicitly flag as open):**
 
-1. **Epic ID** — create a Linear backlog item first (`mcp__plugin_linear_linear__save_issue`,
-   team Sugartown, status Backlog) and read back the issue identifier (e.g. `SUG-87`). This
-   is the canonical ID — never guess it or derive it from CHANGELOG/backlog scanning. See
-   `.claude/skills/new-epic/docs/new-epic-prompt.md` STEP 1 for the exact tool call pattern.
-   If a Linear issue already exists for this epic, reuse that ID instead of creating a duplicate.
+1. **Epic ID** — create the GitHub issue first (`gh issue create --title "{name}"`, no ID in
+   the title) and read back its number. That number is the epic's `ST-{n}` ID and the
+   canonical identifier — never guess it or derive it from CHANGELOG/backlog scanning. Until
+   2026-09-09, mirror it into Linear in the same step (CLAUDE.md §Dual-write to GitHub during
+   the migration trial). See `.claude/skills/new-epic/docs/new-epic-prompt.md` STEP 1 for the
+   exact call pattern. If an issue already exists for this epic, reuse its ID rather than
+   creating a duplicate.
 2. **Domain** — CMS schema work, frontend render work, design system work, or a combination
 3. **Doc type coverage** — which of the five primary doc types are in scope (page, article,
    caseStudy, node, archivePage)
@@ -73,12 +75,12 @@ should block on missing information, not paper over it.
 
 ## Output Format
 
-Produce a single Markdown file. Filename: `docs/backlog/SUG-{N}-{slug}.md`.
+Produce a single Markdown file. Filename: `docs/backlog/ST-{n}-{slug}.md`, where `{n}` is the
+GitHub issue number. Existing `SUG-{N}` epics keep their Linear IDs and are never renumbered.
 
-**Linear-first (blocking) — the SUG-{N} ID must exist before any file is written.**
-Before filling the template, create the Linear backlog item and read back the issue
-identifier (see Intake item 1 above). Do not proceed to filling the template without a
-confirmed ID.
+**Issue-first (blocking) — the `ST-{n}` ID must exist before any file is written.**
+Before filling the template, create the GitHub issue and read back its number (see Intake
+item 1 above). Do not proceed to filling the template without a confirmed ID.
 
 **Gap-fill gate (SUG-229) — this skill previously had no approval step before writing.**
 After filling the template (per "How to Fill the Template" below), present a one-paragraph

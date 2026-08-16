@@ -7,7 +7,9 @@
 **Export:** `docs/briefs/data/linear-export-2026-08-15.csv` — 264 rows, 34 columns, committed 2026-08-15
 
 **Decisions locked 2026-08-15 (Bex):**
-1. **`SUG-NNN` stays canonical** (§2 option B). Docs are updated to align; GitHub issue numbers are incidental.
+1. **`SUG-NNN` stays canonical for migrated issues** (§2 option B). Docs are updated to align.
+   **Amended 2026-08-16:** new GitHub-era issues use `ST-{github issue number}` instead, so the
+   number is assigned by GitHub rather than by hand. Migrated `SUG-NNN` IDs are untouched. See §2.1.
 2. **No paid tier.** Linear Basic is out of scope on cost grounds.
 
 **Read §9 first.** Analysis of the export after those decisions were taken shows the free plan is
@@ -170,7 +172,48 @@ not exist. There is no new register to drift.
 **Settled 2026-08-15 (Bex): option B.** `SUG-NNN` remains canonical and the instruction docs are
 updated to say so. GitHub issue numbers carry no meaning; the issue title leads with the SUG ID.
 
-### 2.1 Numbering scheme — migrated IDs keep their numbers, new IDs start at SUG-1000
+### 2.1 Numbering scheme — migrated IDs keep their numbers, new IDs are `ST-{github issue number}`
+
+**Revised 2026-08-16 (Bex). Supersedes the `SUG-1000` scheme below.** Existing issues migrate
+with their numbers unchanged (`SUG-5` through `SUG-284`). **Every new issue created from the
+trial onward takes GitHub's own issue number, prefixed `ST-`:** GitHub issue #95 is `ST-95`,
+its backlog doc is `docs/backlog/ST-95-{slug}.md`, and the issue title carries no ID at all.
+
+**Why the prefix must differ.** GitHub's issue counter is at 98 and Linear's IDs occupy 5–284,
+so the two ranges overlap almost entirely. `SUG-93` already means two different things: a
+legacy backlog doc (`SUG-93-case-study-aeo-geo-content-layer.md`) and GitHub issue #93 (which
+carries `SUG-269`). Reusing `SUG-` for GitHub numbers would make that ambiguity permanent and
+silent. `ST-` makes an ID's era readable at a glance with no boundary number to remember.
+
+**Why OOTB.** GitHub already mints a unique sequential number per issue. Minting a second one
+by hand and carrying it in the title is a hand-maintained counter, which post-mortem §6.4 says
+not to build: registers are generated or they do not exist. The scheme this replaces proved the
+point inside 24 hours — see the correction note in §10.5.
+
+**Consequences, both accepted:**
+
+- **IDs will have gaps.** Pull requests share GitHub's number space (#24–28 are merged PRs), so
+  issue numbers skip. Nothing derives the number any more, so a gap needs no explanation. Under
+  the previous scheme a gap meant a bug.
+- **The doc cannot be named before the issue exists.** Same shape as the Linear-first rule it
+  replaces: file the issue, read back the number, then name the file.
+
+**Nothing derives the next ID.** GitHub assigns it. The `max + 1` command that used to live
+here is deleted rather than fixed.
+
+**Retro-fitted 2026-08-16:** the three Phase 2 survivors and the four post-mortem items were
+renamed from the `SUG-1000` range to `ST-16`, `ST-22`, `ST-23`, `ST-95`, `ST-96`, `ST-97`,
+`ST-98`. `SUG-1000`–`SUG-1009` are retired and must not be reused.
+
+**Code that parses IDs** was widened to match both eras in the same commit:
+`apps/web/scripts/stats/changelog.js` (two `/\b(SUG|ST)-(\d+)\b/` matches feeding
+`stats.releases`) and `packages/mcp-server/src/tools/epic.ts`. Checked and needing no change:
+nothing else in `.claude/`, `scripts/`, `apps/web/scripts/` or `packages/` parses the pattern.
+
+---
+
+<details>
+<summary>Superseded 2026-08-16 — the original SUG-1000 scheme, kept for the record</summary>
 
 **Settled 2026-08-15 (Bex).** Existing issues migrate with their numbers unchanged (`SUG-5`
 through `SUG-284`). **Every new issue created from the trial onward starts at `SUG-1000`.**
@@ -198,6 +241,8 @@ ls docs/backlog docs/shipped | grep -oE 'SUG-[0-9]+' | grep -oE '[0-9]+' \
 
 Returns `SUG-1000` today; `SUG-1003` once 1002 exists. Still satisfies post-mortem §6.4 —
 generated from the filesystem, no register to drift.
+
+</details>
 
 ---
 
@@ -340,13 +385,15 @@ shipped after six months. **17 were done; 3 were not.**
 Closed with per-issue evidence in the comment, then **archived from the board** (the issues stay
 closed in the repo; `archiveProjectV2Item` only removes the project row).
 
-The 3 survivors were renumbered into the GitHub-era range, given backlog docs, and prioritised:
+The 3 survivors were renumbered into the GitHub-era range, given backlog docs, and prioritised.
+**Renumbered again 2026-08-16** when §2.1 moved to GitHub's own issue numbers; they were
+originally `SUG-1003`–`SUG-1005`:
 
 | Was | Now | Priority | Why it survived |
 |---|---|---|---|
-| #16 | **SUG-1003** — htmlSection XSS hardening | High | `PageSections.jsx` renders `dangerouslySetInnerHTML` with **no sanitiser installed**, then re-appends `<script>` tags as live DOM so embeds initialise. Deliberate and not an active vulnerability — single trusted author — but undocumented and unbounded. The epic exists to *decide* accept / allow-list / remove, not to presuppose |
-| #22 | **SUG-1004** — `apps/studio` has no typecheck script | Medium | Verified: no `typecheck` in `apps/studio/package.json`. Same shape as SUG-257 and SUG-258 |
-| #23 | **SUG-1005** — Nav content trailing slashes | Low | Still listed in MEMORY.md as open. A content defect, not a code defect |
+| #16 | **ST-16** — htmlSection XSS hardening | High | `PageSections.jsx` renders `dangerouslySetInnerHTML` with **no sanitiser installed**, then re-appends `<script>` tags as live DOM so embeds initialise. Deliberate and not an active vulnerability — single trusted author — but undocumented and unbounded. The epic exists to *decide* accept / allow-list / remove, not to presuppose |
+| #22 | **ST-22** — `apps/studio` has no typecheck script | Medium | Verified: no `typecheck` in `apps/studio/package.json`. Same shape as SUG-257 and SUG-258 |
+| #23 | **ST-23** — Nav content trailing slashes | Low | Still listed in MEMORY.md as open. A content defect, not a code defect |
 
 > **The `Item closed` workflow cannot heal pre-existing drift.** #8, #9 and #10 were already
 > closed on 2026-02-23, so `gh issue close` was a no-op, no close *event* fired, and the
@@ -422,7 +469,7 @@ Of those 58: 42 carry labels, 33 have `Related to`, 7 are High priority, 18 Medi
 
 ### 6.1 Phase 3 execution log — 2026-08-15
 
-**58 issues imported.** Board now holds **61** — the 58 plus SUG-1003/1004/1005 from Phase 2.
+**58 issues imported.** Board now holds **61** — the 58 plus ST-16/ST-22/ST-23 from Phase 2.
 
 | Check | Expected | Actual |
 |---|---|---|
@@ -618,19 +665,35 @@ to `Done` on close. If it does not, the automation is off and the board is decor
 ### 10.5 Trial content — post-mortem build-back items 1–3
 
 The trial is exercised with real work, not fixtures. The three build-back items from
-`docs/reviews/post-mortem/2026-08-15-…` §7 become the first three GitHub issues:
+`docs/reviews/post-mortem/2026-08-15-…` §7, plus the six doc edits §8.2 routed as
+"no ticket needed", are filed as GitHub issues.
 
-| # | Issue title | Post-mortem source |
-|---|---|---|
-| 1 | `SUG-1000 — Liveness probes only, no register` | §7 item 1. Highest-value: 6 of 14 incidents are inert-mechanism bugs |
-| 2 | `SUG-1001 — Claim honesty for published statistics` | §7 item 2 |
-| 3 | `SUG-1002 — Generated index, only if 1 and 2 prove out` | §7 item 3 |
+**Filed 2026-08-16:**
 
-These are the first IDs in the new range per §2.1. Each carries its **kill criterion** from §7
-in the issue body, per post-mortem recommendation 6.7. Each also gets a
-`docs/backlog/SUG-{N}-*.md` doc, because the doc is canonical and the issue is the mirror.
+| Issue | ID | Title | Priority | Post-mortem source |
+|---|---|---|---|---|
+| [#95](https://github.com/bex-sugartown/sugartown/issues/95) | `ST-95` | Liveness probes only, no register | High | §7 item 1. Highest-value: 6 of 14 incidents are inert-mechanism bugs |
+| [#96](https://github.com/bex-sugartown/sugartown/issues/96) | `ST-96` | Claim honesty for published statistics | Low | §7 item 2. Blocked by ST-95 |
+| [#97](https://github.com/bex-sugartown/sugartown/issues/97) | `ST-97` | Generated index, only if #95 and #96 prove out | Low | §7 item 3. Blocked by both |
+| [#98](https://github.com/bex-sugartown/sugartown/issues/98) | `ST-98` | Apply the six post-mortem rule changes | Medium | §6 recs 6.1, 6.2, 6.4, 6.5, 6.6, 6.7 |
 
-**Next ID is derived with the 1000 floor, not assigned** — see §2.1 for the command.
+Each carries its **kill criterion** from §7 in the issue body, per post-mortem recommendation
+6.7, and each has a `docs/backlog/ST-{N}-*.md` doc, because the doc is canonical and the issue
+is the mirror.
+
+> **Correction, 2026-08-16.** This section originally reserved `SUG-1000`, `SUG-1001` and
+> `SUG-1002` for the three build-back items. They were never created, and Phase 2 renumbered the
+> three legacy survivors to `SUG-1003`–`SUG-1005`, so §2.1's `max + 1` derivation returned
+> `SUG-1006` and had no memory of the reservation. A reservation held only in prose is not
+> generated from anything, so it drifted within 24 hours of being written — post-mortem §6.4,
+> demonstrated. That is what prompted the move to GitHub's own numbering in §2.1. **The whole
+> `SUG-1000`–`SUG-1009` range is retired and must not be reused.**
+
+**Next ID is not derived, it is assigned by GitHub** — see §2.1.
+
+**ST-98 is the doc-edit session.** §8.2 routed those six recommendations as "no Linear slot
+needed", which was true and also meant nothing tracked them; verified 2026-08-16, none of the
+six had been applied. A route that needs no ticket still needs an owner.
 
 Sequencing discipline from §7 holds: item 1 ships alone and runs for a full epic cycle before
 item 2 opens. Two consecutive "caught nothing a human wouldn't have" answers end the rebuild.
@@ -696,7 +759,7 @@ Classified by reading each description, not inferred from titles.
 | **SUG-264** Wire the banned-word check | **Migrate, re-scope** | Filed from SUG-243, cancelled by SUG-284. But the check lives in `instruction-writing-style.md`, which survived (v1.3, 2026-08-15), so the work is still valid. It adds a validator: sequence it behind build-back item 1 and give it a kill criterion |
 | **SUG-265** Release flow defects | **Migrate, re-verify first** | Filed from SUG-243. **Partly resolved 2026-08-15** — `release-assistant-prompt.md`'s vestigial gates 6/7 and its dead §Scope creep reference were fixed. Part A (prompt parity with `/mini-release`) is untouched. Re-scope before migrating |
 | **SUG-267** Rule-file write gate has no artifact | **Migrate, re-frame** | Premise cites `RULE-033` and the rule register, both archived. The gate itself survived deliberately and the question is still live. Strip the register references |
-| **SUG-269** Make Sanity validators probeable | **Migrate, reconcile** | Overlaps post-mortem build-back item 1 (liveness probes) directly. Decide whether it merges into SUG-1000 or stays separate. Also still carries the ID-reuse warning in its own description |
+| **SUG-269** Make Sanity validators probeable | **Migrate, reconcile** | Overlaps post-mortem build-back item 1 (liveness probes) directly. Decide whether it merges into ST-95 or stays separate. Also still carries the ID-reuse warning in its own description |
 | **SUG-250** Agentic Caucus tool-selection audit | **Migrate, retitle** | Substance is unaffected — auditing 52 KG nodes for which agent produced what. But "Agentic Caucus" now names an inert doc corpus, so the title misleads |
 | **SUG-259** Node: The Fire Alarm Was Wired to Nothing | **Migrate, update outline** | Subject matter changed. The layer was unwound, and on 2026-08-15 `/eod` step 6 was found to be another fire alarm wired to nothing — inside the file written to prevent that. The story has a better ending than outline v2 records |
 
@@ -788,7 +851,7 @@ gh api graphql -f query='{ __type(name:"Issue"){ fields{ name } } }' \
 - [ ] Was the `Priority queue` view actually used as the priority queue, or did the epic docs
       remain the working surface?
 - [ ] Was `Auto-add sub-issues to project` disabled? (It was enabled as found, against §10.2)
-- [ ] Did the three trial issues (`SUG-1000/1001/1002`) work as thin mirrors of their epic docs,
+- [ ] Did the four trial issues (`ST-95`, `ST-96`, `ST-97`, `ST-98`) work as thin mirrors of their epic docs,
       or did scope leak into the issue bodies?
 
 ### 13.4 Outstanding decisions carried into the review
