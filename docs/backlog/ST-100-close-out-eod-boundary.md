@@ -38,8 +38,31 @@ content.
 
 ## The decision — one command, a release flag, and a cadence nobody controls
 
-`/mini-release` is retired regardless. Its only unique product is a PATCH version bump, it never
-writes the CHANGELOG, and 187 of them produced 33 releases anyone saw (§A1). Not in question.
+> **Correction, 2026-08-16.** An earlier pass said `/mini-release`'s "only unique product is a
+> PATCH version bump". **That is wrong.** It was read from `/release`'s §Version Conventions,
+> which describes the *tier*, not from the mini-release prompt's actual steps. `/mini-release`
+> covers **four** close-out steps — 4, 6, 7 and 8 — and is the closest thing to a close-out
+> command that exists. See §A10. The recommendation below is therefore **restore and rename**,
+> not retire.
+
+### There is no close-out command, and there was supposed to be
+
+The close-out sequence is twelve steps. **Two have commands.** The other ten are prose in
+CLAUDE.md that a session is expected to read and hand-execute — full table in §A10.
+
+**`/mini-release` was originally meant to be the close-out** (Bex, 2026-08-16: "it was to close
+out and ship the epic"). It still carries four of the twelve steps, so it did not fail so much as
+erode: the rest of the sequence migrated into CLAUDE.md prose and never came back, leaving a
+command that looks like a version-bumper and a checklist nobody can run reliably by hand.
+
+That erosion is visible in the CLAUDE.md section itself, which has accumulated caveats like *"run
+`git diff --cached --stat` to confirm the file actually carries the content change"* and *"verify
+handoffs landed — SUG-230 deferred three items and none reached Scope."* Those are scars from a
+checklist executed from memory.
+
+**So this epic is not inventing a command. It is re-consolidating one that already existed.** The
+"retire `/mini-release`" language in earlier passes is wrong; the correct verb is **restore**, and
+the naming question is separate.
 
 ### The correction that reframes everything
 
@@ -154,6 +177,16 @@ Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases
       reporting Done as shipped, or record why not (G4) — layer: tooling
 - [ ] **S13 — Move disk safety out of the command.** A `post-commit` hook mirror-pushing to
       `wip/<date>`, free per §A2, so safety stops depending on memory (G15) — layer: tooling
+- [ ] **S15 — Resolve the move-vs-delete drift.** CLAUDE.md step 6 says move `backlog/` →
+      `shipped/`; `/mini-release` §3A says delete from backlog. Establish which is real against a
+      shipped epic before consolidating (§A10) — layer: process
+- [ ] **S16 — Consolidate the ten command-less close-out steps into the ship command.** The
+      larger half of this epic. Steps 1, 1b, 2, 3, 5, 5b, 6b, 9 have no command at all; 4, 6, 7, 8
+      are split across `/mini-release` and `/chromatic`. Conditional steps stay conditional and
+      record N/A with a reason rather than being skipped silently (§A10) — layer: process
+- [ ] **S17 — Decide what the command is called.** `/ship` is a placeholder. It must not be
+      `/eod`, because the observed cadence is 1–14 days and a name saying "end of day" lies about
+      when it runs. `/mini-release` is available once its scope is restored — layer: process
 - [ ] **S14 — Make every step interval-agnostic.** No "today's work" semantics; operate on
       everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer: process
 
@@ -172,10 +205,20 @@ can express `Shipped` and something moves items into it. Ships: a working transi
 on one item.
 
 **Phase 3 — Apply the rules.** Every Phase 1 decision as one batch under the Instruction & Rule
-File Write Gate, with an ST-99 v1 walkthrough on the diff. Also S7. Ships: the edits, committed.
+File Write Gate, with an ST-99 v1 walkthrough on the diff. Also S7, S15, S17. Ships: the edits,
+committed.
+
+**Phase 3b — Consolidate the close-out.** S16: the ten command-less steps move into the ship
+command. Separated from Phase 3 because it is the largest single piece of work in the epic and
+because it is testable on its own — run it against one real epic and see whether anything in the
+twelve is still being done by hand. Ships: a command that runs the whole sequence.
 
 **Phase 4 — Prove it and true up the numbers.** One real day end to end under the new boundary.
 Also S12. Ships: a recorded run, and an honest roadmap figure.
+
+**Seventeen scope items across six phases.** The epic grew when §A10 showed the close-out has no
+implementation; splitting it is worth considering at activation if Phase 3b looks too large to
+land in one pass.
 
 ---
 
@@ -199,7 +242,12 @@ Also S12. Ships: a recorded run, and an honest roadmap figure.
       transition on a real run
 - [ ] A red CI run is shown leaving `Done` items in `Done`, with nothing reopened by hand
 - [ ] `/platform/governance` no longer reports `Done` work as shipped, or it is recorded why not
-- [ ] `docs/mini-release-prompt.md` is retired and both of its unique steps live in the successor
+- [ ] **One command runs the whole close-out.** All twelve steps are invoked by it, conditional
+      ones recording N/A with a reason. No step remains as prose a session must remember (§A10)
+- [ ] The move-vs-delete drift in step 6 is resolved and the surviving behaviour is the one a
+      shipped epic actually needs (S15)
+- [ ] `docs/mini-release-prompt.md` is restored to its original scope or replaced by a named
+      successor, with none of its four current steps lost in the move
 - [ ] SUG-265 has a recorded disposition and [#90](https://github.com/bex-sugartown/sugartown/issues/90) reflects it
 - [ ] ST-99 v1 walkthrough run on the Phase 3 diff, findings in the commit
 
@@ -448,6 +496,37 @@ what removes the wait without batching the deploy.
 | G6 | **The 58 migrated issues used Done = shipped** | Their history means the old thing. Do not retrofit; the new meaning applies forward only | Low |
 | G7 | **Interval-agnosticism is a core constraint, not an edge case** | Promoted from Low 2026-08-16. The observed interval is 1–14 days, so "a skipped ship" is the normal case. Every step must operate on *everything currently `Done`*, never "today's work", or missed days silently drop from the batch. S14 | **Blocker** |
 | G12 | ~~Branch-push cost unknown~~ | **Resolved 2026-08-16** — §A2 | ✅ |
+
+## A10 — Close-out step coverage, measured 2026-08-16
+
+Which of the twelve close-out steps has a command, and which is prose a session hand-executes.
+Read from `CLAUDE.md` §Epic close-out sequence, `docs/mini-release-prompt.md` and
+`ls .claude/skills/`.
+
+| Step | What it does | Command today | Owner after this epic |
+|---|---|---|---|
+| 1 | Commit epic changes | — | ship command |
+| 1b | Route smoke tests, local **and** CI | — | split: local at `Done`, CI in ship (S1) |
+| 2 | Deploy Sanity schema *(conditional)* | — | ship command |
+| 3 | Visual QA gate *(Tier 1)* | — | stays human, prompted by the command |
+| 4 | Chromatic *(Tier 1)* | **`/chromatic`**, also `/mini-release` §0A | ship command (S3) |
+| 5 | Data pipeline gap check *(conditional)* | — | ship command |
+| 5b | Verify handoffs landed | — | ship command |
+| 6 | Move doc `backlog/` → `shipped/` | **`/mini-release`** §3A | at `Done`, not at ship (G5) |
+| 6b | Preserve the vspec *(conditional)* | — | at `Done` |
+| 7 | Mini-release: version bump | **`/mini-release`** | ship command, `--release` only |
+| 8 | Transition the issue to Done | **`/mini-release`** §2B, §3B | split: `Done` at finish, `Shipped` at ship |
+| 9 | Clean tree | — | ship command |
+
+**Two of twelve have a dedicated command. `/mini-release` quietly covers four** (4, 6, 7, 8),
+which is why the earlier "it only bumps a version" claim was wrong.
+
+**Drift found while building this table:** close-out step 6 says *move* the doc from
+`docs/backlog/` to `docs/shipped/`. `/mini-release` §3A says **"Delete shipped epic from backlog
+directory"**. Move and delete are not the same operation, and if `/mini-release` deletes while
+CLAUDE.md expects a move, the shipped doc only survives because someone did it by hand first.
+Worth checking against a real shipped epic before the consolidation copies the wrong behaviour.
+Added as S15.
 
 ## A6 — Future epic: size-derived version bump
 
