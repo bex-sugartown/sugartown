@@ -12,6 +12,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- ST-98: Six governance post-mortem recommendations applied as rules. `CLAUDE.md` gains §Building a mechanism (name the reader before building the writer; a guard is never widened to fit a breach; a register is generated or it does not exist). `docs/epic-template.md`'s Pre-Execution gate gains removal-scope-enumerates-surfaces, one-index-or-one-ID-scheme, and kill-criterion-at-birth. Plus the `In Progress` transition as an imperative rather than a table row, and a portability rule: write "issue", not "Linear issue" or "GitHub issue".
+
 ---
 
 ## [0.33.0] — 2026-08-15
