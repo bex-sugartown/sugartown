@@ -205,6 +205,14 @@ here is deleted rather than fixed.
 renamed from the `SUG-1000` range to `ST-16`, `ST-22`, `ST-23`, `ST-95`, `ST-96`, `ST-97`,
 `ST-98`. `SUG-1000`–`SUG-1009` are retired and must not be reused.
 
+**The doc header field is `**Issue:**`, and 58 older docs still say `**Linear Issue:**`.** The
+template, the `/new-epic` generator and all 8 GitHub-era docs use the portable field; the 58
+Linear-era backlog docs were **deliberately not swept** (ST-98 close-out, 2026-08-16) because
+rewriting 58 live docs is larger than the epic that raised it and the 2026-09-09 decision may
+settle it differently. **They migrate when there is a reason to open them**, or in one pass if the
+trial ends in migration. Recorded here rather than left in a shipped epic's prose, so it has a
+findable owner.
+
 **Code that parses IDs** was widened to match both eras in the same commit:
 `apps/web/scripts/stats/changelog.js` (two `/\b(SUG|ST)-(\d+)\b/` matches feeding
 `stats.releases`) and `packages/mcp-server/src/tools/epic.ts`. Checked and needing no change:
