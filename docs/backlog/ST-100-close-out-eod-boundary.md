@@ -80,10 +80,9 @@ Twelve items, above the sizing gate, so the scope-to-phase mapping is in §Phase
 
 ## Phases
 
-**Phase 0 — Resolve the one unknown.** S9a: the Netlify branch-deploy question. It is a
-five-minute UI check that has blocked a decision since 2026-07-30, it gates S9, and it corrects a
-claim `CLAUDE.md` currently states as fact. Ships: the settings recorded in-repo, and whichever
-document was wrong fixed.
+**Phase 0 — Resolve the one unknown. Complete 2026-08-16.** S9a answered: branch pushes are
+free, `allowed_branches` is `['main']`. Option 1 unblocked. Remaining: correct SUG-265's line,
+and decide `skip_prs`.
 
 **Phase 1 — Decide.** S1, S2, S3, S6, S8, S9. Six interacting decisions; none of the edits are
 hard once made. Ships: a decisions table in this doc, approved, each decision naming its file.
@@ -310,7 +309,8 @@ it has been unresolved since 2026-07-30.
 | G9 | **The footer version goes stale between releases.** `__APP_VERSION__` would show the last *released* version for up to 16 days rather than moving every epic. That is more honest than today, where it shows a patch nobody released, but it is a visible change. |
 | G10 | **`stats.releases` counts CHANGELOG version headings.** Fewer, larger releases means the count grows more slowly. History is unaffected; the trend line changes. Worth stating before someone reads it as a slowdown. |
 | G11 | **`/release` inherits `/mini-release`'s unique steps.** SUG-265 Part A names two: the `> Updated` header cap at 8 entries, and the Chromatic pre-check. Both must land in `/release` as part of the retirement, not be dropped with it. |
-| G12 | **Two documents disagree about whether branch pushes are free, and Option 1 depends on the answer.** `CLAUDE.md:105` states it as fact: *"Branch pushes do not trigger Netlify deploys, so they are free."* `SUG-265:64` records it as **Unknown**, because `netlify.toml` is entirely commented out and the build config lives in the Netlify UI — confirmed 2026-08-16, the file has no live directives. One of these is wrong, an always-loaded rule is asserting an unverified claim, and the answer decides Option 1. **Five-minute check in the Netlify UI; unresolved since 2026-07-30.** |
+| G12 | ~~Two documents disagree about whether branch pushes are free.~~ **RESOLVED 2026-08-16.** See §G12 resolved below. `CLAUDE.md:105` is correct; SUG-265's "Unknown" is answered. Option 1 is unblocked. |
+| G14 | **Nobody has measured what a build costs in credits.** The allowance is 1,000/month on the Personal plan. Every argument in this epic about "one deploy per day" versus "one per three days" is reasoning about a cost whose magnitude is unknown — 30 deploys/month might be 3% of the budget or 90% of it. Read the team's usage page, record credits-per-build in-repo, and the whole cadence question becomes arithmetic instead of instinct. `https://app.netlify.com/teams/bex-sugartown/usage` |
 | G13 | **Option 1 forces the version bump level to be derived from content, and nothing does that today.** §Version Conventions ties the level to *which command ran* — `/mini-release` → PATCH, `/release` → MINOR — not to what changed. Collapse the commands and that mapping has nothing left to key on. At a 1–3 day cadence, minting MINOR every time reaches 1.0 in about two months. Needs a real SemVer rule: new feature surface or schema field → MINOR, fixes and docs only → PATCH. Option 2 does not create this gap. |
 
 **S9 is rewritten to cover this**, since the mini-release cut cannot be decided without it.
@@ -327,13 +327,58 @@ it has been unresolved since 2026-07-30.
 | G6 | **The 58 migrated issues used Done = shipped** | Their history means the old thing. Do not retrofit; state that the new meaning applies forward only. | Low |
 | G7 | **A skipped `/eod` breaks the day-as-sprint** | Items Done on Monday with no Monday push ship on Tuesday. `Shipped` must be defined as "everything Done at push time", not "today's work", or the batch silently loses Monday. | Low |
 
+### G12 resolved — measured 2026-08-16
+
+Read from the live Netlify config, not the UI and not `netlify.toml` (which has no live
+directives). Command, so it can be re-run:
+
+```bash
+netlify api getSite --data '{"site_id":"d5317131-48d0-4958-b1fa-693fb40f06f4"}'
+```
+
+| Setting | Value | Means |
+|---|---|---|
+| `build_settings.allowed_branches` | `['main']` | **Only `main` builds.** A push to any other branch produces no build, no deploy, no minutes |
+| `build_settings.repo_branch` | `main` | production branch |
+| `build_settings.stop_builds` | `false` | builds are on |
+| `build_settings.skip_prs` | `None` | **not** disabled, so PR deploy previews are on by default |
+| `build_settings.untrusted_flow` | `review` | PRs from untrusted sources need review first; a single-member personal team's own PRs are trusted and would build |
+| `plan` | `nf_team_dev` | **Internal slug — does not mean free tier.** The account is on **Personal, $9/month, 1,000 credits/month**, effective 2026-07-21 (confirmed by Bex 2026-08-16). Do not infer the plan from this slug |
+| `deploy_retention_in_days` | `90` | |
+
+> **Correction, 2026-08-16.** An earlier pass of this section read `plan: nf_team_dev` as "free
+> tier". That was inferred from the slug, not measured from billing, and it is wrong. The account
+> is on the paid Personal plan with a **1,000 credit/month** allowance. The slug is internal and
+> is not a plan name. This is the §Verify before citing rule failing on a field that looked
+> self-explanatory.
+
+**The budget is credits, not deploys.** 1,000/month is the number the release cadence has to fit
+inside, and **the credit cost of one production build is not yet measured** — see G14.
+
+**Three consequences:**
+
+1. **`CLAUDE.md:105` is correct and `SUG-265:64`'s "Unknown" is now answered.** Branch pushes are
+   free. `git push origin main:wip/<date>` costs nothing, so the daily free mirror push exists and
+   **Option 1's disk-safety story holds.** Correct SUG-265's line rather than leaving two
+   documents disagreeing (S9a).
+2. **The PR route for CI is *not* free.** SUG-265 proposed `wip/<epic>` → PR → CI to get a run ID
+   without touching `main`. CI would run, but `skip_prs` is unset, so the PR would also build a
+   deploy preview and consume minutes. A preview is not a production deploy, and it may still be
+   the cheaper path, but it is not zero. Setting `skip_prs: true` would make it zero — that is a
+   decision, not a fact, and it belongs in S9.
+3. **No branch has ever been pushed to this remote.** `git ls-remote --heads origin` returns only
+   `refs/heads/main`, which is why the question went unanswered for 17 days — there was no history
+   to read it from, and nobody read the config.
+
 ### Scope added by this section
 
-- [ ] **S9a — Resolve G12 before deciding S9.** Check the Netlify UI for branch-deploy and
-      deploy-preview settings, record them in-repo, and correct whichever of `CLAUDE.md:105` or
-      `SUG-265:64` is wrong. Blocks S9 and inherited from SUG-265 — layer: tooling
-- [ ] **S9 — Decide the release model.** Options 1 / 2 above, gated on S9a; if Option 1, add the
-      content-derived bump rule (G13). Either way retire
+- [x] ~~**S9a — Resolve G12 before deciding S9.**~~ **Done 2026-08-16**, see §G12 resolved. Two
+      follow-ups remain: correct `SUG-265:64`'s "Unknown" line, and decide whether to set
+      `skip_prs: true` so the PR-for-CI route is genuinely free — both fold into S9.
+- [ ] **S9b — Measure credits per build** and record it in-repo (G14). The cadence choice in S9
+      is currently an argument about an unquantified cost — layer: tooling
+- [ ] **S9 — Decide the release model.** Options 1 / 2 above, gated on S9a and informed by S9b;
+      if Option 1, add the content-derived bump rule (G13). Either way retire
       `docs/mini-release-prompt.md`, migrate its two unique steps into
       `docs/workflows/release-assistant-prompt.md` (G11), and define the release trigger (G8) —
       layer: process. **Closes SUG-265 Part A**, which exists only because two prompts must
@@ -385,6 +430,37 @@ epic reintroduces SUG-231's failure with the warning light removed.**
 3. ~~**Is a sixth status the cleaner answer?**~~ **Answered: yes** — `Shipped`. S10 adds it.
 4. **Does the version number mark work or a release?** S9. The three options are tabled in
    §The day as the sprint; C is recommended.
+
+## Future epic — size-derived version bump
+
+Raised by Bex 2026-08-16. **Not in this epic's scope**; recorded here because G13 is the reason
+it is needed and this is where the next reader will look.
+
+If the commands collapse (Option 1), the bump level loses the thing it currently keys on — which
+command ran. G13 names the gap; this is the shape of the answer.
+
+**The idea:** derive the level from the release's size. Under a threshold → `PATCH`; over →
+`MINOR`; breaking → `MAJOR`.
+
+**The refinement it needs before scoping:** raw size is the wrong signal on its own. A one-line
+change that renames a URL is breaking; a 2,000-line docs pass is a patch. SemVer is about
+contract change, not volume. Sugartown already has the contract signals and they are already
+written down in `release-assistant-prompt.md` §Version Conventions — breaking schema changes, URL
+namespace changes, removed public APIs are `MAJOR`. So a workable rule is **surface first, size
+as tiebreaker**:
+
+| Signal | Level |
+|---|---|
+| `apps/studio/schemas/` field removed or renamed, `routes.js` namespace change, DS prop removed | `MAJOR` |
+| New schema field, new route, new DS component or prop, new page surface | `MINOR` |
+| Everything else — fixes, docs, content, refactors with no contract change | `PATCH` |
+| Size | tiebreaker and a flag: an unusually large `PATCH` is worth a human look, not an automatic promotion |
+
+Most of this is derivable from changed paths, which makes it a real candidate for a script rather
+than a judgement call. That is what would make it an epic worth having.
+
+**Scope it separately** once S9 has picked the release model — the rule is only needed if Option 1
+wins, and its shape depends on whether releases are 1–3 days or 3–16.
 
 ## Kill criterion
 
