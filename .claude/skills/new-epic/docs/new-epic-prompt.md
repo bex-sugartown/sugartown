@@ -1,16 +1,16 @@
 # PROMPT — Sugartown New Epic Assistant
 **Version:** v1 (2026-04-27)
 
-Run this to create a new backlog epic: GitHub issue (+ Linear mirror during the trial) + backlog stub + commit.
+Run this to create a new backlog epic: GitHub issue + backlog stub + commit.
 
 ---
 
 ## What this skill produces
 
 - A new **GitHub issue** in `bex-sugartown/sugartown`, added to project 1 with `Priority` set —
-  its number is the epic's `ST-{n}` ID
-- A new **Linear issue** in the Sugartown team, mirroring it, until 2026-09-09 (CLAUDE.md
-  §Dual-write to GitHub during the migration trial)
+  its number is the epic's `ST-{n}` ID. **No Linear issue**: tracker writes go to GitHub only
+  for the trial (CLAUDE.md §Tracker writes go to GitHub only), and Linear has been at its
+  250-issue cap since 2026-08-09 and cannot accept one
 - A new **backlog stub file** at `docs/backlog/ST-{n}-{kebab-name}.md` with standard header block and empty section stubs
 - A single commit: `docs(st-{n}): add {title} backlog epic`
 
@@ -24,13 +24,13 @@ This is a stub, not a full spec. The full spec is filled in when the epic is act
 - Nothing is written to disk until the issue exists and its number has been read back.
 - The backlog file is committed in a single commit.
 - Do not pre-fill spec sections with guesses. Stub sections use "TODO" as a placeholder.
-- Linear status is a byproduct of this workflow, not separately maintained: `Backlog` at
+- Issue status is a byproduct of this workflow, not separately maintained: `Backlog` at
   creation → `Todo` when the human prioritizes it for pickup → `In Progress` at activation
   (`docs/epic-template.md` Pre-Execution Completeness Gate) → `Done` at close-out (CLAUDE.md
   close-out sequence step 8).
-- A stated cross-epic dependency ("blocked on X") must be mirrored as a real Linear
-  `blockedBy`/`blocks` relation in the same step it's written, not left as prose alone (SUG-246).
-  GitHub has no relation field, so state the dependency in the issue body there.
+- A stated cross-epic dependency ("blocked on X") is recorded on the issue in the same step
+  it's written, not left as prose alone (SUG-246). GitHub has no relation field, so state it
+  in the issue body.
 
 ---
 
@@ -67,8 +67,6 @@ Options:
 
 ## STEP 1 — CREATE THE ISSUE
 
-**1a. GitHub first — this assigns the ID.**
-
 ```bash
 gh issue create --title "{epic name}" --body "{one-line description}"
 ```
@@ -80,27 +78,44 @@ the board and set its priority:
 gh project item-add 1 --owner bex-sugartown --url {issue url}
 ```
 
-Set `Priority` on the new item (`Urgent` / `High` / `Medium` / `Low`) to match Step 0. The
-`Issue added to project` workflow sets `Status: Backlog` automatically.
+`item-add` prints nothing useful, so read the new item's ID back before setting its priority:
 
-**1b. Then Linear, mirroring it** — until 2026-09-09 only (CLAUDE.md §Dual-write to GitHub
-during the migration trial). Use the Linear MCP tool `save_issue`:
+```bash
+gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+  | python3 -c "import json,sys; [print(i['id'], i['content'].get('title','')) for i in json.load(sys.stdin)['items']]"
+```
 
-- **team**: Sugartown (use `list_teams` if the team ID is unknown)
-- **title**: the epic name from Step 0
-- **description**: the one-line description from Step 0 (Markdown OK)
-- **priority**: map from Sugartown priority to Linear integer:
-  - 🔴 Now → `1` (Urgent)
-  - 🟢 Next → `2` (High)
-  - 🟣 Soon → `3` (Medium)
-  - ⚪ Later → `4` (Low)
-  - ⬛ Deferred → `4` (Low)
-- **status**: Backlog
+Then set `Priority`, mapping from Step 0:
 
-Report to the human both IDs: "GitHub #{n} created (ID: ST-{n}); Linear mirror SUG-{N}."
+| Step 0 | `Priority` | `--single-select-option-id` |
+|---|---|---|
+| 🔴 Now | `Urgent` | `7b41a996` |
+| 🟢 Next | `High` | `87e13e6c` |
+| 🟣 Soon | `Medium` | `e7d4aafe` |
+| ⚪ Later / ⬛ Deferred | `Low` | `2d6a366f` |
 
-The **GitHub number** is the canonical ID for the file and commit. The Linear identifier is
-recorded in the doc header for the duration of the trial and is not used for naming.
+```bash
+gh project item-edit --project-id PVT_kwHODqg2Fc4BP7M2 \
+  --id {item id} \
+  --field-id PVTSSF_lAHODqg2Fc4BP7M2zhdTuD8 \
+  --single-select-option-id {from the table}
+```
+
+> The option IDs above are stable **only while the `Priority` option list is untouched**.
+> Editing a single-select's options recreates every option with a new ID and wipes the value
+> on every item on the board (migration plan §4.1). If `item-edit` rejects an option ID,
+> re-read them with `gh project field-list 1 --owner bex-sugartown --format json` and update
+> this table rather than working around it.
+
+The `Issue added to project` workflow sets `Status: Backlog` automatically — verified
+2026-08-16 on issues #95–98, which arrived on the board as `Backlog` with no manual step.
+
+**Do not create a Linear issue.** Tracker writes go to GitHub only for the trial, and Linear
+is at its issue cap and would reject it.
+
+Report to the human: "GitHub #{n} created → ST-{n}, status Backlog, priority {P}."
+
+The **GitHub number** is the canonical ID for the file and commit.
 
 ---
 
@@ -131,7 +146,6 @@ The merge strategy label convention (from CLAUDE.md):
 ---
 **Epic:** ST-{n} — {Epic name}
 **GitHub Issue:** [#{n}](https://github.com/bex-sugartown/sugartown/issues/{n})
-**Linear Issue:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N}) _(trial mirror; drop after 2026-09-09)_
 **Status:** Backlog
 **Priority:** {emoji} {label}
 **Merge strategy:** ({a or b}) {strategy label}
@@ -225,22 +239,20 @@ section with "Not applicable — no shared CSS, token, or multi-page component c
 ## Related
 
 - **GitHub:** [#{n}](https://github.com/bex-sugartown/sugartown/issues/{n})
-- **Linear:** [SUG-{N}](https://linear.app/sugartown/issue/SUG-{N}) _(trial mirror)_
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
 ```
 
 ---
 
-## STEP 4 — SYNC THE TRACKERS
+## STEP 4 — SYNC THE BOARD
 
-**Sync status:** leave the issue as `Backlog` in both. The human sets `Todo` when they
-prioritize it for pickup.
+**Sync status:** leave the issue as `Backlog`. The human sets `Todo` when they prioritize it
+for pickup.
 
 **Sync dependency relations:** if the invocation context or epic doc states an explicit
-"blocked on SUG-X" / "blocked by SUG-X" dependency, call `save_issue` on this epic's issue
-with `blockedBy: ["SUG-X"]` (or `blocks` on the blocking issue) in this same step — a
-dependency stated only as prose in the backlog doc is invisible to anyone using Linear as
-the priority queue (SUG-246).
+"blocked on X" / "blocked by X" dependency, record it in the issue body in this same step —
+a dependency stated only as prose in the backlog doc is invisible to anyone reading the board
+(SUG-246). GitHub has no relation field, so the issue body is where it lives.
 
 ---
 
@@ -259,8 +271,7 @@ Print:
 
 ```
 ━━━ NEW EPIC CREATED ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-  ✅  GitHub: #{n} → {url} (status: Backlog, on project 1)
-  ✅  Linear: SUG-{N} → {url} (status: Backlog) — trial mirror
+  ✅  GitHub: #{n} → {url} (ID: ST-{n}, status: Backlog, on project 1)
   ✅  Backlog stub: docs/backlog/ST-{n}-{kebab-name}.md
   ✅  Committed: docs(st-{n}): add {epic name} backlog epic
 

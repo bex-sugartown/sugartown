@@ -49,7 +49,7 @@ step whose trigger did not fire is recorded as N/A with the reason, never silent
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
 7. **Mini-release** — run `/mini-release` for a patch bump and CHANGELOG stub. **Only on `main`, after the epic's commits are merged, never on an unmerged branch**, because `package.json`'s version is a shared counter and a branch computes "next version" from a disconnected view of it. Merge first, then run it from `main`. **Whenever this step is deferred** (strategy (b), or any other reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time. The CHANGELOG line and the version bump are separate obligations. A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed.
-8. **Update the tracker** — transition the epic's issue to **Done**. Until 2026-09-09 this means Linear *and* GitHub — see §Dual-write to GitHub during the migration trial.
+8. **Update the tracker** — transition the epic's issue to **Done**. Until 2026-09-09 the write goes to GitHub only — see §Tracker writes go to GitHub only.
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first.
@@ -78,12 +78,13 @@ chunks all files the same way, whichever guide owns the content.
 
 When creating a new epic in `docs/backlog/`:
 
-1. **Create the tracking issue first** — its number is the epic's ID. Until 2026-09-09, create
-   it in both trackers (§Dual-write to GitHub during the migration trial)
+1. **Create the GitHub issue first** — its number is the epic's ID (§Tracker writes go to
+   GitHub only)
 2. **Name the file** `docs/backlog/ST-{github issue number}-{descriptive-name}.md`
-3. **Link the issue** in the file header (`**GitHub Issue:** [#{n}](url)`, plus
-   `**Linear Issue:** SUG-{N}` while the trial runs)
-4. **Prioritize in Linear** — the Linear queue is the single source of truth for priority order
+3. **Link the issue** in the file header (`**GitHub Issue:** [#{n}](url)`)
+4. **Prioritize on the board** — set `Priority` on the project item. Until 2026-09-09 Linear
+   still holds the ordering for the 58 migrated issues and is read for it, but new work is
+   prioritized in GitHub
 5. **Decompose above the sizing gate** — epics with more than 5 Scope items carry a
    scope-to-phase mapping in the epic doc. Numbered phases do not trigger it. **One epic is
    one Linear issue; never file sub-issues.** See
@@ -135,30 +136,37 @@ Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic
 also exist as a real Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`) — a
 dependency written only as prose is invisible to anyone using Linear as the priority queue.
 
-### Dual-write to GitHub during the migration trial (expires 2026-09-09)
+### Tracker writes go to GitHub only, until 2026-09-09
 
 **Temporary. Delete this section at the 2026-09-09 review** — see
-`docs/briefs/linear-to-github-migration-plan.md` §13. The trial runs both trackers in parallel,
-so **every Linear write in this file, `docs/epic-template.md`, and the skills is performed in
-GitHub too, in the same step.** Reads stay Linear-only; nothing here applies to querying the
-queue.
+`docs/briefs/linear-to-github-migration-plan.md` §13.
 
-| Linear write | GitHub mirror |
+**Every tracker write in this file, `docs/epic-template.md`, and the skills goes to GitHub.
+Write nothing to Linear.** Create, status transition, close, relation: GitHub. This is the
+migration plan's own dual-system rule — GitHub is where work happens, Linear is frozen in
+practice — and the reason is that two writable backlogs is the second-copy problem v0.33.0
+ended.
+
+| Operation | Where |
 |---|---|
 | Create issue | `gh issue create --title "{title}"` — no ID in the title. Add to project 1, set `Priority`. The number it returns is the epic's `ST-{n}` ID |
-| Status `Backlog` / `Todo` / `In Progress` | Set the project item's `Status` field |
+| Status `Backlog` / `Todo` / `In Progress` | The project item's `Status` field |
 | Status `Done` (close-out step 8) | `gh issue close {n}` — the `Item closed` workflow sets `Status: Done` |
 | `blockedBy` / `blocks` relation | State it in the issue body; GitHub has no relation field |
-| Gap issue (e.g. dark-mode untested) | File in both |
+| Gap issue (e.g. dark-mode untested) | GitHub |
 
-Three things this does not do. **It does not make GitHub authoritative** — Linear stays the
-priority queue until the review decides otherwise. **It does not close pre-existing drift**: the
-`Item closed` workflow is forward-looking only, so an issue closed before the automation existed
-keeps a stale `Status` and is corrected by hand. **It does not cover the stats collector**, which
-reads Linear's GraphQL API and is unaffected either way.
+**Linear is read-only for the trial, and cannot accept new issues regardless:** the workspace
+has been at its 250-issue lifetime cap since 2026-08-09, and auto-archive does not clear the
+bulk until roughly 2026-09-08. Reading Linear is still fine — it holds the priority ordering
+for the 58 migrated issues, and the stats collector queries its GraphQL API for
+`stats.linearRoadmap`. Neither is affected.
 
-If a write lands in one tracker and fails in the other, say so in the session output rather than
-leaving the pair silently split.
+**Migrated issues keep two records that will diverge.** That is expected and is not reconciled
+during the trial; the 2026-09-09 decision resolves it in one direction. Do not hand-sync them.
+
+One thing this does not do: **it does not close pre-existing drift.** The `Item closed`
+workflow is forward-looking only, so an issue closed before the automation existed keeps a
+stale `Status` and is corrected by hand.
 
 ### Multi-phase epic merge cadence
 

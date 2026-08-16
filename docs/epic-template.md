@@ -16,8 +16,8 @@ the GitHub issue number. Issue status is a byproduct of running this lifecycle, 
 maintained field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
 
 **1. Backlog** (`docs/backlog/ST-{n}-{name}.md`)
-- When authoring a new epic, **create the tracking issue first**. Until 2026-09-09 that means
-  both trackers — CLAUDE.md §Dual-write to GitHub during the migration trial
+- When authoring a new epic, **create the GitHub issue first**. Until 2026-09-09 tracker writes
+  go to GitHub only — CLAUDE.md §Tracker writes go to GitHub only
 - Use the GitHub issue number in the filename: `ST-95-liveness-probes-only.md`. Existing
   `SUG-{N}` files keep their Linear IDs and are never renumbered; the two ranges overlap, so the
   prefix is what carries the era (CLAUDE.md §Epic authoring)
@@ -26,16 +26,16 @@ maintained field — see CLAUDE.md §Linear status = workflow stage (SUG-246).
   by the human when they prioritize it for pickup)
 
 **2. Active** (implementation underway)
-- Status in Linear: **In Progress** — set as soon as the Pre-Execution Completeness Gate below
+- Status: **In Progress** — set as soon as the Pre-Execution Completeness Gate below
   is clean and code changes are about to begin, before the first `Edit`/`Write` call
-- Any cross-epic dependency stated in this doc ("blocked on SUG-X") must also exist as a real
-  Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`), not prose alone
+- Any cross-epic dependency stated in this doc ("blocked on X") must also exist on the issue,
+  not prose alone. GitHub has no relation field, so state it in the issue body
 
 **3. Shipped** (when the epic is complete)
 - Move the file from `docs/backlog/` to `docs/shipped/`
 - Keep the same filename (e.g. `SUG-30-image-treatments-gallery.md`)
 - Remove the file from `docs/backlog/` (it now lives in `docs/shipped/`)
-- Transition the issue to **Done** — in both trackers until 2026-09-09
+- Transition the issue to **Done** — in GitHub; Linear is frozen for the trial
 
 > **`docs/backlog/`** — full epic specs. The working document Claude Code reads during execution.
 > **`docs/shipped/`** — completed epics. Historical reference. (Renamed from `docs/prompts/`.)
@@ -659,7 +659,7 @@ State how re-running the script produces no change:
 6. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
    - Produces a patch version bump and lightweight CHANGELOG stub
    - Two gates: review stub → "Write it", then commit plan → "Commit it"
-7. **Update the tracker** — transition the epic's issue to **Done**. One epic is one issue, so there are no sub-issues to close. Until 2026-09-09, close the GitHub issue in the same step (CLAUDE.md §Dual-write to GitHub during the migration trial).
+7. **Update the tracker** — transition the epic's issue to **Done**. One epic is one issue, so there are no sub-issues to close. Until 2026-09-09 that is the GitHub issue, and Linear is not touched (CLAUDE.md §Tracker writes go to GitHub only).
 8. **Start next epic** — only after mini-release commit is confirmed
 
 > If this epic warrants a MINOR version bump (new feature surface, new schema fields,

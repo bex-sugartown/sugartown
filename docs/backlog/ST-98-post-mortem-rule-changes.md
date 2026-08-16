@@ -41,6 +41,7 @@ commit under the Instruction & Rule File Write Gate.
 | 6.7 | Every new process carries a kill criterion at birth, with a date to check it | `docs/epic-template.md` |
 
 - [ ] Get the §8.3 decision (below) before writing anything — layer: process
+- [ ] Run the ST-99 v1 QA walkthrough on the resulting diff before committing — layer: process
 - [ ] Draft all six as diffs from scratchpad copies — layer: process
 - [ ] Instruction & Rule File Write Gate: show the exact diff, get approval — layer: process
 - [ ] Apply and commit as one batch — layer: process
@@ -76,3 +77,11 @@ three is a legitimate outcome; the failure mode is drifting into the edits witho
 - **GitHub:** [#98](https://github.com/bex-sugartown/sugartown/issues/98)
 - **Post-mortem:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §6, §8.2, §8.3
 - **Sibling:** ST-95 to ST-97 carry recommendation 6.8
+- **QA:** ST-99 ([#99](https://github.com/bex-sugartown/sugartown/issues/99)) — run v1 on this epic's diff
+
+## Sequencing
+
+**This epic runs before ST-95.** Two of its six rules govern how ST-95 is built: 6.7 requires
+a kill criterion at birth, and 6.1 forbids shipping a generator before its reader exists.
+Building the liveness probes first means building them without the rules meant to constrain
+them. 6.4 likewise governs ST-97. Decided 2026-08-16.

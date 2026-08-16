@@ -51,10 +51,10 @@ gather what's missing.
 
 1. **Epic ID** — create the GitHub issue first (`gh issue create --title "{name}"`, no ID in
    the title) and read back its number. That number is the epic's `ST-{n}` ID and the
-   canonical identifier — never guess it or derive it from CHANGELOG/backlog scanning. Until
-   2026-09-09, mirror it into Linear in the same step (CLAUDE.md §Dual-write to GitHub during
-   the migration trial). See `.claude/skills/new-epic/docs/new-epic-prompt.md` STEP 1 for the
-   exact call pattern. If an issue already exists for this epic, reuse its ID rather than
+   canonical identifier — never guess it or derive it from CHANGELOG/backlog scanning. Do not
+   create a Linear issue: tracker writes go to GitHub only for the trial (CLAUDE.md §Tracker
+   writes go to GitHub only). See `.claude/skills/new-epic/docs/new-epic-prompt.md` STEP 1 for
+   the exact call pattern. If an issue already exists for this epic, reuse its ID rather than
    creating a duplicate.
 2. **Domain** — CMS schema work, frontend render work, design system work, or a combination
 3. **Doc type coverage** — which of the five primary doc types are in scope (page, article,

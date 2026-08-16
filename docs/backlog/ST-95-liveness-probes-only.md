@@ -52,7 +52,9 @@ when the harness merges.
 
 ## Sequencing
 
-Ships alone. Runs for one full epic cycle before ST-96 opens. Then answer in writing: did
+**ST-98 runs first** ([#98](https://github.com/bex-sugartown/sugartown/issues/98)): post-mortem 6.7 (kill criterion at birth) and 6.1 (no generator before its reader) both govern how this epic is built, so they land as rules before the probes are written. Decided 2026-08-16.
+
+Then this epic ships alone. Runs for one full epic cycle before ST-96 opens. Then answer in writing: did
 it catch anything a human would not have? Only a yes unlocks item 2. Two consecutive noes end
 the rebuild.
 
