@@ -1,0 +1,51 @@
+#!/bin/sh
+# Post-commit hook — mirror every commit to a remote wip/ branch. ST-100 S13.
+#
+# WHY THIS EXISTS
+# Disk safety used to depend on remembering to run /eod. Memory is the thing that
+# fails: SUG-231 left 48 commits on one disk for two days, and on 2026-08-18 a
+# morning check found 5 more from a session that closed without pushing. This runs
+# on its own, so safety stops being a ritual (ST-100 G15).
+#
+# WHY IT IS FREE
+# Nothing observes wip/* branches:
+#   · Netlify build_settings.allowed_branches is ['main'] — no build, no deploy.
+#     Netlify's credit docs also list branch deploys as not metered, so this is
+#     free twice over. A production deploy costs 15 credits; this costs 0.
+#   · .github/workflows/ci.yml triggers on `branches: [main]` and PRs to main only.
+# Verified 2026-08-18. If either changes, re-check before assuming this is free.
+#
+# WHY force-with-lease
+# wip/<date> is a moving mirror of HEAD, and a rebase rewrites it. --force-with-lease
+# refuses if the remote moved unexpectedly. This namespace is written only by this
+# hook; it is never a source of truth and is safe to discard.
+
+[ -n "$ST_NO_MIRROR" ] && exit 0
+git remote get-url origin >/dev/null 2>&1 || exit 0
+
+LOG=".git/st-mirror.log"
+
+# Read the previous attempt before starting a new one. The log's reader is the next
+# run of this hook — without it a silently failing mirror gives false confidence,
+# which is worse than no mirror at all (CLAUDE.md §Building a mechanism, rule 1:
+# name the reader before building the writer).
+if [ -f "$LOG" ] && grep -q '^FAIL' "$LOG" 2>/dev/null; then
+  echo "⚠️   wip mirror: last push failed — $(tail -1 "$LOG")"
+  echo "    Commits may exist only on this disk. Check connectivity, or run:"
+  echo "    git push --force-with-lease origin HEAD:refs/heads/wip/$(date +%Y-%m-%d)"
+fi
+
+BRANCH="wip/$(date +%Y-%m-%d)"
+SHA=$(git rev-parse --short HEAD)
+
+# Backgrounded so committing stays fast. Detached from the terminal so husky does
+# not wait on it.
+(
+  if git push --force-with-lease --quiet origin "HEAD:refs/heads/$BRANCH" 2>/dev/null; then
+    echo "OK   $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
+  else
+    echo "FAIL $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
+  fi
+) >/dev/null 2>&1 &
+
+exit 0
