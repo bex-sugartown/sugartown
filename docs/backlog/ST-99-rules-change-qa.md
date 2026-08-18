@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-99 — QA walkthrough for rule-file changes
 **GitHub Issue:** [#99](https://github.com/bex-sugartown/sugartown/issues/99)
-**Status:** In Progress
+**Status:** Done — 2026-08-18
 **Priority:** 🟡 Medium
 **Merge strategy:** (a) Merge-as-you-go
 ---
@@ -45,9 +45,9 @@ Finding classes used so far, not a fixed taxonomy: `unfollowable`, `contradictio
 
 ## Scope
 
-- [ ] Run v1 on the next three rule-file changes — layer: process (1 of 3 done)
-- [ ] Record each run's findings table in its commit — layer: process
-- [ ] After three runs, review which steps kept earning their place — layer: process
+- [x] Run v1 on the next three rule-file changes — layer: process (3 of 3 done)
+- [x] Record each run's findings table in its commit — layer: process
+- [x] After three runs, review which steps kept earning their place — layer: process
 
 ## Non-Goals
 
@@ -72,9 +72,84 @@ not paying for itself. Check after the third run.
 
 ## Run log
 
-| Date | Change audited | Findings | Commit |
-|---|---|---|---|
-| 2026-08-16 | GitHub-only tracker writes (pilot run) | 4 fixed, 1 flagged | see commit body |
+**Counting basis**, stated 2026-08-18: the Findings column counts defects the change itself
+introduced and that were fixed in the same commit. Pre-existing defects and findings left open
+are listed in the tables but excluded from the count. Run 3's commit says "seven findings"; the
+three tables hold nine rows. Seven is the introduced-and-fixed count and nine is the row count,
+and neither was reproducible before this basis was written down.
+
+| Date | Change audited | Rows | Counted | Commit |
+|---|---|---|---|---|
+| 2026-08-16 | GitHub-only tracker writes (pilot run) | 5 | 3 — F4 pre-existing, F5 open | `8cfac6fa` |
+| 2026-08-16 | `On Hold` added to the status map | 2 | 2 | `e5a22d89` |
+| 2026-08-16 | ST-98, the six post-mortem rules | 2 | 2 | `061b4c35` |
+| | **Total** | **9** | **7** | |
+
+Run 1's F5 (the `Item closed` → `Status: Done` automation, recorded as documented but unobserved)
+was resolved on 2026-08-17: closing #98 moved its board item with no manual step, observed
+directly and recorded in `81a93f5d`.
+
+## Review after three runs
+
+Which of v1's four steps earned their place, judged against the nine findings.
+
+**The shape of the evidence.** All three changes were edits to `CLAUDE.md`. Seven of the nine
+findings landed in files the change did not edit — the prompts, templates and docs that *consume*
+the edited rule. One more (run 1's F5) straddled both. Only one finding was in a file the change
+itself touched. The defects are downstream of the edit, not in it.
+
+| Step | Verdict | Evidence |
+|---|---|---|
+| **1 — Name the workflows the change touches** | **Earned. Load-bearing.** | It is what points the walkthrough at the consumer files, where 7 of 9 findings were. Run 2 edited CLAUDE.md's status section; both findings were in `epic-template.md`. Run 3's repairs landed in six downstream files. A session re-reading only the file it edited finds none of these |
+| **2 — Walk a mock instance from the edited text, not memory** | **Earned.** | Run 1 F1 alone justifies it. The session had personally hit that wall an hour earlier and still wrote an instruction carrying no command and no IDs. Memory said the step was fine; reading it as written showed it was unfollowable |
+| **3 — Can each step be done today?** | **Split.** | Three clauses, unequal. *Referenced files and sections resolve* produced the dominant repeat class (run 2 F1, run 3 F1). *Tools exist* produced run 1 F1 and F5. *Quotas allow it* produced *nothing in three runs* — notable, because the incident that motivated the whole epic was a quota failure. Unexercised, not wrong |
+| **4 — Flag unfollowable, ambiguous, or pointing at nothing** | **Earned as the recording verb; one trigger never fired.** | Zero of nine findings were classed ambiguous. Seven classes appeared across nine findings; the doc listed five "so far" and runs 2–3 added two more (`dangling reference`, `incomplete`). The class list was still growing at run 3 |
+
+### The dominant finding
+
+**A renamed heading orphaning inbound cross-references.** Run 2 F1 and run 3 F1, where it hit six
+files at once. Both times the rename was deliberate and correct; the only defect was that nothing
+repointed the referrers. It is the sole class to repeat across runs, and it is mechanical — a grep
+for the old heading text, not a judgement call. Extracting it is the one concrete output these
+three runs earned.
+
+### The honest limit — the sample is monogroup
+
+All three runs audited the same kind of change: a `CLAUDE.md` process rule plus its downstream
+prompts and templates. No run audited a skill-prompt-only edit, a `docs/conventions/` change, or a
+schema convention. **The groups cannot fall out of evidence that has no variation.** Three runs
+satisfied the kill criterion; they did not produce a taxonomy, and designing one now would be
+exactly the mistake §The goal this builds toward warns against.
+
+### Outcome
+
+v1 survives its kill criterion and continues as standing practice on every rule-file change. Two
+items are deferred rather than done. Neither is in this epic's Scope, and both now sit in
+**ST-101** ([#101](https://github.com/bex-sugartown/sugartown/issues/101)) as real Scope items
+rather than prose:
+
+1. **Extract the renamed-heading check as a grep.** Two of three runs; mechanical. ST-101 S1, S2.
+2. **Per-group QA profiles.** Blocked on a varied sample, not on effort. ST-101 S3 and S4 run v1
+   on a skill-prompt edit and a `docs/conventions/` edit; S5 revisits the groups once they have.
+
+## Close-out — 2026-08-18
+
+Three runs complete, all three on `origin/main` (`8cfac6fa`, `e5a22d89`, `061b4c35`), each
+carrying its findings table in the commit body as v1 specifies. Kill criterion checked at run 3:
+nine findings across three runs, no clean pass, so v1 is retained.
+
+Steps recorded N/A with reason, per the close-out sequence:
+
+| Step | State |
+|---|---|
+| 1b — Route smoke tests | N/A — docs-only epic, zero change under `apps/web/src/`. Recorded rather than skipped; decided with Bex 2026-08-18 |
+| 2 — Deploy schema | N/A — no `apps/studio/schemas/` change |
+| 3 — Visual QA gate | N/A — no rendered surface; process docs only |
+| 4 — Chromatic | N/A — no component or story change |
+| 5 — Data pipeline gap check | N/A — no build-time pipeline touched |
+| 5b — Verify handoffs landed | Two deferrals recorded in §Outcome; neither is claimed as done here |
+| 6b — Preserve the vspec | N/A — no vspec |
+| 7 — Mini-release | Deferred. `[Unreleased]` line written at ship time per CLAUDE.md step 7; the version bump waits for `/eod` to push, since v0.33.1 is itself still unpushed and a second local bump would compound |
 
 ## Why this is not the governance layer again
 
@@ -85,5 +160,6 @@ discipline applies: run it flat, prove it catches something, only then add struc
 ## Related
 
 - **GitHub:** [#99](https://github.com/bex-sugartown/sugartown/issues/99)
+- **Successor:** ST-101 — [#101](https://github.com/bex-sugartown/sugartown/issues/101), carrying both deferrals
 - **Post-mortem:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §3.3, §6.1, §7
 - **Sibling:** ST-98 ([#98](https://github.com/bex-sugartown/sugartown/issues/98)) applies the six rule changes; run v1 on it
