@@ -319,6 +319,31 @@ activation if Phase 3b looks too large to land in one pass.
 
 ---
 
+## Phase 1 decisions — approved 2026-08-18
+
+Each decision names the file it lands in. Phase 3 applies them as one batch under the
+Instruction & Rule File Write Gate.
+
+| # | Decision | Why | Lands in |
+|---|---|---|---|
+| **S1** | **Split step 1b.** `pnpm test:smoke` passing locally gates the epic reaching `Done`; the CI-conclusion half moves to the ship command | Not new work. `/eod` Phase 3 **step 5 already does it** — `gh run list --branch main --workflow CI`, watched to a conclusion, added 2026-07-28 after 212 consecutive red runs went unread. S1 re-homes an existing step rather than building one | `CLAUDE.md` close-out step 1b, split in two; the ship command inherits `/eod` Phase 3 step 5 verbatim |
+| **S2** | **`Done` = work complete, committed locally, local smoke green.** The `origin/main` guarantee re-homes to `Shipped` | Removes the boundary that made #98 and #99 close with their close-out commits on one disk, without losing the guarantee: it moves to the state that actually means live | `CLAUDE.md` §Issue Done = code on main, **renamed** — see the rename note below |
+| **S3** | **Chromatic lives in one place: the ship command** | Three copies confirmed 2026-08-18: `CLAUDE.md:46` (close-out step 4), `docs/mini-release-prompt.md:48` (§0A), `docs/workflows/eod-prompt.md:103` (Phase 3 step 2). §0A dies with S9's retirement, `/eod` step 2 becomes the command's, and CLAUDE.md step 4 becomes a pointer rather than a third instruction | `CLAUDE.md` step 4, `docs/workflows/eod-prompt.md`, `docs/mini-release-prompt.md` (deleted by S9) |
+| **S6** | **Replace the two push rules rather than reconcile them.** Disk safety is the hook's job — continuous, automatic, free. Pushing to `main` is the ship command's job — deliberate, 15 credits | **Changed by Phase 0b shipping first.** `CLAUDE.md:107` offers "create a `wip/<epic>` branch and push that" as a manual escape hatch; S13's hook now does exactly that after every commit, so the ~15-commit threshold is moot for the purpose it was written for. The rules stop disagreeing because they stop covering the same thing | `CLAUDE.md` §Mid-epic commit checkpoints |
+| **S8** | **Close [#90](https://github.com/bex-sugartown/sugartown/issues/90) after S9 and S18 land**, not before | Content fully absorbed: Part B into this epic's one-deploy-per-ship design; Part A into S9's retirement, S18's baseline fix and G11's step migration. ST-98's close-out found a second Part A instance on 2026-08-17, so the residue is real rather than hypothetical | `#90` closing comment; §Related |
+| **S9** | **Option 3 — one command with a `--release` flag, and `--release` invokes `/release`** rather than reimplementing it. Retiring `docs/mini-release-prompt.md` is gated on G11 and S18 | The flag exists to stop every invocation minting a version, not to save credits — deploy cost is 15 credits either way and is paid by the ship, not the flag. G13's bump rule stays out of scope because Option 1 did not win | `docs/mini-release-prompt.md` (deleted), the ship command, `CLAUDE.md` step 7 |
+
+**The S2 rename needs its grep, and it is the second rename of that heading.** ST-98 already
+renamed it once, from §Linear Done = code on main, and orphaned inbound pointers doing it. The
+followability walkthrough's grep rule (CLAUDE.md §Rule-file followability walkthrough) runs in the
+same commit as the rename, in Phase 3.
+
+**S17 stays open.** S9 fixes the command's shape, not its name. `/ship` is still a placeholder and
+`/eod` is ruled out, because the observed cadence is 1–14 days and a name saying "end of day" lies
+about when it runs.
+
+---
+
 ## Acceptance criteria
 
 - [ ] An epic finishing at any point reaches `Done`, its CHANGELOG line written and its doc moved,
