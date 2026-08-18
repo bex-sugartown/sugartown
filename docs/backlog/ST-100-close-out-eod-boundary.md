@@ -142,9 +142,73 @@ days. That is answerable from data once S9b measures actual run frequency.
 
 ---
 
+## Pre-Execution Completeness Gate
+
+Run 2026-08-18. This epic touches process and instruction files only — no component, schema, page,
+CSS surface, or rendered output — so most items resolve N/A by construction rather than by
+exemption.
+
+- [x] **Interaction surface audit** — N/A. No interactive element created.
+- [x] **Use case coverage** — N/A. No component or web adapter.
+- [x] **Layout contract** — N/A. No layout.
+- [x] **All prop value enumerations** — N/A. No props.
+- [x] **Correct audit file paths** — every file named in this doc verified to resolve:
+      `docs/workflows/release-assistant-prompt.md`, `docs/mini-release-prompt.md`,
+      `docs/workflows/eod-prompt.md`, `apps/web/scripts/stats/linear.js`, `.claude/skills/switch`.
+- [x] **Dark / theme modifier treatment** — N/A. Nothing rendered.
+- [x] **Studio schema changes scoped** — N/A. Explicitly a Non-Goal; no `apps/studio/schemas/` change.
+- [x] **Web adapter sync scoped** — N/A. No DS component touched.
+- [x] **Composition overlap audit** — N/A. No sub-object added to a schema.
+- [x] **Atomic Reuse Gate** — S16 consolidates existing steps rather than adding a mechanism, and
+      S13's hook has one caller by design. The one genuine reuse question, whether `/ship --release`
+      duplicates `/release`, is resolved by delegation in §Non-Goals.
+- [x] **Token value cross-check** — N/A. No token used.
+- [x] **Enforcement liveness — declared is not effective** — applies, and is a Phase 4 obligation,
+      not a Phase 1 claim. Two rules this epic relies on are proven rather than asserted: the
+      `Item closed` → `Status: Done` automation was **observed firing** on #98 (2026-08-17) and
+      again on #99 (2026-08-18), closing ST-99 run 1's F5. `allowed_branches: ['main']` was read
+      back from the live config, not from `netlify.toml` (§A2). The acceptance criteria requiring a
+      red CI to leave items in `Done`, and a mirror to appear with no command invoked, are both
+      deliberate-violation proofs rather than inspections.
+- [x] **App.jsx routing pre-flight** — N/A. No page set in scope.
+- [x] **Component-Reuse Manifest** — N/A. No page, section or visual surface added.
+- [x] **Scope ↔ Non-Goals consistency** — run 2026-08-18. One conflict found and resolved; see the
+      statement at the head of §Scope.
+- [x] **Spike component selection** — N/A. No proof-of-concept phase. Phase 4's end-to-end run is a
+      proof of the whole boundary, not a spike on a representative case.
+- [x] **Component registry update** — N/A. No component created, retired or restructured.
+- [x] **Technical diagram red-pen gate** — §A4's diagram is ASCII inside this doc and is not
+      published to any reader-facing surface. If it moves to one, the gate fires then.
+- [x] **Kill criterion** — present, with a check date and an invocation-count floor. See §Kill criterion.
+- [x] **Removal scope enumerates surfaces, not sections** — S9 retires `docs/mini-release-prompt.md`
+      and S16 absorbs the close-out. Surfaces reached: `CLAUDE.md`, `docs/mini-release-prompt.md`,
+      `docs/workflows/eod-prompt.md`, `docs/epic-template.md`, `.claude/skills/` (`switch`,
+      `chromatic`, `eod`, `mini-release`), and `docs/workflows/morning-housekeeping-prompt.md` for
+      S4 and S14's nag move. Enumerated at authoring time per post-mortem 6.5.
+- [x] **One index, or one ID scheme** — N/A. No new IDs. `Shipped` joins the existing board
+      single-select; `S`/`G` numbering is local to this doc and not a register.
+
+---
+
 ## Scope
 
-Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases.
+**20 rows, 17 open and 3 closed**, measured 2026-08-18 by counting `- [ ]`/`- [x]` rows
+in this section. Earlier passes said "fourteen" here and "seventeen" in §Phases; both were wrong and
+neither was reproducible. Above the sizing gate, so the scope-to-phase mapping is §Phases.
+
+**Scope ↔ Non-Goals consistency check run twice on 2026-08-18**, the second time because Scope was
+amended and CLAUDE.md requires a re-read in the same edit. Two conflicts found, both resolved:
+
+1. S9 and S16 produce release outputs `/release` already writes, against the Non-Goal protecting
+   that flow. Resolved by delegation rather than reimplementation.
+2. **S18 edits `/release`, and the Non-Goal said it was "not touched".** Found by the re-read that
+   adding S18 triggered. Resolved by narrowing the Non-Goal to protect the gate structure, outputs
+   and `[Unreleased]` promotion, rather than the file.
+
+Both are recorded in §Non-Goals.
+
+**`Scope ∖ Phases` is empty as of 2026-08-18.** S4, S13 and S14 named no phase until then; S13
+now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
 
 - [ ] **S1 — Split step 1b.** `pnpm test:smoke` locally gates the epic; the CI conclusion moves to
       the ship command, which already watches the run to a conclusion — layer: process
@@ -167,7 +231,18 @@ Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases
       [#90](https://github.com/bex-sugartown/sugartown/issues/90) after S9, not before — layer: process
 - [x] ~~**S9a — Resolve G12.**~~ Done 2026-08-16 — §A2. Two follow-ups folded into S9: correct
       `SUG-265:64`, and decide `skip_prs`
-- [ ] **S9b — Measure credits per build** and record it in-repo (G14) — layer: tooling
+- [x] ~~**S9b — Measure credits per build**~~ Done 2026-08-18. **A production deploy costs 15
+      credits against a 1,000-credit monthly allowance (Personal, $9/mo)**, both from Netlify's
+      credit-pricing docs and the billing UI's own breakdown. That is a ceiling of ~66 deploys per
+      month, **≈2.1/day, shared across both sites on the account**. Observed this period: 30 billed
+      deploys = 450 credits, which is **96% of the 468.9 credits consumed**. Deploys are the bill.
+      **Not metered, per the same docs: failed deploys, deploy previews, branch deploys.**
+      Billable = `context: production` **and** `state: ready`; `listSiteDeploys` gives 26 for
+      `sugartown` and 7 for `stdpinkmoon` (33 vs 30 billed, the gap being period boundary and the
+      UI's stated reporting lag). **Build minutes are not the unit** — `getAccountBuildStatus`
+      returns `included_minutes: null` because this plan meters credits, not minutes; an earlier
+      pass of this line reported 1.2 min/deploy and concluded the cost was small, which was the
+      wrong unit and the wrong conclusion (G14)
 - [ ] **S9 — Decide the release model** (Opt 1 / 2 / 3), then retire `docs/mini-release-prompt.md`
       and migrate its two unique steps (G11). If Option 1, the G13 bump rule is a blocking
       prerequisite — layer: process
@@ -187,6 +262,15 @@ Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases
 - [ ] **S17 — Decide what the command is called.** `/ship` is a placeholder. It must not be
       `/eod`, because the observed cadence is 1–14 days and a name saying "end of day" lies about
       when it runs. `/mini-release` is available once its scope is restored — layer: process
+- [ ] **S18 — Re-anchor `/release`'s baseline before S9 retires the commit it keys on.** STEP 0's
+      verification pass finds the last release by looking for "the most recent
+      `chore(release): mini-release` commit following the last `docs: release vX.Y.0` commit".
+      S9 stops those first commits ever being written again (189 exist; they end at retirement).
+      Anchor on `docs: release vX.Y.Z` directly — `git log --grep='^docs: release v' -1` — which is
+      one step instead of two and is the commit actually wanted. **Ordering: S18 lands before S9
+      retires anything**, or the verification pass degrades silently in the gap. Same defect shape
+      as `/mini-release` STEP 0B, which scoped a patch across 30+ released commits during ST-98's
+      close-out (G17) — layer: process
 - [ ] **S14 — Make every step interval-agnostic.** No "today's work" semantics; operate on
       everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer: process
 
@@ -194,8 +278,15 @@ Fourteen items. Above the sizing gate, so the scope-to-phase mapping is §Phases
 
 ## Phases
 
-**Phase 0 — Facts. Partly done.** S9a complete. S9b remains: measure credits per build so the
-cadence choice is arithmetic rather than instinct.
+**Phase 0 — Facts. Complete 2026-08-18.** S9a resolved the branch-push cost (§A2); S9b measured
+the deploy cost at 15 credits against a 1,000/month allowance, ≈66 deploys/month shared across two
+sites. The cadence choice is now arithmetic rather than instinct, and the arithmetic says deploys
+are 96% of the bill — so batching them is the right instinct and the working policy is 1/day.
+
+**Phase 0b — Disk safety, and it goes first.** S13. A `post-commit` hook mirror-pushing to
+`wip/<date>`, free per §A2. Placed ahead of everything because it is independent of every other
+item, costs nothing, and closes the SUG-231 exposure immediately rather than at the end of the
+epic. Ships: a commit made and its mirror observed on the remote with no command invoked.
 
 **Phase 1 — Decide.** S1, S2, S3, S6, S8, S9. Ships: a decisions table in this doc, approved,
 each decision naming the file it lands in.
@@ -205,20 +296,26 @@ can express `Shipped` and something moves items into it. Ships: a working transi
 on one item.
 
 **Phase 3 — Apply the rules.** Every Phase 1 decision as one batch under the Instruction & Rule
-File Write Gate, with an ST-99 v1 walkthrough on the diff. Also S7, S15, S17. Ships: the edits,
-committed.
+File Write Gate, with an ST-99 v1 walkthrough on the diff. Also S7, S15, S17, S18, and S14's rule
+half: strip "today's work" semantics from every step that carries it. **S18 lands before S9's
+retirement takes effect**, not merely in the same phase. Ships: the edits, committed.
 
-**Phase 3b — Consolidate the close-out.** S16: the ten command-less steps move into the ship
-command. Separated from Phase 3 because it is the largest single piece of work in the epic and
-because it is testable on its own — run it against one real epic and see whether anything in the
-twelve is still being done by hand. Ships: a command that runs the whole sequence.
+**Phase 3b — Consolidate the close-out.** S16, and S14 as a stated design constraint on the
+command: it operates on everything currently `Done`, never on "today's". G7 is a Blocker on the
+command's design, so it is named here rather than left to Phase 3's text edits. The ten
+command-less steps move into the ship command. Separated from Phase 3 because it is the largest
+single piece of work in the epic and because it is testable on its own — run it against one real
+epic and see whether anything in the twelve is still being done by hand. Ships: a command that runs
+the whole sequence.
 
 **Phase 4 — Prove it and true up the numbers.** One real day end to end under the new boundary.
-Also S12. Ships: a recorded run, and an honest roadmap figure.
+Also S12, and S4: `/morning` reports the age of the oldest `Done` item, paired with S14's nag move
+because both change the same surface. Ships: a recorded run, an honest roadmap figure, and the
+Done-age readout shown rising across a gap and resetting after a run.
 
-**Seventeen scope items across six phases.** The epic grew when §A10 showed the close-out has no
-implementation; splitting it is worth considering at activation if Phase 3b looks too large to
-land in one pass.
+**17 open items across 7 phases**, every one of them named in a phase. The epic grew
+when §A10 showed the close-out has no implementation; splitting it is worth considering at
+activation if Phase 3b looks too large to land in one pass.
 
 ---
 
@@ -228,6 +325,13 @@ land in one pass.
       with zero network calls and zero credits spent
 - [ ] Exactly one command pushes, deploys, or runs Chromatic, and it mints a version only with
       `--release`
+- [ ] **`--release` releases everything since the last release, not just the item being shipped.**
+      It promotes the entire `[Unreleased]` buffer into one versioned entry, covering every epic
+      accumulated since the last `docs: release vX.Y.Z`. **Proven by cutting a release after two or
+      more epics have accumulated** and confirming every one of their lines appears in the entry —
+      not by reading the delegation and assuming it holds
+- [ ] `/release`'s verification pass still finds the correct baseline after `/mini-release` is
+      retired, demonstrated on a repo state with no new `chore(release): mini-release` commit (G17)
 - [ ] **Interval-agnostic, proven:** the command is run once after a gap of a week or more and
       correctly ships every `Done` item accumulated in it, not just the most recent (G7)
 - [ ] **Disk safety needs no ritual:** commits reach a remote without anyone invoking anything,
@@ -260,7 +364,15 @@ land in one pass.
 - **Branch protection on `main`.** Deliberately absent (SUG-255). Unchanged.
 - **The size-derived bump rule.** Its own epic — §A6. Only a prerequisite if Option 1 wins.
 - **Reducing deploys below one per ship.** One is the target, not zero.
-- **Rewriting the 7-gate release flow.** It works.
+- **Rewriting the release flow.** `/release`'s gate structure, outputs and `[Unreleased]` promotion
+  are not rewritten. **Narrowed 2026-08-18** from "not touched": S18 edits one line of its STEP 0
+  baseline derivation, which is not a rewrite but is a change, and this Non-Goal said "not touched"
+  until S18 was added. Measured 2026-08-18:
+  `grep -cE '^### ✅ GATE [0-9]+ — STOP' docs/workflows/release-assistant-prompt.md` returns **5**,
+  not the 7 an earlier pass of this section claimed. **`/ship --release` invokes `/release`; it does
+  not reimplement it.** Decided 2026-08-18, because §A4's diagram draws the same outputs `/release`
+  Gate 4 already writes (`RELEASE_NOTES.md`, the `docs/release-notes/` archive copy, both
+  `package.json` bumps), and reimplementing them is what this Non-Goal forbids.
 
 ---
 
@@ -370,15 +482,30 @@ Consequences:
 1. `CLAUDE.md:105` is correct and `SUG-265:64`'s "Unknown" is answered after 17 days. Branch
    pushes are free, so `git push origin main:wip/<date>` costs nothing and Option 1's disk-safety
    story holds.
-2. **The PR route for CI is not free.** SUG-265 proposed `wip/<epic>` → PR → CI to get a run ID
-   without touching `main`. CI would run, but `skip_prs` is unset so the PR also builds a preview.
-   `skip_prs: true` would make it free — a decision, not a fact.
+2. **Corrected 2026-08-18 — the PR route for CI *is* free.** An earlier pass of this line said it
+   was not, reasoning that `skip_prs` being unset means the PR builds a preview and therefore
+   costs. It does build a preview, and **deploy previews are not metered by credits**, per
+   Netlify's credit-pricing docs, which list deploy previews, branch deploys and failed deploys as
+   non-metered. So SUG-265's `wip/<epic>` → PR → CI route costs **zero credits** and always did.
+   `skip_prs` is a noise decision, not a cost one. **This reopens a design option this epic had
+   closed off:** a CI conclusion can be obtained without spending a production deploy, which bears
+   directly on S1 and on how `Done` → `Shipped` gets verified.
 3. **No branch has ever been pushed here.** `git ls-remote --heads origin` returns only
    `refs/heads/main`, which is why the question went unanswered: no history to read it from, and
    nobody read the config.
 
-**Still unmeasured:** credits per build (G14). The budget is 1,000/month, and every cadence
-argument in this epic reasons about a cost of unknown magnitude.
+**Measured 2026-08-18 (G14 closed): 15 credits per production deploy, 1,000 credits/month on
+Personal.** Both from Netlify's credit-pricing docs and the billing breakdown. 30 billed deploys
+this period = 450 credits = 96% of the 468.9 consumed. Ceiling ≈66 deploys/month ≈2.1/day.
+
+**The account runs two sites and they share one allowance** — `sugartown` and `stdpinkmoon`
+(`netlify api listSites`). This doc reasons elsewhere as though `sugartown` is the only consumer;
+it is not. `stdpinkmoon` took 7 billable deploys this period.
+
+**Build minutes are not the metering unit.** `getAccountBuildStatus` returns
+`included_minutes: null` for exactly that reason. Anything reasoning in minutes on this plan is
+measuring something the biller does not charge for.
+
 `https://app.netlify.com/teams/bex-sugartown/usage`
 
 ## A3 — The day as the sprint, and why Done ≠ Shipped
@@ -486,7 +613,8 @@ what removes the wait without batching the deploy.
 | G4 | **`/platform/governance` already calls Done "shipped"** | `apps/web/scripts/stats/linear.js:5,128` buckets `completed` into a bucket named `shipped`, feeding the published roadmap. The site already reports Done as shipped, and Done can precede code being live. First chance to make the figure true. Ties to ST-96 | **High** |
 | G15 | **Disk safety depends on memory, and memory is the thing that fails** | No command runs automatically. A `post-commit` hook mirror-pushing to `wip/<date>` is free (`allowed_branches: ['main']`, §A2) and invisible, which takes safety off the cadence question entirely. Without it, every option's exposure is 1–14 days. S13 | **High** |
 | G16 | **The nag is at the wrong end of the session** | Unpushed-work detection currently lives at close (`/eod`). Sessions get *started* more reliably than they get *closed*, and `/morning` already reports unpushed commits — that is the touchpoint that actually fires. Move the nag, and add the age of the oldest `Done` item. S4, S14 | **High** |
-| G14 | **Credits per build unmeasured** | 1,000/month allowance. Every cadence argument here reasons about an unquantified cost — 30 deploys/month might be 3% of budget or 90%. Measure once and the question becomes arithmetic | **High** |
+| G14 | ~~Credits per build unmeasured~~ | **Resolved 2026-08-18 — 15 credits per production deploy, 1,000/month** (S9b). Deploys are **96% of all credit consumption**, ceiling ~66/month ≈ 2.1/day across both account sites, which is why the working policy is **1 deploy/day**. Batching deploys is therefore cost-justified and this epic's one-deploy-per-ship target is the right shape. Failed deploys, deploy previews and branch deploys are free | ✅ |
+| G17 | **Retiring `/mini-release` breaks `/release`'s verification baseline** | STEP 0 derives the last release from the most recent `chore(release): mini-release` commit; S9 stops those being written. The verification pass is what catches entries missing from `[Unreleased]`, and this epic makes `[Unreleased]` the *only* record between releases by removing the per-epic bump — so it is the sole safety net, anchored on a commit that is about to stop existing. S18 | **High** |
 | G13 | **Bump level has nothing to key on if the commands collapse** | §Version Conventions ties the level to which command ran. Option 1 removes that. At 1–3 days, minting MINOR each time reaches 1.0 in ~2 months. Needs a content-derived rule — §A6. **Blocking for Option 1 only** | High (Opt 1) |
 | G5 | **`docs/shipped/` no longer means shipped** | Close-out step 6 moves the doc at `Done`, but the directory is named for a state not yet reached. Move it at `Shipped`, or write down that the name predates the status | Medium |
 | G11 | **The successor inherits `/mini-release`'s unique steps** | The `> Updated` header cap at 8 entries, and the Chromatic pre-check. Both must land before retirement, not be dropped with it | Medium |
