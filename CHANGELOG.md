@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- ST-99: QA walkthrough for rule-file changes (v1) proven over three runs and retained. Nine findings across `8cfac6fa`, `e5a22d89` and `061b4c35`, no clean pass, so the kill criterion did not fire. The review found step 1 (name the workflows the change touches) load-bearing: seven of nine findings were in files the change never edited. One defect class repeated and is mechanical, a renamed heading orphaning inbound cross-references, deferred to ST-101 along with the per-group profiles, which stay blocked on a sample that is currently monogroup.
 - ST-98: Six governance post-mortem recommendations applied as rules. `CLAUDE.md` gains §Building a mechanism (name the reader before building the writer; a guard is never widened to fit a breach; a register is generated or it does not exist). `docs/epic-template.md`'s Pre-Execution gate gains removal-scope-enumerates-surfaces, one-index-or-one-ID-scheme, and kill-criterion-at-birth. Plus the `In Progress` transition as an imperative rather than a table row, and a portability rule: write "issue", not "Linear issue" or "GitHub issue".
 
 ---
