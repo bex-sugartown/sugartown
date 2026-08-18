@@ -501,6 +501,23 @@ The agent — or any subagent it spawns — never edits a rule-defining file (`.
 
 **Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — show the exact diff, then ask via a single select option.
 
+### Rule-file followability walkthrough
+
+**Scope is the gate's scope above, plus `docs/workflows/**` and `docs/mini-release-prompt.md`.** Wider on purpose: the gate governs *authority to edit*, this governs *whether the result can be followed*, and the workflow prompts are followed by later sessions exactly as this file is. Two of the first three runs found defects in prompt files.
+
+After editing any file in that scope, and before committing it:
+
+1. **Name the workflows the change touches**, from the write-site audit that motivated the edit. Defects cluster in the files that *consume* the edited rule, not in the rule text: 7 of the first 9 findings were in prompts and templates the change never opened.
+2. **Walk one mock instance end to end, reading only the edited text** — not from memory of what it used to say.
+3. **For each step, record whether it can be done today** — the tool exists, the quota allows it, the referenced file and section resolve.
+4. **Flag every step that is unfollowable, ambiguous, or points at something that does not exist.**
+
+Output is a findings table in the commit message for the change it audited. No new file, no register, no validator.
+
+**Renaming a heading obliges a grep for inbound references to the old text**, in the same commit. It was the only defect class to repeat across the first three runs and it reached six files at once. Shipped docs keep the old name: a shipped doc records what was true when it shipped.
+
+Retire this when three consecutive rule changes pass with no finding. Record and review: `docs/shipped/ST-99-rules-change-qa.md`.
+
 ### Sanity MCP content writes — no AI rewriting
 
 > **Note:** This rule governs the *tool* used to write content (no AI rewriting pipeline). The Content Write Gate above governs *whether* to write at all without prior human approval. Both apply independently.
