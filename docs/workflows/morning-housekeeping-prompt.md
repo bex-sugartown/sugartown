@@ -99,6 +99,43 @@ All four dev servers are defined in `.claude/launch.json`. Use `preview_start` (
 **Sanity Studio** — are there available package updates?
 Check the installed `sanity` version in `apps/studio/package.json` and note it in the briefing. A full upgrade check can be done manually if needed.
 
+**Oldest `Done` item, not yet `Shipped`** (SUG-100 S4/G16 — the signal that replaced "does `Done`
+empty every morning", which stopped being true at a 1–14 day ship interval):
+```bash
+gh api graphql -f query='
+{
+  user(login: "bex-sugartown") {
+    projectV2(number: 1) {
+      items(first: 100) {
+        nodes {
+          fieldValueByName(name: "Status") {
+            ... on ProjectV2ItemFieldSingleSelectValue { name updatedAt }
+          }
+          content { ... on Issue { number title } }
+        }
+      }
+    }
+  }
+}' | python3 -c "
+import json, sys
+from datetime import datetime, timezone
+nodes = json.load(sys.stdin)['data']['user']['projectV2']['items']['nodes']
+done = [n for n in nodes if (n.get('fieldValueByName') or {}).get('name') == 'Done']
+if not done:
+    print('none — nothing waiting to ship')
+else:
+    done.sort(key=lambda n: n['fieldValueByName']['updatedAt'])
+    oldest = done[0]
+    age = datetime.now(timezone.utc) - datetime.fromisoformat(oldest['fieldValueByName']['updatedAt'].replace('Z', '+00:00'))
+    print(f\"#{oldest['content']['number']} — {oldest['content']['title'][:50]} — {age.days}d {age.seconds//3600}h old ({len(done)} total in Done)\")
+"
+```
+- `updatedAt` on the Status field value is the last time that field changed — for an item sitting
+  in `Done`, that is the moment it entered `Done`, unless something else touched Status since
+  (rare; Done → Shipped is the only expected exit). One number, unambiguous: it should rise across
+  a gap and reset to near-zero right after `/ship` runs. If it is rising for more than ~14 days,
+  the observed ship interval, something is stuck rather than just waiting its turn.
+
 **Vite caches** — are any stale?
 ```bash
 # Check Storybook Vite dep cache age (stale caches cause "Failed to fetch dynamically imported module" errors)
