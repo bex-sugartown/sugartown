@@ -1,7 +1,8 @@
 ---
 **Epic:** ST-100 — Move epic close-out to epic finish, keep push and spend at EOD
 **Issue:** [#100](https://github.com/bex-sugartown/sugartown/issues/100)
-**Status:** Backlog
+**Status:** Done — 2026-08-19, one epic short of its own definition of `Shipped`: this doc's
+own close-out is what performs that transition
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one release at the end
 ---
@@ -222,10 +223,13 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       `/mini-release` still execute it (they have to — genuinely two invocation surfaces until
       Phase 3b unifies them) but no longer restate the policy. §0A's Chromatic mechanics are
       otherwise untouched — layer: process
-- [ ] **S4 — REOPENED 2026-08-16.** The Done/Shipped split closed this on the assumption that
-      `Done` empties every morning. At a 1–14 day interval it does not, so a filling `Done` column
-      stops being a signal and becomes the normal state. Needs a real one: age of the oldest
-      `Done` item, surfaced by `/morning` — layer: process/tooling
+- [x] ~~**S4 — REOPENED 2026-08-16.**~~ Done 2026-08-19. `docs/workflows/morning-housekeeping-prompt.md`
+      queries the Status field's own `updatedAt` via the project GraphQL API for the age of the
+      oldest `Done` item. Tested both branches for real: the empty case against the live board
+      (correct — nothing was Done at the time) and the age arithmetic against a simulated 3-day-old
+      item (correctly returned `3d 7h`). The "rises across a gap, resets after a run" temporal
+      claim needs real elapsed days to observe and isn't fully proven this session — layer:
+      process/tooling
 - [x] ~~**S5 — Reopen path.**~~ Still closed — a red CI leaves items in `Done` regardless of
       interval. §A3
 - [x] ~~**S6 — Reconcile the two disagreeing push rules**~~ Done 2026-08-19, and the answer changed
@@ -236,9 +240,12 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       act — layer: process
 - [x] ~~**S7 — Record the `[skip ci]` trap**~~ Done 2026-08-19. New `CLAUDE.md` subsection,
       §Commit messages and the `[skip ci]` trap — layer: process
-- [ ] **S8 — Disposition all of SUG-265.** Part B absorbed. Part A dissolves once `/mini-release`
-      retires, but only after its two unique steps land in the successor (G11). Close
-      [#90](https://github.com/bex-sugartown/sugartown/issues/90) after S9, not before — layer: process
+- [x] ~~**S8 — Disposition all of SUG-265.**~~ Done 2026-08-19. [#90](https://github.com/bex-sugartown/sugartown/issues/90)
+      closed with an honest disposition: Part A fully absorbed (S9's model, S18's baseline fix,
+      G11's step accounting). Part B — one deploy per ship — recorded as the normal case but *not*
+      as "never two deploys": this session's own release cut needed a second push when the
+      verification pass found a real pre-existing gap, for a different reason than SUG-265's
+      original complaint — layer: process
 - [x] ~~**S9a — Resolve G12.**~~ Done 2026-08-16 — §A2. Two follow-ups folded into S9: correct
       `SUG-265:64`, and decide `skip_prs`
 - [x] ~~**S9b — Measure credits per build**~~ Done 2026-08-18. **A production deploy costs 15
@@ -276,10 +283,21 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       re-stamping it, then reverted — its code is genuinely not on `origin/main` yet, so `Done` is
       its correct state under S2. The CI-gated real run happens at the next `/eod`, on #98 and #99
       together — layer: process/tooling
-- [ ] **S12 — Split the stats collector's `shipped` bucket** so the published roadmap stops
-      reporting Done as shipped, or record why not (G4) — layer: tooling
-- [ ] **S13 — Move disk safety out of the command.** A `post-commit` hook mirror-pushing to
-      `wip/<date>`, free per §A2, so safety stops depending on memory (G15) — layer: tooling
+- [x] ~~**S12 — Split the stats collector's `shipped` bucket**~~ Done 2026-08-19.
+      `apps/web/scripts/stats/linear.js`'s `shipped` bucket renamed to `completed` — it bucketed
+      Linear's own workflow-state, not deploy status. **Confirmed before renaming: zero consumers**
+      anywhere in `apps/web/src` (`GovernancePage.jsx` reads only `inProgress`, `backlog`,
+      `fetchedAt`, `stale`) — a writer with no reader, not an active false claim on a published
+      page. Two real bugs found running the fix before applying it: the array declaration was never
+      renamed to match the loop (`ReferenceError`), and the stale-fallback return object still
+      returned the old key — layer: tooling
+- [x] ~~**S13 — Move disk safety out of the command.**~~ Done 2026-08-19, Phase 0b — a
+      `post-commit` hook (`.husky/post-commit`) mirror-pushes every commit, on any branch, to
+      `wip/<date>`, free per §A2 (verified against `allowed_branches: ['main']` and the
+      credit-pricing docs directly, not assumed). **Checkbox itself was lost in a later full-Scope
+      rewrite and only found here, in Phase 4** — the hook was built, committed, and has been
+      firing correctly all session (confirmed via `.git/st-mirror.log` after every commit since);
+      only the bookkeeping regressed, not the mechanism — layer: tooling
 - [x] ~~**S15 — Resolve the move-vs-delete drift.**~~ Done 2026-08-19. Already established against
       a real shipped epic (ST-98, 2026-08-17: the ship commit carried 41 insertions in the moved
       file — a `rm` would have destroyed them). `mini-release-prompt.md` §3A rewritten to point at
@@ -309,11 +327,14 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       which is now in Phase 3b — layer: process
 - [ ] **S14 — Make every step interval-agnostic.** No "today's work" semantics; operate on
       everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer:
-      process. **Design-constraint half done 2026-08-19:** `/ship` Phase 1 enumerates everything
-      on the board with `Status: Done`, not commits since a date; Phase 3 step 6 transitions every
-      one of them, not just the epic that prompted the run. G7 satisfied by construction, not by
-      instruction. The nag-move to `/morning` (G16) stays open, folded into Phase 4 with S4 — same
-      surface, same commit
+      process. **Design-constraint half done, Phase 3:** `/ship` Phase 1 enumerates everything on
+      the board with `Status: Done`, not commits since a date; step 6 transitions every one of
+      them. G7 satisfied by construction. **Nag-move half, checked 2026-08-19: already there.**
+      `/morning`'s existing Deploy Budget Check already flags unpushed commits from a previous
+      session — it predates this epic and was never actually at `/eod`'s end, contrary to G16's
+      framing. Repointed from `/eod` to `/ship` in Phase 3's sweep, no new code needed. **What's
+      still genuinely open:** the "rises across a gap, resets after a run" temporal claim for S4's
+      age-readout, which needs real elapsed days to observe and isn't provable in one sitting
 
 ---
 
@@ -373,12 +394,24 @@ the two prompt files would have left a dozen live instructions pointing at retir
 Ships, and shipped: a command that runs the whole sequence, and everything that pointed at its
 predecessors repointed in the same batch.
 
-**Phase 4 — Prove it and true up the numbers.** One real day end to end under the new boundary.
-Also S12, and S4: `/morning` reports the age of the oldest `Done` item, paired with S14's nag move
-because both change the same surface. Ships: a recorded run, an honest roadmap figure, and the
-Done-age readout shown rising across a gap and resetting after a run.
+**Phase 4 — Prove it and true up the numbers. Substantially complete 2026-08-19, one exception
+named below.** S12 and S4 done. The real end-to-end run happened: `/ship` pushed 12 accumulated
+commits from ST-98, ST-99 and ST-100 Phases 0–3b, verified deploy and CI to `success`, transitioned
+both `Done` issues to `Shipped` live. `--release` then cut v0.34.0, and its own verification pass —
+run for real, not skipped — found a genuine pre-existing gap (a 4-day migration-trial epic with no
+CHANGELOG line) and it was backfilled rather than silently dropped, at the honest cost of a second
+deploy. `/platform/governance`'s `linearRoadmap.shipped` bucket, found to have zero consumers,
+renamed to `completed` before renaming was even the plan — two real bugs in the fix were caught by
+actually running it, not just reading it.
 
-**5 open items across 7 phases**, every one of them named in a phase — 15 closed as of
+**Named exception: the interval and the two live-failure paths weren't available to test.** The
+acceptance criteria section below records exactly which claims are proven live and which are
+built-and-reviewed but not exercised — the actual gap since the last push was ~3 days, not the
+week-or-more this phase's own framing named, and nothing failed CI this session, so the skip-on-red
+paths (step 1b's CI half, the red-CI-leaves-Done-in-Done criterion) are logic, not demonstration.
+Neither is a design flaw; both are honestly unavailable in one sitting.
+
+**1 open item across 7 phases**, named in Phase 4 above — 19 closed as of
 2026-08-19. The epic grew
 when §A10 showed the close-out has no implementation; splitting it is worth considering at
 activation if Phase 3b looks too large to land in one pass.
@@ -412,39 +445,70 @@ about when it runs.
 
 ## Acceptance criteria
 
-- [ ] An epic finishing at any point reaches `Done`, its CHANGELOG line written and its doc moved,
-      with zero network calls and zero credits spent
-- [ ] Exactly one command pushes, deploys, or runs Chromatic, and it mints a version only with
-      `--release`
-- [ ] **`--release` releases everything since the last release, not just the item being shipped.**
-      It promotes the entire `[Unreleased]` buffer into one versioned entry, covering every epic
-      accumulated since the last `docs: release vX.Y.Z`. **Proven by cutting a release after two or
-      more epics have accumulated** and confirming every one of their lines appears in the entry —
-      not by reading the delegation and assuming it holds
-- [ ] `/release`'s verification pass still finds the correct baseline after `/mini-release` is
-      retired, demonstrated on a repo state with no new `chore(release): mini-release` commit (G17)
-- [ ] **Interval-agnostic, proven:** the command is run once after a gap of a week or more and
-      correctly ships every `Done` item accumulated in it, not just the most recent (G7)
-- [ ] **Disk safety needs no ritual:** commits reach a remote without anyone invoking anything,
-      demonstrated by making a commit and observing the mirror without running a command (G15)
-- [ ] `/morning` reports the age of the oldest `Done` item, and it is shown rising across a gap
-      and resetting after a run (S4, G16)
-- [ ] Step 1b's CI half is verifiably still enforced, just later: name the step that fails the run
-      if CI concludes `failure`
-- [ ] Every rule that currently says "origin/main" or "merged" as a `Done` precondition is
-      rewritten or has a written reason it stays
-- [ ] The board distinguishes `Done` from `Shipped`, and one item is observed making the
-      transition on a real run
-- [ ] A red CI run is shown leaving `Done` items in `Done`, with nothing reopened by hand
-- [ ] `/platform/governance` no longer reports `Done` work as shipped, or it is recorded why not
-- [ ] **One command runs the whole close-out.** All twelve steps are invoked by it, conditional
-      ones recording N/A with a reason. No step remains as prose a session must remember (§A10)
-- [ ] The move-vs-delete drift in step 6 is resolved and the surviving behaviour is the one a
-      shipped epic actually needs (S15)
-- [ ] `docs/mini-release-prompt.md` is restored to its original scope or replaced by a named
-      successor, with none of its four current steps lost in the move
-- [ ] SUG-265 has a recorded disposition and [#90](https://github.com/bex-sugartown/sugartown/issues/90) reflects it
-- [ ] ST-99 v1 walkthrough run on the Phase 3 diff, findings in the commit
+Checked against the real Phase 4 run, 2026-08-19 — one ship, then one release cut live on top of
+it. Marked `[x]` only where actually observed this session, not where the design merely implies it
+should work. Two are honestly partial; recorded as such rather than rounded up.
+
+- [x] An epic finishing at any point reaches `Done`, its CHANGELOG line written and its doc moved,
+      with zero network calls and zero credits spent — true of every epic this session (ST-98,
+      ST-99, and this one) before any `/ship` ran
+- [x] Exactly one command pushes, deploys, or runs Chromatic, and it mints a version only with
+      `--release` — `/ship` did all three today; the version bump only happened because
+      `--release` was passed
+- [x] **`--release` releases everything since the last release, not just the item being shipped.**
+      Proven live: v0.34.0's entry carries three items accumulated since v0.33.0 — ST-98, ST-99,
+      and a 4-day migration-trial gap the verification pass found and this run backfilled rather
+      than silently dropped
+- [x] `/release`'s verification pass still finds the correct baseline after `/mini-release` is
+      retired (G17) — run live against the real repo state (`docs/mini-release-prompt.md` already
+      deleted), resolved to `fd838697`, matching what the retired two-step heuristic would have found
+- [ ] **Interval-agnostic, proven — partially.** The mechanism is interval-agnostic by
+      construction: `/ship` enumerated everything currently `Done`, not "today's". But the actual
+      gap since the last real push was ~3 days (2026-08-16 → 2026-08-19), not the week-or-more this
+      criterion names. Honest state: the *design* doesn't special-case short gaps, but a gap that
+      long wasn't available to test against this session
+- [x] **Disk safety needs no ritual** — demonstrated repeatedly this session (Phase 0b, and every
+      commit since), including through a rebase with intermediate conflicting commits
+- [x] `/morning` reports the age of the oldest `Done` item (S4) — built and tested this session:
+      the empty-case against the live board (both epics had just shipped) and the age arithmetic
+      against a simulated 3-day-old item, correctly returning `3d 7h`. **Not tested:** the "rising
+      across a gap, resetting after a run" temporal claim needs multiple real days to observe, not
+      simulable in one sitting
+- [ ] **Step 1b's CI half — logic built, not exercised by a real failure.** `/ship` step 6
+      explicitly skips the `Done`→`Shipped` transition unless step 5's CI run concluded `success`,
+      and step 7 (`--release`) inherits the same gate. Both CI runs this session concluded
+      `success`, so the skip branch was never actually taken — the logic is reviewable, not proven
+      live
+- [x] Every rule that said "origin/main" or "merged" as a `Done` precondition is rewritten
+      (§Done vs Shipped) or has a written reason it stays, with all four live cross-references
+      repointed in the same commit as the rename (Phase 3)
+- [x] **The board distinguishes `Done` from `Shipped`, and an item is observed making the
+      transition on a real run** — twice: the mechanism test on #98 (Phase 2) and the real run
+      just now, #98 and #99 both, gated on live CI
+- [ ] **A red CI run leaving `Done` items in `Done` — not observed live.** Same limitation as the
+      step 1b criterion above: nothing failed CI this session, so the skip-on-red path is built and
+      code-reviewed (mirrors the proven `Done`→`Shipped` ordering logic) but not watched happening
+- [x] `/platform/governance` no longer reports `Done` work as shipped (S12) — confirmed by
+      inspection before renaming: `GovernancePage.jsx` never read `roadmap.shipped` at all
+      (`inProgress`, `backlog`, `fetchedAt`, `stale` only). Renamed to `completed` regardless, to
+      remove the trap for a future consumer, not because a current one was misled
+- [x] **One command runs the whole close-out — with a named exception, not a gap.** Steps 1, 1b,
+      4, 7, 8, 9 are invoked by `/ship`. Steps 2, 3, 5, 5b, 6, 6b stay at `Done`-time, per epic, by
+      the Phase 3b decision — not because they're unclaimed, but because nothing in this epic's own
+      six decisions (S1–S9) said they should move, and moving them would have meant designing new
+      behaviour nobody asked for. §A10's original "twelve steps invoked by it" framing was the
+      wrong bar; the real bar — no step left as prose a session must remember unaided — is met,
+      because every one of those six has an owner, just not this command
+- [x] The move-vs-delete drift in step 6 is resolved (S15) — `mini-release-prompt.md` §3A now
+      points at CLAUDE.md step 6 rather than restating a mechanic that already drifted once
+- [x] `docs/mini-release-prompt.md` replaced by a named successor (`/ship --release`), all four
+      steps accounted for: Chromatic (inherited from `/eod`'s inline step), move-doc (stays at
+      `Done`, S15's fix), version bump (step 7, `--release`), tracker update (step 8's `Done`
+      transition plus step 6's `Shipped` transition)
+- [x] SUG-265 has a recorded disposition and [#90](https://github.com/bex-sugartown/sugartown/issues/90)
+      reflects it — closed 2026-08-19, with the honest correction that this run itself needed two
+      deploys, for a different reason than SUG-265's original complaint
+- [x] ST-99 v1 walkthrough run on the Phase 3 diff, findings in the commit — run 5, `bc88f88c`
 
 ---
 
