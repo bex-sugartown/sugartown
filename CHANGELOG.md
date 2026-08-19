@@ -12,9 +12,57 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-- Governance post-mortem and the Linear→GitHub tracker migration trial: 58 issues migrated to GitHub Projects, exit criterion met (`d3a26387`), legacy board cleared and parity-audited (`04aad7f9`, `c43d8826`), tracker writes moved to GitHub only for the trial period ending 2026-09-09 (`8cfac6fa`) after a same-day dual-write reversal (`fc1077b4`). New epics use GitHub issue numbers as `ST-{n}` IDs; the 58 migrated issues keep their `SUG-{n}` IDs, and Linear stays read-only for their priority ordering. Backfilled into `[Unreleased]` at ship time, 2026-08-19 — the work landed 2026-08-15 with no epic close-out and no CHANGELOG line at the time. Full plan and status: `docs/briefs/linear-to-github-migration-plan.md`.
-- ST-99: QA walkthrough for rule-file changes (v1) proven over three runs and retained. Nine findings across `8cfac6fa`, `e5a22d89` and `061b4c35`, no clean pass, so the kill criterion did not fire. The review found step 1 (name the workflows the change touches) load-bearing: seven of nine findings were in files the change never edited. One defect class repeated and is mechanical, a renamed heading orphaning inbound cross-references, deferred to ST-101 along with the per-group profiles, which stay blocked on a sample that is currently monogroup.
-- ST-98: Six governance post-mortem recommendations applied as rules. `CLAUDE.md` gains §Building a mechanism (name the reader before building the writer; a guard is never widened to fit a breach; a register is generated or it does not exist). `docs/epic-template.md`'s Pre-Execution gate gains removal-scope-enumerates-surfaces, one-index-or-one-ID-scheme, and kill-criterion-at-birth. Plus the `In Progress` transition as an imperative rather than a table row, and a portability rule: write "issue", not "Linear issue" or "GitHub issue".
+## [0.34.0] — 2026-08-19
+
+Governance post-mortem rules, the Linear→GitHub tracker migration trial, and the epic close-out
+consolidated into one ship command. Aggregates v0.33.1 (the patch mini-release since the last
+MINOR).
+
+### docs
+
+#### Added
+- Six governance post-mortem rules applied to `CLAUDE.md` and `docs/epic-template.md`'s
+  Pre-Execution gate: name the reader before building the writer; a guard is never widened to fit
+  a breach; a register is generated or it does not exist; removal-scope enumerates surfaces, not
+  sections; one index or one ID scheme; kill criterion stated at birth. ST-98.
+- A rule-file followability walkthrough is now mandatory before any commit to a rule-defining
+  file — name the workflows touched, walk a mock instance from the edited text, flag anything
+  unfollowable or pointing at nothing. Run four times this cycle, found defects every time; the
+  kill criterion (three clean runs) was not met, so it stays standing practice. ST-99.
+
+#### Changed
+- Tracker writes moved to GitHub only for a trial through 2026-09-09, reversing a same-day
+  dual-write decision. 58 issues migrated to GitHub Projects, the legacy Linear board cleared and
+  parity-audited, new epics keyed as `ST-{n}` GitHub issue numbers. The 58 migrated issues keep
+  their `SUG-{n}` IDs; Linear stays read-only for their priority ordering.
+- Epic lifecycle split into `Done` (work complete, committed locally, local smoke tests green) and
+  `Shipped` (merged to `origin/main`, deployed, CI concluded `success`). Closes the gap where two
+  epics reached `Done` with their own close-out commits stranded on one disk pending a later push.
+
+### tooling
+
+#### Added
+- `/ship --release` — consolidates the twelve-step epic close-out sequence into one command.
+  Enumerates everything currently `Done` (not just the most recent), checks every `Done` issue has
+  a `[Unreleased]` CHANGELOG line, pushes once, verifies the deploy and the CI run to a conclusion,
+  transitions `Done` → `Shipped` on the board (only after CI concludes `success`, closing the issue
+  before setting the board status so the close automation doesn't overwrite it), and with
+  `--release` invokes `/release` rather than reimplementing version-cutting.
+- A `post-commit` hook mirrors every commit — on any branch — to a remote `wip/<date>` branch
+  automatically. Disk safety no longer depends on remembering to push; verified free (Netlify
+  builds only `main`, and branch deploys aren't credit-metered).
+
+#### Removed
+- `/eod` and `/mini-release` retired, consolidated into `/ship --release`. `/mini-release`'s two
+  claimed unique migration steps turned out to be one on inspection — the header-cap mechanic it
+  was thought to own lives in a different file, at a different count, targeting an already-deleted
+  target — so nothing needed migrating for it.
+
+#### Fixed
+- `linearRoadmap`'s `shipped` bucket (`apps/web/scripts/stats/linear.js`) renamed to `completed`.
+  It bucketed Linear's own `completed` workflow-state, not deploy status, and had zero consumers
+  anywhere in the app — a writer with no reader, corrected before a future consumer could inherit
+  the wrong assumption from the field name.
 
 ---
 
