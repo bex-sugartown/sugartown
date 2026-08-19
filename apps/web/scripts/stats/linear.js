@@ -2,7 +2,7 @@
  * linear.js — linearRoadmap collector (SUG-110)
  *
  * Fetches all SUG issues from the Linear GraphQL API and groups them by
- * workflow state type: inProgress, backlog, shipped.
+ * workflow state type: inProgress, backlog, completed.
  *
  * Requires: LINEAR_API_KEY env var (read-only personal token scoped to Issues)
  *
@@ -11,8 +11,17 @@
  *   fetchedAt: "2026-...",
  *   inProgress: [{ id, identifier, title, url, priority, labels[], status }],
  *   backlog:    [...],
- *   shipped:    [...],   // most recent 20 only, sorted by completedAt desc
+ *   completed:  [...],   // most recent 20 only, sorted by completedAt desc
  * }
+ *
+ * **Renamed from `shipped` to `completed`, 2026-08-19 (SUG-100 S12).** Linear's `completed`
+ * workflow-state type means the issue is done in Linear, not that it's deployed — this repo now
+ * distinguishes `Done` from `Shipped` on the GitHub board (CLAUDE.md §Done vs Shipped), a
+ * distinction Linear's own schema has no equivalent for. Verified before renaming: zero consumers
+ * of `roadmap.shipped` anywhere in `apps/web/src` — `GovernancePage.jsx` reads only `inProgress`,
+ * `backlog`, `fetchedAt`, `stale`. This was a writer with no reader (CLAUDE.md §Building a
+ * mechanism, rule 1), not an active false claim; renaming removes the trap before a future
+ * consumer inherits the wrong assumption from the field name.
  *
  * Graceful degradation: if LINEAR_API_KEY is missing or the API fails, returns
  * { stale: true } so the page can render a "data unavailable" fallback.
@@ -84,7 +93,7 @@ export async function collectLinear() {
   const key = process.env.LINEAR_API_KEY
   if (!key) {
     console.warn('  [stats] linear: LINEAR_API_KEY not set — skipping')
-    return { stale: true, inProgress: [], backlog: [], shipped: [] }
+    return { stale: true, inProgress: [], backlog: [], completed: [] }
   }
 
   // Step 1: find the SUG team UUID (low complexity query)
@@ -112,7 +121,7 @@ export async function collectLinear() {
 
   const inProgress = []
   const backlog    = []
-  const shipped    = []
+  const completed  = []
 
   for (const node of nodes) {
     const type = node.state?.type
@@ -126,22 +135,22 @@ export async function collectLinear() {
       // gap as the missing pagination above.
       backlog.push(normalise(node))
     } else if (type === 'completed') {
-      shipped.push(normalise(node))
+      completed.push(normalise(node))
     }
     // `canceled` issues are deliberately excluded from every bucket — a
     // canceled issue needs no backlog doc.
   }
 
-  // Most recent 20 shipped, sorted newest first
-  shipped.sort((a, b) => (b.completedAt ?? '').localeCompare(a.completedAt ?? ''))
-  const shippedTrimmed = shipped.slice(0, 20)
+  // Most recent 20 completed, sorted newest first
+  completed.sort((a, b) => (b.completedAt ?? '').localeCompare(a.completedAt ?? ''))
+  const completedTrimmed = completed.slice(0, 20)
 
-  console.log(`  linear    ${inProgress.length} in progress, ${backlog.length} backlog, ${shippedTrimmed.length} recently shipped`)
+  console.log(`  linear    ${inProgress.length} in progress, ${backlog.length} backlog, ${completedTrimmed.length} recently completed`)
 
   return {
     fetchedAt:  new Date().toISOString(),
     inProgress,
     backlog,
-    shipped: shippedTrimmed,
+    completed: completedTrimmed,
   }
 }
