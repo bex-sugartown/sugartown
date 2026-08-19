@@ -210,22 +210,32 @@ Both are recorded in §Non-Goals.
 **`Scope ∖ Phases` is empty as of 2026-08-18.** S4, S13 and S14 named no phase until then; S13
 now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
 
-- [ ] **S1 — Split step 1b.** `pnpm test:smoke` locally gates the epic; the CI conclusion moves to
-      the ship command, which already watches the run to a conclusion — layer: process
-- [ ] **S2 — Redefine Done.** Rewrite §Issue Done = code on main so `Done` means "work complete,
-      committed locally", with the `origin/main` guarantee re-homed to `Shipped` — layer: process
-- [ ] **S3 — Consolidate Chromatic to one place.** Currently three: close-out step 4 (Tier 1),
-      `/mini-release` §0A, `/eod` Phase 3 step 2 — layer: process
+- [x] ~~**S1 — Split step 1b.**~~ Done 2026-08-19. `CLAUDE.md` step 1b now gates `Done` on the
+      local `pnpm test:smoke` pass only; the CI-conclusion half points at `/eod` Phase 3 step 5,
+      the existing surface that already does it — layer: process
+- [x] ~~**S2 — Redefine Done.**~~ Done 2026-08-19. `CLAUDE.md` §Issue Done = code on main renamed
+      to §Done vs Shipped; four live cross-references repointed in the same commit (SUG-71,
+      rules-tools-audit-runbook, both redpen diagrams) per the followability walkthrough's grep
+      rule — layer: process
+- [x] ~~**S3 — Consolidate Chromatic to one place.**~~ Done 2026-08-19, scoped to the *rule*, not
+      the mechanics: `CLAUDE.md` step 4 now states the run-now-or-defer rule once; `/eod` and
+      `/mini-release` still execute it (they have to — genuinely two invocation surfaces until
+      Phase 3b unifies them) but no longer restate the policy. §0A's Chromatic mechanics are
+      otherwise untouched — layer: process
 - [ ] **S4 — REOPENED 2026-08-16.** The Done/Shipped split closed this on the assumption that
       `Done` empties every morning. At a 1–14 day interval it does not, so a filling `Done` column
       stops being a signal and becomes the normal state. Needs a real one: age of the oldest
       `Done` item, surfaced by `/morning` — layer: process/tooling
 - [x] ~~**S5 — Reopen path.**~~ Still closed — a red CI leaves items in `Done` regardless of
       interval. §A3
-- [ ] **S6 — Reconcile the two disagreeing push rules** (§Mid-epic commit checkpoints threshold vs
-      close-out's CI need), stating which governs, in both places — layer: process
-- [ ] **S7 — Record the `[skip ci]` trap** where a session writing a commit message meets it, and
-      adopt `skip-ci` as the safe spelling — layer: process
+- [x] ~~**S6 — Reconcile the two disagreeing push rules**~~ Done 2026-08-19, and the answer changed
+      once Phase 0b shipped: they stopped disagreeing by stopping covering the same thing. The
+      ~15-commit threshold is replaced, not reconciled — S13's hook makes disk safety continuous
+      and branch-agnostic (verified: `.husky/post-commit` has no branch check), so there's no
+      threshold left to state. Pushing `origin/main` stays the ship step's separate, deliberate
+      act — layer: process
+- [x] ~~**S7 — Record the `[skip ci]` trap**~~ Done 2026-08-19. New `CLAUDE.md` subsection,
+      §Commit messages and the `[skip ci]` trap — layer: process
 - [ ] **S8 — Disposition all of SUG-265.** Part B absorbed. Part A dissolves once `/mini-release`
       retires, but only after its two unique steps land in the successor (G11). Close
       [#90](https://github.com/bex-sugartown/sugartown/issues/90) after S9, not before — layer: process
@@ -243,9 +253,11 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       returns `included_minutes: null` because this plan meters credits, not minutes; an earlier
       pass of this line reported 1.2 min/deploy and concluded the cost was small, which was the
       wrong unit and the wrong conclusion (G14)
-- [ ] **S9 — Decide the release model** (Opt 1 / 2 / 3), then retire `docs/mini-release-prompt.md`
-      and migrate its two unique steps (G11). If Option 1, the G13 bump rule is a blocking
-      prerequisite — layer: process
+- [ ] **S9 — Decide the release model** (Opt 1 / 2 / 3, decided in Phase 1: Option 3), then retire
+      `docs/mini-release-prompt.md` and migrate its two unique steps (G11). **Split 2026-08-19:**
+      the model is recorded in `CLAUDE.md` step 7 (this half done); the actual retirement stays
+      open, moved to Phase 3b — G11 requires the successor (the ship command, S16) to inherit the
+      two unique steps before the file goes, and the successor doesn't exist yet — layer: process
 - [x] ~~**S10 — Add the `Shipped` status**~~ Done 2026-08-18. Added via the UI (option id
       `18ed7799`). Snapshot taken first: `board-snapshot-2026-08-18.json`, 68 items, 0 blank.
       Verified after: 0 status changes, 0 blank, all 6 prior option IDs unchanged — second
@@ -264,9 +276,10 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       reporting Done as shipped, or record why not (G4) — layer: tooling
 - [ ] **S13 — Move disk safety out of the command.** A `post-commit` hook mirror-pushing to
       `wip/<date>`, free per §A2, so safety stops depending on memory (G15) — layer: tooling
-- [ ] **S15 — Resolve the move-vs-delete drift.** CLAUDE.md step 6 says move `backlog/` →
-      `shipped/`; `/mini-release` §3A says delete from backlog. Establish which is real against a
-      shipped epic before consolidating (§A10) — layer: process
+- [x] ~~**S15 — Resolve the move-vs-delete drift.**~~ Done 2026-08-19. Already established against
+      a real shipped epic (ST-98, 2026-08-17: the ship commit carried 41 insertions in the moved
+      file — a `rm` would have destroyed them). `mini-release-prompt.md` §3A rewritten to point at
+      CLAUDE.md step 6 rather than restate a mechanic that could drift again — layer: process
 - [ ] **S16 — Consolidate the ten command-less close-out steps into the ship command.** The
       larger half of this epic. Steps 1, 1b, 2, 3, 5, 5b, 6b, 9 have no command at all; 4, 6, 7, 8
       are split across `/mini-release` and `/chromatic`. Conditional steps stay conditional and
@@ -274,17 +287,18 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
 - [ ] **S17 — Decide what the command is called.** `/ship` is a placeholder. It must not be
       `/eod`, because the observed cadence is 1–14 days and a name saying "end of day" lies about
       when it runs. `/mini-release` is available once its scope is restored — layer: process
-- [ ] **S18 — Re-anchor `/release`'s baseline before S9 retires the commit it keys on.** STEP 0's
-      verification pass finds the last release by looking for "the most recent
-      `chore(release): mini-release` commit following the last `docs: release vX.Y.0` commit".
-      S9 stops those first commits ever being written again (189 exist; they end at retirement).
-      Anchor on `docs: release vX.Y.Z` directly — `git log --grep='^docs: release v' -1` — which is
-      one step instead of two and is the commit actually wanted. **Ordering: S18 lands before S9
-      retires anything**, or the verification pass degrades silently in the gap. Same defect shape
-      as `/mini-release` STEP 0B, which scoped a patch across 30+ released commits during ST-98's
-      close-out (G17) — layer: process
+- [x] ~~**S18 — Re-anchor `/release`'s baseline before S9 retires the commit it keys on.**~~ Done
+      2026-08-19. `release-assistant-prompt.md` STEP 0 now anchors on `git log --oneline
+      --grep='^docs: release v' -1` directly. Verified against the old two-step heuristic on the
+      live repo: both resolve to `fd838697 docs: release v0.33.0`, so the switch is a strictly
+      simpler path to the same answer, not a behaviour change. Lands well ahead of S9's retirement,
+      which is now in Phase 3b — layer: process
 - [ ] **S14 — Make every step interval-agnostic.** No "today's work" semantics; operate on
-      everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer: process
+      everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer:
+      process. **Rule half done 2026-08-19:** day-scoped language corrected in `CLAUDE.md`
+      (§Mid-epic commit checkpoints, step 7) and `mini-release-prompt.md` (§0A). The
+      design-constraint half — G7 governing the ship command's actual behaviour — stays open for
+      Phase 3b
 
 ---
 
@@ -300,8 +314,8 @@ are 96% of the bill — so batching them is the right instinct and the working p
 item, costs nothing, and closes the SUG-231 exposure immediately rather than at the end of the
 epic. Ships: a commit made and its mirror observed on the remote with no command invoked.
 
-**Phase 1 — Decide.** S1, S2, S3, S6, S8, S9. Ships: a decisions table in this doc, approved,
-each decision naming the file it lands in.
+**Phase 1 — Decide. Complete 2026-08-18.** S1, S2, S3, S6, S8, S9. Ships, and shipped: a
+decisions table in this doc, approved, each decision naming the file it lands in.
 
 **Phase 2 — Board mechanics. Complete 2026-08-18.** S10, S11. The blockers; nothing downstream
 worked until the board could express `Shipped` and something moved items into it. **Ships, and
@@ -309,25 +323,37 @@ shipped:** `Shipped` added via the UI (`18ed7799`), field descriptions rewritten
 model, the close-then-set ordering demonstrated on #98 with a persistence check, and reverted. G1
 and G2 both closed.
 
-**Phase 3 — Apply the rules.** Every Phase 1 decision as one batch under the Instruction & Rule
-File Write Gate, with an ST-99 v1 walkthrough on the diff. Also S7, S15, S17, S18, and S14's rule
-half: strip "today's work" semantics from every step that carries it. **S18 lands before S9's
-retirement takes effect**, not merely in the same phase. Ships: the edits, committed.
+**Phase 3 — Apply the rules. Complete 2026-08-19.** Every Phase 1 decision applied as one batch
+under the Instruction & Rule File Write Gate, with the rule-file followability walkthrough run on
+the diff (v1 run 5 — `CLAUDE.md` §Rule-file followability walkthrough). S1, S2, S3, S6, S7, S15 and
+S18 done; S9's model recorded in `CLAUDE.md` step 7 (S9 stays open — retiring
+`docs/mini-release-prompt.md` needs the ship command to exist first, per G11, so that half moves to
+Phase 3b); S14's rule half done, its design-constraint half stays open for 3b. **S17 moved to Phase
+3b**, out of this phase's list — deciding the command's name isn't required to write correct Phase
+3 text (every reference reads "the ship step", pointing at today's actual mechanic, `/eod` or
+`/mini-release`), and naming something before it exists is a decision made blind. Ships, and
+shipped: the edits, committed, four live cross-references repointed in the same commit (SUG-71,
+rules-tools-audit-runbook, both redpen diagrams) — the followability walkthrough's own grep rule,
+applied to the change that wrote it.
 
-**Phase 3b — Consolidate the close-out.** S16, and S14 as a stated design constraint on the
-command: it operates on everything currently `Done`, never on "today's". G7 is a Blocker on the
-command's design, so it is named here rather than left to Phase 3's text edits. The ten
-command-less steps move into the ship command. Separated from Phase 3 because it is the largest
-single piece of work in the epic and because it is testable on its own — run it against one real
-epic and see whether anything in the twelve is still being done by hand. Ships: a command that runs
-the whole sequence.
+**Phase 3b — Consolidate the close-out.** S16, **S17** (the command's name — forced here, since
+this is the phase that builds the thing being named), and S14's remaining half as a stated design
+constraint on the command: it operates on everything currently `Done`, never on "today's". G7 is a
+Blocker on the command's design, so it is named here rather than left to Phase 3's text edits.
+**S9's retirement of `docs/mini-release-prompt.md` lands here too**, not in Phase 3 — G11 requires
+the successor to inherit its two unique steps (the `> Updated` header cap, the Chromatic pre-check)
+before the file goes, and the successor is what this phase builds. The ten command-less steps move
+into the ship command. Separated from Phase 3 because it is the largest single piece of work in the
+epic and because it is testable on its own — run it against one real epic and see whether anything
+in the twelve is still being done by hand. Ships: a command that runs the whole sequence.
 
 **Phase 4 — Prove it and true up the numbers.** One real day end to end under the new boundary.
 Also S12, and S4: `/morning` reports the age of the oldest `Done` item, paired with S14's nag move
 because both change the same surface. Ships: a recorded run, an honest roadmap figure, and the
 Done-age readout shown rising across a gap and resetting after a run.
 
-**17 open items across 7 phases**, every one of them named in a phase. The epic grew
+**8 open items across 7 phases**, every one of them named in a phase — 12 closed as of
+2026-08-19. The epic grew
 when §A10 showed the close-out has no implementation; splitting it is worth considering at
 activation if Phase 3b looks too large to land in one pass.
 

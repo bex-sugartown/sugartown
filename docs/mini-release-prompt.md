@@ -57,7 +57,7 @@ AI asks via `AskUserQuestion`:
 Question: "This epic touched CSS/components — run Chromatic now, or defer to /eod?"
 Options:
   - "Run it now — check for visual diffs before this release"
-  - "Defer to /eod — batch it with the day's other Chromatic checks"
+  - "Defer to /eod — batch it with the next ship's Chromatic check"
 ```
 
 **On "Run it now":**
@@ -227,16 +227,14 @@ This step is mechanical — no gate required.
 
 After the commit lands, AI performs these cleanup tasks **automatically** (no gate — these are mechanical):
 
-### 3A — Delete shipped epic from backlog directory
+### 3A — Move shipped epic out of the backlog directory
 
-If the epic has a file in `docs/backlog/` **and** has been activated to `docs/shipped/EPIC-NNNN-*`, delete the backlog copy. The prompt file is the permanent record; the backlog copy is a staging artifact.
-
-```bash
-# Example: EPIC-0176 shipped
-rm docs/backlog/EPIC-content-state-governance.md  # if it exists
-```
-
-Only delete files that match the shipped epic. Do not touch other backlog files.
+**Move, never delete.** Follow CLAUDE.md close-out step 6: `git mv` the backlog doc to
+`docs/shipped/`, verify the content rode along (`git diff --cached --stat` or
+`git show --stat HEAD`), never `rm`. **Corrected 2026-08-19, SUG-100 S15.** This step
+previously said "delete the backlog copy", contradicting CLAUDE.md and confirmed dangerous
+live: ST-98's ship commit (2026-08-17) carried 41 insertions in the moved file — a `rm`
+instead of a `git mv` would have destroyed them. One rule, defined once, in CLAUDE.md.
 
 ### 3B — Update the tracker
 

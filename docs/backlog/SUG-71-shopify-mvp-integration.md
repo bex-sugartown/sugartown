@@ -368,7 +368,7 @@ Reverting any one does not break the others. The adapter lib can exist without `
 - [ ] End-to-end test purchase completes via Bogus Gateway
 - [ ] `pnpm validate:urls` updated to reserve `/shop`
 - [ ] CHANGELOG entry drafted via `/mini-release`
-- [ ] At least one commit referencing SUG-71 on `origin/main` (CLAUDE.md §Issue Done = code on main)
+- [ ] At least one commit referencing SUG-71 on `origin/main`, confirming `Shipped` (CLAUDE.md §Done vs Shipped, renamed 2026-08-19)
 - [ ] Linear SUG-71 transitioned to Done
 - [ ] Deferred epic stubs captured in backlog:
   - Pattern C upgrade (Storefront API, Basic plan) when needed

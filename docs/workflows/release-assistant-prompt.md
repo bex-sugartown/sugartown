@@ -58,7 +58,16 @@ git log --oneline <lastMinorReleaseCommit>..HEAD
 git diff --name-status <lastMinorReleaseCommit>..HEAD
 ```
 
-To find the last MINOR release commit, look for the most recent `chore(release): mini-release` commit following the last `docs: release vX.Y.0` commit in `git log --oneline`.
+**Find the last MINOR release commit directly:**
+```bash
+git log --oneline --grep='^docs: release v' -1
+```
+**Re-anchored 2026-08-19 (SUG-100 S18).** Previously: look for the most recent
+`chore(release): mini-release` commit following the last `docs: release vX.Y.0` commit. That
+two-step heuristic breaks once SUG-100 retires `/mini-release`, since those commits stop being
+written — this step's whole job is catching entries missing from `[Unreleased]`, and once the
+per-epic version bump goes, `[Unreleased]` is the only record between releases, making this the
+sole safety net on it (SUG-100 G17). Landed ahead of the retirement, not after.
 
 AI groups changed files by surface:
 - `apps/web`

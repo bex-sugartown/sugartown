@@ -40,19 +40,33 @@ Steps 1, 1b, 7, 8 and 9 always run. **Steps 2–6b fire only on their stated tri
 step whose trigger did not fire is recorded as N/A with the reason, never silently skipped.
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-1b. **Route smoke tests** — `pnpm test:smoke` passes locally **and** the CI run for the merged commit concludes `success`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks merge to `main` (SUG-240). If CI is known-red for reasons outside the epic, say so and name the tracking issue.
+1b. **Route smoke tests, local half** — `pnpm test:smoke` passes locally before the epic reaches `Done`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks the epic from closing (SUG-240). If CI is known-red for reasons outside the epic, say so and name the tracking issue. **The CI-conclusion half moves to the ship step** — watching the pushed commit's CI run to a `success` conclusion, not stopping at "the deploy responded". Today that step is `/eod` Phase 3 step 5; SUG-100 Phase 3b folds it into one ship command (SUG-100 S1).
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
 3. **Visual QA gate (Tier 1 — stop and ask)** — wait for the literal text **"Visual QA approved"** before proceeding. The `docs/shipped/` move and mini-release are blocked until it arrives. If the epic has a vspec, produce the vspec-to-build comparison table (typography, spacing, colours, layout, each flagged Match / Drift / Missing) via the design-reviewer subagent (`.claude/agents/design-reviewer.md`, `docs/conventions/vqa-workflow.md`), which runs in a fresh context with no view of the session that wrote the code. **With no vspec, and only if every visual element was verified in-browser during implementation, cite that evidence per element instead of building a table** — rows all reading "Match", assembled afterwards from checks already run, give false confidence that a fresh review happened. The gate still fires and still blocks whenever a vspec exists or *any* element went unverified at implementation time; list those elements rather than padding the table with the ones that were. **If the epic shipped a detail, archive, or entity page**, open a sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row.
-4. **Chromatic (Tier 1 — stop and ask)** — run Chromatic VRT. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."**
+4. **Chromatic (Tier 1 — stop and ask)** — a push to `origin/main` touching CSS, component JSX, or Storybook stories needs one human-approved Chromatic VRT pass before it lands. Run it now, at close-out, or defer to the ship step — either is fine. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."** This is the one place the run-now-or-defer rule is defined; `/eod` and `/mini-release` execute
+it and may still note their own edge cases (a misconfigured or failing Chromatic install is
+advisory there, not blocking) — but the defer decision itself is not restated (SUG-100 S3).
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
 5b. **Verify handoffs landed.** If close-out defers work to another epic, open that epic's doc and confirm each deferred item is in its **Scope** — not mentioned in prose, not assumed to be "that epic's axis". Add it if missing. (SUG-230 deferred three items to SUG-231; none reached its Scope.)
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
-7. **Mini-release** — run `/mini-release` for a patch bump and CHANGELOG stub. **Only on `main`, after the epic's commits are merged, never on an unmerged branch**, because `package.json`'s version is a shared counter and a branch computes "next version" from a disconnected view of it. Merge first, then run it from `main`. **Whenever this step is deferred** (strategy (b), or any other reason), still add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at ship time. The CHANGELOG line and the version bump are separate obligations. A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed.
+7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. The version bump is not this step's job: it happens at the ship step, today `/mini-release`, migrating under SUG-100 to one ship command with a `--release` flag that invokes `/release` rather than reimplementing it (SUG-100 S9). The ship step operates on **everything currently `Done`**, not just this epic — the observed interval between ship events is 1–14 days, so scoping any step to "today's work" silently drops what accumulated on the days nobody ran it (SUG-100 S14). A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed, whether or not a version has been cut yet.
 8. **Update the tracker** — transition the epic's issue to **Done**. Until 2026-09-09 the write goes to GitHub only — see §Tracker writes go to GitHub only.
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first.
+
+### Commit messages and the `[skip ci]` trap
+
+GitHub scans the **whole commit message** for a skip marker, not just the subject line. A
+commit whose *body* quotes `[skip ci]` — describing the marker rather than invoking it —
+suppresses its own CI run just as effectively as using it deliberately. Traced to a commit made
+during SUG-256; discovered and confirmed live 2026-08-02 during SUG-265's investigation — a commit
+whose body quoted the marker produced no CI run at all.
+
+**When referring to the marker in prose, spell it `skip-ci`** (hyphenated, no brackets). Reserve
+`[skip ci]` for the one place it should trigger — the stats bot's actual commit trailer, below.
+SUG-100 S7.
 
 ### Verify before citing — don't trust a prior claim
 
@@ -102,18 +116,40 @@ assigns it.** Full rationale: `docs/briefs/linear-to-github-migration-plan.md` �
 
 Commit after each independently-working feature. Do not save it all for one end-of-epic commit. If a session may run out of context, commit work-in-progress with a `wip(epic):` prefix before it ends.
 
-**Push the feature branch after each checkpoint.** Branch pushes do not trigger Netlify deploys, so they are free, and code on one disk is one hardware failure from gone.
+**Disk safety no longer depends on remembering a push threshold, on any branch.** A `post-commit`
+hook mirrors every commit — on `main` or a feature branch — to `wip/<date>` on `origin`,
+automatically, for free (`.husky/post-commit`, SUG-100 S13). The earlier advice — push a feature
+branch after each checkpoint; above ~15 unpushed commits on `main` or at any session end, push and
+accept a deploy or create a `wip/<epic>` branch — existed only to manufacture that safety by hand.
+The hook does it continuously now; there is no threshold left to state. (SUG-231: 48 commits
+existed nowhere but one disk for two days — this is what closes that gap.)
 
-**When the epic runs directly on `main`**, pushing triggers a deploy, so the free-push escape hatch does not apply. **Above ~15 unpushed commits, or at any session end, either push and accept one deploy or create a `wip/<epic>` branch and push that.** (SUG-231: 48 commits existed nowhere but one disk for two days.)
+**Pushing `origin/main` itself stays a separate, deliberate act.** It triggers a Netlify deploy (15
+credits) and is the ship step's job, not a mid-epic habit.
 
-### Issue Done = code on main
+### Done vs Shipped
 
-**Before transitioning any issue to Done, confirm the work is merged to `origin/main`**, not merely pushed to a feature branch:
+**Renamed from §Issue Done = code on main, 2026-08-19 (SUG-100 S2).** The old rule required
+`origin/main` before `Done`; that boundary moves to `Shipped` below, because it made two real
+epics (#98, #99) close with their own close-out commits stranded on one disk pending a later push.
+
+**`Done`** — work complete, committed locally, local smoke green (close-out step 1b). Not merged.
+Transition the issue and move the epic doc to `docs/shipped/` at this point; nothing about `Done`
+requires a push.
+
+**`Shipped`** — on `origin/main`, deployed, **and** CI concluded `success`. Confirm before citing
+either state:
 ```bash
 git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main" || echo "NOT on main"
 ```
 
-The close-out sequence enforces this naturally (merge → mini-release → ship doc → issue Done). This rule is the backstop for a skipped or partial close-out, e.g. a multi-phase epic where one phase did not merge.
+Set `Shipped` **after** closing the issue, never before: the `Item closed` project workflow sets
+`Status: Done` on close, so setting `Shipped` first is silently overwritten (SUG-100 G2, proven
+live on #98, 2026-08-18 — set, persisted, reverted). Until SUG-100 Phase 3b builds the ship step
+that performs this transition, do it by hand at the next push: `gh project item-list` for
+everything currently `Done` — not only the epic that just finished — then per item `gh issue
+close` followed by `gh project item-edit` to set `Shipped`. Exact commands and the field/option
+IDs: `docs/backlog/ST-100-close-out-eod-boundary.md` §Scope, S11.
 
 ### Issue status = workflow stage
 
@@ -126,7 +162,8 @@ maintained field:
 | Prioritized for pickup | Set by the human | `Todo` |
 | Implementation begins | Pre-Execution Completeness Gate passes (`docs/epic-template.md`) | `In Progress` |
 | Paused for any reason | Set by the human | `On Hold` |
-| Epic ships | Close-out sequence step 8 (below) | `Done` |
+| Epic complete | Close-out sequence step 8 (below) | `Done` |
+| Code live and verified | Push reaches `origin/main`, CI concludes `success` (§Done vs Shipped) | `Shipped` |
 
 **Set `In Progress` before the first `Edit`/`Write` call of an epic, not after.** The trigger is
 the Pre-Execution Completeness Gate coming clean (`docs/epic-template.md`). An epic whose work
