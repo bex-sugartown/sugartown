@@ -488,16 +488,17 @@ Ledger always precedes narrative.
 - Do NOT use date-only versions in the CHANGELOG header.
 - The Release Notes file header uses `vX.Y.Z` (with `v` prefix).
 - Increment guidance:
-  - `PATCH`: per-epic mini-releases only — one epic, version bump + backlog cleanup, no CHANGELOG entry, no release notes
-  - `MINOR`: full releases — always `X.(Y+1).0`, aggregates all [Unreleased] changes into a single CHANGELOG entry with release notes
+  - `MINOR`: `/ship --release` — always `X.(Y+1).0`, aggregates all [Unreleased] changes into a single CHANGELOG entry with release notes. **There is no separate PATCH tier** — a per-epic patch bump was `/mini-release`'s job; retired 2026-08-19, SUG-100 S9. CHANGELOG lines accumulate in `[Unreleased]` until a release cuts them; nothing is versioned between releases.
   - `MAJOR`: breaking schema changes, URL namespace changes, removed public APIs
 - When uncertain, ask the human before generating.
 
-### Two-tier release model
+### Release model
 
-| Tier | Command | Version bump | CHANGELOG | Release notes |
-|------|---------|-------------|-----------|---------------|
-| **Mini-release** | `/mini-release` | PATCH (X.Y.Z+1) | None — changes accumulate in `[Unreleased]` | None |
-| **Full release** | `/release` | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
+**One tier, 2026-08-19 — `/mini-release`'s PATCH tier retired under SUG-100 S9.** `/ship --release`
+invokes this flow unchanged; it does not reimplement it.
+
+| Command | Version bump | CHANGELOG | Release notes |
+|---------|-------------|-----------|---------------|
+| `/release` (via `/ship --release`) | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
 
 **[Unreleased] is the accumulation buffer.** Mini-releases do not touch CHANGELOG.md. The `[Unreleased]` section is maintained by the AI as changes ship (via epic close-out and backlog cleanup steps). When `/release` runs, it reads [Unreleased] as its primary signal, promotes the content to a MINOR entry, and resets [Unreleased] to an empty block.

@@ -650,7 +650,7 @@ State how re-running the script produces no change:
 
 > Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
 
-1. **Visual QA gate (hard stop)** — if this epic has a Phase 0 vspec or any visual output, produce the vspec-to-build comparison table before proceeding. Every visual element (typography, spacing, colours, layout states) must be flagged as Match / Drift / Missing. Present the table and wait for **"Visual QA approved"** in the chat. The shipped/ move and mini-release are blocked until this text is received.
+1. **Visual QA gate (hard stop)** — if this epic has a Phase 0 vspec or any visual output, produce the vspec-to-build comparison table before proceeding. Every visual element (typography, spacing, colours, layout states) must be flagged as Match / Drift / Missing. Present the table and wait for **"Visual QA approved"** in the chat. The shipped/ move is blocked until this text is received.
 2. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc: `<!-- Chromatic: pending — deferred YYYY-MM-DD -->`. Deferral does not unblock close-out, but "Defer Chromatic" is not equivalent to "no Chromatic needed".
 3. **Data pipeline gap check** — if this epic extended a build-time pipeline (stats, CrUX, LHCI, imports, etc.) and real data has not yet flowed through CI, document in the shipped doc:
    - What env var or scheduled cron produces real data
@@ -662,11 +662,10 @@ State how re-running the script produces no change:
    - Remove from `docs/backlog/`
    - Commit: `docs: ship SUG-{N} {Epic name}`
 5. **Confirm clean tree** — `git status` must show nothing staged or unstaged
-6. **Run mini-release** — `/mini-release SUG-{N} [Epic name]`
-   - Produces a patch version bump and lightweight CHANGELOG stub
-   - Two gates: review stub → "Write it", then commit plan → "Commit it"
+6. **Add the CHANGELOG line** — one-line summary in `CHANGELOG.md`'s `[Unreleased]` section.
+   **Not a version bump.** That happens separately, whenever `/ship --release` next runs, and
+   covers everything accumulated since the last release — not just this epic (CLAUDE.md §Epic
+   close-out sequence step 7, SUG-100 S9, consolidated 2026-08-19). `/mini-release` retired.
 7. **Update the tracker** — transition the epic's issue to **Done**. One epic is one issue, so there are no sub-issues to close. Until 2026-09-09 the write goes to GitHub only (CLAUDE.md §Tracker writes go to GitHub only).
-8. **Start next epic** — only after mini-release commit is confirmed
-
-> If this epic warrants a MINOR version bump (new feature surface, new schema fields,
-> new page component) rather than a patch, run `/release` instead of `/mini-release`.
+8. **Start next epic** — only after the CHANGELOG line and the `Done` transition are confirmed.
+   Nothing here pushes; that happens separately at the next `/ship`.

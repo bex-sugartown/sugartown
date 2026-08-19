@@ -42,7 +42,7 @@ That's it. This is a draft-to-publish, no epic required.
 There is no automated reminder for this. Options:
 - Add a recurring calendar reminder for the first Monday of each quarter
 - Run `/schedule` in Claude Code to set up a quarterly scheduled agent reminder
-- Check during each `/eod` end-of-day: "has /now been updated this quarter?"
+- Check during each `/ship`: "has /now been updated this quarter?"
 
 ---
 

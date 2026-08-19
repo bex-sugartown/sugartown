@@ -182,8 +182,10 @@ Add domain-specific ACs from the reference files below.
 The template has a mandatory close-out sequence. Do not modify it. It must appear verbatim:
 
 1. `git status` must show nothing staged or unstaged
-2. Run `/mini-release SUG-{N} [Epic name]` or `/release` for MINOR version bumps
-3. Start next epic only after mini-release commit is confirmed
+2. Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` section — not a version
+   bump; that happens separately at `/ship --release`, whenever it next runs, covering everything
+   accumulated since the last release (SUG-100 S9, `/mini-release` retired 2026-08-19)
+3. Start next epic only after the CHANGELOG line and the `Done` transition are confirmed
 
 ---
 
@@ -207,7 +209,8 @@ If the scope exceeds roughly 8–10 files to modify, consider splitting into seq
 - Phase 2: Render layer (Frontend components + CSS)
 - Phase 3: Migration + cleanup
 
-Each phase produces a mini-release commit before the next phase begins.
+Each phase produces a commit with its own `[Unreleased]` CHANGELOG line before the next phase
+begins.
 
 **Warning signals that an epic is too large:**
 - More than 3 new schema types in a single epic

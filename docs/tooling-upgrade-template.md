@@ -76,4 +76,4 @@
 ## Post-Upgrade Close-Out
 
 > Same as standard epic close-out (CLAUDE.md §Epic close-out sequence):
-> commit, move doc, mini-release, update Linear, clean tree.
+> commit, move doc, add CHANGELOG line, update tracker, clean tree.

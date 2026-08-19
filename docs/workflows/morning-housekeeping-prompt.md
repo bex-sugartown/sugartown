@@ -240,9 +240,9 @@ Check how many commits are ahead of origin:
 git rev-list --count origin/main..main 2>/dev/null || echo 0
 ```
 
-If commits are ahead, note them but **do not push**. Pushing triggers a Netlify deploy (costs credits). Pushes should be batched and done at end-of-day via `/eod`.
+If commits are ahead, note them but **do not push**. Pushing triggers a Netlify deploy (costs credits). Pushes should be batched and done via `/ship`, whenever that next runs — not on a daily schedule.
 
-If the tree has unpushed commits from a previous session, flag it as unfinished business — the previous session didn't run `/eod`.
+If the tree has unpushed commits from a previous session, flag it as unfinished business — the previous session didn't run `/ship`.
 
 ---
 

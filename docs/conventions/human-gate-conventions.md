@@ -46,8 +46,8 @@ Validators, pre-commit hooks, CI steps. No human in the loop by design.
 | Technical diagram red-pen gate | `CLAUDE.md` §Technical diagram red-pen gate |
 | Visual QA approval | `CLAUDE.md` close-out step 3, §When a vspec exists |
 | Chromatic approval | `CLAUDE.md` close-out step 4, `/chromatic` |
-| Push to `origin` | `/eod` |
-| Destructive git — `reset --hard`, branch delete, force push | `/eod`, `/morning` |
+| Push to `origin` | `/ship` |
+| Destructive git — `reset --hard`, branch delete, force push | `/ship`, `/morning` |
 | Production data mutation | ad hoc — no owning section; see Known gaps |
 
 **10 gates. These are worth the interruption.** Adding a row is a deliberate act: it costs

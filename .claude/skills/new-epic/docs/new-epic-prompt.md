@@ -59,8 +59,8 @@ Options:
 
 Question 2: "Merge strategy?"
 Options:
-  - "(a) Merge-as-you-go — one commit per phase, one mini-release at end of each"
-  - "(b) Single close-out — one long-lived branch, one mini-release at the end"
+  - "(a) Merge-as-you-go — one commit per phase, one CHANGELOG line at the end of each"
+  - "(b) Single close-out — one long-lived branch, one CHANGELOG line at the end"
 ```
 
 ---
@@ -139,8 +139,11 @@ Full filename: `docs/backlog/ST-{n}-{kebab-name}.md`, where `{n}` is the GitHub 
 Create the file at `docs/backlog/ST-{n}-{kebab-name}.md`. This is not a parking stub — it is the execution brief. Fill every section from the invocation context. Do not write `TODO` anywhere. If a section requires a codebase read that cannot happen now (e.g. auditing GROQ projections), write a **specific activation audit instruction** instead: "Activation audit: read `queries.js` `caseStudyBySlugQuery` before adding projection."
 
 The merge strategy label convention (from CLAUDE.md):
-- `(a)` → `(a) Merge-as-you-go — one commit per phase, one mini-release at end`
-- `(b)` → `(b) Single close-out — one long-lived branch, one mini-release at the end`
+- `(a)` → `(a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end`
+- `(b)` → `(b) Single close-out — one long-lived branch, one CHANGELOG line at the end`
+
+(Neither strategy determines when a version is cut. That happens separately at `/ship --release`,
+decoupled from merge strategy — SUG-100 S9, `/mini-release` retired 2026-08-19.)
 
 ```markdown
 ---

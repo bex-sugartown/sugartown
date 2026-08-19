@@ -253,11 +253,15 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       returns `included_minutes: null` because this plan meters credits, not minutes; an earlier
       pass of this line reported 1.2 min/deploy and concluded the cost was small, which was the
       wrong unit and the wrong conclusion (G14)
-- [ ] **S9 — Decide the release model** (Opt 1 / 2 / 3, decided in Phase 1: Option 3), then retire
-      `docs/mini-release-prompt.md` and migrate its two unique steps (G11). **Split 2026-08-19:**
-      the model is recorded in `CLAUDE.md` step 7 (this half done); the actual retirement stays
-      open, moved to Phase 3b — G11 requires the successor (the ship command, S16) to inherit the
-      two unique steps before the file goes, and the successor doesn't exist yet — layer: process
+- [x] ~~**S9 — Decide the release model**~~ Done 2026-08-19. Option 3 decided in Phase 1;
+      `docs/mini-release-prompt.md` retired (git-deleted), its logic absorbed into `/ship
+      --release`. **G11's "two unique steps" turned out to be one, and it was already free.**
+      The header-cap mechanic G11 cited doesn't exist where claimed — traced to
+      `rules-tools-audit-runbook.md`, cap at 5 not 8, targeting a file already deleted
+      2026-08-05, itself struck through as dead. Nothing to migrate. The Chromatic pre-check
+      is inherited for free: `/ship` keeps `/eod`'s inline Chromatic step verbatim, and that was
+      always the same mechanic mini-release's "pre-check" pointed at, just reached from two
+      callers instead of one — layer: process
 - [x] ~~**S10 — Add the `Shipped` status**~~ Done 2026-08-18. Added via the UI (option id
       `18ed7799`). Snapshot taken first: `board-snapshot-2026-08-18.json`, 68 items, 0 blank.
       Verified after: 0 status changes, 0 blank, all 6 prior option IDs unchanged — second
@@ -280,13 +284,23 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       a real shipped epic (ST-98, 2026-08-17: the ship commit carried 41 insertions in the moved
       file — a `rm` would have destroyed them). `mini-release-prompt.md` §3A rewritten to point at
       CLAUDE.md step 6 rather than restate a mechanic that could drift again — layer: process
-- [ ] **S16 — Consolidate the ten command-less close-out steps into the ship command.** The
-      larger half of this epic. Steps 1, 1b, 2, 3, 5, 5b, 6b, 9 have no command at all; 4, 6, 7, 8
-      are split across `/mini-release` and `/chromatic`. Conditional steps stay conditional and
-      record N/A with a reason rather than being skipped silently (§A10) — layer: process
-- [ ] **S17 — Decide what the command is called.** `/ship` is a placeholder. It must not be
-      `/eod`, because the observed cadence is 1–14 days and a name saying "end of day" lies about
-      when it runs. `/mini-release` is available once its scope is restored — layer: process
+- [x] ~~**S16 — Consolidate the close-out into `/ship`.**~~ Done 2026-08-19. Built via `git mv
+      docs/workflows/eod-prompt.md docs/ship-prompt.md`, extended: everything-currently-`Done`
+      enumeration (Phase 1), the `[Unreleased]`-gap check (Phase 2), the `Done`→`Shipped`
+      transition gated on CI `success` (Phase 3 step 6), `--release` invoking `/release` (step 7).
+      **Narrower than §A10's original estimate**, and correctly so: steps 2, 3, 5, 5b, 6, 6b stay
+      exactly where they already were, at `Done`, per epic — they don't move to ship time, because
+      nothing about this epic's actual decisions (S1–S9) said they should. Only what genuinely
+      only makes sense in aggregate (CI conclusion, the board transition, the version bump)
+      moved — layer: process
+- [x] ~~**S17 — Decide what the command is called.**~~ Done 2026-08-19 — `/ship`. Considered and
+      rejected: `/mini-release` restored (Bex's own objection, live: `/mini-release --release` is
+      redundant, and worse, the bare command's *name* still promises a release its new default
+      behaviour doesn't perform — a name/behaviour mismatch a flag rename can't fix).
+      `/ship --release` separates identity (what the bare command does) from behaviour (what the
+      flag adds). Registered as `.claude/commands/ship.md`, matching the argument-taking pattern
+      already used by `/mini-release` and `/release`, rather than the no-argument `skills/`
+      pattern `/eod` used — layer: process
 - [x] ~~**S18 — Re-anchor `/release`'s baseline before S9 retires the commit it keys on.**~~ Done
       2026-08-19. `release-assistant-prompt.md` STEP 0 now anchors on `git log --oneline
       --grep='^docs: release v' -1` directly. Verified against the old two-step heuristic on the
@@ -295,10 +309,11 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
       which is now in Phase 3b — layer: process
 - [ ] **S14 — Make every step interval-agnostic.** No "today's work" semantics; operate on
       everything currently `Done`. Move the unpushed-work nag into `/morning` (G7, G16) — layer:
-      process. **Rule half done 2026-08-19:** day-scoped language corrected in `CLAUDE.md`
-      (§Mid-epic commit checkpoints, step 7) and `mini-release-prompt.md` (§0A). The
-      design-constraint half — G7 governing the ship command's actual behaviour — stays open for
-      Phase 3b
+      process. **Design-constraint half done 2026-08-19:** `/ship` Phase 1 enumerates everything
+      on the board with `Status: Done`, not commits since a date; Phase 3 step 6 transitions every
+      one of them, not just the epic that prompted the run. G7 satisfied by construction, not by
+      instruction. The nag-move to `/morning` (G16) stays open, folded into Phase 4 with S4 — same
+      surface, same commit
 
 ---
 
@@ -336,23 +351,34 @@ shipped: the edits, committed, four live cross-references repointed in the same 
 rules-tools-audit-runbook, both redpen diagrams) — the followability walkthrough's own grep rule,
 applied to the change that wrote it.
 
-**Phase 3b — Consolidate the close-out.** S16, **S17** (the command's name — forced here, since
-this is the phase that builds the thing being named), and S14's remaining half as a stated design
-constraint on the command: it operates on everything currently `Done`, never on "today's". G7 is a
-Blocker on the command's design, so it is named here rather than left to Phase 3's text edits.
-**S9's retirement of `docs/mini-release-prompt.md` lands here too**, not in Phase 3 — G11 requires
-the successor to inherit its two unique steps (the `> Updated` header cap, the Chromatic pre-check)
-before the file goes, and the successor is what this phase builds. The ten command-less steps move
-into the ship command. Separated from Phase 3 because it is the largest single piece of work in the
-epic and because it is testable on its own — run it against one real epic and see whether anything
-in the twelve is still being done by hand. Ships: a command that runs the whole sequence.
+**Phase 3b — Consolidate the close-out. Complete 2026-08-19.** S16, S17, S9's retirement, and
+S14's design-constraint half. Built as `/ship --release`: `git mv docs/workflows/eod-prompt.md
+docs/ship-prompt.md`, extended with the `Done`-enumeration, the `[Unreleased]`-gap check, the
+`Done`→`Shipped` transition, and `--release` invoking `/release`. `docs/mini-release-prompt.md`
+retired. G11's estimate of "two unique steps" was itself wrong — the header-cap mechanic it named
+doesn't live where claimed (traced to `rules-tools-audit-runbook.md`, wrong count, targeting an
+already-deleted file, already struck through as dead there) — so nothing needed migrating for it,
+and the Chromatic pre-check was already free by keeping `/eod`'s inline step.
+
+**Scope grew past what §A10 estimated, and correctly so — 16 files, not 2.** §A10 named the two
+commands with dedicated logic; it undercounted every file that *references* them as a live
+instruction rather than executing one: `epic-template.md`'s close-out checklist literally told a
+session to run a command that no longer exists, `sugartown-epic-writer/SKILL.md` mirrored it
+verbatim, `switch-prompt.md`'s entire framing is "the mirror of `/eod`" (17 occurrences),
+`chromatic-prompt.md` had a whole section keyed to being called *from* `/mini-release` that had to
+be removed outright rather than renamed, and `release-assistant-prompt.md`'s "two-tier release
+model" described a PATCH tier that Option 3 had already eliminated. The followability walkthrough's
+own step 1 — name the workflows the change touches — is what surfaced this list; a plain rename of
+the two prompt files would have left a dozen live instructions pointing at retired commands.
+Ships, and shipped: a command that runs the whole sequence, and everything that pointed at its
+predecessors repointed in the same batch.
 
 **Phase 4 — Prove it and true up the numbers.** One real day end to end under the new boundary.
 Also S12, and S4: `/morning` reports the age of the oldest `Done` item, paired with S14's nag move
 because both change the same surface. Ships: a recorded run, an honest roadmap figure, and the
 Done-age readout shown rising across a gap and resetting after a run.
 
-**8 open items across 7 phases**, every one of them named in a phase — 12 closed as of
+**5 open items across 7 phases**, every one of them named in a phase — 15 closed as of
 2026-08-19. The epic grew
 when §A10 showed the close-out has no implementation; splitting it is worth considering at
 activation if Phase 3b looks too large to land in one pass.
