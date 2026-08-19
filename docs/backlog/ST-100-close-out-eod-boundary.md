@@ -246,8 +246,20 @@ now opens the epic as Phase 0b, S14 sits in Phases 3 and 3b, S4 in Phase 4.
 - [ ] **S9 — Decide the release model** (Opt 1 / 2 / 3), then retire `docs/mini-release-prompt.md`
       and migrate its two unique steps (G11). If Option 1, the G13 bump rule is a blocking
       prerequisite — layer: process
-- [ ] **S10 — Add the `Shipped` status** to the board via the UI, snapshot taken first (G1) — layer: tooling
-- [ ] **S11 — Write the Done → Shipped step**, including the close-then-set ordering G2 requires — layer: process/tooling
+- [x] ~~**S10 — Add the `Shipped` status**~~ Done 2026-08-18. Added via the UI (option id
+      `18ed7799`). Snapshot taken first: `board-snapshot-2026-08-18.json`, 68 items, 0 blank.
+      Verified after: 0 status changes, 0 blank, all 6 prior option IDs unchanged — second
+      consecutive UI edit to this field that wiped nothing (after `On Hold` on 2026-08-16). Field
+      descriptions rewritten to match Phase 1's model (Done / Shipped / On Hold), a third edit,
+      verified clean the same way (G1)
+- [x] ~~**S11 — Write the Done → Shipped step**~~ Done 2026-08-18, procedure and mechanism both
+      proven. Procedure: gate on CI `success` for the pushed SHA → enumerate everything currently
+      `Done` (not "today's", G7) → per item, close first, then set `Shipped` (G2's ordering — the
+      `Item closed` workflow sets `Status: Done` on close, so setting `Shipped` first is overwritten).
+      **Mechanism proven live** on #98: set to `Shipped`, persisted 20s with no automation
+      re-stamping it, then reverted — its code is genuinely not on `origin/main` yet, so `Done` is
+      its correct state under S2. The CI-gated real run happens at the next `/eod`, on #98 and #99
+      together — layer: process/tooling
 - [ ] **S12 — Split the stats collector's `shipped` bucket** so the published roadmap stops
       reporting Done as shipped, or record why not (G4) — layer: tooling
 - [ ] **S13 — Move disk safety out of the command.** A `post-commit` hook mirror-pushing to
@@ -291,9 +303,11 @@ epic. Ships: a commit made and its mirror observed on the remote with no command
 **Phase 1 — Decide.** S1, S2, S3, S6, S8, S9. Ships: a decisions table in this doc, approved,
 each decision naming the file it lands in.
 
-**Phase 2 — Board mechanics.** S10, S11. The blockers; nothing downstream works until the board
-can express `Shipped` and something moves items into it. Ships: a working transition, demonstrated
-on one item.
+**Phase 2 — Board mechanics. Complete 2026-08-18.** S10, S11. The blockers; nothing downstream
+worked until the board could express `Shipped` and something moved items into it. **Ships, and
+shipped:** `Shipped` added via the UI (`18ed7799`), field descriptions rewritten to match Phase 1's
+model, the close-then-set ordering demonstrated on #98 with a persistence check, and reverted. G1
+and G2 both closed.
 
 **Phase 3 — Apply the rules.** Every Phase 1 decision as one batch under the Instruction & Rule
 File Write Gate, with an ST-99 v1 walkthrough on the diff. Also S7, S15, S17, S18, and S14's rule
