@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-101 — Extract the renamed-heading check, and resume per-group QA profiles on a varied sample
 **GitHub Issue:** [#101](https://github.com/bex-sugartown/sugartown/issues/101)
-**Status:** In Progress — S1/S2 done, S3–S5 wait on a real skill-prompt or `docs/conventions/` edit to audit
+**Status:** On Hold — S1/S2/S4 done, S3/S5 wait on a real skill-prompt-only edit to audit; no active work until one occurs
 **Priority:** 🟡 Medium
 **Merge strategy:** (a) Merge-as-you-go
 ---
