@@ -67,5 +67,11 @@
   "dependencies": {
     "@sanity/client": "^7.14.1",
     "style-dictionary": "^5.4.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "@sugartown/contentful-poc>@types/react": "19.2.10",
+      "@sugartown/contentful-poc>@types/react-dom": "19.2.3"
+    }
   }
 }

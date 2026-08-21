@@ -4,6 +4,10 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@sugartown/contentful-poc>@types/react': 19.2.10
+  '@sugartown/contentful-poc>@types/react-dom': 19.2.3
+
 importers:
 
   .:
@@ -71,10 +75,10 @@ importers:
         specifier: ^20
         version: 20.19.41
       '@types/react':
-        specifier: ^19
+        specifier: 19.2.10
         version: 19.2.10
       '@types/react-dom':
-        specifier: ^19
+        specifier: 19.2.3
         version: 19.2.3(@types/react@19.2.10)
       contentful-management:
         specifier: ^12.5.0

@@ -13,6 +13,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ## [Unreleased]
 
 - ST-100: Epic close-out consolidated into `/ship --release`, run for real for the first time. `Done` and `Shipped` split — the epic's own definitions, applied to itself: this doc reached `Done` when its work was complete and committed, and reaches `Shipped` when the next `/ship` pushes it. `/morning` now surfaces the age of the oldest `Done` item; `linearRoadmap`'s `shipped` bucket renamed to `completed` after being found to have zero consumers. One item stays open by design, not by gap: the "rises across a gap, resets after a run" proof needs real elapsed days to observe.
+- SUG-283: `apps/contentful-poc`'s CI type-check flake (a duplicate `@types/react` resolution against the workspace's other React-18 packages) fixed with a `pnpm.overrides` selector scoped to `contentful-poc` only, pinning its `@types/react`/`@types/react-dom` to the exact versions already resolved. Verified structurally (`pnpm why @types/react` shows one reachable copy) and locally (`tsc --noEmit`, a real `next build`'s TypeScript phase, and the route smoke suite all pass); the original CI failure never reproduced locally, so this closes the epic's structural AC, not the statistical one — watch the next several CI runs to confirm.
 
 ## [0.34.0] — 2026-08-19
 
