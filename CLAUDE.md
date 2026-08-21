@@ -557,7 +557,7 @@ After editing any file in that scope, and before committing it:
 
 Output is a findings table in the commit message for the change it audited. No new file, no register, no validator.
 
-**Renaming a heading obliges a grep for inbound references to the old text**, in the same commit. It was the only defect class to repeat across the first three runs and it reached six files at once. Shipped docs keep the old name: a shipped doc records what was true when it shipped.
+**Renaming a heading obliges a grep for inbound references to the old text**, in the same commit. It was the only defect class to repeat across the first three runs and it reached six files at once. Shipped docs keep the old name: a shipped doc records what was true when it shipped. `node scripts/check-renamed-headings.js <file>` runs this grep mechanically (ST-101 S1) — a session-run aid for step 1 above, not a pre-commit or CI gate; it found a live orphaned reference from 2026-08-16's rename on its first real run, five days after the fact.
 
 Retire this when three consecutive rule changes pass with no finding. Record and review: `docs/shipped/ST-99-rules-change-qa.md`.
 
