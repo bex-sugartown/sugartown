@@ -71,19 +71,34 @@ inspection), without weakening the verify-before-release guarantee.
       Phase 3 step 7 and Phase 4's closing template update to describe the release commit as
       picked up by a future `/ship`, not pushed by this one. State plainly in both files that
       this is deliberate, not a dropped step — a future session reading either prompt in
-      isolation must not read "commit, then stop" as incomplete — layer: process
+      isolation must not read "commit, then stop" as incomplete. Both files are under the
+      Instruction & Rule File Write Gate — diffs shown, approved before landing — layer:
+      process
 - [ ] **Confirm the two other options were considered and correctly rejected**, in the doc:
       (a) bundling the release commit into the same push as the accumulated work
       (release-before-CI-verification — rejected, weakens the guarantee), (b) reordering so
       release gates on a *previous* known-green state instead of this run's — more complex,
       solves nothing the deferred-push model doesn't already solve more simply — layer:
       process
-- [ ] **Implement the decided model** in `docs/ship-prompt.md` and
-      `docs/workflows/release-assistant-prompt.md` (both under the Instruction & Rule File
-      Write Gate — diffs shown, approved before landing) — layer: process
+- [ ] **Documentation sweep — every live doc asserting "one Netlify deploy per `/ship`" as a
+      fact needs checking against the new model, not just the two prompt files that implement
+      it.** Found by grep, not assumed complete — re-grep at execution time in case more have
+      landed since 2026-08-21:
+      | File | Line | Current claim | Action needed |
+      |---|---|---|---|
+      | `CLAUDE.md` | ~129 | "Pushing `origin/main`... triggers **a** Netlify deploy (15 credits)" | Verify still true once `/release` stops pushing — it becomes newly-accurate for the `--release` case rather than newly-false, but confirm the wording doesn't need a caveat about the release commit riding a *later* push |
+      | `docs/switch-prompt.md` | ~13 | "`/ship` closes a machine... (**one** Netlify deploy)" | Same — should become straightforwardly true; confirm, don't assume |
+      | `docs/switch-prompt.md` | ~267 | "push-once-at-`/ship` model (**one** Netlify deploy per ship...)" | Same |
+      | `docs/workflows/morning-housekeeping-prompt.md` | ~280 | "Pushing triggers a Netlify deploy" | Generic, doesn't assert a count — likely needs no change, confirm rather than skip |
+      All four are outside the Rule-file followability walkthrough's core scope list except
+      `docs/ship-prompt.md` itself, but the walkthrough's own §Scope already widens to
+      `docs/workflows/**` and named prompts for exactly this reason — treat this sweep as part
+      of that same walkthrough, not a separate pass — layer: process
 - [ ] **Walk the changed prompts end to end** (rule-file followability walkthrough,
       `CLAUDE.md` §Rule-file followability walkthrough — this scope is explicitly listed:
-      `docs/ship-prompt.md` is in scope) before committing — layer: process
+      `docs/ship-prompt.md` is in scope; the documentation-sweep item above is this walkthrough's
+      step 1, "name the workflows the change touches," done in writing ahead of time) before
+      committing — layer: process
 
 ## Non-Goals
 
@@ -106,6 +121,8 @@ inspection), without weakening the verify-before-release guarantee.
 - [ ] `docs/ship-prompt.md` and `docs/workflows/release-assistant-prompt.md` agree with each
       other on the model (no restating one prompt's mechanic in the other, per the pattern
       SUG-265 was originally filed to prevent)
+- [ ] Every file in the documentation-sweep table (Scope) has been individually re-read and
+      confirmed accurate against the new model — not skipped because it "probably still holds"
 
 ## Model & Mode [REQUIRED]
 
