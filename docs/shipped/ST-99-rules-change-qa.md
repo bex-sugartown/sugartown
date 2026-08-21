@@ -151,6 +151,40 @@ Steps recorded N/A with reason, per the close-out sequence:
 | 6b — Preserve the vspec | N/A — no vspec |
 | 7 — Mini-release | Deferred. `[Unreleased]` line written at ship time per CLAUDE.md step 7; the version bump waits for `/eod` to push, since v0.33.1 is itself still unpushed and a second local bump would compound |
 
+## Ongoing runs (post-close-out)
+
+**This section exists because it went missing once.** `dbe6099d` (2026-08-18, run 4) found that
+v1 shipped with a scope gap that made it inert for the exact files ST-100 needed to edit next —
+the process existed only in this doc, three commit bodies, and one line in ST-100's technical
+notes, with zero references from CLAUDE.md, `docs/epic-template.md`, `.claude/skills/`, or
+`docs/conventions/`. That commit fixed the *trigger*; this section, added 2026-08-21, fixes the
+*record* — the Run log above stopped at run 3 when this epic closed, and runs 4–6 existed only in
+commit bodies for three days. Backfilled from those commits, not re-derived.
+
+v1 continues as standing practice under the CLAUDE.md "Rule-file followability walkthrough"
+trigger `dbe6099d` added. This epic (ST-99) is closed; it does not reopen for each new run. This
+table is the ongoing pointer CLAUDE.md's own text names ("Record and review:
+`docs/shipped/ST-99-rules-change-qa.md`"), kept separate from the original close-out snapshot
+above so that snapshot still reads as what was true on 2026-08-18.
+
+| Date | Change audited | Rows | Fixed | Commit |
+|---|---|---|---|---|
+| 2026-08-18 | Run 4 — the walkthrough's own trigger (`dbe6099d` itself) | 4 | 3 — F4 self-resolving, not counted | `dbe6099d` |
+| 2026-08-19 | Run 5 — ST-100 Phase 3, applying S1–S18 in one batch | 4 | 4 | `ea0755d5` |
+| 2026-08-19 | Run 6 — ST-100 Phase 3b, consolidating into `/ship --release` | 1 | 1 | `ac233967` |
+| | **Running total (all runs)** | **18** | **15** | |
+
+**Six runs, zero clean passes.** The kill criterion (three *consecutive* clean passes) has never
+come close to firing — every run through run 6 found at least one real defect. Run 4's own
+finding (a scope gap that would have been inert for exactly the files run 5 and 6 then edited)
+is the strongest evidence yet that this is catching things a session re-reading only its own
+diff would miss, per the original review's Step 1 verdict above.
+
+**Maintenance note for whoever runs the next one:** append your run to this table, not to the
+original Run log or close-out section above — those describe the epic as of 2026-08-18 and stay
+as written. If this table itself starts drifting from practice again, that is itself a v1
+finding worth recording next time a rule file changes near this doc.
+
 ## Why this is not the governance layer again
 
 No artifact, no register, no ID scheme, no generated output. One walkthrough, performed by the
