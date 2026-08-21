@@ -172,10 +172,13 @@ above so that snapshot still reads as what was true on 2026-08-18.
 | 2026-08-18 | Run 4 — the walkthrough's own trigger (`dbe6099d` itself) | 4 | 3 — F4 self-resolving, not counted | `dbe6099d` |
 | 2026-08-19 | Run 5 — ST-100 Phase 3, applying S1–S18 in one batch | 4 | 4 | `ea0755d5` |
 | 2026-08-19 | Run 6 — ST-100 Phase 3b, consolidating into `/ship --release` | 1 | 1 | `ac233967` |
-| 2026-08-21 | Run 7 — ST-101 S2, pointing the walkthrough at `scripts/check-renamed-headings.js` | 0 | 0 (clean) | pending — lands with this commit |
+| 2026-08-21 | Run 7 — ST-101 S2, pointing the walkthrough at `scripts/check-renamed-headings.js` | 0 | 0 (clean) | `2a49f757` |
+| 2026-08-21 | Run 8 — ST-101 S4, `docs/conventions/schema-conventions.md` new `htmlSection` section (ST-16) | 0 | 0 (clean) | pending — lands with this commit |
 | | **Running total (all runs)** | **18** | **15** | |
 
 **First clean pass, run 7.** Walked the mock instance (ran the new script against three different files, including two never used to build or test it) before committing — every invocation the added sentence describes actually works as written. Kill-criterion counter: 1 of 3 needed for retirement, if the next two also come back clean.
+
+**Run 8 fulfills ST-101 S4** ("run v1 on a `docs/conventions/` edit") — the first non-`CLAUDE.md` sample, opportunistically, not manufactured. Checked: every file referencing `schema-conventions.md` still resolves it at the same path; the `PageSections.jsx` `HtmlSection` component name and `apps/studio/schemas/sections/htmlSection.ts` path cited in the new section are accurate; no heading was removed (pure addition) via `scripts/check-renamed-headings.js`. Clean — second consecutive clean pass. One more and v1's kill criterion fires (three consecutive, no finding) — per its own text, that means retiring the walkthrough, not the mechanism it protects. Worth flagging when run 9 happens, not deciding now.
 
 **Six runs, zero clean passes.** The kill criterion (three *consecutive* clean passes) has never
 come close to firing — every run through run 6 found at least one real defect. Run 4's own

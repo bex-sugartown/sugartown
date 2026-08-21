@@ -161,3 +161,28 @@ The generator walks `apps/studio/schemas/documents/` and `apps/studio/schemas/ob
 **Count assertion:** The generator exits non-zero if `entities.length < ENTITY_FLOOR` (currently 53 — lowered from 54 at SUG-126 when the DataTable shim was removed; 42 was the baseline at SUG-114 ship but has since moved twice). If a type is intentionally removed, update `ENTITY_FLOOR` in the generator.
 
 **When you add a new schema type:** No action needed — the generator picks it up automatically on next build. If the new type is a reference target for existing types, the new relationship edges will also appear automatically.
+
+---
+
+## `htmlSection` — accepted script-execution risk (ST-16)
+
+`apps/studio/schemas/sections/htmlSection.ts` accepts raw HTML with no sanitization, and the
+frontend (`apps/web/src/components/PageSections.jsx` `HtmlSection`) deliberately re-executes any
+`<script>` tag it contains after mount. **This is a decided, documented risk acceptance, not an
+oversight** — decided 2026-08-21 after auditing every published use.
+
+**Audit result (2026-08-21):** 6 published documents, 11 `htmlSection` instances, exactly one
+`<script>` tag in the entire corpus (an external `player.vimeo.com` API script). Everything else
+is an `<iframe>` embed or static SVG/CSS — neither needs the script re-execution path, since an
+`<iframe>` renders and executes independently of it.
+
+**Stays acceptable only while all of the following hold:**
+- Bex is the only author of `htmlSection` content (single trusted author)
+- No user-submitted or third-party-authored HTML reaches this field
+- No embed source outside a small set of known providers (Figma, Lucid, Vimeo, YouTube as of
+  this audit) — a new provider is a re-audit trigger, not an automatic addition
+
+**If any of these stops holding**, re-open ST-16's decision (option B: DOMPurify with an
+allow-list, or option C: drop script re-execution, move script-dependent embeds to a
+purpose-built section type). Do not silently keep raw-HTML-with-script-execution once the
+single-trusted-author assumption breaks.

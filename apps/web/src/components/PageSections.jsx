@@ -720,6 +720,21 @@ function MermaidDiagram({ code, direction, caption, sectionId, className, _key }
 // htmlSection — renders raw HTML as-is; no sanitization applied
 // dangerouslySetInnerHTML does not execute <script> tags, so we re-append them
 // as real DOM script elements after mount so embedded charts/widgets initialise.
+//
+// ACCEPTED RISK (ST-16, decided 2026-08-21): documented rather than sanitized.
+// Audited every published htmlSection use (query in ST-16's epic doc) — 6
+// documents, 11 section instances, exactly one <script> tag in the entire
+// corpus (an external player.vimeo.com API script). Everything else is an
+// <iframe> embed or static SVG/CSS, neither of which needs this re-execution
+// path at all — iframes render and execute independently of it.
+//
+// This stays acceptable only while ALL of the following hold. If any stops
+// being true, revisit (schema-conventions.md #htmlSection):
+//   - Bex is the only author of htmlSection content (single trusted author)
+//   - No user-submitted or third-party-authored HTML reaches this field
+//   - No embed source outside a small set of known providers (Figma, Lucid,
+//     Vimeo, YouTube today) — a new provider is a re-audit trigger, not an
+//     automatic addition
 function HtmlSection({ section }) {
   const containerRef = useRef(null)
 

@@ -33,8 +33,17 @@ ST-99's three runs produced nine findings. The review is in `docs/shipped/ST-99-
       **Walkthrough run 7 on that CLAUDE.md change** (`docs/shipped/ST-99-rules-change-qa.md` Ongoing runs): clean, no findings — first clean pass since v1's kill-criterion counter reset with the trigger fix. Verified the pointer's claims by running the script against two files it was never built or tested against (`docs/epic-template.md`, `docs/conventions/human-gate-conventions.md`) before committing, not just the one used to develop it.
 
 - [ ] **S3 — Run v1 on a skill-prompt-only edit** and record the findings table in its commit — layer: process
-- [ ] **S4 — Run v1 on a `docs/conventions/` edit** and record the findings table in its commit — layer: process
+- [x] **S4 — Run v1 on a `docs/conventions/` edit** and record the findings table in its commit — layer: process
+
+      **Done 2026-08-21, opportunistically** — `docs/conventions/schema-conventions.md`'s new
+      `htmlSection` risk-acceptance section (ST-16), not a manufactured edit. Clean pass, no
+      findings — logged as run 8 in `docs/shipped/ST-99-rules-change-qa.md`'s Ongoing runs
+      table. Second consecutive clean pass; one more retires v1 per its own kill criterion.
+
 - [ ] **S5 — Revisit per-group QA profiles** once S3 and S4 give the sample some variation. Do not design the groups before then — layer: process
+
+      **Partially unblocked** — S4 is done, S3 (skill-prompt-only edit) still isn't. Per this
+      epic's own instruction, do not design the groups from one data point; wait for S3 too.
 
 ## Non-Goals
 
