@@ -2,13 +2,43 @@
 **Epic:** SUG-269 — Make the Sanity-backed validators probeable
 **Linear Issue:** [SUG-269](https://linear.app/sugartown/issue/SUG-269/make-the-sanity-backed-validators-probeable) — **this ID was reused.** It previously held "GlossaryTermPage: AI Attribution item + DescriptionList→List migration", cancelled the same day it was created and absorbed into [SUG-177](docs/backlog/SUG-177-list-component-audit-site-list-patterns.md). Repurposed 2026-08-10: the workspace is at its issue limit and deletion holds a slot for a month, so reusing a fully-superseded ID beats creating one. **References to "SUG-269, cancelled the same day" in `SUG-268-governance-data-layer.md` and `SUG-177-*.md` describe that prior life, not this epic.** The sub-issue parent link it inherited was cleared at repurposing, per one-epic-one-issue.
 **Origin:** AOP-0, 2026-08-09. Three of its six controls turned out to be structurally unprobeable; this is the fix, filed rather than absorbed
-**Status:** Backlog
+**Status:** Backlog — sequenced after ST-95, not actionable as written (see reconciliation note)
 **Priority:** 🟣 Soon — three CI gates are trusted without proof, but none is newly broken
 **Merge strategy:** (a) Merge-as-you-go — one validator per commit
-**Depends on:** nothing
+**Depends on:** ST-95 ([#95](https://github.com/bex-sugartown/sugartown/issues/95)) — reuses its
+harness pattern once proven; do not build a second harness
 ---
 
 # SUG-269 — Make the Sanity-backed validators probeable
+
+## Reconciliation note — 2026-08-21
+
+**This doc is not actionable as written.** ST-95's Scope decided to keep this epic separate
+rather than merge it, but flagged two things a rewrite must fix before work starts here:
+
+1. **The mechanics below are dead.** `control-register.md`, `governance/source/probes.json`,
+   "Verification review" (§Technical constraints), `validate:enforcement-liveness` (§Acceptance
+   criteria), and the CTL-008/009/010 IDs were all removed by SUG-284's governance-layer unwind.
+   The AC as written calls a script that no longer exists. Rewrite against ST-95's actual
+   harness once it ships — reuse its pattern, don't invent a second one.
+2. **Scope is stale in scale, not just mechanics.** `validate:content` and
+   `validate:schema-parity` are the same remote-data-fetching shape as the three validators
+   below and were missed when this was filed (2026-08-09, before either existed in its current
+   form). Confirmed 2026-08-21 by reading both scripts directly — five candidates, not three.
+
+**Sequencing, not blocking on capacity or priority:** pick this up once ST-95's harness has run
+long enough to show the pattern holds, per the post-mortem's own "prove one thing before the
+next" discipline (`docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md`
+§6.8, §7). ST-95 itself gates on a 60-day no-new-catch window before its own kill-criterion
+check; this doc doesn't need to wait that long, only until the harness pattern (cleanup stack,
+fixture shape, CI wiring) exists as real code to extend rather than a design direction.
+
+Everything below this note is the original 2026-08-09 filing. Left as-is per this doc's own
+practice of not rewriting history until the rewrite actually happens — do not treat the Scope,
+Technical constraints, or Acceptance criteria below as current until this note's two points are
+resolved.
+
+---
 
 Three controls cannot be given a liveness probe as the validators are currently written:
 
