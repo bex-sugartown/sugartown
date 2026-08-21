@@ -12,10 +12,56 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-- ST-100: Epic close-out consolidated into `/ship --release`, run for real for the first time. `Done` and `Shipped` split — the epic's own definitions, applied to itself: this doc reached `Done` when its work was complete and committed, and reaches `Shipped` when the next `/ship` pushes it. `/morning` now surfaces the age of the oldest `Done` item; `linearRoadmap`'s `shipped` bucket renamed to `completed` after being found to have zero consumers. One item stays open by design, not by gap: the "rises across a gap, resets after a run" proof needs real elapsed days to observe.
-- SUG-283: `apps/contentful-poc`'s CI type-check flake (a duplicate `@types/react` resolution against the workspace's other React-18 packages) fixed with a `pnpm.overrides` selector scoped to `contentful-poc` only, pinning its `@types/react`/`@types/react-dom` to the exact versions already resolved. Verified structurally (`pnpm why @types/react` shows one reachable copy) and locally (`tsc --noEmit`, a real `next build`'s TypeScript phase, and the route smoke suite all pass); the original CI failure never reproduced locally, so this closes the epic's structural AC, not the statistical one — watch the next several CI runs to confirm.
-- ST-16: `htmlSection`'s undocumented script-execution path decided and documented rather than sanitized. Audited every published use first — 6 documents, 11 instances, exactly one `<script>` tag in the entire corpus (an external `player.vimeo.com` API script); everything else is an `<iframe>` embed or static SVG/CSS that never needed the re-execution mechanism at all. Accepted-risk note added to `PageSections.jsx`'s `HtmlSection` and mirrored in `docs/conventions/schema-conventions.md`, naming the three conditions (single trusted author, no user-submitted HTML, no unknown embed source) that would reopen the decision toward sanitization.
-- ST-102: `apps/web` dev-server cold boot cut from 95.4s to 7.4s. The stats pipeline's security collector ran `pnpm audit --json` (measured ~97s on this repo) via a blocking `execSync` with no working timeout — `execSync`'s own `timeout` option only signals its immediate child, and pnpm re-execs itself as a nested process that kept running regardless, still holding the output pipe open. Rewritten with `spawn`/`detached: true` and a process-group kill, with different bounds for local dev (5s, always degrades — there's no bound short enough to ever catch the real 97s run) and CI's daily `stats.yml` (180s, real headroom to still collect fresh data). Found and fixed a second, unrelated bug along the way: the parser assumed one-JSON-object-per-line output: pnpm 9.1.0 actually emits one large pretty-printed object, so every parse attempt silently failed and `security` stats have been reporting zero vulnerabilities regardless of the real count (211, measured) for as long as this collector has run against this pnpm version.
+## [0.35.0] — 2026-08-21
+
+Dev-server boot time, a silent security-stats bug, an XSS risk decision, a CI flake, and the
+epic close-out process consolidated into `/ship --release`.
+
+### apps/web
+
+#### Fixed
+- Dev-server cold boot cut from 95.4s to 7.4s. The stats pipeline's security collector ran
+  `pnpm audit --json` (measured ~97s on this repo) via a blocking `execSync` with no working
+  timeout — `execSync`'s own `timeout` option only signals its immediate child, and pnpm
+  re-execs itself as a nested process that kept running regardless, still holding the output
+  pipe open. Rewritten with `spawn`/`detached: true` and a process-group kill, with different
+  bounds for local dev (5s, always degrades — there's no bound short enough to ever catch the
+  real 97s run) and CI's daily `stats.yml` (180s, real headroom to still collect fresh data).
+- Security stats have been silently reporting zero vulnerabilities regardless of the real
+  count (211, measured: 1 critical, 89 high, 103 moderate, 18 low) for as long as the
+  collector has run against the installed pnpm version. The parser assumed one-JSON-object-
+  per-line output; pnpm 9.1.0 actually emits one large pretty-printed object, so every parse
+  attempt silently failed. Fixed by trying a whole-output parse first, falling back to the
+  original per-line scan only for the older, unverified format.
+
+#### Changed
+- `htmlSection`'s undocumented script-execution path decided and documented rather than
+  sanitized. Audited every published use first — 6 documents, 11 instances, exactly one
+  `<script>` tag in the entire corpus (an external `player.vimeo.com` API script); everything
+  else is an `<iframe>` embed or static SVG/CSS that never needed the re-execution mechanism
+  at all. Accepted-risk note added to `PageSections.jsx`'s `HtmlSection` and mirrored in
+  `docs/conventions/schema-conventions.md`, naming the three conditions (single trusted
+  author, no user-submitted HTML, no unknown embed source) that would reopen the decision
+  toward sanitization.
+
+### apps/contentful-poc
+
+#### Fixed
+- CI type-check flake (a duplicate `@types/react` resolution against the workspace's other
+  React-18 packages) fixed with a `pnpm.overrides` selector scoped to `contentful-poc` only,
+  pinning its `@types/react`/`@types/react-dom` to the exact versions already resolved.
+  Verified structurally (`pnpm why @types/react` shows one reachable copy) and locally
+  (`tsc --noEmit`, a real `next build`'s TypeScript phase, and the route smoke suite all
+  pass); the original CI failure never reproduced locally, so this closes the epic's
+  structural AC, not the statistical one.
+
+### Other
+
+#### Changed
+- Epic close-out consolidated into `/ship --release`, run for real for the first time. `Done`
+  and `Shipped` split — the epic's own definitions, applied to itself. `/morning` now
+  surfaces the age of the oldest `Done` item; `linearRoadmap`'s `shipped` bucket renamed to
+  `completed` after being found to have zero consumers.
 
 ## [0.34.0] — 2026-08-19
 
