@@ -30,9 +30,60 @@ confirming the gate exists. No register, no dated rows, no published tally.
 
 ## Scope
 
-- [ ] Decide the probe inventory: which gates get a probe, and why each earns one — layer: process
-- [ ] Reconcile with SUG-269 ([#93](https://github.com/bex-sugartown/sugartown/issues/93)) — it overlaps directly; decide merge or keep separate — layer: process
+- [x] Decide the probe inventory: which gates get a probe, and why each earns one — layer: process
+
+      **Decided 2026-08-21.** Six gates, all local/file-based (no production-data risk), each
+      verified against current repo state rather than assumed from the post-mortem's incident
+      list:
+
+      | Gate | Why it earns a probe | Fixture |
+      |---|---|---|
+      | `validate:tokens` (apps/web) | Live, file-based, never verified to actually bite | undefined `var(--st-*)` reference |
+      | `validate:tokens --strict-colors` | Same | hardcoded hex in a component CSS file |
+      | `validate:style-mirror` | Guards the exact drift class INC-004's orphaned root `validate-tokens.js` used to cover | diverge one byte between the mirrored theme files |
+      | `validate:dead-refs` | Live, file-based, never verified to bite | component referencing a nonexistent `styles.xxx` |
+      | `validate:css-names` | Live, file-based, never verified to bite | content-type-scoped class name under `pages/` |
+      | ESLint boundary rules (`boundariesFor`/`boundary-rules.js`) | **This is INC-011 itself.** Confirmed fixed 2026-08-21 (SUG-254 — deleted the dead alias rather than keeping it, so a stale reference fails loudly instead of silently enforcing nothing) and now consumed by 5 packages' eslint configs. The highest-value probe in the set: it's the one gate on this list with direct incident history of going inert for 176 days while reporting green | deliberate cross-boundary import |
+
+      **Considered and excluded, with reasons:**
+      - **Chromatic VRT** — wired but `--exit-zero-on-changes`, deliberately never blocks today.
+        Not probe-shaped until [SUG-263](https://github.com/bex-sugartown/sugartown/issues/88)
+        (already backlogged) resolves what "live" even means for it.
+      - **Storybook frozen build-time globals (INC-005)** — confirmed still frozen
+        (`__BUILD_DATE__`, `__APP_VERSION__` in `viteFinal`), but this is a written review
+        convention with no exit code, not a scripted validator. Probing it means building a new
+        mechanism, which is scope creep for a probes-only epic.
+      - **Root `validate-tokens.js` (INC-004)** — confirmed deleted, not orphaned. Nothing left
+        to probe; `validate:style-mirror` above already covers the same drift risk.
+
+- [x] Reconcile with SUG-269 ([#93](https://github.com/bex-sugartown/sugartown/issues/93)) — it overlaps directly; decide merge or keep separate — layer: process
+
+      **Decided 2026-08-21: keep separate, not merged.** SUG-269's technical diagnosis is still
+      correct (`validate:urls`, `validate:filters`, `validate:taxonomy` fetch live Sanity data
+      and can't be probed with a broken-fixture approach without risking production writes), but
+      its *mechanics* are dead — it references `control-register.md`,
+      `governance/source/probes.json`, "Verification review," `validate:enforcement-liveness`,
+      and CTL-008/009/010, all removed by SUG-284. Its own AC calls a script that no longer
+      exists.
+
+      Also found while checking: SUG-269's scope is stale in one more way — it names 3
+      validators, but `validate:content` and `validate:schema-parity` are the same
+      remote-data-fetching shape and should be added when it's rewritten.
+
+      SUG-269 stays its own epic, picked up after this one proves the harness pattern works —
+      it reuses this epic's harness pattern rather than inventing its own, and needs a full
+      rewrite to drop the dead-governance-layer references before any of its Scope is
+      actionable. Not touched further in this epic.
+
 - [ ] Implement the probe harness — layer: tooling
+
+      **Design direction, not yet built.** Reuse the pattern from
+      `zArchive/2026-08-sug284-governance-layer/scripts/validate-enforcement-liveness.js` (one
+      harness, many probes; each probe writes a deliberate violation via an additive temp file
+      or an in-memory-snapshot-restored mutation of a tracked file; cleanup runs in `finally`
+      and on signals) — that mechanism was sound, only the register/tally built around it
+      wasn't. Do not revive the old file wholesale; write a new, minimal one scoped to the six
+      probes above.
 - [ ] Wire into CI — layer: tooling
 - [ ] Record the kill-criterion check date — layer: process
 
