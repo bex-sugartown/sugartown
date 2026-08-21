@@ -1,10 +1,33 @@
 ---
 **Epic:** SUG-265 — Release flow: `/release` skips `/mini-release` steps, and close-out costs two deploys
 **Linear Issue:** [SUG-265](https://linear.app/sugartown/issue/SUG-265/release-flow-release-skips-mini-release-steps-and-close-out-costs-two)
-**Status:** Backlog
+**GitHub Issue:** [#90](https://github.com/bex-sugartown/sugartown/issues/90)
+**Status:** Done — 2026-08-19, absorbed by ST-100 (disposition below; not independently implemented)
 **Priority:** 🟣 Soon — Part A repeats on every `/release`; Part B on every on-`main` close-out
 **Merge strategy:** (a) Merge-as-you-go. Two parts, independently shippable.
 ---
+
+## Disposition (ST-100 S8, 2026-08-19)
+
+**Closed via ST-100 rather than this doc's own Scope.** ST-100's close-out sequence
+consolidation (`docs/shipped/ST-100-close-out-eod-boundary.md` S8) absorbed both halves:
+
+- **Part A — fully absorbed.** `/release` and `/mini-release` no longer exist as two prompts to
+  keep in step: `docs/mini-release-prompt.md` was retired entirely (S9), its logic folded into
+  `/ship --release`, which invokes `/release` rather than reimplementing it. The parity problem
+  this doc's Scope was written to solve doesn't exist in the consolidated design — there's one
+  prompt, not two to diff.
+- **Part B — recorded as the normal case, not eliminated.** ST-100's own S8 note is explicit
+  that this is an honest disposition, not a claim of "never two deploys": *"this session's own
+  release cut needed a second push when the verification pass found a real pre-existing gap,
+  for a different reason than SUG-265's original complaint."* One deploy per `/ship` is the
+  design target; a second deploy can still happen for unrelated reasons.
+
+Issue [#90](https://github.com/bex-sugartown/sugartown/issues/90) closed 2026-08-19 reflecting
+this. **This doc's own Scope and Acceptance Criteria below were never executed as written** —
+recorded as history, not as outstanding work. Found stale (still `docs/backlog/`, header still
+`Backlog`, all checkboxes unchecked) during `/ship` Phase 1 assessment 2026-08-21; moved and
+corrected then, not at the time of the original disposition.
 
 # SUG-265 — Release flow defects
 
