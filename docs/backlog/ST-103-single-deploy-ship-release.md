@@ -32,38 +32,52 @@ means the version bump would be committed and pushed *before* CI confirms the co
 inverse of the current guarantee. This is a real tradeoff between deploy cost and the
 verify-before-release invariant, not a mechanical bug.
 
-**One variable is unmeasured.** Netlify's default behavior for two pushes to the same branch
-in quick succession — whether it cancels/supersedes the first build and only bills the second,
-or bills both — is not verified anywhere in this repo. `docs/shipped/ST-100-close-out-eod-
-boundary.md` S9b measured deploy cost per push (15 credits, from `listSiteDeploys` and the
-billing UI) but never tested two rapid successive pushes specifically. Whether this epic is
-solving a real double cost or a perceived one depends on this number.
+**Measured 2026-08-21, from the Netlify Deploys UI directly** (`sugartown.io` → Deploys),
+same day this epic was filed: `main@d31b136` (the accumulated-work push, "Today at 5:40 AM",
+built in 1m22s) and `main@9649f05` (the release-commit push, "Today at 5:55 AM", built in
+1m24s) are **both fully completed, billed production deploys** — 15 minutes apart, neither
+canceled nor superseded before finishing. Contrast with `main@1773f68` further down the same
+list, tagged `Canceled` — Netlify *can* cancel a deploy, it just didn't here. **Netlify does
+not dedupe or cancel these two rapid successive pushes.** The double-deploy cost is real, not
+a measurement artifact — confirms `docs/shipped/ST-100-close-out-eod-boundary.md` S9b's
+per-push cost (15 credits) applies to both.
+
+**Leading resolution, proposed by Bex the same day, stronger than the reordering options
+below: stop making `/release` push at all.** `/ship` keeps deploying — that's its whole job,
+unchanged. `/release` commits its version bump/`CHANGELOG.md`/`RELEASE_NOTES.md` locally and
+stops, exactly like any other epic close-out commit — no "push it now?" gate. The verify-
+before-release guarantee is **not weakened**: `/release` still only runs after Phase 3 step 5
+confirms CI succeeded on the accumulated-work push that already happened; deferring the
+release commit's own push doesn't touch that ordering. The release commit simply rides along
+whenever the *next* `/ship` naturally runs — one deploy, same as any other accumulated work.
+This avoids the release-before-CI-verification tradeoff entirely rather than accepting it,
+which the two reordering options further down do not.
 
 ## Objective
 
-Either: `/ship --release` produces one deploy total (design and implement the change that
-gets there, stating what invariant — if any — is traded off to do it), or: a recorded decision
-that two deploys is the correct cost of the verify-before-release guarantee, with the actual
-Netlify billing behavior for rapid successive pushes measured and written down either way.
+Implement the leading resolution above (`/release` stops pushing; its commit waits for the
+next natural `/ship`), or record why a different model was chosen instead if the leading
+resolution turns out to have a problem not yet found. Either way, `/ship --release`'s realized
+deploy count per invocation drops from 2 to 1 (verified by running it for real, not by code
+inspection), without weakening the verify-before-release guarantee.
 
 ## Scope
 
-- [ ] **Measure Netlify's actual behavior for two pushes to `main` within a short window**
-      (e.g. seconds to low minutes apart, matching the observed 2026-08-21 pattern) — does it
-      cancel/supersede the first build, or run and bill both? Use `listSiteDeploys` / the
-      billing UI's own deploy list, the same sources ST-100 S9b used, not an assumption —
-      layer: process
-- [ ] **Decide the model**, informed by the measurement above:
-      - If Netlify already dedupes rapid successive pushes: the "two deploys" problem may
-        already be smaller (or nonexistent) than it looks — document this and decide whether
-        any code change is still warranted
-      - If Netlify bills both: decide between (a) bundling the release commit into the same
-        push as the accumulated work, accepting release-before-CI-verification, or (b) some
-        other restructuring (e.g. a single combined push with the release step happening
-        first, gated on a *previous* known-green state instead of this run's own CI), or (c)
-        recording that two deploys is the accepted cost of the current guarantee — layer:
-        process
-      — layer: process
+- [x] **Measure Netlify's actual behavior for two pushes to `main` within a short window** —
+      **Done 2026-08-21**, from the Deploys UI directly (see Background). Both pushes billed
+      in full; no dedup. — layer: process
+- [ ] **Implement the leading resolution**: `docs/workflows/release-assistant-prompt.md`
+      Step 3C / Gate 5 stops asking to push — commits and stops. `docs/ship-prompt.md`
+      Phase 3 step 7 and Phase 4's closing template update to describe the release commit as
+      picked up by a future `/ship`, not pushed by this one. State plainly in both files that
+      this is deliberate, not a dropped step — a future session reading either prompt in
+      isolation must not read "commit, then stop" as incomplete — layer: process
+- [ ] **Confirm the two other options were considered and correctly rejected**, in the doc:
+      (a) bundling the release commit into the same push as the accumulated work
+      (release-before-CI-verification — rejected, weakens the guarantee), (b) reordering so
+      release gates on a *previous* known-green state instead of this run's — more complex,
+      solves nothing the deferred-push model doesn't already solve more simply — layer:
+      process
 - [ ] **Implement the decided model** in `docs/ship-prompt.md` and
       `docs/workflows/release-assistant-prompt.md` (both under the Instruction & Rule File
       Write Gate — diffs shown, approved before landing) — layer: process
@@ -82,11 +96,13 @@ Netlify billing behavior for rapid successive pushes measured and written down e
 
 ## Acceptance criteria
 
-- [ ] Netlify's rapid-successive-push billing behavior is measured and recorded, with the
-      command or UI view that produced the number (not asserted from memory)
-- [ ] `/ship --release` either produces one deploy, verified by running it for real and
-      counting billed deploys afterward — not by code inspection — or a written decision
-      explains why two remains correct, with the tradeoff stated explicitly
+- [x] Netlify's rapid-successive-push billing behavior is measured and recorded, with the
+      view that produced it (not asserted from memory) — **done, see Background**: Deploys UI,
+      both `d31b136` and `9649f05` billed in full
+- [ ] `/ship --release`'s next real run produces exactly 1 deploy, verified by checking the
+      Deploys UI afterward — not by code inspection — with the release commit visibly still
+      unpushed (local-only) immediately after that run completes, then picked up correctly by
+      whatever `/ship` runs after it
 - [ ] `docs/ship-prompt.md` and `docs/workflows/release-assistant-prompt.md` agree with each
       other on the model (no restating one prompt's mechanic in the other, per the pattern
       SUG-265 was originally filed to prevent)
