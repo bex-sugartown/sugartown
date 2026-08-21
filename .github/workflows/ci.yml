@@ -90,6 +90,16 @@ jobs:
           # secret (named SANITY_SCHEMA_PARITY) is mapped to that name here.
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
 
+      # ST-95 — proves each gate below actually fires against a deliberate
+      # violation, rather than merely being wired. validate:tokens,
+      # validate:tokens:strict, validate:style-mirror, validate:dead-refs and
+      # validate:css-names are otherwise pre-commit-hook-only (.husky/pre-commit)
+      # and have no other CI step of their own — this is their only run here.
+      # The boundary-rule probes re-exercise `pnpm lint` above, deliberately:
+      # INC-011 was four ESLint rules that stayed wired and silent for 176 days.
+      - name: Liveness probes
+        run: pnpm validate:liveness-probes
+
       - name: Build
         run: pnpm build
         env:

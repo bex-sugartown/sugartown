@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-95 — Liveness probes only, no register
 **GitHub Issue:** [#95](https://github.com/bex-sugartown/sugartown/issues/95)
-**Status:** Backlog
+**Status:** In Progress — 4 of 5 Scope items done; kill-criterion date needs a real CI run
 **Priority:** 🔴 High
 **Merge strategy:** (a) Merge-as-you-go
 ---
@@ -75,17 +75,53 @@ confirming the gate exists. No register, no dated rows, no published tally.
       rewrite to drop the dead-governance-layer references before any of its Scope is
       actionable. Not touched further in this epic.
 
-- [ ] Implement the probe harness — layer: tooling
+- [x] Implement the probe harness — layer: tooling
 
-      **Design direction, not yet built.** Reuse the pattern from
+      **Built 2026-08-21** — `scripts/validate-liveness-probes.js` (`pnpm
+      validate:liveness-probes`). Reuses the pattern from
       `zArchive/2026-08-sug284-governance-layer/scripts/validate-enforcement-liveness.js` (one
       harness, many probes; each probe writes a deliberate violation via an additive temp file
       or an in-memory-snapshot-restored mutation of a tracked file; cleanup runs in `finally`
       and on signals) — that mechanism was sound, only the register/tally built around it
-      wasn't. Do not revive the old file wholesale; write a new, minimal one scoped to the six
-      probes above.
-- [ ] Wire into CI — layer: tooling
+      wasn't. Not a revival of the old file: new, minimal, scoped to the six approved gates
+      (nine probes — the ESLint boundary gate expands to one probe per enforced scope: 4).
+
+      **Verified, not just written:**
+      - Clean run: `pnpm validate:liveness-probes` → 9/9 live, 0 inert, exit 0
+      - Self-test: stubbed `apps/web/scripts/validate-css-names.js` to always exit 0, re-ran —
+        harness correctly reported it `STAYED GREEN`/inert, exit 1. Restored, re-ran clean —
+        back to 9/9 live. Confirms the harness distinguishes live from inert rather than
+        passing regardless of what it's pointed at.
+      - Working tree confirmed clean after both runs — the cleanup stack leaves no residue.
+
+      **Finding surfaced while building, not yet acted on:** `validate:tokens`,
+      `validate:tokens:strict`, `validate:style-mirror`, `validate:dead-refs`, and
+      `validate:css-names` are enforced **only** by `.husky/pre-commit` — none has ever had its
+      own CI step. `pnpm lint` (covering the boundary rules) is the one gate of the six that CI
+      already ran independently. This means the new CI step below proves these five gates fire
+      when invoked the way the hook invokes them, but does not by itself prove CI would catch a
+      violation that reached it by any path that skips the hook (`--no-verify`, a non-hook
+      client, a bot). Real gap, same shape as this whole epic — not fixed here, since deciding
+      whether these five belong in CI as their own steps is a separate, more consequential call
+      (adds ~5 steps, CI runtime cost, might surface currently-merged violations) that wasn't
+      part of the approved 2026-08-21 scope. Worth a follow-up issue if it's not already covered
+      by SUG-257/SUG-258's studio/web lint-coverage work.
+
+- [x] Wire into CI — layer: tooling
+
+      **Done 2026-08-21.** `.github/workflows/ci.yml` — new "Liveness probes" step
+      (`pnpm validate:liveness-probes`), placed after "Validate schema parity" and before
+      "Build", so an inert gate fails the run before the more expensive Build/Playwright steps.
+      YAML syntax verified with `js-yaml` (not just eyeballed) before committing.
+
 - [ ] Record the kill-criterion check date — layer: process
+
+      **Cannot be set yet — depends on a real CI run, not local completion.** Per this doc's
+      own instruction above: "Check date is 60 days from the first CI run that includes them."
+      `main` is currently ahead of `origin/main` and not pushed (deliberate — batching toward
+      the next `/ship`, per project convention). The 60-day clock starts on the first `Liveness
+      probes` CI run on `origin/main`, not on this commit. Whoever runs `/ship` next: record
+      that run's date here, and note it in the epic's close-out.
 
 ## Non-Goals
 

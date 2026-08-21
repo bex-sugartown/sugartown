@@ -16,6 +16,7 @@
     "generate:schema-manifest": "node scripts/generate-schema-manifest.mjs",
     "lint": "turbo run lint --continue",
     "lint:css": "stylelint \"**/*.css\" --ignore-path .gitignore",
+    "validate:liveness-probes": "node scripts/validate-liveness-probes.js",
     "migrate:backfill-author": "node scripts/migrate/backfill-default-author.js",
     "migrate:backfill-html-section": "node scripts/migrate/backfill-html-section.js",
     "migrate:card-section": "node scripts/migrate/statTileSection-to-cardSection.js",
