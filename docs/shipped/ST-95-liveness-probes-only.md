@@ -114,7 +114,7 @@ confirming the gate exists. No register, no dated rows, no published tally.
       "Build", so an inert gate fails the run before the more expensive Build/Playwright steps.
       YAML syntax verified with `js-yaml` (not just eyeballed) before committing.
 
-- [ ] Record the kill-criterion check date — layer: process
+- [x] Record the kill-criterion check date — layer: process — **2026-10-20**, see Close-out
 
       **Cannot be set yet — depends on a real CI run, not local completion.** Per this doc's
       own instruction above: "Check date is 60 days from the first CI run that includes them."
@@ -180,8 +180,21 @@ Close-out steps: 1 commit (`9106cf06`) · 1b local smoke green, 5/5 · 2 schema 
 component JSX or story touched · 5 data pipeline N/A · 6 this move · 6b vspec N/A · 7 CHANGELOG
 `[Unreleased]` line added · 8 issue closed · 9 tree clean.
 
-### Still open — needs the ship, not more work
+### Kill-criterion check date: 2026-10-20
 
-**Record the kill-criterion check date.** 60 days from the first `Liveness probes` CI run on
-`origin/main`. Whoever runs the `/ship` that first pushes this: read the run's date and write
-the check date here.
+**Recorded 2026-08-25, and the clock had already started.** This doc previously assumed the
+harness was unpushed and the date therefore unsettable. That was true when written and stopped
+being true the same day: the v0.35.0 ship on 2026-08-21 pushed it as part of the same batch.
+
+Evidence, each from a command rather than from this doc's prior text:
+
+| Claim | Command | Result |
+|---|---|---|
+| Harness commit reached `origin/main` | `git merge-base --is-ancestor 9106cf06 d31b1367` | true |
+| CI ran the probes on `origin/main` | `gh run view 32482993519 --json jobs` | step `Liveness probes`: **success** |
+| Date of that run | `gh run view 32482993519 --json createdAt` | `2026-08-21T12:40:18Z` |
+| Check date | 2026-08-21 + 60 days | **2026-10-20** |
+
+**On 2026-10-20, answer in writing: did the probes catch anything a human would not have?** A
+yes unlocks ST-96 (#96). A no, twice consecutively, ends the rebuild and retires the harness.
+All five Scope items are now complete.
