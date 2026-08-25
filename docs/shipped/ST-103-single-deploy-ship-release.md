@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-103 — Single-deploy `/ship --release`
 **Issue:** [#103](https://github.com/bex-sugartown/sugartown/issues/103)
-**Status:** In Progress — implementation complete 2026-08-25; the final AC waits on the next real `/ship --release`
+**Status:** Done 2026-08-25 — implementation complete; the final AC is verifiable only by the next real `/ship --release`, see Still open below.
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 ---

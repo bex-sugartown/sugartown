@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-95 — Liveness probes only, no register
 **GitHub Issue:** [#95](https://github.com/bex-sugartown/sugartown/issues/95)
-**Status:** In Progress — 4 of 5 Scope items done; kill-criterion date needs a real CI run
+**Status:** Done 2026-08-25 — harness built, wired into CI, verified green locally (9 gates proven live, 0 inert). The one open Scope item, the kill-criterion date, is recordable only after the first CI run on `origin/main`; see Still open below.
 **Priority:** 🔴 High
 **Merge strategy:** (a) Merge-as-you-go
 ---
@@ -166,3 +166,22 @@ harness satisfies them or whether they are rewritten:
 - **Post-mortem:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §7
 - **Next in sequence:** ST-96 ([#96](https://github.com/bex-sugartown/sugartown/issues/96))
 - **Overlaps:** SUG-269 ([#93](https://github.com/bex-sugartown/sugartown/issues/93))
+
+
+---
+
+## Close-out 2026-08-25
+
+Harness re-run locally at close-out: **9 gates proven live, 0 inert**, working tree left clean
+by the run itself (`pnpm validate:liveness-probes`). Wired into `ci.yml:101`.
+
+Close-out steps: 1 commit (`9106cf06`) · 1b local smoke green, 5/5 · 2 schema N/A, no
+`apps/studio/schemas/` change · 3 Visual QA N/A, no rendered surface · 4 Chromatic N/A, no CSS,
+component JSX or story touched · 5 data pipeline N/A · 6 this move · 6b vspec N/A · 7 CHANGELOG
+`[Unreleased]` line added · 8 issue closed · 9 tree clean.
+
+### Still open — needs the ship, not more work
+
+**Record the kill-criterion check date.** 60 days from the first `Liveness probes` CI run on
+`origin/main`. Whoever runs the `/ship` that first pushes this: read the run's date and write
+the check date here.
