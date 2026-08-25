@@ -46,14 +46,14 @@ Paste into Claude Code at session start:
 | What | File |
 |---|---|
 | Morning housekeeping | `docs/workflows/morning-housekeeping-prompt.md` |
-| End of day | `docs/workflows/eod-prompt.md` |
+| Ship (push, deploy, verify) | `docs/ship-prompt.md` |
 | Release pipeline | `docs/workflows/release-assistant-prompt.md` |
 
 ### Skills (Claude Code + claude.ai)
 Two systems. Full inventory: `docs/ai/skills-index.md`.
 
 Frequently used:
-- `/new-epic` — create a Linear issue + backlog stub
+- `/new-epic` — create a GitHub issue + backlog stub
 - `/write-blog` — draft an article as a Sanity draft
 - `/write-node` — draft a Knowledge Graph node as a Sanity draft
 - `/glossy` — add a glossary term to sugartown.io

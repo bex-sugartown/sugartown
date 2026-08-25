@@ -44,6 +44,7 @@ clicks/selects a labeled option, not a typed word.
 - Gate 3 (Step 3A): "Write it — save to CHANGELOG.md" / "Needs edits"
 - Gate 4 (Step 3B): "Write it — save Release Notes" / "Needs edits"
 - Gate 5 (Step 3C): "Commit it — create the release commit" / "Stop — let me review again"
+  — the last gate; `/release` has no push gate.
 
 ---
 
@@ -390,6 +391,14 @@ Options:
 
 **AI must not commit until "Commit it — create the release commit" is selected.**
 
+**Stop at the commit. Do not push it, and do not ask whether to.** The release commit stays
+local and ships with whatever `/ship` runs next, like any other close-out commit — pushing it
+here buys a second Netlify deploy for work the `/ship` that just ran already deployed
+(measured 2026-08-21, both billed; ST-103).
+
+This is the end of `/release`, not a step left undone. The verify-before-release ordering is
+unchanged: `/release` still runs only after `/ship` Phase 3 step 5 confirms CI succeeded.
+
 > **Note — RELEASE_STATE.json (retired):**
 > This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:tokens`, `pnpm lint`, and validator output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
 
@@ -426,7 +435,7 @@ Artifacts:
   ✅  CHANGELOG.md — [X.(Y+1).0] entry written, [Unreleased] reset
   ✅  RELEASE_NOTES.md — updated to vX.(Y+1).0
   ✅  docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md — archived
-  ✅  Committed: [commit hash]
+  ✅  Committed: [commit hash] — local, ships with the next `/ship`
 
 Version bumps confirmed:
   ✅  package.json → X.(Y+1).0

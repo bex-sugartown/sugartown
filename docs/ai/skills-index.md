@@ -1,7 +1,7 @@
 # Skills Index
 
-**Version:** v1.0
-**Last updated:** June 2026
+**Version:** v1.1
+**Last updated:** 2026-08-25
 **Owner:** Bex Head
 
 ---
@@ -12,26 +12,42 @@ Two skill systems run in parallel for this project. This file is the inventory t
 
 ---
 
-## Claude Code Skills (`.claude/skills/`)
+## Claude Code Skills and Commands
 
-Invokable via `/skill-name` in any Claude Code session. Skills live on disk in `.claude/skills/`.
+Invokable via `/skill-name` in any Claude Code session. Most live in `.claude/skills/`;
+a few are thin commands in `.claude/commands/` that point at a prompt file in `docs/`.
+The `Where` column says which.
 
-| Skill | Trigger | What it does |
+| Skill | Trigger | Where | What it does |
+|---|---|---|---|
+| `alignment-audit` | `/alignment-audit` | `skills/` | Audits something in the repo against an external standard; Match / Drift / Gap findings report |
+| `becky-boop` | `/becky-boop` | `skills/` | Generates a Becky B00p hero banner prompt for any AI image generator, contextualised to the current article or node |
+| `chromatic` | `/chromatic` | `skills/` | Runs Chromatic VRT, reports visual diffs, gates on human approval, records status |
+| `glossy` | `/glossy` | `skills/` | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary |
+| `morning` | `/morning` | `commands/` + `skills/` | Morning housekeeping: git health, branch map, board status, service health. Reads first, executes with confirmation. Prompt: `docs/workflows/morning-housekeeping-prompt.md` |
+| `new-epic` | `/new-epic` | `skills/` | Creates a GitHub issue + backlog stub for a new epic, and boards it |
+| `post-mortem` | `/post-mortem` | `commands/` | Runs a post-mortem. Prompt: `docs/post-mortem-prompt.md` |
+| `red-pen` | `/red-pen` | `skills/` | Editorial review of Sugartown content against the brand voice guides. Reviewer, not writer — never rewrites without row-level approval |
+| `release` | `/release` | `commands/` | Cuts a version. Prompt: `docs/workflows/release-assistant-prompt.md`. Normally invoked by `/ship --release`, not run alone |
+| `restart` | `/restart` | `commands/` + `skills/` | Checks which Sugartown dev servers are running and restarts any that are down |
+| `ship` | `/ship`, `/ship --release` | `commands/` | Pushes everything currently `Done` live: one Netlify deploy, CI verified to a conclusion, `Done` → `Shipped`. Prompt: `docs/ship-prompt.md` |
+| `sugartown-epic-writer` | `/sugartown-epic-writer` | `skills/` | Writes a Claude Code execution epic in the Sugartown epic template format |
+| `sugartown-prd-writer` | `/sugartown-prd-writer` | `skills/` | Writes a PRD for CMS/headless, design system, or ecom/platform work |
+| `switch` | `/switch`, `/switch out` | `skills/` | Syncs the repo across machines (desktop/laptop). ARRIVE and LEAVE modes for safe handoff |
+| `update-cwv` | `/update-cwv` | `skills/` | Runs Lighthouse CI against production, updates PERF_BACKUP in CwvSnapshot.jsx, shows diff summary |
+| `write-blog` | `/write-blog` | `skills/` | Drafts and creates an article as a Sanity draft — Bex voice, article schema, taxonomy pre-flight |
+| `write-casestudy` | `/write-casestudy` | `skills/` | Drafts and creates a portfolio case study as a Sanity draft — canonical section order, no invented proof points |
+| `write-node` | `/write-node` | `skills/` | Drafts and creates a Knowledge Graph node as a Sanity draft — arc structure, agent voice, taxonomy pre-flight |
+
+### Deprecated
+
+Kept per the Notes below: a retired row stays as a record of what existed.
+
+| Skill | Retired | Replaced by |
 |---|---|---|
-| `becky-boop` | `/becky-boop` | Generates a Becky B00p hero banner prompt for any AI image generator, contextualised to the current article or node |
-| `chromatic` | `/chromatic` | Runs Chromatic VRT, reports visual diffs, gates on human approval, records status |
-| `eod` | `/eod` | End-of-day: commits uncommitted work, single push to trigger one Netlify deploy, verifies deploy |
-| `glossy` | `/glossy` | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary |
-| `morning` | `/morning` | Morning housekeeping: git health check, branch map, Linear status, service health. Read-only, executes with confirmation |
-| `new-epic` | `/new-epic` | Creates a Linear issue + backlog stub + priority stack entry for a new epic |
-| `restart` | `/restart` | Checks which Sugartown dev servers are running and restarts any that are down |
-| `storybook-docs` | `/storybook-docs` | Authors or updates a Guidelines story for a DS component |
-| `sugartown-epic-writer` | `/sugartown-epic-writer` | Writes a Claude Code execution epic in the Sugartown epic template format |
-| `sugartown-prd-writer` | `/sugartown-prd-writer` | Writes a PRD for CMS/headless, design system, or ecom/platform work |
-| `switch` | `/switch` | Syncs the repo across machines (desktop/laptop). ARRIVE and LEAVE modes for safe handoff |
-| `update-cwv` | `/update-cwv` | Runs Lighthouse CI against production, updates PERF_BACKUP in CwvSnapshot.jsx, shows diff summary |
-| `write-blog` | `/write-blog` | Drafts and creates an article as a Sanity draft — Bex voice, article schema, taxonomy pre-flight |
-| `write-node` | `/write-node` | Drafts and creates a Knowledge Graph node as a Sanity draft — arc structure, agent voice, taxonomy pre-flight |
+| `eod` (`/eod`) | 2026-08-19, SUG-100 S9/S16 | `/ship` — same push/deploy/CI-verify job, run on demand rather than at end of day |
+| `mini-release` (`/mini-release`) | 2026-08-19, SUG-100 S9/S16 | `/ship --release` — the per-epic PATCH tier was retired with it |
+| `storybook-docs` (`/storybook-docs`) | not on disk; date unrecorded | none — Guidelines stories are authored directly |
 
 ---
 
@@ -57,12 +73,12 @@ versions are the planning/drafting layer for the same capability.
 
 ## Workflow Prompts — Release Pipeline
 
-Not a skill. A prompt file in `docs/workflows/` pasted into Claude Code at the start of a
-release session. No slash command.
+A prompt file in `docs/workflows/`, invoked by the `/release` command and by `/ship --release`.
+Can also be pasted into Claude Code directly at the start of a release session.
 
 | Prompt | File | What it does |
 |---|---|---|
-| Release assistant | `docs/workflows/release-assistant-prompt.md` | Seven-gate release pipeline: source of truth → CHANGELOG → release notes → commit. Nothing writes without approval |
+| Release assistant | `docs/workflows/release-assistant-prompt.md` | Five-gate release pipeline: source of truth → CHANGELOG → release notes → commit. Nothing writes without approval. Ends at a local commit — it does not push |
 
 ---
 

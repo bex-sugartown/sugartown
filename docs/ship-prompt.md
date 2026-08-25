@@ -215,6 +215,9 @@ After delivering the briefing, propose actions in this order:
      (SUG-100 S9, acceptance criterion: proven by cutting a release after 2+ epics accumulate).
    - Without `--release`: skip this step. Code is live; no version is cut. `[Unreleased]` keeps
      accumulating for the next release, whenever that runs.
+   - **Do not push `/release`'s commit.** It ends at a local commit by design
+     (`docs/workflows/release-assistant-prompt.md`, Gate 5) and ships with the next `/ship`.
+     Report it as unpushed in Phase 4; that is a complete `--release` run.
 
 Execute **one action at a time**. Wait for confirmation before each step.
 
@@ -237,7 +240,7 @@ Chromatic: [no changes / N changes (approved | overridden) / skipped — no visu
 Netlify deploy: [triggered / not needed]
 CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
-Release: [--release not passed / version vX.Y.0 cut, see /release output / --release passed but CI blocked it]
+Release: [--release not passed / version vX.Y.0 cut — commit local, ships with next /ship / --release passed but CI blocked it]
 Uncommitted changes: [none / list]
 Stashes: [none / list]
 ```
@@ -261,4 +264,5 @@ close-out steps had two commands between them before this; SUG-100 §A10 has the
   so disk safety no longer depends on remembering to push (SUG-100 S13)
 - `/ship` — whenever you want to ship, not on a schedule — push, verify, transition `Done` →
   `Shipped`
-- `/ship --release` — the same, then cut a version covering everything since the last one
+- `/ship --release` — the same, then cut a version covering everything since the last one;
+  the version commit stays local and rides the next `/ship`, so a ship is always one deploy

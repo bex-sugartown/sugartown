@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-103 — Single-deploy `/ship --release`
 **Issue:** [#103](https://github.com/bex-sugartown/sugartown/issues/103)
-**Status:** Backlog
+**Status:** In Progress — implementation complete 2026-08-25; the final AC waits on the next real `/ship --release`
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 ---
@@ -66,7 +66,7 @@ inspection), without weakening the verify-before-release guarantee.
 - [x] **Measure Netlify's actual behavior for two pushes to `main` within a short window** —
       **Done 2026-08-21**, from the Deploys UI directly (see Background). Both pushes billed
       in full; no dedup. — layer: process
-- [ ] **Implement the leading resolution**: `docs/workflows/release-assistant-prompt.md`
+- [x] **Implement the leading resolution** — done 2026-08-25: `docs/workflows/release-assistant-prompt.md`
       Step 3C / Gate 5 stops asking to push — commits and stops. `docs/ship-prompt.md`
       Phase 3 step 7 and Phase 4's closing template update to describe the release commit as
       picked up by a future `/ship`, not pushed by this one. State plainly in both files that
@@ -74,13 +74,13 @@ inspection), without weakening the verify-before-release guarantee.
       isolation must not read "commit, then stop" as incomplete. Both files are under the
       Instruction & Rule File Write Gate — diffs shown, approved before landing — layer:
       process
-- [ ] **Confirm the two other options were considered and correctly rejected**, in the doc:
+- [x] **Confirm the two other options were considered and correctly rejected**, in the doc:
       (a) bundling the release commit into the same push as the accumulated work
       (release-before-CI-verification — rejected, weakens the guarantee), (b) reordering so
       release gates on a *previous* known-green state instead of this run's — more complex,
       solves nothing the deferred-push model doesn't already solve more simply — layer:
       process
-- [ ] **Documentation sweep — every live doc asserting "one Netlify deploy per `/ship`" as a
+- [x] **Documentation sweep — every live doc asserting "one Netlify deploy per `/ship`" as a
       fact needs checking against the new model, not just the two prompt files that implement
       it.** Found by grep, not assumed complete — re-grep at execution time in case more have
       landed since 2026-08-21:
@@ -94,7 +94,7 @@ inspection), without weakening the verify-before-release guarantee.
       `docs/ship-prompt.md` itself, but the walkthrough's own §Scope already widens to
       `docs/workflows/**` and named prompts for exactly this reason — treat this sweep as part
       of that same walkthrough, not a separate pass — layer: process
-- [ ] **Walk the changed prompts end to end** (rule-file followability walkthrough,
+- [x] **Walk the changed prompts end to end** (rule-file followability walkthrough,
       `CLAUDE.md` §Rule-file followability walkthrough — this scope is explicitly listed:
       `docs/ship-prompt.md` is in scope; the documentation-sweep item above is this walkthrough's
       step 1, "name the workflows the change touches," done in writing ahead of time) before
@@ -118,10 +118,10 @@ inspection), without weakening the verify-before-release guarantee.
       Deploys UI afterward — not by code inspection — with the release commit visibly still
       unpushed (local-only) immediately after that run completes, then picked up correctly by
       whatever `/ship` runs after it
-- [ ] `docs/ship-prompt.md` and `docs/workflows/release-assistant-prompt.md` agree with each
+- [x] `docs/ship-prompt.md` and `docs/workflows/release-assistant-prompt.md` agree with each
       other on the model (no restating one prompt's mechanic in the other, per the pattern
       SUG-265 was originally filed to prevent)
-- [ ] Every file in the documentation-sweep table (Scope) has been individually re-read and
+- [x] Every file in the documentation-sweep table (Scope) has been individually re-read and
       confirmed accurate against the new model — not skipped because it "probably still holds"
 
 ## Model & Mode [REQUIRED]
@@ -141,3 +141,66 @@ not in how to write the fix once that's known.
   "close-out costs two deploys" finding, absorbed into ST-100 (different mechanism: that was
   about needing a CI run for an on-`main` epic; this is about `/release`'s own commit needing
   a second push after the main push already ran)
+
+
+---
+
+## Resolution — implemented 2026-08-25
+
+### What the fix actually was
+
+**Neither prompt instructed the second push.** `/release` Gate 5 ends at a commit and has no
+push gate; `/ship` step 7 says "invoke `/release`" and says nothing about pushing afterward.
+The 2026-08-21 second deploy came from a session filling that silence — "cut a release" reads
+as "make it live" when nothing says otherwise.
+
+So the change is not the removal of a push step. It is an explicit statement of the deferred-push
+model in both files, which is what this epic's Scope anticipated ("a future session reading
+either prompt in isolation must not read 'commit, then stop' as incomplete").
+
+### Ownership split (AC: the two prompts must not restate each other)
+
+- `docs/workflows/release-assistant-prompt.md` **owns** the mechanic and its rationale: stop at
+  the commit, don't push, don't ask; the cost measurement and the untouched verify-before-release
+  ordering.
+- `docs/ship-prompt.md` states the **instruction only** and cites Gate 5 as the owner. No
+  restated reasoning, per the SUG-265 pattern.
+
+### Documentation sweep — all four rows re-read, none needed editing
+
+| File | Line | Verdict |
+|---|---|---|
+| `CLAUDE.md` | 129 | Accurate as written. "Pushing `origin/main`... triggers a Netlify deploy... is the ship step's job" stays true — the release commit is pushed by a *later* ship step, which the existing wording already covers. No caveat needed |
+| `docs/switch-prompt.md` | 13 | Becomes straightforwardly true. Was the one case where `/ship --release` produced two deploys; now it does not |
+| `docs/switch-prompt.md` | 267 | Same |
+| `docs/workflows/morning-housekeeping-prompt.md` | 280 | Generic, asserts no count. No change |
+
+### Two further findings, folded in by approval 2026-08-25
+
+Found by the re-grep the Scope item mandated, both pre-existing rot rather than consequences of
+this change:
+
+| File | Defect | Verified by |
+|---|---|---|
+| `docs/ai/README.md` | Linked `docs/workflows/eod-prompt.md`, which does not exist | `ls docs/workflows/` |
+| `docs/ai/skills-index.md` | Listed retired `/eod` and absent `storybook-docs` as live; omitted 6 real skills; called the release pipeline "Seven-gate" (it has 5); said the release prompt had "No slash command" (`/release` exists) | `ls .claude/skills/`, `ls .claude/commands/`, `grep -c '^### ✅ GATE'` |
+
+Retired rows moved to a Deprecated section rather than deleted, per that file's own Notes.
+
+### Followability walkthrough findings
+
+Walked `/ship --release` end to end reading only the edited text.
+
+| # | Finding | Disposition |
+|---|---|---|
+| 1 | `ship-prompt.md` step 7 cited "Step 3C", but the don't-push rule sits under Gate 5 (line 367); Step 3C (line 352) is the version-bump section. A session following the pointer lands in the wrong place | Fixed before commit — pointer now reads "Gate 5" |
+| 2 | `release-assistant-prompt.md` cross-referenced "`/ship` step 5" with no phase, ambiguous when the file is read alone | Fixed before commit — now "`/ship` Phase 3 step 5" |
+| 3 | Heading `Claude Code Skills (.claude/skills/)` renamed to `Claude Code Skills and Commands`; grepped for inbound references | None found (confirmed by hand and by `scripts/check-renamed-headings.js`) |
+
+### Still open
+
+The remaining acceptance criterion cannot be closed by inspection, by this epic's own terms:
+**`/ship --release`'s next real run must produce exactly 1 deploy, verified in the Netlify
+Deploys UI afterward**, with the release commit visibly unpushed immediately after, then picked
+up by the following `/ship`. Whoever runs the next `/ship --release`: check the Deploys UI and
+record the result here.
