@@ -197,6 +197,34 @@ Walked `/ship --release` end to end reading only the edited text.
 | 2 | `release-assistant-prompt.md` cross-referenced "`/ship` step 5" with no phase, ambiguous when the file is read alone | Fixed before commit — now "`/ship` Phase 3 step 5" |
 | 3 | Heading `Claude Code Skills (.claude/skills/)` renamed to `Claude Code Skills and Commands`; grepped for inbound references | None found (confirmed by hand and by `scripts/check-renamed-headings.js`) |
 
+### Acceptance evidence, partial — 2026-08-25 ship
+
+A `/ship --release` ran the same day this epic closed. It was **stopped deliberately at
+`/release` Gate 1**, before any version bump, because the range was documentation and process
+only and did not warrant a MINOR bump. So this run tests the ship half and not the release half.
+
+**Ship half: exactly one production deploy, confirmed from the Netlify API rather than inferred.**
+
+| Field | Value |
+|---|---|
+| Deploy id | `6a8db234ff294f0008ef14b0` |
+| `commit_ref` | `3355a8e0` — the pushed tip, exact match |
+| `context` / `state` | `production` / `ready`, and the site's current deploy |
+| `created_at` → `published_at` | 2026-08-25T15:18:12Z → 15:19:41Z, `deploy_time` 87s |
+| Second production deploy in the window | **none** |
+| CI run | `32864945433`, concluded `success` |
+
+Command: `netlify-deploy-services-reader get-deploy`, deploy id taken from
+`get-projects → currentDeploy` for site `d5317131-48d0-4958-b1fa-693fb40f06f4`.
+
+**Still untested by this run:** the release half. Because `/release` was stopped before Gate 3,
+no release commit was created, so the specific behaviour "the release commit exists and is
+visibly unpushed immediately after the run" has not yet been observed. That still needs a
+`/ship --release` carried through to a real version cut.
+
+Consistent with the model either way: this doc's own update commit is not being pushed. It
+rides the next `/ship`, which is exactly the behaviour this epic introduced.
+
 ### Still open
 
 The remaining acceptance criterion cannot be closed by inspection, by this epic's own terms:
