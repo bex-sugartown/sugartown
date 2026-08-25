@@ -12,6 +12,34 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### tooling
+
+#### Added
+- Liveness probes: `pnpm validate:liveness-probes` runs six file-based gates against a
+  deliberate violation each and fails if any stays green, on the principle that a gate never
+  tested against known-bad input is only assumed to work. Covers `validate:tokens` (plus
+  `--strict-colors`), `validate:style-mirror`, `validate:dead-refs`, `validate:css-names`, and
+  the ESLint boundary rules across four packages, for nine probed gates in total. The boundary
+  rules are the reason it exists: they sat inert for 176 days while reporting as configured
+  (INC-011). Wired into `ci.yml`. Kill criterion set at birth: if the probes find nothing new
+  in 60 days, retire them. ST-95.
+
+#### Changed
+- `/ship --release` no longer costs two Netlify deploys. `/release` ends at a local commit that
+  rides out with the next `/ship`, instead of being pushed on its own, which had been billing a
+  second production deploy for work the same run had already deployed (measured 2026-08-21 in
+  the Netlify Deploys UI: both pushes completed and billed, 15 minutes apart, no dedup). Neither
+  prompt had ever instructed that second push; both simply stopped short of saying not to, so
+  the fix states the deferred-push model explicitly rather than removing a step. The
+  verify-before-release ordering is untouched. ST-103.
+
+#### Fixed
+- `docs/ai/README.md` linked `docs/workflows/eod-prompt.md`, a file that does not exist, and
+  `docs/ai/skills-index.md` listed the retired `/eod` and an absent `storybook-docs` as live
+  skills while omitting six real ones, calling the five-gate release pipeline "Seven-gate," and
+  stating the release prompt had no slash command. Found by ST-103's documentation sweep. ST-103.
+
+
 ## [0.35.0] — 2026-08-21
 
 Dev-server boot time, a silent security-stats bug, an XSS risk decision, a CI flake, and the
