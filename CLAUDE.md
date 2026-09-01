@@ -86,6 +86,17 @@ aphorism, rationale gets one clause or its own file. Applies to this file, skill
 conventions, epic docs and session replies alike. `docs/brand/brand-voice-guide.md` covers
 reader-facing content only.
 
+**Instructions written for Bex to follow, rather than for a session, follow the rules in this
+paragraph.** Bex is not a developer: prefer a click-path over a terminal command, one action
+per numbered step, state what she should see after each, never ask her to locate a line inside
+a file, and put the fallback in the same message rather than after she reports a failure. When
+a session is blocked from acting, name whether it cannot or will not, and hand over the
+smallest possible piece of work. Avoid "just", "simply", "obviously", "quick".
+
+The fuller version is `../conventions/human-instruction-style.md`, local to Bex's machine and
+outside this repo. **This paragraph is the whole rule wherever that file does not resolve** —
+in a clone of this public repo, or in a session that mounted sugartown alone.
+
 Every markdown file in the repo also follows `docs/conventions/machine-readable-docs.md`:
 sections that stand alone, front-loaded answers, resolved pronouns, ISO dates. Retrieval
 chunks all files the same way, whichever guide owns the content.
