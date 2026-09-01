@@ -5,7 +5,7 @@
 **Version:** v2026.04.04
 **Status:** Active
 **Owner:** Bex Head
-**See also:** [Master Voice Cheat Sheet](./master-voice-cheatsheet.md) · [Brand Voice Guide](./brand-voice-guide.md)
+**See also:** [Master Voice Cheat Sheet](./master-voice-cheatsheet.md) · [Brand Voice Guide](./brand-voice-guide.md) · [Mini Manifesto](./mini-manifesto.md)
 
 ---
 

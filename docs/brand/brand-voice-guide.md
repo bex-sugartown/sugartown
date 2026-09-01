@@ -5,7 +5,7 @@
 **Version:** v2026.03.27
 **Status:** Active
 **Owner:** Bex Head
-**See also:** [Master Voice Cheat Sheet](./master-voice-cheatsheet.md) · [Node Style Guide](./node-style-guide.md)
+**See also:** [Master Voice Cheat Sheet](./master-voice-cheatsheet.md) · [Node Style Guide](./node-style-guide.md) · [Mini Manifesto](./mini-manifesto.md)
 
 ---
 

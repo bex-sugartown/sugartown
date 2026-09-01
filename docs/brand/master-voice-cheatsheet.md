@@ -81,6 +81,7 @@ Before publishing, confirm:
 
 - **[Brand Voice Guide](./brand-voice-guide.md)** — full tone spectrum, do/don't table, CTA conventions, social proof guidance
 - **[Node Style Guide](./node-style-guide.md)** — structure, arc, status blocks, word count, related-node linking
+- **[Mini Manifesto](./mini-manifesto.md)** — positioning statement and approved bio lengths for site copy, bylines, and profiles
 
 ---
 
