@@ -114,6 +114,12 @@ When creating a new epic in `docs/backlog/`:
 
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
 
+**Tools do not take this path.** A validator, gate, hook, script, generator or command is filed
+with `/new-tool`: a GitHub issue and no backlog doc, because the issue body is the spec. That
+skill carries its own activation gate, since §Incomplete epic doc hard stop reads a backlog file
+and a tool has none. Use `/new-epic` when the work changes what a user sees, `/new-tool` when it
+changes what the repo does to itself.
+
 **Two ID eras, and they overlap.** `SUG-5`–`SUG-284` are Linear IDs on existing epics and never
 change. `ST-{n}` is a GitHub issue number on epics created from 2026-08-16. The prefix carries
 the era because the ranges collide: `SUG-93` is a legacy epic doc *and* GitHub issue #93 is a

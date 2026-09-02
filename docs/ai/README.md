@@ -54,6 +54,7 @@ Two systems. Full inventory: `docs/ai/skills-index.md`.
 
 Frequently used:
 - `/new-epic` — create a GitHub issue + backlog stub
+- `/new-tool` — file a validator, gate, hook or script; issue only, no backlog doc
 - `/write-blog` — draft an article as a Sanity draft
 - `/write-node` — draft a Knowledge Graph node as a Sanity draft
 - `/glossy` — add a glossary term to sugartown.io

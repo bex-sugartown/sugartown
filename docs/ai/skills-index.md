@@ -26,6 +26,7 @@ The `Where` column says which.
 | `glossy` | `/glossy` | `skills/` | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary |
 | `morning` | `/morning` | `commands/` + `skills/` | Morning housekeeping: git health, branch map, board status, service health. Reads first, executes with confirmation. Prompt: `docs/workflows/morning-housekeeping-prompt.md` |
 | `new-epic` | `/new-epic` | `skills/` | Creates a GitHub issue + backlog stub for a new epic, and boards it |
+| `new-tool` | `/new-tool` | `skills/` | Files a tool — validator, gate, hook, script, generator, command. GitHub issue only, no backlog doc; the issue body is the spec. Carries its own activation gate, since the backlog-doc hard stop cannot apply |
 | `post-mortem` | `/post-mortem` | `commands/` | Runs a post-mortem. Prompt: `docs/post-mortem-prompt.md` |
 | `red-pen` | `/red-pen` | `skills/` | Editorial review of Sugartown content against the brand voice guides. Reviewer, not writer — never rewrites without row-level approval |
 | `release` | `/release` | `commands/` | Cuts a version. Prompt: `docs/workflows/release-assistant-prompt.md`. Normally invoked by `/ship --release`, not run alone |
