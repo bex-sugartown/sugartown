@@ -183,6 +183,44 @@ maintained field:
 the Pre-Execution Completeness Gate coming clean (`docs/epic-template.md`). An epic whose work
 has started while its issue still reads `Todo` is invisible to anyone looking at the board.
 
+**A non-epic issue executed directly — "execute {n}" — follows the same statuses without an
+epic doc.** Bugs, gaps and chores filed as bare issues have no `/new-epic` step and no
+Pre-Execution Completeness Gate, so none of the triggers above fire and the issue sits at
+`Todo` while the work happens and finishes. #106 did exactly that on 2026-09-01: filed,
+executed, committed and evidenced, still reading `Todo`.
+
+| Stage | Trigger | Status |
+|---|---|---|
+| Execution accepted | Issue read, first action planned, before the first `Edit`/`Write` | `In Progress` |
+| Work committed, local checks green | Committed, and whatever verifies it has passed | `Done` |
+| Live and verified | `/ship` pushes it and CI concludes `success` | `Shipped` |
+
+Set `In Progress` by editing the project item's `Status`. Set `Done` with `gh issue close {n}`
+and let the `Item closed` workflow stamp the status — do not set the field by hand, for the
+same ordering reason as §Done vs Shipped. `/ship` step 6 handles `Shipped`.
+
+```bash
+# item id for issue {n}
+gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+  | jq -r '.items[] | select(.content.number=={n}) | .id'
+# In Progress (option ids via: gh project field-list 1 --owner bex-sugartown)
+gh project item-edit --id {item_id} --project-id PVT_kwHODqg2Fc4BP7M2 \
+  --field-id PVTSSF_lAHODqg2Fc4BP7M2zg-MUFI --single-select-option-id be99b80c
+```
+
+Three rules make this safe:
+
+1. **Set `In Progress` before the first `Edit`/`Write`.** Same reason as an epic: work in
+   flight on a `Todo` issue is invisible to anyone reading the board.
+2. **Do not set `Done` until the work is committed.** `/ship` step 6 sweeps *everything*
+   currently `Done` into `Shipped` on a green CI run, so a `Done` issue whose work is
+   uncommitted gets marked shipped by the next ship regardless of what it contains.
+3. **Comment the evidence on the issue when setting `Done`** — what changed, and what verified
+   it. `Done` with no evidence is a status nobody can check.
+
+Abandoning execution returns the issue to `Todo`, or `On Hold` if blocked. Never leave it at
+`In Progress`.
+
 **`On Hold` is the one status a workflow step does not set.** It covers both a blocker outside
 your control and work deliberately parked, and it is the human's call in both directions.
 Exits to `In Progress` when work resumes, or to `Canceled` if it never does.
