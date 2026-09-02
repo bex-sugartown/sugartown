@@ -174,11 +174,17 @@ maintained field:
 | Sugartown stage | Trigger | Status |
 |---|---|---|
 | Epic created | `/new-epic` Step 1 | `Backlog` |
-| Prioritized for pickup | Set by the human | `Todo` |
+| Prioritized for pickup | `Priority` set to `Urgent` or `High`, at creation or later | `Todo` |
 | Implementation begins | Pre-Execution Completeness Gate passes (`docs/epic-template.md`) | `In Progress` |
 | Paused for any reason | Set by the human | `On Hold` |
 | Epic complete | Close-out sequence step 8 (below) | `Done` |
 | Code live and verified | Push reaches `origin/main`, CI concludes `success` (§Done vs Shipped) | `Shipped` |
+
+**`Priority` and `Status` are not independent at the top of the scale.** `Urgent` and `High`
+both mean ready to pick up, so an issue carrying either belongs at `Todo`, whether it was
+created that way or promoted later. `Medium` and `Low` sit at `Backlog`. A `High` issue at
+`Backlog` is a contradiction between two fields, and whichever one a reader trusts, the board
+has misled them. `/new-epic` and `/new-tool` both set this at creation.
 
 **Set `In Progress` before the first `Edit`/`Write` call of an epic, not after.** The trigger is
 the Pre-Execution Completeness Gate coming clean (`docs/epic-template.md`). An epic whose work

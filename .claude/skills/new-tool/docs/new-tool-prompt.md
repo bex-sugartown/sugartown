@@ -181,7 +181,12 @@ gh project item-edit --project-id PVT_kwHODqg2Fc4BP7M2 --id "$ITEM" \
 > `gh project field-list 1 --owner bex-sugartown --format json` and update this table rather
 > than working around it.
 
-Leave `Status` at `Backlog`. The human sets `Todo` when they prioritize it.
+`Urgent` or `High` → set `Status` to `Todo` (option id `9daaa907` on field
+`PVTSSF_lAHODqg2Fc4BP7M2zg-MUFI`). `Medium` or `Low` → leave at `Backlog`. A priority meaning
+"ready to pick up" alongside a status meaning "not queued" is a contradiction, not a default.
+
+The `Issue added to project` workflow stamps `Backlog` on arrival, so `Todo` is set after
+boarding, not instead of it.
 
 ---
 

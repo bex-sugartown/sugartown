@@ -1,10 +1,20 @@
 # Multi-Repo Operations Brief
 
-**Status:** Draft — D1 decided 2026-09-02, D2 through D5 open
-**Owner:** Bex Head
-**Project ID:** N/A — umbrella operations doc, not a single project (per `docs/briefs/README.md` litmus test)
-**Date:** 2026-09-02
-**Supersedes:** nothing. First doc covering work outside the sugartown repo.
+| Field | Value |
+|---|---|
+| **Document** | Multi-Repo Operations Brief v1.0 |
+| **Status** | 🟡 Draft — D1 decided, D2 through D5 open |
+| **Owner** | Bex Head |
+| **Executing epic** | [ST-108 / #108](https://github.com/bex-sugartown/sugartown/issues/108) — Multi-repo operations and /sweep command · `Todo` · High |
+| **Epic doc** | `docs/backlog/ST-108-multi-repo-operations-and-sweep-command.md` |
+| **Scope** | Repository topology across `sugartown`, `resume-factory/os`, `cms-eval/toolkit` and the non-repo `conventions/`; where shared conventions live; unversioned-content risk; the `/sweep` command |
+| **Constrains** | ST-108 and any future cross-repo tooling. Does not constrain work inside a single repo. |
+| **Decisions** | D1 decided 2026-09-02 (Time Machine to `/Volumes/Angelique`). D2–D5 open, each with a stated recommendation. |
+| **Related issues** | [#106](https://github.com/bex-sugartown/sugartown/issues/106) wip-mirror stale-ref bug · `Shipped` — its log is what `/sweep` reads<br>[#109](https://github.com/bex-sugartown/sugartown/issues/109) wip-mirror rebase race · `Backlog` — same log, different failure |
+| **Project ID** | N/A — umbrella operations doc, not a single project (per `docs/briefs/README.md` litmus test) |
+| **Supersedes** | Nothing. First doc covering work outside the `sugartown` repo. |
+| **Created** | 2026-09-02 |
+| **Last reviewed** | 2026-09-02 |
 
 ---
 

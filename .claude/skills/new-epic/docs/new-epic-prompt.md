@@ -249,8 +249,14 @@ section with "Not applicable — no shared CSS, token, or multi-page component c
 
 ## STEP 4 — SYNC THE BOARD
 
-**Sync status:** leave the issue as `Backlog`. The human sets `Todo` when they prioritize it
-for pickup.
+**Sync status: the priority set in Step 1 decides it.** `Urgent` or `High` means the work is
+ready to pick up, so the issue is created at `Todo` (`--single-select-option-id 9daaa907` on
+field `PVTSSF_lAHODqg2Fc4BP7M2zg-MUFI`). `Medium` or `Low` stays at `Backlog`. Leaving a `High`
+issue at `Backlog` puts the two fields in contradiction — one says ready, the other says not
+queued — and the board is then wrong whichever a reader trusts.
+
+The `Issue added to project` workflow stamps `Backlog` on arrival, so a `Todo` issue needs the
+status set explicitly after boarding, not instead of it.
 
 **Sync dependency relations:** if the invocation context or epic doc states an explicit
 "blocked on X" / "blocked by X" dependency, record it in the issue body in this same step —
