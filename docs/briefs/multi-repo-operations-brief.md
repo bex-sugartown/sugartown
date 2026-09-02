@@ -1,6 +1,6 @@
 # Multi-Repo Operations Brief
 
-**Status:** Draft — recommendation stated, decisions open
+**Status:** Draft — D1 decided 2026-09-02, D2 through D5 open
 **Owner:** Bex Head
 **Project ID:** N/A — umbrella operations doc, not a single project (per `docs/briefs/README.md` litmus test)
 **Date:** 2026-09-02
@@ -60,6 +60,29 @@ is not an exclusion problem.
 
 **This outranks every other finding here.** A missing EOD command costs an afternoon. This costs
 the content.
+
+**Resolved 2026-09-02: Time Machine to `/Volumes/Angelique`**, covering all of
+`SUGARTOWN_DEV/`. Bex reconfigures the destination in System Settings; a session cannot change
+Time Machine configuration.
+
+Syncing the parent directory to Google Drive was considered and rejected. `SUGARTOWN_DEV/` is
+21 GB, and four things make it the wrong tool at that scope:
+
+1. **5.4 GB is regenerable.** `node_modules` across 11 directories, 3.4 GB in `sugartown/`
+   alone. It returns from a lockfile; backing it up is waste.
+2. **`.git` corruption risk.** 5 repositories, 5,364 files inside `.git` directories. Cloud
+   sync clients copy `.git` internals non-atomically, so refs, index and packfiles can land
+   out of step. Time Machine snapshots are atomic.
+3. **Symlink loop.** `cms-eval/instances` and `cms-eval/published` point *into* Google Drive.
+   Syncing the parent into Drive means Drive syncing a folder that links back into Drive.
+4. **Confidentiality.** `cms-eval/bound/` is 14 MB of client source under a standing rule that
+   it is never read, staged, copied or gitted. A parent-directory Drive sync copies it to
+   third-party cloud storage silently. This is a contract question, not a technical one, and it
+   is the reason the decision is not merely a performance preference.
+
+`/Volumes/Angelique` is 1.8 TB with 1.1 TB free. The prior Time Machine destination, named
+`Victoria`, resolved to `/` — the boot volume, which is 92% full and offers no protection
+against the failure of the disk it lives on.
 
 ### F2 — no command covers work outside sugartown
 
@@ -193,7 +216,7 @@ them. Note the inversion; accept it only if the alternative is not building it.
 
 | # | Decision | Recommendation |
 |---|---|---|
-| D1 | Close F1 by Drive symlink, LFS repo, or confirmed Time Machine | Drive symlinks — matches the working `cms-eval` pattern |
+| D1 | Close F1 by Drive symlink, LFS repo, or confirmed Time Machine | **Decided 2026-09-02 — Time Machine to `/Volumes/Angelique`.** Parent-directory Drive sync rejected on four grounds, recorded under F1. Open until the first completed backup is verified by listing it |
 | D2 | Promote `conventions/` to a repo, or keep plain files | Promote. Bex chose plain files on 2026-09-01 with the tradeoff stated; this brief revisits it because F3's cost is now measured, not theoretical |
 | D3 | `/sweep` or another name | `/sweep`; `/eod` collides with a retired command |
 | D4 | Where the sweep command lives | `sugartown/.claude/skills/`, with rules in `conventions/` |
@@ -214,7 +237,10 @@ them. Note the inversion; accept it only if the alternative is not building it.
 ## Acceptance criteria
 
 1. `resume-factory/data` and `resume-factory/private` have a confirmed second copy, verified by
-   listing it, not by assuming a backup ran.
+   listing it, not by assuming a backup ran. For the D1 route that means `tmutil latestbackup`
+   returning a path on `/Volumes/Angelique`, and `tmutil listbackups` showing more than one —
+   a destination that is configured but has never completed a backup is what this criterion
+   exists to catch.
 2. Every shared rule in `conventions/` has a self-contained summary in each dependent project's
    `CLAUDE.md`, verified by opening a clone with no access to `conventions/` and confirming the
    rule is still followable.
