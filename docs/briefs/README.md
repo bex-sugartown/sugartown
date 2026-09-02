@@ -28,6 +28,7 @@ Files that map to a live `project` doc are prefixed with that project's ID: `PRO
 | [structured-content-audit.md](structured-content-audit.md) | Structured content audit | N/A — audit, not a project | Reference |
 | [taxonomy-vocabulary-audit-2026.md](taxonomy-vocabulary-audit-2026.md) | Taxonomy vocabulary audit | N/A — audit, not a project | Reference |
 | [vendor-eval-vercel-vs-netlify.md](vendor-eval-vercel-vs-netlify.md) | Vendor evaluation — Vercel vs Netlify | N/A — evaluation, not a project | Reference |
+| [multi-repo-operations-brief.md](multi-repo-operations-brief.md) | Multi-repo architecture and operations — topology across sugartown, resume-factory and cms-eval, where shared conventions live, unversioned-content risk, the `/sweep` command | N/A — umbrella operations doc, not a single project | Draft (2026-09-02) |
 
 ### Design System
 
