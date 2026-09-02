@@ -137,17 +137,33 @@ considered.
 history on the highest-blast-radius documents, and lets a Cowork session mount it beside a
 single project.
 
-**2. Reachability — every project's `CLAUDE.md` carries a self-contained summary of each shared
-rule it depends on, not a bare pointer.** This is the durable fix and it holds under option A or
-B. A pointer to `../conventions/` breaks in a public clone and in any session that mounted one
-project alone. A summary in the rule file itself never does.
+**2. Reachability is a mount problem, not a documentation problem. Keep the bare pointer.**
+Connect `conventions/` alongside whichever project a Cowork session mounts. Zero copies, zero
+drift.
 
-The pattern was applied to `sugartown/CLAUDE.md` on 2026-09-01 for the human-instruction rule:
-the paragraph states the whole rule, then names the fuller version and says explicitly that the
-paragraph governs wherever that file does not resolve. Follow that shape for every shared rule.
+**No project's `CLAUDE.md` carries a summary of a shared rule.** An earlier draft of this brief
+recommended the opposite, and it was wrong. The pointer exists to deter drift: a rule inlined in
+four places must be changed in four places, and the one that gets missed is silently incomplete
+with nothing to detect it. That is the second-copy problem this repo has ruled on repeatedly —
+"there is one priority queue and no second copy", §Building a mechanism rule 3 ("a register is
+generated or it does not exist"), and the Mirrored File Registry, which permits duplication only
+where a named mechanism enforces it. `tokens.css` is duplicated because `pnpm tokens:build`
+generates it and `validate:style-mirror` fails the commit when the copies diverge. A
+hand-written summary has neither.
 
-**Do part 2 first.** It is cheap, it is reversible, and it closes F3's real damage. Part 1 is
-tidiness by comparison.
+The two failure cases that motivated the summary do not survive inspection. A public clone of
+`sugartown` resolving `../conventions/` to nothing is cosmetic: nobody forking a public repo
+needs a rule about how instructions are written for Bex. A Cowork session that mounted one
+project alone is real, but the fix is what gets mounted. `conventions/README.md` already states
+the correct fallback when it does not resolve — *"say so rather than guessing at the standard"* —
+and `resume-factory/os/CLAUDE.md` and `cms-eval/toolkit/CLAUDE.md` already carry that caveat.
+
+**If a shared rule ever must exist in more than one place, it is generated and validated, never
+hand-written.** That is a build step and a checker, on the `tokens.css` model. Anything less
+reintroduces the drift the pointer exists to prevent.
+
+**Do part 2 first.** It costs nothing — it is the current design, correctly left alone. Part 1
+is the only change on the table.
 
 ### Content architecture — close F1 before anything else
 
@@ -241,9 +257,11 @@ them. Note the inversion; accept it only if the alternative is not building it.
    returning a path on `/Volumes/Angelique`, and `tmutil listbackups` showing more than one —
    a destination that is configured but has never completed a backup is what this criterion
    exists to catch.
-2. Every shared rule in `conventions/` has a self-contained summary in each dependent project's
-   `CLAUDE.md`, verified by opening a clone with no access to `conventions/` and confirming the
-   rule is still followable.
+2. Every dependent project's `CLAUDE.md` reaches `conventions/` by pointer and states the mount
+   caveat, and **no project inlines a summary of a shared rule.** Verified by grepping the three
+   `CLAUDE.md` files for the pointer and for the absence of duplicated rule text, not by reading
+   for intent. A shared rule that exists in two places without a generator and a validator is a
+   defect, not a convenience.
 3. One command reports all three repos' state, and pushes the two that are free to push.
 4. A stale lock in any of the three is detected and cleared by that command.
 5. Running it against a clean tree in all three reports "nothing to do" and exits.
