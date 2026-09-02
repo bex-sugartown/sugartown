@@ -41,6 +41,12 @@ SHA=$(git rev-parse --short HEAD)
 # Backgrounded so committing stays fast. Detached from the terminal so husky does
 # not wait on it.
 (
+  # Refresh the remote-tracking ref before pushing. --force-with-lease compares against it,
+  # and when it is absent or stale git refuses with "stale info". That happens whenever
+  # another actor (a second machine, or the stats bot) advanced wip/<date> first, which is
+  # exactly the multi-machine case this hook exists to cover. Harmless no-op on the first
+  # commit of a day, when the branch does not exist remotely yet. ST-106.
+  git fetch --quiet origin "refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null
   if git push --force-with-lease --quiet origin "HEAD:refs/heads/$BRANCH" 2>/dev/null; then
     echo "OK   $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
   else

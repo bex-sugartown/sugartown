@@ -137,6 +137,9 @@ accept a deploy or create a `wip/<epic>` branch — existed only to manufacture 
 The hook does it continuously now; there is no threshold left to state. (SUG-231: 48 commits
 existed nowhere but one disk for two days — this is what closes that gap.)
 
+The hook records each attempt in `.git/st-mirror.log` and prints a warning on the *next* commit
+when the last one failed, so a failed mirror surfaces one commit late rather than at the time.
+
 **Pushing `origin/main` itself stays a separate, deliberate act.** It triggers a Netlify deploy (15
 credits) and is the ship step's job, not a mid-epic habit.
 
