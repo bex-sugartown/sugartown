@@ -31,7 +31,9 @@ LOG=".git/st-mirror.log"
 # name the reader before building the writer).
 if [ -f "$LOG" ] && grep -q '^FAIL' "$LOG" 2>/dev/null; then
   echo "⚠️   wip mirror: last push failed — $(tail -1 "$LOG")"
-  echo "    Commits may exist only on this disk. Check connectivity, or run:"
+  echo "    Commits may exist only on this disk. Check connectivity, or run both lines"
+  echo "    (the fetch is what gives --force-with-lease a current base — ST-106):"
+  echo "    git fetch origin \"refs/heads/wip/$(date +%Y-%m-%d):refs/remotes/origin/wip/$(date +%Y-%m-%d)\""
   echo "    git push --force-with-lease origin HEAD:refs/heads/wip/$(date +%Y-%m-%d)"
 fi
 

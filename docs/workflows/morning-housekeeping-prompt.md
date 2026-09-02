@@ -51,6 +51,25 @@ git branch -vv --no-merged main | grep -v '\[origin/'
 ```
 Any branches listed here have commits that exist ONLY on this machine — flag them in the briefing as **critical unfinished business** and recommend pushing immediately.
 
+Then check whether the last **wip mirror** succeeded. The `post-commit` hook mirrors every
+commit to `wip/<date>` on `origin` and records the outcome, but its only other reader is the
+next commit — so a mirror that fails at the end of a session surfaces nowhere until you commit
+again (observed 2026-09-01: a failure went unnoticed for 18 hours):
+```bash
+cat .git/st-mirror.log 2>/dev/null || echo "no mirror log yet"
+```
+- Line starts `OK` → the last commit reached `origin` ✅
+- Line starts `FAIL` → **commits since that timestamp may exist only on this machine.** Flag as
+  critical unfinished business, same severity as a local-only branch, and recover with **both**
+  lines — the fetch is not optional, it is what gives `--force-with-lease` a current base
+  (ST-106); the push alone reproduces the original failure:
+  ```bash
+  B="wip/$(date +%Y-%m-%d)"
+  git fetch origin "refs/heads/${B}:refs/remotes/origin/${B}" 2>/dev/null
+  git push --force-with-lease origin "HEAD:refs/heads/${B}"
+  ```
+- No file → the hook has never completed a run here. Note it; do not report it as a failure.
+
 Then check remote-only branches:
 ```bash
 git fetch --dry-run
@@ -214,6 +233,7 @@ List anything that needs attention before starting new work. Be specific. Use pl
 
 Examples of things to flag:
 - **Local-only branches with no upstream** — these exist only on this machine and will be lost if the machine has issues. Flag as critical and recommend immediate push.
+- **A `FAIL` line in `.git/st-mirror.log`** — the wip mirror did not reach `origin`, so recent commits may exist only on this machine. Same severity as a local-only branch.
 - Files modified but not committed
 - Untracked files that look like they belong in the repo (docs, scripts, config)
 - Branches with commits that haven't reached `main`
