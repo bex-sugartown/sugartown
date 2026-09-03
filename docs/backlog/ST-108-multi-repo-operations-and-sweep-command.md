@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-108 — Multi-repo operations and /sweep command
 **Issue:** [#108](https://github.com/bex-sugartown/sugartown/issues/108)
-**Status:** Todo
+**Status:** In Progress — Phases 1 and 2 complete 2026-09-03, Phase 3 next
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 ---
