@@ -25,6 +25,15 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   in 60 days, retire them. ST-95.
 
 #### Changed
+- Multi-repo operations: `/sweep`, one command that reports every repo under `SUGARTOWN_DEV` in a run
+  (`sugartown`, `resume-factory/os`, `cms-eval/toolkit`, and `conventions`, a private repo since
+  2026-09-03) and, on approval, clears stale git locks and pushes the three private repos; it never
+  pushes `sugartown`, which stays `/ship`'s. Lives in the `conventions` repo with a root `CLAUDE.md`
+  loader, the four shared convention files delivered as personal rules, and the `/sweep` skill, all
+  reached by symlinks documented as six once-per-machine steps. Decisions D2 to D5 of the
+  multi-repo brief recorded with reasons. Measured on the way: Claude Code `@` imports do not
+  expand across the project boundary, and a personal skill's description is dropped from the
+  listing above roughly 300 characters. ST-108.
 - `/ship --release` no longer costs two Netlify deploys. `/release` ends at a local commit that
   rides out with the next `/ship`, instead of being pushed on its own, which had been billing a
   second production deploy for work the same run had already deployed (measured 2026-08-21 in
