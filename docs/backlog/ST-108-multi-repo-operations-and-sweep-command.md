@@ -104,10 +104,10 @@ tooling and documentation only.
   symlinked directory containing file symlinks. Ancestor `CLAUDE.md` loading through a symlink
   worked. This is why the loader carries no imports and the rules symlink exists; if a later
   build lifts the limit, the imports can return and the symlink can go.
-- **Phase 1 close, 2026-09-03.** `resume-factory/os/CLAUDE.md`'s trimmed pointer block is
-  staged but uncommitted: that repo's blocking `check_tiers.py` gate refuses any commit while
-  an untracked hand-rolled backup (`scripts/.offload_notes_BACKUP_2026-09-02_pre-archdir-fix.py`,
-  2026-09-02, not this epic's) sits in the tree. Bex moves or trashes it; the commit follows.
+- **Phase 1 close, 2026-09-03.** `resume-factory/os/CLAUDE.md`'s trimmed pointer block was
+  briefly blocked by that repo's `check_tiers.py` gate over an untracked hand-rolled backup
+  from 2026-09-02 (not this epic's). Bex moved it the same day; committed and pushed as
+  `1d26750`. All four repos now carry Phase 1.
 - **Activation audit — read before writing any of the command:**
   - `docs/reviews/2026-09-03-claude-code-layout-alignment-audit.md`, for the hierarchy facts
     the root loader depends on and the verified-against-docs mechanics (ancestor loading,
