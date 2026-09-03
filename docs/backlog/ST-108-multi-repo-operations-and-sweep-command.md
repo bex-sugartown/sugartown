@@ -49,7 +49,7 @@ Eight items, which crosses the sizing gate — see the scope-to-phase mapping un
 - [x] Settle **D3, D4, D5** — `/sweep`; hosted in the `conventions/` repo; fetches per repo. Recorded with dates and reasons in the brief 2026-09-03 — layer: docs/decision
 - [x] Put the **root loader** in place — `conventions/CLAUDE.md` (topology table, wrapper-rule pointers), reached by a symlink at `SUGARTOWN_DEV/CLAUDE.md`, verified to load from a fresh session in `resume-factory/os`. **Amended 2026-09-03:** the four convention files are delivered as personal rules through `~/.claude/rules/conventions` → `conventions/rules/` (four relative symlinks), not by `@` import, because imports were measured not to expand across the project boundary (Claude Code 2.1.207; see Technical notes). Per-project pointer blocks trimmed in `resume-factory/os/CLAUDE.md` and `cms-eval/toolkit/CLAUDE.md`; `sugartown/CLAUDE.md:90` was already pointer plus caveat with no table and is unchanged — layer: docs
 - [x] Add the **laptop bootstrap** to `conventions/README.md` §Reaching this folder — four steps in the human-instruction style (clone, two symlinks, a check that tells which is missing); `/switch` does not do this — layer: docs
-- [ ] Build the `/sweep` read-only assessment: stale-lock detection, `.git/st-mirror.log` check, tree state, unversioned-content report — layer: tooling
+- [x] Build the `/sweep` read-only assessment — `conventions/sweep/sweep.sh`, run as `sh ~/SUGARTOWN_DEV/conventions/sweep/sweep.sh` until Phase 3 wires the skill. Per repo: branch, dirty count, ahead/behind after a fetch (D5), stashes, every local branch tip checked for presence on some remote ref, stale-lock detection (0 bytes, 10 min, no git process; live locks reported and left alone), the wip-mirror log for sugartown. Then unversioned content (`data/` sized; `private/` and `bound/` existence only, never listed), the Time Machine latest-backup check for D1, the guard self-test line, and a findings list or "nothing to do". Exit 0 always; writes nothing. Verified 2026-09-03 live and with a planted stale lock — layer: tooling
 - [ ] Build `/sweep` push behaviour: push `resume-factory/os`, `cms-eval/toolkit` and `conventions` when ahead, report-only for `sugartown` — layer: tooling
 - [ ] Write the sweep's rules into `conventions/` and the command into whichever repository D4 names — layer: docs + tooling
 - [ ] Make `/sweep` discoverable as a skill in its host repository — layer: tooling
@@ -104,6 +104,14 @@ tooling and documentation only.
   symlinked directory containing file symlinks. Ancestor `CLAUDE.md` loading through a symlink
   worked. This is why the loader carries no imports and the rules symlink exists; if a later
   build lifts the limit, the imports can return and the symlink can go.
+- **Phase 2 finding, 2026-09-03: the wip mirror keeps one ref per day, so it covers one branch.**
+  The first live sweep showed `wip/2026-09-03` at `main`'s last commit while this epic's branch
+  tip (`72716443`, two commits) was on no remote ref at all: each commit force-updates the same
+  day ref, so committing on `main` after committing on a branch orphans the branch from the
+  mirror. The sweep now checks every local branch tip for containment in some remote ref, which
+  is the test that sees this. Phase 3 decides the fix: push a non-`main` sugartown branch to
+  `origin` under its own name (free: Netlify builds `main` only), or mirror per branch. Until
+  then a feature branch on `sugartown` is disk-only between `/ship`s, exactly the SUG-231 gap.
 - **Phase 1 close, 2026-09-03.** `resume-factory/os/CLAUDE.md`'s trimmed pointer block was
   briefly blocked by that repo's `check_tiers.py` gate over an untracked hand-rolled backup
   from 2026-09-02 (not this epic's). Bex moved it the same day; committed and pushed as
