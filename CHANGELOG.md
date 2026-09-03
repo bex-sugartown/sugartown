@@ -33,6 +33,16 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   the fix states the deferred-push model explicitly rather than removing a step. The
   verify-before-release ordering is untouched. ST-103.
 
+#### Added
+- `guard-ip-paths`, a Claude Code PreToolUse hook that refuses any Read, Edit, Write, Glob, Grep
+  or Bash call whose input resolves into `cms-eval/bound/` or `resume-factory/private/`, the two
+  directories the wrapper `CLAUDE.md` files say a session never touches. Lives in the
+  `conventions` repo (`hooks/guard-ip-paths.sh`) and is registered at the user level, the only
+  settings level that reaches paths outside a repository. Twenty-case self-test plus registration,
+  stub and parse checks; proven live from a fresh session (a Read into `bound/` blocked with the
+  message, a Read beside it allowed) and in the authoring session itself. Moves both rules from
+  convention to enforced-by-code. ST-110.
+
 #### Fixed
 - The post-commit wip mirror had two silent failure modes. Since ST-106 (2026-09-02) it never
   mirrored any commit while the day's `wip/<date>` branch did not yet exist: the fetch that fix
