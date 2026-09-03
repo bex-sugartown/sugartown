@@ -3,13 +3,14 @@
 | Field | Value |
 |---|---|
 | **Document** | Multi-Repo Operations Brief v1.0 |
-| **Status** | 🟡 Draft — D1 decided, D2 through D5 open |
+| **Status** | 🟡 Draft — D1 and D2 decided, D3 through D5 open |
 | **Owner** | Bex Head |
 | **Executing epic** | [ST-108 / #108](https://github.com/bex-sugartown/sugartown/issues/108) — Multi-repo operations and /sweep command · `Todo` · High |
 | **Epic doc** | `docs/backlog/ST-108-multi-repo-operations-and-sweep-command.md` |
-| **Scope** | Repository topology across `sugartown`, `resume-factory/os`, `cms-eval/toolkit` and the non-repo `conventions/`; where shared conventions live; unversioned-content risk; the `/sweep` command |
+| **Scope** | Repository topology across `sugartown`, `resume-factory/os`, `cms-eval/toolkit` and `conventions/` (a repo since 2026-09-03); where shared conventions live; unversioned-content risk; the `/sweep` command |
 | **Constrains** | ST-108 and any future cross-repo tooling. Does not constrain work inside a single repo. |
-| **Decisions** | D1 decided 2026-09-02 (Time Machine to `/Volumes/Angelique`). D2–D5 open, each with a stated recommendation. |
+| **Decisions** | D1 decided 2026-09-02 (Time Machine to `/Volumes/Angelique`). D2 decided 2026-09-03 (promote `conventions/` to a private repo; Bex sets it up). D3–D5 open, each with a stated recommendation. |
+| **Audit input** | `docs/reviews/2026-09-03-claude-code-layout-alignment-audit.md` — Claude Code layout audit; its Q2 settles why `conventions/` stays a subfolder and adds the root loader below |
 | **Related issues** | [#106](https://github.com/bex-sugartown/sugartown/issues/106) wip-mirror stale-ref bug · `Shipped` — its log is what `/sweep` reads<br>[#109](https://github.com/bex-sugartown/sugartown/issues/109) wip-mirror rebase race · `Backlog` — same log, different failure |
 | **Project ID** | N/A — umbrella operations doc, not a single project (per `docs/briefs/README.md` litmus test) |
 | **Supersedes** | Nothing. First doc covering work outside the `sugartown` repo. |
@@ -39,14 +40,14 @@ neither, and stale git locks from a single incident were found sitting in all th
 | Path | Git | Remote | Visibility | Notes |
 |---|---|---|---|---|
 | `sugartown/` | repo | `bex-sugartown/sugartown` (HTTPS) | **public** | Netlify, CI, project board, `/ship` |
-| `resume-factory/os/` | repo | `bex-sugartown/resume-factory-os` (**SSH**) | private | no deploy, no board |
+| `resume-factory/os/` | repo | `bex-sugartown/resume-factory-os` (HTTPS; switched from SSH 2026-09-03) | private | no deploy, no board |
 | `resume-factory/data/` | none | none | — | **510 MB, 775 files** |
 | `resume-factory/private/` | none | none | — | **324 MB, 30 files** |
 | `cms-eval/toolkit/` | repo | `bex-sugartown/cms-eval` (HTTPS) | private | no deploy, no board |
 | `cms-eval/bound/` | none | none | — | 14 MB, confidential client source. Standing rule: never read, staged, copied or gitted |
 | `cms-eval/instances/` | symlink | — | — | → Google Drive `cms-eval/clients` |
 | `cms-eval/published/` | symlink | — | — | → Google Drive `cms-eval/_artifacts` |
-| `conventions/` | none | none | — | 5 files, 28 KB. Canonical cross-project rules |
+| `conventions/` | repo (since 2026-09-03, first commit `3c3ea58`) | `bex-sugartown/conventions` (HTTPS) | private | 5 files, 28 KB. Canonical cross-project rules. Hosts `/sweep` and the #110 hook script per D4 |
 | `_archive/`, `codesnippets/`, `cursor/`, `jessiecowan/`, `sanity-backups/`, `wordpress/` | mixed | — | — | Out of scope for the sweep |
 
 Two archived repos exist under `_archive/` (`sugartown-frontend`, `sugartown-sanity`). They are
@@ -109,9 +110,13 @@ it, so the pointer resolves to nothing exactly when an agent needs the rule.
 
 ### F4 — credential asymmetry between execution environments
 
-`resume-factory-os` uses SSH; the other two use HTTPS. A Cowork bridge VM has neither, so it can
-commit but never push. Work accumulates on a disk the human is not watching. Nothing detects
-this state.
+A Cowork bridge VM holds no GitHub credential, so it can commit but never push. Work
+accumulates on a disk the human is not watching. Nothing detects this state.
+
+**Narrowed 2026-09-03.** `resume-factory-os` was the one repo on SSH; it was switched to HTTPS
+so all four repos ride the single `gh` token in the macOS keychain (verified: fetch succeeds,
+`main` in sync with `origin/main`). The asymmetry that remains is between environments, not
+repos: the desktop has one credential for everything, the bridge has none.
 
 ### F5 — the sweep problem is not only about pushing
 
@@ -175,6 +180,36 @@ reintroduces the drift the pointer exists to prevent.
 **Do part 2 first.** It costs nothing — it is the current design, correctly left alone. Part 1
 is the only change on the table.
 
+### Root loader, added 2026-09-03
+
+Claude Code loads `CLAUDE.md` from the working directory and every directory above it
+(verified against `code.claude.com/docs/en/memory.md`, 2026-09-03). So a `SUGARTOWN_DEV/CLAUDE.md`
+is auto-loaded by every desktop and terminal session in all three projects, and it can carry
+the `conventions/` files as `@` imports. That converts the pointer from prose a session may
+or may not follow into context that is simply present, with **one** import site.
+
+Three constraints keep this consistent with the no-second-copy rule above:
+
+1. **The root cannot be a repository.** A `git init` at `SUGARTOWN_DEV/` sits above `data/`,
+   `private/` and `bound/`, the same rule both wrapper stubs state one level down. So the
+   root file is kept inside the `conventions/` repo as `conventions/CLAUDE.md` and reached
+   by a symlink at `SUGARTOWN_DEV/CLAUDE.md`. Verify on first run that the loader follows
+   the symlink; if it does not, the root file is a six-line plain file of `@` imports,
+   regenerable from the repo README.
+2. **The root file is a loader, not a home.** It holds the `@` imports, the topology table
+   from this brief, and one-line pointers to the three "never `git init` here / never read
+   `bound/` / never upload `private/`" rules. Under 40 lines. Anything that starts to read
+   as a rule with a rationale belongs in `conventions/`.
+3. **Per-project pointer blocks shrink to their Cowork caveat.** A bridge session mounts one
+   folder under `$HOME/mnt/` and sees neither the root nor `~/.claude/`, so the "say so rather
+   than guessing" line stays in each project's `CLAUDE.md`. The tables listing the four
+   convention files come out; the loader has them.
+
+Consequence for D4: the `conventions/` repo is now a repo every session loads, so `/sweep`
+and its rules can both live there. That removes the inversion flagged under "Where the rules
+live" below. The laptop needs one bootstrap line in `conventions/README.md` ("Reaching this
+folder"): clone the repo, create the symlink. `/switch` syncs `sugartown` only.
+
 ### Content architecture — close F1 before anything else
 
 Give `resume-factory` the treatment `cms-eval` already has: an offsite copy for the content that
@@ -209,8 +244,9 @@ Read-only assessment first, action second, exactly as `/ship` does.
 2. **Mirror-log check** — read `.git/st-mirror.log`. A `FAIL` line means commits may exist only
    on this disk.
 3. **Tree state** — dirty files, ahead/behind, stashes, branches ahead of `main`.
-4. **Unversioned content** — report `resume-factory/data`, `resume-factory/private` and
-   `conventions/` as at-risk until F1 and F3 are closed.
+4. **Unversioned content** — report `resume-factory/data` and `resume-factory/private` as
+   at-risk until F1 is verified. `conventions/` left this list on 2026-09-03 (D2); the sweep
+   treats it as the fourth repository instead.
 
 ### What it does about pushing, which differs by repo
 
@@ -218,6 +254,7 @@ Read-only assessment first, action second, exactly as `/ship` does.
 |---|---|---|
 | `resume-factory/os` | push freely | private, no deploy, no CI cost |
 | `cms-eval/toolkit` | push freely | private, no deploy, no CI cost |
+| `conventions` | push freely | private, no deploy, no CI cost. Added 2026-09-03 when it became a repo |
 | `sugartown` | **report only, never push** | a push is a Netlify production deploy (15 credits). Defer to `/ship`. |
 
 ### What it must not do
@@ -243,9 +280,9 @@ them. Note the inversion; accept it only if the alternative is not building it.
 | # | Decision | Recommendation |
 |---|---|---|
 | D1 | Close F1 by Drive symlink, LFS repo, or confirmed Time Machine | **Decided 2026-09-02 — Time Machine to `/Volumes/Angelique`.** Parent-directory Drive sync rejected on four grounds, recorded under F1. Open until the first completed backup is verified by listing it |
-| D2 | Promote `conventions/` to a repo, or keep plain files | Promote. Bex chose plain files on 2026-09-01 with the tradeoff stated; this brief revisits it because F3's cost is now measured, not theoretical |
+| D2 | Promote `conventions/` to a repo, or keep plain files | **Decided 2026-09-03 — promote.** Bex sets up the private repo. Reason: the root loader (above) makes every session load these files, so a lost or corrupted one degrades every session with no history to recover from; and the root itself cannot be a repository, so the subfolder boundary is the only place history can live. Open until the first clone exists and the symlink loads |
 | D3 | `/sweep` or another name | `/sweep`; `/eod` collides with a retired command |
-| D4 | Where the sweep command lives | `sugartown/.claude/skills/`, with rules in `conventions/` |
+| D4 | Where the sweep command lives | **Revised 2026-09-03:** the `conventions/` repo, rules and command together. It is now a repo every session loads, which removes the inversion of hosting a three-repo sweep inside one of the repos it sweeps. Prior recommendation was `sugartown/.claude/skills/` |
 | D5 | Whether the sweep runs `git fetch` in each repo | Yes — ahead/behind is meaningless without it, and it is free |
 
 ---
@@ -267,11 +304,12 @@ them. Note the inversion; accept it only if the alternative is not building it.
    returning a path on `/Volumes/Angelique`, and `tmutil listbackups` showing more than one —
    a destination that is configured but has never completed a backup is what this criterion
    exists to catch.
-2. Every dependent project's `CLAUDE.md` reaches `conventions/` by pointer and states the mount
-   caveat, and **no project inlines a summary of a shared rule.** Verified by grepping the three
+2. Every dependent project's `CLAUDE.md` reaches `conventions/` by pointer (or, on this
+   machine, by the root loader) and states the mount caveat, and **no project inlines a
+   summary of a shared rule.** Verified by grepping the three
    `CLAUDE.md` files for the pointer and for the absence of duplicated rule text, not by reading
    for intent. A shared rule that exists in two places without a generator and a validator is a
    defect, not a convenience.
-3. One command reports all three repos' state, and pushes the two that are free to push.
-4. A stale lock in any of the three is detected and cleared by that command.
-5. Running it against a clean tree in all three reports "nothing to do" and exits.
+3. One command reports all four repos' state, and pushes the three that are free to push.
+4. A stale lock in any of the four is detected and cleared by that command.
+5. Running it against a clean tree in all four reports "nothing to do" and exits.
