@@ -1,0 +1,72 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gh project item-list *)",
+      "Bash(gh project field-list *)",
+      "Bash(pnpm validate:doc-budget)",
+      "Bash(pnpm validate:enforcement-liveness)",
+      "Bash(pnpm validate:controls)",
+      "Bash(pnpm validate:epic-docs)",
+      "Bash(pnpm validate:validators)",
+      "Bash(pnpm validate:tokens *)",
+      "Bash(pnpm validate:style-mirror)",
+      "Bash(pnpm validate:governance)",
+      "Bash(pnpm validate:governance-diff)",
+      "Bash(pnpm validate:dead-refs)",
+      "Bash(pnpm validate:schema-parity)",
+      "Bash(pnpm lint)",
+      "Bash(pnpm typecheck)",
+      "Bash(pnpm --filter @sugartown/design-system typecheck)",
+      "Bash(git rev-list *)",
+      "Bash(git check-ignore *)",
+      "mcp__plugin_linear_linear__list_issues",
+      "mcp__plugin_linear_linear__get_issue",
+      "mcp__plugin_linear_linear__list_issue_statuses",
+      "mcp__Claude_Browser__read_console_messages",
+      "mcp__Claude_Browser__preview_logs",
+      "mcp__Claude_Browser__get_page_text",
+      "mcp__Claude_Browser__read_page",
+      "mcp__Claude_Browser__preview_list",
+      "mcp__Claude_Browser__find",
+      "mcp__Sanity__query_documents",
+      "mcp__Sanity__get_document",
+      "mcp__7ed842b1-d1e1-4115-9ccc-690d55981e8f__query_documents",
+      "mcp__sugartown-mcp-server__sugartown_get_epic",
+      "mcp__sugartown-mcp-server__sugartown_get_changelog",
+      "mcp__4a3cdbfb-46f1-4808-9bd8-a7a2651598e1__netlify-deploy-services-reader"
+    ]
+  },
+  "autoMode": {
+    "environment": [
+      "### Org-wide",
+      "**Organization**: None configured",
+      "**Cloud provider(s)**: None configured",
+      "**Repository visibility**: PUBLIC — bex-sugartown/sugartown (github.com). Any push to origin publishes.",
+      "**Internal sharing / snippet hosting**: None configured — treat public paste/gist services as outside the trust boundary",
+      "**Secrets management**: Env files only (.env, .env.local, .env*.local gitignored; apps/contentful-poc/.env.example, apps/contentful-poc/.env.local, apps/storybook/.env, apps/web/.env, apps/web/.env.local.example present); CI secrets referenced by name only (CHROMATIC_PROJECT_TOKEN, CONTENTFUL_ACCESS_TOKEN, CONTENTFUL_SPACE_ID, CRUX_API_KEY, GITHUB_TOKEN, LINEAR_SUGARTOWN_STATS, SANITY_SCHEMA_PARITY)",
+      "**Default / protected branches**: main (default). No classic branch protection and no rulesets listed via gh — treat main as unprotected; pushes/merges to it are not backstopped by CI gating at the platform level.",
+      "**CI/CD deploy targets**: Netlify (sugartown.netlify.app, deploy-preview-*.netlify.app), Chromatic (visual regression), GitHub Actions CI workflow on main",
+      "**Network posture**: None configured",
+      "**Source control**: GitHub — origin https://github.com/bex-sugartown/sugartown.git only, as scoped by Trusted repo and Repository visibility below",
+      "**Trusted internal domains**: sugartown.io, www.sugartown.io",
+      "**Trusted cloud buckets**: None configured",
+      "**Key internal services**: Sanity project (poalmzla.api.sanity.io, poalmzla.apicdn.sanity.io), Chromatic (69de2a8dfe5a14bc405087d5-zhsxnumvgi.chromatic.com), local MCP server at packages/mcp-server (sugartown_get_schema, sugartown_get_tokens, sugartown_get_component, sugartown_check_boundary, sugartown_get_rule, sugartown_validate_field, sugartown_get_epic, sugartown_get_changelog)",
+      "**Internal package registry**: None configured",
+      "**Sensitive data locations & audiences**: .env / .env.local / .env*.local files (gitignored) across apps/contentful-poc, apps/storybook, apps/web; CI secret names (not values) in workflow configs; share only with audiences cleared at the [named+specifics] bar",
+      "**Data retention / declassification**: None configured",
+      "**Sensitive remote targets**: any namespace, host, or container carrying prod/production as a whole word or name segment — none named explicitly in recon beyond this default heuristic",
+      "**Protected deployment namespaces / environments**: None configured — fall back to the Sensitive remote targets heuristic",
+      "**Protected IaC scopes**: IAM, RBAC, networking, quota, and node-pool resources; anything whose name or tag carries prod or production as a whole word or name segment",
+      "### User-specific",
+      "**Primary use of Claude Code**: software development — Sugartown monorepo (React/Vite web app, Sanity Studio CMS, design-system package), epic-driven workflow with Linear tracking",
+      "**Trusted repo**: bex-sugartown/sugartown (this repo, working directory /Users/beckyalice/SUGARTOWN_DEV/sugartown) and its origin remote. Repo is PUBLIC: only this repo's own work is safe to push there — content ported or first read from outside this session's repo is not its own work regardless of who directed the port. Secrets and sensitive data (env files, credentials) are never cleared into it by visibility alone.",
+      "**Org-specific CLIs**: sanity (Sanity CLI), pnpm/turbo (monorepo tooling), gh (GitHub CLI) — routine under this repo's working tree",
+      "**Routine under repo prefix**: docs/backlog/, docs/shipped/, docs/drafts/ (gitignored, never committed), apps/web/src/, apps/studio/schemas/, packages/design-system/ — routine edit/read targets within this checkout"
+    ],
+    "soft_deny": [
+      "$defaults",
+      "Bash(git push:*) when target is origin main of bex-sugartown/sugartown — repo is public with no branch protection or rulesets, so a direct push to main publishes unreviewed work",
+      "Sanity publish_documents / unpublish_documents MCP calls — CLAUDE.md's Human-Publishes Rule reserves these for explicit standalone instruction, treat as soft block pending that signal"
+    ]
+  }
+}

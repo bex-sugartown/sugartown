@@ -43,6 +43,14 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   message, a Read beside it allowed) and in the authoring session itself. Moves both rules from
   convention to enforced-by-code. ST-110.
 
+- Claude Code settings relayered: the sugartown-specific `autoMode` environment block moved out of
+  `~/.claude/settings.json`, where it had been describing every session on the machine, including
+  the two private repos, as the PUBLIC sugartown repo, into a tracked `.claude/settings.json` here;
+  `resume-factory/os` and `cms-eval/toolkit` got their own, naming their private visibility and
+  their sensitive directories. The tracked file also carries a curated read-only allowlist (33
+  entries from a scan of 50 transcripts) replacing 828 accreted entries in the gitignored local
+  file, which now holds only the four env secrets. ST-111.
+
 #### Fixed
 - The post-commit wip mirror had two silent failure modes. Since ST-106 (2026-09-02) it never
   mirrored any commit while the day's `wip/<date>` branch did not yet exist: the fetch that fix
