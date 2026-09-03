@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-108 — Multi-repo operations and /sweep command
 **Issue:** [#108](https://github.com/bex-sugartown/sugartown/issues/108)
-**Status:** Todo
+**Status:** Done — all three phases complete 2026-09-03; merged to `main` at close-out, unpushed until `/ship`
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 ---
@@ -45,14 +45,14 @@ Layers touched: **tooling** (the command), **docs** (the brief's decision record
 
 Eight items, which crosses the sizing gate — see the scope-to-phase mapping under Phases.
 
-- [ ] Record **D2** — decided 2026-09-03: `conventions/` becomes a small private repository, set up by Bex. This item closes when the first clone exists and the root loader below resolves through it — layer: docs/decision
-- [ ] Settle **D3, D4, D5** — command name, which repository hosts it, whether it fetches per repo. D4's recommendation was revised 2026-09-03 to the `conventions/` repo (brief §Root loader) — layer: docs/decision
-- [ ] Put the **root loader** in place — `conventions/CLAUDE.md` holding `@` imports of the four convention files plus the topology table, reached by a symlink at `SUGARTOWN_DEV/CLAUDE.md`; verify the loader follows the symlink; trim the three per-project pointer blocks (`sugartown/CLAUDE.md:90`, `resume-factory/os/CLAUDE.md` §Shared conventions, `cms-eval/toolkit/CLAUDE.md` §Shared conventions) to their Cowork mount caveat — layer: docs
-- [ ] Add the **laptop bootstrap line** to `conventions/README.md` §Reaching this folder: clone the repo, create the symlink; `/switch` does not do this — layer: docs
-- [ ] Build the `/sweep` read-only assessment: stale-lock detection, `.git/st-mirror.log` check, tree state, unversioned-content report — layer: tooling
-- [ ] Build `/sweep` push behaviour: push `resume-factory/os`, `cms-eval/toolkit` and `conventions` when ahead, report-only for `sugartown` — layer: tooling
-- [ ] Write the sweep's rules into `conventions/` and the command into whichever repository D4 names — layer: docs + tooling
-- [ ] Make `/sweep` discoverable as a skill in its host repository — layer: tooling
+- [x] Record **D2** — decided 2026-09-03: `conventions/` is the private repo `bex-sugartown/conventions` (first commit `3c3ea58`, loader `61efab7`); the root loader resolves through it — layer: docs/decision
+- [x] Settle **D3, D4, D5** — `/sweep`; hosted in the `conventions/` repo; fetches per repo. Recorded with dates and reasons in the brief 2026-09-03 — layer: docs/decision
+- [x] Put the **root loader** in place — `conventions/CLAUDE.md` (topology table, wrapper-rule pointers), reached by a symlink at `SUGARTOWN_DEV/CLAUDE.md`, verified to load from a fresh session in `resume-factory/os`. **Amended 2026-09-03:** the four convention files are delivered as personal rules through `~/.claude/rules/conventions` → `conventions/rules/` (four relative symlinks), not by `@` import, because imports were measured not to expand across the project boundary (Claude Code 2.1.207; see Technical notes). Per-project pointer blocks trimmed in `resume-factory/os/CLAUDE.md` and `cms-eval/toolkit/CLAUDE.md`; `sugartown/CLAUDE.md:90` was already pointer plus caveat with no table and is unchanged — layer: docs
+- [x] Add the **laptop bootstrap** to `conventions/README.md` §Reaching this folder — four steps in the human-instruction style (clone, two symlinks, a check that tells which is missing); `/switch` does not do this — layer: docs
+- [x] Build the `/sweep` read-only assessment — `conventions/sweep/sweep.sh`, run as `sh ~/SUGARTOWN_DEV/conventions/sweep/sweep.sh` until Phase 3 wires the skill. Per repo: branch, dirty count, ahead/behind after a fetch (D5), stashes, every local branch tip checked for presence on some remote ref, stale-lock detection (0 bytes, 10 min, no git process; live locks reported and left alone), the wip-mirror log for sugartown. Then unversioned content (`data/` sized; `private/` and `bound/` existence only, never listed), the Time Machine latest-backup check for D1, the guard self-test line, and a findings list or "nothing to do". Exit 0 always; writes nothing. Verified 2026-09-03 live and with a planted stale lock — layer: tooling
+- [x] Build `/sweep` push behaviour — `sweep.sh --act`: clears stale locks (live locks left alone) and pushes the current branch of `resume-factory/os`, `cms-eval/toolkit` and `conventions` when ahead of its upstream; `sugartown` excluded by name in `push_if_ahead()`, no flag. Verified 2026-09-03: planted stale lock cleared and planted live lock untouched; `origin/main` of sugartown unchanged across an `--act` run with local `main` ahead; a real conventions commit pushed by the act step — layer: tooling
+- [x] Write the sweep's rules into `conventions/` — `conventions/README.md` §Sweep (push table, what it never does, stale-lock definition, the two lessons from the first runs); command at `conventions/sweep/sweep.sh` per D4 — layer: docs + tooling
+- [x] Make `/sweep` discoverable as a skill — `conventions/skills/sweep/SKILL.md`, reached by `~/.claude/skills/sweep` (symlinked directory; verified listed with its description from a fresh session in `cms-eval/toolkit`). A 465-character description was listed without its text; 271 renders. README step 6 creates the symlink on a new machine — layer: tooling
 
 ## Phases
 
@@ -70,14 +70,14 @@ command that implements it land together.
 
 ## Acceptance criteria
 
-- [ ] D2, D3, D4 and D5 each carry a decision, a date and a reason in `docs/briefs/multi-repo-operations-brief.md`. The only remaining open row is D1's verification.
-- [ ] `/sweep` reports, for each of the four repositories in one run: dirty tree, ahead/behind counts, stale locks, `.git/st-mirror.log` state, and stashes.
-- [ ] `/sweep` reports `resume-factory/data` and `resume-factory/private` as unversioned, and stops reporting a directory once it is covered. `conventions/` is reported as a repository, not as unversioned content, from 2026-09-03.
-- [ ] A stale lock planted in any of the four repositories (0 bytes, old timestamp, no git process) is detected and cleared. A lock held by a running git process is left alone. Both cases verified by planting them, not by inspection.
-- [ ] `/sweep` pushes `resume-factory/os`, `cms-eval/toolkit` and `conventions` when they are ahead of origin.
-- [ ] `/sweep` never pushes `sugartown`, verified by running it with `sugartown` ahead of origin and confirming no push occurred and no Netlify deploy was triggered.
-- [ ] Run against four clean, in-sync trees, `/sweep` reports "nothing to do" and exits without writing.
-- [ ] `/sweep` does not read, stage, copy or commit anything under `cms-eval/bound/`, verified by inspecting the command's own paths, not by observing one clean run.
+- [x] D2, D3, D4 and D5 each carry a decision, a date and a reason in `docs/briefs/multi-repo-operations-brief.md`. The only remaining open row is D1's verification. (Brief §Open decisions, 2026-09-03.)
+- [x] `/sweep` reports, for each of the four repositories in one run: dirty tree, ahead/behind counts, stale locks, `.git/st-mirror.log` state, and stashes. (Live runs 2026-09-03; output on #108.)
+- [x] `/sweep` reports `resume-factory/data` and `resume-factory/private` as unversioned, and stops reporting a directory once it is covered. `conventions/` is reported as a repository, not as unversioned content, from 2026-09-03. (§unversioned content block; `data/` sized, `private/` existence only.)
+- [x] A stale lock planted in any of the four repositories (0 bytes, old timestamp, no git process) is detected and cleared. A lock held by a running git process is left alone. Both cases verified by planting them, not by inspection. (Planted in `conventions` 2026-09-03: 0-byte 2026-09-01 `index.lock` cleared by `--act`; 1-byte fresh `HEAD.lock` reported live and left.)
+- [x] `/sweep` pushes `resume-factory/os`, `cms-eval/toolkit` and `conventions` when they are ahead of origin. (Act step pushed conventions `9739336` and `bec9ffa` live; the other two were in sync, same code path.)
+- [x] `/sweep` never pushes `sugartown`, verified by running it with `sugartown` ahead of origin and confirming no push occurred and no Netlify deploy was triggered. (`origin/main` `1bdfd278` before and after an `--act` run with local `main` several commits ahead; exclusion is by name in `push_if_ahead()`.)
+- [x] Run against four clean, in-sync trees, `/sweep` reports "nothing to do" and exits without writing. (Structurally: the block prints only when the findings list is empty. Not observable live on 2026-09-03 because D1 is unverified and `resume-factory/os` carries Bex's two uncommitted files; those are real findings, not sweep defects.)
+- [x] `/sweep` does not read, stage, copy or commit anything under `cms-eval/bound/`, verified by inspecting the command's own paths, not by observing one clean run. (`grep -n bound sweep.sh` outside comments: one `test -d` line. The guard hook would also refuse anything else.)
 
 ## Human QA Walkthrough — example local pages
 
@@ -96,6 +96,31 @@ tooling and documentation only.
   `.git/st-mirror.log`, and until both land the log both cries wolf after a rebase (#109) and
   stays silent when a day's first commit goes unmirrored (#113), so the sweep would report the
   wrong state on its first real run.
+- **`@` imports do not cross the project boundary (measured 2026-09-03, Claude Code 2.1.207).**
+  Fresh nested `claude -p` sessions with all tools disallowed, one per case: an import inside
+  the project's own `CLAUDE.md` of a file inside the project directory expanded; `../`,
+  absolute and `~/` targets outside the project did not, whether the import sat in the
+  project's file or an ancestor's. `~/.claude/rules/` loaded in every case and followed a
+  symlinked directory containing file symlinks. Ancestor `CLAUDE.md` loading through a symlink
+  worked. This is why the loader carries no imports and the rules symlink exists; if a later
+  build lifts the limit, the imports can return and the symlink can go.
+- **Phase 2 finding, 2026-09-03: the wip mirror keeps one ref per day, so it covers one branch.**
+  The first live sweep showed `wip/2026-09-03` at `main`'s last commit while this epic's branch
+  tip (`72716443`, two commits) was on no remote ref at all: each commit force-updates the same
+  day ref, so committing on `main` after committing on a branch orphans the branch from the
+  mirror. The sweep now checks every local branch tip for containment in some remote ref, which
+  is the test that sees this. Phase 3 decides the fix: push a non-`main` sugartown branch to
+  `origin` under its own name (free: Netlify builds `main` only), or mirror per branch. Until
+  then a feature branch on `sugartown` is disk-only between `/ship`s, exactly the SUG-231 gap.
+  Tracing it further showed a second defect: the hook logs the SHA captured at commit time but
+  pushes `HEAD:` from its background subshell, so a `git switch` right after a commit makes it
+  push the other branch and log `OK` for a commit that never left the disk. Two `main` commits
+  sat that way today under an `OK` line. Filed as #114 (fixed the same day); the two commits were pushed to
+  `wip/2026-09-03-main` by hand.
+- **Phase 1 close, 2026-09-03.** `resume-factory/os/CLAUDE.md`'s trimmed pointer block was
+  briefly blocked by that repo's `check_tiers.py` gate over an untracked hand-rolled backup
+  from 2026-09-02 (not this epic's). Bex moved it the same day; committed and pushed as
+  `1d26750`. All four repos now carry Phase 1.
 - **Activation audit — read before writing any of the command:**
   - `docs/reviews/2026-09-03-claude-code-layout-alignment-audit.md`, for the hierarchy facts
     the root loader depends on and the verified-against-docs mechanics (ancestor loading,
@@ -143,6 +168,26 @@ question, not a coding one. Exit plan mode for Phases 2 and 3, which are ordinar
 - **The guard hook, the settings relayering, and the `CLAUDE.md` split.** Filed as #110, #111
   and #112 from the 2026-09-03 audit; this epic's Phase 2 only reads the guard hook's
   self-test if it exists by then.
+
+## Close-out summary, 2026-09-03
+
+Everything in `conventions` (private repo, pushed by the sweep itself): `CLAUDE.md` root loader,
+`rules/` symlinks, `hooks/guard-ip-paths.sh` (#110), `sweep/sweep.sh`, `skills/sweep/SKILL.md`,
+README with the rules and six once-per-machine steps. In `sugartown`: the brief's decisions, this
+doc, and the tracked `.claude/settings.json` from #111 on `main`. Machine-level, this desktop only:
+`SUGARTOWN_DEV/CLAUDE.md` and `~/.claude/rules/conventions` and `~/.claude/skills/sweep` symlinks,
+the hook registration in `~/.claude/settings.json`. The laptop gets them from README §Reaching this
+folder.
+
+Five defects found and closed on the way, none in this epic's own code: #109, #113, #114 (the wip
+mirror, three separate failure modes), and two in the guard hook caught by its self-test before
+install. One handoff filed: #115, per-branch mirroring, so a feature branch is not disk-only between
+`/ship`s.
+
+Close-out steps: 1 committed; 1b smoke run at close-out (see the ship commit); 2 N/A no schema;
+3 N/A no visual surface; 4 N/A no CSS, JSX or stories; 5 N/A no data pipeline; 5b handoff filed
+as an issue with the item in its body; 6 moved to `docs/shipped/`; 6b N/A no vspec; 7 CHANGELOG
+line; 8 issue closed; 9 tree clean.
 
 ## Related
 
