@@ -112,6 +112,11 @@ tooling and documentation only.
   is the test that sees this. Phase 3 decides the fix: push a non-`main` sugartown branch to
   `origin` under its own name (free: Netlify builds `main` only), or mirror per branch. Until
   then a feature branch on `sugartown` is disk-only between `/ship`s, exactly the SUG-231 gap.
+  Tracing it further showed a second defect: the hook logs the SHA captured at commit time but
+  pushes `HEAD:` from its background subshell, so a `git switch` right after a commit makes it
+  push the other branch and log `OK` for a commit that never left the disk. Two `main` commits
+  sat that way today under an `OK` line. Filed as #114; the two commits were pushed to
+  `wip/2026-09-03-main` by hand.
 - **Phase 1 close, 2026-09-03.** `resume-factory/os/CLAUDE.md`'s trimmed pointer block was
   briefly blocked by that repo's `check_tiers.py` gate over an untracked hand-rolled backup
   from 2026-09-02 (not this epic's). Bex moved it the same day; committed and pushed as
