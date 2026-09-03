@@ -63,6 +63,11 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   probes in a throwaway clone with a local bare origin, run before and after: first commit of
   day, two rebases, an amend, and an in-rebase check that nothing is written mid-rebase. ST-109,
   ST-113.
+- The same hook logged `OK` for a commit that never left the disk whenever a branch switch
+  followed the commit: it captured the SHA at commit time but pushed `HEAD:` from its background
+  subshell. Found by the first live `/sweep` run (ST-108 Phase 2), whose per-branch containment
+  check disagreed with the log; two `main` commits sat disk-only under an `OK` line. Now pushes
+  the captured full SHA. Reproduced and verified in a throwaway clone with the exact race. ST-114.
 - `docs/ai/README.md` linked `docs/workflows/eod-prompt.md`, a file that does not exist, and
   `docs/ai/skills-index.md` listed the retired `/eod` and an absent `storybook-docs` as live
   skills while omitting six real ones, calling the five-gate release pipeline "Seven-gate," and

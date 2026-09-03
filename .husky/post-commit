@@ -57,6 +57,11 @@ fi
 
 BRANCH="wip/$(date +%Y-%m-%d)"
 SHA=$(git rev-parse --short HEAD)
+# Push this exact commit, not HEAD: the push below runs in the background, and a git switch
+# right after the commit would otherwise push the other branch and log OK for a commit that
+# never left the disk (ST-114, seen live 2026-09-03). A raw SHA source also skips the
+# --force-if-includes reflog check, which only applies to local branches; fine for a mirror.
+FULL=$(git rev-parse HEAD)
 
 # Backgrounded so committing stays fast. Detached from the terminal so husky does
 # not wait on it.
@@ -71,7 +76,7 @@ SHA=$(git rev-parse --short HEAD)
   # the log line, so every day's first commit went unmirrored and unrecorded. The
   # `|| true` is what makes the miss harmless. ST-113.
   git fetch --quiet origin "refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null || true
-  if git push --force-with-lease --quiet origin "HEAD:refs/heads/$BRANCH" 2>/dev/null; then
+  if git push --force-with-lease --quiet origin "$FULL:refs/heads/$BRANCH" 2>/dev/null; then
     echo "OK   $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
   else
     echo "FAIL $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
