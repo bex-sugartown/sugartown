@@ -104,7 +104,7 @@ Every finding above now has a home. Three new issues were filed from this audit 
 
 | # | Item | Status · Priority | Why here | Size |
 |---|---|---|---|---|
-| 1 | **#109** post-commit mirror races itself during a rebase | Todo · High | Independent, three lines, and its log is what `/sweep` reads. Every `/ship` rebase until then writes a spurious `FAIL` | Under an hour |
+| 1 | **#109 and #113** post-commit mirror: rebase race, and the first-commit-of-day skip found 2026-09-03 | Todo · High | Same file, one commit. Its log is what `/sweep` reads. Until then every `/ship` rebase writes a spurious `FAIL`, and every day's first commit silently goes unmirrored with no log line at all (#113 is the worse of the two) | Under an hour |
 | 2 | **ST-108 Phase 1** decisions, root loader, pointer trims, laptop line | Todo · High | Needs the `conventions/` repo to exist. Settles D4, which is where #110's script and `/sweep` live. Trims `sugartown/CLAUDE.md:90`, which #112 would otherwise collide with. Stays on the epic's single close-out branch | Half a day |
 | 3 | **#110** PreToolUse guard hook for `bound/` and `private/` | Todo · High | The IP requirement, enforced-by-code. Script into the `conventions/` repo; Bex applies the global-settings diff | Half a day, plus the self-test |
 | 4 | **#111** settings relayering | Todo · High | Same global-file edit session as #110, so `~/.claude/settings.json` changes once. Ends the PUBLIC misdescription in private-repo sessions. Run `/fewer-permission-prompts` here | Half a day |

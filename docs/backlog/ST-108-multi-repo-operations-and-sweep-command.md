@@ -92,9 +92,10 @@ tooling and documentation only.
   does not block any scope item here.
 - **`/ship` must not be reimplemented.** For `sugartown`, `/sweep` reports and stops.
   CLAUDE.md §Building a mechanism forbids forking a mechanism that already exists.
-- **Ordering (2026-09-03).** Execute after #109: `/sweep` Phase 2 reads `.git/st-mirror.log`,
-  and until #109 lands every `/ship` rebase writes a spurious `FAIL` there, so the sweep would
-  cry wolf on its first real run.
+- **Ordering (2026-09-03).** Execute after #109 and #113: `/sweep` Phase 2 reads
+  `.git/st-mirror.log`, and until both land the log both cries wolf after a rebase (#109) and
+  stays silent when a day's first commit goes unmirrored (#113), so the sweep would report the
+  wrong state on its first real run.
 - **Activation audit — read before writing any of the command:**
   - `docs/reviews/2026-09-03-claude-code-layout-alignment-audit.md`, for the hierarchy facts
     the root loader depends on and the verified-against-docs mechanics (ancestor loading,
