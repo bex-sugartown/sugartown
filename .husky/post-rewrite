@@ -1,0 +1,14 @@
+#!/bin/sh
+# Post-rewrite hook — mirror once after a rebase completes. ST-109.
+#
+# post-commit skips the wip mirror while a rebase is in progress, because every replayed
+# commit fires it in the same second and N backgrounded pushes race one ref. Git invokes
+# this hook exactly once when the rewrite finishes, with $1 = "rebase" or "amend", so this
+# is where the rebase's final SHA gets mirrored.
+#
+# Amend is deliberately excluded: an amended commit already fired post-commit outside any
+# rebase, so mirroring again here would be a second push racing the first for the same ref.
+
+[ "$1" = "rebase" ] || exit 0
+
+ST_MIRROR_AFTER_REWRITE=1 exec sh "$(dirname "$0")/post-commit"

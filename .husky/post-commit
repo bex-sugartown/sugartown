@@ -19,9 +19,27 @@
 # wip/<date> is a moving mirror of HEAD, and a rebase rewrites it. --force-with-lease
 # refuses if the remote moved unexpectedly. This namespace is written only by this
 # hook; it is never a source of truth and is safe to discard.
+#
+# HOW HUSKY RUNS THIS
+# .husky/_/h invokes every hook as `sh -e`, so any command that exits non-zero
+# outside a conditional kills the script — including inside the backgrounded
+# subshell below. Anything here that may legitimately fail carries `|| true`.
+# ST-113 was this exact omission.
 
 [ -n "$ST_NO_MIRROR" ] && exit 0
 git remote get-url origin >/dev/null 2>&1 || exit 0
+
+# ST-109: during a rebase every replayed commit fires this hook in the same second, and N
+# backgrounded pushes race one ref; the losers write FAIL for a mirror that is actually fine.
+# Skip while a rebase is in progress. .husky/post-rewrite mirrors once when it finishes and
+# sets ST_MIRROR_AFTER_REWRITE so this guard lets it through (the rebase state directory may
+# still exist at that moment).
+if [ -z "$ST_MIRROR_AFTER_REWRITE" ]; then
+  GITDIR=$(git rev-parse --git-dir)
+  if [ -d "$GITDIR/rebase-merge" ] || [ -d "$GITDIR/rebase-apply" ]; then
+    exit 0
+  fi
+fi
 
 LOG=".git/st-mirror.log"
 
@@ -46,9 +64,13 @@ SHA=$(git rev-parse --short HEAD)
   # Refresh the remote-tracking ref before pushing. --force-with-lease compares against it,
   # and when it is absent or stale git refuses with "stale info". That happens whenever
   # another actor (a second machine, or the stats bot) advanced wip/<date> first, which is
-  # exactly the multi-machine case this hook exists to cover. Harmless no-op on the first
-  # commit of a day, when the branch does not exist remotely yet. ST-106.
-  git fetch --quiet origin "refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null
+  # exactly the multi-machine case this hook exists to cover. ST-106.
+  #
+  # On the first commit of a day the branch does not exist remotely yet and this fetch
+  # exits 128. Under `sh -e` that used to kill this subshell before the push and before
+  # the log line, so every day's first commit went unmirrored and unrecorded. The
+  # `|| true` is what makes the miss harmless. ST-113.
+  git fetch --quiet origin "refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null || true
   if git push --force-with-lease --quiet origin "HEAD:refs/heads/$BRANCH" 2>/dev/null; then
     echo "OK   $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
   else

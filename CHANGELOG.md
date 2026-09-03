@@ -34,6 +34,17 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   verify-before-release ordering is untouched. ST-103.
 
 #### Fixed
+- The post-commit wip mirror had two silent failure modes. Since ST-106 (2026-09-02) it never
+  mirrored any commit while the day's `wip/<date>` branch did not yet exist: the fetch that fix
+  added exits 128 on a missing branch, and husky runs hooks under `sh -e`, which killed the
+  backgrounded subshell before the push and before the log line, so the log's reader had
+  nothing to read. Fixed with `|| true` on the fetch. Separately, a rebase fired the hook once
+  per replayed commit in the same second and the losing pushes wrote `FAIL` for a mirror that
+  was fine; the hook now skips while a rebase is in progress and a new `.husky/post-rewrite`
+  mirrors once at the final SHA (amend excluded, since post-commit already covered it). Five
+  probes in a throwaway clone with a local bare origin, run before and after: first commit of
+  day, two rebases, an amend, and an in-rebase check that nothing is written mid-rebase. ST-109,
+  ST-113.
 - `docs/ai/README.md` linked `docs/workflows/eod-prompt.md`, a file that does not exist, and
   `docs/ai/skills-index.md` listed the retired `/eod` and an absent `storybook-docs` as live
   skills while omitting six real ones, calling the five-gate release pipeline "Seven-gate," and
