@@ -3,13 +3,13 @@
 | Field | Value |
 |---|---|
 | **Document** | Multi-Repo Operations Brief v1.0 |
-| **Status** | 🟡 Draft — D1 and D2 decided, D3 through D5 open |
+| **Status** | 🟢 Decided — D1 through D5 decided; D1 stays open only until the first completed Time Machine backup is verified by listing it |
 | **Owner** | Bex Head |
 | **Executing epic** | [ST-108 / #108](https://github.com/bex-sugartown/sugartown/issues/108) — Multi-repo operations and /sweep command · `Todo` · High |
 | **Epic doc** | `docs/backlog/ST-108-multi-repo-operations-and-sweep-command.md` |
 | **Scope** | Repository topology across `sugartown`, `resume-factory/os`, `cms-eval/toolkit` and `conventions/` (a repo since 2026-09-03); where shared conventions live; unversioned-content risk; the `/sweep` command |
 | **Constrains** | ST-108 and any future cross-repo tooling. Does not constrain work inside a single repo. |
-| **Decisions** | D1 decided 2026-09-02 (Time Machine to `/Volumes/Angelique`). D2 decided 2026-09-03 (promote `conventions/` to a private repo; Bex sets it up). D3–D5 open, each with a stated recommendation. |
+| **Decisions** | D1 decided 2026-09-02 (Time Machine to `/Volumes/Angelique`). D2 decided 2026-09-03 (promote `conventions/` to a private repo; Bex sets it up). D3, D4, D5 decided 2026-09-03 in ST-108 Phase 1 (`/sweep`; hosted in the `conventions/` repo; fetches per repo). |
 | **Audit input** | `docs/reviews/2026-09-03-claude-code-layout-alignment-audit.md` — Claude Code layout audit; its Q2 settles why `conventions/` stays a subfolder and adds the root loader below |
 | **Related issues** | [#106](https://github.com/bex-sugartown/sugartown/issues/106) wip-mirror stale-ref bug · `Shipped` — its log is what `/sweep` reads<br>[#109](https://github.com/bex-sugartown/sugartown/issues/109) wip-mirror rebase race · `Backlog` — same log, different failure |
 | **Project ID** | N/A — umbrella operations doc, not a single project (per `docs/briefs/README.md` litmus test) |
@@ -268,10 +268,12 @@ Read-only assessment first, action second, exactly as `/ship` does.
 
 ### Where the rules live
 
-The sweep is cross-repo, so its rules belong in `conventions/`, with the command itself in
-whichever repo hosts it. Hosting it in `sugartown/.claude/skills/` is pragmatic — that repo
-already has the skill infrastructure — but it means a sweep of three repos lives inside one of
-them. Note the inversion; accept it only if the alternative is not building it.
+The sweep is cross-repo, so its rules and its command both live in the `conventions/` repo
+(D4, decided 2026-09-03). An earlier draft weighed `sugartown/.claude/skills/` because that
+repo had the skill infrastructure, at the cost of a four-repo sweep living inside one of the
+repos it sweeps. The root loader removed the reason for that trade: `conventions/` is now a
+repo every session loads, so a skill defined there is reachable from every project on the
+desktop. How the skill is made discoverable from there is ST-108 Phase 3's last scope item.
 
 ---
 
@@ -281,9 +283,9 @@ them. Note the inversion; accept it only if the alternative is not building it.
 |---|---|---|
 | D1 | Close F1 by Drive symlink, LFS repo, or confirmed Time Machine | **Decided 2026-09-02 — Time Machine to `/Volumes/Angelique`.** Parent-directory Drive sync rejected on four grounds, recorded under F1. Open until the first completed backup is verified by listing it |
 | D2 | Promote `conventions/` to a repo, or keep plain files | **Decided 2026-09-03 — promote.** Bex sets up the private repo. Reason: the root loader (above) makes every session load these files, so a lost or corrupted one degrades every session with no history to recover from; and the root itself cannot be a repository, so the subfolder boundary is the only place history can live. Open until the first clone exists and the symlink loads |
-| D3 | `/sweep` or another name | `/sweep`; `/eod` collides with a retired command |
-| D4 | Where the sweep command lives | **Revised 2026-09-03:** the `conventions/` repo, rules and command together. It is now a repo every session loads, which removes the inversion of hosting a three-repo sweep inside one of the repos it sweeps. Prior recommendation was `sugartown/.claude/skills/` |
-| D5 | Whether the sweep runs `git fetch` in each repo | Yes — ahead/behind is meaningless without it, and it is free |
+| D3 | `/sweep` or another name | **Decided 2026-09-03 — `/sweep`.** `/eod` was retired into `/ship` on 2026-08-19 and `docs/shipped/ST-100-close-out-eod-boundary.md` records it; reviving the name would point at two behaviours across the repo's own history |
+| D4 | Where the sweep command lives | **Decided 2026-09-03 — the `conventions/` repo, rules and command together.** It is a repo every session loads (root loader), so a cross-repo command has a cross-repo home and the inversion of hosting a four-repo sweep inside one of the repos it sweeps goes away. Prior recommendation was `sugartown/.claude/skills/`; superseded |
+| D5 | Whether the sweep runs `git fetch` in each repo | **Decided 2026-09-03 — yes.** Ahead/behind is meaningless without it, it is free, and ST-113 showed the mirror's own `--force-with-lease` depends on a fresh tracking ref |
 
 ---
 

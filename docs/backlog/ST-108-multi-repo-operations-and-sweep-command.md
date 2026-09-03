@@ -45,10 +45,10 @@ Layers touched: **tooling** (the command), **docs** (the brief's decision record
 
 Eight items, which crosses the sizing gate — see the scope-to-phase mapping under Phases.
 
-- [ ] Record **D2** — decided 2026-09-03: `conventions/` becomes a small private repository, set up by Bex. This item closes when the first clone exists and the root loader below resolves through it — layer: docs/decision
-- [ ] Settle **D3, D4, D5** — command name, which repository hosts it, whether it fetches per repo. D4's recommendation was revised 2026-09-03 to the `conventions/` repo (brief §Root loader) — layer: docs/decision
-- [ ] Put the **root loader** in place — `conventions/CLAUDE.md` holding `@` imports of the four convention files plus the topology table, reached by a symlink at `SUGARTOWN_DEV/CLAUDE.md`; verify the loader follows the symlink; trim the three per-project pointer blocks (`sugartown/CLAUDE.md:90`, `resume-factory/os/CLAUDE.md` §Shared conventions, `cms-eval/toolkit/CLAUDE.md` §Shared conventions) to their Cowork mount caveat — layer: docs
-- [ ] Add the **laptop bootstrap line** to `conventions/README.md` §Reaching this folder: clone the repo, create the symlink; `/switch` does not do this — layer: docs
+- [x] Record **D2** — decided 2026-09-03: `conventions/` is the private repo `bex-sugartown/conventions` (first commit `3c3ea58`, loader `61efab7`); the root loader resolves through it — layer: docs/decision
+- [x] Settle **D3, D4, D5** — `/sweep`; hosted in the `conventions/` repo; fetches per repo. Recorded with dates and reasons in the brief 2026-09-03 — layer: docs/decision
+- [x] Put the **root loader** in place — `conventions/CLAUDE.md` (topology table, wrapper-rule pointers), reached by a symlink at `SUGARTOWN_DEV/CLAUDE.md`, verified to load from a fresh session in `resume-factory/os`. **Amended 2026-09-03:** the four convention files are delivered as personal rules through `~/.claude/rules/conventions` → `conventions/rules/` (four relative symlinks), not by `@` import, because imports were measured not to expand across the project boundary (Claude Code 2.1.207; see Technical notes). Per-project pointer blocks trimmed in `resume-factory/os/CLAUDE.md` and `cms-eval/toolkit/CLAUDE.md`; `sugartown/CLAUDE.md:90` was already pointer plus caveat with no table and is unchanged — layer: docs
+- [x] Add the **laptop bootstrap** to `conventions/README.md` §Reaching this folder — four steps in the human-instruction style (clone, two symlinks, a check that tells which is missing); `/switch` does not do this — layer: docs
 - [ ] Build the `/sweep` read-only assessment: stale-lock detection, `.git/st-mirror.log` check, tree state, unversioned-content report — layer: tooling
 - [ ] Build `/sweep` push behaviour: push `resume-factory/os`, `cms-eval/toolkit` and `conventions` when ahead, report-only for `sugartown` — layer: tooling
 - [ ] Write the sweep's rules into `conventions/` and the command into whichever repository D4 names — layer: docs + tooling
@@ -96,6 +96,18 @@ tooling and documentation only.
   `.git/st-mirror.log`, and until both land the log both cries wolf after a rebase (#109) and
   stays silent when a day's first commit goes unmirrored (#113), so the sweep would report the
   wrong state on its first real run.
+- **`@` imports do not cross the project boundary (measured 2026-09-03, Claude Code 2.1.207).**
+  Fresh nested `claude -p` sessions with all tools disallowed, one per case: an import inside
+  the project's own `CLAUDE.md` of a file inside the project directory expanded; `../`,
+  absolute and `~/` targets outside the project did not, whether the import sat in the
+  project's file or an ancestor's. `~/.claude/rules/` loaded in every case and followed a
+  symlinked directory containing file symlinks. Ancestor `CLAUDE.md` loading through a symlink
+  worked. This is why the loader carries no imports and the rules symlink exists; if a later
+  build lifts the limit, the imports can return and the symlink can go.
+- **Phase 1 close, 2026-09-03.** `resume-factory/os/CLAUDE.md`'s trimmed pointer block is
+  staged but uncommitted: that repo's blocking `check_tiers.py` gate refuses any commit while
+  an untracked hand-rolled backup (`scripts/.offload_notes_BACKUP_2026-09-02_pre-archdir-fix.py`,
+  2026-09-02, not this epic's) sits in the tree. Bex moves or trashes it; the commit follows.
 - **Activation audit — read before writing any of the command:**
   - `docs/reviews/2026-09-03-claude-code-layout-alignment-audit.md`, for the hierarchy facts
     the root loader depends on and the verified-against-docs mechanics (ancestor loading,
