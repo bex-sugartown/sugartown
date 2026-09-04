@@ -52,7 +52,7 @@ git branch -vv --no-merged main | grep -v '\[origin/'
 Any branches listed here have commits that exist ONLY on this machine — flag them in the briefing as **critical unfinished business** and recommend pushing immediately.
 
 Then check whether the last **wip mirror** succeeded. The `post-commit` hook mirrors every
-commit to `wip/<date>` on `origin` and records the outcome, but its only other reader is the
+commit to `wip/<date>/<branch>` on `origin` (one ref per branch per day, ST-115) and records the outcome, but its only other reader is the
 next commit — so a mirror that fails at the end of a session surfaces nowhere until you commit
 again (observed 2026-09-01: a failure went unnoticed for 18 hours):
 ```bash
@@ -64,7 +64,7 @@ cat .git/st-mirror.log 2>/dev/null || echo "no mirror log yet"
   lines — the fetch is not optional, it is what gives `--force-with-lease` a current base
   (ST-106); the push alone reproduces the original failure:
   ```bash
-  B="wip/$(date +%Y-%m-%d)"
+  B="wip/$(date +%Y-%m-%d)/$(git branch --show-current | tr / -)"
   git fetch origin "refs/heads/${B}:refs/remotes/origin/${B}" 2>/dev/null
   git push --force-with-lease origin "HEAD:refs/heads/${B}"
   ```
