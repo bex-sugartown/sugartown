@@ -4,7 +4,7 @@
   (or paste the checklist into the default PR template)
 
   Source of truth: the Component Naming Audit + the component registry.
-  Governing rules: docs/README.md · CLAUDE.md · the audit's "Naming & Composition Charter".
+  Governing rules: docs/README.md · CHARTER.md · the audit's "Naming & Composition Charter".
 -->
 
 ## What & why

@@ -48,7 +48,7 @@ Counts at handoff: **13 In system · 7 Diverges · 24 To codify · 59 Not yet.**
 
 ## Operating rules — the Naming & Composition Charter
 
-Enforce these on every component you touch. Full text in `CLAUDE.md` and `docs/README.md`.
+Enforce these on every component you touch. Full text in `CHARTER.md` and `docs/README.md`.
 
 1. **Name by what it *is*, not what it's *for*.** A contact form is a `Form` + content, never a `ContactForm`.
    Use-case names (a domain noun in the name) are rejected.
@@ -92,7 +92,7 @@ charter offender. Each epic doc ends with a phased PR plan and a Definition of D
 ```
 component-audit.json        machine-readable source of truth (parse this)
 component-audit.csv         same data, flat
-CLAUDE.md                   the charter as operating rules (load into the repo)
+CHARTER.md                   the charter as operating rules (load into the repo)
 PROMPTS.md                  copy-paste prompts: parse → prioritize → execute
 docs/
   README.md                 governance index + how the pieces enforce each other

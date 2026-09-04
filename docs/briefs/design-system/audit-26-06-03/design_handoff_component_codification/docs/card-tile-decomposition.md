@@ -1,7 +1,7 @@
 # Card & Tile decomposition — a law-02 case study + implementation plan
 
 > Status: proposed · Owner: DS · Source of record: the Component Naming Audit + `uploads/component-registry.md`
-> Governing rules: the Naming & Composition Charter (`docs/README.md`, `CLAUDE.md`).
+> Governing rules: the Naming & Composition Charter (`docs/README.md`, `CHARTER.md`).
 
 This is the worked example the charter exists for: two overloaded components (`Card`, `Tile`) that each
 re-implement primitives inline and have accreted use-case-named variants. We pull the primitives out, codify

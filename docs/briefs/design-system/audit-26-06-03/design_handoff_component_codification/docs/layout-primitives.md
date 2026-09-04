@@ -1,7 +1,7 @@
 # Layout primitives & the "Layout" group — reclassification (epic 3)
 
 > Status: proposed · Owner: DS · Source of record: the Component Naming Audit + `uploads/component-registry.md`
-> Governing rules: the Naming & Composition Charter (`docs/README.md`, `CLAUDE.md`).
+> Governing rules: the Naming & Composition Charter (`docs/README.md`, `CHARTER.md`).
 
 Two problems, one root cause. The arrangement mechanics (`Grid`, `Stack`, `Flex`, `Surface`, `Page`, …) are
 hand-rolled across content layouts and drift silently. Meanwhile the Storybook **"Layout"** group contains no

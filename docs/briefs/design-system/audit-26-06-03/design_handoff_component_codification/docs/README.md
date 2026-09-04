@@ -25,7 +25,7 @@ tokens, a preview card, or site usage alone.
 | `card-tile-decomposition.md` | Worked law-02 epic: fold Tile into Card, extract Metric/Meter/Skeleton, un-smoosh ContentCard/MetadataCard/ListView. | implementation backlog |
 | `form-decomposition.md` | Worked law-01+02 epic: retire `ContactForm` → `Form` + codified field primitives. | implementation backlog |
 | `layout-primitives.md` | Worked epic: codify layout primitives, re-bucket the "Layout" group into Regions/Patterns, retire `TwoColumnLayout`. | implementation backlog |
-| (root) `CLAUDE.md` | Governs AI sessions in this project automatically. | repo root / project root |
+| (root) `CHARTER.md` | Governs AI sessions in this project automatically. | repo root / project root |
 
 ## The three laws (short form)
 
@@ -57,7 +57,7 @@ tokens, a preview card, or site usage alone.
    └───────┬───────────────────────────┬──────────┘
            │ enforced by               │ enforced by
            ▼                           ▼
-   CLAUDE.md (AI sessions)     component-pr-template.md  +  storybook-charter.mdx
+   CHARTER.md (AI sessions)     component-pr-template.md  +  storybook-charter.mdx
                                (humans, at PR & build time)
 ```
 

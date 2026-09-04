@@ -2,7 +2,7 @@
 
 Run these in order, inside a checkout of `github.com/bex-sugartown/sugartown`, with this whole
 `design_handoff_component_codification/` folder available. Each prompt is self-contained; paste it as-is.
-Treat `component-audit.json`, `CLAUDE.md`, and the `docs/*` epic plans as the source of record.
+Treat `component-audit.json`, `CHARTER.md`, and the `docs/*` epic plans as the source of record.
 
 ---
 
@@ -10,7 +10,7 @@ Treat `component-audit.json`, `CLAUDE.md`, and the `docs/*` epic plans as the so
 
 ```
 Read these files and treat them as binding for this entire session:
-- CLAUDE.md (the Naming & Composition Charter — operating rules)
+- CHARTER.md (the Naming & Composition Charter — operating rules)
 - README.md (handoff overview)
 - component-audit.json (source of truth: 103 components with status + notes)
 - docs/card-tile-decomposition.md, docs/form-decomposition.md, docs/layout-primitives.md (epic plans)

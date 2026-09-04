@@ -59,3 +59,5 @@ If something you're about to name is an **Instance**, it is content/config — d
 - Notes prefixed `ANNOTATION:` are intentional callouts and must survive the CSV export.
 - Visual style is the Pink Moon design system (`assets/colors_and_type.css`): zero-radius, mono labels,
   hot pink reserved for signals. Don't invent colors or fonts outside it.
+
+> Renamed from `CLAUDE.md` on 2026-09-04 (ST-112): as `CLAUDE.md` it loaded as Sugartown session context whenever a session read this folder. Nothing else changed.

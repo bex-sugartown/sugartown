@@ -1,7 +1,7 @@
 # Form decomposition — retiring `ContactForm` (a law-01 + law-02 case study)
 
 > Status: proposed · Owner: DS · Source of record: the Component Naming Audit + `uploads/component-registry.md`
-> Governing rules: the Naming & Composition Charter (`docs/README.md`, `CLAUDE.md`).
+> Governing rules: the Naming & Composition Charter (`docs/README.md`, `CHARTER.md`).
 
 The headline offender. `ContactForm` is a **use-case name** (law 01) wrapped around field anatomy that is
 **re-implemented inline** instead of composed from primitives (law 02). The fix has two halves: rename the
