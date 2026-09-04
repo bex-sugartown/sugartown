@@ -77,11 +77,12 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   subshell. Found by the first live `/sweep` run (ST-108 Phase 2), whose per-branch containment
   check disagreed with the log; two `main` commits sat disk-only under an `OK` line. Now pushes
   the captured full SHA. Reproduced and verified in a throwaway clone with the exact race. ST-114.
-- The mirror is now one ref per branch per day, `wip/<date>/<branch>`, instead of one ref per day.
+- The mirror is now one ref per branch per day, `wip/<date>-<branch>`, instead of one ref per day.
   The single ref covered only the branch committed on last, so a feature branch and `main` worked
   on the same day left one of them on this disk only; the first live `/sweep` run showed the epic
   branch in exactly that state. Slashes in branch names become dashes; a detached HEAD mirrors to
-  `wip/<date>/detached`. Five probes in a throwaway clone: two branches same day both on remote
+  `wip/<date>-detached`; the shape is flat rather than nested because git cannot create a ref beneath
+  a name that exists as a leaf, and a machine on the older hook creates that leaf first. Five probes in a throwaway clone: two branches same day both on remote
   refs, the ST-114 race, a rebase, a first-of-day ref, a detached commit. ST-115.
 - `docs/ai/README.md` linked `docs/workflows/eod-prompt.md`, a file that does not exist, and
   `docs/ai/skills-index.md` listed the retired `/eod` and an absent `storybook-docs` as live

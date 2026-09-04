@@ -131,7 +131,7 @@ assigns it.** Full rationale: `docs/briefs/linear-to-github-migration-plan.md` �
 Commit after each independently-working feature. Do not save it all for one end-of-epic commit. If a session may run out of context, commit work-in-progress with a `wip(epic):` prefix before it ends.
 
 **Disk safety no longer depends on remembering a push threshold, on any branch.** A `post-commit`
-hook mirrors every commit — on `main` or a feature branch — to `wip/<date>/<branch>` on `origin`,
+hook mirrors every commit — on `main` or a feature branch — to `wip/<date>-<branch>` on `origin`,
 automatically, for free (`.husky/post-commit`, SUG-100 S13). The earlier advice — push a feature
 branch after each checkpoint; above ~15 unpushed commits on `main` or at any session end, push and
 accept a deploy or create a `wip/<epic>` branch — existed only to manufacture that safety by hand.

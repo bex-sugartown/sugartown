@@ -16,7 +16,7 @@
 # Verified 2026-08-18. If either changes, re-check before assuming this is free.
 #
 # WHY force-with-lease
-# wip/<date>/<branch> is a moving mirror of that branch, and a rebase rewrites it. --force-with-lease
+# wip/<date>-<branch> is a moving mirror of that branch, and a rebase rewrites it. --force-with-lease
 # refuses if the remote moved unexpectedly. This namespace is written only by this
 # hook; it is never a source of truth and is safe to discard.
 #
@@ -24,7 +24,10 @@
 # A single wip/<date> ref mirrored only the branch committed on last: committing on main after a
 # feature branch (or the reverse) overwrote the other branch's commits in the mirror, leaving them
 # on this disk only. Seen live 2026-09-03 by /sweep's per-branch containment check. ST-115.
-# Slashes in a branch name become dashes so the ref stays flat under the date (feat/x -> feat-x).
+# Slashes in a branch name become dashes (feat/x -> feat-x). The ref is wip/<date>-<branch>, flat,
+# not wip/<date>/<branch>: git cannot create a ref under a name that already exists as a leaf, and
+# a machine still running the older hook creates the flat wip/<date> leaf first (seen live
+# 2026-09-04, first push of this shape rejected with 'cannot lock ref').
 #
 # HOW HUSKY RUNS THIS
 # .husky/_/h invokes every hook as `sh -e`, so any command that exits non-zero
@@ -57,13 +60,13 @@ if [ -f "$LOG" ] && grep -q '^FAIL' "$LOG" 2>/dev/null; then
   echo "⚠️   wip mirror: last push failed — $(tail -1 "$LOG")"
   echo "    Commits may exist only on this disk. Check connectivity, or run both lines"
   echo "    (the fetch is what gives --force-with-lease a current base — ST-106):"
-  echo "    B=wip/$(date +%Y-%m-%d)/$(git branch --show-current 2>/dev/null | tr / - || echo detached)"
+  echo "    B=wip/$(date +%Y-%m-%d)-$(git branch --show-current 2>/dev/null | tr / - || echo detached)"
   echo "    git fetch origin \"refs/heads/\$B:refs/remotes/origin/\$B\""
   echo "    git push --force-with-lease origin HEAD:refs/heads/\$B"
 fi
 
 CUR=$(git branch --show-current 2>/dev/null | tr / -); [ -n "$CUR" ] || CUR=detached
-BRANCH="wip/$(date +%Y-%m-%d)/$CUR"
+BRANCH="wip/$(date +%Y-%m-%d)-$CUR"
 SHA=$(git rev-parse --short HEAD)
 # Push this exact commit, not HEAD: the push below runs in the background, and a git switch
 # right after the commit would otherwise push the other branch and log OK for a commit that
