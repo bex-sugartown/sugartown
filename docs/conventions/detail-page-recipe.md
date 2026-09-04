@@ -7,7 +7,7 @@ detail page starts from the shared vocabulary instead of rediscovering it.
 
 **The rule:** a new detail/entity page is *assembled from existing components and
 shared classes*. New CSS is the exception and requires written justification (see
-CLAUDE.md §CSS class pre-implementation reuse audit). Reference implementation:
+`.claude/rules/css-layout.md` §CSS class pre-implementation reuse audit). Reference implementation:
 [ToolDetailPage.jsx](../../apps/web/src/pages/ToolDetailPage.jsx).
 
 ---

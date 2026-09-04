@@ -42,7 +42,7 @@ const RULES: Record<string, GovernanceRule> = {
       'longer true — apps/web now imports @sugartown/design-system directly across the codebase, and the mirror ' +
       'directory only retains SidebarNav and Tile (genuine app-only components with no package counterpart). ' +
       'Do not enforce or recommend the old prohibition.',
-    source: 'CLAUDE.md §Mirrored File Registry; docs/shipped/SUG-224-apps-web-consumes-design-system-package.md',
+    source: '.claude/rules/tokens.md §Mirrored File Registry; docs/shipped/SUG-224-apps-web-consumes-design-system-package.md',
   },
   'single-field-authority': {
     rule: 'single-field-authority',
@@ -52,7 +52,7 @@ const RULES: Record<string, GovernanceRule> = {
       'sub-object (e.g. linkItem) brings a field that overlaps with a parent schema field (e.g. ctaButton.text vs ' +
       'linkItem.label), one must be canonical and the other must be hidden or removed in the same commit. Two ' +
       'fields that could plausibly hold the same value is a bug, not a feature.',
-    source: 'CLAUDE.md §Single Field Authority',
+    source: '.claude/rules/sanity-schema.md §Single Field Authority',
   },
   'atomic-reuse-gate': {
     rule: 'atomic-reuse-gate',

@@ -128,4 +128,4 @@ Before writing any new CSS class, produce a naming proposal table in the commit 
 | `.myNewClass` | `pages.module.css .entityFolio` (80%) | Extend existing |
 | `.listRow` | None — new semantic pattern | New class approved |
 
-Do not edit any CSS module file until the table has been reviewed. See CLAUDE.md §CSS class pre-implementation reuse audit.
+Do not edit any CSS module file until the table has been reviewed. See `.claude/rules/css-layout.md` §CSS class pre-implementation reuse audit.

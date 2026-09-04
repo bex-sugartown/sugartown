@@ -65,7 +65,7 @@ The epic author reviews it at Phase 0 gate before any JSX is written.
 | `[element from handoff]` | `[match from recipe or "none — see justification"]` | | `[Yes (proposal table required) / No]` |
 
 **Column 4 rule:** any "Yes" row requires a naming proposal table approved before
-the first `Edit` to a CSS module file (CLAUDE.md §CSS class pre-implementation
+the first `Edit` to a CSS module file (`.claude/rules/css-layout.md` §CSS class pre-implementation
 reuse audit). New class names must be semantic and pass `pnpm validate:css-names`.
 
 ---

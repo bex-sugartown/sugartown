@@ -87,13 +87,13 @@ The fragment pattern in `queries.js` normalises this: `"title": name` maps `name
 
 ## Object vs document schema pairs
 
-When an **object schema** and a **document schema** represent the same logical concept (e.g. `ctaButton` / `ctaButtonDoc`), they are a linked pair. Any change to option labels, field names, validation rules, or field descriptions on one must be reviewed against the other in the same commit. See CLAUDE.md §Paired schema convention.
+When an **object schema** and a **document schema** represent the same logical concept (e.g. `ctaButton` / `ctaButtonDoc`), they are a linked pair. Any change to option labels, field names, validation rules, or field descriptions on one must be reviewed against the other in the same commit. See `.claude/rules/sanity-schema.md` §Paired schema convention.
 
 ---
 
 ## Field authority — one field per concept
 
-Each user-facing concept must resolve from exactly one field. If a sub-object brings a field that overlaps with a parent schema field, one must be canonical and the other hidden or removed. See CLAUDE.md §Single Field Authority.
+Each user-facing concept must resolve from exactly one field. If a sub-object brings a field that overlaps with a parent schema field, one must be canonical and the other hidden or removed. See `.claude/rules/sanity-schema.md` §Single Field Authority.
 
 
 ---

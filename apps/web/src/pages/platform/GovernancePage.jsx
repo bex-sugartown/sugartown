@@ -162,7 +162,7 @@ const WORKFLOW_DIAGRAM = {
 const GH = 'https://github.com/bex-sugartown/sugartown/blob/main/'
 const WORKFLOW_DOCS = [
   { phase: 'Intake', docLabel: 'IA Brief + PRD-writer skill', docHref: `${GH}docs/briefs/ia-brief.md`, outputLabel: 'Linear issue (SUG-N assigned)', outputHref: null },
-  { phase: 'Planning', docLabel: 'Epic Template + CLAUDE.md §Epic authoring', docHref: `${GH}docs/epic-template.md`, outputLabel: 'Backlog epic doc', outputHref: null },
+  { phase: 'Planning', docLabel: 'Epic Template + .claude/rules/epics.md §Epic authoring', docHref: `${GH}docs/epic-template.md`, outputLabel: 'Backlog epic doc', outputHref: null },
   { phase: 'Design', docLabel: 'CLAUDE.md §Phase 0 + Design Handoff Template', docHref: `${GH}docs/conventions/design-handoff-template.md`, outputLabel: 'Vspec (drafts/ → shipped/ copy)', outputHref: null },
   { phase: 'Implementation', docLabel: 'CLAUDE.md conventions', docHref: `${GH}CLAUDE.md`, outputLabel: 'Commits, Storybook stories', outputHref: null },
   { phase: 'Verification', docLabel: 'VQA Workflow + CLAUDE.md §Visual Verification', docHref: `${GH}docs/conventions/vqa-workflow.md`, outputLabel: 'VQA table, Chromatic build', outputHref: null },

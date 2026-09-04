@@ -20,7 +20,7 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
   go to GitHub only — CLAUDE.md §Tracker writes go to GitHub only
 - Use the GitHub issue number in the filename: `ST-95-liveness-probes-only.md`. Existing
   `SUG-{N}` files keep their Linear IDs and are never renumbered; the two ranges overlap, so the
-  prefix is what carries the era (CLAUDE.md §Epic authoring)
+  prefix is what carries the era (`.claude/rules/epics.md` §Epic authoring)
 - Update the **GitHub Issue** field in the file header with the issue link
 - Status in Linear: **Backlog** (just filed) → **Todo** (promoted to the top of `## 01 · Next`
   by the human when they prioritize it for pickup)
@@ -108,9 +108,9 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 - [ ] **Dark / theme modifier treatment** — explicit statement of how dark mode, light mode, or themed variants are handled by this component (token inheritance, `[data-theme]`, `accentColor`, or "not applicable — why")
 - [ ] **Studio schema changes scoped** — if this epic requires schema changes, they are either (a) explicitly in scope with their own commit prefix `feat(studio):`, or (b) explicitly out of scope with a reference to the epic that owns them. No implicit schema changes.
 - [ ] **Web adapter sync scoped** — if a DS component is created or modified, the web adapter update is either (a) in scope (listed in Files to Modify), or (b) explicitly deferred to a named follow-on epic
-- [ ] **Composition overlap audit** — if this epic adds a sub-object (e.g. `linkItem`, `richImage`) to an existing schema, list all fields on the parent schema that serve the same purpose as any field on the sub-object. If overlap exists, state which field is canonical and hide/deprecate the other. Two fields that could plausibly hold the same value is a bug (see CLAUDE.md §Single Field Authority).
+- [ ] **Composition overlap audit** — if this epic adds a sub-object (e.g. `linkItem`, `richImage`) to an existing schema, list all fields on the parent schema that serve the same purpose as any field on the sub-object. If overlap exists, state which field is canonical and hide/deprecate the other. Two fields that could plausibly hold the same value is a bug (see `.claude/rules/sanity-schema.md` §Single Field Authority).
 - [ ] **Atomic Reuse Gate** — for every new component, schema object, CSS surface, or utility in this epic: (1) confirm no existing equivalent across all 5 layers, (2) confirm it will be consumed by >1 caller or justify single-use, (3) confirm the API is composable (children over fixed slots, tokens over hardcoded values). See CLAUDE.md §Atomic Reuse Gate.
-- [ ] **Token value cross-check (DS component epics — blocking)** — if this epic uses any `--st-*` token for a typography or spacing decision on a DS component: (1) grep for the token's resolved value in `tokens.css`, (2) open the DS typography/spacing convention Storybook story (`/story/foundations-typography-conventions--default`) and confirm the resolved value matches the spec. Record both values in the epic doc. A token that resolves at the wrong tier (e.g. `--st-font-heading-2` = 36px when the spec calls for 48px) must be addressed with a new semantic token before implementation begins. See CLAUDE.md §DS Component Authoring Token-First Rule.
+- [ ] **Token value cross-check (DS component epics — blocking)** — if this epic uses any `--st-*` token for a typography or spacing decision on a DS component: (1) grep for the token's resolved value in `tokens.css`, (2) open the DS typography/spacing convention Storybook story (`/story/foundations-typography-conventions--default`) and confirm the resolved value matches the spec. Record both values in the epic doc. A token that resolves at the wrong tier (e.g. `--st-font-heading-2` = 36px when the spec calls for 48px) must be addressed with a new semantic token before implementation begins. See `.claude/rules/tokens.md` §DS Component Authoring Token-First Rule.
 - [ ] **Enforcement liveness — declared is not effective** (blocking for any epic that audits, adds, or relies on a rule, gate, or validator) — for every rule this epic claims is in force, prove it *fires*; do not confirm it *exists*. Config presence, a wired hook, and a passing check are three different things from an enforced rule. Proof is a deliberate violation that fails then reverts — or where impractical, the resolved config read back from the tool itself (`eslint --print-config`). "The rule is declared in X" is not evidence. Five instances across 2026-05→07 are recorded as INC-009 to INC-011 in `docs/ai/agentic-caucus/incident-log.md`.
 - [ ] **App.jsx routing pre-flight (epics that touch "all pages" or any page set)** — if this epic's scope covers a set of pages (archive pages, detail pages, "all X pages"), read `apps/web/src/App.jsx` before finalising the page inventory. Diff the routes against the epic's page list and correct any mismatch. Missing or wrong entries in the page list invalidate the Scope and Acceptance Criteria sections. Record the verified route-to-component mapping in Technical Notes before proceeding.
 - [ ] **Component-Reuse Manifest** — if this epic adds any page, section, or visual surface: the manifest table below is filled in **before any JSX or CSS is written**. An epic doc without the manifest is incomplete (same severity as a missing Phase 0 vspec).
@@ -195,7 +195,7 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 >
 > **Duplication check (blocking):** before adding any field, confirm no existing field on
 > the same document serves the same purpose. If overlap exists, name it and state which
-> field is canonical (see CLAUDE.md §Single Field Authority).
+> field is canonical (see `.claude/rules/sanity-schema.md` §Single Field Authority).
 
 | Field | What it is | Example value | Why it matters |
 |-------|-----------|---------------|----------------|

@@ -10,6 +10,10 @@
 >
 > **Tier 1 gates stop and ask.** Sections below carry the label inline; the closed list and
 > the full tier model live in `docs/conventions/human-gate-conventions.md`.
+>
+> **This file holds what applies to every session.** Rules that apply only when a kind of file
+> is being worked on live in `.claude/rules/` and load when such a file is read (§Path-scoped
+> rules).
 
 ---
 
@@ -29,6 +33,25 @@ When Bex uses a shorthand, map it to the full tool name:
   validatefield  → sugartown_validate_field
   getepic        → sugartown_get_epic
   getchangelog   → sugartown_get_changelog
+
+## Path-scoped rules
+
+`.claude/rules/*.md` files with `paths:` frontmatter load when a session reads a matching file,
+and not otherwise (measured 2026-09-04 on Claude Code 2.1.207, ST-112). Each is verbatim text
+that used to sit in this file; the Instruction & Rule File Write Gate and the followability
+walkthrough cover them exactly as they cover this file. `ls .claude/rules/` is the list; the
+frontmatter of each says what it loads on. If a rule below seems missing from context, the
+file it governs has not been read yet in this session.
+
+| File | Loads when a session reads |
+|---|---|
+| `epics.md` | `docs/backlog/**`, `docs/shipped/**`, `docs/epic-template.md`, the epic-filing skills |
+| `react.md` | app JSX and JS, design-system TSX |
+| `css-layout.md` | any stylesheet, `apps/web/src/components/**` |
+| `tokens.md` | `tokens/**`, any stylesheet, design-system code |
+| `sanity-schema.md` | `apps/studio/schemas/**` and Studio TypeScript |
+| `groq.md` | `apps/web/src/lib/**`, `apps/web/src/pages/**` |
+| `storybook.md` | Storybook config, stories, `packages/storybook-docs/**`, design-system code |
 
 ## Session Discipline
 
@@ -95,36 +118,6 @@ the same caveat `resume-factory/os/CLAUDE.md` and `cms-eval/toolkit/CLAUDE.md` c
 Every markdown file in the repo also follows `docs/conventions/machine-readable-docs.md`:
 sections that stand alone, front-loaded answers, resolved pronouns, ISO dates. Retrieval
 chunks all files the same way, whichever guide owns the content.
-
-### Epic authoring — issue-first workflow
-
-When creating a new epic in `docs/backlog/`:
-
-1. **Create the GitHub issue first** — its number is the epic's ID (§Tracker writes go to
-   GitHub only)
-2. **Name the file** `docs/backlog/ST-{github issue number}-{descriptive-name}.md`
-3. **Link the issue** in the file header (`**GitHub Issue:** [#{n}](url)`)
-4. **Prioritize on the board** — set `Priority` on the project item. Until 2026-09-09 Linear
-   still holds the ordering for the 58 migrated issues and is read for it, but new work is
-   prioritized in GitHub
-5. **Decompose above the sizing gate** — epics with more than 5 Scope items carry a
-   scope-to-phase mapping in the epic doc. Numbered phases do not trigger it. **One epic is
-   one issue; never file sub-issues.** See
-   `docs/conventions/user-story-conventions.md`
-
-`docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
-
-**Tools do not take this path.** A validator, gate, hook, script, generator or command is filed
-with `/new-tool`: a GitHub issue and no backlog doc, because the issue body is the spec. That
-skill carries its own activation gate, since §Incomplete epic doc hard stop reads a backlog file
-and a tool has none. Use `/new-epic` when the work changes what a user sees, `/new-tool` when it
-changes what the repo does to itself.
-
-**Two ID eras, and they overlap.** `SUG-5`–`SUG-284` are Linear IDs on existing epics and never
-change. `ST-{n}` is a GitHub issue number on epics created from 2026-08-16. The prefix carries
-the era because the ranges collide: `SUG-93` is a legacy epic doc *and* GitHub issue #93 is a
-different epic. **Never mint a `SUG-` ID again, and never derive an `ST-` number — GitHub
-assigns it.** Full rationale: `docs/briefs/linear-to-github-migration-plan.md` §2.1.
 
 ### Mid-epic commit checkpoints
 
@@ -282,22 +275,6 @@ One thing this does not do: **it does not close pre-existing drift.** The `Item 
 workflow is forward-looking only, so an issue closed before the automation existed keeps a
 stale `Status` and is corrected by hand.
 
-### Multi-phase epic merge cadence
-
-**Phases are execution units, not work items.** One epic is one issue, one backlog
-doc, one ship, however many phases. Phases get checkboxes in the parent doc. A phase
-that outgrows the epic's Objective splits out via `/new-epic`.
-
-Strategy governs merge cadence only. Declare one in the epic doc header when the epic opens,
-and stick to it:
-
-- **(a) Merge-as-you-go** — each phase merges to `main` on completion.
-- **(b) Single close-out** — all phases accumulate on one feature branch, merging once.
-
-**Do not mix.** Merging Phase 1 and 1b while leaving 1c on a side branch is what stranded SUG-63 Phase 1c for days. At `/ship`, any branch ahead of `main` belonging to an (a)-strategy epic is resolved — merged, held with a stated reason, or abandoned — before it runs. (Renamed from `/eod`, 2026-08-19.)
-
-**Never run `/ship --release` on a feature branch before merging.** Two epics mid-flight on separate branches each compute "next version" from a stale `package.json`, producing numbers that collide or silently mis-resolve at merge. A same-value bump on both sides resolves without conflict and is still wrong. Merge to `main` first. (Renamed from `/mini-release`, 2026-08-19 — the concern is identical: `package.json` is still a shared counter.)
-
 ### Merge conflict cleanup
 
 Never end a session with an unresolved merge conflict. Either resolve it and commit the merge, or abort it (`git merge --abort`) and document why. One left overnight blocks the next session's morning housekeeping and leaves the working tree state unclear.
@@ -378,36 +355,6 @@ Build the interaction as vanilla JS in a `<script>` tag in the vspec file — no
 
 **Vspec class names are the production class names.** They are the first expression of a CSS class's name, so `.tag-row` in a vspec ships as `.tag-row`. Use the semantic name you intend to ship (`.listRow`, `.flatGridRow`); if it is not settled, use a generic placeholder (`.list-row`, `.btn-strip`) marked `/* TBD */`; never name a class after its content type (`.tag-row`, `.tool-folio`, `.tax-item`). A vspec class that would fail the CSS pre-implementation reuse audit is a violation, and a vspec leaning on `/* TBD */` for most of its classes has not finished Phase 0.
 
-### Incomplete epic doc hard stop
-
-Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for completeness. If any of the following are unresolved, **stop and surface the gap before touching any file, Sanity document, or schema:**
-
-1. **Background is `TODO`** — the motivation is unclear; execution without it is guesswork
-2. **Scope items are incomplete or contain `TODO`** — no defined acceptance surface means no defined stopping point
-3. **Phases are undefined** — multi-phase work cannot be sequenced
-4. **"All pages" scope without an `App.jsx` routing read** — any epic claiming to cover "all pages", "all archive pages", "all detail pages", or any broad page category must read `apps/web/src/App.jsx` and diff the listed pages against the actual routes before Scope is complete. Memory and agent outputs are not authoritative
-5. **Mechanical-transform scope without a verified per-item classification** — any epic proposing the same operation across a set of files ("replace every X with Y", "migrate all N components") must classify every item first. Do not infer the set's uniformity from one representative file or a TODO comment. (SUG-224: "44 mirrors" was 26 mirrors, 6 adapters, 6 diverged, and 6 with no counterpart.)
-6. **A Scope item that names no phase** — `Scope ∖ Phases` must be empty. An item outside every phase never gets sequenced. (SUG-231: one survived four phases of review.)
-7. **Scope amended without re-reading Non-Goals** — when Scope gains an item, re-read Non-Goals in the same edit and reconcile any conflict before writing code. (SUG-231: Scope and Non-Goals contradicted each other for a day.)
-
-**Correct response:** name the stub sections ("Background is TODO, Phases are undefined"), then offer either (a) fill the doc collaboratively, or (b) run an audit pass and wait for approval before implementing. Do not fill in the blanks yourself and proceed.
-
-Applies to all epic types, including pure content and editorial epics.
-
-### Design handoff evaluation gate (SUG-163)
-
-Before scoping any epic that originates from an *external* design handoff (gap-analysis doc, Figma export, or equivalent), evaluate the handoff against `docs/conventions/design-handoff-template.md`. Run the anti-checklist and flag every item that would introduce a framework assumption, invented schema field, literal URL path, content-type-prefixed CSS class, or PT-replacement array. Surface corrections in the epic doc's "Handoff corrections" section before Phase 0 sign-off.
-
-### React hooks — Outlet context pre-flight
-
-Before adding `useOutletContext()`, `useContext()`, or any new hook to a component that already has conditional early returns (`if (loading) return`, `if (notFound) return`, template guards, etc.):
-
-1. **Scan the component for all early returns** — list them.
-2. **Confirm all hook calls appear before the first early return** — hooks must be called unconditionally on every render.
-3. If the hook's _logic_ depends on data that isn't available yet (e.g. `leadHero` before the page loads), put the guard inside the hook's callback or effect — not around the hook call itself.
-
-A hooks-order violation renders a blank page with a cryptic "change in order of Hooks" warning. The fix is always to move the hook up.
-
 ### Building a mechanism — three rules
 
 A mechanism is anything built to make a rule hold: a validator, a generator, a cap, a register,
@@ -447,101 +394,6 @@ Before the first file write in any worktree session:
 2. If the environment block shows `Primary working directory: /Users/.../sugartown/.claude/worktrees/<name>`, every file path in `Edit`/`Write` calls must use that prefix — not `/Users/.../sugartown/apps/web/...`
 
 Writing shared CSS (e.g. `pages.module.css`) to the main app's copy instead of the worktree's produces a silent regression: the build succeeds, the main tree's dev server shows the change, the worktree branch does not. **To recover**, read the worktree file to confirm it is missing the change, then re-apply the edit to the correct path.
-
-### CSS Triage Protocol
-
-Before writing a CSS fix for overflow, scrollbar, or layout collapse: **identify the exact DOM element** that owns the misbehavior (via DevTools screenshot or `preview_inspect`). Document:
-1. The element's class name
-2. Its computed `overflow`, `width`, and `box-sizing` values
-3. Its parent's containment context
-
-Do not write CSS until this is documented; guessing which container overflows leads to rounds of blind patching.
-
-**bg-through-gap pattern documentation rule:** When a container uses `background-color: var(--st-color-rule-accent)` with `gap: 1px` to produce hairline dividers, every child element that covers the gap background must carry an explicit `background` declaration — even if it looks redundant. Annotate it:
-
-```css
-background: var(--st-card-bg); /* covers parent --st-color-rule-accent gap bg */
-```
-
-Without the annotation the declaration looks like dead code and gets removed, though it is load-bearing. If the pattern is not serving the layout, because every divider can be a `border` on adjacent siblings, replace it with `> * + *` border rules and say so in the commit message.
-
-### CSS layout fix escalation rule
-
-**When a CSS layout fix needs a follow-up commit, write a one-paragraph root-cause analysis before patching again**, covering the full cascade: containment → flex/grid → margin → max-width → child sizing.
-
-**Self-check after every CSS fix commit:** grep for the same selectors in the prior 3 commits. If that surface appears in a recent fix, write the root-cause paragraph before the next fix rather than patching the symptom again.
-
-### `container-type` guardrail
-
-`container-type: inline-size` establishes size containment that can interfere with flex-grow negotiation. Before applying it:
-
-1. Verify the element does **not** use `margin: auto` on the inline axis (auto margins + containment prevents stretch)
-2. Verify the element's parent flex/grid context does not rely on the child growing beyond its basis
-3. If the element is a flex child, add `width: 100%` explicitly — do not rely on `align-items: stretch` surviving containment
-
-If a layout collapses after adding `container-type`, remove the containment first and replace the `@container` query with a `@media` query or intrinsic grid sizing (`minmax()`).
-
-### Studio schema changes get their own commit
-
-Any change to `apps/studio/schemas/` that is **not** a direct consequence of a DS component API decision goes in its own commit, prefixed `feat(studio):` or `fix(studio):`, never bundled into a component, tooling, or web epic commit. If a schema change unblocks a component epic, commit the schema first and the component work after.
-
-**Schema changes are not live until deployed.** The local Studio uses your code directly, but MCP tools (`create_documents`, `patch_documents`, etc.) and the Content Lake API validate against the **deployed** schema. After any schema change, run:
-
-```bash
-npx sanity schema deploy
-```
-
-Skipping it makes MCP writes fail with validation errors listing the old allowed types while Studio works fine locally — the most common cause of "the schema has the field but MCP rejects it".
-
-### Paired schema convention
-
-When an **object schema** and a **document schema** represent the same logical concept, they are a linked pair. Any change to option labels, field names, validation rules, or field descriptions on one must be reviewed against the other in the same commit.
-
-Known pairs:
-- `ctaButton` (object, `schemas/objects/ctaButton.ts`) ↔ `ctaButtonDoc` (document, `schemas/documents/ctaButtonDoc.ts`)
-
-When adding a new object/document pair, register it in this list. A fix to one half of a pair that misses the other is a bug, not a follow-up.
-
-### Single Field Authority
-
-Each user-facing concept (label, title, description, URL) must resolve from **exactly one field**. If a sub-object (e.g. `linkItem`) brings a field that overlaps with a parent schema field (e.g. `ctaButton.text` vs `linkItem.label`), one must be canonical and the other must be hidden or removed in the same commit.
-
-When composing a sub-object into an existing schema, audit the parent for field-purpose overlap before merging. Two fields that could hold the same value is a bug.
-
-### Section Layout Contract
-
-All page sections rendered by `PageSections.jsx` follow these rules. The principle behind 1–5: **internal padding is the component's concern, external spacing is the layout's.**
-
-1. **Parent owns gap.** In `context="detail"`, `.detailContext` owns inter-section spacing via `display: flex; flex-direction: column; gap: var(--st-space-section-break-detail)`. Sections carry **zero vertical margin and zero vertical padding** there. Internal component padding is fine; external margin is not. (Without this, adjacent sections stacked 40+40=80px.)
-2. **Flex child width.** All direct children of `.detailContext` need `width: 100%`, or they shrink to content width — heroes collapse to their inner max-width, callouts hug text, CTA sections shrink to button width. `.detailPage` controls max-width (760px); children stretch to fill.
-3. **Catch-all over whitelist.** The `.detailContext` override uses `> *`, so new section types inherit the rules without registration, including those with their own CSS modules. Apply targeted exceptions (e.g. hero `overflow: visible` for overlays) as named overrides after the catch-all.
-4. **Component margin zero.** A component with `margin-block` in its own CSS module needs a zero-margin override in detail context: `.detailContext .calloutSection :global(aside) { margin-block: 0 }`.
-5. **Boundary elements.** Elements between two spacing contexts (e.g. MetadataCard between the hero and `.detailContext`) belong to neither flex container and need explicit margin: `.detailPage > aside:first-child { margin-bottom: var(--st-space-section-break-detail) }`. When adding an element to a detail page template, check which side of the `.detailContext` wrapper it falls on.
-6. **Typography.** Body text uses `var(--st-font-heading-4)`, headings the `var(--st-font-heading-*)` scale, h2 colour `var(--st-color-brand-primary)`.
-7. **Container width pre-flight before adding a grid.** A 2-col `<Grid spacing="lg">` needs `2 × 200px + 32px = 432px` minimum content width. If the container is `--st-width-detail` (760px) or narrower, check whether that width was chosen for prose density rather than grids — entity detail pages with content grids need `--st-width-detail-wide` (1080px). Update the container in the same commit as the grid.
-
-**When adding a new section type:** verify it renders next to existing section types on a real page, not in isolation; test both `context="detail"` and `context="full"`; confirm it stretches to full width; add a zero-margin override in `PageSections.module.css` if the component has its own `margin-block`; and check spacing against `/articles/test-preview-post`, which covers every section type and transition.
-
-### `Grid spacing="0"` takes borderless children only
-
-A `<Grid spacing="0">` draws its hairlines with a bg-through-gap pattern, so its children must be borderless tile primitives (`StatCard`, or any component with no `border` declaration of its own). Never put `<Card>` inside one — it carries `border: 1px solid var(--st-card-border)`, which stacks against the grid's outer border and renders a double border. Full usage rules: `Foundations/Layout/Grid` in Storybook (SUG-152 Phase 7).
-
-### GROQ projection audit for nested image types
-
-When writing a GROQ projection for an array of objects that contain image fields, verify the depth of the asset reference. Schema types that wrap `image` in another object (like `richImage`) require flattening:
-
-```groq
-// richImage: asset is a field of type 'image', which itself contains asset._ref
-images[] {
-  "asset": asset.asset->,   // dereference the INNER reference
-  "hotspot": asset.hotspot,
-  "crop": asset.crop,
-  alt,
-  caption
-}
-```
-
-Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
 
 ### Content Write Gate (Tier 1 — stop and ask; all Sanity MCP writes)
 
@@ -585,7 +437,7 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 ### Instruction & Rule File Write Gate (Tier 1 — stop and ask; skill/CLAUDE.md/governance doc edits)
 
-The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
+The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, `.claude/rules/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
 
 **Produce the diff from a copy, not from the file.** Write the change to a scratchpad copy and diff it against the original.
 
@@ -599,8 +451,8 @@ The agent — or any subagent it spawns — never edits a rule-defining file (`.
 
 ### Rule-file followability walkthrough
 
-**Scope is the gate's scope above, plus `docs/workflows/**`, `docs/ship-prompt.md`, and
-`docs/switch-prompt.md`.** Wider on purpose: the gate governs *authority to edit*, this governs
+**Scope is the gate's scope above (which includes `.claude/rules/**`), plus `docs/workflows/**`,
+`docs/ship-prompt.md`, and `docs/switch-prompt.md`.** Wider on purpose: the gate governs *authority to edit*, this governs
 *whether the result can be followed*, and these prompts are followed by later sessions exactly as
 this file is. Two of the first three runs found defects in prompt files. **Updated 2026-08-19:**
 `docs/mini-release-prompt.md` retired; `docs/ship-prompt.md` is its functional successor and
@@ -680,70 +532,6 @@ The key enforcement rules:
 
 ---
 
-## DS Documentation Authoring — Pre-Authoring Gates (blocking)
-
-Full rules and rationale: `docs/conventions/usage-doc-style-guide.md`.
-
-### Gate 1 — API stability (hard stop)
-
-Before writing any section of a Guidelines helper or usage doc beyond Overview:
-
-- Is the component's prop API frozen for this release cycle? No pending renames, no deprecated props without confirmed replacements, no open decisions about adding or removing props?
-
-If **no**: write the Overview section only. Mark detail sections `<!-- PENDING: API not frozen -->`. Do not write Usage Guidelines, Accessibility, or Token sections until the API is stable.
-
-A doc written during an API redesign will contradict itself within the same session. See SUG-152 Chip docs failure.
-
-### Gate 2 — Template lock (hard stop before any content)
-
-Before writing content for a component doc, present a structure table and wait for explicit sign-off:
-
-| Section | Applicable? | Scope (one sentence) |
-|---------|-------------|----------------------|
-| Overview | Yes | … |
-| Usage Guidelines | Yes/No | … |
-| Accessibility | Yes/No | … |
-| Design Tokens | Yes/No | … |
-
-Wait for "yes", "looks good", or equivalent before writing section content.
-
-**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the structure table, then ask via a single select option rather than requiring a typed word.
-
-### Gate 3 — Framework-agnostic constraint
-
-Component docs describe prop API and visual behaviour only. Do not reference:
-- Sanity field names (`project.colorHex`, `colorHex` as a CMS field)
-- Schema type names or document types
-- CMS lifecycle vocabulary (draft, published, versioned)
-
-Use the **prop name**, not the data source. `dotColor` is a component concern. `project.colorHex` is a data concern — exclude it.
-
-### Section dependency map
-
-When writing a new component helper (`helpers/*Docs.tsx`), add a comment block at the top of the component function declaring cross-section fact dependencies. Update it when any referenced section changes:
-
-```tsx
-// Section dependencies:
-// Overview lists the four modes → Usage Guidelines §Tag and §Badge must match exactly
-// Usage Guidelines §dot rule → Accessibility §color-not-only-signal must reference it
-// Design Tokens table → Overview deprecation callout must reference the same token names
-```
-
-When the Overview is updated, treat this map as a checklist — every downstream section that references the same fact must be reviewed in the same edit.
-
----
-
-## Schema Conventions
-
-Full schema authoring rules are in `docs/conventions/schema-conventions.md`. Key rules enforced here:
-
-- **Taxonomy primary field is `name`** — all five taxonomy types (`tag`, `category`, `person`, `project`, `tool`) use `name` as the field identifier, not `title`. GROQ queries use `->name`; never `->title`. The `queries.js` fragments alias it as `"title": name` for component consumption.
-- **Preview block** must use `select: { title: 'name' }` so Studio lists display correctly.
-- When creating a new taxonomy type, follow the required-fields table in `docs/conventions/schema-conventions.md`.
-- **Field descriptions must state validation limits inline** — any field with a `Rule.max()`/`Rule.min()` char or count constraint states it in `description`, one parenthetical, e.g. `(max. 100 characters)` / `(soft max. 125 characters)` / `(min. 1)`. Merge into an existing trailing parenthetical rather than stacking a second one. Applies to any structured-content schema in the monorepo, not just Sanity. See `docs/conventions/schema-conventions.md` §Field descriptions.
-
----
-
 ## Image Asset Naming
 
 All images uploaded to Sanity must follow the naming convention in `docs/conventions/image-naming-convention.md`:
@@ -758,21 +546,6 @@ All images uploaded to Sanity must follow the naming convention in `docs/convent
 
 ---
 
-## URL Authority Rule (blocking)
-
-All internal URLs must be built via `getCanonicalPath({ docType, slug })` from `apps/web/src/lib/routes.js`. This applies everywhere — components, pages, config maps, and constants.
-
-**Specifically prohibited:**
-- Hard-coded path strings like `'/ai-ethics'` or `'/contact'` outside of `routes.js`
-- A `LEGAL_LINKS`, `NAV_LINKS`, or similar constant array inside a component file that contains path strings
-- Any `to="..."` or `href="..."` with a literal path that isn't derived from `getCanonicalPath()` or a registered route constant
-
-**The only exception:** redirects in `App.jsx` that explicitly map legacy routes (e.g. `/blog → /articles`). These are route definitions, not link targets.
-
-A utility link set (e.g. the footer legal row) registers its paths as named constants in `routes.js` and imports them, rather than defining them inline.
-
----
-
 ## Atomic Reuse Gate (blocking)
 
 Before creating any new **schema object** or **shared utility** (`lib/` function, cross-cutting helper), answer these questions **in writing** (in the epic doc, commit message, or inline comment):
@@ -781,7 +554,7 @@ Before creating any new **schema object** or **shared utility** (`lib/` function
 2. **Will this be consumed by more than one caller?** — If yes, it must live in a shared location (`lib/`, `schemas/objects/`), never inline in a page file.
 3. **Is the API composable?** — Fields/params should be named so it can be extended without forking.
 
-**New CSS classes and new JSX components or blocks have their own, more specific gates below** — §CSS class pre-implementation reuse audit and §Component choice gate. Do not re-run this generic checklist for those; their gates supersede it.
+**New CSS classes and new JSX components or blocks have their own, more specific gates** — `.claude/rules/css-layout.md` §CSS class pre-implementation reuse audit and `.claude/rules/react.md` §Component choice gate, which load when those files are read. Do not re-run this generic checklist for those; their gates supersede it.
 
 ### Taxonomy pre-flight (blocking)
 
@@ -799,119 +572,6 @@ Then:
 4. **Flag tool/platform names** — the tag schema vocabulary says tool names (Figma, Sanity, Shopify, etc.) belong in `tools[]` on content documents, not as `tag` docs. If a requested tag label is a tool or platform name, surface this before creating: "This is a platform name — confirm it should be a tag rather than a tool ref."
 
 Shape content to the schema, not the schema to the content. If a requested label has no good match, note what doesn't exist and create only those — not everything on the list.
-
-### CSS class pre-implementation reuse audit (blocking — fires before any new CSS class)
-
-For any new detail/entity page, start from the canonical component map: `docs/conventions/detail-page-recipe.md` (ToolDetailPage is the reference implementation). The epic doc must contain a filled-in **Component-Reuse Manifest** (see `docs/epic-template.md`) before any JSX or CSS is written — its absence is an incomplete-epic-doc hard stop.
-
-Before writing any new CSS class for a detail page, taxonomy page, or shared layout surface, enumerate candidates explicitly:
-
-1. **Check `pages.module.css`** — shared entity page classes (`entityFolio`, `entityThumbnail`, `narrativeHeading`, `entityDescription`, `entityDetailPage`, `backLink`, `archiveEmpty`, `detailEyebrow`). If any covers the need at 80%+, use it — do not add a new class.
-2. **Check DS tokens** — spacing, color, and type decisions must reference `--st-*` tokens, not new local values. If a token doesn't exist, add it via `tokens/source/tokens.json` first.
-3. **Check DS components** — `Grid`, `SectionLabel`, `Card`, `Chip`, `ContentCard` before writing any layout CSS. State why each doesn't fit if you decide to skip them.
-4. **Output the audit in writing** — in the commit message or epic doc before any `Edit`/`Write` call to a CSS file. One sentence per candidate checked. "I checked X and it covers Y" is sufficient. Silence is a process failure.
-
-Location-named or page-scoped class names (e.g. `toolUrl`, `lv-*`, `folioHead`, `.profileHeadline`) are a signal the audit was skipped. Semantic, reusable names only.
-
-**Proposal table gate (hard stop — fires before first Edit to a CSS module file):** Before writing the first new CSS class name, produce a naming proposal table and wait for explicit approval:
-
-| Proposed class name | Closest existing pattern | Reuse decision |
-|---------------------|--------------------------|----------------|
-| `.myNewClass` | `pages.module.css .entityFolio` (80% match) | Extend existing |
-| `.listRow` | None found — new semantic pattern | New class approved |
-
-Do not `Edit` or `Write` a CSS module file until the table has been shown and the names confirmed. "Looks good" or "yes" is sufficient.
-
-**Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the naming proposal table, then ask via a single select option rather than requiring a typed word.
-
-### Component choice gate (blocking — fires before any new JSX surface)
-
-When a new block, container, or layout surface is needed, run this audit **before writing any JSX or CSS**:
-
-1. **Name the candidate existing components.** List every DS or app-level component that could plausibly render this content — Card, Callout, StatTile, MetadataCard, blockquote, etc. If the content is prose/text, explicitly check Callout and blockquote before inventing a new container.
-2. **State why each candidate doesn't fit** (or why it does). One sentence per candidate. If a candidate covers 80%+ of the use case, extend it via props — do not fork.
-3. **If no existing component fits**, stop — this triggers the Phase 0 hard-stop (visual spec gate) above. Produce the vspec there; don't restate that process here.
-
-**The gate is not optional for "small" blocks.** A coloured callout container, a stat grid wrapper, a challenge summary card all require the audit. Novelty of the visual format decides whether it fires, not size.
-
-**Variant-first rule (hard stop):** A visual variation of an existing DS primitive is ALWAYS a prop on that primitive — never a new component. "Same component, different header color" is `tone="subdued"`, not `<RoadmapTable>`. "Same component, different label position" is `captionSide="bottom"`, not `<LabeledTable>`. If you find yourself writing a new component that renders an `<table>` (or any other primitive's root element), stop. Define the prop on the DS primitive, then compose from it. A component that wraps or reimplements a primitive without extending it is a fork.
-
-Example audit (correct):
-```
-New block: challenge summary
-Candidates checked:
-- Callout (aside): covers prose + left accent. Missing: label + coloured bg. → 80% fit — extend via prop.
-- Card: covers bg + border. Missing: left accent, no title slot. → 60% fit.
-Decision: Extend Callout with a label prop, or use it as-is and add label via SectionLabel above.
-Vspec: not required — extending existing component.
-```
-
----
-
-## DS Component Authoring — Token-First Rule (blocking)
-
-Applies to any component CSS file in `apps/web/src/design-system/` or `packages/design-system/src/`. A hardcoded value bypasses the token graph: the theme system cannot override it and the validator cannot audit it.
-
-**Verify every token name exists before writing it** — `grep "token-name" apps/web/src/design-system/styles/tokens.css`. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). Pre-commit catches this, but catching it there costs a correction commit.
-
-**Verify the computed value, not just the name.** For typography or spacing, grep the resolved value in `tokens.css` and cross-check it against `/story/foundations-typography-conventions--default` in Storybook. A name can exist at the wrong tier: `--st-font-heading-2` resolves to 2.25rem (36px), not the 48px page-H1 spec. Record the resolved value. A mismatch needs a new semantic token before implementation begins.
-
-**No raw colour value in a component CSS file.** Every colour resolves through a `--st-*` token reference. If the token does not exist yet, add it to `tokens.css` first, in a separate commit.
-
-**Inline CSS custom property injection on DS components is banned.** `style={{ '--st-table-header-bg': '#fff' }}` bypasses the token graph and has to be removed every time the token is renamed. To vary a visual zone from the call site, add a `tone` value: define the prop, add the token to `tokens.json`, apply it in the component CSS.
-
-**Fallback syntax:** `var(--st-token, #hex)` is banned. The only permitted form is `var(--st-token, var(--st-primitive))`. If no matching primitive exists, add it to `tokens.css` first. If no fallback is needed, omit it.
-
-**Token names are contracts, not descriptions.** A token used in 2+ distinct surfaces needs a name that works for all of them. A placement-specific name (`--st-card-folio-bg`) also used in FilterBar headers and MetadataCard label cells is renamed to the shared concept (`--st-card-label-bg`). Full rules: `docs/conventions/token-naming.md`.
-
-**Theme files are override-only.** `theme.light.css`, `theme.pink-moon.css`, and any future theme file may only override existing `--st-*` names with other token references. They may not introduce a colour value (hex, rgba, hsla) with no primitive anchor in `tokens.css`; add the primitive first.
-
-**A component with chip/badge/status colour states** defines all `--st-status-<state>-{bg,fg,border}` tokens for every state in `tokens.css`, plus light-theme overrides, before the component CSS is written. Not deferrable: Card's status chips accumulated 90 hardcoded values by skipping it.
-
-**Trace the theme cascade before using any token for a `background`.** Pink Moon's dark block overrides semantic `--st-color-bg-surface*` tokens to semi-transparent `rgba()` values rather than the solid dark primitives in `tokens.css`:
-
-1. `tokens.css` — default value
-2. `theme.pink-moon.css` light block
-3. `theme.pink-moon.css` dark block — most likely to surprise
-
-If the dark-block value is `rgba(...)`, that token produces a glassmorphism wash, not a solid surface. Use a raw primitive (`--st-color-midnight-800`) or an alias pointing straight at one. Already overridden in dark-pink-moon: `--st-color-bg-surface`, `--st-color-bg-surface-strong`, `--st-card-bg`.
-
----
-
-## Pre-Commit Checklist for CSS Token Changes
-
-Both `tokens.css` files are **generated** — do not edit them directly. Edit `tokens/source/tokens.json` and run `pnpm tokens:build` to regenerate both files. The pre-commit hook blocks staged changes to these files if they already carry the "Do not edit directly" header.
-
-Whenever `tokens/source/tokens.json` is edited, or whenever any component CSS file is created or modified:
-
-1. Run `pnpm tokens:build` to regenerate both `tokens.css` files.
-2. Run `pnpm validate:tokens` from `apps/web/` and confirm **zero errors** before committing.
-3. Run `pnpm validate:tokens --strict-colors` from `apps/web/` and confirm **zero hardcoded color violations** before committing.
-4. Commit `tokens/source/tokens.json` + both generated `tokens.css` files together.
-
-**Token pipeline (SUG-86):**
-- Source of truth: `tokens/source/tokens.json`
-- Build command: `pnpm tokens:build` (runs `sd.config.mjs` via Style Dictionary v5)
-- Outputs: `apps/web/src/design-system/styles/tokens.css` + `packages/design-system/src/styles/tokens.css`
-- Theme overrides (`theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`) remain hand-authored — they are NOT generated files, but they ARE duplicated to both the web and DS-package style dirs and **must be kept byte-identical by hand** (see Mirrored File Registry below).
-
-`validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references.
-`validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`.
-`validate:style-mirror` catches: drift between the duplicated DS style files (theme/tokens/globals/utilities) across web ↔ DS package.
-
-**`validate:tokens` does not check theme-file parity.** It verifies that every `var(--st-*)` reference resolves, not that the two theme files carry the same override set — a token missing from one theme still resolves via the shared `tokens.css`, so drift is invisible to it. Parity is `validate:style-mirror`'s job. (2026-06-13: the DS-package copy of `theme.pink-moon.css` had decayed to a stale subset missing 93 tokens, breaking DS components in Storybook while production looked fine.)
-
-### Mirrored File Registry (must-be-identical pairs)
-
-Some files exist in two locations and **must be byte-identical**. Each must have a named enforcement mechanism — never rely on "remember to mirror it":
-
-| File(s) | Locations | Source of truth | Enforced by |
-|---------|-----------|-----------------|-------------|
-| `tokens.css` | `apps/web/src/design-system/styles/` ↔ `packages/design-system/src/styles/` | generated from `tokens/source/tokens.json` | `pnpm tokens:build` + pre-commit "Do not edit directly" block + `validate:style-mirror` |
-| `theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
-When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`. One pair was retired in SUG-224.
-
----
 
 ## Visual Verification Rules
 
@@ -955,45 +615,6 @@ Applies to any technical or architecture diagram destined for a published surfac
 3. **Roadmap items may not be drawn as current state.** Label them (dashed stroke, "roadmap" tag) or cut them. A convention drawn as if it were a technical layer must be labelled as governance, not infrastructure. If an element's Evidence cell is blank, the element is cut or the diagram doesn't ship.
 
 The table lives in the owning epic doc, or in `docs/diagrams/redpen-{target}.md` for diagrams without an epic. A diagram uploaded without a committed source and claim table is a process failure — same severity as a Phase 0 violation.
-
-### For every CSS property you write
-
-Confirm:
-1. The value is a token reference (`var(--st-*)`) not a hardcoded value. If hardcoded, state why.
-2. The computed layout matches the dimensional contract. Show the arithmetic (e.g. "Vspec: 3-col grid at 1200px. Card 340px, gap 24px. 340x3 + 24x2 = 1068px + padding = 1200px").
-3. Spacing and gap values match the vspec. Numbers, not vibes.
-
-### Dark mode surface work — pre-flight
-
-Before any structured-surface dark mode CSS pass (MetadataCard, Card, FilterBar, any component with label or folio strips), **inspect the reference component's computed values in the browser first**:
-
-1. Open the reference component (e.g. standard `Card`) in Storybook on `dark-pink-moon` theme
-2. Use DevTools to inspect computed `background-color`, `border-color`, and `color` on each visual zone (card bg, folio/label strip, body, dividers)
-3. Record the exact computed values and trace them back to their tokens via `tokens.css` and `theme.pink-moon.css`
-
-Only then write the target component's CSS. Working forward from token names without checking what they resolve to in dark theme produces glassmorphism surprises. (MetadataCard's dark mode took 3+ correction rounds this way.)
-
-### Storybook — build-time globals must be frozen
-
-Any `__VARIABLE__` injected by `vite.config.js` `define:` that changes at build time (dates, commit SHAs, env-specific values, **version numbers**) **must be overridden to a fixed sentinel in Storybook's `viteFinal` define block**. Otherwise Chromatic will diff the story on every build even when nothing visual changed.
-
-**Freeze every instance, not just the one that prompted the fix.** `apps/web/vite.config.js`'s `define` block currently has two build-time globals, and Storybook's `viteFinal` must freeze both:
-```ts
-// apps/storybook/.storybook/main.ts — viteFinal
-viteConfig.define = {
-  ...viteConfig.define,
-  __BUILD_DATE__: JSON.stringify('2026-01-01'),
-  __APP_VERSION__: JSON.stringify('0.0.0-storybook'),
-}
-```
-
-When a `define:` entry is added to `apps/web/vite.config.js`, check whether it produces visible output in any story. If it does, add the freeze in the same commit, and re-check every *existing* entry at the same time.
-
-### Storybook coverage requirement
-
-Every new or modified component that has visual output must have a Storybook story before close-out. The story must cover: default state, all meaningful variants, and at least one edge case (long text, missing fields, empty arrays). Components without stories are invisible to Chromatic VRT.
-
-**Dark mode is a shipping AC, not a follow-up.** Before close-out, confirm in Storybook — not by assumption — that every story renders correctly on both `default` and `dark-pink-moon`. "Untested" in the registry's dark mode column is a blocking state, and a component entered that way needs an open issue before the epic closes.
 
 ### Honesty over confidence
 

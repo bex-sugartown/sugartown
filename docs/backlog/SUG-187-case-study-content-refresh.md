@@ -295,7 +295,7 @@ JSON-LD, the archive card, and the metadata rail) from the **variable narrative 
 
 **This epic is one Linear issue. Decomposition lives in §Phases below, not in Linear
 sub-issues.** Every Scope item names the phase that ships it, so `Scope ∖ Phases` is empty
-per CLAUDE.md §Incomplete epic doc hard stop, item 6.
+per `.claude/rules/epics.md` §Incomplete epic doc hard stop, item 6.
 
 | Scope item | Phase |
 |---|---|

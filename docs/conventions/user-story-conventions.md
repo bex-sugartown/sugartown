@@ -32,7 +32,7 @@ keep the epic flat. Most Sugartown epics are single-session and gain nothing fro
 ticket per Scope item.
 
 **Numbered phases do not trigger decomposition.** Phases are execution units, not work
-items — see CLAUDE.md §Multi-phase epic merge cadence — and one epic stays one Linear
+items — see `.claude/rules/epics.md` §Multi-phase epic merge cadence — and one epic stays one Linear
 issue however many phases it carries.
 
 The threshold is a starting value, not a measurement. Check it against the first two epics
@@ -44,7 +44,7 @@ rationale doc.
 **One epic is one Linear issue. Sugartown does not file user stories as Linear sub-issues.**
 
 A decomposed epic carries a scope-to-phase mapping in its backlog doc. Every Scope item
-names the phase that ships it, so `Scope ∖ Phases` is empty per CLAUDE.md §Incomplete epic
+names the phase that ships it, so `Scope ∖ Phases` is empty per `.claude/rules/epics.md` §Incomplete epic
 doc hard stop, item 6.
 
 | What | Where it lives |
