@@ -14,6 +14,11 @@
 > **This file holds what applies to every session.** Rules that apply only when a kind of file
 > is being worked on live in `.claude/rules/` and load when such a file is read (§Path-scoped
 > rules).
+>
+> **What the repo is and where its load-bearing files are** is `docs/ai/repo-map.md`, imported
+> below so it travels with the repo instead of one machine's memory.
+
+@docs/ai/repo-map.md
 
 ---
 

@@ -82,9 +82,9 @@ architecture, execution, and governance. Bex decides everything.
 ## Maintenance
 
 This directory should be updated when:
-- A new skill is added or deprecated (update `skills-index.md`)
+- A Claude Code skill or command is added or removed (run `pnpm docs:skills-index`; the table is generated); a deprecation is a hand-written row in its Deprecated table
 - A new failure mode is confirmed (update `failure-modes.md`)
-- A workflow prompt is significantly revised (update the version note in `skills-index.md`)
+- A workflow prompt is significantly revised (update the version note in `skills-index.md`'s Workflow Prompts table, which is hand-maintained)
 - The Agentic Caucus methodology changes materially (update `methodology.md`)
 
 There is no automated sync between this directory and claude.ai. The skills index is the

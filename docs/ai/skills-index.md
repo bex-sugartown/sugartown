@@ -1,7 +1,7 @@
 # Skills Index
 
 **Version:** v1.1
-**Last updated:** 2026-08-25
+**Last updated:** 2026-09-04 (generated block)
 **Owner:** Bex Head
 
 ---
@@ -16,29 +16,33 @@ Two skill systems run in parallel for this project. This file is the inventory t
 
 Invokable via `/skill-name` in any Claude Code session. Most live in `.claude/skills/`;
 a few are thin commands in `.claude/commands/` that point at a prompt file in `docs/`.
-The `Where` column says which.
+The `Where` column says which. **The table between the markers is generated** by
+`pnpm docs:skills-index` from each `SKILL.md`'s frontmatter and each command file; edit those,
+not the table. `pnpm docs:skills-index --check` fails when it is stale.
 
+<!-- generated:claude-code-skills:start -->
 | Skill | Trigger | Where | What it does |
 |---|---|---|---|
-| `alignment-audit` | `/alignment-audit` | `skills/` | Audits something in the repo against an external standard; Match / Drift / Gap findings report |
-| `becky-boop` | `/becky-boop` | `skills/` | Generates a Becky B00p hero banner prompt for any AI image generator, contextualised to the current article or node |
-| `chromatic` | `/chromatic` | `skills/` | Runs Chromatic VRT, reports visual diffs, gates on human approval, records status |
-| `glossy` | `/glossy` | `skills/` | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary |
-| `morning` | `/morning` | `commands/` + `skills/` | Morning housekeeping: git health, branch map, board status, service health. Reads first, executes with confirmation. Prompt: `docs/workflows/morning-housekeeping-prompt.md` |
-| `new-epic` | `/new-epic` | `skills/` | Creates a GitHub issue + backlog stub for a new epic, and boards it |
-| `new-tool` | `/new-tool` | `skills/` | Files a tool — validator, gate, hook, script, generator, command. GitHub issue only, no backlog doc; the issue body is the spec. Carries its own activation gate, since the backlog-doc hard stop cannot apply |
-| `post-mortem` | `/post-mortem` | `commands/` | Runs a post-mortem. Prompt: `docs/post-mortem-prompt.md` |
-| `red-pen` | `/red-pen` | `skills/` | Editorial review of Sugartown content against the brand voice guides. Reviewer, not writer — never rewrites without row-level approval |
-| `release` | `/release` | `commands/` | Cuts a version. Prompt: `docs/workflows/release-assistant-prompt.md`. Normally invoked by `/ship --release`, not run alone |
-| `restart` | `/restart` | `commands/` + `skills/` | Checks which Sugartown dev servers are running and restarts any that are down |
-| `ship` | `/ship`, `/ship --release` | `commands/` | Pushes everything currently `Done` live: one Netlify deploy, CI verified to a conclusion, `Done` → `Shipped`. Prompt: `docs/ship-prompt.md` |
-| `sugartown-epic-writer` | `/sugartown-epic-writer` | `skills/` | Writes a Claude Code execution epic in the Sugartown epic template format |
-| `sugartown-prd-writer` | `/sugartown-prd-writer` | `skills/` | Writes a PRD for CMS/headless, design system, or ecom/platform work |
-| `switch` | `/switch`, `/switch out` | `skills/` | Syncs the repo across machines (desktop/laptop). ARRIVE and LEAVE modes for safe handoff |
-| `update-cwv` | `/update-cwv` | `skills/` | Runs Lighthouse CI against production, updates PERF_BACKUP in CwvSnapshot.jsx, shows diff summary |
-| `write-blog` | `/write-blog` | `skills/` | Drafts and creates an article as a Sanity draft — Bex voice, article schema, taxonomy pre-flight |
-| `write-casestudy` | `/write-casestudy` | `skills/` | Drafts and creates a portfolio case study as a Sanity draft — canonical section order, no invented proof points |
-| `write-node` | `/write-node` | `skills/` | Drafts and creates a Knowledge Graph node as a Sanity draft — arc structure, agent voice, taxonomy pre-flight |
+| `alignment-audit` | `/alignment-audit` | `skills/` | Run a systematic, evidence-based audit comparing something you have (a codebase, a team's workflow, a product, an org's process) against an external standard (a course curriculum, a framework, a spec, a policy, best-prac |
+| `becky-boop` | `/becky-boop` | `skills/` | Generate a self-contained Becky B00p hero banner prompt for any AI image generator — contextualised to the article, node, or post currently being worked on, or to text passed after the slash command. |
+| `chromatic` | `/chromatic` | `skills/` | Run Chromatic VRT, report visual diffs, gate on human approval, record status |
+| `glossy` | `/glossy` | `skills/` | Research, draft, and publish Sugartown glossaryTerm(s) to /glossary. |
+| `morning` | `/morning` | `skills/` | Run the Sugartown morning housekeeping check — git health, service status, branch briefing and recommended actions |
+| `new-epic` | `/new-epic` | `skills/` | Create a new Sugartown epic — GitHub issue + backlog stub + commit |
+| `new-tool` | `/new-tool` | `skills/` | File a new Sugartown tool — validator, gate, hook, script, generator, command or skill. |
+| `post-mortem` | `/post-mortem` | `commands/` | Thin command. Prompt: `docs/post-mortem-prompt.md` |
+| `red-pen` | `/red-pen` | `skills/` | Editorial review of Sugartown content (articles, nodes, case studies, glossary terms, page copy) against the brand voice guides, with accuracy checking, sharpness recommendations, and a two-gate approval flow before any  |
+| `release` | `/release` | `commands/` | Thin command. Prompt: `docs/workflows/release-assistant-prompt.md` |
+| `restart` | `/restart` | `skills/` | Check which Sugartown dev servers are running and restart any that are down. |
+| `ship` | `/ship` | `commands/` | Thin command. Prompt: `docs/ship-prompt.md` |
+| `sugartown-epic-writer` | `/sugartown-epic-writer` | `skills/` | Write a Claude Code epic execution prompt for Sugartown monorepo implementation work. |
+| `sugartown-prd-writer` | `/sugartown-prd-writer` | `skills/` | Write a human-facing Product Requirements Document for CMS/headless architecture, design system governance, or ecommerce/platform implementation work. |
+| `switch` | `/switch` | `skills/` | Sync the Sugartown repo across machines (desktop ⇄ laptop). |
+| `update-cwv` | `/update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
+| `write-blog` | `/write-blog` | `skills/` | Draft and create an article (blog post) as a Sanity draft — Bex voice, article schema, taxonomy pre-flight, creates drafts.* document |
+| `write-casestudy` | `/write-casestudy` | `skills/` | Draft and create a portfolio case study as a Sanity draft — Bex voice ("show the receipts"), caseStudy schema, canonical section order (Challenge callout, outcome tiles, Overview, FAQ accordion with semantic="faq" for AE |
+| `write-node` | `/write-node` | `skills/` | Draft and create a Knowledge Graph node post as a Sanity draft — follows arc, agent voice, taxonomy pre-flight, creates drafts.* document |
+<!-- generated:claude-code-skills:end -->
 
 ### Deprecated
 
@@ -88,4 +92,4 @@ Can also be pasted into Claude Code directly at the start of a release session.
 When a skill is deprecated, move it to a "Deprecated" section below rather than deleting
 the row, so there is a record of what existed.
 
-When a new Claude Code skill is added to `.claude/skills/`, add a row here in the same commit.
+When a Claude Code skill or command is added or removed, run `pnpm docs:skills-index` in the same commit; the table is not edited by hand.
