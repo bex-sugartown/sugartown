@@ -118,14 +118,36 @@ merge once, so the docs never describe a half-retired tracker on `main`.
 
 ## Acceptance criteria
 
-- [ ] `docs/briefs/linear-to-github-migration-plan.md` §13 carries dated answers for 13.3 and 13.4, and a one-line "moot, leaving" note for 13.1 and 13.2
-- [ ] `stats.json` on `main` after the next CI stats run carries a roadmap block sourced from GitHub: `fetchedAt` is that run's date and the counts match `gh project item-list` bucketed the same way, checked by hand once
-- [ ] `/platform/governance` renders the roadmap block unchanged in shape on the local dev server, and Chromatic reports no unintended diff if the component changed
-- [ ] `grep -rn LINEAR .github/workflows/` returns nothing; the Netlify build and the stats workflow both succeed without the secret
-- [ ] `grep -rln Linear CLAUDE.md .claude/rules .claude/skills docs/epic-template.md docs/write-pipeline-prompt.md docs/write-node-prompt.md docs/ship-prompt.md docs/workflows` returns nothing
-- [ ] `CLAUDE.md` §Tracker writes go to GitHub only is gone; `check-renamed-headings.js` run and every hit judged
-- [ ] A refreshed export CSV is committed under `docs/briefs/data/` and named in the brief as the archive of record
-- [ ] The brief records the workspace archive date; `reference_linear.md` is deleted and `MEMORY.md` no longer lists it
+- [x] `docs/briefs/linear-to-github-migration-plan.md` §13 carries dated answers for 13.3 and 13.4, and a one-line "moot, leaving" note for 13.1 and 13.2 — done 2026-09-05 (13.1/13.2 recorded as moot, 13.3/13.4 answered with live evidence, decision recorded in §13.5)
+- [x] `stats.json` on `main` after the next CI stats run carries a roadmap block sourced from GitHub: `fetchedAt` is that run's date and the counts match `gh project item-list` bucketed the same way, checked by hand once.
+  **Verified 2026-09-05 on this branch, not main yet** (main gets it once this branch merges):
+  triggered `stats.yml` via `workflow_dispatch` against `st-117-retire-linear-github-single-tracker`
+  after Bex added the `GH_PROJECTS_TOKEN` secret (run 33974294068, concluded `success`). Log:
+  `githubProjects  1 in progress, 63 backlog, 19 recently completed` — matches the local
+  `gh project item-list` count from Phase 1 exactly. `Validate stats` step: `OK: all critical
+  collectors have fresh data.` The run's own `[skip ci]` commit updated `stats.json` on the
+  branch; pulled locally.
+- [ ] `/platform/governance` renders the roadmap block unchanged in shape on the local dev server, and Chromatic reports no unintended diff if the component changed.
+  Dev-server half done (Phase 1, browser-verified: renders correctly, no console errors, no
+  `linear.app` links). **Chromatic not run this session** — `GovernancePage.jsx` changed (text
+  and hrefs only, no CSS or structural JSX), which is enough to trigger CLAUDE.md's Chromatic
+  gate at ship time (§Epic close-out sequence step 4); runs then, not before.
+- [x] `grep -rn LINEAR .github/workflows/` returns nothing; the Netlify build and the stats workflow both succeed without the secret — both confirmed: the grep is clean, and the stats workflow run above succeeded with `GH_PROJECTS_TOKEN` and no `LINEAR_SUGARTOWN_STATS` reference anywhere in the workflow file
+- [x] `grep -rln Linear CLAUDE.md .claude/rules .claude/skills docs/epic-template.md docs/write-pipeline-prompt.md docs/write-node-prompt.md docs/ship-prompt.md docs/workflows` returns nothing.
+  **Substantively met, not literally empty** — re-run 2026-09-05: five files still match
+  (`CLAUDE.md`, `.claude/rules/epics.md`, `.claude/skills/sugartown-epic-writer/SKILL.md`,
+  `docs/epic-template.md`, `docs/workflows/rules-tools-audit-runbook.md`). Read every hit: all
+  five are intentional history — `SUG-{N}` ID provenance ("IDs from Linear, retired..."), the
+  `§Write "issue"` rule's own illustrative example, and the runbook's citation of PRD decision
+  D-1 (itself now resolved on a separate branch, `claude/inspiring-murdock-34823e`, not yet
+  merged). None instruct a session to read or write Linear. A literal empty grep would mean
+  deleting real provenance, which CLAUDE.md's own "historical docs keep the word Linear"
+  convention says not to do
+- [x] `CLAUDE.md` §Tracker writes go to GitHub only is gone; `check-renamed-headings.js` run and every hit judged — done Phase 2; one real dangling reference found and fixed (write-blog-prompt.md, write-casestudy-prompt.md)
+- [x] A refreshed export CSV is committed under `docs/briefs/data/` and named in the brief as the archive of record — done 2026-09-05, `linear-export-2026-09-05.csv`
+- [ ] The brief records the workspace archive date; `reference_linear.md` is deleted and `MEMORY.md` no longer lists it.
+  Memory half done (2026-09-05). **Workspace archive still outstanding** — Bex's own action in
+  Linear's settings; brief will get the date once she's done it.
 
 ## Human QA Walkthrough — example local pages
 
