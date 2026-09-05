@@ -96,8 +96,11 @@ Seven items, which crosses the sizing gate — see the scope-to-phase mapping un
   `project_linear_retirement.md` memory records the retirement and what's still pending.
   Two more stale Linear mentions found in memory beyond this file and fixed: `feedback_reporting_style.md`
   ("push evidence to Linear" → "to the issue") and a dangling `[[reference-linear]]` link in
-  `project_ship_cadence_plan.md`, repointed. **Workspace half blocked on Bex** — archiving in
-  Linear's settings is her action; not done.
+  `project_ship_cadence_plan.md`, repointed.
+  **Workspace half resolved differently than planned, 2026-09-05.** Linear's settings offer no
+  archive/read-only action — only delete. Bex chose not to delete it (matches this epic's own
+  Non-Goals: "deletion is Bex's, later, if ever"). Migration plan §7 item 4 corrected to record
+  this; the workspace is left as-is, the export is the archive of record.
 - [ ] CHANGELOG line and the brief's status set to closed — layer: docs.
   **Not done yet.** CLAUDE.md's own convention adds the CHANGELOG line at `Done`, and this epic
   isn't there — two scope items are genuinely blocked on Bex, not skipped. Add the line once
@@ -145,9 +148,11 @@ merge once, so the docs never describe a half-retired tracker on `main`.
   convention says not to do
 - [x] `CLAUDE.md` §Tracker writes go to GitHub only is gone; `check-renamed-headings.js` run and every hit judged — done Phase 2; one real dangling reference found and fixed (write-blog-prompt.md, write-casestudy-prompt.md)
 - [x] A refreshed export CSV is committed under `docs/briefs/data/` and named in the brief as the archive of record — done 2026-09-05, `linear-export-2026-09-05.csv`
-- [ ] The brief records the workspace archive date; `reference_linear.md` is deleted and `MEMORY.md` no longer lists it.
-  Memory half done (2026-09-05). **Workspace archive still outstanding** — Bex's own action in
-  Linear's settings; brief will get the date once she's done it.
+- [x] The brief records the workspace archive date; `reference_linear.md` is deleted and `MEMORY.md` no longer lists it.
+  Memory half done (2026-09-05). **Workspace resolution recorded 2026-09-05, not the literal
+  criterion as written** — there was no archive to date, since Linear offers no archive action.
+  The brief's §7 item 4 and closing note both record the actual finding and Bex's decision not
+  to delete, dated.
 
 ## Human QA Walkthrough — example local pages
 

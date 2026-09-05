@@ -545,11 +545,21 @@ the 2026-09-09 decision.
 3. **Resolve the single-queue rule.** CLAUDE.md currently states Linear is the priority queue
    with no second copy. That sentence becomes false at cutover and must change in the same
    commit.
-4. **Set Linear read-only.** Do not delete the workspace; it is the archive of 206 closed
-   issues and the historical record behind every `SUG-NNN` in the CHANGELOG.
+4. **Set Linear read-only.** ~~Do not delete the workspace; it is the archive of 206 closed
+   issues and the historical record behind every `SUG-NNN` in the CHANGELOG.~~
+   **Corrected 2026-09-05 (ST-117):** Linear's settings offer no "archive" or "read-only"
+   workspace action — deletion is the only option found when Bex checked. This plan's own
+   assumption that "read-only" existed as a distinct, safer action was never verified against
+   the live product (the same §13.2-class miss as the `blockedBy`/`blocks` correction below).
+   **Decision: do not delete, for now.** `docs/briefs/data/linear-export-2026-09-05.csv` (264
+   rows, all fields, refreshed the same day) is the committed archive of record instead. The
+   workspace itself stays as it is — neither archived nor deleted — until Bex chooses to delete
+   it, which stays her call alone.
 
 **Exit criterion:** `/platform/governance` renders roadmap data from GitHub, and no code path
-reads `LINEAR_API_KEY`.
+reads `LINEAR_API_KEY`. **Met 2026-09-05** — verified live via `workflow_dispatch` on `stats.yml`
+(epic ST-117); `LINEAR_API_KEY`/`LINEAR_SUGARTOWN_STATS` do not appear anywhere in the repo's
+live code or workflows.
 
 ---
 
@@ -958,3 +968,9 @@ Phase 3 (migrate the 58 issues) already ran during the trial per the trial scope
 what remains is Phase 4 (cutover) and the build-back items, which is what epic **ST-117** (this
 review's own trigger) executes. This document is superseded by that epic once ST-117 ships —
 retire it then per the kill criterion, rather than leaving it open past its own decision point.
+
+**ST-117 closed 2026-09-05.** Every Phase 4 item above landed except workspace deletion, which
+was never actually in scope (§7 item 4 always said not to delete) — the only change is that
+"read-only" turned out not to exist as a distinct action, so the workspace is left exactly as
+it was, un-touched, with the export as the archive of record. Nothing about that blocks calling
+this migration done.
