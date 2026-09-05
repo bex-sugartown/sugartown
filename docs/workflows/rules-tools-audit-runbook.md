@@ -104,4 +104,4 @@ Brief must also state: which slice of the corpus this subagent covers (full corp
 
 ## Open decisions this runbook does not resolve
 
-D-1 (Linear tracking shape), D-2 (steady-state cadence), D-4 (trigger mechanism), and D-5 (scripting the staleness sweep) all wait on calibration data from run 1 (and, for D-2, run 2). D-3 (token budget) gets its baseline number from run 1's KPI capture. D-6 (shipped-doc archive threshold) is confirmed with Bex before each cycle's housekeeping pass, until a standing default is set. See the PRD's Open Decisions table for full option lists and owners.
+D-2 (steady-state cadence), D-4 (trigger mechanism), and D-5 (scripting the staleness sweep) all wait on calibration data from run 1 (and, for D-2, run 2). D-3 (token budget) gets its baseline number from run 1's KPI capture. D-6 (shipped-doc archive threshold) is confirmed with Bex before each cycle's housekeeping pass, until a standing default is set. D-1 (Linear tracking shape) is resolved: no Linear, repo-only, since Linear was retired as the tracker repo-wide (ST-117, 2026-09-05). See the PRD's Open Decisions table for full option lists, owners, and the D-1 resolution note.
