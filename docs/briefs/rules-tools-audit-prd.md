@@ -111,12 +111,14 @@ Not applicable (no visual surface). The report format inherits the red-pen archi
 
 | Decision | Options | Owner | Target resolution |
 |----------|---------|-------|------------------|
-| D-1: Linear tracking | One recurring SUG issue per cycle / one parent epic with per-cycle sub-issues / no Linear, repo-only | Bex | Before first calibration run |
+| ~~D-1: Linear tracking~~ (resolved 2026-09-05) | One recurring SUG issue per cycle / one parent epic with per-cycle sub-issues / **no Linear, repo-only** | Bex | Resolved, see note below |
 | D-2: Steady-state cadence | Monthly on the 20th / quarterly / hybrid (monthly mechanical sweep, quarterly full audit) | Bex | After calibration run 2, using real cost + finding-rate data |
 | D-3: Token budget per run | Set after run 1 establishes a baseline | Bex + Claude | After calibration run 1 |
 | D-4: Trigger mechanism for steady state | Scheduled cloud routine (cron) / calendar reminder + manual kickoff | Bex | After calibration; depends on whether runs need interactive approval mid-flight (they will, for dispositions, which argues for manual kickoff or a schedule that opens a session rather than completing autonomously) |
 | D-5: Scripting the staleness sweep | Keep agent-driven / promote to a `validate:rules` script in the validator suite | Claude proposes, Bex approves | After two cycles show which checks are stable enough to script |
 | D-6: Shipped-doc archive threshold | Age-based (older than 2 quarters) / count-based (keep newest ~30 flat) / year-based only | Bex | Before run 1's housekeeping pass |
+
+**D-1 resolution note (2026-09-05):** no Linear, repo-only. Linear was retired as Sugartown's issue tracker repo-wide (ST-117, `docs/backlog/ST-117-retire-linear-github-single-tracker.md`), so the other two options, which both require creating new Linear issues, are no longer possible: the workspace has also been read-only at its 250-issue lifetime cap since 2026-08-09. GitHub is the single tracker; this audit's per-cycle tracking uses GitHub issues.
 
 ## 9. Dependencies & Risks
 
