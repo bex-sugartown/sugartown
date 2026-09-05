@@ -5,7 +5,11 @@ this plan is superseded once that epic ships, per its own kill criterion.
 **Author:** drafted 2026-08-15
 **Blocking constraint:** the Linear auto-archive freeze, below. **Earliest execution date: 2026-09-08** (bulk), **2026-09-14** (tail).
 **Related:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §8
-**Export:** `docs/briefs/data/linear-export-2026-08-15.csv` — 264 rows, 34 columns, committed 2026-08-15
+**Export:** `docs/briefs/data/linear-export-2026-08-15.csv` — 264 rows, 34 columns, committed
+2026-08-15 (Phase 3 migration input, historical — see line-item references to it below).
+**Archive of record:** `docs/briefs/data/linear-export-2026-09-05.csv` — refreshed 2026-09-05
+(ST-117), same shape (264 rows, 34 columns). This is the current export; the 08-15 one is kept
+as the record of what Phase 3 actually migrated from.
 
 **Decisions locked 2026-08-15 (Bex):**
 1. **`SUG-NNN` stays canonical for migrated issues** (§2 option B). Docs are updated to align.
