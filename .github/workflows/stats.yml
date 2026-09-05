@@ -67,7 +67,10 @@ jobs:
           # the wp.* dotted ids so anonymous reads see the whole published dataset.
           GITHUB_TOKEN:             ${{ secrets.GITHUB_TOKEN }}
           CRUX_API_KEY:             ${{ secrets.CRUX_API_KEY }}
-          LINEAR_API_KEY:           ${{ secrets.LINEAR_SUGARTOWN_STATS }}
+          # ST-117: the default GITHUB_TOKEN above has no Projects v2 read access —
+          # none of the `permissions:` block's grantable scopes cover Projects — so
+          # the roadmap collector needs its own token with project read access.
+          GH_PROJECTS_TOKEN:        ${{ secrets.GH_PROJECTS_TOKEN }}
 
       - name: Validate stats — fail if critical collectors are stale
         run: |
@@ -75,11 +78,11 @@ jobs:
             const fs = require('fs');
             const stats = JSON.parse(fs.readFileSync('apps/web/src/generated/stats.json', 'utf-8'));
             const stale = [];
-            if (stats.linearRoadmap?.stale === true) stale.push('linearRoadmap');
+            if (stats.githubRoadmap?.stale === true) stale.push('githubRoadmap');
             if (stats.github?.stale === true)        stale.push('github');
             if (stale.length > 0) {
               console.error('FAIL: critical collectors returned stale data: ' + stale.join(', '));
-              console.error('Check that LINEAR_SUGARTOWN_STATS and GITHUB_TOKEN secrets are valid.');
+              console.error('Check that GH_PROJECTS_TOKEN and GITHUB_TOKEN secrets are valid.');
               process.exit(1);
             }
             console.log('OK: all critical collectors have fresh data.');

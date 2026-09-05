@@ -53,7 +53,7 @@ const byPriority = (a, b) =>
   PRIORITY_ORDER.indexOf(PRIORITY_LEVEL[a.priority] ?? 'none') -
   PRIORITY_ORDER.indexOf(PRIORITY_LEVEL[b.priority] ?? 'none')
 
-const roadmap    = stats.linearRoadmap ?? {}
+const roadmap    = stats.githubRoadmap ?? {}
 const inProgress = roadmap.inProgress ?? []
 
 const allBacklog = roadmap.backlog ?? []
@@ -161,7 +161,7 @@ const WORKFLOW_DIAGRAM = {
 // have since shipped, so no row is flagged proposed/pending anymore.
 const GH = 'https://github.com/bex-sugartown/sugartown/blob/main/'
 const WORKFLOW_DOCS = [
-  { phase: 'Intake', docLabel: 'IA Brief + PRD-writer skill', docHref: `${GH}docs/briefs/ia-brief.md`, outputLabel: 'Linear issue (SUG-N assigned)', outputHref: null },
+  { phase: 'Intake', docLabel: 'IA Brief + PRD-writer skill', docHref: `${GH}docs/briefs/ia-brief.md`, outputLabel: 'GitHub issue (issue # assigned)', outputHref: null },
   { phase: 'Planning', docLabel: 'Epic Template + .claude/rules/epics.md §Epic authoring', docHref: `${GH}docs/epic-template.md`, outputLabel: 'Backlog epic doc', outputHref: null },
   { phase: 'Design', docLabel: 'CLAUDE.md §Phase 0 + Design Handoff Template', docHref: `${GH}docs/conventions/design-handoff-template.md`, outputLabel: 'Vspec (drafts/ → shipped/ copy)', outputHref: null },
   { phase: 'Implementation', docLabel: 'CLAUDE.md conventions', docHref: `${GH}CLAUDE.md`, outputLabel: 'Commits, Storybook stories', outputHref: null },
@@ -208,7 +208,7 @@ export default function GovernancePage() {
   const roadmapRef = useRef(null)
   usePlatformHero({
     title: 'Governance',
-    subtitle: 'Release cadence, roadmap, and process conventions. Every epic is tracked in Linear, every release is versioned, every process decision is documented.',
+    subtitle: 'Release cadence, roadmap, and process conventions. Every epic is tracked on GitHub, every release is versioned, every process decision is documented.',
   })
   return (
     <>
@@ -219,7 +219,7 @@ export default function GovernancePage() {
       <div className={styles.hub}>
 
         <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
-          <StatCard label="In flight"       value={inProgress.length || '—'} href="https://linear.app/sugartown" />
+          <StatCard label="In flight"       value={inProgress.length || '—'} href="https://github.com/users/bex-sugartown/projects/1" />
           <StatCard label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
           <StatCard label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
           {/* Derived from `pnpm audit` via apps/web/scripts/stats/security.js, not
@@ -249,14 +249,14 @@ export default function GovernancePage() {
             level="h3"
             number="§02"
             name="ROADMAP"
-            title="Linear epics, in flight and on deck"
+            title="GitHub epics, in flight and on deck"
             kicker={noData ? '—' : `${inProgress.length + todo.length + backlog.length} epics`}
           />
 
           {noData && (
             <Callout>
               Roadmap data pending next CI run. Full backlog on{' '}
-              <a href="https://linear.app/sugartown" target="_blank" rel="noreferrer">Linear ↗</a>.
+              <a href="https://github.com/users/bex-sugartown/projects/1" target="_blank" rel="noreferrer">GitHub ↗</a>.
             </Callout>
           )}
 
@@ -265,7 +265,7 @@ export default function GovernancePage() {
               {isStale && (
                 <Callout variant="info">
                   Showing last available data. Full backlog on{' '}
-                  <a href="https://linear.app/sugartown" target="_blank" rel="noreferrer">Linear ↗</a>.
+                  <a href="https://github.com/users/bex-sugartown/projects/1" target="_blank" rel="noreferrer">GitHub ↗</a>.
                 </Callout>
               )}
               <div ref={roadmapRef} className={styles.roadmapScroll}>

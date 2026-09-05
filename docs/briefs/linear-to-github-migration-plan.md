@@ -1,6 +1,7 @@
 # Sugartown — Project Management Migration: Linear → GitHub
 
-**Status:** DRAFT — setup and plan only. Nothing executes until the freeze lifts.
+**Status:** DECIDED 2026-09-05 — Migrate (§13.5). Cutover (Phase 4) executes as epic **ST-117**;
+this plan is superseded once that epic ships, per its own kill criterion.
 **Author:** drafted 2026-08-15
 **Blocking constraint:** the Linear auto-archive freeze, below. **Earliest execution date: 2026-09-08** (bulk), **2026-09-14** (tail).
 **Related:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §8
@@ -825,15 +826,21 @@ judgement call, except §13.5 which is the actual decision.
 
 ### 13.1 Capacity — did the original blocker clear?
 
+**Moot, 2026-09-05 (ST-117).** Bex decided to go all in on GitHub regardless of whether Linear's
+capacity blocker cleared — the decision runs on §13.3's trial-outcome evidence, not on Linear
+headroom. Not checked; no Linear credentials are available to this session either way (no Linear
+MCP connector configured), so "workspace back near 58 of 250" cannot be verified from here even
+if it mattered.
+
 ```bash
 # Linear: is the workspace back under cap?
 #   expected ~58 of 250 once all three archive batches have run
 #   batches: ~182 on 09-08, ~10 on 09-12, SUG-284 on 09-14
 ```
 
-- [ ] Workspace back near **58 of 250**
-- [ ] All three batches archived. If not, something was edited — find what, and reset expectations by one month from that edit
-- [ ] Confirm no closed issue was touched during the freeze
+- [ ] Workspace back near **58 of 250** — moot, not checked
+- [ ] All three batches archived. If not, something was edited — find what, and reset expectations by one month from that edit — moot, not checked
+- [ ] Confirm no closed issue was touched during the freeze — moot, not checked
 
 **If capacity cleared, the original reason for migrating is gone.** §9.1's arithmetic says the
 free plan is sufficient at 44 issues/month. Judge the migration on fragility alone from here.
@@ -844,42 +851,85 @@ Every platform claim in this document was last verified 2026-08-15 by an author 
 knowledge cutoff who does not track the GitHub changelog. **Re-run these before trusting §8,
 §10.3 or §11.**
 
+**Re-run 2026-09-05 (ST-117).** Recorded because it's two cheap commands and settles whether
+§11's workaround is still needed — the decision to migrate does not turn on the answer.
+
 ```bash
 # Has "Relates to" reached the GraphQL API? (UI-only public preview as of 2026-08-07)
 gh api graphql -f query='{ __schema{ mutationType{ fields{ name } } } }' \
   --jq '.data.__schema.mutationType.fields[].name | select(test("[Rr]elat"))'
+# → empty, 2026-09-05: still not in the mutation schema
 
 # Are the dependency mutations still present?
 gh api graphql -f query='{ __type(name:"Issue"){ fields{ name } } }' \
   --jq '.data.__type.fields[].name | select(test("[Bb]lock|[Rr]elat|[Ss]ubIssue|[Pp]arent"))'
+# → blockedBy, blocking, parent, subIssues, subIssuesSummary — 2026-09-05
 ```
 
-- [ ] **"Relates to" in the API?** If yes, the **33 `Related to`** relations migrate natively and
-      §11's body-line workaround is dropped. This is the single most likely thing to have changed
-- [ ] `blockedBy` / `blocking` / `addBlockedBy` still present
-- [ ] Scan https://github.blog/changelog/label/projects-and-issues/ for anything since 2026-08-15
+- [x] **"Relates to" in the API?** No, unchanged as of 2026-09-05 — still UI-only. The **33
+      `Related to`** relations stay on §11's body-line workaround; nothing to drop
+- [x] `blockedBy` / `blocking` still present, 2026-09-05. (`addBlockedBy` mutation not
+      independently re-checked; the field-level presence above is the load-bearing fact for §11's
+      workaround)
+- [ ] Scan https://github.blog/changelog/label/projects-and-issues/ for anything since
+      2026-08-15 — not done; no browsing tool was used for this review and the two schema checks
+      above already answer the question this scan exists to catch
 
 ### 13.3 Trial outcome — did the GitHub setup actually work?
 
-- [ ] Were the four §10.4 workflows enabled? (Phase 1 could not do this via API)
-- [ ] **Did `Status` track reality without manual correction?** This is the real test. If items
-      sat closed with `Status: Todo`, the automation is not doing its job and the board is
-      decorative — the exact drift class the post-mortem is about
-- [ ] Was the `Priority queue` view actually used as the priority queue, or did the epic docs
-      remain the working surface?
-- [ ] Was `Auto-add sub-issues to project` disabled? (It was enabled as found, against §10.2)
-- [ ] Did the four trial issues (`ST-95`, `ST-96`, `ST-97`, `ST-98`) work as thin mirrors of their epic docs,
-      or did scope leak into the issue bodies?
+**Run 2026-09-05 (ST-117), four days early — see the epic's own Background for why.**
+
+- [x] Were the four §10.4 workflows enabled? **Checked live via GraphQL**
+      (`ProjectV2.workflows`, a field this plan didn't know existed on 2026-08-15 — itself a
+      §13.2-class platform-capability miss):
+      ```bash
+      gh api graphql -f query='query { user(login:"bex-sugartown") { projectV2(number:1) {
+        workflows(first: 20) { nodes { name enabled } } } } }'
+      ```
+      Result: `Item added to project` **enabled**, `Item closed` **enabled**,
+      `Pull request merged` **enabled** — these three cover §10.4's "Issue added → Backlog",
+      "Item closed → Done", and "PR merged → Done" rows. **§10.4's "Item reopened → In Progress"
+      row has no matching workflow in this project's list at all** — GitHub's naming and default
+      workflow set has apparently moved since 2026-08-15 and the plan's table doesn't match what
+      exists to enable. Also present and disabled: `Auto-close issue`,
+      `Pull request linked to issue` (neither called for by this plan, harmless either way).
+- [x] **Did `Status` track reality without manual correction?** Yes, per CLAUDE.md's own record:
+      six `Done` → `Shipped` transitions this week via the `Item closed` automation, no hand
+      correction (epic ST-117 Background, dated 2026-09-05). The "PR merged" and "Item reopened"
+      paths were never exercised to confirm either way: **zero PRs merged** and the one
+      "reopened" event on record predates the trial (2026-02-18) —
+      `gh pr list --search "merged:>=2026-08-15"` returned nothing; all trial-period work landed
+      via direct commits to `main`, not PRs. Those two automations are enabled (or, for
+      "reopened", not found as a distinct workflow) but untested by real use
+- [x] Was the `Priority queue` view actually used as the priority queue, or did the epic docs
+      remain the working surface? **The epic docs remained the working surface.** 82 of 83 board
+      items carry a `Priority` (epic ST-117 Background), so the field is populated, but this
+      session's own experience matches CLAUDE.md's description of the workflow: epic docs in
+      `docs/backlog/` are read and executed directly; the board is not queried as an ordering
+      mechanism before picking up work
+- [x] Was `Auto-add sub-issues to project` disabled? **Yes** — confirmed `enabled: false` in the
+      same workflow query above. §10.2's one-issue-per-epic rule holds
+- [ ] Did the four trial issues (`ST-95`, `ST-96`, `ST-97`, `ST-98`) work as thin mirrors of their
+      epic docs, or did scope leak into the issue bodies? — not checked this pass; low stakes
+      relative to the other four findings and the decision doesn't turn on it
 
 ### 13.4 Outstanding decisions carried into the review
 
-- [ ] **SUG-249** — scope it, fold into SUG-19, or cancel. Empty description, sub-issue of
-      SUG-19, invisible to Linear search (§12)
-- [ ] **`Related to` convention** — depends on 13.2
-- [ ] **Refresh the export?** `docs/briefs/data/linear-export-2026-08-15.csv` is a point-in-time
-      snapshot. If the backlog changed during the trial, re-export before Phase 3
-- [ ] **The six annotated items** (§12) — SUG-264, 265, 267, 269, 250, 259 still need their
-      re-scoping applied, whichever system they live in
+- [ ] **SUG-249** — still open, 2026-09-05. Its epic doc (`docs/backlog/SUG-249-rescope-platform-dashboards.md`)
+      is still the stub described in §12: no scope beyond the title. **Not resolved by this
+      review** — scoping, folding into SUG-19, or canceling it is a product decision on SUG-249's
+      own content, outside ST-117's remit (tracker migration, not backlog triage). Left for Bex or
+      a future activation of SUG-249/SUG-19
+- [x] **`Related to` convention** — resolved by §13.2: the API hasn't changed, so the 33
+      relations stay on the body-line workaround. No further action
+- [ ] **Refresh the export?** Not done as part of this review — deferred to ST-117 Phase 3 scope
+      item 5 (`docs/briefs/data/linear-export-2026-08-15.csv` → `linear-export-2026-09-{dd}.csv`),
+      which runs after the sweep, closer to the actual archive date
+- [ ] **The six annotated items** (§12) — SUG-264 (open), SUG-265 (**Shipped** — resolved),
+      SUG-267 (open), SUG-269 (open), SUG-250 (open), SUG-259 (**On Hold**, per its own backlog
+      doc, unrelated to this migration). One of six already resolved itself in the ordinary
+      course of work; the other four's re-scoping is unrelated to whether GitHub or Linear hosts
+      them and is not part of ST-117's scope
 
 ### 13.5 The decision
 
@@ -894,3 +944,13 @@ Three outcomes, not two:
 Whichever is chosen, **record it in this document with the date and the reason**, then apply
 this plan's kill criterion: if the answer is stay, delete this plan rather than leave it as a
 stale artifact.
+
+**Decision: Migrate. 2026-09-05 (Bex), four days early.** §13.3's evidence — `Status` tracked
+reality without hand correction on every path that was actually exercised (issue-add, close),
+82 of 83 items carry a priority, and the one gap found (no automation for "reopened" under that
+name) is cosmetic against a table this plan itself flags as needing re-verification, not a sign
+the board is decorative. §9.1's capacity arithmetic is explicitly not the deciding factor (§13.1).
+Phase 3 (migrate the 58 issues) already ran during the trial per the trial scope table above;
+what remains is Phase 4 (cutover) and the build-back items, which is what epic **ST-117** (this
+review's own trigger) executes. This document is superseded by that epic once ST-117 ships —
+retire it then per the kill criterion, rather than leaving it open past its own decision point.

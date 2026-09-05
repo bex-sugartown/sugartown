@@ -3,7 +3,11 @@
  * Dev-only page. Uses real DS components, tokens, and CSS.
  * Not linked in nav; access directly at /dev/tables.
  *
- * Roadmap fixture = actual production data from stats.json (linearRoadmap).
+ * Roadmap fixture = a historical snapshot of production data from stats.json,
+ * captured 2026-05-16 when the field was still linearRoadmap (ST-117 renamed the
+ * live field to githubRoadmap; this frozen fixture's SUG-* identifiers and
+ * linear.app URLs are left as-is — they document what the table looked like
+ * then, not what the pipeline produces now).
  * Projects field omitted in stats pipeline — rendered as empty chip list.
  */
 import { Table, TableWrap, Swatch, Chip } from '@sugartown/design-system'
