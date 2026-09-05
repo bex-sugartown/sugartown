@@ -8,9 +8,7 @@ Run this to create a new backlog epic: GitHub issue + backlog stub + commit.
 ## What this skill produces
 
 - A new **GitHub issue** in `bex-sugartown/sugartown`, added to project 1 with `Priority` set —
-  its number is the epic's `ST-{n}` ID. **No Linear issue**: tracker writes go to GitHub only
-  for the trial (CLAUDE.md §Tracker writes go to GitHub only), and Linear has been at its
-  250-issue cap since 2026-08-09 and cannot accept one
+  its number is the epic's `ST-{n}` ID. GitHub is the only tracker (ST-117, 2026-09-05)
 - A new **backlog stub file** at `docs/backlog/ST-{n}-{kebab-name}.md` with standard header block and empty section stubs
 - A single commit: `docs(st-{n}): add {title} backlog epic`
 
@@ -68,7 +66,7 @@ Options:
 ## STEP 1 — CREATE THE ISSUE
 
 ```bash
-gh issue create --title "{epic name}" --body "{one-line description}"
+gh issue create --title "{epic name}" --body "{one-line description}" --assignee bex-sugartown
 ```
 
 No ID in the title. Read back the issue number; it is the epic's `ST-{n}` ID. Then add it to
@@ -109,9 +107,6 @@ gh project item-edit --project-id PVT_kwHODqg2Fc4BP7M2 \
 
 The `Issue added to project` workflow sets `Status: Backlog` automatically — verified
 2026-08-16 on issues #95–98, which arrived on the board as `Backlog` with no manual step.
-
-**Do not create a Linear issue.** Tracker writes go to GitHub only for the trial, and Linear
-is at its issue cap and would reject it.
 
 Report to the human: "GitHub #{n} created → ST-{n}, status Backlog, priority {P}."
 
@@ -307,8 +302,6 @@ using docs/epic-template.md as the reference.
   ```
 - If any Scope bullet touches CSS, a layout token, or a multi-page component, the stub MUST include the **Human QA Walkthrough** section (with the App.jsx activation instruction) — not as a `TODO`, but as the written activation audit. A CSS/layout epic stub without this section is incomplete.
 - Leave the issue in `Backlog`. The human sets `Todo` when they prioritize it for pickup.
-- Any "blocked on/by SUG-X" dependency stated in Background/Technical notes must get a
-  matching Linear `blockedBy`/`blocks` relation before Step 5 (Commit).
 
 ---
 

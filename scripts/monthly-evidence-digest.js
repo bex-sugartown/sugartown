@@ -123,7 +123,7 @@ function buildDigest(stats) {
       ? contentTypes.reduce((sum, t) => sum + counts[t], 0)
       : 'unavailable'
 
-  const backlogItems = stats.linearRoadmap?.backlog
+  const backlogItems = stats.githubRoadmap?.backlog
   const backlogSize = Array.isArray(backlogItems) ? backlogItems.length : 'unavailable'
 
   const cruxAvailable = stats.crux?.available === true
@@ -137,7 +137,7 @@ function buildDigest(stats) {
 
   const sentences = [
     `Homepage Lighthouse performance held at ${performanceScore} (desktop) with ${vulnerabilities} known dependency vulnerabilit${vulnTotal === 1 ? 'y' : 'ies'}.`,
-    `${contentDocs} published documents across article, node, case study, and page types; the Linear backlog holds ${backlogSize} open item${backlogSize === 1 ? '' : 's'} not yet started.`,
+    `${contentDocs} published documents across article, node, case study, and page types; the GitHub backlog holds ${backlogSize} open item${backlogSize === 1 ? '' : 's'} not yet started.`,
     `${cruxNote} Source: stats.json generated ${statsDate}.`,
     ci.sentence,
   ]
@@ -148,7 +148,7 @@ function buildDigest(stats) {
       `- **Performance:** ${performanceScore} (homepage, desktop Lighthouse)`,
       `- **Security:** ${vulnerabilities} known vulnerabilit${vulnTotal === 1 ? 'y' : 'ies'}`,
       `- **Content:** ${contentDocs} published documents (article + node + caseStudy + page)`,
-      `- **Backlog:** ${backlogSize} open Linear items`,
+      `- **Backlog:** ${backlogSize} open GitHub items`,
       ci.line,
     ],
     sentences,

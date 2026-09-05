@@ -143,7 +143,7 @@ Do not update a doc because a tool exists. Update it because a tool changed what
 ## STEP 2 — CREATE THE ISSUE
 
 ```bash
-gh issue create --title "{tool name} — {what it enforces}" --body "{the eight, filled}"
+gh issue create --title "{tool name} — {what it enforces}" --body "{the eight, filled}" --assignee bex-sugartown
 ```
 
 Read back the number. Then add to the board and set `Priority`:

@@ -1,12 +1,12 @@
 {
-  "generatedAt": "2026-09-05T10:03:37.275Z",
+  "generatedAt": "2026-09-05T15:26:06.058Z",
   "release": {
     "current": {
       "version": "0.35.0",
       "date": "2026-08-21",
       "descriptor": "Dev-server boot time, a silent security-stats bug, an XSS risk decision, a CI flake, and the",
       "kind": "MINOR",
-      "linearIssue": null
+      "issueId": null
     },
     "latestN": [
       {
@@ -14,35 +14,35 @@
         "date": "2026-08-21",
         "descriptor": "Dev-server boot time, a silent security-stats bug, an XSS risk decision, a CI flake, and the",
         "kind": "MINOR",
-        "linearIssue": null
+        "issueId": null
       },
       {
         "version": "0.34.0",
         "date": "2026-08-19",
         "descriptor": "Governance post-mortem rules, the Linear→GitHub tracker migration trial, and the epic close-out",
         "kind": "MINOR",
-        "linearIssue": "ST-98"
+        "issueId": "ST-98"
       },
       {
         "version": "0.33.0",
         "date": "2026-08-15",
         "descriptor": "Governance layer built and withdrawn, WordPress ID migration, and the retirement of the",
         "kind": "MINOR",
-        "linearIssue": "SUG-284"
+        "issueId": "SUG-284"
       },
       {
         "version": "0.32.0",
         "date": "2026-07-30",
         "descriptor": "Enforcement liveness and instruction-surface governance. Aggregates v0.31.1–v0.31.2.",
         "kind": "MINOR",
-        "linearIssue": null
+        "issueId": null
       },
       {
         "version": "0.31.0",
         "date": "2026-07-27",
         "descriptor": "MCP server v1, GovernancePage accuracy pass, enforcement-visibility hardening, and workflow gate conversions. Aggregates v0.30.1–v0.30.10.",
         "kind": "MINOR",
-        "linearIssue": "SUG-224"
+        "issueId": "SUG-224"
       }
     ],
     "latestPatches": [],
@@ -83,35 +83,35 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-09-05T10:01:59.950Z",
+    "generatedAt": "2026-09-05T15:24:18.331Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1476,
-          "cls": 0.228,
+          "lcp": 1428,
+          "cls": 0.001,
           "inp": null,
-          "performance": 84,
+          "performance": 95,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1476,
-        "cls": 0.228,
+        "lcp": 1428,
+        "cls": 0.001,
         "inp": null,
-        "performance": 84,
+        "performance": 95,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1476,
-          "cls": 0.228,
+          "lcp": 1428,
+          "cls": 0.001,
           "inp": null,
-          "performance": 84,
+          "performance": 95,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -122,7 +122,7 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1368,
+          "lcp": 1324,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -131,7 +131,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1368,
+        "lcp": 1324,
         "cls": 0.224,
         "inp": null,
         "performance": 85,
@@ -141,7 +141,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1368,
+          "lcp": 1324,
           "cls": 0.224,
           "inp": null,
           "performance": 85,
@@ -155,29 +155,29 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1350,
+          "lcp": 1380,
           "cls": 0.224,
           "inp": null,
-          "performance": 85,
+          "performance": 84,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1350,
+        "lcp": 1380,
         "cls": 0.224,
         "inp": null,
-        "performance": 85,
+        "performance": 84,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1350,
+          "lcp": 1380,
           "cls": 0.224,
           "inp": null,
-          "performance": 85,
+          "performance": 84,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -188,7 +188,7 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1355,
+          "lcp": 1344,
           "cls": 0.11,
           "inp": null,
           "performance": 92,
@@ -197,7 +197,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1355,
+        "lcp": 1344,
         "cls": 0.11,
         "inp": null,
         "performance": 92,
@@ -207,7 +207,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1355,
+          "lcp": 1344,
           "cls": 0.11,
           "inp": null,
           "performance": 92,
@@ -221,8 +221,8 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1421,
-          "cls": 0.414,
+          "lcp": 1320,
+          "cls": 0.47,
           "inp": null,
           "performance": 76,
           "accessibility": 96,
@@ -230,8 +230,8 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1421,
-        "cls": 0.414,
+        "lcp": 1320,
+        "cls": 0.47,
         "inp": null,
         "performance": 76,
         "accessibility": 96,
@@ -240,8 +240,8 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1421,
-          "cls": 0.414,
+          "lcp": 1320,
+          "cls": 0.47,
           "inp": null,
           "performance": 76,
           "accessibility": 96,
@@ -254,7 +254,7 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1461,
+          "lcp": 1425,
           "cls": 0.227,
           "inp": null,
           "performance": 84,
@@ -263,7 +263,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1461,
+        "lcp": 1425,
         "cls": 0.227,
         "inp": null,
         "performance": 84,
@@ -273,7 +273,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1461,
+          "lcp": 1425,
           "cls": 0.227,
           "inp": null,
           "performance": 84,
@@ -287,7 +287,7 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1321,
+          "lcp": 1271,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -296,7 +296,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1321,
+        "lcp": 1271,
         "cls": 0.08,
         "inp": null,
         "performance": 95,
@@ -306,7 +306,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 1321,
+          "lcp": 1271,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -320,7 +320,7 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1336,
+          "lcp": 1297,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -329,7 +329,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1336,
+        "lcp": 1297,
         "cls": 0.08,
         "inp": null,
         "performance": 95,
@@ -339,7 +339,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 1336,
+          "lcp": 1297,
           "cls": 0.08,
           "inp": null,
           "performance": 95,
@@ -352,13 +352,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-09-05T10:02:00.504Z",
+    "fetchedAt": "2026-09-05T15:24:19.195Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-09-05T10:03:33.565Z",
+    "fetchedAt": "2026-09-05T15:26:04.313Z",
     "vulnerabilities": {
       "total": 223,
       "critical": 1,
@@ -369,17 +369,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-09-05T10:03:34.378Z",
+    "fetchedAt": "2026-09-05T15:26:04.898Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
-    "openIssues": 64,
+    "openIssues": 68,
     "contributors": 3,
-    "lastCommit": "2026-09-04T14:13:17Z"
+    "lastCommit": "2026-09-05T11:04:54Z"
   },
   "sanity": {
-    "fetchedAt": "2026-09-05T10:03:34.800Z",
+    "fetchedAt": "2026-09-05T15:26:05.245Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -393,7 +393,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-09-05T10:03:35.001Z",
+    "generatedAt": "2026-09-05T15:26:05.400Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -5970,728 +5970,759 @@
       }
     ]
   },
-  "linearRoadmap": {
-    "fetchedAt": "2026-09-05T10:03:37.273Z",
-    "inProgress": [],
+  "githubRoadmap": {
+    "fetchedAt": "2026-09-05T15:26:06.056Z",
+    "inProgress": [
+      {
+        "identifier": "#117",
+        "title": "Retire Linear; GitHub is the single tracker",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/117",
+        "updatedAt": "2026-09-05T14:46:07Z",
+        "priority": "High",
+        "status": "In Progress",
+        "projects": []
+      }
+    ],
     "backlog": [
       {
-        "identifier": "SUG-283",
-        "title": "apps/contentful-poc build fails in CI on a React types conflict — green locally, red on the runner",
-        "url": "https://linear.app/sugartown/issue/SUG-283/appscontentful-poc-build-fails-in-ci-on-a-react-types-conflict-green",
+        "identifier": "#120",
+        "title": "Audit docs/drafts for unpublished articles, nodes and content",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/120",
+        "updatedAt": "2026-09-05T14:46:13Z",
         "priority": "High",
         "status": "Todo",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-269",
-        "title": "Make the Sanity-backed validators probeable",
-        "url": "https://linear.app/sugartown/issue/SUG-269/make-the-sanity-backed-validators-probeable",
+        "identifier": "#37",
+        "title": "SUG-018 — Archive page deferred fields — wire Display + Advanced tab configs",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/37",
+        "updatedAt": "2026-09-05T14:43:39Z",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#38",
+        "title": "SUG-019 — KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/38",
+        "updatedAt": "2026-09-05T14:43:42Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#39",
+        "title": "SUG-036 — Site-wide content search",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/39",
+        "updatedAt": "2026-09-05T14:43:44Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#40",
+        "title": "SUG-050 — Card image from hero section — auto-derive card thumbnail",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/40",
+        "updatedAt": "2026-09-05T14:43:46Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#41",
+        "title": "SUG-051 — Page URL nesting — parent field enables /page/subpage/ routing",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/41",
+        "updatedAt": "2026-09-05T14:43:47Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#42",
+        "title": "SUG-056 — Structured content: computed enrichments, industry taxonomy, audience enum",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/42",
+        "updatedAt": "2026-09-05T14:43:49Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#43",
+        "title": "SUG-057 — Pink Moon Phase 5 — Academic layer (marginalia, index, glossary, running headers)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/43",
+        "updatedAt": "2026-09-05T14:43:51Z",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#44",
+        "title": "SUG-060 — Video Section — embedded video support (Vimeo, YouTube, uploaded)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/44",
+        "updatedAt": "2026-09-05T14:43:53Z",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#45",
+        "title": "SUG-071 — Shopify Stage 2 — standalone Shopify native theme using ST design tokens",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/45",
+        "updatedAt": "2026-09-05T14:43:54Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#46",
+        "title": "SUG-072 — Shopify MVP — /platform + /services content sections (follow-on)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/46",
+        "updatedAt": "2026-09-05T14:43:56Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#47",
+        "title": "SUG-107 — Client taxonomy — audit & promote string field to reference doc",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/47",
+        "updatedAt": "2026-09-05T14:43:58Z",
         "priority": "Medium",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-267",
-        "title": "Rule-file write gate has no artifact between edit and commit",
-        "url": "https://linear.app/sugartown/issue/SUG-267/rule-file-write-gate-has-no-artifact-between-edit-and-commit",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-266",
-        "title": "ScoreRing: reduced-motion changes mid-session do not take effect",
-        "url": "https://linear.app/sugartown/issue/SUG-266/scorering-reduced-motion-changes-mid-session-do-not-take-effect",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-265",
-        "title": "Release flow: /release skips /mini-release steps, and close-out costs two deploys",
-        "url": "https://linear.app/sugartown/issue/SUG-265/release-flow-release-skips-mini-release-steps-and-close-out-costs-two",
+        "identifier": "#48",
+        "title": "SUG-154 — Platform KPI Benchmark Report — Solo PM vs Team Velocity",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/48",
+        "updatedAt": "2026-09-05T14:43:59Z",
         "priority": "Medium",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-264",
-        "title": "Wire the banned-word check as validate:banned-words",
-        "url": "https://linear.app/sugartown/issue/SUG-264/wire-the-banned-word-check-as-validatebanned-words",
+        "identifier": "#49",
+        "title": "SUG-160 — Article: I Was Online Before It Was a Thing + TechTimeline component",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/49",
+        "updatedAt": "2026-09-05T14:44:01Z",
         "priority": "Low",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-263",
-        "title": "Decide Chromatic's gating status — --exit-zero-on-changes never blocks",
-        "url": "https://linear.app/sugartown/issue/SUG-263/decide-chromatics-gating-status-exit-zero-on-changes-never-blocks",
+        "identifier": "#50",
+        "title": "SUG-161 — Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/50",
+        "updatedAt": "2026-09-05T14:44:03Z",
         "priority": "Low",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-259",
-        "title": "Node: The Fire Alarm Was Wired to Nothing (working title)",
-        "url": "https://linear.app/sugartown/issue/SUG-259/node-the-fire-alarm-was-wired-to-nothing-working-title",
+        "identifier": "#51",
+        "title": "SUG-164 — Chip neutral border contrast — 1.3:1 non-text contrast (system token review)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/51",
+        "updatedAt": "2026-09-05T14:44:05Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#52",
+        "title": "SUG-168 — Article: Headless/composable CMS trade-offs — front-end load vs built-in editorial experience",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/52",
+        "updatedAt": "2026-09-05T14:44:07Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#53",
+        "title": "SUG-169 — Article: Architecting flexibility — DS + content model and the \"feeling\" of freedom for business users",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/53",
+        "updatedAt": "2026-09-05T14:44:09Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#54",
+        "title": "SUG-172 — Netlify → Vercel migration — scope, recommendation analysis, and migration plan for sugartown.io",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/54",
+        "updatedAt": "2026-09-05T14:44:12Z",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#55",
+        "title": "SUG-176 — Storybook story coverage for app-level composites",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/55",
+        "updatedAt": "2026-09-05T14:44:13Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#56",
+        "title": "SUG-177 — List component audit — surface all site list patterns for DS List integration",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/56",
+        "updatedAt": "2026-09-05T14:44:15Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#57",
+        "title": "SUG-178 — AI-generated image badge — transparency overlay",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/57",
+        "updatedAt": "2026-09-05T14:44:17Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#58",
+        "title": "SUG-181 — Shopify Stage 3 — rename apps/contentful-poc → apps/shop, add Shopify Storefront API, DNS cutover to shop.sugartown.io",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/58",
+        "updatedAt": "2026-09-05T14:44:18Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#59",
+        "title": "SUG-182 — docs/architecture — platform topology page documenting permanent parallel surfaces",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/59",
+        "updatedAt": "2026-09-05T14:44:21Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#60",
+        "title": "SUG-185 — A/B testing — use case exploration and tooling evaluation for sugartown.io",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/60",
+        "updatedAt": "2026-09-05T14:44:23Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#61",
+        "title": "SUG-187 — Legacy case study rebuild and engagement-fact reconciliation",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/61",
+        "updatedAt": "2026-09-05T14:44:25Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#62",
+        "title": "SUG-194 — Update DS Architecture FigJam Diagram",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/62",
+        "updatedAt": "2026-09-05T14:44:27Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#63",
+        "title": "SUG-197 — Docs IA cleanup — epics rename, orphaned prompts audit, CLAUDE.md nav references",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/63",
+        "updatedAt": "2026-09-05T14:44:29Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#64",
+        "title": "SUG-200 — Glossary: AI governance vocabulary — 9 Kubicka-layer terms",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/64",
+        "updatedAt": "2026-09-05T14:44:31Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#65",
+        "title": "SUG-202 — Cookie consent + analytics decision: GA runs with no consent banner",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/65",
+        "updatedAt": "2026-09-05T14:44:32Z",
+        "priority": "High",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#66",
+        "title": "SUG-204 — DS Usage Docs — Deferred Phases (SUG-152 continuation)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/66",
+        "updatedAt": "2026-09-05T14:44:34Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#67",
+        "title": "SUG-205 — Surface Project ID (PROJ-XXX) on /projects archive and detail pages",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/67",
+        "updatedAt": "2026-09-05T14:44:36Z",
+        "priority": "High",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#68",
+        "title": "SUG-206 — Property-cluster (hypertoken) drift audit",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/68",
+        "updatedAt": "2026-09-05T14:44:37Z",
+        "priority": "High",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#69",
+        "title": "SUG-208 — MetadataCard: Max-Density Support + Page-Type Metadata Audit",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/69",
+        "updatedAt": "2026-09-05T14:44:40Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#70",
+        "title": "SUG-209 — Appropriation Gate Check",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/70",
+        "updatedAt": "2026-09-05T14:44:42Z",
+        "priority": "High",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#71",
+        "title": "SUG-213 — Article: Shrinking Job article — GAP parallel recruitment timeline aside",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/71",
+        "updatedAt": "2026-09-05T14:44:44Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#72",
+        "title": "SUG-223 — Article: The Spec You Write After the Build — systematizing an exploratory way of working",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/72",
+        "updatedAt": "2026-09-05T14:44:46Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#73",
+        "title": "SUG-228 — Taxonomy & Glossary Browsing UX Audit — chip colors, duplicate views, naming collisions",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/73",
+        "updatedAt": "2026-09-05T14:44:48Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#75",
+        "title": "SUG-233 — Article: finish + publish \"Seven Steps I Run Before Any Composable Platform Decision\"",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/75",
+        "updatedAt": "2026-09-05T14:44:52Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#76",
+        "title": "SUG-234 — Article: draft + publish \"The Incredible Shrinking Job\" to Sanity",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/76",
+        "updatedAt": "2026-09-05T14:44:54Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#77",
+        "title": "SUG-235 — Schema consistency: normalize related-content field names + decide glossaryTerm sources[] shape",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/77",
+        "updatedAt": "2026-09-05T14:44:56Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#78",
+        "title": "SUG-236 — Pages as knowledge-graph nodes: consume page related/relatedTerms + harden person.bio annotations",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/78",
+        "updatedAt": "2026-09-05T14:44:58Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#79",
+        "title": "SUG-237 — Node: The Witness Who Was Never in the Room — context transfer across the agentic caucus",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/79",
+        "updatedAt": "2026-09-05T14:45:00Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#80",
+        "title": "SUG-249 — Rescope to incorporate /platform dashboards",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/80",
+        "updatedAt": "2026-09-05T14:45:01Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#81",
+        "title": "SUG-250 — Agentic Caucus tool-selection audit & assisted handoff workflow",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/81",
+        "updatedAt": "2026-09-05T14:45:03Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#82",
+        "title": "SUG-251 — SEO meta & structured-data prerendering (fix CSR mainEntity race)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/82",
+        "updatedAt": "2026-09-05T14:45:05Z",
+        "priority": "High",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#83",
+        "title": "SUG-252 — Add type-specific JSON-LD for Project and Tool detail pages",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/83",
+        "updatedAt": "2026-09-05T14:45:06Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#84",
+        "title": "SUG-253 — CWV audit & Agentic Browsing fixes (llms.txt, accessibility tree, mobile performance)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/84",
+        "updatedAt": "2026-09-05T14:45:08Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#85",
+        "title": "SUG-257 — apps/studio has no lint script — 86 pre-existing problems, invisible to every gate",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/85",
+        "updatedAt": "2026-09-05T14:45:10Z",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#86",
+        "title": "SUG-258 — apps/web lints only .js/.jsx — 32 TypeScript files under src/ are ungated",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/86",
+        "updatedAt": "2026-09-05T14:45:12Z",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#22",
+        "title": "apps/studio has no typecheck script",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/22",
+        "updatedAt": "2026-08-16T10:35:01Z",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#23",
+        "title": "Nav content: trailing slashes and missing URLs",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/23",
+        "updatedAt": "2026-08-16T10:35:02Z",
+        "priority": "Low",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#89",
+        "title": "SUG-264 — Wire the banned-word check as validate:banned-words",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/89",
+        "updatedAt": "2026-09-05T14:45:17Z",
+        "priority": "Low",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#74",
+        "title": "SUG-232 — Non-colour raw token fallbacks pass CI silently (validator gap + 55-occurrence burndown)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/74",
+        "updatedAt": "2026-09-05T14:44:50Z",
+        "priority": "Medium",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#88",
+        "title": "SUG-263 — Decide Chromatic's gating status — --exit-zero-on-changes never blocks",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/88",
+        "updatedAt": "2026-09-05T14:45:15Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#91",
+        "title": "SUG-266 — ScoreRing: reduced-motion changes mid-session do not take effect",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/91",
+        "updatedAt": "2026-09-05T14:45:22Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#92",
+        "title": "SUG-267 — Rule-file write gate has no artifact between edit and commit",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/92",
+        "updatedAt": "2026-09-05T14:45:23Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#93",
+        "title": "SUG-269 — Make the Sanity-backed validators probeable",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/93",
+        "updatedAt": "2026-09-05T14:45:25Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#104",
+        "title": "Vspecs do not survive their epic — nothing to diff or regenerate against",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/104",
+        "updatedAt": "2026-09-05T14:45:46Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#105",
+        "title": "component-registry.json is generated but never regenerated — stale by 30 components",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/105",
+        "updatedAt": "2026-09-05T14:45:48Z",
+        "priority": "Medium",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#116",
+        "title": "Node: AI Illustration Review — red-pen pass and image metadata before publish",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/116",
+        "updatedAt": "2026-09-05T14:46:05Z",
         "priority": "High",
         "status": "Todo",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-258",
-        "title": "apps/web lints only .js/.jsx — 32 TypeScript files under src/ are ungated",
-        "url": "https://linear.app/sugartown/issue/SUG-258/appsweb-lints-only-jsjsx-32-typescript-files-under-src-are-ungated",
-        "priority": "Medium",
-        "status": "Todo",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-257",
-        "title": "apps/studio has no lint script — 86 pre-existing problems, invisible to every gate",
-        "url": "https://linear.app/sugartown/issue/SUG-257/appsstudio-has-no-lint-script-86-pre-existing-problems-invisible-to",
-        "priority": "Medium",
-        "status": "Todo",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-253",
-        "title": "CWV audit & Agentic Browsing fixes (llms.txt, accessibility tree, mobile performance)",
-        "url": "https://linear.app/sugartown/issue/SUG-253/cwv-audit-and-agentic-browsing-fixes-llmstxt-accessibility-tree-mobile",
+        "identifier": "#118",
+        "title": "Article: Meet Becky B00p — red-pen, hero image and disclosure before publish",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/118",
+        "updatedAt": "2026-09-05T14:46:09Z",
         "priority": "Medium",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       },
       {
-        "identifier": "SUG-252",
-        "title": "Add type-specific JSON-LD for Project and Tool detail pages",
-        "url": "https://linear.app/sugartown/issue/SUG-252/add-type-specific-json-ld-for-project-and-tool-detail-pages",
+        "identifier": "#119",
+        "title": "Article: Seven Steps Before Any Composable Platform Decision — red-pen, diagram, hero image before publish",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/119",
+        "updatedAt": "2026-09-05T14:46:11Z",
         "priority": "Medium",
         "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-251",
-        "title": "SEO meta & structured-data prerendering (fix CSR mainEntity race)",
-        "url": "https://linear.app/sugartown/issue/SUG-251/seo-meta-and-structured-data-prerendering-fix-csr-mainentity-race",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-250",
-        "title": "Agentic Caucus tool-selection audit & assisted handoff workflow",
-        "url": "https://linear.app/sugartown/issue/SUG-250/agentic-caucus-tool-selection-audit-and-assisted-handoff-workflow",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-249",
-        "title": "Rescope to incorporate /platform dashboards",
-        "url": "https://linear.app/sugartown/issue/SUG-249/rescope-to-incorporate-platform-dashboards",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-237",
-        "title": "Node: The Witness Who Was Never in the Room — context transfer across the agentic caucus",
-        "url": "https://linear.app/sugartown/issue/SUG-237/node-the-witness-who-was-never-in-the-room-context-transfer-across-the",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-236",
-        "title": "Pages as knowledge-graph nodes: consume page related/relatedTerms + harden person.bio annotations",
-        "url": "https://linear.app/sugartown/issue/SUG-236/pages-as-knowledge-graph-nodes-consume-page-relatedrelatedterms-harden",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-235",
-        "title": "Schema consistency: normalize related-content field names + decide glossaryTerm sources[] shape",
-        "url": "https://linear.app/sugartown/issue/SUG-235/schema-consistency-normalize-related-content-field-names-decide",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-234",
-        "title": "Article: draft + publish \"The Incredible Shrinking Job\" to Sanity",
-        "url": "https://linear.app/sugartown/issue/SUG-234/article-draft-publish-the-incredible-shrinking-job-to-sanity",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-233",
-        "title": "Article: finish + publish \"Seven Steps I Run Before Any Composable Platform Decision\"",
-        "url": "https://linear.app/sugartown/issue/SUG-233/article-finish-publish-seven-steps-i-run-before-any-composable",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-232",
-        "title": "Non-colour raw token fallbacks pass CI silently (validator gap + 55-occurrence burndown)",
-        "url": "https://linear.app/sugartown/issue/SUG-232/non-colour-raw-token-fallbacks-pass-ci-silently-validator-gap-55",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-228",
-        "title": "Taxonomy & Glossary Browsing UX Audit — chip colors, duplicate views, naming collisions",
-        "url": "https://linear.app/sugartown/issue/SUG-228/taxonomy-and-glossary-browsing-ux-audit-chip-colors-duplicate-views",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-223",
-        "title": "Article: The Spec You Write After the Build — systematizing an exploratory way of working",
-        "url": "https://linear.app/sugartown/issue/SUG-223/article-the-spec-you-write-after-the-build-systematizing-an",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-213",
-        "title": "Article: Shrinking Job article — GAP parallel recruitment timeline aside",
-        "url": "https://linear.app/sugartown/issue/SUG-213/article-shrinking-job-article-gap-parallel-recruitment-timeline-aside",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-209",
-        "title": "Appropriation Gate Check",
-        "url": "https://linear.app/sugartown/issue/SUG-209/appropriation-gate-check",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-208",
-        "title": "MetadataCard: Max-Density Support + Page-Type Metadata Audit",
-        "url": "https://linear.app/sugartown/issue/SUG-208/metadatacard-max-density-support-page-type-metadata-audit",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-206",
-        "title": "Property-cluster (hypertoken) drift audit",
-        "url": "https://linear.app/sugartown/issue/SUG-206/property-cluster-hypertoken-drift-audit",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-205",
-        "title": "Surface Project ID (PROJ-XXX) on /projects archive and detail pages",
-        "url": "https://linear.app/sugartown/issue/SUG-205/surface-project-id-proj-xxx-on-projects-archive-and-detail-pages",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-204",
-        "title": "DS Usage Docs — Deferred Phases (SUG-152 continuation)",
-        "url": "https://linear.app/sugartown/issue/SUG-204/ds-usage-docs-deferred-phases-sug-152-continuation",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-202",
-        "title": "Cookie consent + analytics decision: GA runs with no consent banner",
-        "url": "https://linear.app/sugartown/issue/SUG-202/cookie-consent-analytics-decision-ga-runs-with-no-consent-banner",
-        "priority": "High",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-200",
-        "title": "Glossary: AI governance vocabulary — 9 Kubicka-layer terms",
-        "url": "https://linear.app/sugartown/issue/SUG-200/glossary-ai-governance-vocabulary-9-kubicka-layer-terms",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-197",
-        "title": "Docs IA cleanup — epics rename, orphaned prompts audit, CLAUDE.md nav references",
-        "url": "https://linear.app/sugartown/issue/SUG-197/docs-ia-cleanup-epics-rename-orphaned-prompts-audit-claudemd-nav",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-194",
-        "title": "Update DS Architecture FigJam Diagram",
-        "url": "https://linear.app/sugartown/issue/SUG-194/update-ds-architecture-figjam-diagram",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-187",
-        "title": "Legacy case study rebuild and engagement-fact reconciliation",
-        "url": "https://linear.app/sugartown/issue/SUG-187/legacy-case-study-rebuild-and-engagement-fact-reconciliation",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-185",
-        "title": "A/B testing — use case exploration and tooling evaluation for sugartown.io",
-        "url": "https://linear.app/sugartown/issue/SUG-185/ab-testing-use-case-exploration-and-tooling-evaluation-for-sugartownio",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-182",
-        "title": "docs/architecture — platform topology page documenting permanent parallel surfaces",
-        "url": "https://linear.app/sugartown/issue/SUG-182/docsarchitecture-platform-topology-page-documenting-permanent-parallel",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-181",
-        "title": "Shopify Stage 3 — rename apps/contentful-poc → apps/shop, add Shopify Storefront API, DNS cutover to shop.sugartown.io",
-        "url": "https://linear.app/sugartown/issue/SUG-181/shopify-stage-3-rename-appscontentful-poc-appsshop-add-shopify",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [
-          {
-            "name": "Sugartown Shopify",
-            "colorHex": "#bec2c8"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-178",
-        "title": "AI-generated image badge — transparency overlay",
-        "url": "https://linear.app/sugartown/issue/SUG-178/ai-generated-image-badge-transparency-overlay",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-177",
-        "title": "List component audit — surface all site list patterns for DS List integration",
-        "url": "https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-176",
-        "title": "Storybook story coverage for app-level composites",
-        "url": "https://linear.app/sugartown/issue/SUG-176/storybook-story-coverage-for-app-level-composites",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-172",
-        "title": "Netlify → Vercel migration — scope, recommendation analysis, and migration plan for sugartown.io",
-        "url": "https://linear.app/sugartown/issue/SUG-172/netlify-vercel-migration-scope-recommendation-analysis-and-migration",
-        "priority": "No priority",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-169",
-        "title": "Article: Architecting flexibility — DS + content model and the \"feeling\" of freedom for business users",
-        "url": "https://linear.app/sugartown/issue/SUG-169/article-architecting-flexibility-ds-content-model-and-the-feeling-of",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-168",
-        "title": "Article: Headless/composable CMS trade-offs — front-end load vs built-in editorial experience",
-        "url": "https://linear.app/sugartown/issue/SUG-168/article-headlesscomposable-cms-trade-offs-front-end-load-vs-built-in",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-164",
-        "title": "Chip neutral border contrast — 1.3:1 non-text contrast (system token review)",
-        "url": "https://linear.app/sugartown/issue/SUG-164/chip-neutral-border-contrast-131-non-text-contrast-system-token-review",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-161",
-        "title": "Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest",
-        "url": "https://linear.app/sugartown/issue/SUG-161/storybook-testing-infrastructure-interaction-tests-a11y-ci-gate-vitest",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-160",
-        "title": "Article: I Was Online Before It Was a Thing + TechTimeline component",
-        "url": "https://linear.app/sugartown/issue/SUG-160/article-i-was-online-before-it-was-a-thing-techtimeline-component",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-154",
-        "title": "Platform KPI Benchmark Report — Solo PM vs Team Velocity",
-        "url": "https://linear.app/sugartown/issue/SUG-154/platform-kpi-benchmark-report-solo-pm-vs-team-velocity",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-107",
-        "title": "Client taxonomy — audit & promote string field to reference doc",
-        "url": "https://linear.app/sugartown/issue/SUG-107/client-taxonomy-audit-and-promote-string-field-to-reference-doc",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-72",
-        "title": "Shopify MVP — /platform + /services content sections (follow-on)",
-        "url": "https://linear.app/sugartown/issue/SUG-72/shopify-mvp-platform-services-content-sections-follow-on",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [
-          {
-            "name": "Sugartown Shopify",
-            "colorHex": "#bec2c8"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-71",
-        "title": "Shopify Stage 2 — standalone Shopify native theme using ST design tokens",
-        "url": "https://linear.app/sugartown/issue/SUG-71/shopify-stage-2-standalone-shopify-native-theme-using-st-design-tokens",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [
-          {
-            "name": "Sugartown Shopify",
-            "colorHex": "#bec2c8"
-          }
-        ],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-60",
-        "title": "Video Section — embedded video support (Vimeo, YouTube, uploaded)",
-        "url": "https://linear.app/sugartown/issue/SUG-60/video-section-embedded-video-support-vimeo-youtube-uploaded",
-        "priority": "No priority",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-57",
-        "title": "Pink Moon Phase 5 — Academic layer (marginalia, index, glossary, running headers)",
-        "url": "https://linear.app/sugartown/issue/SUG-57/pink-moon-phase-5-academic-layer-marginalia-index-glossary-running",
-        "priority": "No priority",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-56",
-        "title": "Structured content: computed enrichments, industry taxonomy, audience enum",
-        "url": "https://linear.app/sugartown/issue/SUG-56/structured-content-computed-enrichments-industry-taxonomy-audience",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-51",
-        "title": "Page URL nesting — parent field enables /page/subpage/ routing",
-        "url": "https://linear.app/sugartown/issue/SUG-51/page-url-nesting-parent-field-enables-pagesubpage-routing",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-50",
-        "title": "Card image from hero section — auto-derive card thumbnail",
-        "url": "https://linear.app/sugartown/issue/SUG-50/card-image-from-hero-section-auto-derive-card-thumbnail",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-36",
-        "title": "Site-wide content search",
-        "url": "https://linear.app/sugartown/issue/SUG-36/site-wide-content-search",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-19",
-        "title": "KPI dashboard card family: stat-card, bar-card, insight-card (BL-03)",
-        "url": "https://linear.app/sugartown/issue/SUG-19/kpi-dashboard-card-family-stat-card-bar-card-insight-card-bl-03",
-        "priority": "Low",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
-      },
-      {
-        "identifier": "SUG-18",
-        "title": "Archive page deferred fields — wire Display + Advanced tab configs",
-        "url": "https://linear.app/sugartown/issue/SUG-18/archive-page-deferred-fields-wire-display-advanced-tab-configs",
-        "priority": "No priority",
-        "status": "Backlog",
-        "projects": [],
-        "completedAt": null
+        "projects": []
       }
     ],
     "completed": [
       {
-        "identifier": "SUG-284",
-        "title": "Unwind the governance/verification-review layer (waves 2-3, since 2026-07-21)",
-        "url": "https://linear.app/sugartown/issue/SUG-284/unwind-the-governanceverification-review-layer-waves-2-3-since-2026-07",
+        "identifier": "#114",
+        "title": "post-commit mirror pushes HEAD, not the committed SHA — a branch switch after commit logs OK for an unpushed commit",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/114",
+        "updatedAt": "2026-09-05T14:46:03Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-15T10:46:51.729Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-260",
-        "title": "Migrate wp.* dotted document IDs — 110 docs invisible to anonymous reads, forces a public client token",
-        "url": "https://linear.app/sugartown/issue/SUG-260/migrate-wp-dotted-document-ids-110-docs-invisible-to-anonymous-reads",
+        "identifier": "#113",
+        "title": "post-commit mirror skips the first commit of every day since ST-106 — fetch exits 128 under sh -e",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/113",
+        "updatedAt": "2026-09-05T14:46:01Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-08T13:47:47.383Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-274",
-        "title": "Ph2: Claims and dates validate correctly",
-        "url": "https://linear.app/sugartown/issue/SUG-274/ph2-claims-and-dates-validate-correctly",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-07T09:32:50.247Z"
+        "identifier": "#112",
+        "title": "Split sugartown CLAUDE.md into path-scoped .claude/rules and clear hierarchy strays",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/112",
+        "updatedAt": "2026-09-05T14:45:59Z",
+        "priority": "Medium",
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-273",
-        "title": "Ph2: The two-way probe-to-harness check is genuinely live",
-        "url": "https://linear.app/sugartown/issue/SUG-273/ph2-the-two-way-probe-to-harness-check-is-genuinely-live",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-07T09:09:05.922Z"
-      },
-      {
-        "identifier": "SUG-272",
-        "title": "Ph2: validate:governance enforces schema and referential integrity (CTL-031)",
-        "url": "https://linear.app/sugartown/issue/SUG-272/ph2-validategovernance-enforces-schema-and-referential-integrity-ctl",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-06T15:30:04.921Z"
-      },
-      {
-        "identifier": "SUG-275",
-        "title": "Ph2: The register can see the new gates",
-        "url": "https://linear.app/sugartown/issue/SUG-275/ph2-the-register-can-see-the-new-gates",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-06T13:50:33.033Z"
-      },
-      {
-        "identifier": "SUG-271",
-        "title": "Ph2: validate:governance-diff proves generated output matches source",
-        "url": "https://linear.app/sugartown/issue/SUG-271/ph2-validategovernance-diff-proves-generated-output-matches-source",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-06T13:13:00.102Z"
-      },
-      {
-        "identifier": "SUG-270",
-        "title": "Ph2: Generator emits governance.json at a committable path",
-        "url": "https://linear.app/sugartown/issue/SUG-270/ph2-generator-emits-governancejson-at-a-committable-path",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-06T13:01:20.557Z"
-      },
-      {
-        "identifier": "SUG-238",
-        "title": "Epic → User Story decomposition (AC/DoD per story, Linear sub-issues)",
-        "url": "https://linear.app/sugartown/issue/SUG-238/epic-user-story-decomposition-acdod-per-story-linear-sub-issues",
+        "identifier": "#111",
+        "title": "Relayer Claude Code settings — global carries machine-wide only, each repo carries its own environment",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/111",
+        "updatedAt": "2026-09-05T14:45:57Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-08-04T16:56:09.710Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-254",
-        "title": "Fix ESLint architectural boundary enforcement (no-restricted-imports never actually fires)",
-        "url": "https://linear.app/sugartown/issue/SUG-254/fix-eslint-architectural-boundary-enforcement-no-restricted-imports",
+        "identifier": "#110",
+        "title": "PreToolUse guard hook — block reads and writes under cms-eval/bound and resume-factory/private",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/110",
+        "updatedAt": "2026-09-05T14:45:55Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-28T16:23:31.388Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-255",
-        "title": "Restore green CI — zero passing runs on main since 2026-05-10",
-        "url": "https://linear.app/sugartown/issue/SUG-255/restore-green-ci-zero-passing-runs-on-main-since-2026-05-10",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-28T14:16:03.475Z"
-      },
-      {
-        "identifier": "SUG-225",
-        "title": "Sugartown MCP Server — v1 Implementation",
-        "url": "https://linear.app/sugartown/issue/SUG-225/sugartown-mcp-server-v1-implementation",
+        "identifier": "#108",
+        "title": "Multi-repo operations and /sweep command",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/108",
+        "updatedAt": "2026-09-05T14:45:53Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-27T12:13:59.036Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-244",
-        "title": "GovernancePage — add workflow lifecycle diagram + governance doc index",
-        "url": "https://linear.app/sugartown/issue/SUG-244/governancepage-add-workflow-lifecycle-diagram-governance-doc-index",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-26T17:26:08.610Z"
-      },
-      {
-        "identifier": "SUG-247",
-        "title": "DS build bug: esbuild-css-modules-plugin camelCases class names, breaking hyphenated bracket lookups in Grid/Card/Columns/Metric",
-        "url": "https://linear.app/sugartown/issue/SUG-247/ds-build-bug-esbuild-css-modules-plugin-camelcases-class-names",
-        "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-26T16:25:15.576Z"
-      },
-      {
-        "identifier": "SUG-248",
-        "title": "Formalize stat-card / card-builder content schema pattern",
-        "url": "https://linear.app/sugartown/issue/SUG-248/formalize-stat-card-card-builder-content-schema-pattern",
-        "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-26T16:12:00.044Z"
-      },
-      {
-        "identifier": "SUG-245",
-        "title": "GovernancePage accuracy pass — AI governance tiles, release diagram, stale source doc",
-        "url": "https://linear.app/sugartown/issue/SUG-245/governancepage-accuracy-pass-ai-governance-tiles-release-diagram-stale",
-        "priority": "Urgent",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-26T14:16:17.850Z"
-      },
-      {
-        "identifier": "SUG-241",
-        "title": "Phase 8 feedback loop — monthly evidence read-back + retrospective trigger",
-        "url": "https://linear.app/sugartown/issue/SUG-241/phase-8-feedback-loop-monthly-evidence-read-back-retrospective-trigger",
+        "identifier": "#107",
+        "title": "/release should tag the version, assign a milestone, and publish a GitHub Release",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/107",
+        "updatedAt": "2026-09-05T14:45:51Z",
         "priority": "Medium",
         "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-25T16:01:13.321Z"
+        "projects": []
       },
       {
-        "identifier": "SUG-240",
-        "title": "Route smoke tests — five-route Playwright tripwire",
-        "url": "https://linear.app/sugartown/issue/SUG-240/route-smoke-tests-five-route-playwright-tripwire",
+        "identifier": "#106",
+        "title": "post-commit wip mirror fails when another actor advances wip/<date>",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/106",
+        "updatedAt": "2026-09-05T14:45:50Z",
+        "priority": "No priority",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#103",
+        "title": "Single-deploy /ship --release",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/103",
+        "updatedAt": "2026-09-05T14:45:44Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#102",
+        "title": "Stats pipeline security collector blocks web dev server startup",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/102",
+        "updatedAt": "2026-09-05T14:45:42Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#100",
+        "title": "Move epic close-out to epic finish, keep push and spend at EOD",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/100",
+        "updatedAt": "2026-09-05T14:45:39Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#99",
+        "title": "QA walkthrough for rule-file changes",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/99",
+        "updatedAt": "2026-09-05T14:45:37Z",
         "priority": "Medium",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-25T14:07:55.555Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-239",
-        "title": "Close the enforcement-visibility gaps (orphaned validators + design-reviewer wiring)",
-        "url": "https://linear.app/sugartown/issue/SUG-239/close-the-enforcement-visibility-gaps-orphaned-validators-design",
+        "identifier": "#98",
+        "title": "Apply the six post-mortem rule changes",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/98",
+        "updatedAt": "2026-09-05T14:45:35Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-25T13:25:11.588Z"
+        "status": "Shipped",
+        "projects": []
       },
       {
-        "identifier": "SUG-242",
-        "title": "Vspec rename + prototype trigger (mock → visual spec)",
-        "url": "https://linear.app/sugartown/issue/SUG-242/vspec-rename-prototype-trigger-mock-visual-spec",
+        "identifier": "#95",
+        "title": "Liveness probes only, no register",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/95",
+        "updatedAt": "2026-09-05T14:45:29Z",
+        "priority": "Medium",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#94",
+        "title": "SUG-283 — apps/contentful-poc build fails in CI on a React types conflict — green locally, red on the runner",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/94",
+        "updatedAt": "2026-09-05T14:45:27Z",
         "priority": "High",
-        "status": "Done",
-        "projects": [],
-        "completedAt": "2026-07-25T11:12:56.109Z"
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#90",
+        "title": "SUG-265 — Release flow: /release skips /mini-release steps, and close-out costs two deploys",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/90",
+        "updatedAt": "2026-09-05T14:45:20Z",
+        "priority": "Medium",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#109",
+        "title": "post-commit mirror races itself during a rebase",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/109",
+        "updatedAt": "2026-09-05T14:15:41Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#115",
+        "title": "post-commit mirror keeps one ref per day — a second branch committed the same day is disk-only",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/115",
+        "updatedAt": "2026-09-05T14:14:44Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#16",
+        "title": "htmlSection XSS hardening: decide, then act",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/16",
+        "updatedAt": "2026-08-21T11:44:33Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
       }
     ]
   }

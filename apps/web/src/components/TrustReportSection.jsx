@@ -113,7 +113,7 @@ function RecentlyShippedReport() {
           label="Release"
           title={release ? `v${release.version}` : '—'}
           body={release?.descriptor}
-          meta={release ? `${release.date} · ${release.linearIssue ?? 'changelog'}` : null}
+          meta={release ? `${release.date} · ${release.issueId ?? 'changelog'}` : null}
           href={TRUST_LINKS.changelog}
           labelColor="brand"
           titleSize="lg"

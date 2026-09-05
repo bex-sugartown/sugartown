@@ -22,9 +22,9 @@ Key reminders:
 
 ---
 
-## Step 0.5 — Linear tracking ticket
+## Step 0.5 — Tracking issue
 
-Create the single tracking ticket per `docs/write-pipeline-prompt.md` §0 before running
+Create the single tracking issue per `docs/write-pipeline-prompt.md` §0 before running
 the taxonomy pre-flight below. Title it `Node: <working title>`.
 
 ---

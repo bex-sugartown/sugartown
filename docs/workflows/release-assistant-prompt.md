@@ -431,7 +431,7 @@ commit and tag are local-only until a future `/ship` pushes them. Both happen in
 
 ## STEP 4 — LOG WHAT DIDN'T SHIP
 
-Linear is the priority queue; there is no backlog file to reconcile
+GitHub is the priority queue; there is no backlog file to reconcile
 (`docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05). Shipped issues are
 transitioned to `Done` at each epic's own close-out, not here.
 
@@ -444,8 +444,7 @@ completed. Sources:
 
 Route each finding by size. Anything needing its own container gets `/new-epic`; anything
 smaller gets a Scope line or a new phase on the nearest owning doc. Priority is proposed, not
-set — the Linear queue stays the human's. Note that the Linear workspace has a finite issue
-budget, so prefer the smallest container that fits.
+set — the queue stays the human's.
 
 ---
 

@@ -58,7 +58,7 @@ Frequently used:
 - `/write-blog` — draft an article as a Sanity draft
 - `/write-node` — draft a Knowledge Graph node as a Sanity draft
 - `/glossy` — add a glossary term to sugartown.io
-- `/morning` — morning housekeeping (git health, branch map, Linear status)
+- `/morning` — morning housekeeping (git health, branch map, board status)
 
 ### Agentic Caucus
 The multi-agent collaboration framework. Full doc: `docs/ai/agentic-caucus/methodology.md`.

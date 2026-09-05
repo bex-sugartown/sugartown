@@ -61,6 +61,16 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   `/release`'s commit stays local by design (previous entry). 31 pre-existing MINOR versions were
   already tagged retroactively on 2026-09-02; this covers everything from the next release
   forward. #107.
+- Linear retired as Sugartown's issue tracker. GitHub Issues plus project 1
+  (`https://github.com/users/bex-sugartown/projects/1`) is now the only tracker in every sense a
+  session or a page can observe. The stats collector reads GitHub Projects v2 instead of Linear
+  (`stats.githubRoadmap`, was `linearRoadmap`; new `GH_PROJECTS_TOKEN` repo secret, verified live
+  in CI), `/platform/governance`'s roadmap block and every instruction file that named Linear
+  were swept (15 files, not the originally-scoped 10 — a broader check caught more, including a
+  real bug in the monthly evidence digest that would have silently gone blank). A fresh export
+  (`docs/briefs/data/linear-export-2026-09-05.csv`) is committed as the archive of record; the
+  Linear workspace itself is left as-is rather than deleted, since Linear offers no
+  archive/read-only action and deleting stays Bex's call alone. ST-117.
 
 #### Added
 - `guard-ip-paths`, a Claude Code PreToolUse hook that refuses any Read, Edit, Write, Glob, Grep

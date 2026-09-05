@@ -33,9 +33,9 @@ Every claim, number, date, award, and outcome must come from the user's brief, t
 
 ---
 
-## Step 0.5 — Linear tracking ticket
+## Step 0.5 — Tracking issue
 
-Create the single tracking ticket per `docs/write-pipeline-prompt.md` §0 before running
+Create the single tracking issue per `docs/write-pipeline-prompt.md` §0 before running
 the engagement-facts and taxonomy pre-flight below. Title it `Case Study: <working title>`.
 
 ---

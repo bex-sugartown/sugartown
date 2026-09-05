@@ -2,7 +2,7 @@
 
 **Origin:** SUG-241 (2026-07-25). Closes the only gap in the Sugartown workflow that's a
 missing loop rather than a missing link: `stats.yml` runs daily, collects real Lighthouse
-CI, CrUX, security, GitHub, Sanity, and Linear roadmap data, and that data renders on
+CI, CrUX, security, GitHub, Sanity, and GitHub Projects roadmap data, and that data renders on
 `/governance` — then stops. Nothing measured after ship fed back into planning. Priority
 in the backlog came from judgment, not evidence.
 
@@ -29,7 +29,7 @@ pnpm collect:evidence-digest
 | Homepage Lighthouse performance | `perf.runs['https://sugartown.io/'].desktop.performance` |
 | Dependency vulnerabilities | `security.vulnerabilities.total` |
 | Published content documents | sum of `sanity.counts.{article,node,caseStudy,page}` |
-| Open Linear backlog items | `linearRoadmap.backlog.length` |
+| Open GitHub backlog items | `githubRoadmap.backlog.length` |
 
 If a source is unavailable (e.g. CrUX has no API key configured), the block says
 **`unavailable`** — never a defaulted zero. A measurement loop reading fabricated numbers

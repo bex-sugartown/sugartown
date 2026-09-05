@@ -76,7 +76,7 @@ export async function run(outputPath = OUTPUT_PATH, lastGoodPath = LAST_GOOD_PAT
   // Env-var guards: if the required key is absent AND last-good data exists,
   // skip the collector entirely — no failed network call, no stale write.
   const envGuards = {
-    linearRoadmap: 'LINEAR_API_KEY',
+    githubRoadmap: 'GH_PROJECTS_TOKEN',
     github:        'GITHUB_TOKEN',
   }
 
@@ -87,7 +87,7 @@ export async function run(outputPath = OUTPUT_PATH, lastGoodPath = LAST_GOOD_PAT
     github:        () => tryNetworkCollector('github',        () => import('./stats/github.js').then(m => m.collectGithub)),
     sanity:        () => tryNetworkCollector('sanity',        () => import('./stats/sanity.js').then(m => m.collectSanity)),
     siteGraph:     () => tryNetworkCollector('siteGraph',     () => import('./stats/graph.js').then(m => m.collectSiteGraph)),
-    linearRoadmap: () => tryNetworkCollector('linearRoadmap', () => import('./stats/linear.js').then(m => m.collectLinear)),
+    githubRoadmap: () => tryNetworkCollector('githubRoadmap', () => import('./stats/github-projects.js').then(m => m.collectGithubProjects)),
   }
 
   const networkResults = {}
