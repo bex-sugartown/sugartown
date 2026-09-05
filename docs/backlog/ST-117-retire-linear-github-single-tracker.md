@@ -87,9 +87,21 @@ Seven items, which crosses the sizing gate — see the scope-to-phase mapping un
   authorized) but worth a cleanup pass separately. ~70 files under `docs/backlog/` and
   `docs/shipped/` mention Linear as historical epic metadata (`**Linear Issue:** [SUG-N]`
   header boilerplate) — correctly untouched per "historical docs keep the word Linear".
-- [ ] Refresh `docs/briefs/data/linear-export-2026-08-15.csv` once as `linear-export-2026-09-{dd}.csv`, commit it, and note in the migration plan that it is the archive of record — layer: docs
-- [ ] Archive the workspace: Bex's action in Linear's settings (a session cannot); the brief records the date. Delete the `reference_linear` memory file and update `MEMORY.md` — layer: docs
-- [ ] CHANGELOG line and the brief's status set to closed — layer: docs
+- [ ] Refresh `docs/briefs/data/linear-export-2026-08-15.csv` once as `linear-export-2026-09-{dd}.csv`, commit it, and note in the migration plan that it is the archive of record — layer: docs.
+  **Blocked on Bex.** No Linear API or MCP access exists in this environment to pull the export
+  directly — it has to come from Linear's own UI export feature. Asked her to run it and hand
+  over the file.
+- [x] Archive the workspace: Bex's action in Linear's settings (a session cannot); the brief records the date. Delete the `reference_linear` memory file and update `MEMORY.md` — layer: docs.
+  **Memory half done 2026-09-05**: `reference_linear.md` deleted, `MEMORY.md` updated, a new
+  `project_linear_retirement.md` memory records the retirement and what's still pending.
+  Two more stale Linear mentions found in memory beyond this file and fixed: `feedback_reporting_style.md`
+  ("push evidence to Linear" → "to the issue") and a dangling `[[reference-linear]]` link in
+  `project_ship_cadence_plan.md`, repointed. **Workspace half blocked on Bex** — archiving in
+  Linear's settings is her action; not done.
+- [ ] CHANGELOG line and the brief's status set to closed — layer: docs.
+  **Not done yet.** CLAUDE.md's own convention adds the CHANGELOG line at `Done`, and this epic
+  isn't there — two scope items are genuinely blocked on Bex, not skipped. Add the line once
+  they land (or once she confirms Phases 1–2 are enough for now and the rest is deferred).
 
 ## Phases
 
