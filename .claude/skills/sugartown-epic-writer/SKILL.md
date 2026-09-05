@@ -49,7 +49,7 @@ gather what's missing.
 
 **Resolve before writing (or explicitly flag as open):**
 
-1. **Epic ID** — create the GitHub issue first (`gh issue create --title "{name}"`, no ID in
+1. **Epic ID** — create the GitHub issue first (`gh issue create --title "{name}" --assignee bex-sugartown`, no ID in
    the title) and read back its number. That number is the epic's `ST-{n}` ID and the
    canonical identifier — never guess it or derive it from CHANGELOG/backlog scanning. See
    `.claude/skills/new-epic/docs/new-epic-prompt.md` STEP 1 for the exact call pattern. If an

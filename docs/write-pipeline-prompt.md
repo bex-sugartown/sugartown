@@ -38,7 +38,7 @@ engineering work.
 
 **Issue shape:**
 - Title: `<Register>: <working title>` — e.g. `Node: The Witness Who Was Never in the Room`
-- `gh issue create --title "<title>"`, then add it to project 1 and set `Priority`
+- `gh issue create --title "<title>" --assignee bex-sugartown`, then add it to project 1 and set `Priority`
   (CLAUDE.md §Issue status = workflow stage)
 - Label: `content`. No register-specific label exists for node/article/case-study beyond
   that — don't invent one

@@ -66,7 +66,7 @@ Options:
 ## STEP 1 — CREATE THE ISSUE
 
 ```bash
-gh issue create --title "{epic name}" --body "{one-line description}"
+gh issue create --title "{epic name}" --body "{one-line description}" --assignee bex-sugartown
 ```
 
 No ID in the title. Read back the issue number; it is the epic's `ST-{n}` ID. Then add it to
