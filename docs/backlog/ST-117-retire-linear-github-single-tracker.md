@@ -87,10 +87,10 @@ Seven items, which crosses the sizing gate — see the scope-to-phase mapping un
   authorized) but worth a cleanup pass separately. ~70 files under `docs/backlog/` and
   `docs/shipped/` mention Linear as historical epic metadata (`**Linear Issue:** [SUG-N]`
   header boilerplate) — correctly untouched per "historical docs keep the word Linear".
-- [ ] Refresh `docs/briefs/data/linear-export-2026-08-15.csv` once as `linear-export-2026-09-{dd}.csv`, commit it, and note in the migration plan that it is the archive of record — layer: docs.
-  **Blocked on Bex.** No Linear API or MCP access exists in this environment to pull the export
-  directly — it has to come from Linear's own UI export feature. Asked her to run it and hand
-  over the file.
+- [x] Refresh `docs/briefs/data/linear-export-2026-08-15.csv` once as `linear-export-2026-09-{dd}.csv`, commit it, and note in the migration plan that it is the archive of record — layer: docs.
+  **Done 2026-09-05.** Bex ran the export from Linear's UI and handed it over;
+  `docs/briefs/data/linear-export-2026-09-05.csv` committed (264 rows, 34 columns, same shape),
+  migration plan header updated to point to it as the current archive of record.
 - [x] Archive the workspace: Bex's action in Linear's settings (a session cannot); the brief records the date. Delete the `reference_linear` memory file and update `MEMORY.md` — layer: docs.
   **Memory half done 2026-09-05**: `reference_linear.md` deleted, `MEMORY.md` updated, a new
   `project_linear_retirement.md` memory records the retirement and what's still pending.
