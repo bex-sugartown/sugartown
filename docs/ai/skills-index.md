@@ -83,7 +83,7 @@ Can also be pasted into Claude Code directly at the start of a release session.
 
 | Prompt | File | What it does |
 |---|---|---|
-| Release assistant | `docs/workflows/release-assistant-prompt.md` | Five-gate release pipeline: source of truth → CHANGELOG → release notes → commit. Nothing writes without approval. Ends at a local commit — it does not push |
+| Release assistant | `docs/workflows/release-assistant-prompt.md` | Five-gate release pipeline: source of truth → CHANGELOG → release notes → commit + tag. Nothing writes without approval. Ends local — it does not push. Milestone and GitHub Release happen later, in `/ship` PHASE 3 step 8 (issue #107) |
 
 ---
 

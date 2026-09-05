@@ -1,5 +1,16 @@
 # PROMPT — Sugartown Ship
-**Version:** v2 (2026-08-19) — consolidated from `/eod` and `/mini-release` under SUG-100 Phase 3b
+**Version:** v3 (2026-09-05)
+**Supersedes:** v2 (2026-08-19) — consolidated from `/eod` and `/mini-release` under SUG-100 Phase 3b
+
+> **v2 → v3 changes (issue #107):**
+> - Step 3's push now uses `--follow-tags`, so an annotated release tag `/release` created rides
+>   along with the commit it points at, with no separate push step.
+> - New PHASE 3 step 8: once a release commit just landed on origin and CI succeeded, create the
+>   GitHub milestone, assign issues shipped since the previous tag, and gate on publishing the
+>   GitHub Release. This is where milestone/release work happens — not in `/release` itself, which
+>   ends at a local, unpushed commit and tag.
+> - PHASE 4 closing status gained a Release publish line.
+
 **Run with:** Claude Code (project context required)
 **When to use:** Whenever you want everything currently `Done` to go live. Observed cadence is
 1–14 days, not daily — there is no "end of day" obligation. Run it when you want to ship, not on
@@ -152,7 +163,8 @@ After delivering the briefing, propose actions in this order:
 
 3. **Push to origin** (single push for all accumulated commits)
    - Show: "This will push N commits to origin/main, triggering 1 Netlify deploy"
-   - List the commits that will be pushed
+   - List the commits that will be pushed. If any is a `docs: release vX.Y.0` commit from a prior
+     `/release` run, say so explicitly — its annotated tag rides along with this push too.
    - Ask via `AskUserQuestion`:
      ```
      Question: "Push N commits to origin/main? This triggers 1 Netlify deploy."
@@ -160,6 +172,11 @@ After delivering the briefing, propose actions in this order:
        - "Push it — trigger the deploy"
        - "Stop — let me review again"
      ```
+   - Push with `git push --follow-tags` rather than a bare `git push`. `--follow-tags` sends any
+     annotated tag that points at a commit being pushed and nothing else — it will not push a
+     stray local tag unrelated to this push. This is what carries a `/release`-created tag
+     (`docs/workflows/release-assistant-prompt.md` STEP 3D) to GitHub; there is no separate tag
+     push step.
 
 4. **Verify deploy** (after push)
    - Wait 30 seconds, then check if the site is responding:
@@ -215,9 +232,73 @@ After delivering the briefing, propose actions in this order:
      (SUG-100 S9, acceptance criterion: proven by cutting a release after 2+ epics accumulate).
    - Without `--release`: skip this step. Code is live; no version is cut. `[Unreleased]` keeps
      accumulating for the next release, whenever that runs.
-   - **Do not push `/release`'s commit.** It ends at a local commit by design
-     (`docs/workflows/release-assistant-prompt.md`, Gate 5) and ships with the next `/ship`.
-     Report it as unpushed in Phase 4; that is a complete `--release` run.
+   - **Do not push `/release`'s commit or tag.** Both end local by design
+     (`docs/workflows/release-assistant-prompt.md`, Gate 5 / STEP 3D) and ship with the next
+     `/ship`. Report them as unpushed in Phase 4; that is a complete `--release` run.
+
+8. **Publish pending release** (milestone + GitHub Release) — only if step 5 concluded `success`
+   - This step is independent of whether `--release` was passed *this* run — it reacts to a
+     release commit reaching origin, which may have been created by an earlier `/release` run and
+     only now gets pushed as part of today's accumulated commits.
+   - Check the commit list step 3 already showed the human before pushing: does any of them
+     match `^docs: release v`? (Same grep `release-assistant-prompt.md` STEP 0 uses to find the
+     last MINOR release commit.) No match: skip the rest of this step, nothing to publish this run.
+   - A match names the version, `vX.Y.0`. Confirm its tag actually reached the remote (a
+     `--follow-tags` push should have carried it; this is a check, not a trust exercise):
+     ```bash
+     git ls-remote --tags origin vX.Y.0
+     ```
+     Empty result: push it explicitly (`git push origin vX.Y.0`) before continuing.
+   - **Create the milestone and assign issues shipped since the previous release.** The boundary
+     is the previous tag's date, not "every unmilestoned issue" — sweeping all history would
+     backfill milestones onto issues shipped before this mechanism existed, which issue #107 puts
+     out of scope:
+     ```bash
+     gh api repos/bex-sugartown/sugartown/milestones -f title=vX.Y.0 -f state=open
+
+     prev_tag=$(git describe --tags --abbrev=0 vX.Y.0^)
+     prev_date=$(git log -1 --format=%ad --date=short "$prev_tag")
+
+     # closed on/after the previous release, with no milestone yet
+     gh issue list --state closed --search "closed:>=$prev_date" --json number,milestone \
+       | jq -r '.[] | select(.milestone == null) | .number' > /tmp/release-candidates
+
+     # confirm each is actually Shipped on the board, not Canceled or closed for another reason
+     gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+       | jq -r '.items[] | select(.status=="Shipped") | .content.number' > /tmp/release-shipped
+     comm -12 <(sort /tmp/release-candidates) <(sort /tmp/release-shipped) > /tmp/release-final
+     ```
+     Assign each number in `/tmp/release-final`:
+     ```bash
+     gh issue edit {n} --milestone vX.Y.0
+     ```
+     Then close the milestone:
+     ```bash
+     ms_number=$(gh api repos/bex-sugartown/sugartown/milestones --jq '.[] | select(.title=="vX.Y.0") | .number')
+     gh api repos/bex-sugartown/sugartown/milestones/$ms_number -X PATCH -f state=closed
+     ```
+   - **Publish the GitHub Release (stop and ask).** Extract that version's own section from
+     `CHANGELOG.md` — the Release is a rendering of the ledger, never a rewrite of it:
+     ```bash
+     awk '/^## \[X\.Y\.0\]/{flag=1; print; next} /^## \[/{flag=0} flag' CHANGELOG.md
+     ```
+     Print the extracted section to chat, then ask via `AskUserQuestion`:
+     ```
+     Question: "Publish vX.Y.0 as a GitHub Release? Body is the CHANGELOG section shown above."
+     Options:
+       - "Publish it — create the GitHub Release"
+       - "Skip — I'll publish it manually later"
+       - "Stop — let me review the notes first"
+     ```
+     On "Publish it — create the GitHub Release": save the extracted section to a temp file and
+     run `gh release create vX.Y.0 --title vX.Y.0 --notes-file <that file>`. The tag already
+     exists on the remote (checked above), so this attaches the release to it rather than
+     creating a new one.
+     On "Skip": report the milestone as closed and the release as unpublished. Do not re-offer
+     this on a later `/ship` run — the release commit is now behind origin, so step 8's detection
+     will not fire on it again; publishing later is a manual `gh release create` command, stated
+     to the human once, not retried automatically.
+   - Report milestone state, assigned issue numbers, and release publish state in Phase 4.
 
 Execute **one action at a time**. Wait for confirmation before each step.
 
@@ -240,7 +321,8 @@ Chromatic: [no changes / N changes (approved | overridden) / skipped — no visu
 Netlify deploy: [triggered / not needed]
 CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
-Release: [--release not passed / version vX.Y.0 cut — commit local, ships with next /ship / --release passed but CI blocked it]
+Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /ship / --release passed but CI blocked it]
+Release publish (step 8): [no release commit in this push / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
 Uncommitted changes: [none / list]
 Stashes: [none / list]
 ```
@@ -265,4 +347,8 @@ close-out steps had two commands between them before this; SUG-100 §A10 has the
 - `/ship` — whenever you want to ship, not on a schedule — push, verify, transition `Done` →
   `Shipped`
 - `/ship --release` — the same, then cut a version covering everything since the last one;
-  the version commit stays local and rides the next `/ship`, so a ship is always one deploy
+  the version commit and its tag stay local and ride the next `/ship`, so a ship is always one
+  deploy
+- The `/ship` after that one is the run whose push actually lands the release commit and tag on
+  origin — that is the run whose step 8 creates the milestone and offers to publish the GitHub
+  Release (issue #107)

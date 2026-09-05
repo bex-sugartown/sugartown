@@ -50,6 +50,17 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   prompt had ever instructed that second push; both simply stopped short of saying not to, so
   the fix states the deferred-push model explicitly rather than removing a step. The
   verify-before-release ordering is untouched. ST-103.
+- `/release` now tags its version-bump commit (`vX.Y.0`, annotated, local like the commit
+  itself) instead of leaving releases untagged, so `git tag --contains <sha>` finally answers
+  "which release shipped this". `/ship` pushes that tag alongside the commit via
+  `git push --follow-tags`, then, once the tag actually lands on origin and CI succeeds, creates
+  a GitHub milestone, assigns it to every issue shipped since the previous tag (bounded by that
+  tag's date, so it does not backfill history), closes the milestone, and offers to publish a
+  GitHub Release built from that version's own `CHANGELOG.md` section. Milestone and Release work
+  couldn't live in `/release` itself: `gh release create` needs the tag on GitHub first, and
+  `/release`'s commit stays local by design (previous entry). 31 pre-existing MINOR versions were
+  already tagged retroactively on 2026-09-02; this covers everything from the next release
+  forward. #107.
 
 #### Added
 - `guard-ip-paths`, a Claude Code PreToolUse hook that refuses any Read, Edit, Write, Glob, Grep

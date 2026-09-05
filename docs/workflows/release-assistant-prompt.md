@@ -1,6 +1,12 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v4 (2026-05-14)
-**Supersedes:** v3 (2026-02-22)
+**Version:** v5 (2026-09-05)
+**Supersedes:** v4 (2026-05-14)
+
+> **v4 → v5 changes (issue #107):**
+> - New STEP 3D: after the Gate 5 commit, create an annotated tag `vX.(Y+1).0` pointing at it. The tag stays local, exactly like the commit, and ships with whatever `/ship` pushes next.
+> - Milestone creation and the GitHub Release are **not** done here — `gh release create`'s own help text says a tag must be pushed to GitHub before a release can be built from it, and `/release`'s commit is local-only by design. Both now live in `docs/ship-prompt.md` PHASE 3 step 8, which runs once the release commit and tag actually reach origin.
+> - RELEASE COMPLETION CHECKLIST gained a tag line.
+> - New Enforcement Rule: `/release` must not attempt to create a milestone or GitHub Release itself.
 
 > **v3 → v4 changes:**
 > - Clarified two-tier release model: `/release` always produces a MINOR bump (X.(Y+1).0). Patch numbers are owned by mini-releases only. Full releases never target a patch version.
@@ -391,13 +397,32 @@ Options:
 
 **AI must not commit until "Commit it — create the release commit" is selected.**
 
-**Stop at the commit. Do not push it, and do not ask whether to.** The release commit stays
-local and ships with whatever `/ship` runs next, like any other close-out commit — pushing it
-here buys a second Netlify deploy for work the `/ship` that just ran already deployed
-(measured 2026-08-21, both billed; ST-103).
+---
 
-This is the end of `/release`, not a step left undone. The verify-before-release ordering is
-unchanged: `/release` still runs only after `/ship` Phase 3 step 5 confirms CI succeeded.
+### STEP 3D — Tag the Release
+
+Immediately after the Gate 5 commit is created, tag it:
+
+```bash
+git tag -a vX.(Y+1).0 -m "Release vX.(Y+1).0"
+```
+
+No separate gate — tagging the commit that was just approved is the same action, not a new one.
+The tag is annotated so `/ship` PHASE 3 step 3's `git push --follow-tags` picks it up automatically
+alongside the commit it points at.
+
+**Stop at the commit and tag. Do not push either, and do not ask whether to.** They stay
+local and ship with whatever `/ship` runs next, like any other close-out commit — pushing here
+buys a second Netlify deploy for work the `/ship` that just ran already deployed (measured
+2026-08-21, both billed; ST-103).
+
+This is the end of `/release`'s own writes. The verify-before-release ordering is unchanged:
+`/release` still runs only after `/ship` Phase 3 step 5 confirms CI succeeded.
+
+**Milestone assignment and the GitHub Release are not done here.** `gh release create --help`
+is explicit: a tag has to exist on GitHub before a release can be built from it, and this
+commit and tag are local-only until a future `/ship` pushes them. Both happen in
+`docs/ship-prompt.md` PHASE 3 step 8, triggered once the push actually lands them on origin.
 
 > **Note — RELEASE_STATE.json (retired):**
 > This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:tokens`, `pnpm lint`, and validator output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
@@ -436,6 +461,8 @@ Artifacts:
   ✅  RELEASE_NOTES.md — updated to vX.(Y+1).0
   ✅  docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md — archived
   ✅  Committed: [commit hash] — local, ships with the next `/ship`
+  ✅  Tagged: vX.(Y+1).0 — local, ships with the next `/ship`
+       (milestone + GitHub Release happen later, in `/ship` PHASE 3 step 8)
 
 Version bumps confirmed:
   ✅  package.json → X.(Y+1).0
@@ -464,6 +491,8 @@ Fail if:
 - Empty surfaces are included in CHANGELOG (e.g. `### apps/storybook` with no bullets).
 - The full release version is a patch number (e.g. `[0.23.27]`) — full releases must always be MINOR (`[0.24.0]`).
 - AI writes to disk before human approval at the relevant gate.
+- `/release` attempts to create a GitHub milestone or GitHub Release itself. It cannot — the tag
+  it just created is local — and must not try. That work belongs to `/ship` PHASE 3 step 8.
 
 If failure, output:
 
