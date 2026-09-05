@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-117 — Retire Linear; GitHub is the single tracker
 **Issue:** [#117](https://github.com/bex-sugartown/sugartown/issues/117)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 ---
@@ -199,6 +199,31 @@ ambiguity.
 - **Changing the board's fields, views or automations.** They worked through the trial.
 - **Deleting the Linear account.** Archive, and keep the export; deletion is Bex's, later, if
   ever.
+
+## Close-out summary, 2026-09-05
+
+Phase 1: migration plan §13 review answered and decided (Migrate); `apps/web/scripts/stats/github-projects.js`
+replaces `linear.js`, `stats.githubRoadmap` replaces `linearRoadmap`; `GH_PROJECTS_TOKEN`
+verified live via `workflow_dispatch` on `stats.yml` after Bex added the secret (run
+33974294068, `success`, real counts matching the board exactly). Phase 2: 15 instruction/
+convention files swept, not the 10 originally scoped — a broader check caught more, including a
+real bug in `scripts/monthly-evidence-digest.js` that would have silently gone blank. Phase 3:
+memory cleanup done; export refreshed (`linear-export-2026-09-05.csv`); workspace deletion
+turned out to be the only option Linear offers (no archive/read-only), so Bex chose not to
+delete it, per this epic's own Non-Goals.
+
+Two follow-ups spawned and completed on separate branches, not part of this epic's own scope:
+a PRD's open decision (D-1) that Linear's retirement resolved, and dormant `mcp__plugin_linear_linear__*`
+permissions removed from `.claude/settings.json`. Neither merged yet.
+
+Close-out steps: 1 committed; 1b smoke run at close-out, 5/5 green; 2 N/A no schema; 3 Visual QA
+approved (no vspec — data-source swap, not a new visual format; two elements flagged unverified
+rather than padded in: the stale/empty-state Callouts on `/platform/governance`, never triggered
+live, and `TrustReportSection`'s `issueId` field, no page checked renders that component); 4
+Chromatic deferred to ship time (`GovernancePage.jsx` text/href changes only, no CSS or
+structural JSX) — <!-- Chromatic: pending -->; 5 N/A, real data verified flowing through CI
+above; 5b N/A, no epic-to-epic handoff; 6 moved to `docs/shipped/`; 6b N/A no vspec; 7 CHANGELOG
+line added; 8 issue closed; 9 tree clean.
 
 ## Related
 
