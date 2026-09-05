@@ -41,7 +41,7 @@ literal `{{token}}` form in dev (fail-visible), and are stripped in production.
 | `crux`          | Chrome UX Report API (origin)         | Daily CI       | 1b    | `CRUX_API_KEY`      |
 | `perf`          | Lighthouse CI JSON (`.lighthouseci/`) | Daily CI       | 1b    | —                   |
 | `siteGraph`     | Sanity GROQ relationship queries      | Daily CI       | 1b    | `VITE_SANITY_TOKEN` |
-| `linearRoadmap` | Linear GraphQL API                    | Daily CI       | 1b    | `LINEAR_API_KEY`    |
+| `githubRoadmap` | GitHub Projects v2 GraphQL API        | Daily CI       | 1b    | `GH_PROJECTS_TOKEN` |
 | `ga4`           | Google Analytics Data API             | Phase 2        | 2     | —                   |
 | `gsc`           | Google Search Console API             | Phase 2        | 2     | —                   |
 
@@ -57,7 +57,7 @@ literal `{{token}}` form in dev (fail-visible), and are stripped in production.
  *.stories.*          ──┤    GitHub REST API      ──┤
  docs/shipped/        ──┤    CrUX API             ──┤
  git rev-list         ──┘    .lighthouseci/       ──┤
-                             Linear GraphQL API   ──┘
+                             GitHub Projects GraphQL──┘
           │                          │
           └──────────┬───────────────┘
                      ▼
@@ -109,7 +109,7 @@ literal `{{token}}` form in dev (fail-visible), and are stripped in production.
 | `apps/web/scripts/stats/github.js` | `github` namespace |
 | `apps/web/scripts/stats/crux.js` | `crux` namespace |
 | `apps/web/scripts/stats/perf.js` | `perf` namespace (reads `.lighthouseci/`) |
-| `apps/web/scripts/stats/linear.js` | `linearRoadmap` namespace |
+| `apps/web/scripts/stats/github-projects.js` | `githubRoadmap` namespace |
 | `apps/web/scripts/stats/graph.js` | `siteGraph` namespace |
 | `apps/web/src/lib/stats.js` | Exports `stats`, helpers, `interpolateStatsVars`, `useStats` |
 | `apps/web/src/lib/portableTextStatsVars.js` | `preprocessPortableText(blocks)` |
@@ -145,7 +145,7 @@ literal `{{token}}` form in dev (fail-visible), and are stripped in production.
 
 **The last-good cache** (`stats.last-good.json`) is the key defence against data loss.
 It is written only when a collector returns fresh data — a failed or keyless CI run
-never touches it. This means a CI run with a missing `LINEAR_API_KEY` cannot overwrite
+never touches it. This means a CI run with a missing `GH_PROJECTS_TOKEN` cannot overwrite
 a previously successful roadmap fetch. The fallback chain is:
 
 ```
@@ -167,19 +167,19 @@ fresh collector result
 | `VITE_SANITY_TOKEN` | `sanity` collector |
 | `GITHUB_TOKEN` | `github` collector (auto-provided by Actions) |
 | `CRUX_API_KEY` | `crux` collector (free-tier Google API key) |
-| `LINEAR_SUGARTOWN_STATS` | `linearRoadmap` collector — passed as `LINEAR_API_KEY` env var. Personal access token with read scope from linear.app/settings/api. |
+| `GH_PROJECTS_TOKEN` | `githubRoadmap` collector — fine-grained PAT with Projects read access. The default `GITHUB_TOKEN` cannot reach Projects v2 data; no `permissions:` block scope covers it (ST-117). |
 
 ---
 
 ## Collector-specific notes
 
-### `linearRoadmap`
+### `githubRoadmap`
 
-- Env var name in collector: `LINEAR_API_KEY`
-- GitHub secret name: `LINEAR_SUGARTOWN_STATS` (mapped in `stats.yml`)
-- Auth: pass the personal token value directly as the `Authorization` header (no `Bearer` prefix)
-- Query: fetches all issues via `teams` query, filters in JavaScript by `state.type` (`started`, `backlog`, `unstarted`, `completed`). Inline GraphQL enum filters caused 400 errors in CI — keep filtering in JS.
-- Diagnosis: if `linearRoadmap.stale === true` in stats.json after a CI run, check the `Collect all stats` step log for `[stats] linearRoadmap collector failed`. The error message now includes the response body.
+- Env var name in collector: `GH_PROJECTS_TOKEN`
+- GitHub secret name: `GH_PROJECTS_TOKEN` (mapped in `stats.yml`)
+- Auth: `Authorization: Bearer <token>` header against `api.github.com/graphql`
+- Query: fetches project 1's items via `user(login:) { projectV2(number:) { items } }` — `bex-sugartown` is a user account, not an org, so `user(login:)` is required (`organization(login:)` 404s). Groups by the board's own `Status` field (`In Progress`, `Todo`/`Backlog`, `Done`/`Shipped`); `On Hold`/`Canceled` excluded from every bucket.
+- Diagnosis: if `githubRoadmap.stale === true` in stats.json after a CI run, check the `Collect all stats` step log for `[stats] githubProjects: GH_PROJECTS_TOKEN not set` or a GraphQL error. Replaced `linearRoadmap`/`linear.js` (ST-117, 2026-09-05).
 
 ### `crux`
 

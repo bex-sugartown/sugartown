@@ -14,13 +14,11 @@ Loads when a session reads an epic doc, the template, or the epic-filing skills.
 
 When creating a new epic in `docs/backlog/`:
 
-1. **Create the GitHub issue first** — its number is the epic's ID (`CLAUDE.md` §Tracker writes go to
-   GitHub only)
+1. **Create the GitHub issue first** — its number is the epic's ID
+   (`.claude/skills/new-epic/docs/new-epic-prompt.md` has the `gh issue create` mechanics)
 2. **Name the file** `docs/backlog/ST-{github issue number}-{descriptive-name}.md`
 3. **Link the issue** in the file header (`**GitHub Issue:** [#{n}](url)`)
-4. **Prioritize on the board** — set `Priority` on the project item. Until 2026-09-09 Linear
-   still holds the ordering for the 58 migrated issues and is read for it, but new work is
-   prioritized in GitHub
+4. **Prioritize on the board** — set `Priority` on the project item
 5. **Decompose above the sizing gate** — epics with more than 5 Scope items carry a
    scope-to-phase mapping in the epic doc. Numbered phases do not trigger it. **One epic is
    one issue; never file sub-issues.** See
@@ -34,11 +32,12 @@ skill carries its own activation gate, since §Incomplete epic doc hard stop rea
 and a tool has none. Use `/new-epic` when the work changes what a user sees, `/new-tool` when it
 changes what the repo does to itself.
 
-**Two ID eras, and they overlap.** `SUG-5`–`SUG-284` are Linear IDs on existing epics and never
-change. `ST-{n}` is a GitHub issue number on epics created from 2026-08-16. The prefix carries
-the era because the ranges collide: `SUG-93` is a legacy epic doc *and* GitHub issue #93 is a
-different epic. **Never mint a `SUG-` ID again, and never derive an `ST-` number — GitHub
-assigns it.** Full rationale: `docs/briefs/linear-to-github-migration-plan.md` §2.1.
+**Two ID eras, and they overlap.** `SUG-5`–`SUG-284` are IDs from Linear (retired 2026-09-05,
+ST-117) on existing epics and never change. `ST-{n}` is a GitHub issue number on epics created
+from 2026-08-16. The prefix carries the era because the ranges collide: `SUG-93` is a legacy
+epic doc *and* GitHub issue #93 is a different epic. **Never mint a `SUG-` ID again, and never
+derive an `ST-` number — GitHub assigns it.** Full rationale:
+`docs/briefs/linear-to-github-migration-plan.md` §2.1.
 
 ### Multi-phase epic merge cadence
 

@@ -11,19 +11,19 @@
 ## Epic Lifecycle
 
 Epics follow a three-stage lifecycle, tracked by **issue ID** (not sequential EPIC numbers):
-`SUG-{N}` on epics created in Linear, `ST-{n}` on epics created from 2026-08-16, where `{n}` is
-the GitHub issue number. Issue status is a byproduct of running this lifecycle, not a separately
-maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
+`SUG-{N}` on epics created in Linear (retired 2026-09-05, ST-117), `ST-{n}` on epics created
+from 2026-08-16, where `{n}` is the GitHub issue number. Issue status is a byproduct of running
+this lifecycle, not a separately maintained field — see CLAUDE.md §Issue status = workflow
+stage (SUG-246).
 
 **1. Backlog** (`docs/backlog/ST-{n}-{name}.md`)
-- When authoring a new epic, **create the issue first**. Until 2026-09-09 tracker writes
-  go to GitHub only — CLAUDE.md §Tracker writes go to GitHub only
+- When authoring a new epic, **create the issue first** — GitHub is the only tracker
 - Use the GitHub issue number in the filename: `ST-95-liveness-probes-only.md`. Existing
-  `SUG-{N}` files keep their Linear IDs and are never renumbered; the two ranges overlap, so the
-  prefix is what carries the era (`.claude/rules/epics.md` §Epic authoring)
+  `SUG-{N}` files keep their IDs from Linear and are never renumbered; the two ranges overlap,
+  so the prefix is what carries the era (`.claude/rules/epics.md` §Epic authoring)
 - Update the **GitHub Issue** field in the file header with the issue link
-- Status in Linear: **Backlog** (just filed) → **Todo** (promoted to the top of `## 01 · Next`
-  by the human when they prioritize it for pickup)
+- Status on the board: **Backlog** (just filed) → **Todo** (promoted to the top of
+  `## 01 · Next` by the human when they prioritize it for pickup)
 
 **2. Active** (implementation underway)
 - Status: **In Progress** — set as soon as the Pre-Execution Completeness Gate below
@@ -37,7 +37,7 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 - Move the file from `docs/backlog/` to `docs/shipped/`
 - Keep the same filename (e.g. `SUG-30-image-treatments-gallery.md`)
 - Remove the file from `docs/backlog/` (it now lives in `docs/shipped/`)
-- Transition the issue to **Done** — in GitHub; Linear is frozen for the trial
+- Transition the issue to **Done** — in GitHub
 
 > **`docs/backlog/`** — full epic specs. The working document Claude Code reads during execution.
 > **`docs/shipped/`** — completed epics. Historical reference. (Renamed from `docs/prompts/`.)
@@ -248,14 +248,14 @@ maintained field — see CLAUDE.md §Issue status = workflow stage (SUG-246).
 
 > Decompose when the epic has more than 5 Scope items. Numbered phases do not trigger this.
 > Below that, skip this section — most Sugartown epics are single-session and gain nothing
-> from one work unit per Scope item. **Decomposition lives in this doc, not in Linear: one
+> from one work unit per Scope item. **Decomposition lives in this doc, not in issues: one
 > epic is one issue, never sub-issues.** Full definition and a worked example:
 > `docs/conventions/user-story-conventions.md`.
 
 - [ ] Sizing gate checked — epic crosses it / stays flat (state which)
 - [ ] If crossing: scope-to-phase mapping table present, every Scope item naming the phase
   that ships it, so `Scope ∖ Phases` is empty
-- [ ] No Linear sub-issues filed for this epic
+- [ ] No sub-issues filed for this epic
 
 ---
 
@@ -583,7 +583,7 @@ State how re-running the script produces no change:
 1. **Storybook story exists** for every new or modified component
    - Story covers: default state, all variants, edge cases (long text, missing fields, empty arrays)
    - Story renders without console errors
-   - **Dark mode verified**: component renders correctly on `dark-pink-moon` theme in Storybook. If not verified, a Linear gap issue must be open before this epic closes. "Untested" is not a valid close-out state.
+   - **Dark mode verified**: component renders correctly on `dark-pink-moon` theme in Storybook. If not verified, a gap issue must be open before this epic closes. "Untested" is not a valid close-out state.
 
 2. **Component registry updated** (if applicable): `docs/conventions/component-registry.md` reflects the final state — new rows added, gaps flagged, retired rows removed.
 
@@ -666,6 +666,6 @@ State how re-running the script produces no change:
    **Not a version bump.** That happens separately, whenever `/ship --release` next runs, and
    covers everything accumulated since the last release — not just this epic (CLAUDE.md §Epic
    close-out sequence step 7, SUG-100 S9, consolidated 2026-08-19). `/mini-release` retired.
-7. **Update the tracker** — transition the epic's issue to **Done**. One epic is one issue, so there are no sub-issues to close. Until 2026-09-09 the write goes to GitHub only (CLAUDE.md §Tracker writes go to GitHub only).
+7. **Update the tracker** — transition the epic's issue to **Done** with `gh issue close {n}` (CLAUDE.md §Issue status = workflow stage). One epic is one issue, so there are no sub-issues to close.
 8. **Start next epic** — only after the CHANGELOG line and the `Done` transition are confirmed.
    Nothing here pushes; that happens separately at the next `/ship`.

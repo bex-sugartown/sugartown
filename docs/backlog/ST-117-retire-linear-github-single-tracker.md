@@ -52,7 +52,41 @@ Seven items, which crosses the sizing gate — see the scope-to-phase mapping un
 - [x] Run the migration plan's §13 review as the first step, four days early: §13.3 (did the board track reality, was the priority view used, were the four automations enabled) and §13.4's carried decisions; §13.1 capacity and §13.2 API re-check are recorded as moot because the decision is to leave. Record the answers in the brief — layer: docs. **Done 2026-09-05** — answers recorded in `docs/briefs/linear-to-github-migration-plan.md` §13.1–13.5; decision recorded as Migrate. Found beyond the plan's own audit: GitHub's default workflow set has moved since 2026-08-15 (`ProjectV2.workflows` GraphQL field, unknown to the plan) — no "Item reopened" workflow exists under that name; SUG-249 is still an unscoped stub and its disposition is explicitly left open, not resolved here (out of ST-117's remit)
 - [x] Repoint the roadmap block: replace `apps/web/scripts/stats/linear.js` with a collector that reads project 1 through the GitHub Projects GraphQL API (status buckets `In Progress`, `Todo`/`Backlog`, `Done`/`Shipped`, plus `fetchedAt`), writing the same field shape so `GovernancePage.jsx` and `TablesDevPage.jsx` need no change, or a renamed `githubRoadmap` with both consumers updated in the same commit — layer: tooling + frontend. **Done 2026-09-05** — `apps/web/scripts/stats/github-projects.js` (new), wired into `collect-stats.js`; top-level key renamed to `githubRoadmap` (both consumers updated, one line each — `linearRoadmap` was a stale name the moment it stopped meaning Linear). Verified live against project 1 with `gh auth token`: 1 in progress / 63 backlog / 19 completed, matching the board. `/platform/governance` re-verified in-browser after the change: roadmap renders, no `linear.app` links or console errors, hero subtitle and section copy updated. Beyond the enumerated surface table: found and fixed four more Linear-branded strings on the same page (subtitle, a workflow-doc-index row, the "In flight" StatCard href, two roadmap Callout links) that the plan's grep never caught, plus a same-pattern misnamed `linearIssue` field in the unrelated `changelog.js` collector (already dual-era SUG-/ST- aware, just mislabeled) — renamed to `issueId`, one consumer (`TrustReportSection.jsx`) updated
 - [x] Remove the `LINEAR_SUGARTOWN_STATS` secret from `stats.yml` and the collector's error text; the workflow's existing `GITHUB_TOKEN` needs `read:project` scope, verified by running the collector in CI once — layer: tooling. **Code done 2026-09-05** — `stats.yml` now passes `GH_PROJECTS_TOKEN` instead. **CI verification blocked on Bex**: the default Actions `GITHUB_TOKEN` cannot be granted Projects v2 read access via the `permissions:` block (confirmed: Projects isn't a grantable scope there) — this needs a fine-grained PAT with Projects read access added as a new repo secret named `GH_PROJECTS_TOKEN`, which only Bex can create. Instructions handed over separately (not a session action — GitHub account settings)
-- [ ] Sweep the ten instruction files: delete `CLAUDE.md` §Tracker writes go to GitHub only in full (its own text says to delete it at the review), reword every remaining "Linear" to "issue" or "the board" per `CLAUDE.md` §Write "issue", drop the `blockedBy` relation sentence, retitle `docs/write-pipeline-prompt.md` §0 to "Tracking issue" with `gh issue create` mechanics, and update the epics rule's ID-era note to say Linear is archived. Each rule-file edit goes through the write gate and the followability walkthrough; run `node scripts/check-renamed-headings.js` on `CLAUDE.md` — layer: docs
+- [x] Sweep the ten instruction files: delete `CLAUDE.md` §Tracker writes go to GitHub only in full (its own text says to delete it at the review), reword every remaining "Linear" to "issue" or "the board" per `CLAUDE.md` §Write "issue", drop the `blockedBy` relation sentence, retitle `docs/write-pipeline-prompt.md` §0 to "Tracking issue" with `gh issue create` mechanics, and update the epics rule's ID-era note to say Linear is archived. Each rule-file edit goes through the write gate and the followability walkthrough; run `node scripts/check-renamed-headings.js` on `CLAUDE.md` — layer: docs.
+  **Done 2026-09-05.** All ten swept. Gate-approved diffs (two rounds, all approved) covered
+  `CLAUDE.md`, `.claude/rules/epics.md`, `.claude/skills/new-epic/docs/new-epic-prompt.md`,
+  `.claude/skills/sugartown-epic-writer/SKILL.md`, `docs/epic-template.md`,
+  `docs/conventions/stats-pipeline.md`, `docs/conventions/feedback-loop.md`,
+  `docs/conventions/user-story-conventions.md`, `docs/conventions/usage-doc-style-guide.md`.
+  Ungated (no diff-approval needed, still ran the followability walkthrough):
+  `docs/workflows/morning-housekeeping-prompt.md` (replaced the whole "Linear Status" section
+  with a "Board Status" one using `gh project item-list`, rather than deleting it outright — the
+  underlying need didn't go away), `docs/workflows/release-assistant-prompt.md`,
+  `docs/write-node-prompt.md`, `docs/ai/README.md`. `check-renamed-headings.js` run on every
+  file with a removed/renamed heading; one dangling reference caught and fixed
+  (`docs/write-blog-prompt.md` and `docs/write-casestudy-prompt.md` both had the identical
+  "Step 0.5 — Linear tracking ticket" heading, missed by the original ten-file list since they
+  weren't on it — fixed to match).
+
+  **Found beyond the ten-file list, fixed:** `apps/web/vite.config.js` (a code comment naming
+  the old field/env var), `scripts/monthly-evidence-digest.js` (a real bug — it read
+  `stats.linearRoadmap` and would have silently reported "unavailable" backlog counts forever
+  after the Phase 1 rename; caught by re-testing the Phase 1 change's blast radius, not by the
+  grep list), `docs/conventions/stats-pipeline.md` and `docs/conventions/feedback-loop.md`
+  (detailed collector docs the original grep missed because they're about the pipeline, not
+  about Linear the tracker), `docs/conventions/user-story-conventions.md` and
+  `docs/conventions/usage-doc-style-guide.md` (both say "one epic is one Linear issue" /
+  "backlog goes in Linear").
+
+  **Found, deliberately left alone:** `docs/workflows/rules-tools-audit-runbook.md` cites PRD
+  decision **D-1: Linear tracking** (`docs/briefs/rules-tools-audit-prd.md`) verbatim — a real,
+  still-open decision owned by Bex with "no Linear, repo-only" as one of three options. Now that
+  Linear is retired, that option is the only one left standing, but resolving someone else's
+  open decision is outside ST-117's remit — flagged for Bex, not resolved here. `.claude/settings.json`
+  still grants `mcp__plugin_linear_linear__*` tool permissions; harmless (the connector isn't
+  authorized) but worth a cleanup pass separately. ~70 files under `docs/backlog/` and
+  `docs/shipped/` mention Linear as historical epic metadata (`**Linear Issue:** [SUG-N]`
+  header boilerplate) — correctly untouched per "historical docs keep the word Linear".
 - [ ] Refresh `docs/briefs/data/linear-export-2026-08-15.csv` once as `linear-export-2026-09-{dd}.csv`, commit it, and note in the migration plan that it is the archive of record — layer: docs
 - [ ] Archive the workspace: Bex's action in Linear's settings (a session cannot); the brief records the date. Delete the `reference_linear` memory file and update `MEMORY.md` — layer: docs
 - [ ] CHANGELOG line and the brief's status set to closed — layer: docs

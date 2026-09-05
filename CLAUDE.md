@@ -81,7 +81,7 @@ blocking) — but the defer decision itself is not restated (SUG-100 S3). `/mini
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
 7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. The version bump is not this step's job: it happens at the ship step — `/ship --release`, which invokes `/release` rather than
 reimplementing it (SUG-100 S9, consolidated 2026-08-19). The ship step operates on **everything currently `Done`**, not just this epic — the observed interval between ship events is 1–14 days, so scoping any step to "today's work" silently drops what accumulated on the days nobody ran it (SUG-100 S14). A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed, whether or not a version has been cut yet.
-8. **Update the tracker** — transition the epic's issue to **Done**. Until 2026-09-09 the write goes to GitHub only — see §Tracker writes go to GitHub only.
+8. **Update the tracker** — transition the epic's issue to **Done** with `gh issue close {n}` (§Issue status = workflow stage).
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
 
 Do not carry uncommitted changes across epic boundaries. If the tree is dirty when a new epic begins, commit or stash (`git stash push -m "WIP: SUG-{N} — <reason>"`) first.
@@ -204,6 +204,9 @@ Set `In Progress` by editing the project item's `Status`. Set `Done` with `gh is
 and let the `Item closed` workflow stamp the status — do not set the field by hand, for the
 same ordering reason as §Done vs Shipped. `/ship` step 6 handles `Shipped`.
 
+**`Item closed` is forward-looking only.** It does not close pre-existing drift: an issue closed
+before the automation existed keeps whatever `Status` it already had, and is corrected by hand.
+
 ```bash
 # item id for issue {n}
 gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
@@ -230,55 +233,17 @@ Abandoning execution returns the issue to `Todo`, or `On Hold` if blocked. Never
 your control and work deliberately parked, and it is the human's call in both directions.
 Exits to `In Progress` when work resumes, or to `Canceled` if it never does.
 
-`On Hold` exists on the GitHub board only; Linear has no equivalent, so the two are not a
-strict mirror. That ends with the trial (§Tracker writes go to GitHub only).
-
 **Write "issue", not "Linear issue" or "GitHub issue".** Every rule in this repo outlives the
 tracker it was written under, and naming one bakes a migration into the prose. Name a platform
-only where the mechanics are platform-specific — a `gh` command, a field ID, a trial-scoped
-instruction about which tracker to write to. Everywhere else the word is `issue`.
+only where the mechanics are platform-specific — a `gh` command, a field ID. Everywhere else
+the word is `issue`.
 
-**There is one priority queue and no second copy.** During the trial it is the GitHub board
-(§Tracker writes go to GitHub only).
+**There is one priority queue and no second copy: the GitHub board.**
 `docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05.
-`/platform/governance` renders priority data from `stats.linearRoadmap`.
+`/platform/governance` renders priority data from `stats.githubRoadmap`.
 
 Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic-template.md`
-§Epic Lifecycle. Cross-epic dependencies stated as "blocked on SUG-X" in a backlog doc must
-also exist as a real Linear `blockedBy`/`blocks` relation (Linear MCP `save_issue`) — a
-dependency written only as prose is invisible to anyone using Linear as the priority queue.
-
-### Tracker writes go to GitHub only, until 2026-09-09
-
-**Temporary. Delete this section at the 2026-09-09 review** — see
-`docs/briefs/linear-to-github-migration-plan.md` §13.
-
-**Every tracker write in this file, `docs/epic-template.md`, and the skills goes to GitHub.
-Write nothing to Linear.** Create, status transition, close, relation: GitHub. This is the
-migration plan's own dual-system rule — GitHub is where work happens, Linear is frozen in
-practice — and the reason is that two writable backlogs is the second-copy problem v0.33.0
-ended.
-
-| Operation | Where |
-|---|---|
-| Create issue | `gh issue create --title "{title}"` — no ID in the title. Add to project 1, set `Priority`. The number it returns is the epic's `ST-{n}` ID |
-| Status `Backlog` / `Todo` / `In Progress` | The project item's `Status` field |
-| Status `Done` (close-out step 8) | `gh issue close {n}` — the `Item closed` workflow sets `Status: Done` |
-| `blockedBy` / `blocks` relation | State it in the issue body; GitHub has no relation field |
-| Gap issue (e.g. dark-mode untested) | GitHub |
-
-**Linear is read-only for the trial, and cannot accept new issues regardless:** the workspace
-has been at its 250-issue lifetime cap since 2026-08-09, and auto-archive does not clear the
-bulk until roughly 2026-09-08. Reading Linear is still fine — it holds the priority ordering
-for the 58 migrated issues, and the stats collector queries its GraphQL API for
-`stats.linearRoadmap`. Neither is affected.
-
-**Migrated issues keep two records that will diverge.** That is expected and is not reconciled
-during the trial; the 2026-09-09 decision resolves it in one direction. Do not hand-sync them.
-
-One thing this does not do: **it does not close pre-existing drift.** The `Item closed`
-workflow is forward-looking only, so an issue closed before the automation existed keeps a
-stale `Status` and is corrected by hand.
+§Epic Lifecycle.
 
 ### Merge conflict cleanup
 
@@ -572,7 +537,7 @@ Before creating **any** new taxonomy document (`tag`, `category`, `person`, `too
 Then:
 
 1. **Diff the requested label against existing `name` values.** If an 80%+ semantic match exists, use the existing document — do not create a new one.
-2. **Check Linear/backlog for an active cleanup or dedup epic** (e.g. SUG-74). If one is in-flight, do not add new taxonomy without explicit user approval.
+2. **Check the backlog for an active cleanup or dedup epic** (e.g. SUG-74). If one is in-flight, do not add new taxonomy without explicit user approval.
 3. **Check the field is correct for the type** — all five taxonomy primitives use `name` as the display field (not `title`). GROQ projects `"title": name` in fragments. Querying `title` directly will return null and make existing docs look empty.
 4. **Flag tool/platform names** — the tag schema vocabulary says tool names (Figma, Sanity, Shopify, etc.) belong in `tools[]` on content documents, not as `tag` docs. If a requested tag label is a tool or platform name, surface this before creating: "This is a platform name — confirm it should be a tag rather than a tool ref."
 
@@ -602,7 +567,7 @@ Produce a **vspec-to-build comparison table** before requesting close-out. The t
 
 Applies to any technical or architecture diagram destined for a published surface: Sanity upload, case study, article, docs site, social post.
 
-**Any figure you report carries the command that produced it.** A count, size, line number or measurement in a shipped doc, release note, commit message or Linear description names the command, not the document you read it from. Quoting a figure from a prior doc is how it goes stale without anyone noticing. (SUG-243 reported four wrong numbers this way, each corrected by running something.)
+**Any figure you report carries the command that produced it.** A count, size, line number or measurement in a shipped doc, release note, commit message or issue description names the command, not the document you read it from. Quoting a figure from a prior doc is how it goes stale without anyone noticing. (SUG-243 reported four wrong numbers this way, each corrected by running something.)
 
 **This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table and evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally that is true when written and never re-measured becomes a false public claim silently.
 

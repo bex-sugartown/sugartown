@@ -68,7 +68,7 @@ Bullets only. Link to WCAG criterion by number if applicable.
 ## What to exclude
 
 - **Origin stories** — "this doc was triggered by a question about..." belongs in a commit message, not a usage doc.
-- **Phase N candidates** — backlog goes in Linear, not in published docs.
+- **Phase N candidates** — backlog goes in the issue tracker, not in published docs.
 - **Uncertainty markers** — "TBD", "we might want to", "this could be extended". If it's not decided, don't document it.
 - **Repeated headings from other docs** — if a rule is already in `CLAUDE.md` or another usage doc, link to it, don't restate it.
 - **Internal rationale** — "we chose this because of a session on 2026-06-02". The rule stands on its own.
