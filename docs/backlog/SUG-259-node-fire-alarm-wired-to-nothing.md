@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-259 — Node: The Fire Alarm Was Wired to Nothing (working title)
 **Linear Issue:** [SUG-259](https://linear.app/sugartown/issue/SUG-259/node-the-fire-alarm-was-wired-to-nothing-working-title)
-**Status:** Todo
+**Status:** In Progress — Sanity draft created 2026-09-05, awaiting human review and the publish decision
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — draft, review, publish as one unit
 ---
@@ -51,10 +51,10 @@ passes the compliance gate and is reviewed before publish.
 
 - [x] Outline of facts
 - [x] Theme + spine selected
-- [ ] Open questions resolved (name SUG-245 directly? status field?) — layer: editorial
-- [ ] Discovery run — taxonomy pre-flight + related-content check — layer: content
-- [ ] Draft created in Sanity (draft ID recorded here once it exists) — layer: content
-- [ ] Compliance gate passed — layer: process
+- [x] Open questions resolved — SUG-245 named directly (public repo, checkable, the sharpest beat); status `exploring`; series left unset because Part 2 has no issue and no `series` document exists; no diagram in this draft (needs committed source and claim table first). Reversible at review — layer: editorial
+- [x] Discovery run 2026-09-05 — categories Governance + AI; tags Post Mortem, AI Hallucinations, AI Limitations, agentic caucus, release management, Audit; tools Claude Code, GitHub, Netlify, Turborepo, Storybook (no `Chromatic` tool document exists; not created); project Sugartown CMS; related: Post-Mortems as System Upgrades, Release Governance: Storybook Smoke Check, Show Me the Computed Values — layer: content
+- [x] Draft created in Sanity 2026-09-05 — `drafts.1ae1eb70-4c13-48ed-84bd-1c15e0efb8df`, slug `the-fire-alarm-was-wired-to-nothing`, 1,593 words of prose plus three tables (1,907 including cells), `aiDisclosure` "Narrated by Claude, directed by Bex Head." — layer: content
+- [x] Compliance gate passed 2026-09-05 — no banned vocabulary or filler, no triple openers, zero "we", zero em dashes, narrator "I", Bex named; every figure is the 2026-07-27 measurement stated with its date; the four kicker commits and today's governance-page state re-verified before drafting — layer: process
 - [ ] Human review — layer: process
 - [ ] Publish decision — layer: process (Human-Publishes Rule applies)
 
