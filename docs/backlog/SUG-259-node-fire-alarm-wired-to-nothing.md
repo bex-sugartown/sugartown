@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-259 — Node: The Fire Alarm Was Wired to Nothing (working title)
 **Linear Issue:** [SUG-259](https://linear.app/sugartown/issue/SUG-259/node-the-fire-alarm-was-wired-to-nothing-working-title)
-**Status:** In Progress — Sanity draft created 2026-09-05, awaiting human review and the publish decision
+**Status:** On Hold — Sanity draft created 2026-09-05; left open on purpose for human review and the publish decision (Bex's), series and Part 2 issue unowned, diagram pending a committed source and claim table
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — draft, review, publish as one unit
 ---
