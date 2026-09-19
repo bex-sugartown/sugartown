@@ -66,8 +66,15 @@ Options:
 ## STEP 1 — CREATE THE ISSUE
 
 ```bash
-gh issue create --title "{epic name}" --body "{one-line description}" --assignee bex-sugartown
+gh issue create --title "{epic name}" --body "{one-line description}" --assignee bex-sugartown \
+  --label "{labels}"
 ```
+
+**`{labels}` comes from the Step 0 tags.** Pass each tag that matches an existing label
+(`gh label list`; matching ignores case), comma-separated. Drop tags with no matching label and
+name them in the Step 1 report; do not create labels here. Omit `--label` when no tag matches. **An article, node, case study or
+glossary epic always carries `content`**, whether or not it was tagged (eight article and node
+issues, #116 to #125, were filed without it and did not show as content work on the board).
 
 No ID in the title. Read back the issue number; it is the epic's `ST-{n}` ID. Then add it to
 the board and set its priority:
@@ -108,7 +115,7 @@ gh project item-edit --project-id PVT_kwHODqg2Fc4BP7M2 \
 The `Issue added to project` workflow sets `Status: Backlog` automatically — verified
 2026-08-16 on issues #95–98, which arrived on the board as `Backlog` with no manual step.
 
-Report to the human: "GitHub #{n} created → ST-{n}, status Backlog, priority {P}."
+Report to the human: "GitHub #{n} created → ST-{n}, status Backlog, priority {P}, labels {labels}."
 
 The **GitHub number** is the canonical ID for the file and commit.
 
