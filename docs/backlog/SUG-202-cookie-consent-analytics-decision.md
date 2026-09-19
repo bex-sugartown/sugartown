@@ -70,12 +70,65 @@ This is a product/compliance decision, not a content fix. SUG-198 non-goals expl
 
 **Source:** `docs/ai/agentic-caucus/data-handling.md`, `apps/web/index.html` (GA snippet), `apps/web/src/components/Form.jsx` (reCAPTCHA).
 
+## Objective
+
+Visitors choose whether Google Analytics runs. GA loads nothing until they accept. The choice is remembered and can be changed from the footer. The banner reads as a designed part of Pink Moon, not a bolt-on.
+
 ## Scope
 
-Scope is carried in the Background above, which came over from Linear complete. Before
-executing, confirm it still holds — several of these were written between 2026-07-23 and
-2026-08-09 and the platform has moved since (SUG-284 removed the governance layer; v0.33.0
-shipped 2026-08-15).
+- [ ] Phase 0 vspec at `docs/drafts/SUG-202-cookie-consent-banner.vspec.html`: first-visit banner (bottom bar, light and dark, mobile), the reopened state, and the footer "Cookie settings" control. The persisted-state prototype trigger fires, so the vspec includes a working toggle — layer: design
+- [ ] Consent Mode v2 default in `apps/web/index.html:9-24`: set every consent type to `denied` before `config`. Basic mode, so `gtag.js` is not injected at all until consent is granted. Keep the existing localhost suppression — layer: web
+- [ ] Consent storage in `localStorage['st-consent']`, the same pattern as `ThemeToggle.jsx` (`st-theme`) — layer: web
+- [ ] Banner component, placed per `.claude/rules/react.md` §Component choice gate at activation (design-system package or web) — layer: web
+- [ ] "Cookie settings" button in the footer utility row (`apps/web/src/components/Footer.jsx:97-100`). That row is built from `apps/web/src/lib/routes.js:130`, not Sanity nav, so this is a button next to the links, not a nav item — layer: web
+- [ ] Privacy page copy (`page-privacy-and-terms`) updated to describe the banner and name reCAPTCHA. Content Write Gate; Bex publishes — layer: content
+- [ ] reCAPTCHA needs no code change: it already loads only when a `Form` with an `action` mounts (`Form.jsx:60-63`), not site-wide — layer: content
+- [ ] Confirm Google's certified-CMP requirement covers ad products only, not GA alone, against Google's current policy page — layer: process
+- [ ] Update `docs/ai/agentic-caucus/data-handling.md` to match — layer: docs
+
+## Phases
+
+| Phase | Ships | Gate |
+|---|---|---|
+| 0 | Vspec, reviewed and signed off | Tier 1: no code before sign-off |
+| 1 | Consent plumbing: denied default, gated `gtag.js` load, storage. No UI; testable by setting storage by hand | none |
+| 2 | Banner and footer control, built to the approved vspec | Visual QA |
+| 3 | Privacy page copy and `data-handling.md` | Content Write Gate, then Bex publishes |
+
+#128 (GA on prerendered pages) starts after Phase 1, loading GA through the same consent check.
+
+## Acceptance criteria
+
+- [ ] Fresh visit on production with storage cleared: no request to `googletagmanager.com` before a choice (DevTools Network)
+- [ ] Accept: `gtag.js` loads and a hit shows in GA Realtime; the choice survives a reload
+- [ ] Reject: no GA request after reload; the banner stays dismissed
+- [ ] Footer "Cookie settings" reopens the banner; switching to Reject stops GA from the next page load
+- [ ] Banner does not cover page content, is reachable by keyboard with visible focus, and meets WCAG AA contrast in light and dark
+- [ ] Localhost still sends nothing to GA
+- [ ] Vspec-to-build comparison table approved ("Visual QA approved")
+- [ ] Privacy copy approved under the Content Write Gate before the patch, and published by Bex
+- [ ] `pnpm test:smoke` green
+
+## Human QA Walkthrough — example local pages
+
+> Activation audit: read `apps/web/src/App.jsx`, list every page-type whose CSS this epic
+> can reach, and build the Human QA Walkthrough table (one example local URL per page-type,
+> incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
+> Walkthrough. Capture one real published slug per detail page-type and datestamp it.
+
+The banner renders on every page, so every page-type is in reach.
+
+## Non-Goals
+
+- Cookieless analytics (rejected in the decision above)
+- Advanced consent mode
+- Showing the banner only to EU and UK visitors
+- GA on prerendered pages (#128, next)
+- A third-party consent tool
+
+## Model & Mode
+
+`/model sonnet`. One component, a small script change and a copy update, all extending existing patterns. No architectural ambiguity.
 
 ## Related
 
