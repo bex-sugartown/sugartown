@@ -81,10 +81,10 @@ Visitors choose whether Google Analytics runs. GA loads nothing until they accep
 - [x] Consent storage in `localStorage['st-consent']`, the same pattern as `ThemeToggle.jsx` (`st-theme`) — layer: web
 - [x] Banner component, placed per `.claude/rules/react.md` §Component choice gate at activation (design-system package or web) — layer: web
 - [x] "Cookie settings" button in the footer utility row (`apps/web/src/components/Footer.jsx:97-100`). That row is built from `apps/web/src/lib/routes.js:130`, not Sanity nav, so this is a button next to the links, not a nav item — layer: web
-- [ ] Privacy page copy (`page-privacy-and-terms`) updated to describe the banner and name reCAPTCHA. Content Write Gate; Bex publishes — layer: content
-- [ ] reCAPTCHA needs no code change: it already loads only when a `Form` with an `action` mounts (`Form.jsx:60-63`), not site-wide — layer: content
+- [x] Privacy page copy (`page-privacy-and-terms`) updated to describe the banner and name reCAPTCHA. Content Write Gate; Bex publishes — layer: content
+- [x] reCAPTCHA needs no code change: it already loads only when a `Form` with an `action` mounts (`Form.jsx:60-63`), not site-wide — layer: content
 - [x] Confirm Google's certified-CMP requirement covers ad products only, not GA alone, against Google's current policy page — layer: process
-- [ ] Update `docs/ai/agentic-caucus/data-handling.md` to match — layer: docs
+- [x] Update `docs/ai/agentic-caucus/data-handling.md` to match — layer: docs
 
 ## Execution log
 
@@ -95,6 +95,7 @@ Visitors choose whether Google Analytics runs. GA loads nothing until they accep
 - **2026-09-19, Phase 0 signed off by Bex** ("Approved: start implementation"), including the banner copy.
 - **2026-09-19, Phase 1 committed** (`94c7554a`): GA moves out of `index.html` into `apps/web/src/lib/consent.js`, called from `main.jsx`. Consent Mode v2 basic. Because loading now comes from the bundle, prerendered pages get it too, which covers most of #128.
 - **2026-09-19, Phase 2 CSS class names approved by Bex** (naming table shown after the module was written; disclosed at the time). Two Callout layout changes beyond the approved props were approved with it: `.bannerBody` fills the row, and the banner stacks below 640px. The vspec showed these as existing; they were not.
+- **2026-09-19, Phase 3:** Privacy copy approved under the Content Write Gate and written to `drafts.page-privacy-and-terms` (three spans; marks and list formatting unchanged). Not published: Bex publishes after the code ships. `data-handling.md` v1.1 approved as a diff and committed.
 
 ## Phases
 
