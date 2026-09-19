@@ -27,6 +27,13 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### tooling
 
 #### Added
+- `scripts/check-epic-doc.js`: an epic doc is checked against `docs/epic-template.md` when the epic
+  starts. The template is now the one definition, with seven required sections (Background,
+  Objective, Scope, Phases, Non-Goals, Acceptance Criteria, Model & Mode) and a `Visual: yes | no`
+  line that makes a vspec path mandatory for visual work. The script reads the required list from
+  the template rather than a copy; two liveness probes build their docs the same way. Five sections
+  nothing enforced became optional or conditional, and the duplicated close-out steps now point to
+  CLAUDE.md. ST-129 (#129).
 - Liveness probes: `pnpm validate:liveness-probes` runs six file-based gates against a
   deliberate violation each and fails if any stays green, on the principle that a gate never
   tested against known-bad input is only assumed to work. Covers `validate:tokens` (plus
