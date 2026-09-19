@@ -23,6 +23,35 @@ Re-measured against the repo and production. The Background still holds.
 > `validate:epic-docs` was archived by SUG-284. The Background below is the Linear description
 > verbatim; it was already substantive, so it is preserved rather than paraphrased.
 
+## Decision, 2026-09-19 (Bex)
+
+**Cookie-consent banner plus Google Analytics Consent Mode v2.** They are one mechanism: the banner collects the choice, consent mode passes it to GA.
+
+| Setting | Decided |
+|---|---|
+| Default state | `denied` for analytics storage; GA sends nothing until the visitor accepts |
+| Consent mode implementation | Basic, not Advanced (Advanced sends cookieless pings before consent, which regulators dispute) |
+| Banner | In-house Pink Moon component, not a third-party consent tool (third-party tools add script weight and look generic) |
+| Form | Non-modal bar at the bottom of the page, shown on first visit only |
+| Choices | Accept and Reject with equal visual weight |
+| Persistence | Choice is remembered; a "Cookie settings" link in the footer utility nav reopens it |
+| reCAPTCHA | Covered by the banner copy, or loaded only when the contact form is opened |
+
+**Why:** the portfolio is meant to read as a small enterprise-grade platform, and this is the pattern enterprise clients run themselves.
+
+**Rejected:**
+- Cookieless analytics (Plausible, Fathom): needs no banner, but loses GA, and it is not the pattern enterprise clients will recognise.
+- Leave as is: the Privacy page already states there is no banner.
+
+**Known cost:** GA will count only visitors who accept, so reported numbers drop.
+
+**Before code:**
+- Phase 0 vspec for the banner and the settings link. It is a new visual format, so the gate applies.
+- Confirm that Google's certified-CMP requirement applies only to its ad products, not GA alone. Believed true, not yet checked against Google's current policy.
+- The Privacy page copy update goes through the Content Write Gate.
+
+**Unblocks #128** (GA on prerendered pages), which should load GA through the same consent path.
+
 ## Background
 
 Surfaced during SUG-198 Phase 3 (Privacy page alignment).
