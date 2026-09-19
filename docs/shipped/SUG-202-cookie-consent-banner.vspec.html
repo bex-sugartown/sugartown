@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SUG-202 · Cookie consent banner · vspec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── Pink Moon tokens: live values from packages/design-system/src/styles/
+   tokens.css + theme.pink-moon.css, read 2026-09-19. Names match production. ── */
+.frame[data-theme="light-pink-moon"] {
+  --st-color-bg-canvas: #F2F2F3;          /* neutral-100 */
+  --st-color-bg-surface: #FAFAFA;         /* neutral-50 */
+  --st-card-label-bg: #E4E4E5;            /* neutral-200 */
+  --st-color-rule-accent: #C6C6C8;        /* neutral-300 */
+  --st-color-border-default: #E4E4E5;
+  --st-color-text-default: #0a0f1a;       /* ink / midnight-950 */
+  --st-color-text-muted: #6c6c6f;         /* neutral-500 */
+  --st-color-text-brand: #b91c68;         /* maroon, AA on label-bg 4.82:1 */
+  --st-color-brand-primary: #ff247d;      /* pink-500 */
+  --_callout-accent: #ff247d;
+  --_banner-label-color: var(--st-color-text-brand);   /* PROPOSED light override, see §4 */
+  --st-shadow-elevation-float: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+}
+.frame[data-theme="dark-pink-moon"] {
+  --st-color-bg-canvas: #0a0f1a;
+  --st-color-bg-surface: rgba(255,255,255,.06);
+  --st-card-label-bg: #141830;            /* midnight-800 */
+  --st-color-rule-accent: rgba(255,255,255,.15);
+  --st-color-border-default: rgba(255,255,255,.12);
+  --st-color-text-default: #f8f8fa;       /* softgrey-50 */
+  --st-color-text-muted: #94a3b8;         /* softgrey-400 */
+  --st-color-text-brand: #ff247d;
+  --st-color-brand-primary: #ff247d;
+  --_callout-accent: #ff247d;
+  --_banner-label-color: #ff247d;         /* pink on midnight-800 = 5.2:1, passes */
+  --st-shadow-elevation-float: 0 12px 30px rgba(13,18,38,.30);
+}
+:root {
+  --st-font-family-narrative: "Cormorant Garamond", "Times New Roman", serif;
+  --st-font-family-ui: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  --st-font-family-mono: "IBM Plex Mono", "Courier New", Courier, monospace;
+  --st-font-size-sm: 0.875rem;
+  --st-font-size-xs: 0.75rem;
+  --st-label-size: 0.65rem; --st-label-weight: 600; --st-label-tracking: 0.1em;
+  --st-spacing-stack-md: 1rem; --st-spacing-stack-lg: 1.5rem;
+  --st-page-gutter: 1.5rem;
+  --st-width-site: 1200px;
+  --st-color-lime: #d1ff1d; --st-color-lime-500: #b8e000; --st-color-charcoal: #1e1e1e;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: var(--st-font-family-ui); background: #e9e9ea; color: #0a0f1a; font-size: 15px; line-height: 1.5; }
+
+/* ── Doc chrome (not part of the spec) ───────────────────────────────────── */
+.doc-header { background: #0a0f1a; color: #fff; padding: 18px 28px; font-family: var(--st-font-family-mono); font-size: .72rem; letter-spacing: .06em; }
+.doc-header h1 { font-family: var(--st-font-family-ui); font-size: 1.05rem; margin-bottom: 4px; }
+.doc-header p { opacity: .7; }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; padding: 14px 28px; background: #fff; border-bottom: 1px solid #ddd; font-family: var(--st-font-family-mono); font-size: .7rem; align-items: center; }
+.controls button { font: inherit; padding: 6px 10px; border: 1px solid #999; background: #fff; cursor: pointer; }
+.controls button[aria-pressed="true"] { background: #0a0f1a; color: #fff; }
+.controls .log { margin-left: auto; color: #555; }
+.stage { padding: 24px 28px; overflow-x: auto; }
+.doc { max-width: 1080px; margin: 0 auto; padding: 8px 28px 64px; }
+.doc h2 { font-family: var(--st-font-family-mono); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; margin: 36px 0 10px; color: #b91c68; }
+.doc p, .doc li { font-size: .92rem; margin-bottom: 8px; }
+.doc ul { padding-left: 20px; }
+.doc table { width: 100%; border-collapse: collapse; font-size: .85rem; margin: 8px 0 16px; background: #fff; }
+.doc th, .doc td { border: 1px solid #d4d4d6; padding: 7px 9px; text-align: left; vertical-align: top; }
+.doc th { font-family: var(--st-font-family-mono); font-size: .68rem; letter-spacing: .06em; text-transform: uppercase; background: #f2f2f3; }
+.doc code { font-family: var(--st-font-family-mono); font-size: .8rem; background: #f2f2f3; padding: 0 3px; }
+.tag { font-family: var(--st-font-family-mono); font-size: .65rem; padding: 1px 5px; border: 1px solid currentColor; }
+.tag.new { color: #b91c68; } .tag.use { color: #2a7d5f; } .tag.extend { color: #8a5a00; }
+
+/* ── Mock site frame ─────────────────────────────────────────────────────── */
+.frame { margin: 0 auto; position: relative; width: 1120px; height: 640px; overflow: auto; background: var(--st-color-bg-canvas); color: var(--st-color-text-default); border: 1px solid #bbb; transform: translateZ(0); /* contains position:fixed in the mock */ }
+.frame.mobile { width: 375px; height: 720px; }
+.mock-header { height: 56px; border-bottom: 1px solid var(--st-color-border-default); display: flex; align-items: center; padding: 0 var(--st-page-gutter); font-family: var(--st-font-family-mono); font-size: .75rem; letter-spacing: .08em; }
+.mock-main { max-width: 760px; margin: 0 auto; padding: 40px var(--st-page-gutter); }
+.mock-main h1 { font-family: var(--st-font-family-narrative); font-weight: 600; font-size: 2.4rem; line-height: 1.1; margin-bottom: 16px; }
+.mock-main p { margin-bottom: 14px; color: var(--st-color-text-default); }
+.mock-footer { border-top: 1px solid var(--st-color-border-default); padding: 0 var(--st-page-gutter); max-width: var(--st-width-site); margin: 0 auto; }
+.mock-colophon { padding: var(--st-spacing-stack-lg) 0 2rem; font-family: var(--st-font-family-mono); font-size: .7rem; color: var(--st-color-text-muted); }
+
+/* ═══ SPEC CLASSES (production names) ═══════════════════════════════════════ */
+
+/* Footer utility row: EXISTING, apps/web/src/components/Footer.module.css:103-122 */
+.utility { display: flex; flex-wrap: wrap; gap: .25rem var(--st-spacing-stack-lg); padding: var(--st-spacing-stack-md) 0; border-bottom: 1px solid var(--st-color-border-default); }
+.utilityLink { font-family: var(--st-font-family-ui); font-size: var(--st-font-size-sm); color: var(--st-color-text-muted); text-decoration: none; text-underline-offset: 2px; }
+.utilityLink:hover { color: var(--st-color-brand-primary); text-decoration: underline; }
+/* NEW: button reset so the existing .utilityLink look applies to a <button> */
+button.utilityLink { background: none; border: 0; padding: 0; cursor: pointer; font: inherit; font-family: var(--st-font-family-ui); font-size: var(--st-font-size-sm); }
+.utilityLink:focus-visible { outline: 2px solid var(--st-color-brand-primary); outline-offset: 2px; }
+
+/* NEW .fixedBar: viewport-fixed bottom layer. Generic, not consent-specific. */
+.fixedBar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 150; /* above Header 100, below Drawer 199/200, Lightbox 1000 */
+  padding: 0 var(--st-page-gutter) var(--st-page-gutter); pointer-events: none; }
+.fixedBarInner { max-width: var(--st-width-site); margin: 0 auto; pointer-events: auto; box-shadow: var(--st-shadow-elevation-float); }
+.fixedBar[hidden] { display: none; }
+
+/* EXISTING Callout variant="banner", packages/design-system/src/components/Callout/Callout.module.css:10-119 */
+.callout { border-top: 2px solid var(--_callout-accent); border-right: 1px solid var(--st-color-rule-accent); border-bottom: 1px solid var(--st-color-rule-accent); border-left: 1px solid var(--st-color-rule-accent); }
+.banner { display: flex; align-items: center; gap: 1rem; padding: .75rem 1.25rem; background: var(--st-card-label-bg); margin: 0; }
+.bannerLabel { font-family: var(--st-font-family-mono); font-size: var(--st-label-size); font-weight: var(--st-label-weight); letter-spacing: var(--st-label-tracking); text-transform: uppercase; color: var(--_banner-label-color); white-space: nowrap; flex-shrink: 0; }
+.bannerBody { font-size: .95rem; line-height: 1.5; color: var(--st-color-text-default); flex: 1; }
+
+/* NEW (TBD) .consentBody: body row = text + actions. Layout only. */
+.consentBody { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.5rem; }
+.consentText { flex: 1 1 32ch; min-width: 0; } /* buttons wrap below once text would drop under ~32ch */
+.consentText a { color: var(--st-color-text-brand); text-underline-offset: 2px; }
+.consentMeta { display: block; margin-top: 2px; font-family: var(--st-font-family-mono); font-size: var(--st-font-size-xs); color: var(--st-color-text-muted); }
+
+/* EXISTING ButtonGroup + Button variant="secondary" size="sm" (DS) */
+.buttonGroup { display: flex; gap: .5rem; flex-shrink: 0; }
+.button { display: inline-flex; align-items: center; justify-content: center; padding: 8px 14px; border-radius: 0; border: none; font-family: var(--st-font-family-mono); font-size: .65rem; font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: .06em; cursor: pointer; }
+.button:focus-visible { outline: 2px solid var(--st-color-brand-primary); outline-offset: 2px; }
+.secondary { background: var(--st-color-lime); color: var(--st-color-charcoal); }
+.secondary:hover { background: var(--st-color-lime-500); }
+
+/* Mobile: at 640px and below, actions drop under the text, two equal columns */
+.frame.mobile .banner { align-items: flex-start; flex-direction: column; gap: .5rem; }
+.frame.mobile .buttonGroup { display: grid; grid-template-columns: 1fr 1fr; flex: 1 1 100%; }
+@media (max-width: 640px) {
+  .banner { align-items: flex-start; flex-direction: column; gap: .5rem; }
+  .buttonGroup { display: grid; grid-template-columns: 1fr 1fr; flex: 1 1 100%; } /* row stays wrapping, not column: a flex-basis in a column becomes a height */
+}
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <h1>SUG-202 · Cookie consent banner + footer control</h1>
+  <p>Phase 0 vspec · #65 · 2026-09-19 · Pink Moon tokens read live from the DS package · interactive prototype (persisted-state trigger)</p>
+</div>
+
+<div class="controls" role="toolbar" aria-label="Prototype controls">
+  <span>Theme</span>
+  <button type="button" data-theme-btn="light-pink-moon" aria-pressed="true">Light</button>
+  <button type="button" data-theme-btn="dark-pink-moon" aria-pressed="false">Dark</button>
+  <span>&nbsp;Width</span>
+  <button type="button" data-width-btn="desktop" aria-pressed="true">Desktop 1120</button>
+  <button type="button" data-width-btn="mobile" aria-pressed="false">Mobile 375</button>
+  <button type="button" id="reset">Reset: first visit</button>
+  <span class="log" id="log" aria-live="polite">st-consent: (none)</span>
+</div>
+
+<div class="stage">
+  <div class="frame" id="frame" data-theme="light-pink-moon">
+    <div class="mock-header">SUGARTOWN</div>
+    <main class="mock-main" id="main" tabindex="-1">
+      <h1>A page behind the banner</h1>
+      <p>Placeholder content. The bar sits over the bottom of the viewport. While it is open the page gains bottom padding equal to the bar's height, so the footer colophon can always be scrolled into view.</p>
+      <p>Scroll to the footer and use "Cookie settings" to reopen the bar after choosing.</p>
+      <p style="height:420px"></p>
+    </main>
+    <footer class="mock-footer">
+      <div class="utility">
+        <a class="utilityLink" href="#">AI Ethics</a>
+        <a class="utilityLink" href="#">Privacy &amp; Terms of Use</a>
+        <a class="utilityLink" href="#">Sitemap</a>
+        <a class="utilityLink" href="#">Contact</a>
+        <button type="button" class="utilityLink" id="settings">Cookie settings</button>
+      </div>
+      <div class="mock-colophon">Version · Built with · Colophon</div>
+    </footer>
+
+    <!-- ConsentBanner: rendered once in the app shell after <Footer />, apps/web/src/App.jsx:184 -->
+    <div class="fixedBar" id="bar" hidden>
+      <div class="fixedBarInner">
+        <div class="callout banner" role="region" aria-label="Cookie consent">
+          <span class="bannerLabel">Cookies</span>
+          <div class="bannerBody">
+            <div class="consentBody">
+              <p class="consentText">
+                Sugartown uses Google Analytics to see which pages get read. Nothing is tracked unless you accept. <a href="#">Privacy &amp; Terms</a>
+                <span class="consentMeta" id="meta" hidden></span>
+              </p>
+              <div class="buttonGroup">
+                <button type="button" class="button secondary" id="accept">Accept analytics</button>
+                <button type="button" class="button secondary" id="reject">Reject analytics</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="doc">
+
+<h2>1 · Copy (reader-facing; approve with this vspec)</h2>
+<table>
+  <tr><th>Slot</th><th>Text</th></tr>
+  <tr><td>Label</td><td>Cookies</td></tr>
+  <tr><td>Body</td><td>Sugartown uses Google Analytics to see which pages get read. Nothing is tracked unless you accept. <u>Privacy &amp; Terms</u></td></tr>
+  <tr><td>Buttons</td><td>Accept analytics · Reject analytics</td></tr>
+  <tr><td>Reopened, meta line</td><td>Current choice: accepted / Current choice: rejected</td></tr>
+  <tr><td>Footer control</td><td>Cookie settings</td></tr>
+</table>
+<p>reCAPTCHA is not named in the bar. It loads only when a form with an <code>action</code> mounts (<code>Form.jsx:60-63</code>), and the Privacy page (Phase 3) names it.</p>
+
+<h2>2 · Behaviour</h2>
+<table>
+  <tr><th>Event</th><th>What happens</th></tr>
+  <tr><td>First visit, no stored choice</td><td>Bar shows after the app mounts. Focus is not moved. Page gets bottom padding equal to the bar's measured height. No animation.</td></tr>
+  <tr><td>Accept</td><td>Store <code>st-consent</code> = <code>{"analytics":"granted","v":1}</code>. Send <code>gtag('consent','update',{analytics_storage:'granted'})</code> and inject <code>gtag.js</code> (basic mode: not loaded before this). Bar hides, padding removed.</td></tr>
+  <tr><td>Reject</td><td>Store <code>{"analytics":"denied","v":1}</code>. Bar hides. If GA had been granted earlier: send <code>consent update denied</code> and delete the <code>_ga</code> and <code>_ga_*</code> cookies on the domain.</td></tr>
+  <tr><td>Return visit</td><td>Stored choice read before first paint in <code>index.html</code>. <code>granted</code> loads GA at once; <code>denied</code> or none loads nothing. Bar shows only when nothing is stored, or <code>v</code> is older than the current version.</td></tr>
+  <tr><td>Footer "Cookie settings"</td><td>Reopens the bar with the meta line showing the current choice. Focus moves to the first button.</td></tr>
+  <tr><td>After a choice</td><td>Focus returns to "Cookie settings" if the bar was opened from there; otherwise to <code>&lt;main&gt;</code>.</td></tr>
+  <tr><td>Escape key</td><td>Does nothing. There is no close (×) button: leaving it open is allowed, dismissing without a choice is not.</td></tr>
+  <tr><td>Keyboard order</td><td>Bar renders after the footer in the DOM, so it is reached after page content. It never traps focus.</td></tr>
+  <tr><td>Localhost</td><td>Bar shows (so it can be tested). GA stays suppressed exactly as today.</td></tr>
+  <tr><td>Prerendered pages</td><td>Bar appears once the SPA bundle mounts. GA loading on these pages is #128, which reuses this consent check.</td></tr>
+</table>
+
+<h2>3 · Layout contract</h2>
+<ul>
+  <li><code>.fixedBar</code>: fixed to the viewport bottom, full width, <code>z-index: 150</code> (Header 100, Drawer 199/200, Lightbox 1000). Side and bottom inset <code>--st-page-gutter</code>.</li>
+  <li><code>.fixedBarInner</code>: <code>max-width: var(--st-width-site)</code> (1200px), centred, <code>--st-shadow-elevation-float</code>.</li>
+  <li>Bar surface is the existing Callout banner: <code>--st-card-label-bg</code> fill, 2px pink top rule, 1px <code>--st-color-rule-accent</code> sides, radius 0.</li>
+  <li>Wide: label · text · buttons in one row. When the text would drop under about 32 characters wide, the buttons wrap under it (flex-wrap, no breakpoint). At 640px and below: label, then text, then the two buttons in two equal columns.</li>
+  <li>Both buttons are DS <code>Button variant="secondary" size="sm"</code>: identical, so neither choice is nudged.</li>
+  <li>Dark mode: token inheritance only. No component-level dark rules.</li>
+</ul>
+
+<h2>4 · Contrast (WCAG AA, measured from token hex)</h2>
+<table>
+  <tr><th>Pair</th><th>Ratio</th><th>Result</th></tr>
+  <tr><td>Body text ink on <code>--st-card-label-bg</code> (light)</td><td>15.08</td><td>pass</td></tr>
+  <tr><td>Button charcoal on lime</td><td>15.39</td><td>pass</td></tr>
+  <tr><td><b>Banner label, pink on label-bg (light), as the DS ships today</b></td><td><b>2.85</b></td><td><b>fail</b></td></tr>
+  <tr><td>Banner label, maroon <code>--st-color-text-brand</code> on label-bg (light), proposed</td><td>4.82</td><td>pass</td></tr>
+  <tr><td>Banner label, pink on midnight-800 (dark)</td><td>5.2</td><td>pass</td></tr>
+  <tr><td>Rejected: tertiary pink-outline buttons on label-bg</td><td>2.85</td><td>fail</td></tr>
+</table>
+<p><b>Proposed DS fix:</b> in the light theme, <code>.bannerLabel</code> uses <code>--st-color-text-brand</code> instead of the pink accent. This also fixes every existing Callout banner, which fail today. The 2px top rule stays pink (a border is not text).</p>
+
+<h2>5 · Component-Reuse Manifest</h2>
+<table>
+  <tr><th>Visual element</th><th>Existing component / class</th><th>Decision</th></tr>
+  <tr><td>Bar surface, label, body</td><td>DS <code>Callout variant="banner"</code></td><td><span class="tag extend">extend via prop</span> add optional <code>role</code> and <code>aria-label</code> props (banner hardcodes <code>role="status"</code>, which announces as a live update); default unchanged. Plus the light-theme label colour fix in §4.</td></tr>
+  <tr><td>Accept / Reject</td><td>DS <code>Button</code> secondary sm, DS <code>ButtonGroup</code></td><td><span class="tag use">use</span></td></tr>
+  <tr><td>Fixed bottom layer</td><td>none: <code>ContentsStrip</code> is fixed to the top and mobile-only; <code>Drawer</code> is a side panel with a scrim</td><td><span class="tag new">new</span> <code>.fixedBar</code>: generic viewport-fixed bottom layer, no content-type in the name</td></tr>
+  <tr><td>Text + actions row</td><td>none inside Callout banner body</td><td><span class="tag new">new</span> <code>.consentBody</code> /* TBD */: flex row layout only</td></tr>
+  <tr><td>Footer "Cookie settings"</td><td><code>Footer.module.css .utilityLink</code></td><td><span class="tag extend">extend</span> <code>button.utilityLink</code> reset so a button matches the links</td></tr>
+  <tr><td>Stored choice</td><td><code>ThemeToggle.jsx</code> <code>localStorage['st-theme']</code> pattern</td><td><span class="tag use">use</span> same pattern, key <code>st-consent</code></td></tr>
+  <tr><td>Component</td><td>none</td><td><span class="tag new">new</span> <code>ConsentBanner.jsx</code> in <code>apps/web/src/components/</code>, composing the above. Registry row added in the same commit.</td></tr>
+</table>
+
+<h2>6 · Files the build touches</h2>
+<ul>
+  <li><code>apps/web/index.html</code>: consent default and gated <code>gtag.js</code> load (Phase 1)</li>
+  <li><code>apps/web/src/components/ConsentBanner.jsx</code> + <code>.module.css</code> (new), mounted in <code>App.jsx</code> after <code>&lt;Footer /&gt;</code></li>
+  <li><code>apps/web/src/components/Footer.jsx</code> + <code>.module.css</code>: "Cookie settings" button</li>
+  <li><code>packages/design-system/src/components/Callout/</code>: <code>role</code>/<code>aria-label</code> props, light label colour; story updated</li>
+  <li><code>docs/conventions/component-registry.md</code>: ConsentBanner row, Callout note</li>
+</ul>
+
+</div>
+
+<script>
+/* Prototype only. Uses its own key so it never collides with the real site. */
+(function () {
+  var KEY = 'st-consent-vspec', frame = document.getElementById('frame'), bar = document.getElementById('bar'),
+      meta = document.getElementById('meta'), log = document.getElementById('log'), main = document.getElementById('main'),
+      settings = document.getElementById('settings'), openedFrom = null;
+  var mem = null; /* fallback when storage is blocked (file previews, private windows) */
+  function read() { try { return JSON.parse(localStorage.getItem(KEY)); } catch (e) { return mem; } }
+  function write(v) { mem = { analytics: v, v: 1 }; try { localStorage.setItem(KEY, JSON.stringify(mem)); } catch (e) {} }
+  function status(extra) { var c = read(); log.textContent = 'st-consent: ' + (c ? c.analytics : '(none)') + (extra ? ' · ' + extra : ''); }
+  function pad(on) { main.style.paddingBottom = on ? (bar.firstElementChild.offsetHeight + 24) + 'px' : ''; }
+  function show(fromSettings) {
+    var c = read();
+    meta.hidden = !c; if (c) meta.textContent = 'Current choice: ' + (c.analytics === 'granted' ? 'accepted' : 'rejected');
+    bar.hidden = false; pad(true);
+    openedFrom = fromSettings ? settings : null;
+    if (fromSettings) document.getElementById('accept').focus();
+  }
+  function hide() { bar.hidden = true; pad(false); (openedFrom || main).focus(); }
+  function choose(v) {
+    var prev = read(); write(v);
+    var note = v === 'granted' ? 'gtag.js would load now' : (prev && prev.analytics === 'granted' ? 'consent update denied + _ga cookies deleted' : 'nothing loads');
+    status(note); hide();
+  }
+  document.getElementById('accept').onclick = function () { choose('granted'); };
+  document.getElementById('reject').onclick = function () { choose('denied'); };
+  settings.onclick = function () { show(true); };
+  document.getElementById('reset').onclick = function () { mem = null; try { localStorage.removeItem(KEY); } catch (e) {} status(); show(false); };
+  document.querySelectorAll('[data-theme-btn]').forEach(function (b) { b.onclick = function () {
+    frame.setAttribute('data-theme', b.dataset.themeBtn);
+    document.querySelectorAll('[data-theme-btn]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); }); }; });
+  document.querySelectorAll('[data-width-btn]').forEach(function (b) { b.onclick = function () {
+    frame.classList.toggle('mobile', b.dataset.widthBtn === 'mobile');
+    document.querySelectorAll('[data-width-btn]').forEach(function (x) { x.setAttribute('aria-pressed', x === b); });
+    if (!bar.hidden) pad(true); }; });
+  status(); if (!read()) show(false);
+})();
+</script>
+</body>
+</html>
