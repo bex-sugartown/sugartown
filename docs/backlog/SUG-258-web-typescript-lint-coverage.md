@@ -1,12 +1,20 @@
 ---
 **Epic:** SUG-258 — apps/web lints only .js/.jsx — 32 TypeScript files under src/ are ungated
-**Linear Issue:** [SUG-258](https://linear.app/sugartown/issue/SUG-258/appsweb-lints-only-jsjsx-32-typescript-files-under-src-are-ungated)
-**Status:** Todo
-**Priority:** 🟣 Soon
+**GitHub Issue:** [#86](https://github.com/bex-sugartown/sugartown/issues/86) (legacy ID SUG-258; Linear retired 2026-09-05)
+**Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
 **Merge strategy:** (a) Merge-as-you-go. Single-phase.
 ---
 
 # SUG-258 — apps/web TypeScript lint coverage
+
+## Verified 2026-09-19
+
+Re-measured against the repo and Sanity. Where this section disagrees with the text below, this section is current.
+
+- **Still exactly as filed.** `apps/web/eslint.config.js:27` matches `src/**/*.{js,jsx}`. 32 `.ts`/`.tsx` files under `apps/web/src` (30 stories, 2 fixtures); ESLint reports "no matching configuration" for them.
+- **Pre-commit now runs `pnpm lint`** (SUG-255), not `pnpm --filter web lint`. The files are still skipped.
+- **Needs a new dependency.** apps/web has no `typescript-eslint`. The repo's only copy is v6 in `packages/eslint-config`, built for ESLint 8. apps/web runs ESLint 9, so it needs v8.
+- **Add a `.tsx` liveness probe.** The Rule 3 probe (`scripts/validate-liveness-probes.js:190`) uses a `.js` file, so it does not prove the rule fires on `.tsx`.
 
 ## Background
 
@@ -55,5 +63,5 @@ blocks starting.
 
 ## Related
 
-- **Linear:** [SUG-258](https://linear.app/sugartown/issue/SUG-258)
+- **GitHub:** [#86](https://github.com/bex-sugartown/sugartown/issues/86)
 - **Origin:** 2026-07-25→27 post-mortem; SUG-254 Phase 6 (parked, epic paused)
