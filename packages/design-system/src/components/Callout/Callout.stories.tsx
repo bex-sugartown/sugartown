@@ -32,6 +32,8 @@ const meta: Meta<typeof Callout> = {
     title:   { control: 'text', description: 'Bold label shown in the label column (or inline for banner)', defaultValue: 'The Challenge' },
     number:  { control: 'text', description: 'Folio number shown above the title (e.g. § 01)', defaultValue: '§ 01' },
     content: { control: 'text', description: 'Body text — renders as a paragraph. Use children for rich content.' },
+    role:    { control: 'text', description: 'ARIA role override. Defaults: status (banner), note (others).' },
+    ariaLabel: { control: 'text', description: 'Accessible name, e.g. with role="region".' },
     children: { table: { disable: true } },
     className: { table: { disable: true } },
   },
@@ -63,6 +65,9 @@ export const Banner: Story = {
       </Callout>
       <Callout variant="banner">
         <p>Draft content — not published. Visible in preview mode only.</p>
+      </Callout>
+      <Callout variant="banner" title="Cookies" role="region" ariaLabel="Cookie consent">
+        <p>Labelled region instead of a live status (SUG-202 consent bar).</p>
       </Callout>
     </div>
   ),

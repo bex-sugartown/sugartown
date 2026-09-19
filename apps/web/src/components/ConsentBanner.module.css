@@ -1,0 +1,64 @@
+/* ConsentBanner — SUG-202. Spec: docs/drafts/SUG-202-cookie-consent-banner.vspec.html */
+
+/* Viewport-fixed bottom layer. Generic: nothing here is consent-specific.
+   z-index: above Header (100), below Drawer (199/200) and ImageLightbox (1000). */
+.fixedBar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 150;
+  padding: 0 var(--st-page-gutter) var(--st-page-gutter);
+  pointer-events: none;
+}
+
+.fixedBarInner {
+  max-width: var(--st-width-site);
+  margin: 0 auto;
+  pointer-events: auto;
+  box-shadow: var(--st-shadow-elevation-float);
+}
+
+/* Text + actions row. Actions wrap under the text once it would drop below ~32ch. */
+.consentBody {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--st-space-3) var(--st-space-5);
+}
+
+.consentText {
+  flex: 1 1 32ch;
+  min-width: 0;
+  margin: 0;
+}
+
+.consentText a {
+  color: var(--st-color-text-brand);
+  text-underline-offset: 2px;
+}
+
+.consentMeta {
+  display: block;
+  margin-top: 2px;
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  color: var(--st-color-text-muted);
+}
+
+/* Two classes: must outrank ButtonGroup's own .group rules, including its
+   stacked layout under 520px. */
+.consentBody .consentActions {
+  gap: var(--st-space-2);
+  flex-shrink: 0;
+}
+
+/* Narrow screens: both buttons on one row below the text, equal width. */
+@media (max-width: 640px) {
+  .consentBody .consentActions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
