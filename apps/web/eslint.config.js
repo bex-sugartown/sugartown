@@ -16,11 +16,7 @@ import { defineConfig, globalIgnores } from 'eslint/config'
 import boundariesFor from '@sugartown/eslint-config/boundaries-for.js'
 
 export default defineConfig([
-  globalIgnores([
-    'dist',
-    'src/components/Header.jsx',
-    'src/components/Footer.jsx',
-  ]),
+  globalIgnores(['dist']),
 
   // Browser + React source files
   {
