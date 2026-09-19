@@ -43,7 +43,7 @@ Ask for these as free text (open-ended, no fixed option set):
 2. **One-line description** — what problem this solves or what it delivers (1–2 sentences max)
 3. **Tags** — comma-separated (e.g. "Design System, Infrastructure"). Common tags: `Design System`, `Infrastructure`, `UX`, `Schema`, `Content`, `SEO`, `Performance`, `Tooling`
 
-Then ask the two enumerated fields together in one `AskUserQuestion` call (two questions, one call):
+Then ask the three enumerated fields together in one `AskUserQuestion` call (three questions, one call):
 
 ```
 Question 1: "Priority?"
@@ -59,6 +59,11 @@ Question 2: "Merge strategy?"
 Options:
   - "(a) Merge-as-you-go — one commit per phase, one CHANGELOG line at the end of each"
   - "(b) Single close-out — one long-lived branch, one CHANGELOG line at the end"
+
+Question 3: "Will this epic render anything a user has not signed off on?"
+Options:
+  - "Yes: it needs a vspec (Phase 0 visual spec gate)"
+  - "No: no new visual format"
 ```
 
 ---
@@ -154,6 +159,8 @@ decoupled from merge strategy — SUG-100 S9, `/mini-release` retired 2026-08-19
 **Status:** Backlog
 **Priority:** {emoji} {label}
 **Merge strategy:** ({a or b}) {strategy label}
+**Visual:** {yes or no, from Step 0 Question 3}
+{If yes: **Vspec:** `docs/drafts/ST-{n}-{kebab-name}.vspec.html`}
 ---
 
 # ST-{n} — {Epic name}
@@ -183,10 +190,10 @@ decoupled from merge strategy — SUG-100 S9, `/mini-release` retired 2026-08-19
 
 ## Phases
 
-{Single-phase: remove this section entirely.}
+{Single-phase: write "Single phase." Never remove this section: `scripts/check-epic-doc.js` requires it.}
 {Multi-phase: outline here. Derive from scope — if all bullets touch the same layer, it's single-phase. Name what ships at the end of each phase.}
 
-## Acceptance criteria
+## Acceptance Criteria
 
 {Falsifiable, testable ACs derived from scope bullets. "It works" is not valid.}
 {If this epic touches Sanity content: reference the Content Write Gate — "proposal approved before patch".}
@@ -318,10 +325,10 @@ When a human invokes "execute", "run", "implement", or "start" on an epic whose 
 
 Phase 0 means: complete the spec collaboratively using `docs/epic-template.md` as the guide. Implementation does not begin until every TODO stub is replaced with real content and the human has explicitly approved the spec.
 
-**Detection rule:** Before proceeding with any implementation work on an existing epic, read the backlog file and check for the literal string `TODO` in Background, Scope, or Phases sections. If found:
+**Detection rule:** Before proceeding with any implementation work on an existing epic, run `node scripts/check-epic-doc.js docs/backlog/{file}`. It reads the required sections from `docs/epic-template.md` and reports any that are missing, empty or `TODO`, plus a missing Visual line or vspec path. If it exits non-zero:
 
 1. Stop. Do not write any code, schema, CSS, or content.
-2. Tell the human: "This epic is still a stub. Background/Scope/Phases have TODO placeholders. Phase 0 is required before implementation — let's complete the spec first."
+2. Tell the human: "This epic doc is not complete enough to start:" followed by the gaps the script printed. "Phase 0 is required before implementation. Let's complete the spec first."
 3. Open `docs/epic-template.md` and walk through each section collaboratively with the human.
 4. Once every section is filled, ask via `AskUserQuestion`:
    ```

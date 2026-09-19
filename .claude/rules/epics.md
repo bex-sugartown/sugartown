@@ -57,7 +57,7 @@ and stick to it:
 
 ### Incomplete epic doc hard stop
 
-Before executing any epic from `docs/backlog/SUG-{N}-*.md`, check the file for completeness. If any of the following are unresolved, **stop and surface the gap before touching any file, Sanity document, or schema:**
+Before executing any epic from `docs/backlog/`, check the file for completeness. **Run `node scripts/check-epic-doc.js docs/backlog/{file}` first**; it checks items 1 to 3 below plus Acceptance Criteria, Objective, Non-Goals, Model & Mode, the Visual line and the vspec path, reading the required list from `docs/epic-template.md`. A non-zero exit is this hard stop. Items 4 to 7 need a read. If any item is unresolved, **stop and surface the gap before touching any file, Sanity document, or schema:**
 
 1. **Background is `TODO`** — the motivation is unclear; execution without it is guesswork
 2. **Scope items are incomplete or contain `TODO`** — no defined acceptance surface means no defined stopping point

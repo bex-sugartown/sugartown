@@ -46,7 +46,10 @@ stage (SUG-246).
 ---
 
 **Issue:** [#NN](url) _(create the issue first, then link it here)_
-## EPIC NAME: [REQUIRED]
+**Visual:** yes | no _(yes if this epic renders anything a user has not signed off on, CLAUDE.md §Phase 0 visual spec gate; then name the vspec path, `docs/drafts/{ID}-{slug}.vspec.html`)_
+## EPIC NAME:
+
+> **Required sections are the headings below marked exactly `[REQUIRED]`.** `node scripts/check-epic-doc.js <doc>` reads them from this file and fails a doc that is missing one, leaves one empty or `TODO`, or has no Visual line. Sections marked `[REQUIRED if …]` apply when their condition does. `/new-epic` writes the required set.
 
 ---
 
@@ -93,7 +96,7 @@ stage (SUG-246).
 
 ---
 
-## Pre-Execution Completeness Gate [REQUIRED — complete before writing Scope or Phases]
+## Pre-Execution Completeness Gate [GATE: run at activation, before writing Scope or Phases]
 
 > **Model phase:** On an Opus plan-first epic, this gate runs under Opus in plan mode — do not exit plan mode until it and the audits below are clean. On a plain-`/model sonnet` epic (the default — see Model & Mode above), this gate still applies in full; Sonnet completes it before writing Scope or Phases, there's just no separate plan-mode handoff.
 
@@ -148,7 +151,7 @@ stage (SUG-246).
 
 ---
 
-## Context [REQUIRED]
+## Background [REQUIRED]
 
 > State the current repo state relevant to this epic. Include:
 > - Which files already exist that this epic will touch
@@ -166,7 +169,7 @@ stage (SUG-246).
 
 ---
 
-## Doc Type Coverage Audit [REQUIRED — complete before writing Scope]
+## Doc Type Coverage Audit [REQUIRED if the epic adds a field, section type, schema object, or renderer]
 
 > For EVERY epic that adds a new field, section type, schema object, or
 > renderer: explicitly evaluate all five primary content doc types.
@@ -211,8 +214,8 @@ stage (SUG-246).
 
 ## Scope [REQUIRED]
 
-> Bullet list of included tasks. Every task must map to at least one
-> Deliverable and at least one Acceptance Criterion below.
+> Bullet list of included tasks. Every task must map to one Phase and at
+> least one Acceptance Criterion below.
 >
 > **If this epic includes a Phase 0 (vspec / design review):**
 > - The vspec file MUST be created at `docs/drafts/SUG-{N}-{name}.vspec.html` before any
@@ -241,6 +244,14 @@ stage (SUG-246).
 - [ ] Web adapter sync (if DS component created or modified — see Technical Constraints)
 - [ ] Migration script (if backfilling existing data)
 - [ ] Dry-run verification of migration script
+
+---
+
+## Phases [REQUIRED]
+
+> One row per phase: what ships at the end of it, and any gate it stops at.
+> A single-phase epic writes "Single phase." Every Scope item names its
+> phase (`.claude/rules/epics.md` §Incomplete epic doc hard stop, item 6).
 
 ---
 
@@ -388,7 +399,7 @@ stage (SUG-246).
 
 ---
 
-## Technical Constraints [REQUIRED]
+## Technical Constraints [OPTIONAL]
 
 > Cover all four layers. Do not leave any layer blank.
 
@@ -465,7 +476,7 @@ State how re-running the script produces no change:
 
 ---
 
-## Files to Modify [REQUIRED]
+## Files to Modify [OPTIONAL]
 
 > List every file expected to change. If a file is not listed here and
 > needs to change during execution, that is a scope gap — stop and
@@ -491,20 +502,6 @@ State how re-running the script produces no change:
 - `package.json` — add `migrate:[name]` script entry
 
 > **Model handoff point:** once Files to Modify is locked, exit plan mode. Sonnet executes from here down.
-
----
-
-## Deliverables [REQUIRED]
-
-> Concrete, verifiable artifacts. Each must be independently checkable.
-> Map each deliverable back to a task in Scope.
-
-1. **Schema** — `[newType].ts` exists in `schemas/sections/`, is registered in `index.ts`
-2. **Document wiring** — `sections[]` in each in-scope doc type includes `defineArrayMember({type: '[newType]'})`
-3. **GROQ projections** — every slug query in the Query Layer Checklist includes `_type == "[newType]" => { ... }`
-4. **Renderer** — `PageSections.jsx` has a `case '[newType]'` and renders the component without errors
-5. **Styles** — at minimum a wrapper rule exists in `PageSections.module.css`
-6. **Migration** (if in scope) — script runs dry-run with count matching the pre-flight expectation; runs `--execute` with 0 errors
 
 ---
 
@@ -618,7 +615,7 @@ State how re-running the script produces no change:
 
 ---
 
-## Risks / Edge Cases [REQUIRED]
+## Risks / Edge Cases [OPTIONAL]
 
 > Think through failure modes before execution, not after.
 
@@ -646,26 +643,10 @@ State how re-running the script produces no change:
 
 ---
 
-## Post-Epic Close-Out [REQUIRED]
+## Post-Epic Close-Out [at close-out]
 
-> Run these steps in order after all Acceptance Criteria are met and the working tree is committed.
+> **The steps are `CLAUDE.md` §Epic close-out sequence.** That is the one copy; run it in order.
+> One item lives only here, because `docs/conventions/feedback-loop.md` and the shared
+> `process-feedback-loop.md` point at it by this name:
 
-1. **Visual QA gate (hard stop)** — if this epic has a Phase 0 vspec or any visual output, produce the vspec-to-build comparison table before proceeding. Every visual element (typography, spacing, colours, layout states) must be flagged as Match / Drift / Missing. Present the table and wait for **"Visual QA approved"** in the chat. The shipped/ move is blocked until this text is received.
-2. **Chromatic** — run Chromatic VRT. If deferred, annotate the shipped doc: `<!-- Chromatic: pending — deferred YYYY-MM-DD -->`. Deferral does not unblock close-out, but "Defer Chromatic" is not equivalent to "no Chromatic needed".
-3. **Data pipeline gap check** — if this epic extended a build-time pipeline (stats, CrUX, LHCI, imports, etc.) and real data has not yet flowed through CI, document in the shipped doc:
-   - What env var or scheduled cron produces real data
-   - What the current `stats.json` (or equivalent) contains: real data or seeded scaffold
-   - Expected shape once the pipeline runs
-3b. **Friction line** — one sentence in the shipped doc: "What cost a correction commit this time." `none` is a valid, honest answer.
-4. **Move the epic doc to production**:
-   - Move: `docs/backlog/SUG-{N}-{name}.md` → `docs/shipped/SUG-{N}-{name}.md`
-   - Remove from `docs/backlog/`
-   - Commit: `docs: ship SUG-{N} {Epic name}`
-5. **Confirm clean tree** — `git status` must show nothing staged or unstaged
-6. **Add the CHANGELOG line** — one-line summary in `CHANGELOG.md`'s `[Unreleased]` section.
-   **Not a version bump.** That happens separately, whenever `/ship --release` next runs, and
-   covers everything accumulated since the last release — not just this epic (CLAUDE.md §Epic
-   close-out sequence step 7, SUG-100 S9, consolidated 2026-08-19). `/mini-release` retired.
-7. **Update the tracker** — transition the epic's issue to **Done** with `gh issue close {n}` (CLAUDE.md §Issue status = workflow stage). One epic is one issue, so there are no sub-issues to close.
-8. **Start next epic** — only after the CHANGELOG line and the `Done` transition are confirmed.
-   Nothing here pushes; that happens separately at the next `/ship`.
+3b. **Friction line**: one sentence in the shipped doc: "What cost a correction commit this time." `none` is a valid, honest answer.

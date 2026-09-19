@@ -38,6 +38,7 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { spawnSync } from 'child_process'
 import { createRequire } from 'module'
+import { requiredSections } from './check-epic-doc.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
@@ -258,6 +259,17 @@ const BOUNDARY_PROBES = Object.keys(SCOPES).map((scope) => {
 // or `.github/workflows/ci.yml` (`pnpm lint`, which also covers the boundary
 // probes above).
 
+const EPIC_PROBE_DOC = 'scripts/__liveness_probe_epic__.md'
+
+/** A complete epic doc: one filled section per [REQUIRED] template heading. */
+function completeEpicDoc(visual) {
+  const lines = ['---', `**Visual:** ${visual}`]
+  if (visual === 'yes') lines.push('**Vspec:** `docs/drafts/LIVENESS-probe.vspec.html`')
+  lines.push('---', '', '# LIVENESS-PROBE — probe epic', '')
+  for (const name of requiredSections()) lines.push(`## ${name}`, '', 'Probe content.', '')
+  return lines.join('\n')
+}
+
 const PROBES = [
   {
     gate: 'validate:tokens',
@@ -345,6 +357,37 @@ const PROBES = [
             '.taxProbeLiveness { display: block; }\n'
           ),
       }),
+  },
+
+  // Epic-doc completeness (ST-129). The probe doc is built from the template's
+  // own [REQUIRED] headings, so a template change the checker misses fails here.
+  {
+    gate: 'check-epic-doc: required section',
+    why: 'a doc missing a [REQUIRED] template section must fail',
+    run: () => {
+      tempFile(EPIC_PROBE_DOC, completeEpicDoc('no'))
+      return gateProbe({
+        cmd: 'node',
+        args: ['scripts/check-epic-doc.js', EPIC_PROBE_DOC],
+        success: 'rejected the missing Acceptance Criteria',
+        breakIt: () =>
+          mutateFile(EPIC_PROBE_DOC, (src) => src.replace('## Acceptance Criteria\n\nProbe content.\n', '')),
+      })
+    },
+  },
+
+  {
+    gate: 'check-epic-doc: vspec path',
+    why: 'a Visual: yes doc with no vspec path must fail',
+    run: () => {
+      tempFile(EPIC_PROBE_DOC, completeEpicDoc('yes'))
+      return gateProbe({
+        cmd: 'node',
+        args: ['scripts/check-epic-doc.js', EPIC_PROBE_DOC],
+        success: 'rejected the missing vspec path',
+        breakIt: () => mutateFile(EPIC_PROBE_DOC, (src) => src.replace(/^\*\*Vspec:\*\*.*\n/m, '')),
+      })
+    },
   },
 
   // Architectural boundary rules — one probe per enforced scope, generated

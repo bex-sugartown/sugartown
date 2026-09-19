@@ -98,6 +98,10 @@ Only call the Write tool after "Write it — save the epic" is selected.
 The file must be paste-ready into a Claude Code session. No explanatory prose around the
 template — just the completed template.
 
+Before asking to write it, save the draft to the scratchpad, run
+`node scripts/check-epic-doc.js <scratchpad copy>` and fix every gap it reports. It reads the required sections from `docs/epic-template.md`, so a pass means the draft
+meets the template.
+
 ---
 
 ## How to Fill the Template
@@ -116,7 +120,7 @@ The six gate items correspond to six categories of silent failure:
 - Schema changes not scoped → implicit changes that can't be reverted cleanly
 - Web adapter not scoped → component works in DS, breaks in web app
 
-### Context
+### Background
 
 State exactly what exists right now that this epic will touch. Claude Code has no memory
 between sessions. If it's not in the epic, it doesn't exist.
