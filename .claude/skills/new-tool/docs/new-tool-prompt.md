@@ -213,12 +213,17 @@ check that all eight sections are answered. If any is missing, or contains `TODO
 
 1. Stop. Write no script, no hook, no config.
 2. Say which sections are unanswered.
-3. Fill them collaboratively, then ask via `AskUserQuestion`:
+3. Ask every unanswered section, and every decision the build will need that can be seen now, in
+   one batch (the start review). Fill the sections from the answers, then ask via `AskUserQuestion`:
    ```
    "Spec complete — build it?"
      - "Yes — build it"
      - "Not yet — more sections need work"
    ```
+
+**Close-out for a tool** is the evidence comment on the issue when it goes to `Done` (CLAUDE.md
+§Issue status, rule 3): what changed, what verified it, what didn't work, follow-ups filed (#N) or
+declined with a reason, the friction line, and any post-ship checks for `/ship` to read.
 
 **Section 1 is the hard one.** If the reader cannot be named, the answer is not to build it and
 find a reader later. It is to close the issue.

@@ -58,7 +58,7 @@ just means the digest is stale until the next run, same as any manual step.
 
 ## Loop 2 — the process loop and the three-strike retrospective trigger
 
-Every shipped epic doc's Post-Epic Close-Out (step 3b, `docs/epic-template.md`) states
+Every shipped epic doc's Close-out review (its Friction line, `docs/epic-template.md` §Close-out review) states
 one sentence: **"What cost a correction commit this time."** `none` is a valid, honest
 answer — most epics should say it.
 

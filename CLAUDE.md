@@ -64,7 +64,7 @@ file it governs has not been read yet in this session.
 
 When an epic is complete, run these steps in order before starting the next epic.
 
-Steps 1, 1b, 7, 8 and 9 always run. **Steps 2–6b fire only on their stated trigger**; a
+Steps 1, 1b, 5c, 7, 8 and 9 always run. **The other steps from 2 to 6b fire only on their stated trigger**; a
 step whose trigger did not fire is recorded as N/A with the reason, never silently skipped.
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
@@ -77,6 +77,7 @@ blocking) — but the defer decision itself is not restated (SUG-100 S3). `/mini
 2026-08-19, absorbed into `/ship` (SUG-100 S9, S16).
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
 5b. **Verify handoffs landed.** If close-out defers work to another epic, open that epic's doc and confirm each deferred item is in its **Scope** — not mentioned in prose, not assumed to be "that epic's axis". Add it if missing. (SUG-230 deferred three items to SUG-231; none reached its Scope.)
+5c. **Close-out review.** Write `## Close-out review` and `## Post-ship checks` into the epic doc (`docs/epic-template.md`), then run `node scripts/check-epic-doc.js <doc> --stage close-out`. A non-zero exit blocks step 6. Every follow-up, to the implementation or to the workflow and docs, is filed as an issue or declined with a reason. The friction line lives here.
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
 7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. The version bump is not this step's job: it happens at the ship step — `/ship --release`, which invokes `/release` rather than
@@ -216,6 +217,8 @@ gh project item-edit --id {item_id} --project-id PVT_kwHODqg2Fc4BP7M2 \
   --field-id PVTSSF_lAHODqg2Fc4BP7M2zg-MUFI --single-select-option-id be99b80c
 ```
 
+**The start review for a bare issue is a read.** Before setting `In Progress`, confirm the body states an objective, acceptance criteria, and whether it renders anything new (Visual yes or no). Ask for anything missing in one batch.
+
 Three rules make this safe:
 
 1. **Set `In Progress` before the first `Edit`/`Write`.** Same reason as an epic: work in
@@ -224,7 +227,9 @@ Three rules make this safe:
    currently `Done` into `Shipped` on a green CI run, so a `Done` issue whose work is
    uncommitted gets marked shipped by the next ship regardless of what it contains.
 3. **Comment the evidence on the issue when setting `Done`** — what changed, and what verified
-   it. `Done` with no evidence is a status nobody can check.
+   it. `Done` with no evidence is a status nobody can check. The same comment carries the
+   close-out review: what didn't work, follow-ups filed (#N) or declined, the friction line, and
+   any post-ship checks, which `/ship` reads.
 
 Abandoning execution returns the issue to `Todo`, or `On Hold` if blocked. Never leave it at
 `In Progress`.
@@ -291,6 +296,8 @@ usually differs only by its `generatedAt` date.
 **No code in `apps/web/src/`, `apps/studio/schemas/`, or any other implementation path until** (a) the vspec exists at `docs/drafts/SUG-{N}-{slug}.vspec.html`, and (b) the user has reviewed it and the Phase 0 checkboxes are marked complete. Permitted before sign-off: backlog doc edits, schema planning notes, query design notes. Not permitted: any JSX, CSS, schema TypeScript, or migration scripts. Committing FE code before vspec approval is a process failure.
 
 A vspec is a specification, not a sketch: its class names, spacing values, and annotated behaviours bind the implementation, and it is what the vspec-to-build comparison table judges against. Updating the backlog spec triggers a vspec update in the same response, so the two stay in sync.
+
+**Sign-off covers everything knowable up front, in one batch:** the vspec, reader-facing copy, the CSS class naming table (`.claude/rules/css-layout.md` proposal gate), design-system changes, and diffs for every rule file the Scope names. After sign-off, stop mid-epic only for what could not be known at the start. (SUG-202 stopped four times mid-epic; two were knowable at the start.)
 
 **Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the vspec, then ask via a single select option.
 

@@ -329,7 +329,7 @@ Phase 0 means: complete the spec collaboratively using `docs/epic-template.md` a
 
 1. Stop. Do not write any code, schema, CSS, or content.
 2. Tell the human: "This epic doc is not complete enough to start:" followed by the gaps the script printed. "Phase 0 is required before implementation. Let's complete the spec first."
-3. Open `docs/epic-template.md` and walk through each section collaboratively with the human.
+3. Run the start review (`docs/epic-template.md` §Pre-Execution Completeness Gate): ask every gap in one batch, then fill the sections with the answers.
 4. Once every section is filled, ask via `AskUserQuestion`:
    ```
    Question: "Spec looks complete — start implementation?"

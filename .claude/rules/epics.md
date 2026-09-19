@@ -67,6 +67,8 @@ Before executing any epic from `docs/backlog/`, check the file for completeness.
 6. **A Scope item that names no phase** — `Scope ∖ Phases` must be empty. An item outside every phase never gets sequenced. (SUG-231: one survived four phases of review.)
 7. **Scope amended without re-reading Non-Goals** — when Scope gains an item, re-read Non-Goals in the same edit and reconcile any conflict before writing code. (SUG-231: Scope and Non-Goals contradicted each other for a day.)
 
+This check is the start review (`docs/epic-template.md` §Pre-Execution Completeness Gate). Ask every gap in one batch.
+
 **Correct response:** name the stub sections ("Background is TODO, Phases are undefined"), then offer either (a) fill the doc collaboratively, or (b) run an audit pass and wait for approval before implementing. Do not fill in the blanks yourself and proceed.
 
 Applies to all epic types, including pure content and editorial epics.

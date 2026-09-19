@@ -38,7 +38,7 @@ import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { spawnSync } from 'child_process'
 import { createRequire } from 'module'
-import { requiredSections } from './check-epic-doc.js'
+import { requiredSections, requiredSubsections } from './check-epic-doc.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const ROOT = resolve(__dirname, '..')
@@ -270,6 +270,22 @@ function completeEpicDoc(visual) {
   return lines.join('\n')
 }
 
+/** A complete close-out: every close-out section and subsection from the template, filled. */
+function completeCloseOutDoc() {
+  const lines = ['# LIVENESS-PROBE — probe close-out', '']
+  for (const [name, subs] of requiredSubsections()) {
+    lines.push(`## ${name}`, '')
+    if (subs.length === 0) lines.push('Probe content.', '')
+    for (const sub of subs) {
+      lines.push(`### ${sub}`, '')
+      if (sub.toLowerCase() === 'follow-ups') {
+        lines.push('| Follow-up | Kind | Where it went |', '|---|---|---|', '| probe item | implementation | #1 |', '')
+      } else lines.push('Probe content.', '')
+    }
+  }
+  return lines.join('\n')
+}
+
 const PROBES = [
   {
     gate: 'validate:tokens',
@@ -386,6 +402,35 @@ const PROBES = [
         args: ['scripts/check-epic-doc.js', EPIC_PROBE_DOC],
         success: 'rejected the missing vspec path',
         breakIt: () => mutateFile(EPIC_PROBE_DOC, (src) => src.replace(/^\*\*Vspec:\*\*.*\n/m, '')),
+      })
+    },
+  },
+
+  // Close-out stage (ST-130), built from the template's close-out sections.
+  {
+    gate: 'check-epic-doc: close-out review',
+    why: 'a close-out missing a required section must fail',
+    run: () => {
+      tempFile(EPIC_PROBE_DOC, completeCloseOutDoc())
+      return gateProbe({
+        cmd: 'node',
+        args: ['scripts/check-epic-doc.js', EPIC_PROBE_DOC, '--stage', 'close-out'],
+        success: 'rejected the missing Post-ship checks',
+        breakIt: () => mutateFile(EPIC_PROBE_DOC, (src) => src.replace(/## Post-ship checks\n\nProbe content\.\n/, '')),
+      })
+    },
+  },
+
+  {
+    gate: 'check-epic-doc: follow-up routing',
+    why: 'a follow-up with no issue and no decline must fail',
+    run: () => {
+      tempFile(EPIC_PROBE_DOC, completeCloseOutDoc())
+      return gateProbe({
+        cmd: 'node',
+        args: ['scripts/check-epic-doc.js', EPIC_PROBE_DOC, '--stage', 'close-out'],
+        success: 'rejected the unrouted follow-up',
+        breakIt: () => mutateFile(EPIC_PROBE_DOC, (src) => src.replace('| probe item | implementation | #1 |', '| probe item | implementation | later |')),
       })
     },
   },

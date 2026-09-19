@@ -100,6 +100,16 @@ stage (SUG-246).
 
 > **Model phase:** On an Opus plan-first epic, this gate runs under Opus in plan mode — do not exit plan mode until it and the audits below are clean. On a plain-`/model sonnet` epic (the default — see Model & Mode above), this gate still applies in full; Sonnet completes it before writing Scope or Phases, there's just no separate plan-mode handoff.
 
+> **This is the start review.** Run it when an issue is picked, before any file changes:
+> 1. `node scripts/check-epic-doc.js <doc>` exits 0.
+> 2. The judgement items in `.claude/rules/epics.md` §Incomplete epic doc hard stop (4 to 7) are clear.
+> 3. The checklist below is ticked, or each item marked N/A with its reason.
+> 4. Every gap, open question and knowable approval is asked in **one batch** (`AskUserQuestion`),
+>    including the Phase 0 sign-off scope (CLAUDE.md §Phase 0 visual spec gate).
+>
+> Then set the issue to In Progress. A `/new-tool` issue runs its eight-section check in place of
+> step 1; a bare issue runs a read (CLAUDE.md §Issue status = workflow stage).
+>
 > Tick every item before execution begins. If an item cannot be answered, resolve it
 > first — do not proceed.
 
@@ -523,8 +533,7 @@ State how re-running the script produces no change:
 - [ ] **Visual QA** (required for any epic that changes visible output): render the new component/section on a real page with realistic adjacent content. Screenshot or preview-inspect to verify spacing, typography, and colour consistency with neighbouring elements. Check at desktop and mobile breakpoints. Specifically verify: no double-padding when sections render inside a detail page container, heading colours match the brand-primary token, and font sizes match the design system type scale.
 - [ ] **Vspec fidelity** (required if Phase 0 produced a vspec): agent produces the vspec-to-build comparison table in the Visual QA Gate below. Human reviews and approves before close-out. This line item cannot be ticked by the agent alone.
 - [ ] **Prototype trigger evaluated.** If any trigger fired, the interaction is built in the vspec (see CLAUDE.md §Vspec fidelity — the prototype trigger).
-- [ ] **Friction line present.** The shipped doc states, in one sentence, what cost a correction commit this time — `none` is a valid answer. See Post-Epic Close-Out step 3b.
-- [ ] **Findings ledger present.** Every finding raised during the epic has a row naming where it went. A finding whose only record is this conversation has not been filed. `none` is a valid answer where nothing surfaced.
+- [ ] **Close-out review present.** `node scripts/check-epic-doc.js <doc> --stage close-out` exits 0 (see §Close-out review below).
 
   | Finding | Destination | Artifact |
   |---|---|---|
@@ -646,7 +655,43 @@ State how re-running the script produces no change:
 ## Post-Epic Close-Out [at close-out]
 
 > **The steps are `CLAUDE.md` §Epic close-out sequence.** That is the one copy; run it in order.
-> One item lives only here, because `docs/conventions/feedback-loop.md` and the shared
-> `process-feedback-loop.md` point at it by this name:
+> Its step 5c writes the two sections below into the doc and checks them with
+> `node scripts/check-epic-doc.js <doc> --stage close-out` before the move to `docs/shipped/`.
 
-3b. **Friction line**: one sentence in the shipped doc: "What cost a correction commit this time." `none` is a valid, honest answer.
+---
+
+## Close-out review [REQUIRED at close-out]
+
+### Acceptance criteria
+
+> Each criterion above: ticked with its evidence, or why not. A criterion that can only be
+> checked on the live site moves to Post-ship checks.
+
+### What didn't work
+
+> What cost a correction, a rework or a stop this time, and why. `none` is valid.
+
+### Follow-ups
+
+> Every finding raised during the epic gets a row: a change to the implementation, or to the
+> workflow and docs. Each is filed as an issue or declined with a reason. A finding whose only
+> record is the conversation has not been filed. `none` is valid.
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| {what} | implementation / workflow-docs | #N, or declined: {reason} |
+
+### Friction line
+
+> One sentence: what cost a correction commit this time. `none` is a valid, honest answer.
+> Read by the three-strike rule, `docs/conventions/feedback-loop.md`.
+
+---
+
+## Post-ship checks [REQUIRED at close-out]
+
+> Checks that can only run on the live site. `/ship` reads this list after deploy
+> (`docs/ship-prompt.md` step 5b): it runs what it can, lists person-only checks as owed, and a
+> check that runs and fails keeps the issue at Done. `none` is valid.
+
+- [ ] {check}: {how: a command, or "person: …"}

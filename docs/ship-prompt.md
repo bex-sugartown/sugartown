@@ -201,13 +201,24 @@ After delivering the briefing, propose actions in this order:
 
    *Why this step exists:* until 2026-07-28, this check confirmed the Netlify deploy responded and never looked at the CI run the same push had triggered. Netlify deploys from a build that does not run the test suite, so a green site and a red pipeline coexist comfortably — and did, for 212 consecutive runs between 2026-05-10 and 2026-07-28, across six releases. The deploy check answers "is the site up". This one answers "did anything verify it". They are not the same question, and only one of them was being asked.
 
+5b. **Post-ship checks** (after step 5 concludes `success`)
+   - For each issue enumerated as `Done`, read its post-ship checks: the `## Post-ship checks`
+     section of its doc in `docs/shipped/`, or, for a tool or bare issue, the post-ship checks in
+     its `Done` evidence comment. `none` means nothing to do.
+   - Run every check a session can run (a `curl`, a page read, a query). Tick it in the doc with
+     the date, or record the result in a comment on the issue.
+   - A check that needs a person (for example GA Realtime) is **owed**: list it in Phase 4 under
+     the issue, and it does not block `Shipped`.
+   - A check that runs and **fails** keeps that issue at `Done` in step 6. Report the failure in
+     Phase 4. The other issues still transition.
+
 6. **Transition `Done` → `Shipped`** — only if step 5 concluded `success`
    - **If CI did not conclude `success`** (failed, or still unresolved): skip this step entirely.
      Every issue enumerated in Phase 1 **stays `Done`**. No un-`Done`, no ceremony — a red CI run
      is not a reason to touch the board (SUG-100 acceptance criterion, kill criterion §Kill
      criterion). Report this plainly in Phase 4 and stop here.
    - **If CI concluded `success`:** for every issue enumerated as `Done` in Phase 1 — not just the
-     one that prompted this run — in this exact order:
+     one that prompted this run — except any issue step 5b kept at `Done`, in this exact order:
      ```bash
      gh issue close {n}   # no-op if already closed
      gh project item-edit --id {item_id} \
@@ -321,6 +332,7 @@ Chromatic: [no changes / N changes (approved | overridden) / skipped — no visu
 Netlify deploy: [triggered / not needed]
 CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
+Post-ship checks: [passed: list / owed to Bex: list per issue / failed, kept at Done: list / none]
 Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /ship / --release passed but CI blocked it]
 Release publish (step 8): [no release commit in this push / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
 Uncommitted changes: [none / list]

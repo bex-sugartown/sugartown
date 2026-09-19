@@ -71,7 +71,7 @@ Before writing any new CSS class for a detail page, taxonomy page, or shared lay
 
 Location-named or page-scoped class names (e.g. `toolUrl`, `lv-*`, `folioHead`, `.profileHeadline`) are a signal the audit was skipped. Semantic, reusable names only.
 
-**Proposal table gate (hard stop — fires before first Edit to a CSS module file):** Before writing the first new CSS class name, produce a naming proposal table and wait for explicit approval:
+**Proposal table gate (hard stop — fires before first Edit to a CSS module file):** Before writing the first new CSS class name, produce a naming proposal table and wait for explicit approval. **For an epic with a vspec, the table is part of the Phase 0 sign-off** (CLAUDE.md §Phase 0 visual spec gate): list every new class there, and that approval counts. A class not in it still needs this gate:
 
 | Proposed class name | Closest existing pattern | Reuse decision |
 |---------------------|--------------------------|----------------|

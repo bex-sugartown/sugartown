@@ -167,3 +167,37 @@ The banner renders on every page, so every page-type is in reach.
 **Open after ship, in Acceptance criteria:** the three production checks (no GA request before a choice; accept gives a GA Realtime hit; reject stops GA), and Bex publishing `drafts.page-privacy-and-terms`. Publish the Privacy draft only after the code is live.
 
 **Friction line:** the vspec presented two Callout layout rules as existing DS behaviour when they were new, and the CSS naming table was shown after the module file was written rather than before. Both were disclosed and approved, but each cost a correction round.
+
+## Close-out review
+
+Added 2026-09-19 under ST-130, before this epic reached Shipped, so `/ship` can read its post-ship checks.
+
+### Acceptance criteria
+
+Ticked above with evidence where checkable locally: localhost sends nothing, Visual QA approved, `pnpm test:smoke` 5/5. The three production criteria and the Privacy publish move to Post-ship checks. Keyboard reach, focus return and contrast were verified in the dev app (Phase 2 commit message) and in the Visual QA table.
+
+### What didn't work
+
+The vspec presented two Callout layout rules as existing DS behaviour when they were new, and the CSS naming table was shown after the module file was written. The Privacy draft was published early by mistake and restored the same day; the live page never described the banner for more than a few minutes.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Phase 0 sign-off should include the class-name table and DS changes | workflow-docs | #130 |
+| Post-ship checks need a home `/ship` reads | workflow-docs | #130 |
+| GA on prerendered pages, production check | implementation | #128 |
+| `Table.module.css:26` self-referencing custom property | implementation | #74 |
+| `Header.jsx` and `Footer.jsx` are excluded from ESLint | implementation | #86 (background lint session reports there) |
+| Privacy page hero heading stored as `Privacy &#038; Terms of Use` | implementation | declined: renders correctly, the web app decodes the entity; stored-data tidiness only |
+
+### Friction line
+
+The vspec presented two Callout layout rules as existing DS behaviour when they were new, and the CSS naming table came after the module was written; each cost a correction round.
+
+## Post-ship checks
+
+- [ ] Fresh visit on https://sugartown.io with storage cleared: no request to `googletagmanager.com` before a choice (session: browser pane, network requests)
+- [ ] Accept: `gtag.js` loads (session: network requests) and a hit shows in GA Realtime (person: Bex)
+- [ ] Reject, then reload: no GA request (session: browser pane)
+- [ ] Publish `drafts.page-privacy-and-terms` once the banner is live (person: Bex, in Studio)
