@@ -1,18 +1,28 @@
 ---
 **Epic:** SUG-232 — Non-colour raw token fallbacks pass CI silently
-**Linear Issue:** [SUG-232](https://linear.app/sugartown/issue/SUG-232)
-**Status:** Backlog
-**Priority:** 🟣 Soon
-**Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
+**GitHub Issue:** [#74](https://github.com/bex-sugartown/sugartown/issues/74) (legacy ID SUG-232; Linear retired 2026-09-05)
+**Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
+**Merge strategy:** (a) Merge-as-you-go — one commit per phase, shipped with `/ship`
 ---
 
 # SUG-232 — Non-colour raw token fallbacks pass CI silently
+
+## Verified 2026-09-19
+
+Re-measured against the repo and Sanity. Where this section disagrees with the text below, this section is current.
+
+- **Down from 55 to 32 in scope.** `grep -rnoE 'var\(--st-[A-Za-z0-9_-]+,[[:space:]]*[^v[:space:]]' --include='*.css'`: 29 in 6 package component files (Accordion 4, Card 3, CodeBlock 6, Media 6, SegmentedControl 6, Table 4), 1 in web `tile/Tile.module.css:55`, and 1 in each copy of `styles/globals.css`. SUG-224 (2026-07-23/24) removed the other web copies.
+- **No mirrored pairs left.** Web now imports those components from the package, so the lockstep constraint below no longer applies. Only `globals.css` is still mirrored.
+- **Scope decision needed first.** Another 112 raw fallbacks sit in app-level CSS (`apps/web/src/components/**`, `pages/**`; `PageSections.module.css` alone has 51). The rule in `.claude/rules/tokens.md` covers DS component CSS only.
+- **The validator gap is unchanged.** `validate-tokens.js` checks colour fallbacks only.
+- **Add a liveness probe** in `scripts/validate-liveness-probes.js` (ST-95), next to the existing `validate:tokens:strict` probe.
+- **Found in passing:** `packages/design-system/src/components/Table/Table.module.css:26` sets `--st-table-caption-height: var(--st-table-caption-height, 43px)`. A custom property that refers to itself is invalid, so line 113 likely falls back to `0px`. Not checked in a browser. Removing the fallback alone will not fix it; remove the declaration.
 
 Extend `validate-tokens.js` to catch raw fallback values of any type, not just colours, then burn down the 55 existing violations.
 
 ## Background
 
-CLAUDE.md §DS Component Authoring states the rule plainly: "`var(--st-token, #hex)` is banned. The only permitted fallback form is `var(--st-token, var(--st-primitive))`." The validator that appears to enforce it, `validate:tokens --strict-colors`, only checks for hardcoded **colour** values (hex, rgba, hsla). So non-colour raw fallbacks — `var(--st-space-4, 1rem)`, `var(--st-font-size-lg, 1.125rem)`, `var(--st-line-height-tight, 1.25)` — violate the written rule and pass CI without comment.
+`.claude/rules/tokens.md` §DS Component Authoring (moved out of CLAUDE.md 2026-09-04) states the rule plainly: "`var(--st-token, #hex)` is banned. The only permitted fallback form is `var(--st-token, var(--st-primitive))`." The validator that appears to enforce it, `validate:tokens --strict-colors`, only checks for hardcoded **colour** values (hex, rgba, hsla). So non-colour raw fallbacks — `var(--st-space-4, 1rem)`, `var(--st-font-size-lg, 1.125rem)`, `var(--st-line-height-tight, 1.25)` — violate the written rule and pass CI without comment.
 
 Measured 2026-07-21: **23 occurrences across 7 web component files** (Accordion, Card, CodeBlock, Media, SegmentedControl, Table, Tile) and **32 across 11 package files**.
 
@@ -73,7 +83,7 @@ After this epic, any `var(--st-*, <raw-value>)` where the fallback is not itself
 
 ## Related
 
-- **Linear:** [SUG-232](https://linear.app/sugartown/issue/SUG-232)
+- **GitHub:** [#74](https://github.com/bex-sugartown/sugartown/issues/74)
 - **Surfaced by:** SUG-217 activation audit — `docs/shipped/SUG-217-reconcile-9-smaller-component-css-mirrors.md`
 - **Same gap pattern:** SUG-214 (CSS-only mirror validator) → SUG-231 (the bugs it hid)
 - **Epic template:** `docs/epic-template.md`

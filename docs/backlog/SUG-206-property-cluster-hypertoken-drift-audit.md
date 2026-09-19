@@ -1,12 +1,21 @@
 ---
 **Epic:** SUG-206 — Property-cluster (hypertoken) drift audit
-**Linear Issue:** [SUG-206](https://linear.app/sugartown/issue/SUG-206/property-cluster-hypertoken-drift-audit)
-**Status:** Backlog
-**Priority:** 🟢 Next
-**Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
+**GitHub Issue:** [#68](https://github.com/bex-sugartown/sugartown/issues/68) (legacy ID SUG-206; Linear retired 2026-09-05)
+**Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
+**Merge strategy:** (b) Single close-out — one long-lived branch, shipped with `/ship`
 ---
 
 # SUG-206 — Property-cluster (hypertoken) drift audit
+
+## Verified 2026-09-19
+
+Re-measured against the repo and Sanity. Where this section disagrees with the text below, this section is current.
+
+- **Still open, and the drift has grown.** The heading-2 bundle is now in 10 selectors across 7 files (8 when the audit ran). New since: `pages/pages.module.css:221` and `pages/platform/PlatformHubPage.module.css:45`. `PlatformHubPage:45` has already drifted (`line-height: 1.1`, no weight, different colour).
+- **The source report's h2 example is wrong.** `ContentBlock.module.css:27` is the `.h3` block; `.h2` has used `var(--st-line-height-tight)` since 2026-01-24. The real hardcoded `line-height: 1.3` drift is in h3, in 4 files (ContentBlock, RichText, PageSections, pages.module.css). Fix this when the report is used as a source.
+- **Rules cross-referenced below now live in `.claude/rules/`:** the Section Layout Contract and bg-through-gap rule in `css-layout.md`, the theme cascade in `tokens.md`.
+- **Do after #74 (SUG-232).** Same files; the audit reads cleaner once raw fallbacks are gone and the validator is extended. Recorded as a GitHub relation.
+- 655 tokens today, not 656.
 
 System-wide inventory of hand-copied multi-property style bundles (typography, spacing, surfaces, motion) that drift silently across CSS files, following up on the heading-token drift finding in the hypertokens alignment audit.
 
@@ -66,6 +75,6 @@ Not applicable — documentation/audit epic only. No CSS, layout, token, or comp
 
 ## Related
 
-- **Linear:** [SUG-206](https://linear.app/sugartown/issue/SUG-206/property-cluster-hypertoken-drift-audit)
+- **GitHub:** [#68](https://github.com/bex-sugartown/sugartown/issues/68)
 - **Precedent audit:** `docs/reports/alignment-audit-hypertokens-vs-sugartown-tokens.md`
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time (Schema Enum Audit and Query Layer Checklist are likely not applicable given this epic's documentation-only scope — confirm at activation)

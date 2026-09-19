@@ -1,12 +1,22 @@
 ---
 **Epic:** ST-22 — apps/studio has no typecheck script
 **GitHub Issue:** [#22](https://github.com/bex-sugartown/sugartown/issues/22)
-**Status:** Backlog
-**Priority:** 🟡 Medium
+**Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
 **Merge strategy:** (a) Merge-as-you-go
 ---
 
 # ST-22 — apps/studio has no typecheck script
+
+## Verified 2026-09-19
+
+Re-measured against the repo and Sanity. Where this section disagrees with the text below, this section is current.
+
+- **Still open.** `apps/studio/package.json` has no `typecheck` script. Root `pnpm typecheck` (`turbo run typecheck --continue`, CI `ci.yml:73`) skips Studio.
+- **7 errors in 5 files, not 5 files as filed.** `cd apps/studio && tsc --noEmit --incremental false`: `archivePage.ts` 2 (`new Date({})`, now line 350), `caseStudy.ts` 2 (`s` is unknown in the FAQ `Rule.custom`, added by SUG-207 on 2026-07-14), `homepage.ts` 1 and `siteSettings.ts` 1 (`__experimental_singleton`), `project.ts` 1 (`document` possibly undefined).
+- **`navigation.ts` no longer errors.** Drop it from the fix list.
+- There is no root `tsconfig`, so the errors only appear when tsc runs inside `apps/studio`.
+- `apps/studio/tsconfig.json` sets `incremental: true`, so the script writes a gitignored `tsconfig.tsbuildinfo`. Harmless.
+- **Do this with #85 (SUG-257).** Same package, same `package.json`.
 
 ## Background
 
