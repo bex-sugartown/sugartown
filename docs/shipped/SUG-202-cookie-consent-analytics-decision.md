@@ -115,10 +115,10 @@ Visitors choose whether Google Analytics runs. GA loads nothing until they accep
 - [ ] Reject: no GA request after reload; the banner stays dismissed
 - [ ] Footer "Cookie settings" reopens the banner; switching to Reject stops GA from the next page load
 - [ ] Banner does not cover page content, is reachable by keyboard with visible focus, and meets WCAG AA contrast in light and dark
-- [ ] Localhost still sends nothing to GA
-- [ ] Vspec-to-build comparison table approved ("Visual QA approved")
+- [x] Localhost still sends nothing to GA
+- [x] Vspec-to-build comparison table approved ("Visual QA approved", 2026-09-19)
 - [ ] Privacy copy approved under the Content Write Gate before the patch, and published by Bex
-- [ ] `pnpm test:smoke` green
+- [x] `pnpm test:smoke` green (5/5, 2026-09-19)
 
 ## Human QA Walkthrough — example local pages
 
@@ -145,3 +145,25 @@ The banner renders on every page, so every page-type is in reach.
 
 - **GitHub:** [#65](https://github.com/bex-sugartown/sugartown/issues/65)
 - Backfilled by the Phase 2 parity audit — `docs/briefs/linear-to-github-migration-plan.md` §5.1
+
+<!-- Chromatic: pending -->
+
+## Close-out, 2026-09-19
+
+**Done, not yet Shipped.** Commits `94c7554a` (Phase 1), `0d1546a0` (Phase 2), `2995d61d` (Phase 3), `8a19f310` (CHANGELOG). Local only until the next `/ship`.
+
+| Step | Result |
+|---|---|
+| 1 Commit | done |
+| 1b Smoke | `pnpm test:smoke` 5/5 green |
+| 2 Schema deploy | N/A, no `apps/studio/schemas/` change |
+| 3 Visual QA | vspec-to-build table (design-reviewer subagent plus in-browser measurements); "Visual QA approved" by Bex. Four drifts, all disclosed: gutter 32px and elevation shadow (vspec used wrong token values), `.consentActions` override, Callout `.bannerBody` flex and stacking (approved with class names) |
+| 4 Chromatic | **deferred to `/ship`** (CSS and a new story changed) |
+| 5 Data pipeline | N/A |
+| 5b Handoffs | #128: loading GA from the bundle already covers prerendered pages (build checked: prerendered article carries the entry chunk containing `lib/consent.js`, no inline gtag). Commented on #128; what is left there is a production check |
+| 6, 6b | this move; vspec copied to `docs/shipped/SUG-202-cookie-consent-banner.vspec.html` |
+| 7 CHANGELOG | `[Unreleased]` line added |
+
+**Open after ship, in Acceptance criteria:** the three production checks (no GA request before a choice; accept gives a GA Realtime hit; reject stops GA), and Bex publishing `drafts.page-privacy-and-terms`. Publish the Privacy draft only after the code is live.
+
+**Friction line:** the vspec presented two Callout layout rules as existing DS behaviour when they were new, and the CSS naming table was shown after the module file was written rather than before. Both were disclosed and approved, but each cost a correction round.
