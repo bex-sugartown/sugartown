@@ -6,6 +6,7 @@ import { SiteSettingsContext } from './lib/SiteSettingsContext'
 import { isPreviewMode } from './lib/contentState'
 import Header from './components/Header'
 import Footer from './components/Footer'
+import ConsentBanner from './components/ConsentBanner'
 import PreviewBanner from './components/PreviewBanner'
 
 // Pages
@@ -182,6 +183,7 @@ function App() {
       </Routes>
 
       <Footer siteSettings={siteSettings} />
+      <ConsentBanner />
     </div>
     </SiteSettingsContext.Provider>
   )

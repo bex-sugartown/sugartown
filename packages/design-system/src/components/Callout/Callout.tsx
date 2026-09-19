@@ -13,6 +13,9 @@ import styles from './Callout.module.css';
  * banner: flat flex row — inline label + body, full-width, no label column.
  * Used for page-level status messages (role="status").
  *
+ * `role` / `ariaLabel` override the landmark semantics (SUG-202): a consent bar
+ * is a labelled region, not a live status. Defaults are unchanged.
+ *
  * SUG-192: 'default' removed — it was CSS-identical to 'info'.
  * SUG-231 Phase 3: this copy adopted web's row format wholesale. It previously
  * carried the pre-SUG-99 design (padded box, per-variant lucide icon, title)
@@ -36,6 +39,10 @@ export interface CalloutProps {
   content?: React.ReactNode;
   /** Body content. Used when `content` is not supplied. */
   children?: React.ReactNode;
+  /** ARIA role override. Defaults: `status` for banner, `note` otherwise. */
+  role?: string;
+  /** Accessible name, e.g. with `role="region"`. */
+  ariaLabel?: string;
 }
 
 export function Callout({
@@ -44,13 +51,15 @@ export function Callout({
   title,
   content,
   children,
+  role,
+  ariaLabel,
 }: CalloutProps) {
   const body = content ? <p>{content}</p> : children;
   const classNames = [styles.callout, styles[variant] ?? ''].filter(Boolean).join(' ');
 
   if (variant === 'banner') {
     return (
-      <div className={classNames} role="status">
+      <div className={classNames} role={role ?? 'status'} aria-label={ariaLabel}>
         {title && <span className={styles.bannerLabel}>{title}</span>}
         <div className={styles.bannerBody}>{body}</div>
       </div>
@@ -60,7 +69,7 @@ export function Callout({
   const label = title || variant;
 
   return (
-    <aside className={classNames} role="note">
+    <aside className={classNames} role={role ?? 'note'} aria-label={ariaLabel}>
       <div className={styles.labelCol}>
         {number && <span className={styles.number}>{number}</span>}
         <span className={styles.label}>{label}</span>

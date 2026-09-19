@@ -112,8 +112,26 @@
   flex-shrink: 0;
 }
 
+/* Light theme: the pink accent on --st-card-label-bg is 2.85:1, below WCAG AA
+   for text. The label takes the brand text colour (maroon, 4.82:1); the 2px top
+   rule stays on the accent, since a border is not text. Dark keeps pink (5.2:1
+   on midnight-800). SUG-202. */
+[data-theme="light-pink-moon"] .bannerLabel { color: var(--st-color-text-brand); }
+
 .bannerBody {
+  flex: 1;          /* fill the row so trailing actions can sit at the end (SUG-202) */
+  min-width: 0;
   font-size: 0.95rem;
   line-height: 1.5;
   color: var(--st-color-text-default);
+}
+
+/* Narrow screens: label above the body instead of beside it (SUG-202). */
+@media (max-width: 640px) {
+  .banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .bannerBody { align-self: stretch; }
 }

@@ -77,10 +77,10 @@ Visitors choose whether Google Analytics runs. GA loads nothing until they accep
 ## Scope
 
 - [x] Phase 0 vspec at `docs/drafts/SUG-202-cookie-consent-banner.vspec.html`: first-visit banner (bottom bar, light and dark, mobile), the reopened state, and the footer "Cookie settings" control. The persisted-state prototype trigger fires, so the vspec includes a working toggle — layer: design
-- [ ] Consent Mode v2 default in `apps/web/index.html:9-24`: set every consent type to `denied` before `config`. Basic mode, so `gtag.js` is not injected at all until consent is granted. Keep the existing localhost suppression — layer: web
-- [ ] Consent storage in `localStorage['st-consent']`, the same pattern as `ThemeToggle.jsx` (`st-theme`) — layer: web
-- [ ] Banner component, placed per `.claude/rules/react.md` §Component choice gate at activation (design-system package or web) — layer: web
-- [ ] "Cookie settings" button in the footer utility row (`apps/web/src/components/Footer.jsx:97-100`). That row is built from `apps/web/src/lib/routes.js:130`, not Sanity nav, so this is a button next to the links, not a nav item — layer: web
+- [x] Consent Mode v2 default in `apps/web/index.html:9-24`: set every consent type to `denied` before `config`. Basic mode, so `gtag.js` is not injected at all until consent is granted. Keep the existing localhost suppression — layer: web
+- [x] Consent storage in `localStorage['st-consent']`, the same pattern as `ThemeToggle.jsx` (`st-theme`) — layer: web
+- [x] Banner component, placed per `.claude/rules/react.md` §Component choice gate at activation (design-system package or web) — layer: web
+- [x] "Cookie settings" button in the footer utility row (`apps/web/src/components/Footer.jsx:97-100`). That row is built from `apps/web/src/lib/routes.js:130`, not Sanity nav, so this is a button next to the links, not a nav item — layer: web
 - [ ] Privacy page copy (`page-privacy-and-terms`) updated to describe the banner and name reCAPTCHA. Content Write Gate; Bex publishes — layer: content
 - [ ] reCAPTCHA needs no code change: it already loads only when a `Form` with an `action` mounts (`Form.jsx:60-63`), not site-wide — layer: content
 - [x] Confirm Google's certified-CMP requirement covers ad products only, not GA alone, against Google's current policy page — layer: process
@@ -93,6 +93,8 @@ Visitors choose whether Google Analytics runs. GA loads nothing until they accep
   - Component-Reuse Manifest, layout contract, contrast table and behaviour spec live in the vspec, `docs/drafts/SUG-202-cookie-consent-banner.vspec.html`, §2 to §5. Decisions: extend DS `Callout` banner (optional `role` and `aria-label` props; light-theme label colour to `--st-color-text-brand`, 4.82:1, from pink at 2.85:1); use DS `Button` secondary sm for both choices; new `.fixedBar` and `.consentBody`; `button.utilityLink` in the footer.
   - Dark mode: token inheritance only.
 - **2026-09-19, Phase 0 signed off by Bex** ("Approved: start implementation"), including the banner copy.
+- **2026-09-19, Phase 1 committed** (`94c7554a`): GA moves out of `index.html` into `apps/web/src/lib/consent.js`, called from `main.jsx`. Consent Mode v2 basic. Because loading now comes from the bundle, prerendered pages get it too, which covers most of #128.
+- **2026-09-19, Phase 2 CSS class names approved by Bex** (naming table shown after the module was written; disclosed at the time). Two Callout layout changes beyond the approved props were approved with it: `.bannerBody` fills the row, and the banner stacks below 640px. The vspec showed these as existing; they were not.
 
 ## Phases
 

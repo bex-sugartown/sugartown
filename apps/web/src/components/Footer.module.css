@@ -121,6 +121,20 @@
   text-decoration: underline;
 }
 
+/* "Cookie settings" is a <button> styled as a utility link (SUG-202). */
+button.utilityLink {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  line-height: inherit;
+}
+
+.utilityLink:focus-visible {
+  outline: 2px solid var(--st-color-brand-primary);
+  outline-offset: 2px;
+}
+
 /* ── Zone 3: colophon ────────────────────────────────────────── */
 
 .colophon {
