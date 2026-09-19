@@ -24,6 +24,14 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   consent too (#128, verified on a built prerendered article). The Callout banner gained `role`/`ariaLabel` props, and its light-theme label
   moved from pink (2.85:1) to maroon (4.82:1) to meet WCAG AA on every banner. SUG-202 (#65).
 
+### docs
+
+#### Added
+- Drafts audit: all 71 files in `docs/drafts/` classified (content draft, outline, spec, handoff,
+  working note) and checked against Sanity where they are content. Six issues filed for pieces
+  worth finishing (#121 to #126); 57 flagged files moved to a local archive on Bex's go-ahead,
+  nothing deleted. ST-120 (#120).
+
 ### tooling
 
 #### Added
