@@ -197,7 +197,7 @@ The vspec presented two Callout layout rules as existing DS behaviour when they 
 
 ## Post-ship checks
 
-- [ ] Fresh visit on https://sugartown.io with storage cleared: no request to `googletagmanager.com` before a choice (session: browser pane, network requests)
-- [ ] Accept: `gtag.js` loads (session: network requests) and a hit shows in GA Realtime (person: Bex)
-- [ ] Reject, then reload: no GA request (session: browser pane)
-- [ ] Publish `drafts.page-privacy-and-terms` once the banner is live (person: Bex, in Studio)
+- [x] Fresh visit on https://sugartown.io with storage cleared: no request to `googletagmanager.com` before a choice (session: browser pane, network requests). **Passed 2026-09-19** after /ship: banner shown, 0 GA requests, 0 `_ga` cookies
+- [ ] Accept: `gtag.js` loads (session: network requests) and a hit shows in GA Realtime (person: Bex). **Session half passed 2026-09-19:** `gtag/js` loaded and `g/collect` sent, `_ga` cookies set. **GA Realtime owed to Bex.**
+- [x] Reject, then reload: no GA request (session: browser pane). **Passed 2026-09-19:** reopen showed "Current choice: accepted"; Reject deleted the `_ga` cookies; after reload 0 GA requests
+- [ ] Publish `drafts.page-privacy-and-terms` once the banner is live (person: Bex, in Studio). **Owed to Bex; the banner is live as of 2026-09-19.**
