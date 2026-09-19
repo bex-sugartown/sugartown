@@ -27,6 +27,13 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### tooling
 
 #### Added
+- Epic lifecycle as one loop. A start review when an issue is picked (checker, judgement checks,
+  one batch of questions); Phase 0 sign-off covering everything knowable up front, including the
+  CSS class-name table and rule-file diffs; a required Close-out review in every shipped doc (what
+  didn't work, each follow-up filed or declined, friction line), checked by
+  `check-epic-doc.js --stage close-out` before the move to `docs/shipped/`; and Post-ship checks
+  that `/ship` now runs, reports as owed to a person, or uses to hold a failed issue at Done.
+  ST-130 (#130).
 - `scripts/check-epic-doc.js`: an epic doc is checked against `docs/epic-template.md` when the epic
   starts. The template is now the one definition, with seven required sections (Background,
   Objective, Scope, Phases, Non-Goals, Acceptance Criteria, Model & Mode) and a `Visual: yes | no`
