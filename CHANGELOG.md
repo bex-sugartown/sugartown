@@ -12,6 +12,13 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+---
+
+## [0.36.0] — 2026-09-19
+
+Cookie consent for Google Analytics, a WCAG AA fix for Callout banners, the epic lifecycle made
+one checked loop, Linear retired, and multi-repo operations.
+
 ### apps/web
 
 #### Added
@@ -21,16 +28,31 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   remembered and can be changed from "Cookie settings" in the footer, and rejecting after
   accepting removes the GA cookies. Loading moved from an inline `index.html` snippet into
   `src/lib/consent.js`, so prerendered pages, which dropped the inline snippet, now load GA on
-  consent too (#128, verified on a built prerendered article). The Callout banner gained `role`/`ariaLabel` props, and its light-theme label
-  moved from pink (2.85:1) to maroon (4.82:1) to meet WCAG AA on every banner. SUG-202 (#65).
+  consent too (#128, verified live 2026-09-19). SUG-202 (#65).
 
-### docs
+#### Fixed
+- `Header.jsx` and `Footer.jsx` are linted again. Both were added to ESLint's ignore list during
+  the 2026-02-02 parity migration and never removed, so lint, pre-commit and CI skipped them for
+  seven months. 0 findings on re-enable.
+
+### packages/design-system
 
 #### Added
-- Drafts audit: all 71 files in `docs/drafts/` classified (content draft, outline, spec, handoff,
-  working note) and checked against Sanity where they are content. Six issues filed for pieces
-  worth finishing (#121 to #126); 57 flagged files moved to a local archive on Bex's go-ahead,
-  nothing deleted. ST-120 (#120).
+- Callout: optional `role` and `ariaLabel` props. A banner still defaults to `role="status"`; the
+  consent bar passes `role="region"` with a label. SUG-202 (#65).
+
+#### Fixed
+- Callout banner label in the light theme moved from pink (2.85:1 on the label background, below
+  WCAG AA) to `--st-color-text-brand`, maroon at 4.82:1. Fixes every existing banner. SUG-202.
+
+#### Changed
+- Callout banner body fills the row, and below 640px the label stacks above it. SUG-202.
+
+### apps/storybook
+
+#### Added
+- Regions/ConsentBanner stories (first visit, mobile), and a labelled-region example in the
+  Callout Banner story. SUG-202.
 
 ### tooling
 
@@ -56,7 +78,25 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   the ESLint boundary rules across four packages, for nine probed gates in total. The boundary
   rules are the reason it exists: they sat inert for 176 days while reporting as configured
   (INC-011). Wired into `ci.yml`. Kill criterion set at birth: if the probes find nothing new
-  in 60 days, retire them. ST-95.
+  in 60 days, retire them. ST-95. Extended to 13 gates by ST-129 and ST-130.
+- `/new-tool`: files tooling work (validators, gates, hooks, scripts, commands, skills) as an
+  issue-only spec with eight required answers, including who reads the output and a kill
+  criterion.
+- `guard-ip-paths`, a Claude Code PreToolUse hook that refuses any Read, Edit, Write, Glob, Grep
+  or Bash call whose input resolves into `cms-eval/bound/` or `resume-factory/private/`, the two
+  directories the wrapper `CLAUDE.md` files say a session never touches. Lives in the
+  `conventions` repo (`hooks/guard-ip-paths.sh`) and is registered at the user level, the only
+  settings level that reaches paths outside a repository. Twenty-case self-test plus registration,
+  stub and parse checks; proven live from a fresh session (a Read into `bound/` blocked with the
+  message, a Read beside it allowed) and in the authoring session itself. Moves both rules from
+  convention to enforced-by-code. ST-110.
+- Claude Code settings relayered: the sugartown-specific `autoMode` environment block moved out of
+  `~/.claude/settings.json`, where it had been describing every session on the machine, including
+  the two private repos, as the PUBLIC sugartown repo, into a tracked `.claude/settings.json` here;
+  `resume-factory/os` and `cms-eval/toolkit` got their own, naming their private visibility and
+  their sensitive directories. The tracked file also carries a curated read-only allowlist (33
+  entries from a scan of 50 transcripts) replacing 828 accreted entries in the gitignored local
+  file, which now holds only the four env secrets. ST-111.
 
 #### Changed
 - `CLAUDE.md` split: 1000 lines to about 630. Thirty sections that apply only when a kind of file is
@@ -105,26 +145,11 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   (`docs/briefs/data/linear-export-2026-09-05.csv`) is committed as the archive of record; the
   Linear workspace itself is left as-is rather than deleted, since Linear offers no
   archive/read-only action and deleting stays Bex's call alone. ST-117.
-
-#### Added
-- `guard-ip-paths`, a Claude Code PreToolUse hook that refuses any Read, Edit, Write, Glob, Grep
-  or Bash call whose input resolves into `cms-eval/bound/` or `resume-factory/private/`, the two
-  directories the wrapper `CLAUDE.md` files say a session never touches. Lives in the
-  `conventions` repo (`hooks/guard-ip-paths.sh`) and is registered at the user level, the only
-  settings level that reaches paths outside a repository. Twenty-case self-test plus registration,
-  stub and parse checks; proven live from a fresh session (a Read into `bound/` blocked with the
-  message, a Read beside it allowed) and in the authoring session itself. Moves both rules from
-  convention to enforced-by-code. ST-110.
-
-- Claude Code settings relayered: the sugartown-specific `autoMode` environment block moved out of
-  `~/.claude/settings.json`, where it had been describing every session on the machine, including
-  the two private repos, as the PUBLIC sugartown repo, into a tracked `.claude/settings.json` here;
-  `resume-factory/os` and `cms-eval/toolkit` got their own, naming their private visibility and
-  their sensitive directories. The tracked file also carries a curated read-only allowlist (33
-  entries from a scan of 50 transcripts) replacing 828 accreted entries in the gitignored local
-  file, which now holds only the four env secrets. ST-111.
+- `/morning` reads the wip mirror log and flags a failed mirror as unfinished business.
 
 #### Fixed
+- `/new-epic` applied no labels: Step 0 gathered tags but Step 1 never passed them to GitHub. Tags
+  now become labels, and content epics always carry `content`.
 - The post-commit wip mirror had two silent failure modes. Since ST-106 (2026-09-02) it never
   mirrored any commit while the day's `wip/<date>` branch did not yet exist: the fetch that fix
   added exits 128 on a missing branch, and husky runs hooks under `sh -e`, which killed the
@@ -153,6 +178,26 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   skills while omitting six real ones, calling the five-gate release pipeline "Seven-gate," and
   stating the release prompt had no slash command. Found by ST-103's documentation sweep. ST-103.
 
+### docs
+
+#### Added
+- Drafts audit: all 71 files in `docs/drafts/` classified (content draft, outline, spec, handoff,
+  working note) and checked against Sanity where they are content. Six issues filed for pieces
+  worth finishing (#121 to #126); 57 flagged files moved to a local archive on Bex's go-ahead,
+  nothing deleted. ST-120 (#120).
+- Brand mini manifesto, cross-linked from the voice guides.
+- Specs-tooling position review recorded, with two gaps filed.
+
+#### Changed
+- Todo backlog re-verified against the repo on 2026-09-19: 9 issues rewritten with current
+  measurements and dead Linear links removed; 8 backlog docs gain a dated verification section.
+- Issue status rules: Urgent or High priority means Todo; directly executed issues follow In
+  Progress and Done; new issues default to the bex-sugartown assignee.
+- Instructions written for Bex follow the shared human-instruction-style convention, referenced
+  from `CLAUDE.md`.
+- Data-handling note v1.1 records consent-gated analytics. SUG-202.
+
+---
 
 ## [0.35.0] — 2026-08-21
 
