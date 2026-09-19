@@ -1,9 +1,9 @@
 # Agentic Caucus — Data-Handling Note
 
-**Version:** v1.0
+**Version:** v1.1
 **Status:** Active
 **Owner:** Bex Head
-**Last updated:** 30 June 2026
+**Last updated:** 19 September 2026
 **Related:** [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`), site Privacy / Terms / Accessibility pages
 
 ---
@@ -29,14 +29,16 @@ Three collection points exist:
 | Source | What it collects | Mechanism | Processor |
 |---|---|---|---|
 | Contact form | The information you enter (your name, email address, and message) plus a reCAPTCHA token | Netlify Forms (`Form.jsx` posts `form-name` + fields + `g-recaptcha-response` to `/`) | Netlify (form storage), Google (reCAPTCHA verification) |
-| Analytics | Standard Google Analytics page-view and event data, plus GA cookies | `gtag.js` loaded in `index.html` (`G-00MF2Q9YJW`) | Google Analytics |
+| Analytics | Standard Google Analytics page-view and event data, plus GA cookies, only after the visitor accepts | `gtag.js` loaded by `apps/web/src/lib/consent.js` after consent (`G-00MF2Q9YJW`) | Google Analytics |
 | Hosting logs | Standard server request logs (IP, user agent, timestamp) | Netlify edge | Netlify |
 
-**Analytics behaviour (verified, not assumed):** the GA snippet in `index.html` is
-suppressed on `localhost`, `127.0.0.1`, and `*.local`, so it runs for production visitors
-only. It loads on page load with the default `gtag('config', …)` — there is currently **no
-cookie-consent banner and no GA consent-mode gating**. That is a fact to reconcile on the
-public Privacy page during the alignment pass, not to paper over here.
+**Analytics behaviour (verified, not assumed):** GA runs only after consent (SUG-202,
+2026-09-19). `apps/web/src/lib/consent.js` sets Google Consent Mode v2 to `denied` for every
+consent type and does not request `gtag.js` at all until the visitor accepts in the cookie
+banner (basic mode). The choice is stored in `localStorage['st-consent']` and can be changed
+from "Cookie settings" in the footer; rejecting after accepting sends a consent update and
+deletes the `_ga` cookies. GA stays suppressed on `localhost`, `127.0.0.1`, and `*.local`.
+reCAPTCHA loads only on pages with a contact form (`Form.jsx`).
 
 The site sets no first-party accounts, stores no passwords, and runs no e-commerce checkout
 at this address (the shop is a separate, parallel surface).
@@ -89,6 +91,10 @@ the two aligned is an ongoing obligation, audited in the SUG-198 Phase 3 alignme
 ---
 
 ## Changelog
+
+### v1.1, 19 September 2026
+Analytics is consent-gated (SUG-202, #65): cookie banner plus Consent Mode v2, basic
+implementation. Replaces the no-banner finding recorded in v1.0.
 
 ### v1.0 — 30 June 2026
 Initial document (SUG-198). Records the three collection points (contact form, analytics,
