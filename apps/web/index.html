@@ -6,22 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sugartown Digital</title>
     <meta name="description" content="Product Management for CMS, design systems, and e-commerce. Ex-Sephora, Estée Lauder. Currently shipping a portfolio site built like an enterprise platform." />
-    <!-- Google Analytics (gtag.js) — suppressed on localhost/dev -->
-    <script>
-      (function () {
-        var h = location.hostname;
-        if (h === 'localhost' || h === '127.0.0.1' || h.endsWith('.local')) return;
-        var s = document.createElement('script');
-        s.async = true;
-        s.src = 'https://www.googletagmanager.com/gtag/js?id=G-00MF2Q9YJW';
-        document.head.appendChild(s);
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-        gtag('config', 'G-00MF2Q9YJW');
-        window.gtag = gtag;
-      })();
-    </script>
+    <!-- Google Analytics loads from the app bundle only after consent: src/lib/consent.js (SUG-202) -->
     <!-- Google Fonts: authoritative <link> for Ledger Tradition (AB-001) font stack.
          Cormorant Garamond (headings/narrative), DM Sans (body/UI), IBM Plex Mono (mono labels).
          <link rel="stylesheet"> is loaded in parallel with JS, earlier than CSS @import. -->

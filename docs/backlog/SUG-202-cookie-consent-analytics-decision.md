@@ -76,15 +76,23 @@ Visitors choose whether Google Analytics runs. GA loads nothing until they accep
 
 ## Scope
 
-- [ ] Phase 0 vspec at `docs/drafts/SUG-202-cookie-consent-banner.vspec.html`: first-visit banner (bottom bar, light and dark, mobile), the reopened state, and the footer "Cookie settings" control. The persisted-state prototype trigger fires, so the vspec includes a working toggle — layer: design
+- [x] Phase 0 vspec at `docs/drafts/SUG-202-cookie-consent-banner.vspec.html`: first-visit banner (bottom bar, light and dark, mobile), the reopened state, and the footer "Cookie settings" control. The persisted-state prototype trigger fires, so the vspec includes a working toggle — layer: design
 - [ ] Consent Mode v2 default in `apps/web/index.html:9-24`: set every consent type to `denied` before `config`. Basic mode, so `gtag.js` is not injected at all until consent is granted. Keep the existing localhost suppression — layer: web
 - [ ] Consent storage in `localStorage['st-consent']`, the same pattern as `ThemeToggle.jsx` (`st-theme`) — layer: web
 - [ ] Banner component, placed per `.claude/rules/react.md` §Component choice gate at activation (design-system package or web) — layer: web
 - [ ] "Cookie settings" button in the footer utility row (`apps/web/src/components/Footer.jsx:97-100`). That row is built from `apps/web/src/lib/routes.js:130`, not Sanity nav, so this is a button next to the links, not a nav item — layer: web
 - [ ] Privacy page copy (`page-privacy-and-terms`) updated to describe the banner and name reCAPTCHA. Content Write Gate; Bex publishes — layer: content
 - [ ] reCAPTCHA needs no code change: it already loads only when a `Form` with an `action` mounts (`Form.jsx:60-63`), not site-wide — layer: content
-- [ ] Confirm Google's certified-CMP requirement covers ad products only, not GA alone, against Google's current policy page — layer: process
+- [x] Confirm Google's certified-CMP requirement covers ad products only, not GA alone, against Google's current policy page — layer: process
 - [ ] Update `docs/ai/agentic-caucus/data-handling.md` to match — layer: docs
+
+## Execution log
+
+- **2026-09-19, Pre-Execution Completeness Gate clean.** #65 set to In Progress.
+  - Certified-CMP check resolved: Google's requirement covers publishers serving ads through AdSense, Ad Manager or AdMob in the EEA, UK and Switzerland, not GA-only sites ([AdSense Help 13554116](https://support.google.com/adsense/answer/13554116)).
+  - Component-Reuse Manifest, layout contract, contrast table and behaviour spec live in the vspec, `docs/drafts/SUG-202-cookie-consent-banner.vspec.html`, §2 to §5. Decisions: extend DS `Callout` banner (optional `role` and `aria-label` props; light-theme label colour to `--st-color-text-brand`, 4.82:1, from pink at 2.85:1); use DS `Button` secondary sm for both choices; new `.fixedBar` and `.consentBody`; `button.utilityLink` in the footer.
+  - Dark mode: token inheritance only.
+- **2026-09-19, Phase 0 signed off by Bex** ("Approved: start implementation"), including the banner copy.
 
 ## Phases
 
