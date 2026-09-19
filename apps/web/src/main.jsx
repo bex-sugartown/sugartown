@@ -18,6 +18,9 @@ import './index.css'
 
 import App from './App.jsx'
 import DesignSystemProvider from './components/DesignSystemProvider.jsx'
+import { initAnalytics } from './lib/consent.js'
+
+initAnalytics()
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
