@@ -1,13 +1,22 @@
 ---
 **Epic:** SUG-202 — Cookie consent + analytics decision: GA runs with no consent banner
-**Linear Issue:** [SUG-202](https://linear.app/sugartown/issue/sug-202)
-**Status:** Backlog
-**Priority:** 🟠 High
+**GitHub Issue:** [#65](https://github.com/bex-sugartown/sugartown/issues/65) (legacy ID SUG-202; Linear retired 2026-09-05)
+**Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
 **Labels:** AI Ethics, CMS
 **Merge strategy:** (a) Merge-as-you-go
 ---
 
 # SUG-202 — Cookie consent + analytics decision: GA runs with no consent banner
+
+## Verified 2026-09-19
+
+Re-measured against the repo and production. The Background still holds.
+
+- **GA still loads with no consent banner and no consent-mode gating.** `apps/web/index.html:9-22` injects `gtag.js` (`G-00MF2Q9YJW`) outside localhost. No consent code exists under `apps/web/src`.
+- **reCAPTCHA is still on the contact form** (`apps/web/src/components/Form.jsx:5-13`).
+- **`docs/ai/agentic-caucus/data-handling.md` still exists**; SUG-284 did not archive it.
+- **New: GA does not run on prerendered article, node and case-study pages** (#128). So today GA only counts visitors who arrive on SPA-shell pages. Fixing #128 extends tracking to every entry page, which is why #128 is recorded as blocked by this issue.
+- Moved to Todo 2026-09-19 so the decision lands before #128.
 
 > **Backlog doc created 2026-08-15**, backfilled during migration Phase 2. This issue was open
 > in Linear with no `docs/backlog/` doc — one of nine found by the first parity audit since
@@ -16,19 +25,19 @@
 
 ## Background
 
-Surfaced during [SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance) Phase 3 (Privacy page alignment).
+Surfaced during SUG-198 Phase 3 (Privacy page alignment).
 
 **Finding:** The site loads Google Analytics (gtag, `G-00MF2Q9YJW`) on every production page with **no cookie-consent banner** and no GA consent-mode gating (verified in `index.html`; documented in `docs/ai/agentic-caucus/data-handling.md`). The contact form also calls Google reCAPTCHA.
 
-[SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance) corrected the Privacy page to **document this reality accurately** (removed the inaccurate "privacy-friendly / non-identifying analytics" claim). That closes the honesty gap.
+SUG-198 corrected the Privacy page to **document this reality accurately** (removed the inaccurate "privacy-friendly / non-identifying analytics" claim). That closes the honesty gap.
 
-**Decision to make (the "fix the reality" path, deferred out of** [SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance)**):**
+**Decision to make (the "fix the reality" path, deferred out of** SUG-198**):**
 
 * Add a cookie-consent banner and/or GA consent-mode gating, or
 * Switch to a genuinely privacy-friendly, cookieless analytics tool (e.g. Plausible/Fathom), or
 * Accept current state as a documented, low-risk choice for a personal portfolio.
 
-This is a product/compliance decision, not a content fix. [SUG-198](https://linear.app/sugartown/issue/SUG-198/gap-analysis-6-layers-of-effective-ai-governance) non-goals explicitly excluded building compliance tooling.
+This is a product/compliance decision, not a content fix. SUG-198 non-goals explicitly excluded building compliance tooling.
 
 **Source:** `docs/ai/agentic-caucus/data-handling.md`, `apps/web/index.html` (GA snippet), `apps/web/src/components/Form.jsx` (reCAPTCHA).
 
@@ -41,5 +50,5 @@ shipped 2026-08-15).
 
 ## Related
 
-- **Linear:** [SUG-202](https://linear.app/sugartown/issue/sug-202)
+- **GitHub:** [#65](https://github.com/bex-sugartown/sugartown/issues/65)
 - Backfilled by the Phase 2 parity audit — `docs/briefs/linear-to-github-migration-plan.md` §5.1
