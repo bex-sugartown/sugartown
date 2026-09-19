@@ -90,6 +90,13 @@
       "cwd": "/Users/beckyalice/SUGARTOWN_DEV/sugartown/docs/drafts",
       "port": 8765,
       "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
+    },
+    {
+      "name": "web-preview",
+      "runtimeExecutable": "/opt/homebrew/bin/pnpm",
+      "runtimeArgs": ["--filter", "web", "preview", "--", "--port", "4173"],
+      "port": 4173,
+      "env": { "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin" }
     }
   ]
 }

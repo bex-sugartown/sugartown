@@ -21,7 +21,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
   remembered and can be changed from "Cookie settings" in the footer, and rejecting after
   accepting removes the GA cookies. Loading moved from an inline `index.html` snippet into
   `src/lib/consent.js`, so prerendered pages, which dropped the inline snippet, now load GA on
-  consent too. The Callout banner gained `role`/`ariaLabel` props, and its light-theme label
+  consent too (#128, verified on a built prerendered article). The Callout banner gained `role`/`ariaLabel` props, and its light-theme label
   moved from pink (2.85:1) to maroon (4.82:1) to meet WCAG AA on every banner. SUG-202 (#65).
 
 ### tooling
