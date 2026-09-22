@@ -27,23 +27,32 @@ v0.20.0 onward (17 files) as `article` documents in Sanity.
 
 After this epic: each targeted release note (v0.20.0–v0.36.0) exists as a published-ready
 `article` document, backdated to its real release date, tagged so the set forms one identifiable
-"corner" of the knowledge graph, and opening with a `calloutSection` that links to the existing
-`/platform/governance` page (which already carries the Release Process gate diagram and the AI
-Governance Workflow epic-lifecycle diagram — decided 2026-09-22, see Technical notes). Touches:
-Sanity content (article documents, taxonomy), no new public page, no schema changes expected (the
-`article` schema already supports `publishedAt`, `series`, `partNumber`, `categories`, `tags`).
-Explicitly excludes: v0.8.0–v0.19.0 (out of requested range), any rewrite of release-note prose
-into first-person PM voice, and any change to `docs/release-notes/` source files themselves.
+"corner" of the knowledge graph, and opening with: a hero, a generic non-clickable Mermaid diagram
+(Governance → CHANGELOG Entry → Release Note, same on every article), and a centered "Subtle
+Centered" breadcrumb line ("**Governance**: **Changelog** → Release Note" — Governance and
+Changelog linked, Release Note plain since it's the current page), then a divider before the
+release note body (decided interactively 2026-09-22 against the v0.20.0 pilot; see Technical
+notes). Every article also carries pre-existing-only metadata enrichment (tags, `relatedTerms`,
+and an inline `glossaryTermRef` where a term genuinely appears verbatim in the body — no new
+taxonomy or glossary documents) and a shared `aiDisclosure` string. Touches: Sanity content
+(article documents, taxonomy), one small reusable Portable Text schema addition (two new block
+styles), no new public page. Explicitly excludes: v0.8.0–v0.19.0 (out of requested range), any
+rewrite of release-note prose into first-person PM voice, any change to `docs/release-notes/`
+source files themselves, and per-release Epic/PRD links (dropped 2026-09-22 — see Non-Goals).
 
 ## Scope
 
 - [x] Decide and record repost voice/treatment: **verbatim repost** in the Governance/ops register — decided 2026-09-22 — layer: content, decision
 - [x] Taxonomy pre-flight (`*[_type in ["category","tag","series"]]{_id, name, "slug": slug.current}`) — decided 2026-09-22: reuse `category-governance` and `tag-release-management` (exact matches), create one new `series` doc ("Release Notes" / `release-notes`, no existing series fits) — layer: schema/taxonomy
 - [x] Confirm whether a public pipeline-explainer page exists — decided 2026-09-22: **it does**, `/platform/governance` (`GovernancePage.jsx`) already has the Release Process and AI Governance Workflow diagrams; no new page built — layer: frontend/content
-- [x] ~~Build the ecosystem-pipeline Mermaid diagram~~ — dropped 2026-09-22, superseded by linking to the existing diagram on `/platform/governance` instead of building a new one — layer: content
-- [ ] Draft 17 article documents (v0.20.0–v0.36.0, folding v0.23.25 into v0.23.0 and v0.26.26 into v0.26.0) as Sanity drafts, backdated `publishedAt`, correct taxonomy — layer: content
-- [ ] Content Write Gate proposal (before/after table) for the batch, plus the new `series` doc, before any Sanity write — layer: process
-- [x] ~~Phase 0 vspec~~ — exempt 2026-09-22: opening section reuses the already-shipped `calloutSection` component with a plain external link, no new visual format introduced — layer: design
+- [x] Build a generic (non-clickable) release-pipeline Mermaid diagram — decided 2026-09-22: 3 nodes, Governance → CHANGELOG Entry → Release Note, identical on every article, no per-release Epic/PRD nodes (see below) — layer: content
+- [x] Decide Epic/PRD link scope — decided 2026-09-22: generic Governance/Changelog/Release Note links only, on every article; per-release Epic/PRD links dropped as out of scope (most pre-ST-109 releases have no epic doc to link, and it's not worth the per-release variability) — layer: content, decision
+- [x] Add `textSection` "Subtle" / "Subtle Centered" Portable Text block styles — reused pattern discovered building the pilot's breadcrumb line, small schema+component addition, not section-scoped fields (revised from an initial section-level-field attempt) — layer: schema, frontend
+- [x] Pilot v0.20.0 built and iterated against directly in Sanity (serving as the vspec-equivalent) — approved 2026-09-22 — layer: content, design
+- [ ] Draft the remaining 16 article documents (v0.21.0–v0.36.0, folding v0.23.25 into v0.23.0 and v0.26.26 into v0.26.0) as Sanity drafts, matching the v0.20.0 pilot's structure exactly — layer: content
+- [ ] Metadata enrichment per article: additional existing tags, `relatedTerms` for genuinely-implied (not literal) terms, inline `glossaryTermRef` only where a term appears verbatim — no new tag/category/series/glossaryTerm documents — layer: content, taxonomy
+- [ ] Write one shared `aiDisclosure` string suitable for a release-notes repost, applied to all 17 articles — layer: content
+- [x] Content Write Gate proposal (before/after table) for the batch — shown and approved 2026-09-22 for the pattern; batch execution proceeds under that approval plus this doc's updated Acceptance Criteria — layer: process
 
 ## Phases
 
@@ -51,11 +60,14 @@ Single phase.
 
 ## Acceptance Criteria
 
+- [x] 1 of 17 `article` documents exists as a Sanity draft (v0.20.0, the pilot), correct backdated `publishedAt`; 16 remaining
 - [ ] 17 `article` documents exist as Sanity drafts (not published — Human-Publishes Rule applies), one per release v0.20.0 through v0.36.0, each with correct backdated `publishedAt`
-- [ ] Every article carries `series` → new `release-notes` series (with sequential `partNumber`), `categories` → `category-governance`, `tags` → `tag-release-management`, confirmed via `count(*[_type == "article" && series->slug.current == "release-notes"])` returning exactly 17 (drafts perspective)
-- [ ] Every article's opening `calloutSection` links to the existing `/platform/governance` page
-- [ ] Content Write Gate proposal (17 articles + the new series doc) was shown and approved before any `create_documents` call
-- [x] Phase 0 exempt (see Technical notes) — no vspec required before Studio write
+- [ ] Every article carries `series` → new `release-notes` series (with sequential `partNumber`), `categories` → `category-governance`, `tags` → `tag-release-management` plus any additional genuinely-relevant existing tags, confirmed via `count(*[_type == "article" && series->slug.current == "release-notes"])` returning exactly 17 (drafts perspective)
+- [ ] Every article's opening matches the v0.20.0 pilot exactly: hero → generic Mermaid diagram (Governance → CHANGELOG Entry → Release Note) → centered "Subtle Centered" breadcrumb line (Governance and Changelog linked, Release Note plain) → divider → body
+- [ ] Every article has pre-existing-only metadata enrichment: at least the taxonomy pre-flight matches, plus any additional existing tags/`relatedTerms` that genuinely fit that release's content, plus an inline `glossaryTermRef` wherever a real glossary term appears verbatim in that release's body — never a fabricated or forced match
+- [ ] Every article carries the same shared `aiDisclosure` string (see Technical notes for the agreed text)
+- [x] Content Write Gate proposal (batch pattern) was shown and approved 2026-09-22 before any `create_documents` call
+- [x] Pilot iterated and approved directly in Sanity in place of a static vspec file (see Scope) — Phase 0 intent satisfied interactively
 - [ ] Nothing published without an explicit standalone publish instruction (Human-Publishes Rule)
 
 ## Human QA Walkthrough — example local pages
@@ -77,6 +89,9 @@ batch-completing the rest.
 - **Activation audit**: taxonomy pre-flight (`*[_type in ["category","tag","series"]]{_id, name, "slug": slug.current}`, run 2026-09-22) found `category-governance` ("Governance") and `tag-release-management` ("release management") as exact matches — reused, no new category/tag. No existing `series` fits (`poc-contentful-vercel`, `career-engineering`, `about-series`, `test-series`, `left-to-my-own-devices`) — one new `series` document is created: "Release Notes" / slug `release-notes`.
 - **Activation audit**: `docs/release-notes/` has 30 files, not 29. Filtered to v0.20.0 onward that's 19 files (two patch releases, v0.23.25 and v0.26.26, sit alongside their parent minors). Decided 2026-09-22: fold v0.23.25 into the v0.23.0 article and v0.26.26 into the v0.26.0 article — net 17 articles, matching the original Acceptance Criteria count.
 - **Upstream dependency**: none — `release-assistant-prompt.md` v6 and the CHANGELOG compression (2026-09-22) are already shipped; this epic builds on both.
+- **Portable Text schema addition (2026-09-22)**: `standardPortableText`'s block `styles` list gained `Subtle` and `Subtle Centered` (`apps/studio/schemas/objects/portableTextConfig.ts`), rendered in `apps/web/src/components/PageSections.jsx`'s local `portableTextComponents.block` map and in `richTextComponents.jsx`'s `defaultRichTextComponents.block` (the fallback other `RichText` callers use). An earlier attempt added `tone`/`align` as section-level fields on `textSection` directly — reverted same day per Bex's feedback that formatting choices belong in the rich-text editor's own style dropdown, not a separate field group. Schema deployed via `npx sanity schema deploy`; both commits pass `pnpm lint` and the token/style-mirror validators, and the block styles are Storybook-covered (`PageSections.stories.tsx` → `Text Section Subtle Center`, checked in both `default` and `dark-pink-moon`).
+- **Generic pipeline links only (2026-09-22)**: every article uses the same 3-node Mermaid diagram and the same breadcrumb line — no per-release Epic/PRD link. Dropped after the pilot exposed that most releases before roughly SUG-109 have no shipped epic doc to link to, and per-release variability wasn't worth the inconsistency. A future epic could revisit per-release Epic/PRD links once more releases have shipped-epic-doc coverage.
+- **aiDisclosure text (2026-09-22)**: `"No rewrite, no spin: this is the release note as shipped, reposted by Claude Code."` — same string on all 17 articles. States plainly what Claude Code did (verbatim repost) without claiming authorship of the underlying release note content, which was written as part of Sugartown's normal release process, not by this epic.
 
 ## Model & Mode [REQUIRED]
 
@@ -90,7 +105,9 @@ vspec is approved and switch to direct execution for the mechanical repost of 17
 - Rewriting `docs/release-notes/` source files or the release process itself — out of scope, this epic only reposts existing content.
 - Reposting v0.8.0–v0.19.0 — explicitly excluded by the requested range; a follow-up epic can extend backward if wanted.
 - Publishing any article — the Human-Publishes Rule keeps that a separate, explicit, later instruction.
-- New Sanity schema fields — existing `article` fields are sufficient unless the taxonomy pre-flight proves otherwise.
+- New Sanity schema fields on `article` — existing fields are sufficient unless the taxonomy pre-flight proves otherwise. (The `textSection` Portable Text block-style addition is a shared, reusable PT schema change, not an `article`-specific field, and was approved separately mid-epic — see Technical notes.)
+- Per-release Epic/PRD links in the pipeline diagram or breadcrumb — dropped 2026-09-22; every article uses the same generic Governance/Changelog/Release Note links (see Technical notes).
+- Creating any new tag, category, or glossary term — metadata enrichment (Scope) draws only from what already exists, plus the one `release-notes` series already decided.
 
 ## Related
 
