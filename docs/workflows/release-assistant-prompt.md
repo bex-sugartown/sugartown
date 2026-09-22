@@ -1,6 +1,11 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v5 (2026-09-05)
-**Supersedes:** v4 (2026-05-14)
+**Version:** v6 (2026-09-22)
+**Supersedes:** v5 (2026-09-05)
+
+> **v5 → v6 changes (2026-09-22):**
+> - STEP 1/2: bullets capped at one line, two sentences ceiling, evidence in a trailing parenthetical — closes the gap where Normalize deduped but never shortened, which let CHANGELOG bullets grow into paragraphs.
+> - STEP 3B: Release Notes may now draw narrative color and evidence from a CHANGELOG line's linked epic doc, not the CHANGELOG line alone — the detail trimmed out of CHANGELOG has to be reachable from somewhere.
+> - STEP 3B Tone: points to `docs/brand/brand-voice-guide.md`'s Governance / ops docs register for style, applied going forward only — no rewrite of existing `docs/release-notes/` files.
 
 > **v4 → v5 changes (issue #107):**
 > - New STEP 3D: after the Gate 5 commit, create an annotated tag `vX.(Y+1).0` pointing at it. The tag stays local, exactly like the commit, and ships with whatever `/ship` pushes next.
@@ -18,12 +23,14 @@
 ---
 
 **Canonical hierarchy:**
-Reality → Changelog → Release Notes
+Reality (epic docs) → Changelog → Release Notes
 
 **Invariants:**
-- Changelog is the canonical ledger.
-- Release Notes are derived from the Changelog.
-- Nothing flows backward.
+- Changelog is the canonical ledger: one line per change, no exceptions.
+- Release Notes are derived from the Changelog for *what* changed. For narrative color and
+  evidence on an item the Changelog already lists, Release Notes may also draw on that item's
+  linked epic doc — the same Reality the Changelog itself was compressed from.
+- Nothing flows backward: Release Notes never introduce a change the Changelog doesn't list.
 - Nothing is inferred.
 - Nothing is invented.
 
@@ -268,7 +275,10 @@ Options:
 
 ### STEP 3B — Generate Release Notes (Derived Narrative)
 
-**Input:** The approved CHANGELOG entry only.
+**Input:** The approved CHANGELOG entry, for the list of what changed. Where a CHANGELOG line
+links an epic doc (`SUG-N`/`ST-N`), that doc's close-out review may supply narrative color and
+evidence for the same item — a measured number, an incident ID, what it meant for the reader.
+It may not introduce an item the CHANGELOG line doesn't already name.
 
 **Format:**
 
@@ -312,7 +322,8 @@ Options:
 - User-facing explanation — write for a developer who didn't write the code.
 - May omit internal-only changes (pure refactors with no surface effect).
 - May group related CHANGELOG entries into a single narrative section.
-- Must not add anything not present in CHANGELOG.
+- Must not add any change not present in CHANGELOG. Elaborating an already-listed change with
+  evidence or color from its linked epic doc is not "adding a change."
 - Must not expand beyond factual scope.
 - Must not describe future plans (the "Not in this release" section lists deferrals — it does not promise them).
 - Bug fixes may be narrated with symptoms and resolution, not just listed.
@@ -324,6 +335,9 @@ Options:
 - Contextual.
 - Impact-oriented.
 - Not promotional.
+- Register: `docs/brand/brand-voice-guide.md`'s Governance / ops docs dial — direct, dry,
+  precise, humor subordinate to clarity. Style only: the structure above still governs, and
+  this does not pull in the Articles or Nodes voice.
 
 **Allowed transformation examples:**
 
