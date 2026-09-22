@@ -51,17 +51,15 @@ const TEXT_SECTION = {
   content: richContent,
 };
 
-/** Subtle/centered variant — a short recessive linked line, e.g. below a diagram. */
+/** "Subtle Centered" block style — a short recessive linked line, e.g. below a diagram. */
 const TEXT_SECTION_SUBTLE_CENTER = {
   _type: 'textSection',
   _key: 'ts-2',
-  tone: 'subtle',
-  align: 'center',
   content: [
     {
       _type: 'block',
       _key: 'sc1',
-      style: 'normal',
+      style: 'subtleCentered',
       markDefs: [{ _type: 'link', _key: 'sclink', type: 'external', href: '/platform/governance' }],
       children: [
         { _type: 'span', _key: 'scs1', text: 'Governance', marks: ['sclink'] },
