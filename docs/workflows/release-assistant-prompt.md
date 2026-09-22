@@ -119,6 +119,7 @@ Rules:
 - Internal migrations are included.
 - Non-goals excluded.
 - Bug fixes included with exact symptoms where known.
+- One line per bullet where possible, two sentences the ceiling. Evidence goes in one trailing parenthetical, not a paragraph of rationale.
 
 ### ✅ GATE 1 — STOP
 
@@ -143,6 +144,7 @@ AI takes the human-approved Step 1 bullets and reduces them to:
 - Outcome-only
 - No interpretation
 - No narrative framing
+- Compressed to one line each. A bullet still over two sentences after Step 1 gets cut here — keep the outcome and the single strongest evidence citation, drop the rest.
 
 This is the canonical change input for Step 3.
 

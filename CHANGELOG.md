@@ -22,179 +22,78 @@ one checked loop, Linear retired, and multi-repo operations.
 ### apps/web
 
 #### Added
-- Cookie consent for Google Analytics. GA no longer loads on page load: Consent Mode v2 defaults
-  every consent type to denied and `gtag.js` is not requested until the visitor accepts in a new
-  bar fixed to the bottom of the page. Accept and Reject carry equal weight; the choice is
-  remembered and can be changed from "Cookie settings" in the footer, and rejecting after
-  accepting removes the GA cookies. Loading moved from an inline `index.html` snippet into
-  `src/lib/consent.js`, so prerendered pages, which dropped the inline snippet, now load GA on
-  consent too (#128, verified live 2026-09-19). SUG-202 (#65).
+- Cookie consent for Google Analytics: Consent Mode v2 defaults to denied, GA loads only after
+  accept via `src/lib/consent.js`; prerendered pages now load GA post-consent too (#128). SUG-202 (#65).
 
 #### Fixed
-- `Header.jsx` and `Footer.jsx` are linted again. Both were added to ESLint's ignore list during
-  the 2026-02-02 parity migration and never removed, so lint, pre-commit and CI skipped them for
-  seven months. 0 findings on re-enable.
+- `Header.jsx`/`Footer.jsx` linted again after 7 months on the ESLint ignore list; 0 findings.
 
 ### packages/design-system
 
 #### Added
-- Callout: optional `role` and `ariaLabel` props. A banner still defaults to `role="status"`; the
-  consent bar passes `role="region"` with a label. SUG-202 (#65).
+- Callout: optional `role`/`ariaLabel` props (consent bar uses `role="region"`). SUG-202 (#65).
 
 #### Fixed
-- Callout banner label in the light theme moved from pink (2.85:1 on the label background, below
-  WCAG AA) to `--st-color-text-brand`, maroon at 4.82:1. Fixes every existing banner. SUG-202.
+- Callout banner label moved off pink (2.85:1, below AA) to `--st-color-text-brand` (4.82:1). SUG-202.
 
 #### Changed
-- Callout banner body fills the row, and below 640px the label stacks above it. SUG-202.
+- Callout banner body fills the row; label stacks above it below 640px. SUG-202.
 
 ### apps/storybook
 
 #### Added
-- Regions/ConsentBanner stories (first visit, mobile), and a labelled-region example in the
-  Callout Banner story. SUG-202.
+- Regions/ConsentBanner stories (first visit, mobile); labelled-region Callout example. SUG-202.
 
 ### tooling
 
 #### Added
-- Epic lifecycle as one loop. A start review when an issue is picked (checker, judgement checks,
-  one batch of questions); Phase 0 sign-off covering everything knowable up front, including the
-  CSS class-name table and rule-file diffs; a required Close-out review in every shipped doc (what
-  didn't work, each follow-up filed or declined, friction line), checked by
-  `check-epic-doc.js --stage close-out` before the move to `docs/shipped/`; and Post-ship checks
-  that `/ship` now runs, reports as owed to a person, or uses to hold a failed issue at Done.
-  ST-130 (#130).
-- `scripts/check-epic-doc.js`: an epic doc is checked against `docs/epic-template.md` when the epic
-  starts. The template is now the one definition, with seven required sections (Background,
-  Objective, Scope, Phases, Non-Goals, Acceptance Criteria, Model & Mode) and a `Visual: yes | no`
-  line that makes a vspec path mandatory for visual work. The script reads the required list from
-  the template rather than a copy; two liveness probes build their docs the same way. Five sections
-  nothing enforced became optional or conditional, and the duplicated close-out steps now point to
-  CLAUDE.md. ST-129 (#129).
-- Liveness probes: `pnpm validate:liveness-probes` runs six file-based gates against a
-  deliberate violation each and fails if any stays green, on the principle that a gate never
-  tested against known-bad input is only assumed to work. Covers `validate:tokens` (plus
-  `--strict-colors`), `validate:style-mirror`, `validate:dead-refs`, `validate:css-names`, and
-  the ESLint boundary rules across four packages, for nine probed gates in total. The boundary
-  rules are the reason it exists: they sat inert for 176 days while reporting as configured
-  (INC-011). Wired into `ci.yml`. Kill criterion set at birth: if the probes find nothing new
-  in 60 days, retire them. ST-95. Extended to 13 gates by ST-129 and ST-130.
-- `/new-tool`: files tooling work (validators, gates, hooks, scripts, commands, skills) as an
-  issue-only spec with eight required answers, including who reads the output and a kill
-  criterion.
-- `guard-ip-paths`, a Claude Code PreToolUse hook that refuses any Read, Edit, Write, Glob, Grep
-  or Bash call whose input resolves into `cms-eval/bound/` or `resume-factory/private/`, the two
-  directories the wrapper `CLAUDE.md` files say a session never touches. Lives in the
-  `conventions` repo (`hooks/guard-ip-paths.sh`) and is registered at the user level, the only
-  settings level that reaches paths outside a repository. Twenty-case self-test plus registration,
-  stub and parse checks; proven live from a fresh session (a Read into `bound/` blocked with the
-  message, a Read beside it allowed) and in the authoring session itself. Moves both rules from
-  convention to enforced-by-code. ST-110.
-- Claude Code settings relayered: the sugartown-specific `autoMode` environment block moved out of
-  `~/.claude/settings.json`, where it had been describing every session on the machine, including
-  the two private repos, as the PUBLIC sugartown repo, into a tracked `.claude/settings.json` here;
-  `resume-factory/os` and `cms-eval/toolkit` got their own, naming their private visibility and
-  their sensitive directories. The tracked file also carries a curated read-only allowlist (33
-  entries from a scan of 50 transcripts) replacing 828 accreted entries in the gitignored local
-  file, which now holds only the four env secrets. ST-111.
+- Epic lifecycle unified into one loop: start review, Phase 0 sign-off, required close-out review,
+  post-ship checks read by `/ship`. ST-130 (#130).
+- `scripts/check-epic-doc.js`: checks an epic doc against `docs/epic-template.md` at start; seven
+  required sections plus a `Visual: yes | no` line. ST-129 (#129).
+- Liveness probes (`pnpm validate:liveness-probes`): six file-based gates proven against deliberate
+  violations, 13 gates covered total; wired into CI. ST-95, extended by ST-129/ST-130.
+- `/new-tool`: files tooling work as an issue-only spec with eight required answers, including a
+  kill criterion.
+- `guard-ip-paths` hook: blocks any Read/Edit/Write/Glob/Grep/Bash into `cms-eval/bound/` or
+  `resume-factory/private/`, registered at the user level. ST-110.
+- Claude Code settings relayered: sugartown-specific `autoMode` moved into a tracked
+  `.claude/settings.json`; curated 33-entry allowlist replaces 828 accreted local entries. ST-111.
 
 #### Changed
-- `CLAUDE.md` split: 1000 lines to about 630. Thirty sections that apply only when a kind of file is
-  being worked on moved verbatim into seven `.claude/rules/*.md` files with `paths:` frontmatter
-  (epics, react, css-layout, tokens, sanity-schema, groq, storybook), which load only when a
-  matching file is read, measured on this build. Both rule-file gates now cover `.claude/rules/**`.
-  Fifteen live references repointed. A handoff package's own `CLAUDE.md` renamed to `CHARTER.md` so
-  it stops loading as session context; two stale duplicate commands removed in favour of their
-  skills; `docs/ai/skills-index.md`'s Claude Code table is now generated by `pnpm docs:skills-index`
-  (`--check` fails when stale); a repo map at `docs/ai/repo-map.md` is imported by `CLAUDE.md` so the
-  stack and key-file facts travel with the repo rather than one machine's memory. ST-112.
-- Multi-repo operations: `/sweep`, one command that reports every repo under `SUGARTOWN_DEV` in a run
-  (`sugartown`, `resume-factory/os`, `cms-eval/toolkit`, and `conventions`, a private repo since
-  2026-09-03) and, on approval, clears stale git locks and pushes the three private repos; it never
-  pushes `sugartown`, which stays `/ship`'s. Lives in the `conventions` repo with a root `CLAUDE.md`
-  loader, the four shared convention files delivered as personal rules, and the `/sweep` skill, all
-  reached by symlinks documented as six once-per-machine steps. Decisions D2 to D5 of the
-  multi-repo brief recorded with reasons. Measured on the way: Claude Code `@` imports do not
-  expand across the project boundary, and a personal skill's description is dropped from the
-  listing above roughly 300 characters. ST-108.
-- `/ship --release` no longer costs two Netlify deploys. `/release` ends at a local commit that
-  rides out with the next `/ship`, instead of being pushed on its own, which had been billing a
-  second production deploy for work the same run had already deployed (measured 2026-08-21 in
-  the Netlify Deploys UI: both pushes completed and billed, 15 minutes apart, no dedup). Neither
-  prompt had ever instructed that second push; both simply stopped short of saying not to, so
-  the fix states the deferred-push model explicitly rather than removing a step. The
-  verify-before-release ordering is untouched. ST-103.
-- `/release` now tags its version-bump commit (`vX.Y.0`, annotated, local like the commit
-  itself) instead of leaving releases untagged, so `git tag --contains <sha>` finally answers
-  "which release shipped this". `/ship` pushes that tag alongside the commit via
-  `git push --follow-tags`, then, once the tag actually lands on origin and CI succeeds, creates
-  a GitHub milestone, assigns it to every issue shipped since the previous tag (bounded by that
-  tag's date, so it does not backfill history), closes the milestone, and offers to publish a
-  GitHub Release built from that version's own `CHANGELOG.md` section. Milestone and Release work
-  couldn't live in `/release` itself: `gh release create` needs the tag on GitHub first, and
-  `/release`'s commit stays local by design (previous entry). 31 pre-existing MINOR versions were
-  already tagged retroactively on 2026-09-02; this covers everything from the next release
-  forward. #107.
-- Linear retired as Sugartown's issue tracker. GitHub Issues plus project 1
-  (`https://github.com/users/bex-sugartown/projects/1`) is now the only tracker in every sense a
-  session or a page can observe. The stats collector reads GitHub Projects v2 instead of Linear
-  (`stats.githubRoadmap`, was `linearRoadmap`; new `GH_PROJECTS_TOKEN` repo secret, verified live
-  in CI), `/platform/governance`'s roadmap block and every instruction file that named Linear
-  were swept (15 files, not the originally-scoped 10 — a broader check caught more, including a
-  real bug in the monthly evidence digest that would have silently gone blank). A fresh export
-  (`docs/briefs/data/linear-export-2026-09-05.csv`) is committed as the archive of record; the
-  Linear workspace itself is left as-is rather than deleted, since Linear offers no
-  archive/read-only action and deleting stays Bex's call alone. ST-117.
+- `CLAUDE.md` split from ~1000 to ~630 lines: 30 file-scoped sections moved into seven
+  `.claude/rules/*.md` files that load on matching file reads. ST-112.
+- `/sweep`: one command reporting every repo under `SUGARTOWN_DEV`, clearing stale git locks and
+  pushing the three private repos on approval; never pushes `sugartown`. ST-108.
+- `/ship --release` no longer costs two Netlify deploys — `/release`'s commit now rides out with
+  the next `/ship` instead of pushing separately. ST-103.
+- `/release` now tags its version-bump commit; `/ship` pushes the tag, creates/closes a GitHub
+  milestone, and offers to publish a GitHub Release from that version's CHANGELOG section. #107.
+- Linear retired as issue tracker; GitHub Issues + project 1 is the only tracker. Stats collector
+  reads GitHub Projects v2 instead of Linear. ST-117.
 - `/morning` reads the wip mirror log and flags a failed mirror as unfinished business.
 
 #### Fixed
-- `/new-epic` applied no labels: Step 0 gathered tags but Step 1 never passed them to GitHub. Tags
-  now become labels, and content epics always carry `content`.
-- The post-commit wip mirror had two silent failure modes. Since ST-106 (2026-09-02) it never
-  mirrored any commit while the day's `wip/<date>` branch did not yet exist: the fetch that fix
-  added exits 128 on a missing branch, and husky runs hooks under `sh -e`, which killed the
-  backgrounded subshell before the push and before the log line, so the log's reader had
-  nothing to read. Fixed with `|| true` on the fetch. Separately, a rebase fired the hook once
-  per replayed commit in the same second and the losing pushes wrote `FAIL` for a mirror that
-  was fine; the hook now skips while a rebase is in progress and a new `.husky/post-rewrite`
-  mirrors once at the final SHA (amend excluded, since post-commit already covered it). Five
-  probes in a throwaway clone with a local bare origin, run before and after: first commit of
-  day, two rebases, an amend, and an in-rebase check that nothing is written mid-rebase. ST-109,
-  ST-113.
-- The same hook logged `OK` for a commit that never left the disk whenever a branch switch
-  followed the commit: it captured the SHA at commit time but pushed `HEAD:` from its background
-  subshell. Found by the first live `/sweep` run (ST-108 Phase 2), whose per-branch containment
-  check disagreed with the log; two `main` commits sat disk-only under an `OK` line. Now pushes
-  the captured full SHA. Reproduced and verified in a throwaway clone with the exact race. ST-114.
-- The mirror is now one ref per branch per day, `wip/<date>-<branch>`, instead of one ref per day.
-  The single ref covered only the branch committed on last, so a feature branch and `main` worked
-  on the same day left one of them on this disk only; the first live `/sweep` run showed the epic
-  branch in exactly that state. Slashes in branch names become dashes; a detached HEAD mirrors to
-  `wip/<date>-detached`; the shape is flat rather than nested because git cannot create a ref beneath
-  a name that exists as a leaf, and a machine on the older hook creates that leaf first. Five probes in a throwaway clone: two branches same day both on remote
-  refs, the ST-114 race, a rebase, a first-of-day ref, a detached commit. ST-115.
-- `docs/ai/README.md` linked `docs/workflows/eod-prompt.md`, a file that does not exist, and
-  `docs/ai/skills-index.md` listed the retired `/eod` and an absent `storybook-docs` as live
-  skills while omitting six real ones, calling the five-gate release pipeline "Seven-gate," and
-  stating the release prompt had no slash command. Found by ST-103's documentation sweep. ST-103.
+- `/new-epic` now applies labels to created issues (previously gathered but never passed to GitHub).
+- Wip mirror: fixed two silent failure modes (missing day-branch fetch, rebase double-firing). ST-109, ST-113.
+- Wip mirror: fixed a race where a branch switch right after commit logged `OK` for a commit that
+  never reached origin. ST-114.
+- Wip mirror: now one ref per branch per day (`wip/<date>-<branch>`) instead of one ref per day,
+  which lost same-day work on a second branch. ST-115.
+- `docs/ai/README.md` and `docs/ai/skills-index.md` corrected: broken link, stale skill list, wrong
+  gate count. ST-103.
 
 ### docs
 
 #### Added
-- Drafts audit: all 71 files in `docs/drafts/` classified (content draft, outline, spec, handoff,
-  working note) and checked against Sanity where they are content. Six issues filed for pieces
-  worth finishing (#121 to #126); 57 flagged files moved to a local archive on Bex's go-ahead,
-  nothing deleted. ST-120 (#120).
-- Brand mini manifesto, cross-linked from the voice guides.
-- Specs-tooling position review recorded, with two gaps filed.
+- Drafts audit: all 71 `docs/drafts/` files classified; 6 issues filed (#121–#126), 57 archived
+  locally. ST-120 (#120).
+- Brand mini manifesto; specs-tooling position review (2 gaps filed).
 
 #### Changed
-- Todo backlog re-verified against the repo on 2026-09-19: 9 issues rewritten with current
-  measurements and dead Linear links removed; 8 backlog docs gain a dated verification section.
-- Issue status rules: Urgent or High priority means Todo; directly executed issues follow In
-  Progress and Done; new issues default to the bex-sugartown assignee.
-- Instructions written for Bex follow the shared human-instruction-style convention, referenced
-  from `CLAUDE.md`.
+- Todo backlog re-verified against the repo (9 issues rewritten, dead Linear links removed).
+- Issue status rules clarified for directly-executed issues and default assignee.
+- Instructions written for Bex now follow the shared human-instruction-style convention.
 - Data-handling note v1.1 records consent-gated analytics. SUG-202.
 
 ---
@@ -207,48 +106,30 @@ epic close-out process consolidated into `/ship --release`.
 ### apps/web
 
 #### Fixed
-- Dev-server cold boot cut from 95.4s to 7.4s. The stats pipeline's security collector ran
-  `pnpm audit --json` (measured ~97s on this repo) via a blocking `execSync` with no working
-  timeout — `execSync`'s own `timeout` option only signals its immediate child, and pnpm
-  re-execs itself as a nested process that kept running regardless, still holding the output
-  pipe open. Rewritten with `spawn`/`detached: true` and a process-group kill, with different
-  bounds for local dev (5s, always degrades — there's no bound short enough to ever catch the
-  real 97s run) and CI's daily `stats.yml` (180s, real headroom to still collect fresh data).
-- Security stats have been silently reporting zero vulnerabilities regardless of the real
-  count (211, measured: 1 critical, 89 high, 103 moderate, 18 low) for as long as the
-  collector has run against the installed pnpm version. The parser assumed one-JSON-object-
-  per-line output; pnpm 9.1.0 actually emits one large pretty-printed object, so every parse
-  attempt silently failed. Fixed by trying a whole-output parse first, falling back to the
-  original per-line scan only for the older, unverified format.
+- Dev-server cold boot cut from 95.4s to 7.4s: the stats collector's blocking `pnpm audit` call
+  rewritten with `spawn`/`detached: true` and a process-group kill.
+- Security stats had silently reported zero vulnerabilities (real count: 211) since pnpm 9.1.0
+  changed its audit output format; parser now tries a whole-output parse first.
 
 #### Changed
-- `htmlSection`'s undocumented script-execution path decided and documented rather than
-  sanitized. Audited every published use first — 6 documents, 11 instances, exactly one
-  `<script>` tag in the entire corpus (an external `player.vimeo.com` API script); everything
-  else is an `<iframe>` embed or static SVG/CSS that never needed the re-execution mechanism
-  at all. Accepted-risk note added to `PageSections.jsx`'s `HtmlSection` and mirrored in
-  `docs/conventions/schema-conventions.md`, naming the three conditions (single trusted
-  author, no user-submitted HTML, no unknown embed source) that would reopen the decision
-  toward sanitization.
+- `htmlSection`'s script-execution path documented as an accepted risk rather than sanitized,
+  after auditing all 6 documents / 11 instances that use it (one real `<script>` tag, a trusted
+  Vimeo embed).
 
 ### apps/contentful-poc
 
 #### Fixed
-- CI type-check flake (a duplicate `@types/react` resolution against the workspace's other
-  React-18 packages) fixed with a `pnpm.overrides` selector scoped to `contentful-poc` only,
-  pinning its `@types/react`/`@types/react-dom` to the exact versions already resolved.
-  Verified structurally (`pnpm why @types/react` shows one reachable copy) and locally
-  (`tsc --noEmit`, a real `next build`'s TypeScript phase, and the route smoke suite all
-  pass); the original CI failure never reproduced locally, so this closes the epic's
-  structural AC, not the statistical one.
+- CI type-check flake (duplicate `@types/react` resolution) fixed with a `pnpm.overrides`
+  selector scoped to `contentful-poc`.
 
 ### Other
 
 #### Changed
-- Epic close-out consolidated into `/ship --release`, run for real for the first time. `Done`
-  and `Shipped` split — the epic's own definitions, applied to itself. `/morning` now
-  surfaces the age of the oldest `Done` item; `linearRoadmap`'s `shipped` bucket renamed to
-  `completed` after being found to have zero consumers.
+- Epic close-out consolidated into `/ship --release`, run live for the first time; `Done`/`Shipped`
+  split now applied to itself. `linearRoadmap`'s `shipped` bucket renamed to `completed` (had zero
+  consumers).
+
+---
 
 ## [0.34.0] — 2026-08-19
 
@@ -260,47 +141,30 @@ MINOR).
 
 #### Added
 - Six governance post-mortem rules applied to `CLAUDE.md` and `docs/epic-template.md`'s
-  Pre-Execution gate: name the reader before building the writer; a guard is never widened to fit
-  a breach; a register is generated or it does not exist; removal-scope enumerates surfaces, not
-  sections; one index or one ID scheme; kill criterion stated at birth. ST-98.
-- A rule-file followability walkthrough is now mandatory before any commit to a rule-defining
-  file — name the workflows touched, walk a mock instance from the edited text, flag anything
-  unfollowable or pointing at nothing. Run four times this cycle, found defects every time; the
-  kill criterion (three clean runs) was not met, so it stays standing practice. ST-99.
+  Pre-Execution gate (name the reader before building the writer; a guard is never widened to fit
+  a breach; a register is generated or it does not exist; and three more). ST-98.
+- Rule-file followability walkthrough made mandatory before any commit to a rule-defining file. ST-99.
 
 #### Changed
-- Tracker writes moved to GitHub only for a trial through 2026-09-09, reversing a same-day
-  dual-write decision. 58 issues migrated to GitHub Projects, the legacy Linear board cleared and
-  parity-audited, new epics keyed as `ST-{n}` GitHub issue numbers. The 58 migrated issues keep
-  their `SUG-{n}` IDs; Linear stays read-only for their priority ordering.
-- Epic lifecycle split into `Done` (work complete, committed locally, local smoke tests green) and
-  `Shipped` (merged to `origin/main`, deployed, CI concluded `success`). Closes the gap where two
-  epics reached `Done` with their own close-out commits stranded on one disk pending a later push.
+- Tracker writes moved to GitHub only for a trial through 2026-09-09: 58 issues migrated to GitHub
+  Projects, the Linear board cleared; new epics keyed as `ST-{n}`.
+- Epic lifecycle split into `Done` (committed, local smoke green) and `Shipped` (on `origin/main`,
+  CI green), closing the gap where closed epics sat disk-only.
 
 ### tooling
 
 #### Added
-- `/ship --release` — consolidates the twelve-step epic close-out sequence into one command.
-  Enumerates everything currently `Done` (not just the most recent), checks every `Done` issue has
-  a `[Unreleased]` CHANGELOG line, pushes once, verifies the deploy and the CI run to a conclusion,
-  transitions `Done` → `Shipped` on the board (only after CI concludes `success`, closing the issue
-  before setting the board status so the close automation doesn't overwrite it), and with
-  `--release` invokes `/release` rather than reimplementing version-cutting.
-- A `post-commit` hook mirrors every commit — on any branch — to a remote `wip/<date>` branch
-  automatically. Disk safety no longer depends on remembering to push; verified free (Netlify
-  builds only `main`, and branch deploys aren't credit-metered).
+- `/ship --release`: consolidates the twelve-step close-out sequence into one command — pushes
+  once, verifies deploy and CI, transitions `Done` → `Shipped`, and with `--release` invokes `/release`.
+- `post-commit` hook mirrors every commit to a remote `wip/<date>` branch automatically, at no
+  Netlify cost.
 
 #### Removed
-- `/eod` and `/mini-release` retired, consolidated into `/ship --release`. `/mini-release`'s two
-  claimed unique migration steps turned out to be one on inspection — the header-cap mechanic it
-  was thought to own lives in a different file, at a different count, targeting an already-deleted
-  target — so nothing needed migrating for it.
+- `/eod` and `/mini-release` retired, consolidated into `/ship --release`.
 
 #### Fixed
-- `linearRoadmap`'s `shipped` bucket (`apps/web/scripts/stats/linear.js`) renamed to `completed`.
-  It bucketed Linear's own `completed` workflow-state, not deploy status, and had zero consumers
-  anywhere in the app — a writer with no reader, corrected before a future consumer could inherit
-  the wrong assumption from the field name.
+- `linearRoadmap`'s `shipped` bucket renamed to `completed` (bucketed Linear's own state, not
+  deploy status; had zero consumers).
 
 ---
 
@@ -317,42 +181,56 @@ backlog priority stack. Aggregates v0.32.1–v0.32.3.
 ### apps/web
 
 #### Fixed
-- 110 published documents were invisible to every unauthenticated reader for 158 days: Sanity reads dots in an `_id` as path segments, and the WordPress import minted ids as `wp.<type>.<id>`. Migrated 111 ids to `<type>-<slug>` and rewrote 612 references across 39 field paths in one atomic transaction, verified by 0 hidden documents, 0 dangling references and reference-edge count conserved at 1,835. The viewer token the workaround shipped to every browser is removed from production bundles and revoked; `validate:taxonomy` now passes anonymously in CI, which was the epic's acceptance test. Logged as INC-012. SUG-260.
-- `collectLinear()` (`apps/web/scripts/stats/linear.js`) silently truncated at 250 issues with no pagination (team has 268) and dropped `triage`-state issues from every bucket. Now pages through the full result set and buckets triage with backlog/unstarted. SUG-262.
+- 110 published documents were invisible to unauthenticated readers for 158 days (Sanity read dots
+  in `_id` as path segments); 111 ids migrated, 612 references rewritten atomically, verified at
+  0 hidden docs / 0 dangling refs. INC-012. SUG-260.
+- `collectLinear()` silently truncated at 250 issues with no pagination and dropped `triage`-state
+  issues; now pages through the full set. SUG-262.
 
 #### Changed
-- `/platform/governance` no longer publishes the coverage tally ("30 checkpoints · 0 gaps" was undated and, for three claims, measurably false). §05 retitled "AI Governance Workflow," keeping the workflow diagram and doc index. SUG-256.
-- **⊘ Withdrawn in this release.** The tally moved to `/platform/governance-draft` (`noindex`), which carried a measurement date and reproducing command. That page existed solely to host the retired tally and was removed by SUG-284; the tally is not published anywhere at 0.33.0.
+- `/platform/governance` no longer publishes the "30 checkpoints · 0 gaps" tally (undated,
+  measurably false for 3 claims). SUG-256.
+- **⊘ Withdrawn in this release.** The tally moved to `/platform/governance-draft`, then removed
+  entirely by SUG-284.
 
 ### docs
 
 #### Added
-- User Story Decomposition: epics with more than 5 Scope items decompose into work units, recorded as a scope-to-phase mapping in the epic doc, defined in `docs/conventions/user-story-conventions.md` and referenced from `docs/epic-template.md` and CLAUDE.md's Epic authoring section. SUG-238.
+- User Story Decomposition: epics with more than 5 Scope items decompose into a scope-to-phase
+  mapping in the epic doc. SUG-238.
 
 #### Changed
-- Sizing gate recalibrated (`user-story-conventions.md` v1.1, 2026-08-08): `numbered phases` dropped as a decomposition trigger, leaving `>5 Scope items` alone. Nearly every Sugartown epic has numbered phases, so the clause made the Scope-item threshold inoperative. Checked against SUG-187 and SUG-260, the first two epics to cross the gate.
-- Linear sub-issues withdrawn as the decomposition mechanism (`user-story-conventions.md` v2.0, 2026-08-08). One epic is one Linear issue; decomposition is a scope-to-phase mapping in the epic doc. Sub-issues have no backlog doc by design, so every one filed failed `validate:epic-docs` and turned CI red, and they consumed a free-plan issue budget the workspace had already exhausted. SUG-277, SUG-278 and SUG-279 cancelled.
-- Backlog priority stack retired. `docs/backlog/sugartown-backlog-priorities.md` (499 lines) deleted; Linear is the single priority queue, with no second copy to reconcile. Size-aware routing replaces it across CLAUDE.md, the `/new-epic` skill, `docs/epic-template.md`, and the mini-release and release prompts. `GovernancePage.jsx` and `packages/mcp-server/src/tools/governance.ts` updated to match.
-- Tier 1/2/3 gate model in `docs/conventions/human-gate-conventions.md` retained deliberately — the Content Write Gate and the Human-Publishes Rule depend on it for their approval mechanism. SUG-281.
-- **⊘ Withdrawn in this release.** CLAUDE.md carried a gate-tiering note declaring Tier 2 the default for every untiered rule and Tier 3 for validators and CI steps. Measurement drove the original design: every count in circulation was wrong (PRD §7 said 15 gate sections, Appendix A said 24, the epic said 16), and against 62 headings, 17 carried a gate keyword while ~49 actually gate an action. Removed by SUG-284; the tier model survives only in `human-gate-conventions.md`. SUG-281.
+- Sizing gate recalibrated: `>5 Scope items` is now the only decomposition trigger (`numbered
+  phases` dropped — near-universal, so inoperative).
+- Linear sub-issues withdrawn as the decomposition mechanism; one epic stays one Linear issue.
+  SUG-277/278/279 cancelled.
+- Backlog priority stack retired (`sugartown-backlog-priorities.md`, 499 lines, deleted); Linear is
+  the single priority queue.
+- Tier 1/2/3 gate model in `human-gate-conventions.md` retained deliberately for the Content Write
+  Gate and Human-Publishes Rule. SUG-281.
+- **⊘ Withdrawn in this release.** A CLAUDE.md gate-tiering note (Tier 2 default, Tier 3 for
+  validators) removed by SUG-284; every count in it had been wrong. SUG-281.
 
 #### Fixed
-- `AUTOMATED CHECKS · 18` tile body corrected from "enforced by code and pre-commit hooks" (overstated) to "6 run at pre-commit; the rest in CI only" (measured). SUG-256.
+- `AUTOMATED CHECKS · 18` tile corrected from "enforced by code and pre-commit hooks" to "6 at
+  pre-commit, rest CI-only" (measured). SUG-256.
 
 ### tooling
 
 #### Removed
-- The governance/verification-review layer that grew from 2026-07-21 to 2026-08-13: the gate taxonomy's Tier 1/2/3 register machinery, the verification-review-before-any-gate requirement and its subagent, `control-register.md`, `rule-register.md`, `governance-coverage.md`, the doc-budget word cap, `validate:enforcement-liveness`, the SUG-268 governance data layer (`governance/` source, its generator, 3 validators; the generated `governance.json` had zero consumers anywhere in the app), and SUG-281's gate tiering. Also removed: CLAUDE.md's Verification Review, Process feedback loop and Scope creep sections; the epic close-out's mandatory incident-log step; the `/eod` warn-gate annotation reader; and the `/platform/governance-draft` page.
-  Kept, by deliberate decision: `docs/ai/agentic-caucus/incident-log.md`, `methodology.md`, `failure-modes.md`, `risk-tiers.md`, `agent-cards.md`, `data-handling.md` as inert reference; the Tier 1/2/3 taxonomy in `human-gate-conventions.md`; and the Instruction & Rule File Write Gate itself, which gated this removal's own CLAUDE.md edits.
-  Everything decommissioned moved to `zArchive/2026-08-sug284-governance-layer/` via `git mv` rather than deletion, preserving full history and a resurrection path. Forward commits only, no git history rewrite. SUG-284, superseding SUG-243, 256, 262, 268, 276, 281, 282.
+- The governance/verification-review layer built 2026-07-21 to 2026-08-13 removed wholesale:
+  Tier 1/2/3 register machinery, the verification-review subagent, `control-register.md`,
+  `rule-register.md`, `governance-coverage.md`, the doc-budget word cap, `validate:enforcement-liveness`,
+  the SUG-268 governance data layer (zero consumers), and SUG-281's gate tiering. Moved to
+  `zArchive/` via `git mv`, not deleted. SUG-284, superseding SUG-243/256/262/268/276/281/282.
 
 #### Added
-- 15 orphaned Linear issues backfilled with `docs/backlog/` stubs (SUG-249, 257, 258, 259, 260, then SUG-154, 72, 71, 60, 57, 56, 51, 50, 18; SUG-261 was a stray test issue, cancelled). The issues and their stubs remain at 0.33.0. SUG-262.
-- `validate:urls`, `validate:filters` and `validate:taxonomy` classified as structurally unprobeable: they judge published Sanity documents rather than repo files, so no file in this repo can make them fail. The classification stands; the refactor that would make them probeable, separating fetching from judging, is not scheduled. AOP-0.
-- **⊘ Withdrawn in this release.** `validate:epic-docs`, wired into CI, checking every non-Done Linear issue against both a backlog doc and a priority-stack row. Its first real run produced the 10-issue backfill recorded above. Removed by SUG-284 along with the priority stack it checked against. SUG-262.
-- **⊘ Withdrawn in this release.** Governance source of truth under `governance/source/`, with a schema covering five entities (controls, components, claims, probes, crosswalk), proven by a deliberately broken fixture producing 15 findings and exit 1. `governance:build` emitted `apps/web/src/generated/governance.json`, which had zero consumers. Two gates over it, `validate:governance-diff` and `validate:governance`. SUG-268.
-- **⊘ Withdrawn in this release.** Enforcement-liveness probes for `pnpm typecheck` (CTL-016) and `validate:schema-parity` (CTL-011), each proven by running it against deliberately broken input rather than by inspection. Harness went 21 → 24 gates proven live, 0 inert. AOP-0.
-- **⊘ Withdrawn in this release.** Warn-only CI gates gained a readable artifact and a machine-capped deadline: `ci.yml` emitted a `WARN-GATE` annotation gated on `steps.<id>.outcome`, `/eod` step 6 read annotations on every concluded run, `validate:validators` made the pairing structural, and `validate-control-register.js` enforced a re-arm ceiling. Proven end-to-end by PR #34, run 31490233162, which established that REST `steps[].conclusion` does not stay `failure` for a `continue-on-error` step. All of it removed by SUG-284; `/eod` step 6 was itself deleted after being found to read artifacts that no longer existed. SUG-281.
+- 15 orphaned Linear issues backfilled with `docs/backlog/` stubs. SUG-262.
+- `validate:urls`/`validate:filters`/`validate:taxonomy` classified as structurally unprobeable
+  (they judge published Sanity documents, not repo files). AOP-0.
+- **⊘ Withdrawn in this release.** `validate:epic-docs` CI check, `governance/source/` schema
+  layer, two enforcement-liveness probes, and warn-gate CI annotations — all built, all removed by
+  SUG-284.
 
 ---
 
