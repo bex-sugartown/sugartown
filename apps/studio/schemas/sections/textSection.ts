@@ -30,6 +30,34 @@ export default defineType({
       validation: (Rule) =>
         Rule.required()
           .error('Content is required for text sections')
+    }),
+    defineField({
+      name: 'tone',
+      title: 'Tone',
+      type: 'string',
+      description: 'Normal body text, or subtle (smaller, muted, italic) for fine-print lines.',
+      options: {
+        list: [
+          {title: 'Normal', value: 'normal'},
+          {title: 'Subtle', value: 'subtle'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'normal',
+    }),
+    defineField({
+      name: 'align',
+      title: 'Alignment',
+      type: 'string',
+      description: 'Text alignment for this section.',
+      options: {
+        list: [
+          {title: 'Left', value: 'left'},
+          {title: 'Center', value: 'center'},
+        ],
+        layout: 'radio',
+      },
+      initialValue: 'left',
     })
   ],
   preview: {
