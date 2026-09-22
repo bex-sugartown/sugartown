@@ -340,13 +340,18 @@ export function HeroSection({ section }) {
 
 // Text Section Component
 function TextSection({ section }) {
-  const { heading, content } = section
+  const { heading, content, tone, align } = section
+  const contentClassName = [
+    styles.textContent,
+    tone === 'subtle' ? styles.textSectionSubtle : undefined,
+    align === 'center' ? styles.textSectionCenter : undefined,
+  ].filter(Boolean).join(' ')
 
   return (
     <section className={styles.textSection} id={section._sectionId}>
       {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
       {content && (
-        <div className={styles.textContent}>
+        <div className={contentClassName}>
           <RichText content={preprocessPortableText(content)} components={portableTextComponents} />
         </div>
       )}

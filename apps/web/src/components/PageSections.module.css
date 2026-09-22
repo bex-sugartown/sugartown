@@ -751,6 +751,16 @@
   font-style: italic;
 }
 
+.textSectionSubtle {
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  font-style: italic;
+}
+
+.textSectionCenter {
+  text-align: center;
+}
+
 .mermaidError {
   font-family: var(--st-font-family-mono, 'Fira Code', monospace);
   font-size: 0.8125rem;
