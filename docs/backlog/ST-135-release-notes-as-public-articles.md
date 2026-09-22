@@ -49,9 +49,9 @@ source files themselves, and per-release Epic/PRD links (dropped 2026-09-22 — 
 - [x] Decide Epic/PRD link scope — decided 2026-09-22: generic Governance/Changelog/Release Note links only, on every article; per-release Epic/PRD links dropped as out of scope (most pre-ST-109 releases have no epic doc to link, and it's not worth the per-release variability) — layer: content, decision
 - [x] Add `textSection` "Subtle" / "Subtle Centered" Portable Text block styles — reused pattern discovered building the pilot's breadcrumb line, small schema+component addition, not section-scoped fields (revised from an initial section-level-field attempt) — layer: schema, frontend
 - [x] Pilot v0.20.0 built and iterated against directly in Sanity (serving as the vspec-equivalent) — approved 2026-09-22 — layer: content, design
-- [ ] Draft the remaining 16 article documents (v0.21.0–v0.36.0, folding v0.23.25 into v0.23.0 and v0.26.26 into v0.26.0) as Sanity drafts, matching the v0.20.0 pilot's structure exactly — layer: content
-- [ ] Metadata enrichment per article: additional existing tags, `relatedTerms` for genuinely-implied (not literal) terms, inline `glossaryTermRef` only where a term appears verbatim — no new tag/category/series/glossaryTerm documents — layer: content, taxonomy
-- [ ] Write one shared `aiDisclosure` string suitable for a release-notes repost, applied to all 17 articles — layer: content
+- [x] Draft the remaining 16 article documents (v0.21.0–v0.36.0) as Sanity drafts, matching the v0.20.0 pilot's structure exactly — done 2026-09-22 — layer: content. v0.23.25 folded into v0.23.0's "Also in this release" subsection as planned; v0.26.26 turned out to be a byte-identical duplicate of v0.26.0 (not distinct content), so nothing needed folding there
+- [x] Metadata enrichment per article: additional existing tags, `relatedTerms` for genuinely-implied (not literal) terms, inline `glossaryTermRef` only where a term appears verbatim — no new tag/category/series/glossaryTerm documents — done 2026-09-22 — layer: content, taxonomy
+- [x] Write one shared `aiDisclosure` string suitable for a release-notes repost, applied to all 17 articles — done 2026-09-22 — layer: content
 - [x] Content Write Gate proposal (before/after table) for the batch — shown and approved 2026-09-22 for the pattern; batch execution proceeds under that approval plus this doc's updated Acceptance Criteria — layer: process
 
 ## Phases
@@ -60,15 +60,14 @@ Single phase.
 
 ## Acceptance Criteria
 
-- [x] 1 of 17 `article` documents exists as a Sanity draft (v0.20.0, the pilot), correct backdated `publishedAt`; 16 remaining
-- [ ] 17 `article` documents exist as Sanity drafts (not published — Human-Publishes Rule applies), one per release v0.20.0 through v0.36.0, each with correct backdated `publishedAt`
-- [ ] Every article carries `series` → new `release-notes` series (with sequential `partNumber`), `categories` → `category-governance`, `tags` → `tag-release-management` plus any additional genuinely-relevant existing tags, confirmed via `count(*[_type == "article" && series->slug.current == "release-notes"])` returning exactly 17 (drafts perspective)
-- [ ] Every article's opening matches the v0.20.0 pilot exactly: hero → generic Mermaid diagram (Governance → CHANGELOG Entry → Release Note) → centered "Subtle Centered" breadcrumb line (Governance and Changelog linked, Release Note plain) → divider → body
-- [ ] Every article has pre-existing-only metadata enrichment: at least the taxonomy pre-flight matches, plus any additional existing tags/`relatedTerms` that genuinely fit that release's content, plus an inline `glossaryTermRef` wherever a real glossary term appears verbatim in that release's body — never a fabricated or forced match
-- [ ] Every article carries the same shared `aiDisclosure` string (see Technical notes for the agreed text)
+- [x] 17 of 17 `article` documents exist as Sanity drafts, one per release v0.20.0 through v0.36.0, each with correct backdated `publishedAt` — confirmed 2026-09-22 (`partNumber` 1–17, sequential, no gaps)
+- [x] Every article carries `series` → new `release-notes` series (with sequential `partNumber`), `categories` → `category-governance`, `tags` → `tag-release-management` plus any additional genuinely-relevant existing tags — `count(*[_type == "article" && series->slug.current == "release-notes"])` returns exactly 17 (drafts perspective), confirmed 2026-09-22
+- [x] Every article's opening matches the v0.20.0 pilot exactly: hero → generic Mermaid diagram (Governance → CHANGELOG Entry → Release Note) → centered "Subtle Centered" breadcrumb line (Governance and Changelog linked, Release Note plain) → divider → body
+- [x] Every article has pre-existing-only metadata enrichment: taxonomy pre-flight matches on every article, additional existing tags/`relatedTerms` picked per release's actual content, inline `glossaryTermRef` added on the two articles with a genuine verbatim match (v0.20.0 "PortableText", v0.36.0 "WCAG") — no fabricated or forced matches on the other 15
+- [x] Every article carries the same shared `aiDisclosure` string (see Technical notes for the agreed text)
 - [x] Content Write Gate proposal (batch pattern) was shown and approved 2026-09-22 before any `create_documents` call
 - [x] Pilot iterated and approved directly in Sanity in place of a static vspec file (see Scope) — Phase 0 intent satisfied interactively
-- [ ] Nothing published without an explicit standalone publish instruction (Human-Publishes Rule)
+- [x] Nothing published without an explicit standalone publish instruction (Human-Publishes Rule) — v0.20.0 was published by Bex herself in Studio mid-epic while reviewing the pilot; the other 16 remain drafts
 
 ## Human QA Walkthrough — example local pages
 
