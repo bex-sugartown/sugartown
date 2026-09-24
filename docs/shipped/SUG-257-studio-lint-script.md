@@ -44,10 +44,10 @@ passes in CI alongside the other four packages that already lint clean.
 
 ## Scope
 
-- [ ] Add `"lint": "eslint ."` to `apps/studio/package.json` — layer: tooling
-- [ ] Resolve the 86 problems, or configure the environment properly — audit first,
+- [x] Add `"lint": "eslint ."` to `apps/studio/package.json` — layer: tooling
+- [x] Resolve the 86 problems, or configure the environment properly — audit first,
       most look like a missing `env: node` rather than genuine defects — layer: config/code
-- [ ] Confirm `apps/studio` passes in CI alongside the other four packages — layer: CI
+- [x] Confirm `apps/studio` passes in CI alongside the other four packages — layer: CI
 
 ## Non-Goals
 
@@ -56,11 +56,46 @@ passes in CI alongside the other four packages that already lint clean.
 
 ## Acceptance Criteria
 
-- [ ] `pnpm --filter studio lint` exits 0
-- [ ] `turbo run lint` includes `studio` in its package list and it passes
-- [ ] CI green with the new step included
+- [x] `pnpm --filter studio lint` exits 0
+- [x] `turbo run lint` includes `studio` in its package list and it passes
+- [x] CI green with the new step included (moved to Post-ship checks: provable only once on `main`)
 
 ## Related
 
 - **GitHub:** [#85](https://github.com/bex-sugartown/sugartown/issues/85)
 - **Origin:** SUG-254 Phase 6 (parked, epic paused), filed separately 2026-07-27
+
+## Close-out review
+
+### Acceptance criteria
+
+Executed in a cloud session (the first `cloud` label test run), branch `claude/lucid-planck-tklxgq`, commit `a7eb771`. Evidence comment on #85, 2026-09-24. Merged into `main` locally and re-checked:
+
+- `pnpm --filter studio lint`: exit 0, 0 errors, 16 warnings (all in `components/TableBlockInput.tsx`, warnings are allowed).
+- Root `pnpm lint`: exit 0, 7 packages, `studio` included.
+- `pnpm test:smoke`: 5 passed.
+- CI on `main`: a post-ship check.
+
+The fix was config, not code: one `globals.node` block for `scripts/**` and `migrations/**`, plus `globals` as a devDependency. The two overstated comments (`.husky/pre-commit`, `packages/eslint-config/boundary-rules.js`) are corrected.
+
+### What didn't work
+
+- The cloud procedure (`docs/workflows/cloud-execution.md`) was wrong in four places: it predicted the wip mirror would fail (it succeeded and left a `wip/` ref), named `gh`, which is not installed in cloud, did not say to run `pnpm install`, and had a start-review step cloud could not follow.
+- The issue body had no acceptance criteria heading and no Visual line, so a strict start review would have stopped.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Correct `cloud-execution.md` from this run's seven procedure notes | workflow-docs | #141 |
+| 16 warnings in `components/TableBlockInput.tsx` | implementation | declined: warnings pass the gate and fixing them was never in scope |
+| Studio `typecheck` script | implementation | #22, already filed |
+
+### Friction line
+
+The cloud procedure was written before any cloud run and was wrong in four places the first run found.
+
+## Post-ship checks
+
+- [ ] CI on the pushed merge concludes `success` with `studio` in the lint step: `gh run list --branch main --workflow CI --limit 1`
+
