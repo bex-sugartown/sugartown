@@ -23,9 +23,10 @@ labelled. Stop and comment.
 | A browser | No visual verification. Visual work is out of scope (§Scope) |
 | Pushing any branch but the session's own | Push only the session branch. `main` is `/ship`'s job |
 | The GitHub project board (the GraphQL API is blocked) | Do not set `Status`. §Before starting says who does |
+| The `gh` CLI (not installed) | Use the GitHub MCP tools to read issues and post comments |
 
-**The post-commit hook's wip mirror will fail** (the hook pushes a `wip/` branch, and cloud can
-push only its own branch). Ignore that warning in cloud. It does not affect the commit.
+**The post-commit hook's wip mirror works in cloud.** It pushes `wip/<date>-<session branch>` to
+origin (seen on the first run, #85). §Hand-back deletes it.
 
 ## Environment, one-time setup
 
@@ -51,13 +52,16 @@ These live in the parent `conventions/` folder, which cloud never sees:
 
 ## Before starting
 
-1. **Bex or a local session sets the issue to `In Progress` before launching the cloud session.**
-   Cloud cannot reach the board. If it still reads `Todo`, continue and say so in the evidence
-   comment.
-2. **Read the issue body, including any `## Cloud prep` section.** Every box under
+1. **Run `pnpm install --frozen-lockfile`.** A cloud session starts with no `node_modules`.
+2. **Do not check or change the board.** Bex or a local session sets `In Progress` before
+   launching.
+3. **Read the issue body, including any `## Cloud prep` section.** Every box under
    "Before cloud" must be ticked. If one is not, stop and comment which.
-3. **Run the start review** (CLAUDE.md §Issue status = workflow stage): objective, acceptance
-   criteria, Visual yes or no. Anything missing: stop and comment.
+4. **Run the start review** (CLAUDE.md §Issue status = workflow stage): objective, acceptance
+   criteria, Visual yes or no. Acceptance criteria may live in the backlog doc the issue links
+   as its canonical record; read it. If Visual is not stated and the work renders nothing
+   (config, scripts, validators, tests), treat it as Visual: no and say so in the evidence
+   comment. Anything else missing: stop and comment.
 
 ## Gates
 
@@ -80,7 +84,7 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
 1. **Commit** with a scoped message that names the issue: `fix(studio): add lint script (#85)`.
 2. **Push the session branch.** Do not open a pull request (a PR to `main` runs the full CI
    workflow, including Chromatic snapshots, which spend budget).
-3. **Comment on the issue**, one comment, containing:
+3. **Comment on the issue** with the GitHub MCP tool, one comment, containing:
    - the branch name
    - what changed, one line per file or group
    - each verification command with its real output
@@ -88,8 +92,7 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
 4. **Leave the issue open, at `In Progress`.** Never close it. (`/ship` sweeps every `Done`
    issue into `Shipped`, and cloud work is still on a branch.)
 
-If `gh issue comment` fails, put the same content in the final session message and say that the
-comment failed.
+If the comment fails, put the same content in the final session message and say that it failed.
 
 ## Hand-back
 
@@ -100,7 +103,8 @@ A local session finishes a cloud issue:
 3. Merge the branch into `main`.
 4. Run `pnpm test:smoke` and the issue's own commands.
 5. Close the issue with the evidence comment CLAUDE.md §Issue status requires.
-6. Delete the cloud branch from `origin`.
+6. Once `main` carrying the merge is pushed, delete the cloud branch and its
+   `wip/<date>-<session branch>` mirror from `origin`.
 
 ## `## Cloud prep` section
 
