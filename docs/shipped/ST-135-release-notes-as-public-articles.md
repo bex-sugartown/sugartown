@@ -138,7 +138,7 @@ All eight ticked above, with evidence in each line. Added at close-out, 2026-09-
 | Mermaid diagram nodes stay white in dark mode (seen during Visual QA, predates this epic) | implementation | #139 |
 | Per-release Epic/PRD links | implementation | declined: dropped in Scope 2026-09-22, too few releases have an epic doc to link |
 | Repost v0.8.0 to v0.19.0 | implementation | declined: out of the requested range (Non-Goals); file an epic if wanted |
-| Publish the 17 drafts | content | declined here: the Human-Publishes Rule makes it Bex's separate action |
+| Publish the 17 drafts | content | #140, sub-issue of #135; Bex publishes in Studio (Human-Publishes Rule) |
 
 ### Friction line
 
