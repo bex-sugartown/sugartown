@@ -12,6 +12,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- ST-135: release notes v0.20.0 to v0.36.0 drafted as 17 backdated articles in a new Release Notes series, with new Subtle and Subtle Centered rich-text styles; drafts, unpublished (#135).
+
 ---
 
 ## [0.36.0] — 2026-09-19

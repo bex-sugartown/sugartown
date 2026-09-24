@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-135 — Release notes as public articles (governance visibility)
 **Issue:** [#135](https://github.com/bex-sugartown/sugartown/issues/135)
-**Status:** Todo
+**Status:** Done
 **Priority:** 🟢 High
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** yes
@@ -67,7 +67,7 @@ Single phase.
 - [x] Every article carries the same shared `aiDisclosure` string (see Technical notes for the agreed text)
 - [x] Content Write Gate proposal (batch pattern) was shown and approved 2026-09-22 before any `create_documents` call
 - [x] Pilot iterated and approved directly in Sanity in place of a static vspec file (see Scope) — Phase 0 intent satisfied interactively
-- [x] Nothing published without an explicit standalone publish instruction (Human-Publishes Rule) — v0.20.0 was published by Bex herself in Studio mid-epic while reviewing the pilot; the other 16 remain drafts
+- [x] Nothing published without an explicit standalone publish instruction (Human-Publishes Rule) — all 17 are drafts (checked 2026-09-24: `count(*[_type=="article" && series->slug.current=="release-notes" && !(_id in path("drafts.**"))])` is 0; an earlier note here said v0.20.0 was published mid-epic, but Sanity shows it as a draft)
 
 ## Human QA Walkthrough — example local pages
 
@@ -113,3 +113,38 @@ vspec is approved and switch to direct execution for the mechanical repost of 17
 - **GitHub:** [#135](https://github.com/bex-sugartown/sugartown/issues/135)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
 - **Upstream:** CHANGELOG compression and `release-assistant-prompt.md` v6, both 2026-09-22 (same session)
+
+## Close-out review
+
+### Acceptance criteria
+
+All eight ticked above, with evidence in each line. Added at close-out, 2026-09-24:
+
+- Branch merged into `main` locally (`6d22a672`). `pnpm validate:schema-parity` on the merged `main`: "local and deployed schemas match" (58 types).
+- `pnpm test:smoke`: 5 passed.
+- Visual QA in the browser on the v0.20.0 draft (`localhost:5173/articles/release-notes-v0-20-0`, preview mode): hero, Mermaid diagram, Subtle Centered breadcrumb (light: centred, 14px, `rgb(82,82,82)`; dark: `rgb(148,163,184)`, links `rgb(255,36,125)`), divider, body. No console errors. The other 16 drafts were not opened; they follow the pilot's structure. Bex: "Visual QA approved", 2026-09-24.
+
+### What didn't work
+
+- The rich-text styling was first built as `tone`/`align` fields on `textSection` (`962c13aa`, `9057483c`), then replaced by per-block styles the same day (`b4b7617c`, `de4b01b1`) after Bex said formatting belongs in the editor's style dropdown.
+- The schema was deployed from this branch mid-epic, so Studio could use the new styles. The branch was then held, and the next push to `main` (CI run 35993687063, 2026-09-24) failed schema parity on 5 types until this merge.
+- This doc recorded v0.20.0 as published. It was a draft when checked at close-out.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| A branch schema deploy leaves `main`'s CI red until the branch merges | workflow-docs | #138 |
+| Mermaid diagram nodes stay white in dark mode (seen during Visual QA, predates this epic) | implementation | #139 |
+| Per-release Epic/PRD links | implementation | declined: dropped in Scope 2026-09-22, too few releases have an epic doc to link |
+| Repost v0.8.0 to v0.19.0 | implementation | declined: out of the requested range (Non-Goals); file an epic if wanted |
+| Publish the 17 drafts | content | declined here: the Human-Publishes Rule makes it Bex's separate action |
+
+### Friction line
+
+A schema deployed from a held branch turned `main`'s CI red at the next ship.
+
+## Post-ship checks
+
+- [ ] CI on the pushed merge concludes `success` with "Validate schema parity" green: `gh run list --branch main --workflow CI --limit 1`
+
