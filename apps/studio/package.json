@@ -11,6 +11,7 @@
     "deploy": "sanity deploy",
     "deploy-graphql": "sanity graphql deploy",
     "deploy:schema": "sanity schema deploy",
+    "lint": "eslint .",
     "validate:schema-parity": "node scripts/validate-schema-parity.js"
   },
   "keywords": [
@@ -31,6 +32,7 @@
     "@sanity/eslint-config-studio": "^6.0.0",
     "@types/react": "^19.1",
     "eslint": "^9.28",
+    "globals": "^16.5.0",
     "prettier": "^3.5",
     "typescript": "^5.8"
   },

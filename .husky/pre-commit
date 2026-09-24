@@ -39,7 +39,8 @@ pnpm --filter web validate:dead-refs || exit 1
 # silently unenforced (no hook, no CI job) until SUG-239 wired it up here.
 pnpm --filter web validate:css-names || exit 1
 
-# ESLint — zero errors required (warnings are allowed), across EVERY package.
+# ESLint — zero errors required (warnings are allowed), across every package
+# that has a `lint` script (seven since SUG-257 added apps/studio).
 #
 # This was `pnpm --filter web lint` until SUG-255. That narrowing is the exact
 # visibility gap that let lint regressions in packages/design-system,

@@ -84,7 +84,7 @@ const NO_BOUNDARY_SCOPE = {
   'apps/storybook':
     'no rule names apps/storybook as the importing side, and its lint script is scoped to .storybook/ only. Storybook stays an app; SUG-254 moved the shared doc helpers to packages/storybook-docs so nothing needs to import across the boundary.',
   'apps/studio':
-    'no rule names apps/studio as the importing side (Rule 3 restricts web FROM studio, not studio itself). Also has no lint script at all — 86 pre-existing problems if one were added. Tracked as SUG-257.',
+    'no rule names apps/studio as the importing side (Rule 3 restricts web FROM studio, not studio itself). Its lint script (SUG-257) runs the Sanity studio config only, with no boundary rules.',
   'apps/contentful-poc':
     'a self-contained POC on its own flat config, slated to leave this repo (PROJ-007). No rule names it, and adding one would expand the rule set. Reassess if it becomes permanent.',
 }
