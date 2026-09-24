@@ -190,6 +190,9 @@ importers:
       eslint:
         specifier: ^9.28
         version: 9.39.2(jiti@2.7.0)
+      globals:
+        specifier: ^16.5.0
+        version: 16.5.0
       prettier:
         specifier: ^3.5
         version: 3.8.1
