@@ -16,6 +16,8 @@ export const defaultRichTextComponents = {
     h3: ({ children }) => <h3 className={styles.h3}>{children}</h3>,
     h4: ({ children }) => <h4 className={styles.h4}>{children}</h4>,
     blockquote: ({ children }) => <Blockquote>{children}</Blockquote>,
+    subtle: ({ children }) => <p className={styles.subtle}>{children}</p>,
+    subtleCentered: ({ children }) => <p className={styles.subtleCentered}>{children}</p>,
   },
   marks: {
     link: ({ value, children }) => (

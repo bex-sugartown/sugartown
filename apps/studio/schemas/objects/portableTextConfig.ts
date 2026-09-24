@@ -323,7 +323,9 @@ export const standardPortableText = [
       {title: 'Heading 2', value: 'h2'},
       {title: 'Heading 3', value: 'h3'},
       {title: 'Heading 4', value: 'h4'},
-      {title: 'Blockquote', value: 'blockquote'}
+      {title: 'Blockquote', value: 'blockquote'},
+      {title: 'Subtle', value: 'subtle'},
+      {title: 'Subtle Centered', value: 'subtleCentered'}
     ],
     lists: [
       {title: 'Bullet', value: 'bullet'},

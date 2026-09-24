@@ -51,6 +51,24 @@ const TEXT_SECTION = {
   content: richContent,
 };
 
+/** "Subtle Centered" block style — a short recessive linked line, e.g. below a diagram. */
+const TEXT_SECTION_SUBTLE_CENTER = {
+  _type: 'textSection',
+  _key: 'ts-2',
+  content: [
+    {
+      _type: 'block',
+      _key: 'sc1',
+      style: 'subtleCentered',
+      markDefs: [{ _type: 'link', _key: 'sclink', type: 'external', href: '/platform/governance' }],
+      children: [
+        { _type: 'span', _key: 'scs1', text: 'Governance', marks: ['sclink'] },
+        { _type: 'span', _key: 'scs2', text: ' · CHANGELOG', marks: [] },
+      ],
+    },
+  ],
+};
+
 /** Real render shape (post-GROQ): heading + description (plain text) + buttons[] {text, url, style, openInNewTab}. */
 const CTA_SECTION = {
   _type: 'ctaSection',
@@ -172,6 +190,14 @@ export const HeroSectionStory: Story = {
 export const TextSection: Story = {
   args: {
     sections: [TEXT_SECTION],
+    context: 'detail',
+  },
+};
+
+/** Text section, subtle tone + centered — a short recessive linked line, e.g. below a diagram. */
+export const TextSectionSubtleCenter: Story = {
+  args: {
+    sections: [TEXT_SECTION_SUBTLE_CENTER],
     context: 'detail',
   },
 };

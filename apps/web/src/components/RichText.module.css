@@ -60,6 +60,19 @@
   font-weight: var(--st-font-weight-bold);
 }
 
+/* ── Fine-print block styles ──────────────────────────────── */
+
+.subtle {
+  font-size: var(--st-font-size-sm);
+  color: var(--st-color-text-secondary);
+  font-style: italic;
+}
+
+.subtleCentered {
+  composes: subtle;
+  text-align: center;
+}
+
 /* ── Lists ────────────────────────────────────────────────── */
 
 .richText ul,

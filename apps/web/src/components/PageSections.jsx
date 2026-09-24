@@ -89,6 +89,8 @@ const portableTextComponents = {
     h3: ({ children }) => <h3 className={styles.h3} id={headingAnchor(children)}>{children}</h3>,
     h4: ({ children }) => <h4 className={styles.h4} id={headingAnchor(children)}>{children}</h4>,
     blockquote: ({ children }) => <Blockquote>{children}</Blockquote>,
+    subtle: ({ children }) => <p className={styles.textSectionSubtle}>{children}</p>,
+    subtleCentered: ({ children }) => <p className={[styles.textSectionSubtle, styles.textSectionCenter].join(' ')}>{children}</p>,
   },
   marks: {
     link: ({ value, children }) => (
