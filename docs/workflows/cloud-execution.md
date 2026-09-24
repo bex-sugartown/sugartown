@@ -25,8 +25,23 @@ labelled. Stop and comment.
 | The GitHub project board (the GraphQL API is blocked) | Do not set `Status`. §Before starting says who does |
 | The `gh` CLI (not installed) | Use the GitHub MCP tools to read issues and post comments |
 
-**The post-commit hook's wip mirror works in cloud.** It pushes `wip/<date>-<session branch>` to
-origin (seen on the first run, #85). §Hand-back deletes it.
+**The post-commit hook's wip mirror works in cloud.** On a `claude/*` session branch it pushes
+`wip/<date>-<session branch>` to origin (seen on #85), which §Hand-back deletes. On a session
+started from a `wip/` branch it does nothing (#142).
+
+## Starting branch
+
+The local session that writes the launch prompt names the branch. Bex picks it in the new-session
+screen.
+
+| Situation | Start from | Session pushes to |
+|---|---|---|
+| `main` on origin matches local `main` | `main` | its own `claude/*` branch |
+| Local `main` has unpushed commits (ships are being batched) | the newest `wip/<date>-main`, after checking it matches local `HEAD` | that same `wip/<date>-main` |
+
+**While a cloud run is open on a `wip/` branch, commit nothing locally in this repo.** The session
+and the Mac's post-commit mirror both push to that branch, and a local commit in between makes
+the two diverge (#22 run, #142).
 
 ## Environment, one-time setup
 
@@ -76,8 +91,16 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
 ## Verify
 
 1. Run every command named in the issue's acceptance criteria.
-2. Run `pnpm lint` and `pnpm typecheck` for each package touched, where the package has the script (Studio has neither until #85 and #22 land).
-3. Keep the real output. A summary is not evidence.
+2. Run `pnpm lint` and `pnpm typecheck` for each package touched that has the script.
+3. **For any edit under `apps/studio/schemas/`, prove the schema did not change.** In
+   `apps/studio`, run `npx sanity schema extract --path schema-before.json` before the first
+   edit and `--path schema-after.json` after the last. Use bare filenames: an absolute path is
+   written under `apps/studio/`. Diff them. If the diff is not empty, do not commit that change;
+   describe it in the evidence comment and leave it for a local session, which owns schema
+   deploys (#138). An empty diff is not proof on its own: the extract leaves out some definition
+   properties (`__experimental_singleton` is absent), so do not remove a property the extract
+   cannot see. Delete both files before committing.
+4. Keep the real output. A summary is not evidence.
 
 ## Finish
 
@@ -100,11 +123,12 @@ A local session finishes a cloud issue:
 
 1. Fetch the branch and read the diff.
 2. Apply any diffs posted under §Gates, after Bex approves them.
-3. Merge the branch into `main`.
+3. Merge the branch into `main`. A run on a `wip/` branch fast-forwards `main`.
 4. Run `pnpm test:smoke` and the issue's own commands.
 5. Close the issue with the evidence comment CLAUDE.md §Issue status requires.
-6. Once `main` carrying the merge is pushed, delete the cloud branch and its
-   `wip/<date>-<session branch>` mirror from `origin`.
+6. Once `main` carrying the merge is pushed, delete a `claude/*` session branch and its
+   `wip/<date>-<session branch>` mirror from `origin`. Never delete a `wip/<date>-main`
+   branch: it is the Mac's mirror of `main`.
 
 ## `## Cloud prep` section
 

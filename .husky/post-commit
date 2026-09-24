@@ -36,6 +36,9 @@
 # ST-113 was this exact omission.
 
 [ -n "$ST_NO_MIRROR" ] && exit 0
+# #142: a branch already under wip/ is a mirror, not a source. Committing on one (a cloud
+# session started from wip/<date>-main) would otherwise mirror it to wip/<date>-wip-<date>-main.
+case "$(git branch --show-current 2>/dev/null)" in wip/*) exit 0 ;; esac
 git remote get-url origin >/dev/null 2>&1 || exit 0
 
 # ST-109: during a rebase every replayed commit fires this hook in the same second, and N
