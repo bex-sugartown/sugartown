@@ -234,6 +234,10 @@ Three rules make this safe:
 Abandoning execution returns the issue to `Todo`, or `On Hold` if blocked. Never leave it at
 `In Progress`.
 
+**An issue labelled `cloud` may run in a cloud session.** `docs/workflows/cloud-execution.md` is
+the procedure. A cloud session never closes its issue; a local session merges the branch and
+closes it (§Hand-back there).
+
 **`On Hold` is the one status a workflow step does not set.** It covers both a blocker outside
 your control and work deliberately parked, and it is the human's call in both directions.
 Exits to `In Progress` when work resumes, or to `Canceled` if it never does.
