@@ -13,6 +13,7 @@ export default defineType({
   type: 'document',
   icon: CogIcon,
   // Singleton configuration - only allow one document
+  // @ts-expect-error -- not in Sanity's DocumentDefinition type; removing it is a separate decision (#22)
   __experimental_singleton: true,
   groups: [
     {name: 'general', title: 'General', default: true},

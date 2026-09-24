@@ -80,7 +80,7 @@ export default defineType({
         defineArrayMember({type: 'cardSection'}),
       ],
       validation: (Rule) =>
-        Rule.custom((sections) => {
+        Rule.custom<Array<{_type: string; semantic?: string}>>((sections) => {
           const hasFaq = (sections || []).some(
             (s) => s._type === 'accordionSection' && s.semantic === 'faq'
           )

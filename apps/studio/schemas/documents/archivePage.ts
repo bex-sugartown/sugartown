@@ -345,7 +345,7 @@ export default defineType({
         })
       ],
       validation: (Rule) =>
-        Rule.custom((dateRange) => {
+        Rule.custom<{startDate?: string; endDate?: string}>((dateRange) => {
           if (!dateRange?.startDate || !dateRange?.endDate) return true
           if (new Date(dateRange.endDate) < new Date(dateRange.startDate)) {
             return 'End date must be after start date'

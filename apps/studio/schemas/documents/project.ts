@@ -55,6 +55,7 @@ export default defineType({
               return 'Project ID must follow format PROJ-XXX (e.g., PROJ-001)'
             }
             const {document, getClient} = context
+            if (!document) return true
             const client = getClient({apiVersion: '2024-01-01'})
             const id = document._id.replace(/^drafts\./, '')
             const query = '*[_type == "project" && projectId == $projectId && !(_id in [$id, $draftId])][0]'

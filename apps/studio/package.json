@@ -12,6 +12,7 @@
     "deploy-graphql": "sanity graphql deploy",
     "deploy:schema": "sanity schema deploy",
     "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
     "validate:schema-parity": "node scripts/validate-schema-parity.js"
   },
   "keywords": [
