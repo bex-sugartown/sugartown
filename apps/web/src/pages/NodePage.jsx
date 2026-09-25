@@ -60,7 +60,6 @@ export default function NodePage() {
           categories={node.categories}
           tags={node.tags}
           inlineTerms={node.inlineTerms}
-          relatedTerms={node.relatedTerms}
           projects={node.projects}
           draftBadge={<DraftBadge docId={node._id} hasDraft={hasDraft} />}
         />

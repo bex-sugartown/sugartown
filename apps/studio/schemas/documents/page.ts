@@ -234,7 +234,7 @@ export default defineType({
       hidden: ({document}) => !document?.series,
       validation: (Rule) => Rule.min(1).integer(),
     }),
-    // SUG-210 Tier 1: related + relatedTerms added to page — same shape as article/node/caseStudy (was missing, schema field only, no GROQ projection or rendering wired)
+    // SUG-210 Tier 1: related added to page — same shape as article/node/caseStudy. Its relatedTerms field was retired by #136 (2026-09-25).
     defineField({
       name: 'related',
       title: 'Related',
@@ -245,20 +245,6 @@ export default defineType({
         defineArrayMember({
           type: 'reference',
           to: [{type: 'node'}, {type: 'article'}, {type: 'caseStudy'}]
-        })
-      ],
-      validation: (Rule) => Rule.unique()
-    }),
-    defineField({
-      name: 'relatedTerms',
-      title: 'Glossary Terms',
-      type: 'array',
-      description: 'Glossary terms relevant to this page. Inline terms are extracted automatically from body text — add terms here only when they are implied by the content but not marked inline.',
-      group: 'metadata',
-      of: [
-        defineArrayMember({
-          type: 'reference',
-          to: [{type: 'glossaryTerm'}]
         })
       ],
       validation: (Rule) => Rule.unique()

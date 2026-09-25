@@ -173,7 +173,7 @@ export const NodeFull: Story = {
       TAGS.llmWorkflows, TAGS.waysWorking, TAGS.claudeCode,
       TAGS.processInsight, TAGS.postMortem, TAGS.contextEng,
     ],
-    relatedTerms: [GLOSSARY_TERMS.ascii, GLOSSARY_TERMS.headlessCms],
+    inlineTerms: [GLOSSARY_TERMS.ascii, GLOSSARY_TERMS.headlessCms],
     projects: [PROJECTS.sugartown],
   },
 };
@@ -362,7 +362,7 @@ export const Snapshot: Story = {
             tools={[TOOLS.claudeCode, TOOLS.sanity]}
             categories={[CATEGORIES.aiCollab, CATEGORIES.waysWorking]}
             tags={[TAGS.promptEng, TAGS.aiWorkflows, TAGS.humanInLoop, TAGS.llmWorkflows, TAGS.waysWorking, TAGS.claudeCode]}
-            relatedTerms={[GLOSSARY_TERMS.ascii, GLOSSARY_TERMS.headlessCms]}
+            inlineTerms={[GLOSSARY_TERMS.ascii, GLOSSARY_TERMS.headlessCms]}
             projects={[PROJECTS.sugartown]}
           />
         </div>

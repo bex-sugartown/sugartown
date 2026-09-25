@@ -111,7 +111,6 @@ export default function MetadataCard({
   categories,
   tags,
   inlineTerms,
-  relatedTerms,
   projects,
   // Slots
   draftBadge,
@@ -178,11 +177,13 @@ export default function MetadataCard({
   const hasCategories = categories?.length > 0
   const hasTags       = tags?.length > 0
 
-  // Merge inline terms (extracted from PT markDefs) + explicit relatedTerms, deduped by _id
+  // Terms = glossary terms linked inline in the body (extracted from PT markDefs), deduped by _id.
+  // The content-level relatedTerms field was retired by #136 (2026-09-25): an unlinked term is not
+  // evidence the text engages with it, so it no longer shows here.
   const seenTermIds = new Set()
-  const mergedTerms = [...(inlineTerms ?? []), ...(relatedTerms ?? [])]
+  const terms = (inlineTerms ?? [])
     .filter((t) => t?._id && !seenTermIds.has(t._id) && seenTermIds.add(t._id))
-  const hasTerms = mergedTerms.length > 0
+  const hasTerms = terms.length > 0
 
   // Project chips only when no call number ID available (fallback)
   const hasProjects      = projects?.length > 0
@@ -307,7 +308,7 @@ export default function MetadataCard({
                       <Link to={termsArchivePath} className={styles.chipLabelLink}>Terms</Link>
                     </p>
                     <ul className={styles.chipList}>
-                      {mergedTerms.map((t) => (
+                      {terms.map((t) => (
                         <li key={t._id}>
                           <Chip
                             variant="tag"

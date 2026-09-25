@@ -112,7 +112,6 @@ export default function ArticlePage() {
           categories={post.categories}
           tags={post.tags}
           inlineTerms={post.inlineTerms}
-          relatedTerms={post.relatedTerms}
           projects={post.projects}
           draftBadge={<DraftBadge docId={post._id} hasDraft={hasDraft} />}
         />
