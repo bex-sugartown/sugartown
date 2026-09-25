@@ -2,6 +2,7 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactHooks from 'eslint-plugin-react-hooks'
 import reactRefresh from 'eslint-plugin-react-refresh'
+import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 // Architectural boundary rules, from the same source the v8 packages consume.
@@ -18,9 +19,10 @@ import boundariesFor from '@sugartown/eslint-config/boundaries-for.js'
 export default defineConfig([
   globalIgnores(['dist']),
 
-  // Browser + React source files
+  // Browser + React source files. `.ts`/`.tsx` (stories, fixtures) share this
+  // block so the boundary rules reach them too; the next block adds the parser.
   {
-    files: ['src/**/*.{js,jsx}'],
+    files: ['src/**/*.{js,jsx,ts,tsx}'],
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,
@@ -41,6 +43,18 @@ export default defineConfig([
       // before the async fetch — this is intentional and safe.
       'react-hooks/set-state-in-effect': 'off',
       ...boundariesFor('apps/web').rules,
+    },
+  },
+
+  // TypeScript layer. Unlinted until SUG-258 (#86): the block above matched
+  // `.js`/`.jsx` only, so ESLint reported "no matching configuration" for these.
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    extends: [tseslint.configs.recommended],
+    rules: {
+      // The core rule misreads type-only usage; the TS-aware one replaces it.
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['error', { varsIgnorePattern: '^[A-Z_]' }],
     },
   },
 

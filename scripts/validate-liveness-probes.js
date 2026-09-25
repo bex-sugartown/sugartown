@@ -188,14 +188,24 @@ const BOUNDARY_SCOPE_META = {
   'packages/design-system': { pkg: '@sugartown/design-system', probe: 'src/__liveness_boundary_probe__.ts' },
   'packages/mcp-server': { pkg: '@sugartown/mcp-server', probe: 'src/__liveness_boundary_probe__.ts' },
   'packages/storybook-docs': { pkg: '@sugartown/storybook-docs', probe: 'src/__liveness_boundary_probe__.ts' },
-  'apps/web': { pkg: 'web', probe: 'src/__liveness_boundary_probe__.js' },
+  // Two probes: apps/web lints `.js`/`.jsx` and `.ts`/`.tsx` through separate
+  // parsers, and the TS files went unlinted until SUG-258 (#86).
+  'apps/web': {
+    pkg: 'web',
+    probe: ['src/__liveness_boundary_probe__.js', 'src/__liveness_boundary_probe__.tsx'],
+  },
 }
 
-const BOUNDARY_PROBES = Object.keys(SCOPES).map((scope) => {
+const BOUNDARY_PROBES = Object.keys(SCOPES).flatMap((scope) => {
   const meta = BOUNDARY_SCOPE_META[scope]
+  const files = meta ? [meta.probe].flat() : [undefined]
+  return files.map((file) => boundaryProbe(scope, meta, file, files.length > 1))
+})
+
+function boundaryProbe(scope, meta, file, labelFile) {
   const patterns = patternsFor(scope)
   return {
-    gate: `boundary: ${scope}`,
+    gate: labelFile ? `boundary: ${scope} (${file.split('.').pop()})` : `boundary: ${scope}`,
     why: `every boundary rule for ${scope} must reject a forbidden import (INC-011)`,
     run() {
       if (!meta) {
@@ -214,7 +224,7 @@ const BOUNDARY_PROBES = Object.keys(SCOPES).map((scope) => {
         success: `all ${patterns.length} rule(s) fired`,
         breakIt: () =>
           tempFile(
-            `${scope}/${meta.probe}`,
+            `${scope}/${file}`,
             patterns.map((p) => `import '${specimenFor(p.group)}'\n`).join('') +
               'export const probe = 1\n'
           ),
@@ -243,7 +253,7 @@ const BOUNDARY_PROBES = Object.keys(SCOPES).map((scope) => {
       return { live: true, detail: `all ${patterns.length} rule(s) fired` }
     },
   }
-})
+}
 
 // ─── Probes ──────────────────────────────────────────────────────────────────
 //
