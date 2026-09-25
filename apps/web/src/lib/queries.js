@@ -666,7 +666,8 @@ export const articleBySlugQuery = `
     updatedAt,
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
-    "inlineTerms": content[].markDefs[_type == "glossaryTermRef"].term->{${GLOSSARY_TERM_FRAGMENT}},
+    "inlineTerms": coalesce(content[].markDefs[_type == "glossaryTermRef"].term->{${GLOSSARY_TERM_FRAGMENT}}, [])
+      + coalesce(sections[_type == "textSection"][].content[].markDefs[_type == "glossaryTermRef"][].term->{${GLOSSARY_TERM_FRAGMENT}}, []),
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     related[]->{_id, _type, title, "slug": slug.current},
