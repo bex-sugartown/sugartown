@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #136: content Terms rows show only glossary terms linked in the text; the content-level relatedTerms field is retired, and articles now read inline terms from sections, so 11 live articles gain their Terms row.
 - SUG-258: apps/web now lints its 33 TypeScript files, and the web-must-not-import-studio rule is proven live on `.tsx` (#86).
 - #142: cloud execution procedure gains a starting-branch rule and a schema guard; the post-commit mirror skips wip/ branches.
 - #141: cloud execution procedure corrected from the first cloud run: GitHub MCP tools instead of gh, install step, start-review and hand-back fixes.
