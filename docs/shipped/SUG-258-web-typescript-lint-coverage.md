@@ -43,12 +43,12 @@ blocks starting.
 
 ## Scope
 
-- [ ] Add `typescript-eslint` to `apps/web`'s flat config, extend coverage to
+- [x] Add `typescript-eslint` to `apps/web`'s flat config, extend coverage to
       `src/**/*.{ts,tsx}` — layer: tooling
-- [ ] Fix whatever fresh debt surfaces — these files have never been linted; the DS
+- [x] Fix whatever fresh debt surfaces — these files have never been linted; the DS
       package's own story files needed 7 fixes for the same rule set (`52eb7702`),
       expect a similar order of magnitude — layer: code
-- [ ] Confirm SUG-254's Rule 3 (boundary enforcement) applies to the newly-covered
+- [x] Confirm SUG-254's Rule 3 (boundary enforcement) applies to the newly-covered
       files — layer: config verification
 
 ## Non-Goals
@@ -57,11 +57,43 @@ blocks starting.
 
 ## Acceptance Criteria
 
-- [ ] `pnpm --filter web lint` covers all `.ts`/`.tsx` files under `src/`, exits 0
-- [ ] A deliberately-introduced `apps/studio` import from a `.tsx` file under `src/`
+- [x] `pnpm --filter web lint` covers all `.ts`/`.tsx` files under `src/`, exits 0
+- [x] A deliberately-introduced `apps/studio` import from a `.tsx` file under `src/`
       fails lint (Rule 3 proven live on the newly-covered file type)
 
 ## Related
 
 - **GitHub:** [#86](https://github.com/bex-sugartown/sugartown/issues/86)
 - **Origin:** 2026-07-25→27 post-mortem; SUG-254 Phase 6 (parked, epic paused)
+
+## Close-out review
+
+### Acceptance criteria
+
+Executed in a cloud session started from `main` (branch `claude/execute-86-46h75j`, commit `4ba0a2c`), the first cloud run on its own `claude/*` branch. Evidence comment on #86, 2026-09-25. Merged into `main` locally (`770036cc`) and re-checked:
+
+- `pnpm --filter web lint`: exit 0, covering 33 `.ts`/`.tsx` files (31 stories, 2 fixtures; `find apps/web/src \( -name '*.ts' -o -name '*.tsx' \) | wc -l`), not the 32 filed.
+- Rule 3 on `.tsx`: the cloud run's deliberate `apps/studio` import in a `.tsx` file failed with `no-restricted-imports`. Locally, `pnpm validate:liveness-probes`: 14 gates proven live, 0 inert, including the new `boundary: apps/web (tsx)` probe.
+- Root `pnpm lint` and `pnpm typecheck`: exit 0. `pnpm test:smoke`: 5 passed.
+
+Fresh debt was 1 finding, not the 7 expected: an unused `useState` import in `Checkbox.stories.tsx`, removed. No story's rendering changed. `typescript-eslint` 8.54.0 was already in the lockfile through another package.
+
+### What didn't work
+
+- The evidence comment left out the "Cloud procedure notes" section the launch prompt asked for, so this run gave no procedure feedback.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| `scripts/validate-liveness-probes.js` docblock says "Six probes" while 14 run | implementation | declined: the line records the 2026-08-21 choice in ST-95, and the harness prints the live count on every run |
+| Cloud evidence comment skipped the procedure-notes section | workflow-docs | declined: the section comes from the launch prompt, not `cloud-execution.md`; one miss is not yet a pattern |
+
+### Friction line
+
+none
+
+## Post-ship checks
+
+- [ ] CI on the pushed merge concludes `success` with the web lint step covering `.tsx` and Chromatic unchanged for `Checkbox.stories.tsx`: `gh run list --branch main --workflow CI --limit 1`
+

@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- SUG-258: apps/web now lints its 33 TypeScript files, and the web-must-not-import-studio rule is proven live on `.tsx` (#86).
 - #142: cloud execution procedure gains a starting-branch rule and a schema guard; the post-commit mirror skips wip/ branches.
 - #141: cloud execution procedure corrected from the first cloud run: GitHub MCP tools instead of gh, install step, start-review and hand-back fixes.
 - ST-22: apps/studio now has a typecheck script, so `pnpm typecheck` and CI cover Studio schemas; 7 type errors fixed, schema unchanged (#22).
