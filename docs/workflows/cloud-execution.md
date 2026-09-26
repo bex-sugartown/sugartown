@@ -68,8 +68,8 @@ These live in the parent `conventions/` folder, which cloud never sees:
 ## Before starting
 
 1. **Run `pnpm install --frozen-lockfile`.** A cloud session starts with no `node_modules`.
-2. **Do not check or change the board.** Bex or a local session sets `In Progress` before
-   launching.
+2. **Do not check or change the board.** The local session sets `In Progress` once Bex
+   confirms the launch.
 3. **Read the issue body, including any `## Cloud prep` section.** Every box under
    "Before cloud" must be ticked. If one is not, stop and comment which.
 4. **Run the start review** (CLAUDE.md §Issue status = workflow stage): objective, acceptance
@@ -91,7 +91,10 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
 ## Verify
 
 1. Run every command named in the issue's acceptance criteria.
-2. Run `pnpm lint` and `pnpm typecheck` for each package touched that has the script.
+2. Run `pnpm lint` and `pnpm typecheck` for each package touched that has the script. When a
+   root `pnpm lint` or `pnpm typecheck` replays turbo's cache (`FULL TURBO`, `cache hit`), also
+   run the package-level command (`pnpm --filter <package> lint`) and quote that output as the
+   evidence (#91 run).
 3. **For any edit under `apps/studio/schemas/`, prove the schema did not change.** In
    `apps/studio`, run `npx sanity schema extract --path schema-before.json` before the first
    edit and `--path schema-after.json` after the last. Use bare filenames: an absolute path is
@@ -114,6 +117,7 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
    - anything left for a local session or for Bex, including any diffs posted under §Gates
    - a `### Cloud procedure notes` section: anything in this file that was wrong, missing or
      unfollowable this run. `None` is a valid answer; a missing section is not.
+   - a last line for Bex: `**Your next step:** in a local session, say "hand back {n}".`
 4. **Add the `handback-ready` label** with the GitHub MCP tool. It is how the local side finds
    the run (`/morning` lists it, `/handback` reads it). If adding it fails, say so in the comment.
 5. **Leave the issue open, at `In Progress`.** Never close it. (`/ship` sweeps every `Done`

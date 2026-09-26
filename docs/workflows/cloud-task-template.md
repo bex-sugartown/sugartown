@@ -22,7 +22,7 @@ Execute issue #{n} in bex-sugartown/sugartown ({title}).
 This is a cloud session started from {branch}. Before anything else, read
 docs/workflows/cloud-execution.md and follow it exactly.
 
-- #{n} is already In Progress. Do not touch the project board.
+- The local session handles the board. Do not touch it.
 - Acceptance criteria: {criteria}.
 - Verify with real output: {verify}.
 {guards}

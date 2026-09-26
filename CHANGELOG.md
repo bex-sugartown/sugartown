@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #144: cloud runs launch with `/cloud-launch` and finish with `/handback`, a read-only reviewer checks every cloud branch before merge, `/morning` lists runs ready for hand-back, `/ship` deletes merged cloud branches, and every step ends with a "your next step" note for Bex.
 - SUG-266: ScoreRing now follows a reduced-motion change mid-session and never counts up under reduced motion; tested in Storybook on both themes (#91).
 - #136: content Terms rows show only glossary terms linked in the text; the content-level relatedTerms field is retired, and articles now read inline terms from sections, so 11 live articles gain their Terms row.
 - SUG-258: apps/web now lints its 33 TypeScript files, and the web-must-not-import-studio rule is proven live on `.tsx` (#86).

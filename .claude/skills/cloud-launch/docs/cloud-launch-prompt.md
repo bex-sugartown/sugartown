@@ -33,31 +33,41 @@ git rev-list --count origin/main..main
 
 ## Step 3: fill the template
 
-Fill `docs/workflows/cloud-task-template.md`. Add each guard block whose trigger fires. Print
-the result in one fenced block, ready to copy.
+Fill `docs/workflows/cloud-task-template.md`. Add each guard block whose trigger fires.
 
-## Step 4: In Progress
+## Step 4: hand Bex the prompt, then stop
 
-Set the issue's `Status` to `In Progress` (CLAUDE.md §Issue status has the command). Comment on
-the issue: `Cloud run launched from {branch}, {date}.`
+**This turn holds the prompt and the steps, and nothing else.** No `AskUserQuestion`, no status
+change: a prompt written beside a question box went unseen on the #91 launch (2026-09-26).
 
-## Step 5: walk Bex through the launch
+1. Say in one line that pasting the prompt into a cloud session is Bex's step, since no session
+   can type into another.
+2. Print the prompt in one fenced block, ready to copy.
+3. Write the launch steps, one action per step, each saying what she should see. The
+   new-session screen was checked on 2026-09-24:
+   1. Open a new session in the Code tab. You should see an empty prompt box with buttons
+      beneath it.
+   2. Click the branch button (it shows `main`) and choose `{branch}`. The button now shows
+      `{branch}`.
+   3. Click **Local**, then **Cloud**, then **Sugartown**. The button now shows the cloud
+      environment.
+   4. Paste the prompt and send it. The session starts cloning the repo.
+   If the screen looks different, she can use claude.ai/code in a browser instead.
+4. End with: **Your next step:** paste the prompt, then tell me "started", or "stop" to cancel.
 
-Write the steps as numbered text, one action per step, each saying what she should see. The
-new-session screen was checked on 2026-09-24:
+End the turn there.
 
-1. Open a new session in the Code tab. You should see an empty prompt box with buttons
-   beneath it.
-2. Click the branch button (it shows `main`) and choose `{branch}`. The button now shows
-   `{branch}`.
-3. Click **Local**, then **Cloud**, then **Sugartown**. The button now shows the cloud
-   environment.
-4. Paste the prompt and send it. The session starts cloning the repo.
+## Step 5: after Bex replies
 
-Then ask with `AskUserQuestion`:
+- **"Started"**: set the issue's `Status` to `In Progress` (CLAUDE.md §Issue status has the
+  command) and comment on the issue: `Cloud run launched from {branch}, {date}.` Then Step 6.
+- **"Stop"**: change nothing. The issue keeps its status.
+- **The screen looks different**: ask for a screenshot and adjust the steps.
 
-- "Started, it's cloning" → reply that `/handback {n}` finishes it once the issue carries
-  `handback-ready`, and that `/morning` lists it.
-- "The screen looks different" → ask for a screenshot; offer claude.ai/code in a browser as
-  the second route.
-- "Stop, don't launch" → return the issue to `Todo` and delete the launch comment.
+## Step 6: next-step note
+
+Write it in the session and as a comment on the issue, one action and when:
+
+> **Your next step:** wait for the cloud session to finish. You will see its evidence comment
+> on #{n} and a `handback-ready` label, and `/morning` lists it. Then say "hand back {n}" in a
+> local session.

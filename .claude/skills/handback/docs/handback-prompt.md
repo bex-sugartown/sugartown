@@ -66,7 +66,14 @@ Read the evidence comment's "Cloud procedure notes" section.
   / "Skip". A note matching two earlier ones is a third strike under
   `../conventions/process-feedback-loop.md`: say so in the question.
 
-## Step 7: report
+## Step 7: report and next-step note
 
-Tell Bex, in plain terms: what merged, what the checks showed, what is now `Done`, and that
-the next `/ship` pushes it and deletes the cloud branch.
+Tell Bex, in plain terms: what merged, what the checks showed, and what is now `Done`. Anything
+she must read or decide goes in a turn of its own, never beside an `AskUserQuestion` (#144).
+
+End with a next-step note, in the session and as the last line of the Step 5 evidence comment:
+
+> **Your next step:** run `/ship` when you want this live. It pushes the work, deletes the cloud
+> branch, and moves #{n} to Shipped. Nothing else is waiting on you for #{n}.
+
+If a question from Step 2 or Step 6 is still open, the note names that instead.
