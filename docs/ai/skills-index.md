@@ -1,7 +1,7 @@
 # Skills Index
 
 **Version:** v1.1
-**Last updated:** 2026-09-04 (generated block)
+**Last updated:** 2026-09-26 (generated block)
 **Owner:** Bex Head
 
 ---
@@ -26,7 +26,9 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `alignment-audit` | `/alignment-audit` | `skills/` | Run a systematic, evidence-based audit comparing something you have (a codebase, a team's workflow, a product, an org's process) against an external standard (a course curriculum, a framework, a spec, a policy, best-prac |
 | `becky-boop` | `/becky-boop` | `skills/` | Generate a self-contained Becky B00p hero banner prompt for any AI image generator — contextualised to the article, node, or post currently being worked on, or to text passed after the slash command. |
 | `chromatic` | `/chromatic` | `skills/` | Run Chromatic VRT, report visual diffs, gate on human approval, record status |
+| `cloud-launch` | `/cloud-launch` | `skills/` | Prepare a cloud session for an issue labelled cloud (start review, In Progress, starting branch, the filled launch prompt), then walk Bex through starting it with AskUserQuestion. |
 | `glossy` | `/glossy` | `skills/` | Research, draft, and publish Sugartown glossaryTerm(s) to /glossary. |
+| `handback` | `/handback` | `skills/` | Finish a cloud run locally: review the cloud branch with the cloud-handback-reviewer agent, merge it, run the checks the diff needs, close out, close the issue, and triage the run's procedure notes. |
 | `morning` | `/morning` | `skills/` | Run the Sugartown morning housekeeping check — git health, service status, branch briefing and recommended actions |
 | `new-epic` | `/new-epic` | `skills/` | Create a new Sugartown epic — GitHub issue + backlog stub + commit |
 | `new-tool` | `/new-tool` | `skills/` | File a new Sugartown tool — validator, gate, hook, script, generator, command or skill. |

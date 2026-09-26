@@ -229,7 +229,8 @@ Three rules make this safe:
 3. **Comment the evidence on the issue when setting `Done`** — what changed, and what verified
    it. `Done` with no evidence is a status nobody can check. The same comment carries the
    close-out review: what didn't work, follow-ups filed (#N) or declined, the friction line, and
-   any post-ship checks, which `/ship` reads.
+   any post-ship checks, which `/ship` reads. Add the issue's line to `CHANGELOG.md`'s
+   `[Unreleased]` buffer in the same step, in close-out step 7's format.
 
 Abandoning execution returns the issue to `Todo`, or `On Hold` if blocked. Never leave it at
 `In Progress`.

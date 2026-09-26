@@ -232,6 +232,25 @@ After delivering the briefing, propose actions in this order:
      re-stamping it, reverted.
    - Report which issues transitioned in Phase 4.
 
+6b. **Delete merged cloud refs** — only if step 5 concluded `success` (#144)
+   - Cloud runs and desktop worktree sessions both leave `claude/*` branches and, through the
+     post-commit mirror, `wip/<date>-claude-*` copies. Delete each one whose tip is already in
+     `origin/main`, where its work is safe; keep and report any that is not, since it may be
+     unmerged work.
+     ```bash
+     git fetch -q origin --prune
+     git ls-remote --heads origin 'claude/*' 'wip/*-claude-*' | while read -r sha ref; do
+       b=${ref#refs/heads/}
+       if git merge-base --is-ancestor "$sha" origin/main; then
+         git push -q origin --delete "$b" && echo "deleted $b"
+       else
+         echo "kept $b: not in main"
+       fi
+     done
+     ```
+   - Never touch `wip/<date>-main` (the Mac's mirror of `main`) or any other branch.
+   - Report deleted and kept refs in Phase 4.
+
 7. **`--release`, if passed** — invoke `/release`, do not reimplement it
    - Only if **both** are true: this run was invoked with the `--release` flag (see
      `.claude/commands/ship.md`), **and** step 5's CI run concluded `success`. A red CI run skips
@@ -251,10 +270,13 @@ After delivering the briefing, propose actions in this order:
    - This step is independent of whether `--release` was passed *this* run — it reacts to a
      release commit reaching origin, which may have been created by an earlier `/release` run and
      only now gets pushed as part of today's accumulated commits.
-   - Check the commit list step 3 already showed the human before pushing: does any of them
-     match `^docs: release v`? (Same grep `release-assistant-prompt.md` STEP 0 uses to find the
-     last MINOR release commit.) No match: skip the rest of this step, nothing to publish this run.
-   - A match names the version, `vX.Y.0`. Confirm its tag actually reached the remote (a
+   - Find a release tag with no GitHub Release: the newest local `v*.0` tag
+     (`git tag --list 'v*.0' --sort=-v:refname | head -1`), then `gh release view vX.Y.0`.
+     It succeeds: nothing to publish, skip the rest of this step. It fails: `vX.Y.0` is
+     pending. (Detection by tag, not by this push's commit list, so a release blocked by an
+     earlier red CI run is still found. v0.36.0 was published by hand on 2026-09-24 because the
+     old check missed it, #144.)
+   - Confirm its tag actually reached the remote (a
      `--follow-tags` push should have carried it; this is a check, not a trust exercise):
      ```bash
      git ls-remote --tags origin vX.Y.0
@@ -305,10 +327,8 @@ After delivering the briefing, propose actions in this order:
      run `gh release create vX.Y.0 --title vX.Y.0 --notes-file <that file>`. The tag already
      exists on the remote (checked above), so this attaches the release to it rather than
      creating a new one.
-     On "Skip": report the milestone as closed and the release as unpublished. Do not re-offer
-     this on a later `/ship` run — the release commit is now behind origin, so step 8's detection
-     will not fire on it again; publishing later is a manual `gh release create` command, stated
-     to the human once, not retried automatically.
+     On "Skip": report the milestone as closed and the release as unpublished. The next
+     `/ship` finds the same tag and offers it again; choose Skip again to leave it.
    - Report milestone state, assigned issue numbers, and release publish state in Phase 4.
 
 Execute **one action at a time**. Wait for confirmation before each step.
@@ -334,7 +354,8 @@ CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
 Post-ship checks: [passed: list / owed to Bex: list per issue / failed, kept at Done: list / none]
 Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /ship / --release passed but CI blocked it]
-Release publish (step 8): [no release commit in this push / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
+Cloud refs (step 6b): [deleted: list / kept, not in main: list / none]
+Release publish (step 8): [no unpublished release tag / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
 Uncommitted changes: [none / list]
 Stashes: [none / list]
 ```

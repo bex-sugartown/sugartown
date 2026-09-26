@@ -276,6 +276,9 @@ gh project item-list 1 --owner bex-sugartown --limit 200 --format json
 - **High-priority Todo/Backlog items** — list the top 3 highest-priority issues not yet started
 - **Blocked issues** — flag any issue whose body states a "blocked on #N" dependency that is now resolvable
 - **Stale issues** — flag any issues marked In Progress that have no recent git activity
+- **Cloud hand-backs waiting** — `gh issue list --label handback-ready --state open`. For each,
+  name the issue and say: run `/handback {n}`. An In Progress issue labelled `cloud` with no
+  `handback-ready` label is a cloud run still going, not a stale issue (#144).
 
 If the board is unreachable, skip this section and note it was skipped.
 

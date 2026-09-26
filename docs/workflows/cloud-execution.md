@@ -31,8 +31,8 @@ started from a `wip/` branch it does nothing (#142).
 
 ## Starting branch
 
-The local session that writes the launch prompt names the branch. Bex picks it in the new-session
-screen.
+`/cloud-launch <n>` picks the branch, fills the launch prompt from
+`docs/workflows/cloud-task-template.md` and walks Bex through the new-session screen (#144).
 
 | Situation | Start from | Session pushes to |
 |---|---|---|
@@ -112,22 +112,33 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
    - what changed, one line per file or group
    - each verification command with its real output
    - anything left for a local session or for Bex, including any diffs posted under §Gates
-4. **Leave the issue open, at `In Progress`.** Never close it. (`/ship` sweeps every `Done`
+   - a `### Cloud procedure notes` section: anything in this file that was wrong, missing or
+     unfollowable this run. `None` is a valid answer; a missing section is not.
+4. **Add the `handback-ready` label** with the GitHub MCP tool. It is how the local side finds
+   the run (`/morning` lists it, `/handback` reads it). If adding it fails, say so in the comment.
+5. **Leave the issue open, at `In Progress`.** Never close it. (`/ship` sweeps every `Done`
    issue into `Shipped`, and cloud work is still on a branch.)
 
 If the comment fails, put the same content in the final session message and say that it failed.
 
+**After step 4, push nothing more.** If the same session is asked for more work later, first
+run `git fetch origin main` and read the issue. If it is closed, or no longer labelled
+`handback-ready` because a local session took it, stop and say so. (#85's session pushed again
+after its hand-back and re-created branches cloud cannot delete, 2026-09-25.)
+
 ## Hand-back
 
-A local session finishes a cloud issue:
+A local session finishes a cloud issue with `/handback <n>`, which runs these steps and a
+review of the branch first (#144):
 
 1. Fetch the branch and read the diff.
 2. Apply any diffs posted under §Gates, after Bex approves them.
 3. Merge the branch into `main`. A run on a `wip/` branch fast-forwards `main`.
 4. Run `pnpm test:smoke` and the issue's own commands.
-5. Close the issue with the evidence comment CLAUDE.md §Issue status requires.
-6. Once `main` carrying the merge is pushed, delete a `claude/*` session branch and its
-   `wip/<date>-<session branch>` mirror from `origin`. Never delete a `wip/<date>-main`
+5. Close the issue with the evidence comment CLAUDE.md §Issue status requires, and remove the
+   `handback-ready` label.
+6. `/ship` deletes the `claude/*` session branch and its `wip/<date>-<session branch>` mirror
+   once `main` carrying the merge is pushed and CI is green. Never delete a `wip/<date>-main`
    branch: it is the Mac's mirror of `main`.
 
 ## `## Cloud prep` section
