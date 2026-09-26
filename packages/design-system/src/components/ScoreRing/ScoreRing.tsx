@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import styles from './ScoreRing.module.css';
 
 export type ScoreCategory = 'good' | 'warn' | 'poor';
@@ -27,6 +27,23 @@ export interface ScoreRingProps {
 const RADIUS_RATIO = 0.38; // radius as fraction of size
 const GAP_DEGREES = 60;     // bottom gap in degrees (ring is not a full circle)
 
+const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
+
+function subscribeReducedMotion(onChange: () => void) {
+  const mql = window.matchMedia(REDUCED_MOTION_QUERY);
+  mql.addEventListener('change', onChange);
+  return () => mql.removeEventListener('change', onChange);
+}
+
+/** Live `prefers-reduced-motion`: re-renders when the OS preference changes mid-session */
+function usePrefersReducedMotion(): boolean {
+  return useSyncExternalStore(
+    subscribeReducedMotion,
+    () => window.matchMedia(REDUCED_MOTION_QUERY).matches,
+    () => false
+  );
+}
+
 export const ScoreRing: React.FC<ScoreRingProps> = ({
   score,
   label,
@@ -51,25 +68,25 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({
   // Rotation: start arc at bottom-left of the gap
   const startAngle = 90 + GAP_DEGREES / 2; // degrees; 0° = 3 o'clock in SVG
 
-  const reducedMotion =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const reducedMotion = usePrefersReducedMotion();
 
   // Animated score
   const [displayScore, setDisplayScore] = useState(reducedMotion ? clampedScore : 0);
   const [animated, setAnimated] = useState(reducedMotion);
+  // Score the count-up last finished at, so a reducedMotion flip does not replay it
+  const countedTo = useRef<number | null>(reducedMotion ? clampedScore : null);
   const ringRef = useRef<SVGSVGElement>(null);
 
+  // Reveal on first intersection; reduced motion (at mount or later) reveals at once
   useEffect(() => {
-    if (reducedMotion) return;
-    if (!('IntersectionObserver' in window)) {
-      setDisplayScore(clampedScore);
+    if (animated) return;
+    if (reducedMotion || !('IntersectionObserver' in window)) {
       setAnimated(true);
       return;
     }
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !animated) {
+        if (entry.isIntersecting) {
           setAnimated(true);
           observer.disconnect();
         }
@@ -78,11 +95,16 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({
     );
     if (ringRef.current) observer.observe(ringRef.current);
     return () => observer.disconnect();
-  }, [animated, clampedScore]);
+  }, [animated, reducedMotion]);
 
-  // Count-up animation when `animated` flips to true
+  // Count-up animation when `animated` flips to true or the score changes
   useEffect(() => {
-    if (!animated) return;
+    if (!animated || countedTo.current === clampedScore) return;
+    if (reducedMotion) {
+      setDisplayScore(clampedScore);
+      countedTo.current = clampedScore;
+      return;
+    }
     const duration = 600;
     const steps = 30;
     const stepTime = duration / steps;
@@ -90,10 +112,13 @@ export const ScoreRing: React.FC<ScoreRingProps> = ({
     const id = setInterval(() => {
       step++;
       setDisplayScore(Math.round((clampedScore * step) / steps));
-      if (step >= steps) clearInterval(id);
+      if (step >= steps) {
+        clearInterval(id);
+        countedTo.current = clampedScore;
+      }
     }, stepTime);
     return () => clearInterval(id);
-  }, [animated, clampedScore]);
+  }, [animated, clampedScore, reducedMotion]);
 
   const fillRatio = animated ? clampedScore / 100 : 0;
   const fillLength = fillRatio * arcLength;
