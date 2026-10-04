@@ -48,7 +48,7 @@ How to get in touch.
 ## About the author
 
 **Name:** Becky Head (Rebecca Alice Prince Head, known as Bex)
-**Role:** Digital Strategist / Product Lead
+**Role:** Principal Product Manager: CMS, DAM, PIM and design systems
 **Location:** San Francisco Bay Area, California, US
 **Site:** https://sugartown.io
 **Profile:** https://sugartown.io/people/bex
@@ -75,4 +75,4 @@ A machine-readable sitemap is available at: https://sugartown.io/sitemap.xml
 ## Update cadence
 
 This file is updated when significant new content areas are added to the site.
-Last reviewed: April 2026.
+Last reviewed: October 2026.
