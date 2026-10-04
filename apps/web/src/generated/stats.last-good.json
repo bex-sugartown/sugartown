@@ -351,7 +351,7 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-10-04T14:38:12.967Z",
+    "fetchedAt": "2026-10-04T14:39:43.661Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-api-key"
@@ -378,7 +378,7 @@
     "lastCommit": "2026-10-02T11:59:11Z"
   },
   "sanity": {
-    "fetchedAt": "2026-10-04T14:38:19.492Z",
+    "fetchedAt": "2026-10-04T14:39:49.196Z",
     "counts": {
       "article": 15,
       "node": 52,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-10-04T14:38:20.133Z",
+    "generatedAt": "2026-10-04T14:39:49.452Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -6694,7 +6694,7 @@
       }
     ]
   },
-  "updatedAt": "2026-10-04T14:38:20.133Z",
+  "updatedAt": "2026-10-04T14:39:49.453Z",
   "githubRoadmap": {
     "fetchedAt": "2026-10-03T11:12:25.195Z",
     "inProgress": [],

@@ -6,7 +6,7 @@
  * Runs after `vite build` so bots and importers (Medium, Googlebot, social
  * card scrapers) receive real content instead of the empty SPA shell.
  *
- * Each route gets dist/<prefix>/<slug>/index.html containing:
+ * Each route gets dist/<prefix>/<slug>.html containing:
  *   - Full <head> with title, description, canonical, and OG tags
  *   - Article body as serialised HTML inside <div id="root">
  *   - The Vite bundle <script>/<link> tags so React loads and re-renders
@@ -266,11 +266,16 @@ ${bodyHtml}
 
 // ─── File writer ──────────────────────────────────────────────────────────────
 
+// Writes <prefix>/<slug>.html, not <prefix>/<slug>/index.html. Netlify serves
+// a folder's index.html at the trailing-slash path and 301s the bare path to it,
+// which contradicts the canonical (no trailing slash). With Pretty URLs on (the
+// default), <slug>.html answers the bare path with 200. #127
 function writeRouteHtml(urlPath, html) {
   const segments = urlPath.split('/').filter(Boolean)
+  const file = segments.pop() + '.html'
   const dir = resolve(DIST, ...segments)
   mkdirSync(dir, { recursive: true })
-  writeFileSync(resolve(dir, 'index.html'), html, 'utf-8')
+  writeFileSync(resolve(dir, file), html, 'utf-8')
 }
 
 // ─── Sanity queries ───────────────────────────────────────────────────────────

@@ -31,6 +31,7 @@
 /wp-comments-post.php  /404  404
 
 # ─── Sanity-managed redirects (populated at build time) ──────────────────────
+/articles/why-cms-and-design-systems-belong-together  /articles/oh-oh-atomic-one-model-two-systems  301
 /blog/ai-automation  /categories/ai-automation  301
 /blog/ai-collaboration  /categories/ai-collaboration  301
 /blog/blog  /categories/blog  301
@@ -273,6 +274,7 @@
 /tag/workflow  /tags/workflow  301
 /tag/working-agreements  /tags/working-agreements  301
 /tag/youtube  /tags/youtube  301
+/why-cms-and-design-systems-belong-together  /articles/oh-oh-atomic-one-model-two-systems  301
 
 # SPA fallback — must be last
 /*  /index.html  200
