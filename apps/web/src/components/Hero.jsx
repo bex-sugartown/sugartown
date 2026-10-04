@@ -1,6 +1,7 @@
 import { urlFor } from '../lib/sanity'
 import styles from './Hero.module.css'
 import { Button } from '../design-system'
+import { trackCtaClick } from '../lib/trackCtaClick'
 
 export default function Hero({ hero }) {
   if (!hero) return null
@@ -48,6 +49,7 @@ export default function Hero({ hero }) {
                 variant="primary"
                 href={primary.url}
                 openInNewTab={primary.openInNewTab}
+                onClickCapture={() => trackCtaClick({ label: primary.label, style: 'primary', section: 'hero', url: primary.url })}
                 className={styles.primaryButton}
               >
                 {primary.label}
@@ -59,6 +61,7 @@ export default function Hero({ hero }) {
                 variant="secondary"
                 href={secondary.url}
                 openInNewTab={secondary.openInNewTab}
+                onClickCapture={() => trackCtaClick({ label: secondary.label, style: 'secondary', section: 'hero', url: secondary.url })}
                 className={styles.secondaryButton}
               >
                 {secondary.label}

@@ -11,6 +11,7 @@
     "generate:schema-manifest": "node ../../scripts/generate-schema-manifest.mjs",
     "build": "pnpm --filter @sugartown/design-system build && node ../../scripts/generate-schema-manifest.mjs && node ../../scripts/generate-content-models.mjs && node scripts/build-redirects.js && vite build && node scripts/prerender-content.mjs && node scripts/build-sitemap.js",
     "lint": "eslint .",
+    "test:unit": "node --test \"src/lib/**/*.test.js\"",
     "preview": "vite preview",
     "validate:urls": "node scripts/validate-urls.js",
     "validate:filters": "node scripts/validate-filters.js",

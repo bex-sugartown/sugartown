@@ -2,6 +2,7 @@ import { useState, useRef, useEffect, useCallback, Children } from 'react'
 import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
+import { trackCtaClick } from '../lib/trackCtaClick'
 import { PortableText } from '@portabletext/react'
 import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '@sugartown/design-system'
@@ -295,6 +296,7 @@ export function HeroSection({ section }) {
               variant={mapCtaStyle(primary.style, 'primary')}
               href={primary.url}
               openInNewTab={primary.openInNewTab}
+              onClickCapture={() => trackCtaClick({ label: primary.label, style: primary.style, section: 'hero', url: primary.url })}
             >
               {primary.label}
             </Button>
@@ -304,6 +306,7 @@ export function HeroSection({ section }) {
               variant={mapCtaStyle(secondary.style, 'secondary')}
               href={secondary.url}
               openInNewTab={secondary.openInNewTab}
+              onClickCapture={() => trackCtaClick({ label: secondary.label, style: secondary.style, section: 'hero', url: secondary.url })}
             >
               {secondary.label}
             </Button>
@@ -313,6 +316,7 @@ export function HeroSection({ section }) {
               variant={mapCtaStyle(tertiary.style, 'tertiary')}
               href={tertiary.url}
               openInNewTab={tertiary.openInNewTab}
+              onClickCapture={() => trackCtaClick({ label: tertiary.label, style: tertiary.style, section: 'hero', url: tertiary.url })}
             >
               {tertiary.label}
             </Button>
@@ -801,6 +805,7 @@ function CTASection({ section }) {
               variant={mapCtaStyle(button.style)}
               href={button.url}
               openInNewTab={button.openInNewTab}
+              onClickCapture={() => trackCtaClick({ label: button.text, style: button.style, section: 'cta_section', url: button.url })}
             >
               {button.text}
             </Button>
