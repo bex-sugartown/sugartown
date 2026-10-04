@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-145 /code landing page + site-wide cta_click GA4 event
 **Issue:** [#145](https://github.com/bex-sugartown/sugartown/issues/145)
-**Status:** Backlog
+**Status:** In Progress (Phase 1 committed locally 2026-10-04, `7fb57816`; Phase 2 waits on Content Write Gate approval)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go, one commit per phase, one CHANGELOG line at the end of each
 **Visual:** no
@@ -25,10 +25,10 @@ After this epic, `sugartown.io/code` exists as a Studio-authored `page` (heroSec
 
 ## Scope
 
-- [ ] `trackCtaClick()` helper in `apps/web/src/lib/` next to `consent.js`; sends `cta_click` with `cta_label`, `cta_style`, `cta_section`, `link_url`, `outbound` only when `getConsent() === 'granted'`, never pushing to `dataLayer` otherwise. Phase 1. Layer: frontend.
-- [ ] Wire the helper into `onClick` of the CMS CTA render sites: `PageSections.jsx` (heroSection primary/secondary/tertiary, ctaSection `buttons.map`) and `Hero.jsx` (primary/secondary). Phase 1. Layer: frontend.
-- [ ] `PlatformHero.jsx`: read it, wire only if it renders CMS `ctas`. Phase 1. Layer: frontend.
-- [ ] Unit test for the helper: granted sends once with the right params; denied pushes nothing. Phase 1. Layer: frontend.
+- [x] `trackCtaClick()` helper in `apps/web/src/lib/` next to `consent.js`; sends `cta_click` with `cta_label`, `cta_style`, `cta_section`, `link_url`, `outbound` only when `getConsent() === 'granted'`, never pushing to `dataLayer` otherwise. Phase 1. Layer: frontend.
+- [x] Wire the helper into `onClick` of the CMS CTA render sites: `PageSections.jsx` (heroSection primary/secondary/tertiary, ctaSection `buttons.map`) and `Hero.jsx` (primary/secondary). Phase 1. Layer: frontend.
+- [x] `PlatformHero.jsx`: read it, wire only if it renders CMS `ctas`. (Checked 2026-10-04: it hardcodes `ctas: []`, so nothing to wire.) Phase 1. Layer: frontend.
+- [x] Unit test for the helper: granted sends once with the right params; denied pushes nothing. Phase 1. Layer: frontend.
 - [ ] Studio `page` document `code`: heroSection (eyebrow "Code", heading "The sugartown.io monorepo", one-line subheading, primary "View the repo on GitHub", secondary "Read the README") plus one section with tertiary links (Changelog, Project board, Platform governance), SEO title and description. Phase 2. Layer: content.
 - [ ] Studio `redirect` document `/github` to `/code`, 301, active. Phase 2. Layer: content.
 - [ ] Verify the `/github?utm_source=test` query string survives the 301. Phase 3. Layer: content.
