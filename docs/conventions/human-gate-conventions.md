@@ -112,6 +112,13 @@ that would unblock it.
 ## Response wording standard
 
 - The question itself: one sentence wherever possible.
+- Mark the recommendation and say why. Put the recommended option first, labelled
+  `(Recommended)`, and name its cost in the description. A recommendation without a stated
+  cost is not a recommendation. Synced 2026-10-04 from the shared
+  `SUGARTOWN_DEV/conventions/human-gate-conventions.md`, which already carried it.
+- Open decisions and offers that no rule answers and no Tier 1 gate covers also go through
+  `AskUserQuestion`, never as a prose list at the end of a reply. The full rule is in the
+  shared conventions doc, §Open decisions and offers, any tier.
 - Option labels are the full action, not a bare word — this closes the exact-phrase
   brittleness (typo → silent gate failure) the SUG-227 audit found in 41 of 44 gates.
 - Never require a case-sensitive or punctuation-sensitive exact string. Where a gate's intent
