@@ -1,8 +1,8 @@
 # Sugartown
 
-> Sugartown is the portfolio and practice site of Bex (Rebecca Alice), a digital
-> strategist and product thinker based in the UK. The site documents her work,
-> thinking, and tools.
+> Sugartown is the portfolio and practice site of Becky Head (Bex), a digital
+> strategist and product thinker based in the San Francisco Bay Area. The site
+> documents her work, thinking, and tools.
 
 ## Who this site is for
 
@@ -47,11 +47,11 @@ How to get in touch.
 
 ## About the author
 
-**Name:** Rebecca Alice (Bex)
+**Name:** Becky Head (Rebecca Alice Prince Head, known as Bex)
 **Role:** Digital Strategist / Product Lead
-**Location:** United Kingdom
+**Location:** San Francisco Bay Area, California, US
 **Site:** https://sugartown.io
-**Profile:** https://sugartown.io/people/beehead
+**Profile:** https://sugartown.io/people/bex
 
 ## Technical notes for AI systems
 
