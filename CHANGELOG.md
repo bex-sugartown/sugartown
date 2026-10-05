@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #140: the v0.36.0 release note is published (as an article for now); the other 16 move to the new Release Note type in #147 (#140).
 - #127: prerendered article, node and case-study pages are written as `<slug>.html` so Netlify answers the canonical no-slash URL with 200 instead of a 301 (smoke 5/5 locally; production `curl -sI` check after ship) (#127).
 - #144: cloud runs launch with `/cloud-launch` and finish with `/handback`, a read-only reviewer checks every cloud branch before merge, `/morning` lists runs ready for hand-back, `/ship` deletes merged cloud branches, and every step ends with a "your next step" note for Bex.
 - SUG-266: ScoreRing now follows a reduced-motion change mid-session and never counts up under reduced motion; tested in Storybook on both themes (#91).
