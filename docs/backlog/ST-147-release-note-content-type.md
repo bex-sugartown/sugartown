@@ -102,6 +102,30 @@ After this epic, `releaseNote` is its own document type with its own detail page
 - No automation that generates release notes from the changelog.
 - No publishing by a session without a standalone instruction.
 
+## Handoff (2026-10-05)
+
+Next step is Phase 0, the vspec. Nothing in Phases 1 to 3 has started; no code, schema or Sanity document for this epic exists yet.
+
+**State at handoff**
+- v0.36.0 ("Release Notes: v0.36.0", id `8f0cf196-d3bd-4059-8216-735f0457ef02`) is published as an `article` and live at `/articles/release-notes-v0-36-0`. Bex checked it renders. It moves to `releaseNote` in Phase 2 and gets the 301 in scope item 7.
+- The other 16 are `article` drafts in the `release-notes` series, parts 1 to 16 (v0.20.0 to v0.35.0), unpublished. Do not publish them as articles.
+- #140 was closed 2026-10-05 as met by the one published note; its remaining 16 are this epic's Phase 3.
+- Re-measure before relying on these counts: `*[_type=="article" && series->slug.current=="release-notes"]{_id, title, partNumber}` on `poalmzla/production`, raw perspective.
+
+**First actions, in order**
+1. Run `node scripts/check-epic-doc.js docs/backlog/ST-147-release-note-content-type.md` and the activation audits in Technical notes. Set the issue to `In Progress` before the first edit.
+2. Write the vspec at `docs/drafts/ST-147-release-note-content-type.vspec.html` (local only, gitignored). Cover the archive and one detail page in light, dark and mobile. Use the proposed class names or `/* TBD */` placeholders, never a name tied to the content type.
+3. Decide in the vspec, with Bex, whether the archive filters by version range. If it does, the vspec is an interactive prototype (filtering is a Phase 0 trigger).
+4. Bex reviews and signs off. Only then any schema, CSS or JSX.
+
+**What Bex needs to do:** review the vspec, answer the filtering question, and later publish the 17 notes or give a standalone publish instruction.
+
+**Traps**
+- Body text moves verbatim. Use `patch_documents` or `create_documents`, never an AI rewrite tool.
+- Every Portable Text block needs `markDefs: []` and every span `marks: []`.
+- `schema deploy` is required before MCP writes of the new type succeed.
+- Check #82 (SEO prerendering) before editing `prerender-content.mjs`; it extends the same script.
+
 ## Related
 
 - **GitHub:** [#147](https://github.com/bex-sugartown/sugartown/issues/147)
