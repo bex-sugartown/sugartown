@@ -604,6 +604,7 @@
   --st-card-text: var(--st-color-text-default);
   --st-card-text-muted: var(--st-color-text-muted);
   --st-color-text-eyebrow: var(--st-color-pink);
+  --st-callout-banner-bg: var(--st-card-label-bg);
   --st-pill-bg: var(--st-color-bg-subtle);
   --st-tag-bg: var(--st-color-bg-subtle);
   --st-button-secondary-bg: var(--st-color-lime);

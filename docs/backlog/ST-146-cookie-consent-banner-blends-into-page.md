@@ -24,9 +24,9 @@ After this epic the consent banner is clearly distinguishable from the page in l
 
 ## Scope
 
-- [ ] Vspec for the banner (light, dark, mobile, scrolled to page bottom) approved before any CSS. Phase 0. Layer: design. **Built as an interactive prototype** (same file, vanilla JS): two Phase 0 triggers fire, sticky positioning whose effect depends on scroll (the overlap only shows at the page bottom) and persisted state (accept and reject). It lets the reviewer scroll to the bottom and toggle both choices.
-- [ ] Banner surface, border and shadow changed so it separates from the page in both themes, meeting contrast for its rules and text. Phase 1. Layer: design-system CSS, tokens only, no raw colours.
-- [ ] Bottom clearance so the fixed bar does not cover the last footer rows while the banner is open. Phase 1. Layer: web CSS.
+- [x] Vspec for the banner (light, dark, mobile, scrolled to page bottom) approved before any CSS. Phase 0. Layer: design. **Built as an interactive prototype** (same file, vanilla JS): two Phase 0 triggers fire, sticky positioning whose effect depends on scroll (the overlap only shows at the page bottom) and persisted state (accept and reject). It lets the reviewer scroll to the bottom and toggle both choices.
+- [x] Banner surface, border and shadow changed so it separates from the page in both themes, meeting contrast for its rules and text. Phase 1. Layer: design-system CSS, tokens only, no raw colours. Approved 2026-10-07: light = white fill (`--st-callout-banner-bg`) plus `--st-color-border-strong` edges; dark = brighter edge only, fill unchanged.
+- [x] Bottom clearance so the fixed bar does not cover the last footer rows while the banner is open. Phase 1. Layer: web JS (corrected from web CSS, approved 2026-10-07): `ConsentBanner.jsx` pads `#root` instead of `<body>`, because `globals.css` sets `body { height: 100% }`.
 - [ ] Confirm whether other `Callout variant="banner"` uses change (Storybook Snapshot, Preheader, Header stories) and approve those diffs. Phase 1. Layer: Storybook.
 - [ ] Chromatic baselines for the changed banner stories accepted. Phase 1. Layer: Storybook.
 

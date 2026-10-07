@@ -6,8 +6,9 @@
  * so neither choice is nudged. Escape does nothing and there is no close
  * button: leaving the bar open is allowed, dismissing without a choice is not.
  *
- * While open, the page gets bottom padding equal to the bar's height so the
- * footer can always be scrolled into view.
+ * While open, #root gets bottom padding equal to the bar's height so the footer
+ * can always be scrolled into view. Not <body>: globals.css sets body to one
+ * viewport tall, so body padding adds no scroll room (ST-146).
  *
  * Composes DS Callout (banner, labelled region), ButtonGroup and Button.
  * Consent state and GA loading live in lib/consent.js.
@@ -49,13 +50,15 @@ export default function ConsentBanner() {
   useEffect(() => {
     if (!open || !barRef.current) return
     const bar = barRef.current
-    const apply = () => { document.body.style.paddingBottom = `${bar.offsetHeight}px` }
+    const root = document.getElementById('root')
+    if (!root) return
+    const apply = () => { root.style.paddingBottom = `${bar.offsetHeight}px` }
     apply()
     const observer = new ResizeObserver(apply)
     observer.observe(bar)
     return () => {
       observer.disconnect()
-      document.body.style.paddingBottom = ''
+      root.style.paddingBottom = ''
     }
   }, [open])
 

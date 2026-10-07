@@ -97,7 +97,11 @@
   gap: 1rem;
   grid-template-columns: unset;
   padding: 0.75rem 1.25rem;
-  background: var(--st-card-label-bg);  /* covers parent bg — bg-through-gap safe */
+  background: var(--st-callout-banner-bg);  /* covers parent bg — bg-through-gap safe; light = white (ST-146) */
+  /* Side and bottom edges must read against the page, not the card rules (ST-146). */
+  border-right-color: var(--st-color-border-strong);
+  border-bottom-color: var(--st-color-border-strong);
+  border-left-color: var(--st-color-border-strong);
   margin: 0;
 }
 

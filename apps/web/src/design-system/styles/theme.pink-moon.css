@@ -104,6 +104,7 @@
   --st-card-border:             var(--st-color-rule-accent);       /* neutral-300 — matches MetadataCard */
   --st-card-shadow:             none;
   --st-card-label-bg:           var(--st-color-neutral-200);      /* neutral-200 — visible on white card */
+  --st-callout-banner-bg:       var(--st-color-white);            /* ST-146: banner separates from the neutral-100 page */
   --st-card-hover-shadow:       none;
   --st-card-hover-translate-y:  0px;
   --st-card-hover-border:       var(--st-color-pink);             /* hot pink on hover */
