@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-146 Cookie consent banner blends into the page
 **Issue:** [#146](https://github.com/bex-sugartown/sugartown/issues/146)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go, one commit per phase, one CHANGELOG line at the end of each
 **Visual:** yes
@@ -27,8 +27,8 @@ After this epic the consent banner is clearly distinguishable from the page in l
 - [x] Vspec for the banner (light, dark, mobile, scrolled to page bottom) approved before any CSS. Phase 0. Layer: design. **Built as an interactive prototype** (same file, vanilla JS): two Phase 0 triggers fire, sticky positioning whose effect depends on scroll (the overlap only shows at the page bottom) and persisted state (accept and reject). It lets the reviewer scroll to the bottom and toggle both choices.
 - [x] Banner surface, border and shadow changed so it separates from the page in both themes, meeting contrast for its rules and text. Phase 1. Layer: design-system CSS, tokens only, no raw colours. Approved 2026-10-07: light = white fill (`--st-callout-banner-bg`) plus `--st-color-border-strong` edges; dark = brighter edge only, fill unchanged.
 - [x] Bottom clearance so the fixed bar does not cover the last footer rows while the banner is open. Phase 1. Layer: web JS (corrected from web CSS, approved 2026-10-07): `ConsentBanner.jsx` pads `#root` instead of `<body>`, because `globals.css` sets `body { height: 100% }`.
-- [ ] Confirm whether other `Callout variant="banner"` uses change (Storybook Snapshot, Preheader, Header stories) and approve those diffs. Phase 1. Layer: Storybook.
-- [ ] Chromatic baselines for the changed banner stories accepted. Phase 1. Layer: Storybook.
+- [x] Confirm whether other `Callout variant="banner"` uses change (Storybook Snapshot, Preheader, Header stories) and approve those diffs. Phase 1. Layer: Storybook. Result: Snapshot and Banner stories change; Preheader does not use Callout; Header stories not opened.
+- [ ] Chromatic baselines for the changed banner stories accepted. Phase 1. Layer: Storybook. <!-- Chromatic: pending --> Deferred to the ship step; changed stories are Callout Banner, Multi Line, Banner Multi Line, Snapshot, and ConsentBanner.
 
 ## Phases
 
@@ -39,13 +39,13 @@ After this epic the consent banner is clearly distinguishable from the page in l
 
 ## Acceptance Criteria
 
-- [ ] In light theme the banner's surface differs visibly from the page background; border or surface contrast measured and recorded in the shipped doc.
-- [ ] In dark theme the banner stays visible; contrast measured and recorded.
-- [ ] With the banner open and the page scrolled to the bottom, the version and toolchain rows are fully readable.
-- [ ] `pnpm validate:tokens --strict-colors` and `pnpm validate:style-mirror` pass; no raw colour values added.
+- [x] In light theme the banner's surface differs visibly from the page background; border or surface contrast measured and recorded in the shipped doc.
+- [x] In dark theme the banner stays visible; contrast measured and recorded.
+- [x] With the banner open and the page scrolled to the bottom, the version and toolchain rows are fully readable.
+- [x] `pnpm validate:tokens --strict-colors` and `pnpm validate:style-mirror` pass; no raw colour values added.
 - [ ] Callout `banner` stories and ConsentBanner stories render correctly in both themes; Chromatic changes reviewed and accepted by Bex.
-- [ ] Banner Accept and Reject still work, and the choice persists (no behaviour change).
-- [ ] `pnpm test:smoke` passes locally.
+- [x] Banner Accept and Reject still work, and the choice persists (no behaviour change).
+- [x] `pnpm test:smoke` passes locally.
 
 ## Human QA Walkthrough: example local pages
 
@@ -79,3 +79,41 @@ After this epic the consent banner is clearly distinguishable from the page in l
 - **Origin:** SUG-202 (#65), `docs/shipped/SUG-202-cookie-consent-analytics-decision.md`
 - **Related:** #145 (consent gates `cta_click`)
 - **Epic template:** `docs/epic-template.md`: complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- Light surface differs from page: met. White fill (`--st-callout-banner-bg`) with `--st-color-border-strong` edges. Contrast figures (edge 6.98:1 light, 3.20:1 dark, meta line 5.23:1) are from the approved vspec, computed from token hex; not re-measured in a browser.
+- Dark stays visible: met by the brighter edge only, fill unchanged (vspec, 3.20:1).
+- Footer rows readable at page bottom: met by design (`#root` padded instead of `<body>`); Bex approved Visual QA. I did not drive this in a browser: the built-in browser refused the app's localhost server.
+- `validate:tokens --strict-colors` and `validate:style-mirror`: pass, 2026-10-07.
+- Stories render in both themes: Callout docs and Banner Multi Line viewed in light only by the session; Bex approved Visual QA. Chromatic baselines pending (see Post-ship checks).
+- Accept and Reject unchanged: no behaviour code touched beyond the padding target.
+- `pnpm test:smoke`: 5 of 5 passed locally, 2026-10-07.
+
+### What didn't work
+
+- The epic filed the clearance fix as web CSS; the cause was the JS target (`body` padding with `body { height: 100% }`). The vspec found it and the scope was corrected.
+- The banner body text sat above the row's centre line. Cause: `globals.css` gives `p` a bottom margin and `.bannerBody p` had no reset. Present since SUG-202, fixed in `6bf0de0a` after Bex spotted it.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Callout docs page has no description block (file-level comment is not attached to the component) | implementation | declined: cosmetic, not part of this epic |
+| Header stories not checked for `Callout variant="banner"` | implementation | declined: Header has no Callout import; confirm at Chromatic review |
+| Row-variant Callouts not reviewed for the same alignment | implementation | declined: the row variant already resets paragraph margins and centres both columns |
+
+### Friction line
+
+The Callout banner text offset shipped in SUG-202 and was found by Bex looking at it, because no check compares a Storybook story to its row-variant sibling.
+
+---
+
+## Post-ship checks
+
+- [ ] Chromatic baselines for Callout (Banner, Multi Line, Banner Multi Line, Snapshot) and ConsentBanner accepted: person, in Chromatic at ship.
+- [ ] Banner visible on production in light theme and clears the footer at page bottom: person, open sugartown.io/code, choose Cookie settings, scroll to the bottom.

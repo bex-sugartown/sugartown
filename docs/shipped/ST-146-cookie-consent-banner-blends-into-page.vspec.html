@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ST-146 · Cookie consent banner blends into the page · vspec</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Pink Moon tokens: live values from packages/design-system/src/styles/tokens.css + theme.pink-moon.css, read 2026-10-07 at main 4ed5a283. Names match production. */
+.viewport[data-theme="light-pink-moon"]{--st-color-bg-canvas:#f2f2f3;--st-card-label-bg:#e4e4e5;--st-color-rule-accent:#c6c6c8;--st-color-border-default:#e4e4e5;--st-color-border-strong:#525252;--st-color-white:#ffffff;--st-color-text-default:#0a0f1a;--st-color-text-muted:#6c6c6f;--st-color-text-brand:#b91c68;--st-color-brand-primary:#ff247d;--_callout-accent:#ff247d;--_banner-label-color:var(--st-color-text-brand);--st-shadow-elevation-float:0 12px 30px rgba(13,18,38,.10);--mock-hero:#3a3a3d;--mock-footer-rule:#e4e4e5;--st-callout-banner-bg:var(--st-color-white)}
+.viewport[data-theme="dark-pink-moon"]{--st-color-bg-canvas:#0d1226;--st-card-label-bg:#141830;--st-color-rule-accent:rgba(255,255,255,.15);--st-color-border-default:rgba(255,255,255,.12);--st-color-border-strong:rgba(255,255,255,.35);--st-color-white:#ffffff;--st-color-text-default:#f8f8fa;--st-color-text-muted:#94a3b8;--st-color-text-brand:#ff247d;--st-color-brand-primary:#ff247d;--_callout-accent:#ff247d;--_banner-label-color:#ff247d;--st-shadow-elevation-float:0 12px 30px rgba(13,18,38,.30);--mock-hero:#1c2240;--mock-footer-rule:rgba(255,255,255,.12);--st-callout-banner-bg:var(--st-card-label-bg)}
+:root{--st-font-family-narrative:"Cormorant Garamond","Times New Roman",serif;--st-font-family-ui:"DM Sans","Helvetica Neue",Arial,sans-serif;--st-font-family-mono:"IBM Plex Mono","Courier New",Courier,monospace;--st-font-size-sm:.875rem;--st-font-size-xs:.75rem;--st-label-size:.65rem;--st-label-weight:600;--st-label-tracking:.1em;--st-spacing-stack-md:1rem;--st-spacing-stack-lg:1.5rem;--st-page-gutter:1.5rem;--st-width-site:1200px;--st-space-2:.5rem;--st-space-3:.75rem;--st-space-5:1.5rem;--st-color-lime:#d1ff1d;--st-color-lime-500:#b8e000;--st-color-charcoal:#1e1e1e}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--st-font-family-ui);background:#e9e9ea;color:#0a0f1a;font-size:15px;line-height:1.5}
+a{color:#b91c68}a:hover{color:#ff247d}
+/* Doc chrome (not part of the spec) */
+.doc-header{background:#0a0f1a;color:#fff;padding:18px 28px;font-family:var(--st-font-family-mono);font-size:.72rem;letter-spacing:.06em}
+.doc-header h1{font-family:var(--st-font-family-ui);font-size:1.05rem;margin-bottom:4px}
+.doc-header p{opacity:.7}
+.controls{display:flex;flex-wrap:wrap;gap:8px 14px;padding:14px 28px;background:#fff;border-bottom:1px solid #ddd;font-family:var(--st-font-family-mono);font-size:.7rem;align-items:center}
+.controls .grp{display:flex;gap:6px;align-items:center}
+.controls button{font:inherit;padding:6px 10px;border:1px solid #999;background:#fff;cursor:pointer}
+.controls button[aria-pressed="true"]{background:#0a0f1a;color:#fff;border-color:#0a0f1a}
+.controls .log{margin-left:auto;color:#555}
+.stage{padding:24px 28px;overflow-x:auto}
+.doc{max-width:1080px;margin:0 auto;padding:8px 28px 64px}
+.doc h2{font-family:var(--st-font-family-mono);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;margin:36px 0 10px;color:#b91c68}
+.doc p,.doc li{font-size:.92rem;margin-bottom:8px;text-wrap:pretty}
+.doc ul,.doc ol{padding-left:20px}
+.doc table{width:100%;border-collapse:collapse;font-size:.85rem;margin:8px 0 16px;background:#fff}
+.doc th,.doc td{border:1px solid #d4d4d6;padding:7px 9px;text-align:left;vertical-align:top}
+.doc th{font-family:var(--st-font-family-mono);font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;background:#f2f2f3}
+.doc code{font-family:var(--st-font-family-mono);font-size:.8rem;background:#f2f2f3;padding:0 3px}
+.doc pre{font-family:var(--st-font-family-mono);font-size:.78rem;background:#0a0f1a;color:#f8f8fa;padding:12px 14px;overflow-x:auto;margin:6px 0 14px;line-height:1.55}
+.pass{color:#1a7a5c;font-weight:700}.fail{color:#b91c68;font-weight:700}
+.tag{font-family:var(--st-font-family-mono);font-size:.65rem;padding:1px 5px;border:1px solid currentColor;white-space:nowrap}
+.tag.new{color:#b91c68}.tag.use{color:#2a7d5f}.tag.extend{color:#8a5a00}
+.rec{background:#fdf2f8}
+/* Mock site. .viewport holds the bar (stays put); .scroller is the page scroll; .mockBody reproduces production body{height:100%}. */
+.viewport{position:relative;margin:0 auto;width:1120px;height:640px;border:1px solid #bbb;background:var(--st-color-bg-canvas);color:var(--st-color-text-default);overflow:hidden}
+.viewport.mobile{width:375px;height:720px}
+.scroller{position:absolute;inset:0;overflow:auto}
+.mockBody{height:100%}
+.mockRoot{min-height:100%;display:flex;flex-direction:column}
+.mock-header{height:64px;border-bottom:1px solid var(--st-color-border-default);display:flex;align-items:center;justify-content:space-between;padding:0 var(--st-page-gutter);font-family:var(--st-font-family-mono);font-size:.75rem;letter-spacing:.08em;flex-shrink:0}
+.mock-header b{font-family:var(--st-font-family-narrative);font-size:1.4rem;letter-spacing:0;color:var(--st-color-brand-primary)}
+.mock-hero{background:var(--mock-hero);color:#f8f8fa;padding:56px var(--st-page-gutter);text-align:center;flex-shrink:0}
+.mock-hero h1{font-family:var(--st-font-family-narrative);font-weight:600;font-size:2.4rem;line-height:1.1}
+.mock-main{flex:1;max-width:760px;width:100%;margin:0 auto;padding:32px var(--st-page-gutter) 120px;min-height:900px}
+.mock-main p{color:var(--st-color-text-default)}
+.mock-footer{border-top:1px solid var(--mock-footer-rule);padding:0 var(--st-page-gutter);width:100%;max-width:var(--st-width-site);margin:0 auto;flex-shrink:0}
+.utility{display:flex;flex-wrap:wrap;gap:.25rem var(--st-spacing-stack-lg);padding:var(--st-spacing-stack-md) 0;border-bottom:1px solid var(--st-color-border-default)}
+.utilityLink{font-family:var(--st-font-family-ui);font-size:var(--st-font-size-sm);color:var(--st-color-text-muted);text-decoration:none}
+button.utilityLink{background:none;border:0;padding:0;cursor:pointer}
+.utilityLink:hover{color:var(--st-color-brand-primary);text-decoration:underline}
+.utilityLink:focus-visible{outline:2px solid var(--st-color-brand-primary);outline-offset:2px}
+.colophon{display:flex;flex-wrap:wrap;gap:12px 40px;padding:var(--st-spacing-stack-lg) 0 2rem;font-family:var(--st-font-family-mono);font-size:.7rem;color:var(--st-color-text-muted);letter-spacing:.06em}
+.colophon span b{color:var(--st-color-text-default);font-weight:600;margin-left:10px}
+.colophon .marker{outline:1px dashed var(--st-color-brand-primary);outline-offset:4px}
+/* ═══ SPEC CLASSES (production names) ═══ */
+.fixedBar{position:absolute;left:0;right:0;bottom:0;z-index:150;padding:0 var(--st-page-gutter) var(--st-page-gutter);pointer-events:none}/* production: position:fixed */
+.fixedBar[hidden]{display:none}
+.fixedBarInner{max-width:var(--st-width-site);margin:0 auto;pointer-events:auto;box-shadow:var(--st-shadow-elevation-float)}
+/* EXISTING Callout base + banner (Callout.module.css) */
+.callout{border-top:2px solid var(--_callout-accent);border-right:1px solid var(--st-color-rule-accent);border-bottom:1px solid var(--st-color-rule-accent);border-left:1px solid var(--st-color-rule-accent)}
+.banner{display:flex;align-items:center;gap:1rem;padding:.75rem 1.25rem;background:var(--st-card-label-bg);margin:0}
+.bannerLabel{font-family:var(--st-font-family-mono);font-size:var(--st-label-size);font-weight:var(--st-label-weight);letter-spacing:var(--st-label-tracking);text-transform:uppercase;color:var(--_banner-label-color);white-space:nowrap;flex-shrink:0}
+.bannerBody{flex:1;min-width:0;font-size:.95rem;line-height:1.5;color:var(--st-color-text-default)}
+/* PROPOSED — option A: strong rule on sides + bottom, both themes */
+.viewport[data-fix="a"] .banner,.viewport[data-fix="b"] .banner{border-right-color:var(--st-color-border-strong);border-bottom-color:var(--st-color-border-strong);border-left-color:var(--st-color-border-strong)}
+/* PROPOSED — option B: A + new Tier-3 surface token (light white, dark unchanged) */
+.viewport[data-fix="b"] .banner{background:var(--st-callout-banner-bg)}
+/* EXISTING ConsentBanner.module.css */
+.consentBody{display:flex;flex-wrap:wrap;align-items:center;gap:var(--st-space-3) var(--st-space-5)}
+.consentText{flex:1 1 32ch;min-width:0;margin:0}
+.consentText a{color:var(--st-color-text-brand);text-underline-offset:2px}
+.consentMeta{display:block;margin-top:2px;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted)}
+.consentActions{display:flex;gap:var(--st-space-2);flex-shrink:0}
+.button{display:inline-flex;align-items:center;justify-content:center;padding:8px 14px 10px;border:none;border-bottom:3px solid transparent;border-radius:0;font-family:var(--st-font-family-mono);font-size:.65rem;font-weight:700;line-height:1;text-transform:uppercase;letter-spacing:.06em;cursor:pointer;white-space:nowrap}
+.button:focus-visible{outline:2px solid var(--st-color-brand-primary);outline-offset:2px}
+.secondary{background:var(--st-color-lime);color:var(--st-color-charcoal);border-bottom-color:var(--st-color-lime-500)}
+.viewport.mobile .banner{flex-direction:column;align-items:flex-start;gap:.5rem}
+.viewport.mobile .bannerBody{align-self:stretch}
+.viewport.mobile .consentActions{display:grid;grid-template-columns:1fr 1fr;flex:1 1 100%;width:100%}
+</style>
+</head>
+<body>
+<div class="doc-header">
+<h1>ST-146 · Cookie consent banner blends into the page</h1>
+<p>Phase 0 vspec · #146 · 2026-10-07 · tokens read from main 4ed5a283 · interactive prototype (scroll-dependent overlap + persisted state)</p>
+</div>
+<div class="controls" role="toolbar" aria-label="Prototype controls">
+<div class="grp"><span>Theme</span><button type="button" data-theme-btn="light-pink-moon" aria-pressed="true">Light</button><button type="button" data-theme-btn="dark-pink-moon" aria-pressed="false">Dark</button></div>
+<div class="grp"><span>Width</span><button type="button" data-width-btn="desktop" aria-pressed="true">1120</button><button type="button" data-width-btn="mobile" aria-pressed="false">375</button></div>
+<div class="grp"><span>Surface</span><button type="button" data-fix-btn="none" aria-pressed="false">As shipped</button><button type="button" data-fix-btn="a" aria-pressed="false">A · rule</button><button type="button" data-fix-btn="b" aria-pressed="true">B · rule + surface</button></div>
+<div class="grp"><span>Clearance on</span><button type="button" data-pad-btn="body" aria-pressed="false">body (shipped)</button><button type="button" data-pad-btn="root" aria-pressed="true">#root (proposed)</button></div>
+<div class="grp"><button type="button" id="toBottom">Scroll to bottom</button><button type="button" id="reset">Reset: first visit</button></div>
+<span class="log" id="log" aria-live="polite">st-consent: (none)</span>
+</div>
+<div class="stage">
+<div class="viewport" id="vp" data-theme="light-pink-moon" data-fix="b">
+<div class="scroller" id="scroller">
+<div class="mockBody" id="mockBody">
+<div class="mockRoot" id="mockRoot">
+<div class="mock-header"><b>Sugartown</b><span>Platform · Work · Library · About</span></div>
+<div class="mock-hero"><h1>The sugartown.io monorepo</h1></div>
+<main class="mock-main" id="main" tabindex="-1"><p>Mock of <code>/code</code>. Scroll to the bottom: with clearance on <code>body</code> the bar covers the Version and Toolchain rows (dashed outline), as on production. With clearance on <code>#root</code> they clear the bar.</p></main>
+<footer class="mock-footer">
+<div class="utility"><a class="utilityLink" href="#">AI Ethics</a><a class="utilityLink" href="#">Privacy &amp; Terms of Use</a><a class="utilityLink" href="#">Sitemap</a><a class="utilityLink" href="#">Contact</a><button type="button" class="utilityLink" id="settings">Cookie settings</button></div>
+<div class="colophon marker"><span>VERSION<b>0.0.0</b></span><span>TOOLCHAIN<b>React · Vite · Sanity · Storybook</b></span></div>
+</footer>
+</div>
+</div>
+</div>
+<div class="fixedBar" id="bar" hidden>
+<div class="fixedBarInner">
+<div class="callout banner" role="region" aria-label="Cookie consent">
+<span class="bannerLabel">Cookies</span>
+<div class="bannerBody">
+<div class="consentBody">
+<p class="consentText">Sugartown uses Google Analytics to see which pages get read. Nothing is tracked unless you accept. <a href="#">Privacy &amp; Terms</a><span class="consentMeta" id="meta" hidden></span></p>
+<div class="consentActions"><button type="button" class="button secondary" id="accept">Accept analytics</button><button type="button" class="button secondary" id="reject">Reject analytics</button></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="doc">
+<h2>1 · Findings</h2>
+<ol>
+<li><b>Surface.</b> The banner fills with <code>--st-card-label-bg</code>. In light that is neutral-200 <code>#e4e4e5</code> on a neutral-100 <code>#f2f2f3</code> page, 1.14:1. Its 1px <code>--st-color-rule-accent</code> sides are 1.52:1. In dark, midnight-800 on midnight-900 is 1.06:1 and the rule 1.55:1. Only the pink top rule passes 3:1 in both themes. The float shadow is 10% opacity in light.</li>
+<li><b>Meta line fails today.</b> "Current choice: accepted" is <code>--st-color-text-muted</code> <code>#6c6c6f</code> on <code>#e4e4e5</code>: 4.12:1, below AA for 12px text. SUG-202 §4 did not measure it.</li>
+<li><b>Bottom clearance is applied but never takes effect.</b> <code>ConsentBanner.jsx</code> sets <code>document.body.style.paddingBottom</code> to the bar height. <code>apps/web/src/design-system/styles/globals.css</code> sets <code>body { height: 100% }</code>, so body is one viewport tall and the page content overflows it. The padding sits inside that one-viewport box and adds no scroll room after the footer. <code>#root</code> is <code>min-height: 100vh</code> with auto height, so padding there does extend the scroll.</li>
+</ol>
+<h2>2 · Proposal (option B recommended)</h2>
+<table>
+<tr><th>Option</th><th>Change</th><th>Fixes</th><th>Cost</th></tr>
+<tr><td>A · rule</td><td>Banner sides and bottom move from <code>--st-color-rule-accent</code> to <code>--st-color-border-strong</code> (light neutral-600, dark white 35%). Top rule stays the accent.</td><td>Edge passes 3:1 in both themes</td><td>Surface still 1.14:1 in light; meta line still 4.12:1</td></tr>
+<tr class="rec"><td><b>B · rule + surface</b></td><td>A, plus banner fill moves to a new Tier-3 token <code>--st-callout-banner-bg</code>: base <code>var(--st-card-label-bg)</code> (dark unchanged), <code>light-pink-moon</code> → <code>var(--st-color-white)</code>.</td><td>Edge 6.98:1 light, 3.20:1 dark; meta line 5.23:1; label 6.12:1</td><td>One new token through <code>tokens/source/tokens.json</code>; every Callout banner in light turns white</td></tr>
+</table>
+<p>Dark surface stays midnight-800: midnight-700 and <code>--st-margin-bg</code> would both drop the pink label below AA (4.29 and 4.46). The dark fix is the edge only.</p>
+<p><b>Clearance:</b> in <code>ConsentBanner.jsx</code>, apply the measured padding to <code>document.getElementById('root')</code> instead of <code>document.body</code> (two lines: set and cleanup). Behaviour, measuring and ResizeObserver are unchanged. Not chosen: changing <code>body</code> to <code>min-height: 100%</code> in <code>globals.css</code>, which reaches every page and every <code>height: 100%</code> descendant.</p>
+<p><b>Scope tension:</b> the epic lists the clearance as web CSS. The root cause is the JS target, so the fix is a one-line JS change. Approve or redirect.</p>
+<h2>3 · CSS diff (DS)</h2>
+<pre>/* Callout.module.css — .banner, after the existing rule */
+.banner {
+  /* …existing… */
+  background: var(--st-callout-banner-bg);           /* was --st-card-label-bg */
+  border-right-color: var(--st-color-border-strong);
+  border-bottom-color: var(--st-color-border-strong);
+  border-left-color: var(--st-color-border-strong);
+}
+
+/* tokens.json → tokens.css :root */
+--st-callout-banner-bg: var(--st-card-label-bg);
+/* theme.pink-moon.css, light-pink-moon block */
+--st-callout-banner-bg: var(--st-color-white);</pre>
+<h2>4 · Contrast (measured from token hex, composited where alpha)</h2>
+<table>
+<tr><th>Pair</th><th>As shipped</th><th>B</th></tr>
+<tr><td>Light · banner surface vs page</td><td>1.14</td><td>1.12 (edge carries it)</td></tr>
+<tr><td>Light · banner edge vs page (non-text, 3:1)</td><td class="fail">1.52 fail</td><td class="pass">6.98 pass</td></tr>
+<tr><td>Light · top rule pink vs page</td><td class="pass">3.24</td><td class="pass">3.24</td></tr>
+<tr><td>Light · body text ink on surface</td><td class="pass">15.08</td><td class="pass">19.16</td></tr>
+<tr><td>Light · label maroon on surface</td><td class="pass">4.82</td><td class="pass">6.12</td></tr>
+<tr><td>Light · link maroon on surface</td><td class="pass">4.82</td><td class="pass">6.12</td></tr>
+<tr><td>Light · meta line muted on surface</td><td class="fail">4.12 fail</td><td class="pass">5.23 pass</td></tr>
+<tr><td>Dark · banner surface vs page</td><td>1.06</td><td>1.06 (unchanged)</td></tr>
+<tr><td>Dark · banner edge vs page (non-text, 3:1)</td><td class="fail">1.55 fail</td><td class="pass">3.20 pass</td></tr>
+<tr><td>Dark · top rule pink vs page</td><td class="pass">5.13</td><td class="pass">5.13</td></tr>
+<tr><td>Dark · label pink on midnight-800</td><td class="pass">5.2</td><td class="pass">5.2</td></tr>
+<tr><td>Buttons · charcoal on lime</td><td class="pass">14.32</td><td class="pass">14.32</td></tr>
+</table>
+<h2>5 · Component-Reuse Manifest</h2>
+<table>
+<tr><th>Element</th><th>Existing</th><th>Decision</th></tr>
+<tr><td>Banner surface + edge</td><td>DS <code>Callout .banner</code></td><td><span class="tag extend">extend</span> fill token and side/bottom border colour. No new class.</td></tr>
+<tr><td>Banner fill token</td><td><code>--st-card-label-bg</code> (shared with card label cells)</td><td><span class="tag new">new</span> <code>--st-callout-banner-bg</code>, so the banner can change without moving every card label cell</td></tr>
+<tr><td>Edge colour</td><td><code>--st-color-border-strong</code></td><td><span class="tag use">use</span></td></tr>
+<tr><td>Clearance</td><td><code>ConsentBanner.jsx</code> padding effect</td><td><span class="tag extend">extend</span> retarget from <code>body</code> to <code>#root</code></td></tr>
+<tr><td>Fixed layer, text row, buttons</td><td><code>.fixedBar</code>, <code>.consentBody</code>, DS Button + ButtonGroup</td><td><span class="tag use">use</span> unchanged</td></tr>
+</table>
+<p>New CSS classes: none. New tokens: one.</p>
+<h2>6 · Other Callout banner consumers (Chromatic diffs to approve)</h2>
+<ul>
+<li><code>Callout</code> stories: Banner, Snapshot (Chromatic). Light: fill grey to white, edge darker. Dark: edge only.</li>
+<li><code>ConsentBanner</code> stories: FirstVisit, Mobile.</li>
+<li>Preheader and Header stories named in the epic: confirm at activation whether they render <code>Callout variant="banner"</code>; the production preheader is a pink strip, not a Callout.</li>
+<li>Design-system preview card <code>preview/comp-callouts.html</code> is updated after approval, not before.</li>
+</ul>
+<h2>7 · Behaviour (unchanged, kept for regression)</h2>
+<p>Accept and Reject store <code>st-consent</code>, hide the bar and remove the clearance. "Cookie settings" reopens it with the meta line and moves focus to the first button. The prototype stores under <code>st-consent-vspec</code> so it never touches the real key.</p>
+<h2>8 · Files the build touches</h2>
+<ul>
+<li><code>packages/design-system/src/components/Callout/Callout.module.css</code>: <code>.banner</code> fill and edge</li>
+<li><code>tokens/source/tokens.json</code> → <code>tokens.css</code>, <code>theme.pink-moon.css</code>: <code>--st-callout-banner-bg</code></li>
+<li><code>apps/web/src/components/ConsentBanner.jsx</code>: clearance target</li>
+<li>Web mirror of Callout CSS, if <code>validate-style-mirror.js</code> reports one</li>
+</ul>
+</div>
+<script>
+(function(){
+var KEY='st-consent-vspec',vp=document.getElementById('vp'),bar=document.getElementById('bar'),meta=document.getElementById('meta'),log=document.getElementById('log'),main=document.getElementById('main'),settings=document.getElementById('settings'),scroller=document.getElementById('scroller'),mockBody=document.getElementById('mockBody'),mockRoot=document.getElementById('mockRoot'),padOn='root',openedFrom=null,mem=null;
+function read(){try{var v=localStorage.getItem(KEY);return v?JSON.parse(v):mem;}catch(e){return mem;}}
+function write(v){mem={analytics:v,v:1};try{localStorage.setItem(KEY,JSON.stringify(mem));}catch(e){}}
+function status(x){var c=read();log.textContent='st-consent: '+(c?c.analytics:'(none)')+(x?' · '+x:'');}
+function pad(){mockBody.style.paddingBottom='';mockRoot.style.paddingBottom='';if(bar.hidden)return;var h=bar.offsetHeight+'px';(padOn==='body'?mockBody:mockRoot).style.paddingBottom=h;}
+function show(fromSettings){var c=read();meta.hidden=!c;if(c)meta.textContent='Current choice: '+(c.analytics==='granted'?'accepted':'rejected');bar.hidden=false;pad();openedFrom=fromSettings?settings:null;if(fromSettings)document.getElementById('accept').focus();}
+function hide(){bar.hidden=true;pad();(openedFrom||main).focus({preventScroll:true});}
+function choose(v){write(v);status(v==='granted'?'gtag.js would load':'nothing loads');hide();}
+document.getElementById('accept').onclick=function(){choose('granted');};
+document.getElementById('reject').onclick=function(){choose('denied');};
+settings.onclick=function(){show(true);};
+document.getElementById('toBottom').onclick=function(){scroller.scrollTop=scroller.scrollHeight;};
+document.getElementById('reset').onclick=function(){mem=null;try{localStorage.removeItem(KEY);}catch(e){}status();show(false);};
+function group(attr,fn){var bs=document.querySelectorAll('['+attr+']');bs.forEach(function(b){b.onclick=function(){bs.forEach(function(x){x.setAttribute('aria-pressed',x===b);});fn(b.getAttribute(attr));};});}
+group('data-theme-btn',function(v){vp.setAttribute('data-theme',v);});
+group('data-width-btn',function(v){vp.classList.toggle('mobile',v==='mobile');pad();});
+group('data-fix-btn',function(v){vp.setAttribute('data-fix',v);pad();});
+group('data-pad-btn',function(v){padOn=v;pad();});
+if(window.ResizeObserver)new ResizeObserver(pad).observe(bar);
+status();show(!!read());
+})();
+</script>
+</body>
+</html>

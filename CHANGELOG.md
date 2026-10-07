@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #146: the cookie consent banner is white with a strong edge in light theme and a brighter edge in dark, no longer covers the footer's version and toolchain rows, and Callout banner text sits centred on its row (smoke 5/5 locally; Chromatic review owed at ship) (#146).
 - #145: a measurable `/code` landing page and a consent-guarded `cta_click` GA4 event from every CMS button, with `/github` redirecting to it (`cta_label` and `cta_style` values seen in GA4 2026-10-07; Explore report check owed).
 - #140: the v0.36.0 release note is published (as an article for now); the other 16 move to the new Release Note type in #147 (#140).
 - #127: prerendered article, node and case-study pages are written as `<slug>.html` so Netlify answers the canonical no-slash URL with 200 instead of a 301 (smoke 5/5 locally; production `curl -sI` check after ship) (#127).
