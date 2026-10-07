@@ -130,6 +130,10 @@
   color: var(--st-color-text-default);
 }
 
+/* globals.css gives p a bottom margin, which lifts the text above the row's centre
+   line while the label stays on it. Same reset as .body p (ST-146). */
+.bannerBody p { margin: 0; }
+
 /* Narrow screens: label above the body instead of beside it (SUG-202). */
 @media (max-width: 640px) {
   .banner {
