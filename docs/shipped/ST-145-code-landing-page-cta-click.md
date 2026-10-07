@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-145 /code landing page + site-wide cta_click GA4 event
 **Issue:** [#145](https://github.com/bex-sugartown/sugartown/issues/145)
-**Status:** In Progress (Phase 1 committed locally 2026-10-04, `7fb57816`; Phase 2 waits on Content Write Gate approval)
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go, one commit per phase, one CHANGELOG line at the end of each
 **Visual:** no
@@ -29,12 +29,12 @@ After this epic, `sugartown.io/code` exists as a Studio-authored `page` (heroSec
 - [x] Wire the helper into `onClick` of the CMS CTA render sites: `PageSections.jsx` (heroSection primary/secondary/tertiary, ctaSection `buttons.map`) and `Hero.jsx` (primary/secondary). Phase 1. Layer: frontend.
 - [x] `PlatformHero.jsx`: read it, wire only if it renders CMS `ctas`. (Checked 2026-10-04: it hardcodes `ctas: []`, so nothing to wire.) Phase 1. Layer: frontend.
 - [x] Unit test for the helper: granted sends once with the right params; denied pushes nothing. Phase 1. Layer: frontend.
-- [ ] Studio `page` document `code`: heroSection (eyebrow "Code", heading "The sugartown.io monorepo", one-line subheading, primary "View the repo on GitHub", secondary "Read the README") plus one section with tertiary links (Changelog, Project board, Platform governance), SEO title and description. Phase 2. Layer: content.
-- [ ] Studio `redirect` document `/github` to `/code`, 301, active. Phase 2. Layer: content.
-- [ ] Verify the `/github?utm_source=test` query string survives the 301. Phase 3. Layer: content.
+- [x] Studio `page` document `code`: heroSection (eyebrow "Code", heading "The sugartown.io monorepo", one-line subheading, primary "View the repo on GitHub", secondary "Read the README") plus one section with tertiary links (Changelog, Project board, Platform governance), SEO title and description. Phase 2. Layer: content.
+- [x] Studio `redirect` document `/github` to `/code`, 301, active. Phase 2. Layer: content.
+- [x] Verify the `/github?utm_source=test` query string survives the 301. Phase 3. Layer: content.
 - [ ] Manual GA4 checks in DebugView, consent on and off. Phase 3. Layer: tooling.
-- [ ] Bex, manual: create event-scoped custom dimensions `cta_label`, `cta_style`, `cta_section` in GA4 Admin. Phase 3.
-- [ ] Decide on dropping `noreferrer` for `github.com` only (so GitHub Traffic credits the site), or file separately. Phase 3. Layer: frontend.
+- [x] Bex, manual: create event-scoped custom dimensions `cta_label`, `cta_style`, `cta_section` in GA4 Admin. Phase 3.
+- [x] Decide on dropping `noreferrer` for `github.com` only (so GitHub Traffic credits the site), or file separately. Phase 3. Layer: frontend.
 
 ## Phases
 
@@ -98,3 +98,45 @@ Phase 1 has no dependency on Phase 2 and is the only phase a cloud session could
 - **GitHub:** [#145](https://github.com/bex-sugartown/sugartown/issues/145)
 - **Source draft:** `docs/drafts/code-landing-page.issue.md` (local only, gitignored)
 - **Epic template:** `docs/epic-template.md`: complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] `/code` returns 200: Bex confirmed live 2026-10-05 (GA4 Realtime listed 'Code | Sugartown Digital', 3 views).
+- [x] `/github?utm_source=test` 301 to `/code?utm_source=test`: checked live 2026-10-05 (issue comment).
+- [x] Consent accepted, `cta_click` reaches GA4: Realtime showed `cta_click` count 2 for two clicks (GitHub hero button, Platform governance link).
+- [x] Content Write Gate: proposal approved by Bex 2026-10-04 before any write; drafts only, Bex published.
+- [x] Internal navigation unchanged: handlers use `onClickCapture` with no `preventDefault`; `pnpm test:smoke` 5 of 5.
+- [x] Consent declined pushes nothing to `dataLayer`: unit test, `pnpm --filter web test:unit` 5 of 5.
+- [x] Per-button `cta_label` and `cta_style` values: GA4 Overview card (Bex screenshots 2026-10-07) showed `cta_label` Changelog, Platform governance, Project board, README (1 each) and `cta_style` tertiary 3, secondary 1.
+- [ ] `cta_section` values: not seen in Realtime. Explore showed `(not set)` for all three dimensions on the 11 `cta_click` events, which fits GA4's delay on new custom dimensions (cause not confirmed). Moved to Post-ship checks.
+- [ ] Consent declined sends no request to `googletagmanager.com`: not verified in a browser. Moved to Post-ship checks.
+- [ ] `outbound: false` on the governance link and `link_url` per button: not verified. `link_url` and `outbound` have no custom dimension.
+- [ ] Hero buttons and tertiary links open `github.com` in a new tab, five CTAs counted, light and dark theme: not verified in a browser (the browser pane was refused localhost access 2026-10-04).
+- [ ] A CTA on one other existing page sends `cta_click`: not verified; the governance click on `/code` is the only second source seen.
+- [ ] `pnpm validate:urls`: no run recorded. Smoke passed.
+
+### What didn't work
+
+The built-in browser pane was refused access to localhost, so every browser-only criterion fell back to GA4 after deploy. Explore also lags on new custom dimensions, so per-button values were confirmed from the Overview card instead.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Custom dimensions for `link_url` and `outbound` | implementation | declined: Bex created only the three label dimensions; add them if a report needs them |
+| Drop `noreferrer` on github.com links | implementation | declined: Bex decided 2026-10-05 to keep it |
+
+### Friction line
+
+none
+
+---
+
+## Post-ship checks
+
+- [ ] Explore shows values for `cta_label`, `cta_style`, `cta_section`: person: GA4 Explore, free form, filter Event name exactly matches `cta_click`; all three read `(not set)` on 2026-10-07, so recheck after a day or two. Also confirms `cta_section`.
+- [ ] Consent declined sends nothing to `googletagmanager.com`: person: browser DevTools, Network tab, filter `googletagmanager`, decline consent, click a CTA.

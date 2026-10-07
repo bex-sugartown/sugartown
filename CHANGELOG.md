@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #145: a measurable `/code` landing page and a consent-guarded `cta_click` GA4 event from every CMS button, with `/github` redirecting to it (`cta_label` and `cta_style` values seen in GA4 2026-10-07; Explore report check owed).
 - #140: the v0.36.0 release note is published (as an article for now); the other 16 move to the new Release Note type in #147 (#140).
 - #127: prerendered article, node and case-study pages are written as `<slug>.html` so Netlify answers the canonical no-slash URL with 200 instead of a 301 (smoke 5/5 locally; production `curl -sI` check after ship) (#127).
 - #144: cloud runs launch with `/cloud-launch` and finish with `/handback`, a read-only reviewer checks every cloud branch before merge, `/morning` lists runs ready for hand-back, `/ship` deletes merged cloud branches, and every step ends with a "your next step" note for Bex.
