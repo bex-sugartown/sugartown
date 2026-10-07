@@ -73,6 +73,54 @@ export const Banner: Story = {
   ),
 };
 
+/** Multi-line — body text that wraps to two or three lines. Label and text stay centred on the row. */
+export const MultiLine: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Callout variant="info" number="§ 01" title="Note">
+        <p>
+          This section covers experimental APIs that may change before general availability.
+          Pin an exact version if you depend on them, and read the changelog before upgrading.
+        </p>
+      </Callout>
+      <Callout variant="warn" number="§ 02" title="Warning">
+        <p>
+          Publishing is a separate step from saving. A draft stays invisible to readers until a
+          person clicks Publish in Studio, even after the copy has been approved. Check the
+          document status before telling anyone a page is live.
+        </p>
+      </Callout>
+    </div>
+  ),
+};
+
+/** Banner, multi-line — wrapped body text beside an inline label. Both stay vertically centred. */
+export const BannerMultiLine: Story = {
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Callout variant="banner" title="Note">
+        <p>
+          This section covers experimental APIs that may change before general availability.
+          Pin an exact version if you depend on them, and read the changelog before upgrading.
+        </p>
+      </Callout>
+      <Callout variant="banner">
+        <p>
+          Draft content, not published. Visible in preview mode only. Readers see the last
+          published version until someone clicks Publish in Studio.
+        </p>
+      </Callout>
+      <Callout variant="banner" title="Cookies" role="region" ariaLabel="Cookie consent">
+        <p>
+          Sugartown uses Google Analytics to see which pages get read. Nothing is tracked unless
+          you accept. Your choice is stored in this browser and you can change it any time from
+          the footer.
+        </p>
+      </Callout>
+    </div>
+  ),
+};
+
 /** Snapshot — all colorways for Chromatic VRT. */
 export const Snapshot: Story = {
   name: 'Snapshot (Chromatic)',
