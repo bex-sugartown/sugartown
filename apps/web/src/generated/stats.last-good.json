@@ -82,35 +82,35 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-10-08T12:51:49.778Z",
+    "generatedAt": "2026-10-09T12:37:56.430Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 1246,
-          "cls": 0.229,
+          "lcp": 1210,
+          "cls": 0.232,
           "inp": null,
-          "performance": 85,
+          "performance": 86,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1246,
-        "cls": 0.229,
+        "lcp": 1210,
+        "cls": 0.232,
         "inp": null,
-        "performance": 85,
+        "performance": 86,
         "accessibility": 96,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 1246,
-          "cls": 0.229,
+          "lcp": 1210,
+          "cls": 0.232,
           "inp": null,
-          "performance": 85,
+          "performance": 86,
           "accessibility": 96,
           "bestPractices": 100,
           "seo": 100,
@@ -121,29 +121,29 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1172,
+          "lcp": 1048,
           "cls": 0.226,
           "inp": null,
-          "performance": 86,
+          "performance": 87,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1172,
+        "lcp": 1048,
         "cls": 0.226,
         "inp": null,
-        "performance": 86,
+        "performance": 87,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 1172,
+          "lcp": 1048,
           "cls": 0.226,
           "inp": null,
-          "performance": 86,
+          "performance": 87,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -154,7 +154,7 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1304,
+          "lcp": 1276,
           "cls": 0.226,
           "inp": null,
           "performance": 85,
@@ -163,7 +163,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1304,
+        "lcp": 1276,
         "cls": 0.226,
         "inp": null,
         "performance": 85,
@@ -173,7 +173,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 1304,
+          "lcp": 1276,
           "cls": 0.226,
           "inp": null,
           "performance": 85,
@@ -187,7 +187,7 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1352,
+          "lcp": 1306,
           "cls": 0.103,
           "inp": null,
           "performance": 93,
@@ -196,7 +196,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1352,
+        "lcp": 1306,
         "cls": 0.103,
         "inp": null,
         "performance": 93,
@@ -206,7 +206,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1352,
+          "lcp": 1306,
           "cls": 0.103,
           "inp": null,
           "performance": 93,
@@ -220,8 +220,8 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1243,
-          "cls": 0.424,
+          "lcp": 1213,
+          "cls": 0.419,
           "inp": null,
           "performance": 77,
           "accessibility": 96,
@@ -229,8 +229,8 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1243,
-        "cls": 0.424,
+        "lcp": 1213,
+        "cls": 0.419,
         "inp": null,
         "performance": 77,
         "accessibility": 96,
@@ -239,8 +239,8 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 1243,
-          "cls": 0.424,
+          "lcp": 1213,
+          "cls": 0.419,
           "inp": null,
           "performance": 77,
           "accessibility": 96,
@@ -253,8 +253,8 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1312,
-          "cls": 0.228,
+          "lcp": 1205,
+          "cls": 0.229,
           "inp": null,
           "performance": 85,
           "accessibility": 94,
@@ -262,8 +262,8 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1312,
-        "cls": 0.228,
+        "lcp": 1205,
+        "cls": 0.229,
         "inp": null,
         "performance": 85,
         "accessibility": 94,
@@ -272,8 +272,8 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1312,
-          "cls": 0.228,
+          "lcp": 1205,
+          "cls": 0.229,
           "inp": null,
           "performance": 85,
           "accessibility": 94,
@@ -286,29 +286,29 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 684,
-          "cls": 0.081,
+          "lcp": 792,
+          "cls": 0.083,
           "inp": null,
-          "performance": 98,
+          "performance": 97,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 684,
-        "cls": 0.081,
+        "lcp": 792,
+        "cls": 0.083,
         "inp": null,
-        "performance": 98,
+        "performance": 97,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 684,
-          "cls": 0.081,
+          "lcp": 792,
+          "cls": 0.083,
           "inp": null,
-          "performance": 98,
+          "performance": 97,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -319,7 +319,7 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 695,
+          "lcp": 664,
           "cls": 0.081,
           "inp": null,
           "performance": 98,
@@ -328,7 +328,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 695,
+        "lcp": 664,
         "cls": 0.081,
         "inp": null,
         "performance": 98,
@@ -338,7 +338,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 695,
+          "lcp": 664,
           "cls": 0.081,
           "inp": null,
           "performance": 98,
@@ -351,13 +351,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-10-08T12:51:50.310Z",
+    "fetchedAt": "2026-10-09T12:37:56.698Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-10-08T12:53:12.517Z",
+    "fetchedAt": "2026-10-09T12:39:19.515Z",
     "vulnerabilities": {
       "total": 306,
       "critical": 5,
@@ -368,17 +368,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-10-08T12:53:13.504Z",
+    "fetchedAt": "2026-10-09T12:39:20.549Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
     "openIssues": 76,
     "contributors": 3,
-    "lastCommit": "2026-10-07T12:53:27Z"
+    "lastCommit": "2026-10-08T12:53:15Z"
   },
   "sanity": {
-    "fetchedAt": "2026-10-08T12:53:13.986Z",
+    "fetchedAt": "2026-10-09T12:39:20.926Z",
     "counts": {
       "article": 16,
       "node": 52,
@@ -392,7 +392,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-10-08T12:53:14.215Z",
+    "generatedAt": "2026-10-09T12:39:21.184Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -6744,9 +6744,9 @@
       }
     ]
   },
-  "updatedAt": "2026-10-08T12:53:15.558Z",
+  "updatedAt": "2026-10-09T12:39:22.633Z",
   "githubRoadmap": {
-    "fetchedAt": "2026-10-08T12:53:15.558Z",
+    "fetchedAt": "2026-10-09T12:39:22.633Z",
     "inProgress": [],
     "backlog": [
       {
