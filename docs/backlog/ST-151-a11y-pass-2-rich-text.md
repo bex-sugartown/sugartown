@@ -92,6 +92,20 @@ Dots (`--st-chip-dot-*`):
 
 Pink dot contrast: 3.47:1 light (non-text), 4.82:1 dark. Activation audit: read the status values from the schema `options.list`; pick the grey chip text and border tokens (the audit gives ratios only).
 
+### 4b. Featured tag: neutral like the regular tag (decided 2026-10-10; layer: tokens and component CSS)
+
+The featured tag is the first tag in a card's tag list (code name: rubric chip, `--st-chip-rubric-*`, `.rubric` in `Chip.module.css`). It is not in the audit handoff; Bex decided it should not be pink. It takes the regular tag chip's colours in each theme (light: white tint, dark: dark blue). This replaces ST-150's dark `--st-chip-rubric-fg` change (pink-500 to pink-300), which stops being needed.
+
+| Token | Theme | Before | After |
+|---|---|---|---|
+| `--st-chip-rubric-bg` | light | `color-mix(in srgb, var(--st-color-pink) 10%, white)` | same as `--st-chip-tag-bg` (`var(--st-color-white-50)`) |
+| `--st-chip-rubric-bg` | dark | `color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800))` | same as `--st-chip-tag-bg` (`var(--st-color-midnight-700)`) |
+| `--st-chip-rubric-border` | both | `var(--st-color-pink)` | same as `--st-chip-border` (`var(--st-color-rule-accent)` light) |
+| `--st-chip-rubric-fg` | light | `var(--st-color-maroon)` | same as `--st-chip-fg` (`var(--st-color-text-default)`) |
+| `--st-chip-rubric-fg` | dark | `var(--st-color-pink-300)` (set in ST-150; was pink) | same as `--st-chip-fg` (`var(--st-color-softgrey-200)`) |
+
+Activation audit: confirm what the featured tag's hover state should be (today `Chip.module.css` keeps the rubric border on hover; the audit says tags keep a pink border on hover), and whether the featured tag should still differ from the rest by weight or position.
+
 ### 5. Card titles and eyebrows (decided 2026-10-10; layer: component CSS)
 
 | Element | Before | After |
@@ -130,6 +144,7 @@ Single phase.
 
 - [ ] Prose sample containing link, glossary term, citation and inline code: each is distinguishable under CSS `filter: grayscale(1)`, both themes.
 - [ ] Glossary text against its fill: 8.03:1 or more light, 9.68:1 or more dark. Dotted rule against fill 3:1 or more.
+- [ ] The featured tag renders with the same colours as the other tags in both themes; no pink fill, border or text at rest.
 - [ ] Card H3 title at 28px is pink; no card title under 24px is pink; card eyebrows render in text colour, both themes.
 - [ ] Glossary trigger is reachable by Tab, opens on Enter and Space, closes on Esc with focus returned to the trigger, and the popover stays open when the pointer moves onto it.
 - [ ] VoiceOver announces a citation marker as "Citation 1, link", and the back-link returns focus to the marker.

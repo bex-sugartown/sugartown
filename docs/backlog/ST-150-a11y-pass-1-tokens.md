@@ -88,6 +88,8 @@ The audit specifies the light treatment only. The dark values above are my propo
 
 ### 7. A4: featured tag rubric, dark (layer: tokens)
 
+> Superseded by ST-151 section 4b (2026-10-10): the featured tag becomes neutral, so this pink-300 value is replaced there.
+
 | Token | Before (dark) | After (dark) | Ratio |
 |---|---|---|---|
 | `--st-chip-rubric-fg` | `var(--st-color-pink)` | `var(--st-color-pink-300)` `#ff80b5` | 4.08 to 6.33 |
