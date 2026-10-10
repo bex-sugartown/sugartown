@@ -55,12 +55,12 @@
 /* ── Primary — pink fill ─────────────────────────────── */
 
 .primary {
-  background-color: var(--st-button-bg-primary);   /* ST-150: pink-600, white label 4.80:1 */
-  color: var(--st-button-text);
+  background-color: var(--st-color-brand-primary);
+  color: var(--st-color-white);
 }
 
 .primary:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--st-button-bg-primary-hover);   /* pink-700, 6.90:1 */
+  background-color: var(--st-color-pink-600);
 }
 
 /* ── Secondary — lime fill ───────────────────────────── */
@@ -76,7 +76,7 @@
 
 /* ── Tertiary — ghost, theme-aware signal ────────────── */
 /* Default: signal color (pink light / lime dark) via --st-button-tertiary-* tokens.  */
-/* theme.pink-moon.css light block overrides to text-signal (maroon); dark keeps base lime. */
+/* theme.pink-moon.css light block overrides to brand-primary; dark keeps base lime.   */
 
 .tertiary {
   background: transparent;

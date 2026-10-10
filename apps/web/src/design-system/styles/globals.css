@@ -61,23 +61,12 @@ code, kbd, samp, pre {
 
 /* ── Inline code (not inside pre) — Sugartown pill style ── */
 :not(pre) > code {
-  font-size: var(--st-code-inline-font-size);
+  font-size: 0.85em;
   background-color: var(--st-code-inline-bg);
-  padding: var(--st-code-inline-padding);
-  border-radius: var(--st-radius-code);
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
   border: var(--st-code-inline-border);
   color: var(--st-code-inline-color);
-}
-
-/* ── Reduced motion (ST-150 A10) ──────────────────────────
-   Hover transforms are removed next to the rules that set them. This block
-   shortens every remaining transition and animation. */
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    transition-duration: 0.01ms !important;
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
 }
 
 /* ── Form elements inherit body font (browser resets use system-ui) ── */

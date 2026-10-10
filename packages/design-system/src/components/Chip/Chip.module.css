@@ -61,13 +61,6 @@
   box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
 }
 
-/* ST-150 A10: no motion on hover for visitors who ask for less */
-@media (prefers-reduced-motion: reduce) {
-  .interactive:hover {
-    transform: none;
-  }
-}
-
 .interactive:focus-visible {
   outline: 2px solid var(--_chip-color);
   outline-offset: 2px;
@@ -117,10 +110,9 @@
 .grey    { --chip-color: var(--st-color-softgrey-700); }
 
 /* ── Light-theme chip color overrides ─────────────────────
-   On light backgrounds, bright palette colors fail WCAG AA contrast for text
-   (and for the white label on a selected fill). Shift --chip-color to a darker
+   On light backgrounds, bright palette colors (seafoam, lime, amber)
+   fail WCAG AA contrast for text. Shift --chip-color to a darker
    shade so the color-mix() formulas produce readable bg/border/text.
-   ST-150: every preset now clears 4.5:1 on white, and white on its own fill.
    ──────────────────────────────────────────────────────── */
 
 /* ── Light Pink Moon — Ledger Tradition treatment ──────
@@ -131,20 +123,14 @@
   border-color: color-mix(in srgb, var(--_chip-color) 60%, var(--st-color-canvas));
 }
 
-:global([data-theme="light-pink-moon"]) .pink {
-  --chip-color: var(--st-color-maroon);
-}
-:global([data-theme="light-pink-moon"]) .violet {
-  --chip-color: var(--st-color-violet-600);
-}
 :global([data-theme="light-pink-moon"]) .seafoam {
-  --chip-color: var(--st-color-seafoam-800);
+  --chip-color: var(--st-color-seafoam-700);
 }
 :global([data-theme="light-pink-moon"]) .lime {
-  --chip-color: var(--st-color-lime-800);
+  --chip-color: var(--st-color-lime-700);
 }
 :global([data-theme="light-pink-moon"]) .amber {
-  --chip-color: var(--st-color-amber-800);
+  --chip-color: var(--st-color-amber-600);
 }
 :global([data-theme="light-pink-moon"]) .grey {
   --chip-color: var(--st-color-neutral-600);
@@ -156,12 +142,6 @@
    ──────────────────────────────────────────────────────── */
 :global([data-theme="dark-pink-moon"]) .grey {
   --chip-color: var(--st-color-softgrey-300);
-}
-
-/* Selected pink chip on dark: white on pink-500 is 3.62:1; pink-600 is 4.80:1 (ST-150) */
-:global([data-theme="dark-pink-moon"]) .pink.active {
-  background: var(--st-color-pink-600);
-  border-color: var(--st-color-pink-600);
 }
 
 :global([data-theme="dark-pink-moon"]) .chip:not(.ruleDot):not(.dotColor) {

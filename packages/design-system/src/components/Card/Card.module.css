@@ -86,13 +86,6 @@
   transform: scale(1.05);
 }
 
-/* ST-150 A10: no motion on hover for visitors who ask for less */
-@media (prefers-reduced-motion: reduce) {
-  .card:hover .thumbnailImg, .card:has(.titleLink):hover {
-    transform: none;
-  }
-}
-
 /* ── Card folio row ──────────────────────────────────────────────────────── */
 /* Structural label row above header — content-type eyebrow left, badge right.
    Rendered when showFolio=true. Eyebrow + badge suppressed from header when active. */

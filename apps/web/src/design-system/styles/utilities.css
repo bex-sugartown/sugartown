@@ -27,13 +27,6 @@
   transform: scale(1.05);
 }
 
-/* ST-150 A10: no motion on hover for visitors who ask for less */
-@media (prefers-reduced-motion: reduce) {
-  .st-duotone:hover img {
-    transform: none;
-  }
-}
-
 .st-duotone::after {
   content: "";
   position: absolute;
