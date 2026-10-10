@@ -22,14 +22,105 @@ After this epic, each inline mark has a cue other than colour, glossary terms an
 
 ## Scope
 
-- [ ] **A3, glossary term, component CSS.** Lime on both themes. Light: lime-200 fill, neutral-700 type, neutral-700 dotted rule (8.03:1). Dark: lime at 18% over the card, lime-200 type and dotted rule (9.68:1). Add tokens `--st-glossary-decoration-color`, `--st-glossary-decoration-style`, `--st-glossary-decoration-thickness` (2px dotted).
-- [ ] **A6, prose links, component CSS.** In prose scopes only (portable text, article and node bodies), links are always underlined: text colour, 1px pink underline, offset from `--st-link-underline-offset`. Nav and card links stay bare. Hover thickness 2px.
-- [ ] **A8, glossary semantics, frontend.** The term trigger is a real `<button type="button">` (or `<a>` if it navigates) with `aria-expanded` and `aria-controls`. The popover is dismissible with Esc without moving focus, hoverable and persistent (WCAG 1.4.13). On the term's own entry page the term is wrapped in `<dfn>`.
-- [ ] **A8, citation semantics, frontend.** Marker link: `aria-label="Citation N"`, `role="doc-noteref"`, `id="cite-ref-N"`. Note: `role="doc-endnote"` inside `role="doc-endnotes"`, with a back-link `role="doc-backlink"` and `aria-label="Back to citation N"`. Marker and index size 0.75rem minimum.
-- [ ] **A9 and A4 status, tokens and component CSS.** One map for chip and dot: a grey chip and a pink dot for every status, ring dot for draft, solid dot for in progress, the uppercase word carries the state. `--st-chip-dot-*` aliases `--st-status-*`; crimson leaves draft. Dot contrast 3.47:1 light and 4.82:1 dark (non-text). This replaces the A4 status foreground fixes and the A13 violet dot fix.
-- [ ] **Card titles and eyebrows, component CSS (decided 2026-10-10).** Card H3 titles at 1.75rem (28px) are pink: large text, 3.47:1 light, 4.82:1 dark. Any card title under 24px regular or 18.66px bold stays in text colour. Card eyebrows take the text colour, not pink.
-- [ ] **A11, label size, tokens.** `--st-label-size` 0.65rem to 0.6875rem; `--st-metadata-density-label-size` 0.55rem to 0.6875rem. Check card footers and IndexCell at 320px width for wrapping.
-- [ ] **A15, documentation, docs.** Tactical Guide: pink-500 is `#FF247D`, brand-secondary is maroon, target-size rule states WCAG 2.2 AA 24×24px with 44px as the house target for primary actions (chips exempt), and the Deep Pink Rule in token terms. `theme.pink-moon.css` comment: neutral-500 is `#6C6C6F`. `colors_and_type.css`: `--st-label-color` default neutral-500; card titles are UI sans.
+"Before" values were read from the repo on 2026-10-10. "After" values are the 2026-10-10 decisions in the v2 audit. Where the audit gives a ratio but not a token, the token choice is an activation audit item.
+
+### 1. A3: glossary term (layer: tokens and component CSS)
+
+Component: `apps/web/src/components/GlossaryTermAnnotation.jsx`. SUG-211 Option E set pink text on lime; this reverses it.
+
+| Token | Theme | Before | After |
+|---|---|---|---|
+| `--st-glossary-annotation-bg` | light | `color-mix(in srgb, var(--st-color-lime-200) 45%, transparent)` | `var(--st-color-lime-200)` `#e8ff8a`, solid |
+| `--st-glossary-annotation-bg` | dark | `var(--st-color-lime-200)`, solid | lime at 18% over the card |
+| `--st-glossary-annotation-color` (text) | light | `var(--st-color-pink)` (3.25:1) | `var(--st-color-neutral-700)` `#4a4a4d` (8.03:1) |
+| `--st-glossary-annotation-color` (text) | dark | `var(--st-color-pink)` (3.29:1) | `var(--st-color-lime-200)` (9.68:1) |
+| Underline rule | light | pink, same token as text | 2px dotted, `var(--st-color-neutral-700)` |
+| Underline rule | dark | pink | 2px dotted, `var(--st-color-lime-200)` |
+| New: `--st-glossary-decoration-color`, `-style`, `-thickness` | both | do not exist | colour per theme as above, `dotted`, `2px` |
+
+### 2. A6: prose links (layer: component CSS)
+
+| Property | Before | After |
+|---|---|---|
+| Base `a` | `text-decoration: none`, underline on hover only | prose scopes only (portable text, article and node bodies): `text-decoration: underline` |
+| Underline colour | n/a | `var(--st-color-pink)`, 1px |
+| `--st-link-underline-offset` | `2px`, read by nothing | `3px`, read by the prose link rule |
+| Nav and card links | bare | bare, unchanged |
+| Text colour | pink (fixed in ST-150) | `--st-color-link-default`, unchanged by this epic |
+
+### 3. A8: glossary and citation semantics (layer: frontend)
+
+| Element | Before | After |
+|---|---|---|
+| Glossary trigger | recorded at activation (the auditor never saw the source) | `<button type="button">` (or `<a>` if it navigates) with `aria-expanded` and `aria-controls` |
+| Glossary popover | recorded at activation | Esc closes it without moving focus, hoverable, persists until dismissed (WCAG 1.4.13) |
+| Term on its own entry page | recorded at activation | wrapped in `<dfn>` |
+| Citation marker | reads as "[1]" to a screen reader | `aria-label="Citation N"`, `role="doc-noteref"`, `id="cite-ref-N"` |
+| Citation note | no back-link | `role="doc-endnote"` inside `role="doc-endnotes"`; back-link `role="doc-backlink"`, `aria-label="Back to citation N"`, `href="#cite-ref-N"` |
+| Marker and index size | 0.72rem | 0.75rem minimum |
+
+### 4. A9, A4 status and A13: one status map (layer: tokens and component CSS)
+
+Decision: a grey chip and a pink dot for every status; ring dot for draft, solid dot for in progress; the uppercase word carries the state; crimson leaves draft. `--st-chip-dot-*` aliases `--st-status-*`. This replaces the per-status foreground fixes (A4) and the violet dot fix (A13), so no `amber-900` or `orange-800` is added.
+
+Status chip foreground, light theme (`theme.pink-moon.css`; draft contrast 2.71, designing 3.77, testing 4.15 are the failures):
+
+| Status | Before, light | After |
+|---|---|---|
+| draft | `var(--st-color-error)` crimson `#ff4757` | grey chip text (ring dot) |
+| active, implemented, exploring, operationalized, developing | `var(--st-color-seafoam-800)` | grey chip text |
+| evergreen | `var(--st-color-lime-800)` | grey chip text |
+| validated | `var(--st-color-maroon)` | grey chip text |
+| archived, deprecated | `var(--st-color-softgrey-700)` | grey chip text |
+| dreaming | `var(--st-color-violet-600)` | grey chip text |
+| designing | `var(--st-color-amber-700)` `#92700c` | grey chip text |
+| testing, iterating | `var(--st-color-orange)`, `var(--st-color-sky)` (base) | grey chip text |
+
+Dark theme: the base values in `tokens.css` apply (draft crimson, validated pink, designing amber, and so on); all become the same grey chip text. Audit figures: status text 18.83:1 light, 13.57:1 dark.
+
+Dots (`--st-chip-dot-*`):
+
+| Dot | Before, light | Before, dark | After, both themes |
+|---|---|---|---|
+| evergreen | `lime-600` | `lime` | pink |
+| validated | `seafoam-700` | `seafoam` | pink |
+| exploring | `amber-700` | `amber` | pink |
+| deprecated | `neutral-500` | `softgrey-500` | pink |
+| active | `pink` | `pink` | pink |
+| draft | `violet` | `violet` | pink, ring (outline only) |
+| operationalized | `seafoam` | `seafoam` | pink |
+
+Pink dot contrast: 3.47:1 light (non-text), 4.82:1 dark. Activation audit: read the status values from the schema `options.list`; pick the grey chip text and border tokens (the audit gives ratios only).
+
+### 5. Card titles and eyebrows (decided 2026-10-10; layer: component CSS)
+
+| Element | Before | After |
+|---|---|---|
+| Card H3 title at 1.75rem (28px) | text colour | `var(--st-color-pink)`: large text, 3.47:1 light, 4.82:1 dark |
+| Card title under 24px regular or 18.66px bold (default is `--st-card-title-size: var(--st-font-size-lg)`) | text colour | text colour, unchanged |
+| Card eyebrow (`Card.module.css:229, 395, 508, 515`) | `var(--st-color-text-eyebrow)`, pink | text colour, so the card eyebrows no longer use the signal token |
+
+The global `--st-color-text-eyebrow` token becomes `--st-color-text-signal` in ST-150; this epic stops the card rules from using it.
+
+### 6. A11: label size floor (layer: tokens)
+
+| Token | Before | After |
+|---|---|---|
+| `--st-label-size` | `0.65rem` (10.4px) | `0.6875rem` (11px) |
+| `--st-metadata-density-label-size` | `0.55rem` (8.8px) | `0.6875rem` (11px) |
+
+Check card footers and IndexCell for wrapping at 320px.
+
+### 7. A15: documentation (layer: docs)
+
+| Document | Before | After |
+|---|---|---|
+| Tactical Guide | pink-500 listed as `#FF69B4`; brand-secondary listed as seafoam; 44px touch-target rule for all targets | pink-500 `#FF247D`; brand-secondary maroon; WCAG 2.2 AA minimum 24x24px, 44px as the house target for primary actions only, chips exempt at 24 to 28px; Deep Pink Rule in token terms (small pink text on light uses `--st-color-text-signal`, never `--st-color-pink`) |
+| `theme.pink-moon.css` comments (`--st-color-text-muted`, `--st-label-color`) | `#7A7A7D` | `#6C6C6F` |
+| `colors_and_type.css` | `--st-label-color` default charcoal-400 (3.17:1); card titles described as narrative | default neutral-500; card titles UI sans |
+| Base `--st-label-color` in `tokens.json` | `var(--st-color-charcoal-400)` | `var(--st-color-neutral-500)` |
+
+Neither the Tactical Guide nor `colors_and_type.css` is tracked in this repo. Activation audit: locate both (Storybook docs, Drive or elsewhere) and confirm Bex wants them edited there.
 
 ## Phases
 
@@ -39,11 +130,12 @@ Single phase.
 
 - [ ] Prose sample containing link, glossary term, citation and inline code: each is distinguishable under CSS `filter: grayscale(1)`, both themes.
 - [ ] Glossary text against its fill: 8.03:1 or more light, 9.68:1 or more dark. Dotted rule against fill 3:1 or more.
+- [ ] Card H3 title at 28px is pink; no card title under 24px is pink; card eyebrows render in text colour, both themes.
 - [ ] Glossary trigger is reachable by Tab, opens on Enter and Space, closes on Esc with focus returned to the trigger, and the popover stays open when the pointer moves onto it.
 - [ ] VoiceOver announces a citation marker as "Citation 1, link", and the back-link returns focus to the marker.
 - [ ] No `--st-chip-dot-*` token holds a literal value; all alias `--st-status-*`.
 - [ ] Labels render at 11px with no new wrapping in card footers at 320px.
-- [ ] `grep -r "FF69B4" docs/` finds nothing.
+- [ ] The Tactical Guide contains no `#FF69B4`, checked by `grep` on the located file.
 - [ ] `pnpm validate:tokens --strict-colors` and `pnpm test:smoke` pass; one article with citations and glossary terms and one knowledge-graph node with a status chip render in both themes.
 
 ## Human QA Walkthrough — example local pages
