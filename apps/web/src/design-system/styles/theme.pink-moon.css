@@ -49,6 +49,7 @@
   --st-color-text-secondary:    var(--st-color-neutral-600);
   --st-color-text-muted:        var(--st-color-neutral-500);      /* #7A7A7D — muted, no blue cast */
   --st-color-text-brand:        var(--st-color-maroon);           /* Deep Pink Rule — WCAG AA */
+  --st-color-text-signal:       var(--st-color-maroon);           /* ST-150: pink-as-text on light = maroon-600 (5.47:1 on canvas) */
 
   /* ── Borders — neutral, no blue cast ─────────────────── */
   --st-color-border-default:    var(--st-color-neutral-200);      /* #E4E4E5 — card borders */
@@ -77,25 +78,25 @@
   --st-table-border:                  var(--st-color-softgrey-200);
   --st-table-shadow:                  var(--st-shadow-table-light);
   --st-table-card-shadow:             var(--st-shadow-table-card-light);
-  /* tone="accent" — pink header */
-  --st-table-header-bg-accent:        var(--st-color-pink);
-  --st-table-header-color-accent:     var(--st-color-white);
+  /* tone="accent" — ST-150 option C: neutral-200 header, ink label (15.08:1), 3px pink rule (--st-table-header-border-accent) */
+  --st-table-header-bg-accent:        var(--st-color-neutral-200);
+  --st-table-header-color-accent:     var(--st-color-ink);
   /* tone="subdued" — neutral header (light: neutral-100 solid) */
   --st-table-header-bg-subdued:       var(--st-color-neutral-100);
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   /* row hover */
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
 
-  /* Inline code — SUG-211 Option E: recessive neutral grey, seafoam text, lighter seafoam outline */
-  --st-code-inline-bg:          var(--st-color-softgrey-100);
-  --st-code-inline-color:       var(--st-color-seafoam-800);
-  --st-code-inline-text:        var(--st-color-seafoam-800);
-  --st-code-inline-border:      1px solid var(--st-color-seafoam-300);
+  /* Inline code — ST-150 B1: pale lime box, grey type and outline (7.61:1); one step quieter than the glossary term */
+  --st-code-inline-bg:          var(--st-color-lime-50);
+  --st-code-inline-color:       var(--st-color-neutral-600);
+  --st-code-inline-text:        var(--st-color-neutral-600);
+  --st-code-inline-border:      1px solid var(--st-color-neutral-300);
 
   /* Inline glossary-term annotation trigger — SUG-211 Option E: lime tint + pink (color from token base) */
   --st-glossary-annotation-bg:  color-mix(in srgb, var(--st-color-lime-200) 45%, transparent);
 
-  --st-color-text-eyebrow:      var(--st-color-pink);
+  --st-color-text-eyebrow:      var(--st-color-text-signal);
   --st-color-category-link:     var(--st-color-category-link-light);
   --st-color-footer-divider:    rgba(255, 36, 125, 0.25);
   /* Ledger: card — visible border, no shadow, white surface */
@@ -118,7 +119,7 @@
   --st-margin-outline:  var(--st-color-ink);              /* #0a0f1a — solid ink border */
 
   /* Label tokens — light override */
-  --st-label-color:       var(--st-color-neutral-500);    /* #7A7A7D — neutral, no blue cast */
+  --st-label-color:       var(--st-color-neutral-600);    /* #525252 — ST-150: neutral-500 was 4.12:1 on the neutral-200 label strip, now 6.15:1 */
   --st-label-color-badge: var(--st-color-neutral-600);    /* #525252 — WCAG AA: neutral-400 (#a3a3a3) failed at 2.53:1 */
 
   /* ── Status chips — light overrides ──────────────────── */
@@ -182,7 +183,7 @@
   --st-segmented-bg:        var(--st-color-softgrey-100);
   --st-segmented-active-bg: transparent;
   --st-segmented-fg:        var(--st-color-text-secondary);
-  --st-segmented-active-fg: var(--st-color-brand-primary);
+  --st-segmented-active-fg: var(--st-color-text-signal);
   --st-segmented-border:    var(--st-color-border-default);
 
   /* ── Site graph node/edge colors — light overrides (SUG-81 + SUG-105 + SUG-140) ─ */
@@ -204,15 +205,15 @@
   --st-kg-chip-article-fg:      var(--st-color-seafoam-800);
   --st-kg-chip-article-border:  color-mix(in srgb, var(--st-color-seafoam-500) 35%, transparent);
   --st-kg-chip-case-bg:         color-mix(in srgb, var(--st-color-pink) 8%, transparent);
-  --st-kg-chip-case-fg:         var(--st-color-pink);
+  --st-kg-chip-case-fg:         var(--st-color-text-signal);
   --st-kg-chip-case-border:     color-mix(in srgb, var(--st-color-pink) 35%, transparent);
   --st-kg-chip-node-bg:         var(--st-color-ink);
   --st-kg-chip-node-fg:         var(--st-color-neutral-100);
   --st-kg-chip-node-border:     transparent;
 
-  /* Button ghost tertiary — light theme: signal is brand pink (dark theme keeps base lime) */
-  --st-button-tertiary-border:  var(--st-color-brand-primary);
-  --st-button-tertiary-text:    var(--st-color-brand-primary);
+  /* Button ghost tertiary — light theme: signal is maroon (ST-150; pink text fails on light), dark theme keeps base lime */
+  --st-button-tertiary-border:  var(--st-color-text-signal);
+  --st-button-tertiary-text:    var(--st-color-text-signal);
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -220,6 +221,9 @@
    ══════════════════════════════════════════════════════════ */
 :root[data-theme~="dark-pink-moon"],
 [data-theme~="dark-pink-moon"] {
+
+  /* ST-150: pink is correct as text on dark (5.13:1 on canvas) */
+  --st-color-text-signal:       var(--st-color-pink);
 
   /* Surface — subtle separation on dark canvas */
   --st-color-bg-surface:        rgba(255, 255, 255, 0.06);
@@ -260,7 +264,7 @@
 
   /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
   --st-label-color:       var(--st-color-charcoal-400);
-  --st-label-color-badge: var(--st-color-softgrey-500);
+  --st-label-color-badge: var(--st-color-softgrey-400);   /* ST-150: softgrey-500 was 4.27:1 on midnight-800, now 6.81:1 */
   --st-card-label-bg:     var(--st-color-midnight-800);           /* label cell bg on dark canvas */
 
   /* Chip rule-dot — dark overrides (SUG-88) */
@@ -268,7 +272,7 @@
   --st-chip-fg:             var(--st-color-softgrey-200);
   --st-chip-rubric-bg:      color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800));
   --st-chip-rubric-border:  var(--st-color-pink);
-  --st-chip-rubric-fg:      var(--st-color-pink);
+  --st-chip-rubric-fg:      var(--st-color-pink-300);   /* ST-150: pink-500 was 4.08:1 on the rubric tint, now 6.33:1 */
   --st-chip-dot-evergreen:  var(--st-color-lime);
   --st-chip-dot-validated:  var(--st-color-seafoam);
   --st-chip-dot-exploring:  var(--st-color-amber);
@@ -283,18 +287,17 @@
    * which resolves to rgba(255,255,255,0.10) — a glassmorphism wash — in this dark block.
    * Cascade audit: accent header stays pink (unchanged), subdued header = solid dark surface.
    */
-  --st-table-header-bg-accent:        var(--st-color-pink);           /* unchanged — pink is correct in dark */
-  --st-table-header-color-accent:     var(--st-color-white);
+  --st-table-header-bg-accent:        var(--st-color-midnight-700);   /* ST-150: opaque dark header; white-on-pink was 3.62:1. Pink rule via --st-table-header-border-accent */
+  --st-table-header-color-accent:     var(--st-color-text-default);
   --st-table-header-bg-subdued:       var(--st-color-midnight-700);   /* #1c2240 — opaque, no glassmorphism */
   --st-table-header-color-subdued:    var(--st-color-text-muted);
   --st-table-row-hover-bg:            color-mix(in srgb, var(--st-color-pink) 4%, transparent);
 
-  /* Inline code — SUG-211 Option E: recessive solid midnight (no glassmorphism), seafoam text,
-     darker seafoam outline (recedes against the dark page — opposite direction from light) */
-  --st-code-inline-bg:          var(--st-color-midnight-700);
-  --st-code-inline-color:       var(--st-color-seafoam-500);
-  --st-code-inline-text:        var(--st-color-seafoam-500);
-  --st-code-inline-border:      1px solid var(--st-color-seafoam-700);
+  /* Inline code — ST-150 B1: lime at 8%, rule outline, softgrey-200 type (11.32:1) */
+  --st-code-inline-bg:          color-mix(in srgb, var(--st-color-lime) 8%, transparent);
+  --st-code-inline-color:       var(--st-color-softgrey-200);
+  --st-code-inline-text:        var(--st-color-softgrey-200);
+  --st-code-inline-border:      1px solid var(--st-color-white-15);
 
   /* Inline glossary-term annotation trigger — SUG-211 Option E: solid lime-200 (not a tint,
      so it reads on the dark canvas the way light-mode code always got a solid fill) */

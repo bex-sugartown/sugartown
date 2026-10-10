@@ -126,7 +126,7 @@
 .toneAccent thead th {
   background: var(--st-table-header-bg-accent);
   color: var(--st-table-header-color-accent);
-  border-bottom: 0;
+  border-bottom: var(--st-table-header-border-accent);
 }
 
 /* ── Tone: subdued ──────────────────────────────────────────────────────────── */

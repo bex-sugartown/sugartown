@@ -117,14 +117,18 @@ The audit specifies the light treatment only. The dark values above are my propo
 
 ### 10. A10: reduced motion (layer: component CSS)
 
-Before: no global `prefers-reduced-motion` rule. Only `ScoreRing.module.css` has one. After: one `@media (prefers-reduced-motion: reduce)` block in `globals.css` that removes these, found by `grep` on 2026-10-10:
+Before: no global `prefers-reduced-motion` rule. Only `ScoreRing.module.css` has one. After (as built): `globals.css` shortens every transition and animation under `reduce`, and each hover transform is removed in a `reduce` block beside the rule that sets it (CSS modules have hashed class names, so a single global block cannot reach them).
 
 | Motion | File | Before | After under `reduce` |
 |---|---|---|---|
-| Card hover lift | `Card.module.css:36` | `translateY(var(--st-card-hover-translate-y))` | none |
-| Chip hover lift | `Chip.module.css:58` | `translateY(-1px)` | none |
-| Duotone image zoom | `utilities.css:27`, `Card.module.css:86`, `Media.module.css:126`, `PageSections.module.css:38` (web) | `scale(1.05)` | none |
-| Button baseline rule | `Button.module.css` (translate, SUG-116) | translate on hover | none |
+| Chip hover lift | `Chip.module.css` | `translateY(-1px)` | none |
+| Card thumbnail zoom | `Card.module.css` | `scale(1.05)` | none |
+| Card hover lift | `Card.module.css` | `translateY(var(--st-card-hover-translate-y))`, already `0px` in both Pink Moon themes | none (also forced) |
+| Media hover zoom | `Media.module.css` | `scale(1.05)` | none |
+| Duotone image zoom | `utilities.css` (both copies) | `scale(1.05)` | none |
+| Hero image zoom | `apps/web/src/components/PageSections.module.css` | `scale(1.05)` | none |
+
+Button has no hover translate: SUG-174 removed it.
 
 ## Phases
 
@@ -136,7 +140,7 @@ Single phase.
 - [ ] `pnpm validate:tokens --strict-colors` passes with no new warnings.
 - [ ] Computed contrast (text against its own resolved background) meets or beats the v2 audit figures: link, eyebrow, citation on light canvas 5.47; primary button label on pink-600 4.80 (both themes); accent header ink on neutral-200 15.08; five light chip presets 5.24 or more; label on card strip 6.15; dark badge label 6.81; featured tag rubric dark 6.33; inline code 7.61 light, 11.32 dark.
 - [ ] No `--st-color-pink` is used as a text colour on the light theme for text under 24px, found by `grep` of the touched token files.
-- [ ] With OS reduced motion on, card and button hovers do not translate and the duotone does not scale.
+- [ ] With OS reduced motion on, chip and card hovers do not translate and the duotone, card, media and hero images do not scale.
 - [ ] Inline `code` renders with zero radius in both themes.
 - [ ] Storybook: Button (primary, secondary, tertiary, compact), Chip (all presets, selected), table accent header, card label strip and inline code each checked in both themes.
 - [ ] `pnpm test:smoke` passes. One article and one knowledge-graph node render in both themes with no change beyond the listed colours.

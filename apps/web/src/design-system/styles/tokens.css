@@ -567,6 +567,8 @@
   --st-color-button-rule-primary: var(--st-color-pink-700);
   --st-color-button-rule-secondary: var(--st-color-lime-500);
   --st-color-button-rule-tertiary: var(--st-color-neutral-300);
+  --st-button-bg-primary: var(--st-color-pink-600);
+  --st-button-bg-primary-hover: var(--st-color-pink-700);
   --st-color-brand-primary: var(--st-color-pink);
   --st-color-brand-secondary: var(--st-color-maroon);
   --st-color-accent: var(--st-color-pink);
@@ -603,7 +605,6 @@
   --st-card-bg-alt: var(--st-color-bg-surface-alt);
   --st-card-text: var(--st-color-text-default);
   --st-card-text-muted: var(--st-color-text-muted);
-  --st-color-text-eyebrow: var(--st-color-pink);
   --st-callout-banner-bg: var(--st-card-label-bg);
   --st-pill-bg: var(--st-color-bg-subtle);
   --st-tag-bg: var(--st-color-bg-subtle);
@@ -624,8 +625,6 @@
   --st-code-bg: var(--st-color-midnight);
   --st-glossary-annotation-color: var(--st-color-pink); /** Inline glossary-term annotation trigger text + underline (SUG-211 Option E). Pink in both themes. */
   --st-citation-color: var(--st-color-text-secondary);
-  --st-citation-index-color: var(--st-color-pink);
-  --st-citation-marker-color: var(--st-color-pink);
   --st-media-radius: var(--st-radius-media);
   --st-media-duotone-pink: var(--st-color-pink);
   --st-media-duotone-seafoam: var(--st-color-seafoam);
@@ -644,8 +643,11 @@
   --st-pri-high: var(--st-color-pink);
   --st-breadcrumb-link-color: var(--st-color-text-muted);
   --st-breadcrumb-sep-color: var(--st-color-text-muted);
-  --st-color-link-default: var(--st-color-brand-primary);
+  --st-color-text-signal: var(--st-color-pink);
+  --st-table-header-border-accent: 3px solid var(--st-color-pink);
+  --st-color-link-default: var(--st-color-text-signal);
   --st-color-link-hover: var(--st-color-brand-secondary);
+  --st-color-text-eyebrow: var(--st-color-text-signal);
   --st-pill-text: var(--st-color-text-brand);
   --st-tag-text: var(--st-color-text-brand);
   --st-button-bg: var(--st-color-accent-primary);
@@ -656,6 +658,8 @@
   --st-tile-value-color: var(--st-stat-tile-value-color);
   --st-tile-sub-color: var(--st-stat-tile-sub-color);
   --st-blockquote-border-color: var(--st-color-brand-primary);
+  --st-citation-index-color: var(--st-color-text-signal);
+  --st-citation-marker-color: var(--st-color-text-signal);
   --st-graph-node-item: var(--st-color-brand-primary);
   --st-graph-bg: var(--st-color-bg-canvas);
   --st-color-bg-void: var(--st-color-bg-midnight);

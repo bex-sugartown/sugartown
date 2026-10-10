@@ -126,6 +126,13 @@
   transform: scale(1.05);
 }
 
+/* ST-150 A10: no motion on hover for visitors who ask for less */
+@media (prefers-reduced-motion: reduce) {
+  .hoverScale:hover .image {
+    transform: none;
+  }
+}
+
 /* ── Bleed / full-width — zero radius, no margin ─────────────────────────── */
 .bleed {
   margin: 0;
