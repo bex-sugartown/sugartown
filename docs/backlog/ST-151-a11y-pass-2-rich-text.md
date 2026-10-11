@@ -148,6 +148,7 @@ Single phase.
 - New tokens: `--st-glossary-annotation-fg` and `--st-glossary-annotation-bg-hover` (pink-100 light, 24% pink dark). The lime hover is gone.
 - Glossary: the wrapper no longer has `tabIndex` (it gave two tab stops per term); the link carries `aria-expanded` and `aria-controls`; the popover has an id. `<dfn>` now wraps the term in the glossary term page heading (the component already used `<dfn>` for a term's first occurrence in prose).
 - Citation: `role="doc-noteref"`, `id="cite-ref-N"` and the label moved from the `<sup>` onto the link; notes are `role="doc-endnote"` with a `doc-backlink`. If one citation index is referenced twice in a page, the `cite-ref-N` id repeats; not seen in the current content.
+- Glossary popover scroll behaviour changed (found in Visual QA): it used to close on any scroll, which closed it when Tab scrolled the next term into view, so only the first term opened by keyboard. It now follows its term while scrolling and closes only when the term leaves the screen.
 - The Tactical Guide is `docs/briefs/design-system/PROJ-003-design-system-ruleset.md`; `colors_and_type.css` is still not in this repo (step 8 item not done).
 - At 320px the card list is wider than the screen with or without this change (164 elements, same count at the old label size), and no footer label wraps.
 

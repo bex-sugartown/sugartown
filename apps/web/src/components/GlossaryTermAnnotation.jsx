@@ -30,10 +30,21 @@ export default function GlossaryTermAnnotation({ value, children }) {
     return () => window.removeEventListener('keydown', onKeyDown)
   }, [shown])
 
-  // Close on scroll so fixed popover doesn't drift from its term
+  // Keep the fixed popover attached to its term while the page scrolls. It used to close on any
+  // scroll, which also closed it when Tab scrolled the next term into view (ST-151); it now
+  // follows the term and closes only once the term has left the viewport.
   useEffect(() => {
     if (!shown) return
-    const onScroll = () => setShown(false)
+    const onScroll = () => {
+      const el = termElRef.current
+      if (!el) return
+      const rect = el.getBoundingClientRect()
+      if (rect.bottom < 0 || rect.top > window.innerHeight) {
+        setShown(false)
+        return
+      }
+      setPopoverPos({ left: rect.left + rect.width / 2, top: rect.top })
+    }
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => window.removeEventListener('scroll', onScroll)
   }, [shown])
