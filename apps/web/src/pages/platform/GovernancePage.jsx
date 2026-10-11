@@ -1,11 +1,14 @@
 import { useRef } from 'react' // roadmapRef kept for future scroll-spy use
+import { Link } from 'react-router-dom'
 import SeoHead from '../../components/SeoHead'
 import usePlatformHero from '../../components/PlatformLayout/PlatformHero'
 import StatCard from '../../components/StatCard'
 import { Table, TableWrap, Swatch, Chip, Callout, Grid, SectionLabel } from '@sugartown/design-system'
 import { MermaidDiagram } from '../../components/PageSections'
 import CwvSnapshot from '../../components/CwvSnapshot'
-import { PLATFORM_ROUTES, TRUST_LINKS } from '../../lib/routes'
+import { PLATFORM_ROUTES, TRUST_LINKS, getCanonicalPath } from '../../lib/routes'
+import { useSanityList } from '../../lib/useSanityDoc'
+import { releaseNoteSlugsQuery } from '../../lib/queries'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
 import pageSectionStyles from '../../components/PageSections.module.css'
@@ -17,14 +20,22 @@ function KindBadge({ kind }) {
 }
 
 // ── Release table ─────────────────────────────────────────
-const RELEASE_COLUMNS = [
+// Version links to the release note when one is published, else to the changelog.
+const releaseColumns = (slugByVersion) => [
   {
     key: 'version', label: 'Version', width: '110px',
-    render: (val) => (
-      <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.releaseVersionLink}>
-        {val}
-      </a>
-    ),
+    render: (val) => {
+      const slug = slugByVersion[val]
+      return slug ? (
+        <Link to={getCanonicalPath({ docType: 'releaseNote', slug })} className={styles.releaseVersionLink}>
+          {val}
+        </Link>
+      ) : (
+        <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.releaseVersionLink}>
+          {val}
+        </a>
+      )
+    },
   },
   { key: 'date',       label: 'Date',        width: '110px', render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
   { key: 'kind',       label: 'Kind',        width: '80px',  render: (val) => <KindBadge kind={val?.toLowerCase()} /> },
@@ -206,6 +217,8 @@ function RoadmapLane({ label, epics }) {
 
 export default function GovernancePage() {
   const roadmapRef = useRef(null)
+  const { data: releaseNotes } = useSanityList(releaseNoteSlugsQuery)
+  const slugByVersion = Object.fromEntries((releaseNotes ?? []).map((n) => [n.version, n.slug]))
   usePlatformHero({
     title: 'Governance',
     subtitle: 'Release cadence, roadmap, and process conventions. Every epic is tracked on GitHub, every release is versioned, every process decision is documented.',
@@ -237,7 +250,7 @@ export default function GovernancePage() {
             title="Latest shipped versions"
             kicker="Last 5"
           />
-          <TableWrap><Table tone="subdued" columns={RELEASE_COLUMNS} rows={RECENT_RELEASES} /></TableWrap>
+          <TableWrap><Table tone="subdued" columns={releaseColumns(slugByVersion)} rows={RECENT_RELEASES} /></TableWrap>
           <div className={styles.trustLinks}>
             <a href={TRUST_LINKS.changelog} className={styles.trustLink} target="_blank" rel="noreferrer">Full changelog</a>
             <a href={TRUST_LINKS.commits}   className={styles.trustLink} target="_blank" rel="noreferrer">Commit log</a>

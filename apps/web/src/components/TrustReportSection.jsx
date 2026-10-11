@@ -1,5 +1,6 @@
-import { useSanityDoc } from '../lib/useSanityDoc'
-import { latestArticleQuery, latestNodeQuery, releaseNoteByVersionQuery } from '../lib/queries'
+import { Link } from 'react-router-dom'
+import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
+import { latestArticleQuery, latestNodeQuery, releaseNoteByVersionQuery, releaseNoteSlugsQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { Grid } from '../design-system'
 import stats from '../generated/stats.json'
@@ -31,21 +32,24 @@ function KindBadge({ kind }) {
 
 // ── Recent Releases Report ──────────────────────────────────────────────────
 
-const RELEASE_COLUMNS = [
+// Version links to the release note when one is published, else to the changelog.
+const releaseColumns = (slugByVersion) => [
   {
     key:   'version',
     label: 'Version',
     width: '110px',
-    render: (val) => (
-      <a
-        className={styles.versionLink}
-        href={`${TRUST_LINKS.changelog}`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        {val}
-      </a>
-    ),
+    render: (val) => {
+      const slug = slugByVersion[val]
+      return slug ? (
+        <Link className={styles.versionLink} to={getCanonicalPath({ docType: 'releaseNote', slug })}>
+          {val}
+        </Link>
+      ) : (
+        <a className={styles.versionLink} href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer">
+          {val}
+        </a>
+      )
+    },
   },
   { key: 'date',       label: 'Date',        width: '110px',
     render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
@@ -58,13 +62,19 @@ const RELEASE_COLUMNS = [
   { key: 'descriptor', label: 'Description' },
 ]
 
+function useReleaseColumns() {
+  const { data } = useSanityList(releaseNoteSlugsQuery)
+  return releaseColumns(Object.fromEntries((data ?? []).map((n) => [n.version, n.slug])))
+}
+
 function RecentReleasesReport() {
+  const columns = useReleaseColumns()
   const releases = (stats.release?.latestN ?? []).filter(r => r.kind !== 'PATCH')
 
   return (
     <div className={styles.reportWrap}>
       <TableWrap>
-        <Table tone="subdued" columns={RELEASE_COLUMNS} rows={releases} />
+        <Table tone="subdued" columns={columns} rows={releases} />
       </TableWrap>
       <div className={styles.reportFooter}>
         <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.footerLink}>
@@ -78,12 +88,13 @@ function RecentReleasesReport() {
 // ── Mini-releases Report ────────────────────────────────────────────────────
 
 function MiniReleasesReport() {
+  const columns = useReleaseColumns()
   const patches = stats.release?.latestPatches ?? []
 
   return (
     <div className={styles.reportWrap}>
       <TableWrap>
-        <Table tone="subdued" columns={RELEASE_COLUMNS} rows={patches} />
+        <Table tone="subdued" columns={columns} rows={patches} />
       </TableWrap>
       <div className={styles.reportFooter}>
         <a href={TRUST_LINKS.changelog} target="_blank" rel="noopener noreferrer" className={styles.footerLink}>

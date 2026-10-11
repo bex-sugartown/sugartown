@@ -728,6 +728,14 @@ export const releaseNoteByVersionQuery = `
   }
 `
 
+/** Published release notes keyed by version, for linking release tables to /releases/<slug>. */
+export const releaseNoteSlugsQuery = `
+  *[_type == "releaseNote" && defined(slug.current) && defined(version)] {
+    version,
+    "slug": slug.current
+  }
+`
+
 // ---- PAGES ----
 
 export const pageBySlugQuery = `
