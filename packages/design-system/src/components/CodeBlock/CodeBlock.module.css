@@ -155,11 +155,13 @@
 .inline {
   background-color: var(--st-code-inline-bg);
   color: var(--st-code-inline-color);
-  padding: 0.2em 0.5em;
-  border-radius: 4px;
+  padding: var(--st-code-inline-padding);       /* ST-150: read the tokens, same as globals.css */
+  border-radius: var(--st-radius-code);
   border: var(--st-code-inline-border);
   font-family: var(--st-font-family-mono, Menlo, Monaco, Consolas, "Courier New", monospace);
-  font-size: 0.85em;
+  font-size: var(--st-code-inline-font-size);
+  overflow-wrap: anywhere;
+  box-decoration-break: clone;
 }
 
 /* ══════════════════════════════════════════════════════════════════════════════

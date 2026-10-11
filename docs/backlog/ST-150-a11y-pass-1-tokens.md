@@ -148,6 +148,8 @@ Only the hard-coded box values change here. Colours change in Pass 2.
 | border-radius | `4px` | `var(--st-radius-code)` (0) |
 | white-space | not set | not `nowrap` (as built): `overflow-wrap: anywhere` and `box-decoration-break: clone`, because `nowrap` pushed long commands past the right edge at 320px (verified 2026-10-11) |
 
+The DS `CodeBlock` component repeats the same hard-coded box values in its `.inline` class (`CodeBlock.module.css`: `0.2em 0.5em`, `4px`, `0.85em`). The handoff did not list it; it takes the same change (found 2026-10-11 in Storybook).
+
 ### 7. Reduced motion (`globals.css`, append)
 
 ```css
