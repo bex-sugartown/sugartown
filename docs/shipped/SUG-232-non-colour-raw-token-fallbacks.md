@@ -36,11 +36,11 @@ After this epic, any `var(--st-*, <raw-value>)` where the fallback is not itself
 
 ## Scope
 
-- [ ] Extend `apps/web/scripts/validate-tokens.js` to flag non-colour raw fallbacks, reusing the existing `--strict-colors` reporting shape — layer: tooling
-- [ ] Decide whether the new check runs blocking or warning-only during burndown, and record the decision here — layer: tooling
-- [ ] Burn down the 23 web occurrences — layer: frontend
-- [ ] Burn down the 32 package occurrences — layer: design-system
-- [ ] Confirm `validate:style-mirror` still passes after both burndowns (several affected files are mirrored pairs, so they must be fixed in lockstep) — layer: tooling
+- [ ] Widen the rule in `.claude/rules/tokens.md` (gated edit): diff proposed in the #74 evidence comment, awaiting approval
+- [x] Extend `apps/web/scripts/validate-tokens.js` to non-colour fallbacks across every CSS file it scans, blocking in the default run
+- [x] Add a probe to `scripts/validate-liveness-probes.js` (`validate:tokens (raw fallback)`)
+- [x] Remove all 144 (re-measured 2026-10-11: 144), including the self-referencing `--st-table-caption-height` declaration
+- [ ] Chromatic at ship (owed)
 
 ## Phases
 
@@ -50,10 +50,10 @@ After this epic, any `var(--st-*, <raw-value>)` where the fallback is not itself
 
 ## Acceptance criteria
 
-- [ ] `validate:tokens` flags `var(--st-space-4, 1rem)`-style fallbacks, verified against a deliberately-added test case that is removed before commit
-- [ ] Zero non-colour raw fallbacks remain in `apps/web/src/design-system/components/` and `packages/design-system/src/components/`
-- [ ] The check is blocking (not warning) at close-out
-- [ ] `validate:style-mirror` passes — no mirrored pair left half-fixed
+- [x] `validate:tokens` flags `var(--st-space-4, 1rem)`-style fallbacks, verified against a deliberately-added test case that is removed before commit
+- [x] Zero non-colour raw fallbacks remain in `apps/web/src/design-system/components/` and `packages/design-system/src/components/`
+- [x] The check is blocking (not warning) at close-out
+- [x] `validate:style-mirror` passes — no mirrored pair left half-fixed
 - [ ] No computed-value change: spot-check at least 3 affected components in the browser before and after, since a removed fallback that was actually load-bearing would silently change layout
 
 ## Human QA Walkthrough — example local pages
@@ -87,3 +87,33 @@ After this epic, any `var(--st-*, <raw-value>)` where the fallback is not itself
 - **Surfaced by:** SUG-217 activation audit — `docs/shipped/SUG-217-reconcile-9-smaller-component-css-mirrors.md`
 - **Same gap pattern:** SUG-214 (CSS-only mirror validator) → SUG-231 (the bugs it hid)
 - **Epic template:** `docs/epic-template.md`
+
+## Close-out review
+
+### Acceptance criteria
+
+- Validator flags `var(--st-space-4, 1rem)`: ticked. Cloud run added a deliberate test case, both modes exit 1 with `Found 1 raw token fallback(s)`, case removed before commit.
+- Zero raw fallbacks remain: ticked. Final grep over `apps` and `packages` returns 0 matches (re-run locally 2026-10-11 by `pnpm validate:tokens`: no raw fallbacks found).
+- Check is blocking: ticked. It runs in the default `validate:tokens`.
+- `validate:style-mirror` passes: ticked, run locally after the merge.
+- No computed-value change, spot-check in a browser: not done. Cloud has no browser. Moved to Post-ship checks and to Chromatic at ship.
+
+### What didn't work
+
+none. The backlog doc's counts (55) and paths were stale; the issue body carried the current scope (144).
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Widen `.claude/rules/tokens.md` scope sentence and validator description | workflow-docs | awaiting approval under the Instruction & Rule File Write Gate, diff in the #74 evidence comment |
+| Chromatic VRT pass on the 24 changed CSS files | implementation | declined: Chromatic is already a `/ship` step (CLAUDE.md close-out step 4), no separate issue |
+
+### Friction line
+
+The backlog doc still described the 55-occurrence scope after the issue body moved to 144, so the doc could not be used as the work record.
+
+## Post-ship checks
+
+- Open a Table with a caption on the live site. Removing the self-referencing `--st-table-caption-height` declaration may move the sticky header offset (from 0px to 43px). One-line correction if it looks wrong.
+- Chromatic shows no unexpected diffs on pages using Accordion, Card, CodeBlock, Media, SegmentedControl, Drawer and ImageLightbox.
