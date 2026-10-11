@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-151 — Pink Moon accessibility Pass 2: rich text in pink, and semantics
 **Issue:** [#151](https://github.com/bex-sugartown/sugartown/issues/151)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟣 Soon
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -172,3 +172,45 @@ Single phase.
 - **Handoff:** `docs/briefs/design-system/WCAG audit 26-10-10/handoff/EPIC-XXXX-a11y-pass-2-rich-text.md`
 - **Also:** #51, #50; SUG-211 (superseded by this epic)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+<!-- Chromatic: pending (deferred to the ship step; ships with ST-150) -->
+
+### Acceptance criteria
+
+- [x] `pnpm validate:tokens:strict` passes (2026-10-11).
+- [x] Four marks distinguishable in grayscale, both themes: Bex checked with the Mac Grayscale colour filter (checklist item 11).
+- [x] Inline code contrast: maroon on soft grey 5.47 light, pink-300 on midnight-700 6.66 dark (recomputed from token values).
+- [x] Glossary text on fill: ink on pink-50 17.38 light, white on the 14% pink wash 14.53 dark (recomputed).
+- [x] No `lime` or `seafoam` in `--st-code-inline-*` or `--st-glossary-*` in `tokens.css` (grep count 0).
+- [x] Glossary trigger: Tab reaches it and opens the popover, Esc closes it with focus kept, and the popover stays open while the pointer is on the term or the popover. Tested by real Tab presses on two terms after the scroll fix; Bex approved items 4 to 6.
+- [ ] VoiceOver announces markers as "Citation 1, link" and the back-link returns focus: not tested. The label and roles are in the markup (read back with `getAttribute` in the browser). Moved to Post-ship checks.
+- [x] Labels compute to 11px (`--st-label-size` reads 0.6875rem; compact card labels 11px); no footer label wraps at 320px.
+- [x] Docs: the Tactical Guide (`PROJ-003-design-system-ruleset.md`) has no `#FF69B4`.
+- [x] `pnpm test:smoke`: 5 of 5 pass. A node page with citations, glossary terms and inline code was checked in both themes.
+
+### What didn't work
+
+- The glossary popover closed on any page scroll, so Tab to the second term opened nothing. My first test focused one term only. Bex found it in Visual QA; fixed in `94e498f0`.
+- The handoff's "prose link" row covered one rule, but links are underlined in six places; I found the rest by checking computed styles on a real article.
+- `colors_and_type.css` is not in this repo, so that part of the docs resync was not done.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Locate `colors_and_type.css` and apply the A15 doc changes | workflow-docs | #152 (comment) |
+| Duplicate `cite-ref-N` id if one citation index is referenced twice | implementation | #152 (comment) |
+| VoiceOver check of citation markers and back-link | person | declined as an issue: a person-only check, listed under Post-ship checks |
+| Test every keyboard-opened popover, not only the first, when verifying keyboard behaviour | workflow-docs | declined: one-off, recorded in this doc |
+
+### Friction line
+
+The glossary popover scroll bug reached Visual QA because my keyboard test covered only the first term.
+
+## Post-ship checks
+
+- [ ] VoiceOver reads a citation marker as "Citation 1, link" and the back-arrow returns focus to the marker: person: Cmd+F5, then Tab to a marker on a node page.
+- [ ] Chromatic review approved for Card, Citation, CodeBlock and glossary stories: person: approve in Chromatic.
+- [ ] Production article: body links are maroon (light) or pink (dark) with a thin pink underline, and glossary terms show the pink wash: person: open an article in both themes.

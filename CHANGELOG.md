@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #151: inline code is maroon (light) and pink (dark), glossary terms are ink on a pale pink fill with a pink dotted underline, body links carry a thin pink underline, each glossary term is one tab stop that opens its popover, and citation markers and notes are announced as citations with a back-link (smoke 5/5 locally; VoiceOver and Chromatic review owed at ship, ships with #150).
 - #150: pink is the one hot colour: small pink text on light is maroon, the primary button and accent table header use pink-600 with white labels, chips and the featured tag are neutral with a pink hover, status dots are pink with draft as a ring, and Storybook controls now work on Table, Chip, SegmentedControl and Citation (smoke 5/5 locally; Chromatic review owed at ship, ships with #151).
 - #146: the cookie consent banner is white with a strong edge in light theme and a brighter edge in dark, no longer covers the footer's version and toolchain rows, and Callout banner text sits centred on its row (smoke 5/5 locally; Chromatic review owed at ship) (#146).
 - #145: a measurable `/code` landing page and a consent-guarded `cta_click` GA4 event from every CMS button, with `/github` redirecting to it (`cta_label` and `cta_style` values seen in GA4 2026-10-07; Explore report check owed).
