@@ -208,7 +208,7 @@ export default function GlossaryTermPage() {
               }
               title={
                 <>
-                  <dfn>{term.term}</dfn>
+                  <dfn className={styles.headingTerm}>{term.term}</dfn>
                   {term.abbreviation && (
                     <Chip
                       variant="badge"

@@ -104,6 +104,11 @@
 }
 
 /* Neutral abbreviation Chip inside the H1 — explicit gap from heading text */
+/* The page title is a <dfn> (ST-151); browsers italicise <dfn> by default */
+.headingTerm {
+  font-style: inherit;
+}
+
 .headingChip {
   margin-left: var(--st-space-3);
   vertical-align: middle;
