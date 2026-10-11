@@ -263,6 +263,7 @@ export default defineType({
         list: [
           {title: 'Case Studies', value: 'caseStudy'},
           {title: 'Articles', value: 'article'},
+          {title: 'Release Notes', value: 'releaseNote'},
           {title: 'Projects', value: 'project'},
           {title: 'Nodes (Knowledge Graph)', value: 'node'}
         ]
@@ -705,6 +706,7 @@ export default defineType({
       const typeLabels: Record<string, string> = {
         caseStudy: 'Case Studies',
         article: 'Articles',
+        releaseNote: 'Release Notes',
         project: 'Projects',
         node: 'Nodes'
       }

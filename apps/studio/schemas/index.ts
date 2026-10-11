@@ -75,6 +75,7 @@ import node from './documents/node'
 import article from './documents/article'
 import page from './documents/page'
 import caseStudy from './documents/caseStudy'
+import releaseNote from './documents/releaseNote'
 
 // Infrastructure (New)
 import navigation from './documents/navigation'
@@ -154,6 +155,7 @@ export const schemaTypes = [
   article,
   page,
   caseStudy,
+  releaseNote,
 
   // Documents - Infrastructure (New)
   navigation,
