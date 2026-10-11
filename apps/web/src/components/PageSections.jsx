@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { trackCtaClick } from '../lib/trackCtaClick'
+import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
 import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '@sugartown/design-system'
@@ -165,20 +166,27 @@ const mapCtaStyle = (style, fallback = 'primary') =>
 
 // Trust stat rail — build-time metrics, rendered inside hero when showStatRail is true
 function StatRail() {
+  const currentReleaseHref = useReleaseNoteHref(stats.release?.current?.version)
   const items = [
-    { value: `v${stats.release?.current?.version ?? '—'}`, label: 'Current release', href: TRUST_LINKS.changelog },
+    { value: `v${stats.release?.current?.version ?? '—'}`, label: 'Current release', href: currentReleaseHref },
     { value: stats.repo?.epicsShipped ?? '—',              label: 'Epics shipped',   href: TRUST_LINKS.changelog },
     { value: stats.repo?.commits ?? '—',                   label: 'Commits',          href: TRUST_LINKS.commits },
     { value: stats.security?.vulnerabilities?.total ?? 0,  label: 'Vulnerabilities',  href: TRUST_LINKS.security },
   ]
   return (
     <div className={styles.heroStatRail}>
-      {items.map(({ value, label, href }) => (
-        <a key={label} href={href} target="_blank" rel="noopener noreferrer" className={styles.heroStatItem}>
-          <span className={styles.heroStatValue}>{value}</span>
-          <span className={styles.heroStatLabel}>{label}</span>
-        </a>
-      ))}
+      {items.map(({ value, label, href }) => {
+        const { isExternal, linkProps } = getLinkProps(href)
+        const content = (
+          <>
+            <span className={styles.heroStatValue}>{value}</span>
+            <span className={styles.heroStatLabel}>{label}</span>
+          </>
+        )
+        return isExternal
+          ? <a key={label} className={styles.heroStatItem} {...linkProps}>{content}</a>
+          : <Link key={label} to={href} className={styles.heroStatItem}>{content}</Link>
+      })}
     </div>
   )
 }

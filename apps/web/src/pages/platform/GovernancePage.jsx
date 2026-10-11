@@ -9,6 +9,7 @@ import CwvSnapshot from '../../components/CwvSnapshot'
 import { PLATFORM_ROUTES, TRUST_LINKS, getCanonicalPath } from '../../lib/routes'
 import { useSanityList } from '../../lib/useSanityDoc'
 import { releaseNoteSlugsQuery } from '../../lib/queries'
+import { useReleaseNoteHref } from '../../lib/useReleaseNoteHref'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
 import pageSectionStyles from '../../components/PageSections.module.css'
@@ -218,6 +219,7 @@ function RoadmapLane({ label, epics }) {
 export default function GovernancePage() {
   const roadmapRef = useRef(null)
   const { data: releaseNotes } = useSanityList(releaseNoteSlugsQuery)
+  const currentReleaseHref = useReleaseNoteHref(stats.release?.current?.version)
   const slugByVersion = Object.fromEntries((releaseNotes ?? []).map((n) => [n.version, n.slug]))
   usePlatformHero({
     title: 'Governance',
@@ -233,7 +235,7 @@ export default function GovernancePage() {
 
         <Grid spacing="0" accentTop accentColor="ink" columns={4} tabletColumns={2} className={styles.statsSection}>
           <StatCard label="In flight"       value={inProgress.length || '—'} href="https://github.com/users/bex-sugartown/projects/1" />
-          <StatCard label="Current release" value={stats.release?.current?.version ?? '—'} href={TRUST_LINKS.changelog} />
+          <StatCard label="Current release" value={stats.release?.current?.version ?? '—'} href={currentReleaseHref} />
           <StatCard label="Epics shipped"   value={stats.repo?.epicsShipped ?? '—'} href={TRUST_LINKS.commits} />
           {/* Derived from `pnpm audit` via apps/web/scripts/stats/security.js, not
               hardcoded (SUG-256 Ph3 / CTL-029). The measurement date rides along at

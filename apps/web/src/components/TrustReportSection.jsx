@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useSanityDoc, useSanityList } from '../lib/useSanityDoc'
-import { latestArticleQuery, latestNodeQuery, releaseNoteByVersionQuery, releaseNoteSlugsQuery } from '../lib/queries'
+import { latestArticleQuery, latestNodeQuery, releaseNoteSlugsQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
+import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { Grid } from '../design-system'
 import stats from '../generated/stats.json'
 
@@ -116,10 +117,7 @@ function RecentlyShippedReport() {
   const { data: latestArticle, loading: articleLoading } = useSanityDoc(latestArticleQuery)
   const { data: latestNode, loading: nodeLoading } = useSanityDoc(latestNodeQuery)
   const release = stats.release?.current
-  const { data: releaseNote } = useSanityDoc(releaseNoteByVersionQuery, { version: release?.version ?? '' })
-  const releaseHref = releaseNote?.slug
-    ? getCanonicalPath({ docType: 'releaseNote', slug: releaseNote.slug })
-    : TRUST_LINKS.changelog
+  const releaseHref = useReleaseNoteHref(release?.version)
 
   return (
     <div className={styles.reportWrap}>

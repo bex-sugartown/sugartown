@@ -1,8 +1,10 @@
 import { Link as RouterLink } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { resolveNavLink } from '../lib/resolveNavUrl'
-import { getCanonicalPath, FOOTER_UTILITY_LINKS, TRUST_LINKS } from '../lib/routes'
+import { getCanonicalPath, FOOTER_UTILITY_LINKS } from '../lib/routes'
 import { APP_VERSION, BUILD_DATE } from '../lib/buildInfo'
+import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
+import { getLinkProps } from '../lib/linkUtils'
 import { openConsentSettings } from '../lib/consent'
 import { Chip, Container } from '@sugartown/design-system'
 import Link from './atoms/Link'
@@ -10,6 +12,9 @@ import SocialLink from './atoms/SocialLink'
 import styles from './Footer.module.css'
 
 export default function Footer({ siteSettings }) {
+  // Hooks run before the early return below.
+  const versionHref = useReleaseNoteHref(APP_VERSION.replace(/^v/, ''))
+  const versionLink = getLinkProps(versionHref)
   if (!siteSettings) return null
 
   const {
@@ -110,17 +115,14 @@ export default function Footer({ siteSettings }) {
         {/* ── Zone 3: colophon ────────────────────────────────────── */}
         <div className={styles.colophon}>
           <div className={styles.colophonGrid}>
-            {/* Row 1 left: version (always a link to changelog) */}
+            {/* Row 1 left: version (links to its release note, else the changelog) */}
             <span className={styles.colophonLabel}>Version</span>
             <span className={styles.colophonValue}>
-              <a
-                href={TRUST_LINKS.changelog}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles.colophonLink}
-              >
-                {APP_VERSION}
-              </a>
+              {versionLink.isExternal ? (
+                <a {...versionLink.linkProps} className={styles.colophonLink}>{APP_VERSION}</a>
+              ) : (
+                <RouterLink to={versionHref} className={styles.colophonLink}>{APP_VERSION}</RouterLink>
+              )}
             </span>
 
             {/* Row 1 right: toolchain chips if available, otherwise empty */}
