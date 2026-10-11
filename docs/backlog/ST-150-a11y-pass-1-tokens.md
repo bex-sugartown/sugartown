@@ -70,6 +70,12 @@ Focus outlines that read `brand-primary` are unchanged (non-text, pink on canvas
 
 Dark links and citation markers sit on canvas at 5.13 and stay pink.
 
+### 3b. Light label colour on the card label strip (added 2026-10-11; not in the handoff)
+
+| Where | Current | New | Result (light) |
+|---|---|---|---|
+| `theme.pink-moon.css` light `--st-label-color` (l.121) | `var(--st-color-neutral-500)` (`#6c6c6f`) | `var(--st-color-neutral-600)` (`#525252`) | label strip 4.12 → 6.15 |
+
 ### 4. Chips → neutral (both themes)
 
 **Legacy colour chips (`Chip.module.css`).** The base `.chip` derives bg, border and text from `--_chip-color`. Replace the two theme blocks with one neutral rule:
@@ -195,12 +201,10 @@ Single phase.
 
 **Decided 2026-10-11:** (1) the featured chip loses its 600 weight and is indistinguishable from plain tags at rest; (2) the accent table header is the v4 pink-600 fill with a white label, replacing the 10 Oct option C.
 
-**Still open (Bex), settle before Phase 0 sign-off:**
-3. **Knowledge-graph filter chips.** The handoff lists this as a leftover question, but Pass 1 already makes them neutral and removes their node-colour echo. Confirm.
-4. **Release pairing.** Pass 1 turns links maroon without an underline; the underline arrives in ST-151. Ship both together, or a maroon link on light is identified by colour alone (WCAG 1.4.1) until Pass 2 lands.
+**Approved 2026-10-11:** (3) knowledge-graph filter chips go neutral, losing the node-colour echo; (4) ST-150 and ST-151 ship in the same release, because Pass 1 turns links maroon without an underline until ST-151 adds it (WCAG 1.4.1); (5) the light `--st-label-color` fix in section 3b is added.
 
 **Gaps found in the handoff:**
-- **Light label colour not covered.** `--st-label-color` on light is neutral-500, 4.12:1 on the neutral-200 label strip. The v2 audit fixed it (neutral-600, 6.15:1); the handoff only covers the dark label and the eyebrow. Add it or confirm it is intentional.
+- **Light label colour not covered** by the handoff (4.12:1 on the label strip); now section 3b.
 - **Legacy status badges still fail** after both passes: draft light 2.72, designing light 3.76, testing light 4.14, validated dark 4.12. They are in the leftovers issue; the epic's "AA pass" claim should say they are excluded.
 - **`white-space: nowrap` on inline code** can overflow at 320px for long paths. Check, and add `overflow-wrap` or a scroll rule if it does.
 - **Chromatic.** Every Chip and Card story changes. The Chromatic pass at close-out will show many diffs; budget the review.

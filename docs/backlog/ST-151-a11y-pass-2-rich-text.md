@@ -134,9 +134,7 @@ Single phase.
 
 **Decided 2026-10-11:** card titles stay ink (v4), replacing the 10 Oct pink-at-28px decision.
 
-**Still open (Bex), settle before Phase 0 sign-off:**
-2. **Card eyebrows.** The v2 decision was text colour on cards. v4 uses maroon on light and white on dark (ST-150). Confirm v4.
-3. **Lime in rich text.** v4 removes lime from glossary terms and code, reversing the lime glossary decision from v2 (and SUG-211 Option E). The handoff states this was decided 10 Oct (v4). Confirm.
+**Approved 2026-10-11:** (2) card eyebrows follow v4 (maroon on light, white on dark, set in ST-150); (3) lime is removed from rich text (glossary term and inline code), reversing the lime glossary decision from v2 and SUG-211 Option E. ST-150 and ST-151 ship in the same release.
 
 **Gaps found in the handoff:**
 - The glossary term, popover, portable-text link serializer and footnote list are not in `packages/design-system/src/components`. Locate them first (`apps/web/src/components/GlossaryTermAnnotation.jsx` and `GlossaryTermPage.jsx` are the likely starting points) and record element types, ARIA and current CSS before editing.
