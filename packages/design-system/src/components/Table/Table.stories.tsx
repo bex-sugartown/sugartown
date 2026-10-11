@@ -20,11 +20,25 @@ const meta: Meta<typeof Table> = {
     chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
+  args: { tone: 'accent' },
   argTypes: {
     tone: {
       control: { type: 'select' },
       options: ['accent', 'subdued'],
+      description: '`accent`: pink header, zebra rows on. `subdued`: neutral header, zebra rows off.',
     },
+    zebra: {
+      control: 'boolean',
+      description: 'Alternate row shading. Defaults to on for `accent`, off for `subdued`.',
+    },
+    density: { control: { type: 'select' }, options: ['comfortable', 'compact'] },
+    layout:  { control: { type: 'select' }, options: ['auto', 'fixed'] },
+    variant: { control: { type: 'select' }, options: ['default', 'responsive', 'wide'] },
+    columns:   { table: { disable: true } },
+    rows:      { table: { disable: true } },
+    children:  { table: { disable: true } },
+    className: { table: { disable: true } },
+    style:     { table: { disable: true } },
   },
 };
 
@@ -50,9 +64,10 @@ const ROWS = [
 // ── Accent (default) ──────────────────────────────────────────────────────────
 
 export const Accent: Story = {
-  render: () => (
+  args: { tone: 'accent' },
+  render: (args) => (
     <TableWrap>
-      <Table tone="accent" columns={COLUMNS} rows={ROWS} />
+      <Table columns={COLUMNS} rows={ROWS} {...args} />
     </TableWrap>
   ),
 };
@@ -60,14 +75,10 @@ export const Accent: Story = {
 // ── Subdued ───────────────────────────────────────────────────────────────────
 
 export const Subdued: Story = {
-  render: () => (
+  args: { tone: 'subdued', zebra: false },
+  render: (args) => (
     <TableWrap caption="Component registry" captionMeta="5 components">
-      <Table
-        tone="subdued"
-        zebra={false}
-        columns={COLUMNS}
-        rows={ROWS}
-      />
+      <Table columns={COLUMNS} rows={ROWS} {...args} />
     </TableWrap>
   ),
 };
@@ -77,9 +88,9 @@ export const Subdued: Story = {
 
 export const ChildrenFallback: Story = {
   name: 'Children fallback (raw markup)',
-  render: () => (
+  render: (args) => (
     <TableWrap>
-      <Table tone="accent">
+      <Table {...args}>
         <thead>
           <tr>
             <th>Component</th>
@@ -101,10 +112,10 @@ export const ChildrenFallback: Story = {
 
 export const StressTestLongContent: Story = {
   name: 'Stress Test / Long Content',
-  render: () => (
+  render: (args) => (
     <TableWrap>
       <Table
-        tone="accent"
+        {...args}
         columns={[
           { key: 'field', label: 'Field', width: 120 },
           { key: 'value', label: 'Value' },
@@ -125,10 +136,10 @@ export const StressTestLongContent: Story = {
 
 export const StressTestManyColumns: Story = {
   name: 'Stress Test / Many Columns',
-  render: () => (
+  render: (args) => (
     <TableWrap>
       <Table
-        tone="accent"
+        {...args}
         columns={Array.from({ length: 8 }, (_, i) => ({ key: `col${i}`, label: `Col ${i + 1}` }))}
         rows={Array.from({ length: 5 }, (_, row) =>
           Object.fromEntries(Array.from({ length: 8 }, (_, col) => [`col${col}`, `R${row + 1}C${col + 1}`]))
