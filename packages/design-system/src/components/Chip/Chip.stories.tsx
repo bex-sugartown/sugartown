@@ -43,14 +43,14 @@ type Story = StoryObj<typeof Chip>;
 
 /** Tag chip — neutral chassis, no dot, no active state. Use for taxonomy labels. */
 export const Tag: Story = {
-  args: { label: 'Design Systems', variant: 'tag' },
+  args: { label: 'Design Systems', variant: 'tag', href: '#' },
 };
 
 // ─── Badge variant ────────────────────────────────────────────────────────────
 
 /** Badge — label-only, uppercase bold chassis. No dot. */
 export const Badge: Story = {
-  args: { label: 'In Review', variant: 'badge' },
+  args: { label: 'In Review', variant: 'badge', href: '#' },
 };
 
 /** Badge with color dot — named color presets drive dot color. */

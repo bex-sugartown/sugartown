@@ -111,6 +111,8 @@ Results: tag chip text 19.16 light / 12.08 dark; selected 17.12 light / 17.50 da
 | `.featured` (l.182 to 186) comment and `font-weight` | "Pink rubric", `font-weight: 600` | comment updated; `font-weight: 600` removed (decided 2026-10-11) so it matches plain tags at rest |
 | `.featured.interactive:hover` (l.207 to 211) | keeps `--st-chip-rubric-border` and `-bg` | `border-color: var(--st-color-pink)`, so the featured chip gets the same pink hover as every chip |
 
+The rule-dot hover (`.ruleDot.interactive:hover`, `Chip.module.css`) also pinned the neutral border, so tag and badge chips never got the pink hover; only the featured chip did. It now sets the pink border too (found in Visual QA, 2026-10-11). The Storybook Tag and Badge stories gained `href: '#'` so the hover can be seen.
+
 **Knowledge-graph filter chips (`theme.pink-moon.css` light block).**
 
 | Token | Current | New |

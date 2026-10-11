@@ -173,10 +173,10 @@
   flex-shrink: 0;
 }
 
-/* Rule-dot hover: lift only — preserve neutral border/bg, no color-mix tint */
+/* Rule-dot hover: lift and pink border (ST-150: every linked chip gets the pink hover), no color-mix tint */
 .ruleDot.interactive:hover {
   background: var(--st-chip-bg);
-  border-color: var(--st-chip-border);
+  border-color: var(--st-color-pink);
   box-shadow: none;
 }
 
