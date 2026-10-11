@@ -22,9 +22,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--st-space-4, 1rem);
+  gap: var(--st-space-4);
   width: 100%;
-  padding: var(--st-space-5, 1.5rem) 0;
+  padding: var(--st-space-5) 0;
   background: none;
   border: none;
   cursor: pointer;
@@ -85,7 +85,7 @@
 /* Bottom padding only when panel is open — prevents phantom height when
    grid-template-rows collapses to 0fr. */
 .panelOpen .panelInner {
-  padding-bottom: var(--st-space-5, 1.5rem);
+  padding-bottom: var(--st-space-5);
 }
 
 /* ── Light theme ─────────────────────────────────────────────────────────── */
@@ -107,7 +107,7 @@
   display: grid;
   grid-template-columns: 3rem 1fr auto;
   align-items: start;
-  gap: var(--st-space-4, 1rem);
+  gap: var(--st-space-4);
 }
 
 .qNumber {

@@ -19,7 +19,7 @@
 .divider {
   border: none;
   border-top: 1px solid var(--st-color-pt-divider-light-2x);
-  margin-block: var(--st-space-section-break-detail, 2.5rem);
+  margin-block: var(--st-space-section-break-detail);
   width: 100%;
 }
 

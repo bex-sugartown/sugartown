@@ -30,7 +30,7 @@
 }
 
 .stats {
-  font-family: var(--st-font-family-mono, monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.8125rem;
   color: var(--st-color-text-muted);
   margin: 0;
@@ -111,7 +111,7 @@
 /* ── Date ────────────────────────────────────────────────────── */
 
 .date {
-  font-family: var(--st-font-family-mono, monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.75rem;
   color: var(--st-color-text-muted);
   white-space: nowrap;
@@ -126,7 +126,7 @@
 
 .noIndexBadge {
   display: inline-block;
-  font-family: var(--st-font-family-mono, monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.625rem;
   font-weight: 700;
   letter-spacing: 0.05em;

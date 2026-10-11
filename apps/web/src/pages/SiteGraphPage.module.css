@@ -74,7 +74,7 @@
 
 @media (min-width: 768px) {
   .body {
-    grid-template-columns: 1fr var(--st-space-sidebar, 220px);
+    grid-template-columns: 1fr var(--st-space-sidebar);
     align-items: stretch;
   }
 }
@@ -273,7 +273,7 @@
 
 .fsBody {
   display: grid;
-  grid-template-columns: 1fr var(--st-space-sidebar, 220px);
+  grid-template-columns: 1fr var(--st-space-sidebar);
   flex: 1;
   min-height: 0;
   overflow: hidden;

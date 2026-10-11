@@ -1,6 +1,6 @@
 .callout {
   padding: var(--st-spacing-inset-lg);
-  border-radius: var(--st-radius-lg, 12px);
+  border-radius: var(--st-radius-lg);
   text-align: center;
   margin: var(--st-spacing-stack-lg) 0;
 }
@@ -58,7 +58,7 @@
 }
 
 .text {
-  font-size: var(--st-font-size-lg, 1.25rem);
+  font-size: var(--st-font-size-lg);
   font-weight: var(--st-font-weight-medium);
   margin: 0 0 var(--st-spacing-stack-sm);
   line-height: 1.4;

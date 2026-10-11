@@ -42,7 +42,7 @@
 }
 
 /* titleSize scale */
-.titleSize-display { font-size: var(--st-font-size-display, 3rem); }
+.titleSize-display { font-size: var(--st-font-size-display); }
 .titleSize-2xl     { font-size: var(--st-font-size-2xl); }
 .titleSize-xl      { font-size: var(--st-font-size-xl); }
 .titleSize-lg      { font-size: var(--st-font-size-lg); line-height: 1.35; }

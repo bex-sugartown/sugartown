@@ -61,7 +61,7 @@
 }
 
 .heroTreatmentDuotone.heroWithImage::before {
-  mix-blend-mode: var(--st-media-overlay-blend-mode, hard-light);
+  mix-blend-mode: var(--st-media-overlay-blend-mode);
 }
 
 .heroTreatmentDuotone .heroContent img,
@@ -73,7 +73,7 @@
 /* ::after already set up by .heroWithImage — just add the SVG filter */
 .heroTreatmentExtreme.heroWithImage::before {
   background: var(--st-media-overlay-gradient, var(--st-scrim-overlay-25));
-  mix-blend-mode: var(--st-media-overlay-blend-mode, hard-light);
+  mix-blend-mode: var(--st-media-overlay-blend-mode);
 }
 
 .heroTreatmentExtreme.heroWithImage::after {
@@ -87,8 +87,8 @@
 
 .heroTreatmentColor.heroWithImage::before {
   background: var(--st-media-overlay-color);
-  opacity: var(--st-media-overlay-opacity, 0.5);
-  mix-blend-mode: var(--st-media-overlay-blend, normal);
+  opacity: var(--st-media-overlay-opacity);
+  mix-blend-mode: var(--st-media-overlay-blend);
 }
 
 /* ── Greyscale + Panel — desaturated image + frosted glass panel ── */
@@ -129,7 +129,7 @@
   z-index: 2;
   max-width: none;   /* container controls width; panel fills it */
   margin: 0 auto;
-  padding: var(--st-space-7, 2.5rem) var(--st-space-6, 2rem);
+  padding: var(--st-space-7) var(--st-space-6);
   background: var(--st-color-white-18);
   backdrop-filter: blur(32px) saturate(1.4);
   -webkit-backdrop-filter: blur(32px) saturate(1.4);
@@ -149,7 +149,7 @@
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   color: var(--st-color-softgrey-200);
-  margin-top: var(--st-spacing-stack-sm, 0.5rem);
+  margin-top: var(--st-spacing-stack-sm);
   text-transform: uppercase;
 }
 
@@ -234,13 +234,13 @@
 .heroEyebrow {
   font-family: var(--st-font-family-mono);
   font-size: 1rem;                              /* 16px min */
-  font-weight: var(--st-font-weight-semibold, 600);
+  font-weight: var(--st-font-weight-semibold);
   line-height: 1.4;
   letter-spacing: 0.09em;
   text-align: center;
   text-transform: uppercase;
   color: var(--st-color-lime);
-  margin-bottom: var(--st-spacing-stack-sm, 0.5rem);
+  margin-bottom: var(--st-spacing-stack-sm);
 }
 
 /* Hero width variants — controlled by heroSection.imageWidth schema field */
@@ -248,7 +248,7 @@
   max-width: var(--st-width-detail);
   margin-left: auto;
   margin-right: auto;
-  border-radius: var(--st-media-duotone-radius, 35px);
+  border-radius: var(--st-media-duotone-radius);
   overflow: hidden;
 }
 
@@ -410,9 +410,9 @@
 
 /* Canonical blockquote — matches DS Blockquote component */
 .blockquote {
-  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color);
-  padding-left: var(--st-blockquote-padding-left, 1rem);
-  margin: var(--st-blockquote-margin-block, 1.5rem) 0;
+  border-left: var(--st-blockquote-border-width) solid var(--st-blockquote-border-color);
+  padding-left: var(--st-blockquote-padding-left);
+  margin: var(--st-blockquote-margin-block) 0;
   font-style: italic;
   color: var(--st-blockquote-color);
 }
@@ -456,11 +456,11 @@
 .codeBlock {
   background-color: var(--st-code-bg);
   color: var(--st-code-color);
-  padding: var(--st-code-padding, 2rem);
-  border-radius: var(--st-radius-sm, 8px);
+  padding: var(--st-code-padding);
+  border-radius: var(--st-radius-sm);
   border-left: var(--st-code-border-left);
   box-shadow: var(--st-code-shadow);
-  margin: var(--st-code-margin-block, 3rem) auto;
+  margin: var(--st-code-margin-block) auto;
   width: 100%;
   box-sizing: border-box;
   font-family: var(--st-font-family-mono);
@@ -486,7 +486,7 @@
 }
 
 .codeBlockLanguage {
-  font-family: var(--st-font-family-mono, monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -495,7 +495,7 @@
 }
 
 .codeBlockFilename {
-  font-family: var(--st-font-family-mono, monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.75rem;
   color: var(--st-color-white-60);
 }
@@ -511,12 +511,12 @@
 
 .inlineImageImg {
   width: 100%;
-  border-radius: var(--st-radius-md, 6px);
+  border-radius: var(--st-radius-md);
   display: block;
 }
 
 .inlineImageCaption {
-  font-size: var(--st-font-caption, 0.85rem);
+  font-size: var(--st-font-caption);
   color: var(--st-color-text-secondary);
   margin-top: var(--st-spacing-stack-xs);
   text-align: center;
@@ -646,7 +646,7 @@
   break-inside: avoid;
   position: relative;
   overflow: hidden;
-  border-radius: var(--st-radius-md, 12px);
+  border-radius: var(--st-radius-md);
 }
 
 /* Masonry needs margin-bottom since CSS columns don't support gap */
@@ -670,7 +670,7 @@
   width: 100%;
   display: block;
   margin: 0;
-  --st-radius-media: var(--st-radius-md, 12px); /* overrides DS default xl radius so image, duotone/scrim wrappers, and .galleryItem clip match */
+  --st-radius-media: var(--st-radius-md); /* overrides DS default xl radius so image, duotone/scrim wrappers, and .galleryItem clip match */
 }
 
 .galleryCaptionOverlay {
@@ -682,11 +682,11 @@
   background: var(--st-color-scrim-backdrop);
   pointer-events: none;
   z-index: 3; /* above treatment overlay (z-index: 2) */
-  border-radius: 0 0 var(--st-radius-md, 12px) var(--st-radius-md, 12px);
+  border-radius: 0 0 var(--st-radius-md) var(--st-radius-md);
 }
 
 .galleryCaptionText {
-  font-size: var(--st-font-caption, 0.8125rem);
+  font-size: var(--st-font-caption);
   color: var(--st-color-white-85);
   line-height: 1.4;
   display: -webkit-box;
@@ -773,7 +773,7 @@
 }
 
 .mermaidError {
-  font-family: var(--st-font-family-mono, 'Fira Code', monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.8125rem;
   color: var(--st-color-error);
   background: var(--st-color-error-bg);
@@ -867,7 +867,7 @@
 
 /* Recent Content Ticker — wide max-width, needs own gutter (not inside detailContext) */
 .recentContentSection {
-  max-width: var(--st-width-detail-wide, 1080px);
+  max-width: var(--st-width-detail-wide);
   margin: 0 auto;
   padding: 0 var(--st-page-gutter);
 }
@@ -905,7 +905,7 @@
    ============================================ */
 :global(.st-html-section) {
   max-width: 100%;
-  padding-block: var(--st-spacing-inset-md, 1.5rem);
+  padding-block: var(--st-spacing-inset-md);
 }
 
 /* ── Scoped resets ────────────────────────────────────────────────────────── */
@@ -922,24 +922,24 @@
 
 /* ── Typography — raw WP paragraphs, headings, lists ─────────────────────── */
 :global(.st-html-section) p {
-  line-height: var(--st-line-height-relaxed, 1.75);
-  margin: var(--st-spacing-stack-md, 1rem) 0;
+  line-height: var(--st-line-height-relaxed);
+  margin: var(--st-spacing-stack-md) 0;
 }
 
 :global(.st-html-section) h2,
 :global(.st-html-section) h3,
 :global(.st-html-section) h4 {
   font-family: var(--st-font-narrative, var(--st-font-family-narrative));
-  line-height: var(--st-line-height-tight, 1.15);
-  margin-top: var(--st-spacing-stack-xl, 2.5rem);
-  margin-bottom: var(--st-spacing-stack-sm, 0.5rem);
+  line-height: var(--st-line-height-tight);
+  margin-top: var(--st-spacing-stack-xl);
+  margin-bottom: var(--st-spacing-stack-sm);
 }
 
 :global(.st-html-section) ul,
 :global(.st-html-section) ol {
   padding-left: 1.5em;
-  margin: var(--st-spacing-stack-md, 1rem) 0;
-  line-height: var(--st-line-height-relaxed, 1.75);
+  margin: var(--st-spacing-stack-md) 0;
+  line-height: var(--st-line-height-relaxed);
 }
 
 :global(.st-html-section) li + li {
@@ -1003,7 +1003,7 @@
   width: 100px;
   height: 100px;
   object-fit: cover;
-  border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
+  border-radius: var(--st-table-card-radius, var(--st-radius-md));
   display: block;
   box-shadow: var(--st-shadow-table-inner);
 }
@@ -1037,7 +1037,7 @@
     margin: 14px 0;
     padding: 14px 16px;
     border: 1px solid var(--st-color-border-default);
-    border-radius: var(--st-table-card-radius, var(--st-radius-md, 12px));
+    border-radius: var(--st-table-card-radius, var(--st-radius-md));
     background: var(--st-color-bg-surface);
     box-shadow: var(--st-table-card-shadow);
     overflow: hidden;
@@ -1058,9 +1058,9 @@
 
 /* ── Blockquote — matches DS Blockquote component ────────────────────────── */
 :global(.st-html-section) blockquote {
-  border-left: var(--st-blockquote-border-width, 3px) solid var(--st-blockquote-border-color);
-  padding-left: var(--st-blockquote-padding-left, 1rem);
-  margin: var(--st-blockquote-margin-block, 1.5rem) 0;
+  border-left: var(--st-blockquote-border-width) solid var(--st-blockquote-border-color);
+  padding-left: var(--st-blockquote-padding-left);
+  margin: var(--st-blockquote-margin-block) 0;
   font-style: italic;
   color: var(--st-blockquote-color);
 }
@@ -1077,12 +1077,12 @@
 :global(.st-html-section) pre {
   background-color: var(--st-code-bg);
   color: var(--st-code-color);
-  padding: var(--st-code-padding, 2rem);
-  border-radius: var(--st-radius-sm, 8px);
+  padding: var(--st-code-padding);
+  border-radius: var(--st-radius-sm);
   border-left: var(--st-code-border-left);
   box-shadow: var(--st-code-shadow);
-  margin: var(--st-code-margin-block, 3rem) 0;
-  font-family: var(--st-font-family-mono, monospace);
+  margin: var(--st-code-margin-block) 0;
+  font-family: var(--st-font-family-mono);
   font-size: 0.9rem;
   overflow-x: auto;
   line-height: 1.6;
@@ -1100,7 +1100,7 @@
 
 /* ── Code (inline, NOT inside pre) — matches DS InlineCode component ─────── */
 :global(.st-html-section) :not(pre) > code {
-  font-family: var(--st-font-family-mono, monospace);
+  font-family: var(--st-font-family-mono);
   font-size: 0.85em;
   background-color: var(--st-code-inline-bg);
   padding: 0.2em 0.5em;
@@ -1113,7 +1113,7 @@
 :global(.st-html-section) hr {
   border: none;
   border-top: 1px solid var(--st-color-pt-divider-light-strong);
-  margin: var(--st-spacing-stack-xl, 2.5rem) 0;
+  margin: var(--st-spacing-stack-xl) 0;
 }
 :global([data-theme="light-pink-moon"]) :global(.st-html-section) hr {
   border-top-color: var(--st-color-pt-divider-dark-mid);
@@ -1121,7 +1121,7 @@
 
 /* ── Strong/em in htmlSection ─────────────────────────────────────────────── */
 :global(.st-html-section) strong {
-  font-weight: var(--st-font-weight-bold, 700);
+  font-weight: var(--st-font-weight-bold);
 }
 
 /* ── Links in htmlSection ─────────────────────────────────────────────────── */
@@ -1159,7 +1159,7 @@
   }
 
   .heroPanel {
-    padding: var(--st-space-5, 1.5rem) var(--st-space-4, 1rem);
+    padding: var(--st-space-5) var(--st-space-4);
   }
 
   .textContent {
@@ -1316,7 +1316,7 @@
 }
 
 .detailContext .mermaidSectionWide {
-  width: var(--st-width-detail-wide, 1080px);
+  width: var(--st-width-detail-wide);
   max-width: calc(100vw - 2 * var(--st-page-gutter));
   margin-inline-start: calc(-1 * var(--st-page-gutter));
   margin-inline-end: 0;
@@ -1327,7 +1327,7 @@
   max-width: calc(100vw - 2 * var(--st-page-gutter));
   margin-inline-start: calc(
     -1 * var(--st-page-gutter)
-    - ((100vw - 2 * var(--st-page-gutter) - var(--st-width-detail-wide, 1080px)) / 2)
+    - ((100vw - 2 * var(--st-page-gutter) - var(--st-width-detail-wide)) / 2)
   );
   margin-inline-end: 0;
 }

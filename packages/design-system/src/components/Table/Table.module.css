@@ -23,7 +23,7 @@
 
 /* When caption is present, tableWrap records the caption height for thead offset */
 .tableWrap.hasCaption {
-  --st-table-caption-height: var(--st-table-caption-height, 43px);
+  /* --st-table-caption-height comes from tokens.css; redeclaring it as a fallback of itself is invalid CSS */
 }
 
 /* ── Caption surface (div, above <table>) ──────────────────────────────────── */
@@ -37,7 +37,7 @@
   border-bottom: 1px solid var(--st-color-rule-accent);
   background: var(--st-color-bg-surface);
   position: sticky;
-  top: var(--st-table-sticky-offset, 0px);
+  top: var(--st-table-sticky-offset);
   z-index: 4;
 }
 
@@ -110,7 +110,7 @@
   padding: 12px 14px 10px;
   position: sticky;
   /* Offset = nav/chrome offset + caption height (0px when no caption) */
-  top: calc(var(--st-table-sticky-offset, 0px) + var(--st-table-caption-height, 0px));
+  top: calc(var(--st-table-sticky-offset) + var(--st-table-caption-height));
   z-index: 3;
 }
 

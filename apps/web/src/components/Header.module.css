@@ -51,7 +51,7 @@
   color: var(--st-color-text-primary);
   cursor: pointer;
   padding: 8px;
-  border-radius: var(--st-radius-sm, 4px);
+  border-radius: var(--st-radius-sm);
   align-items: center;
   justify-content: center;
   transition: color 150ms ease;

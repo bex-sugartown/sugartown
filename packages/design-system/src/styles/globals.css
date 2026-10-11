@@ -92,6 +92,6 @@ input, textarea, select, button {
 .st-layout-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: var(--st-space-6, 24px);
+  gap: var(--st-space-6);
 }
 
