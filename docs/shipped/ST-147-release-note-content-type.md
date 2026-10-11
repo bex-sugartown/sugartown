@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-147 Release Note content type and /releases archive
 **Issue:** [#147](https://github.com/bex-sugartown/sugartown/issues/147)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go, one commit per phase, one CHANGELOG line at the end of each
 **Visual:** yes
@@ -142,3 +142,45 @@ Next step is Phase 0, the vspec. Nothing in Phases 1 to 3 has started; no code, 
 - **GitHub:** [#147](https://github.com/bex-sugartown/sugartown/issues/147)
 - **Folds in:** #140 (publish the 17 Release Notes drafts); **follows:** #135 (ST-135)
 - **Epic template:** `docs/epic-template.md`: complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] Schema deployed and writes of a `releaseNote` succeed. `npx sanity schema deploy` ran 2026-10-11; 17 documents created and published.
+- [x] `/releases` lists notes newest first with version and date; `/releases/<slug>` renders one with its diagram and the centred "Subtle Centered" breadcrumb line from #135. Checked in the browser on localhost:5173 (v0.36.0, 19 Sep 2026). The vspec's own "Home / Releases" crumb was an error in the vspec, not a requirement.
+- [x] Counts: `count(*[_type=="releaseNote" && !(_id in path("drafts.**"))])` returns 17; `count(*[_type=="article" && series._ref=="series-release-notes"])` returns 0.
+- [x] Release notes no longer appear on `/articles` (Library Article facet dropped from 34 to 17).
+- [ ] `/articles/release-notes-v0-36-0` returns a 301 to `/releases/release-note-v0-36-0`. The redirect document is published and a local build writes the rule into `_redirects`; the `curl -sI` check needs the deploy (Post-ship checks).
+- [x] Prerendered HTML for a release note carries its title and canonical (`https://sugartown.io/releases/release-note-v0-36-0`); the sitemap lists `/releases` URLs (18 matches in a local build).
+- [x] `pnpm validate:urls`, `pnpm validate:content` and `pnpm test:smoke` pass locally (smoke 5/5); no hard-coded paths outside `routes.js`. `validate:content` first needed two existing archive types allowed (`project`, `glossaryTerm`), fixed in 8871cd20.
+- [x] Content Write Gate: the migration proposal was approved before any write; nothing was published without a standalone selection (two popups, 2026-10-11).
+- [x] Chromatic: build #99, 0 changes, 0 new stories. No story covers the new pages, so the result says little about them. Run before the final Library and author changes, which touch no stories.
+
+Extras Bex asked for during the epic: singular slugs and titles, Library inclusion, Author filter, graph button hidden on `/releases`.
+
+### What didn't work
+
+- The vspec carried a breadcrumb row the real pages never had, and the first Visual QA review passed it as a Match without looking at the page. Caught only when the build was compared with screenshots.
+- Dates showed one day early because a date-only `releasedAt` was parsed as UTC. Fixed by aliasing noon UTC in the queries (5c0e7c0e).
+- The archive ignored the list layout because `displayStyle` was not projected. Fixed in 5c0e7c0e.
+- Two content-model decisions were reversed after approval: plural slugs and titles became singular.
+- A command-line delete was refused by the permission check; the Sanity discard tool did the same job on the exact approved IDs.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Release notes carry no category, tag, project or tool, so most Library-style filters stay hidden | implementation | declined: Bex chose Author only (2026-10-11); a backup of the old categories and tags is not kept in the repo |
+| Design-reviewer passed a vspec element that was absent from the build | workflow-docs | #156 |
+| `docs/drafts/` vspec files had unstyled previews because stylesheets were linked by relative path | workflow-docs | declined: fixed in this epic's vspec by inlining; no repo rule needs changing |
+
+### Friction line
+
+The vspec invented a breadcrumb that the built pages never had, and a code-only review passed it, so the mismatch only surfaced when Bex's screenshots were compared with the vspec.
+
+## Post-ship checks
+
+- [ ] The 301 from the old article URL: `curl -sI https://sugartown.io/articles/release-notes-v0-36-0` shows 301 to `/releases/release-note-v0-36-0`.
+- [ ] `/releases` and `/library` render on the live site with 17 and 98 items: person: open both after deploy.
+- [ ] Dark mode on a release note detail page: person: open `/releases/release-note-v0-36-0` in dark theme.

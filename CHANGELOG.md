@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #147: release notes are their own content type with a `/releases` archive and `/releases/<slug>` pages, the 17 notes moved out of Articles into it (Library now lists them, v0.36.0's old URL redirects), with Author and Type filters (smoke 5/5 locally, Chromatic build 99 clean; live 301 check owed at ship) (#147).
 - #74: `validate:tokens` now fails any raw `var(--st-*, value)` fallback of every value type, and all 144 are removed from app and design-system CSS with no rendering change expected (validator and liveness probe green, smoke 5/5 locally; Chromatic review and a Table caption check owed at ship).
 - #152: card status badges are the neutral chip with a pink dot (draft a ring), the dark card label row is a shade darker than the page, release-type badges and the imageless hero eyebrow pass contrast, and only weight 700 and above counts as bold for large text (smoke 5/5 locally; Chromatic review owed at ship, ships with #150 and #151).
 - #151: inline code is maroon (light) and pink (dark), glossary terms are ink on a pale pink fill with a pink dotted underline, body links carry a thin pink underline, each glossary term is one tab stop that opens its popover, and citation markers and notes are announced as citations with a back-link (smoke 5/5 locally; VoiceOver and Chromatic review owed at ship, ships with #150).
