@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-150 — Pink Moon accessibility Pass 1: token contrast and neutral chips
 **Issue:** [#150](https://github.com/bex-sugartown/sugartown/issues/150)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -250,3 +250,47 @@ Single phase.
 - **Handoff:** `docs/briefs/design-system/WCAG audit 26-10-10/handoff/EPIC-XXXX-a11y-pass-1-tokens.md`
 - **Also:** #51, #50
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+<!-- Chromatic: pending (deferred to the ship step; ships with ST-151) -->
+
+### Acceptance criteria
+
+- [x] `pnpm validate:tokens:strict`: no undefined tokens, no hard-coded colours (run 2026-10-11).
+- [x] Token files identical between `apps/web` and `packages/design-system`: `pnpm tokens:build` output compared with `cmp`; `pnpm validate:style-mirror` passes.
+- [x] Computed contrast (recomputed from the token values on 2026-10-11): button 4.80 / 6.90, table header 4.80, maroon on card 6.12 and on label strip 4.82, maroon on canvas 5.47, tag chip 19.16 light and 12.08 dark, selected chip 17.12 light, light pink dot 3.62. Dark eyebrow, folio label, selected chip and pink dot vary with the exact dark surface (16.46 to 17.50 for white-on-dark; the dark pink dot is 4.29 to 4.82 against a 4.45 target); all clear the 3:1 non-text and 4.5:1 text bars.
+- [x] Design system package rebuilt before local checks (this was the cause of two false "not applied" reports; see Follow-ups).
+- [x] Storybook, both themes: Button, Chip (tag, badge, selectable, colour presets, hover, every status), Card, Citation, Table (accent and subdued, controls), SegmentedControl, inline code. Bex approved items 1 to 15 of the VQA checklist on 2026-10-11.
+- [x] Reduced motion: Bex checked with the Mac Reduce motion setting on (item 15, optional).
+- [x] Inline `code` is square and does not overflow at 320px (0 of 10 samples overflowed after the fix; a `nowrap` first attempt overflowed and was replaced).
+- [x] `pnpm test:smoke`: 5 of 5 pass locally (2026-10-11).
+
+### What didn't work
+
+- The first implementation (c3af9a8c) was built from the v2 audit, then reverted (0712c8cf) when the v4 audit and handoff replaced it.
+- The handoff missed three things, found in review and Visual QA: the featured chip's component CSS (weight and hover), the rule-dot hover that pinned a neutral border, and the `CodeBlock` inline code box.
+- `white-space: nowrap` on inline code pushed long commands past the screen edge at 320px.
+- Several Storybook stories ignored their controls; fixed here at Bex's request.
+- A white label on the bright selected chip fills in dark theme was about 1.1:1; changed to an ink label.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Legacy status badge colours still fail (draft light 2.72, designing 3.76, testing 4.14, validated dark 4.12) | implementation | #152 |
+| Hero eyebrow, bold threshold, dark label strip, node-page sidebar duplication bug | implementation | #152 |
+| Local web dev shows stale design-system component CSS until the package is rebuilt | workflow-docs | #154 |
+| Retire the chip colour presets | implementation | declined: Bex keeps them as an opt-in tint |
+| Handoff gaps found by review (featured CSS, hover, CodeBlock) | workflow-docs | declined: one-off; caught by the review step and recorded in this doc |
+| Rich-text colours, link underline, glossary, citation ARIA, label size | implementation | #151 (verified in its Scope 2026-10-11) |
+
+### Friction line
+
+The first implementation was built from an audit version that was superseded within days, so it was reverted and redone.
+
+## Post-ship checks
+
+- [ ] Chromatic review approved for the Chip, Card, Button, Table and SegmentedControl stories: person: approve in Chromatic.
+- [ ] Production `/articles` card and a knowledge-graph page look right in light and dark (neutral tags, pink hover, maroon eyebrow in light): person: open both themes.
+- [ ] Links on light are maroon with a pink underline once ST-151 ships with this: person: open an article in light theme.
