@@ -127,7 +127,8 @@
   text-decoration: underline;
 }
 
-/* Inline badge — same visual as .statusBadge but not absolutely positioned */
+/* Inline badge — same visual as .statusBadge but not absolutely positioned.
+   ST-152: the neutral chip with a pink dot, as Chip variant="badge" (see the shared rules below). */
 .folioStatus {
   font-family: var(--st-font-family-mono);
   font-size: var(--st-label-size);
@@ -136,7 +137,6 @@
   text-transform: uppercase;
   padding: 2px 8px;
   border-radius: 0;
-  border: 1px solid;
   line-height: 1.6;
 }
 
@@ -276,29 +276,55 @@
   text-transform: uppercase;
   padding: 2px 8px;
   border-radius: var(--st-radius-xs);
-  border: 1px solid;
   line-height: 1.6;
 }
 
-/* Legacy / generic */
-.statusDraft       { background: var(--st-status-draft-bg);           color: var(--st-status-draft-fg);           border-color: var(--st-status-draft-border); }
-.statusActive      { background: var(--st-status-active-bg);          color: var(--st-status-active-fg);          border-color: var(--st-status-active-border); }
-.statusArchived    { background: var(--st-status-archived-bg);        color: var(--st-status-archived-fg);        border-color: var(--st-status-archived-border); }
-.statusImplemented { background: var(--st-status-implemented-bg);     color: var(--st-status-implemented-fg);     border-color: var(--st-status-implemented-border); }
-/* Shared */
-.statusEvergreen   { background: var(--st-status-evergreen-bg);       color: var(--st-status-evergreen-fg);       border-color: var(--st-status-evergreen-border); }
-.statusValidated   { background: var(--st-status-validated-bg);       color: var(--st-status-validated-fg);       border-color: var(--st-status-validated-border); }
-.statusDeprecated  { background: var(--st-status-deprecated-bg);      color: var(--st-status-deprecated-fg);      border-color: var(--st-status-deprecated-border); }
-/* Node evolution (Studio: node.status) */
-.statusExploring       { background: var(--st-status-exploring-bg);       color: var(--st-status-exploring-fg);       border-color: var(--st-status-exploring-border); }
-.statusOperationalized { background: var(--st-status-operationalized-bg); color: var(--st-status-operationalized-fg); border-color: var(--st-status-operationalized-border); }
-/* Project lifecycle (Studio: project.status) */
-.statusDreaming    { background: var(--st-status-dreaming-bg);        color: var(--st-status-dreaming-fg);        border-color: var(--st-status-dreaming-border); }
-.statusDesigning   { background: var(--st-status-designing-bg);       color: var(--st-status-designing-fg);       border-color: var(--st-status-designing-border); }
-.statusDeveloping  { background: var(--st-status-developing-bg);      color: var(--st-status-developing-fg);      border-color: var(--st-status-developing-border); }
-.statusTesting     { background: var(--st-status-testing-bg);         color: var(--st-status-testing-fg);         border-color: var(--st-status-testing-border); }
-.statusDeploying   { background: var(--st-status-deploying-bg);       color: var(--st-status-deploying-fg);       border-color: var(--st-status-deploying-border); }
-.statusIterating   { background: var(--st-status-iterating-bg);       color: var(--st-status-iterating-fg);       border-color: var(--st-status-iterating-border); }
+/* ST-152: status badges are the neutral chip with a pink dot (draft is a ring); the status word
+   carries the meaning. Replaces the per-status tints, four of which failed AA (draft 2.72, designing
+   3.76, testing 4.14 light; validated 4.12 dark). */
+.statusBadge,
+.folioStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--st-chip-tag-bg);
+  color: var(--st-chip-fg);
+  border: 1px solid var(--st-chip-border);
+}
+
+.statusBadge::before,
+.folioStatus::before {
+  content: "";
+  width: var(--st-chip-dot-size);
+  height: var(--st-chip-dot-size);
+  border-radius: 50%;
+  background: var(--st-chip-dot-active);
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+/* Per-status classes stay so Card.tsx keeps its class map; only draft differs (a ring). */
+.statusActive,
+.statusArchived,
+.statusImplemented,
+.statusEvergreen,
+.statusValidated,
+.statusDeprecated,
+.statusExploring,
+.statusOperationalized,
+.statusDreaming,
+.statusDesigning,
+.statusDeveloping,
+.statusTesting,
+.statusDeploying,
+.statusIterating {
+  color: var(--st-chip-fg);
+}
+
+.statusDraft::before {
+  background: transparent;
+  border: 1.5px solid var(--st-chip-dot-draft);
+}
 
 /* ── Title ───────────────────────────────────────────────────────────────── */
 .title {

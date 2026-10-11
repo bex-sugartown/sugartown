@@ -266,7 +266,7 @@
   --st-label-color-badge: var(--st-color-text-default);   /* ST-150: softgrey-500 was 4.27:1 on the label strip, now 16.46:1 */
   --st-color-text-eyebrow: var(--st-color-text-default);  /* ST-150: dark eyebrow is white, not pink */
   --st-segmented-active-fg: var(--st-color-brand-primary); /* ST-150: SegmentedControl now reads this token; keeps its current pink on dark */
-  --st-card-label-bg:     var(--st-color-midnight-800);           /* label cell bg on dark canvas */
+  --st-card-label-bg:     var(--st-color-midnight-900);           /* label cell bg on dark canvas; ST-152: midnight-800 matched the canvas, so the strip only showed through its rule */
 
   /* Chip rule-dot — dark overrides (SUG-88) */
   --st-chip-tag-bg:         var(--st-color-midnight-700);  /* white-50 is too light on dark canvas */
