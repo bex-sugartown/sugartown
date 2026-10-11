@@ -173,7 +173,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   const { data: singleItems, loading: singleLoading } = useSanityList(!isMultiType ? (query || null) : null)
 
   // Multi-type fetches (Library) — always called; null when not applicable.
-  // Three unconditional hooks so React's hook call order never changes.
+  // Four unconditional hooks so React's hook call order never changes.
   const { data: articleItems, loading: articleLoading } = useSanityList(
     isMultiType && contentTypes.includes('article') ? ARCHIVE_QUERIES.article : null
   )
@@ -183,6 +183,9 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   const { data: caseStudyItems, loading: caseStudyLoading } = useSanityList(
     isMultiType && contentTypes.includes('caseStudy') ? ARCHIVE_QUERIES.caseStudy : null
   )
+  const { data: releaseNoteItems, loading: releaseNoteLoading } = useSanityList(
+    isMultiType && contentTypes.includes('releaseNote') ? ARCHIVE_QUERIES.releaseNote : null
+  )
 
   // Merged + sorted items for multi-type; passthrough for single-type
   const allItems = useMemo(() => {
@@ -191,11 +194,12 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
       ...(articleItems ?? []),
       ...(nodeItems ?? []),
       ...(caseStudyItems ?? []),
+      ...(releaseNoteItems ?? []),
     ].sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
-  }, [isMultiType, singleItems, articleItems, nodeItems, caseStudyItems])
+  }, [isMultiType, singleItems, articleItems, nodeItems, caseStudyItems, releaseNoteItems])
 
   const itemsLoading = isMultiType
-    ? (articleLoading || nodeLoading || caseStudyLoading)
+    ? (articleLoading || nodeLoading || caseStudyLoading || releaseNoteLoading)
     : singleLoading
 
   // Draft detection — uses primary contentType (contentTypes[0]) for single; article for multi
@@ -339,24 +343,27 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
             </svg>
           </IconButton>
-          <IconButton
-            aria-label="View in knowledge graph"
-            className={isGraphView ? styles.layoutToggleBtnActive : ''}
-            onClick={() => navigate(graphCtaHref)}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-              <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-              <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-              <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-              <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-              <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
-              <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-              <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-              <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-              <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-            </svg>
-          </IconButton>
+          {/* Release notes carry no taxonomy to connect, and the graph excludes them (stats/graph.js). */}
+          {contentType !== 'releaseNote' && (
+            <IconButton
+              aria-label="View in knowledge graph"
+              className={isGraphView ? styles.layoutToggleBtnActive : ''}
+              onClick={() => navigate(graphCtaHref)}
+            >
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
+                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
+                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
+                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
+                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
+                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
+              </svg>
+            </IconButton>
+          )}
         </div>
         <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
       </div>
