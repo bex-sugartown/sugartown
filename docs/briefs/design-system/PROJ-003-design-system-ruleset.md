@@ -551,6 +551,7 @@ WCAG 2.2 AA requires a 24x24px minimum target. The house target is 44x44px for p
 - Dark eyebrows and folio labels use `--st-color-text-default`.
 - Chips are neutral. A chip is tinted only when `color` is passed. Status dots are pink; draft is a ring.
 - Rich text uses pink and maroon only. Lime is the secondary button fill and nothing else.
+- WCAG large text (3:1 instead of 4.5:1) is 24px at any weight, or 18.66px at weight 700 or above. Weight 600 does not count as bold, which matches axe and Stark (decided 2026-10-11, #152).
 
 **Motion & Animation:**
 ```css

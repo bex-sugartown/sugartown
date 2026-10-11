@@ -162,7 +162,7 @@
 
 /* Imageless eyebrow: pink in light mode, lime in dark mode */
 .heroImageless .heroEyebrow {
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-text-brand);   /* ST-152: 16px / 600 is not large text; pink-500 was 3.24:1 on the light canvas, maroon is 5.47:1 */
 }
 
 :global([data-theme="dark-pink-moon"]) .heroImageless .heroEyebrow {
