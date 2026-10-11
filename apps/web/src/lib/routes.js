@@ -10,6 +10,7 @@
  *   /:slug                    → page type (root pages: /about, /contact, etc.)
  *   /articles/:slug           → article type
  *   /case-studies/:slug       → caseStudy type
+ *   /releases/:slug           → releaseNote type
  *   /nodes/:slug              → node type (knowledge graph)
  *   /articles                 → article archive landing
  *   /case-studies             → caseStudy archive landing
@@ -31,6 +32,7 @@ export const TYPE_NAMESPACES = {
   node: 'nodes',
   series: 'series',
   glossaryTerm: 'glossary',
+  releaseNote: 'releases',
   // "page" has no prefix — it resolves at root: /:slug
 }
 
@@ -144,6 +146,7 @@ export const FOOTER_UTILITY_LINKS = [
 export const ARCHIVE_PATHS = [
   '/articles',
   '/case-studies',
+  '/releases',
   '/nodes',
   '/library',
   '/knowledge-graph', // site-wide graph (SiteGraphPage — Phase 3; redirect to /nodes until live)
@@ -234,6 +237,7 @@ export function getArchivePath(docType) {
   const map = {
     article: '/articles',
     caseStudy: '/case-studies',
+    releaseNote: '/releases',
     node: '/nodes',
   }
   return map[docType] ?? null

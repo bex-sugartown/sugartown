@@ -179,6 +179,7 @@ export function generateJsonLd(doc, siteSettings) {
     let pageSchema = null
     switch (doc._type) {
       case 'article':
+      case 'releaseNote':
       case 'node':
         pageSchema = buildArticle(doc, base)
         break

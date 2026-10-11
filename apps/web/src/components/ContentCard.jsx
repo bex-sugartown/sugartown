@@ -30,6 +30,7 @@ import { isPreviewMode } from '../lib/contentState'
 const DOC_TYPE_MAP = {
   article:   'article',
   caseStudy: 'caseStudy',
+  releaseNote: 'releaseNote',
   node:      'node',
 }
 
@@ -38,6 +39,7 @@ const CONTENT_TYPE_LABELS = {
   article:   'Article',
   node:      'Node',
   caseStudy: 'Case Study',
+  releaseNote: 'Release Note',
 }
 
 // Node statuses map to the `evolution` prop; all others to `status`.

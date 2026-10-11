@@ -94,6 +94,7 @@ export default function MetadataCard({
   contentType,
   contentTypeHref,
   publishedAt,
+  version,
   status,
   client,
   employer,
@@ -158,6 +159,7 @@ export default function MetadataCard({
   const scalarFields = [
     authorValue      && { label: 'Author',        value: authorValue },
     typeValue        && { label: 'Type',           value: typeValue },
+    version          && { label: 'Version',        value: version },
     statusKey        && { label: 'Status',         value: STATUS_LABELS[statusKey] ?? status },
     client           && { label: 'Client',         value: client },
     employer         && { label: 'Employer',       value: employer },
@@ -168,7 +170,7 @@ export default function MetadataCard({
     role             && { label: 'Role',           value: role },
     dateRangeDisplay && { label: 'Date Range',     value: dateRangeDisplay },
     readingTime      && { label: 'Reading Time',   value: `${readingTime} min` },
-    publishedDisplay && { label: 'Published',      value: publishedDisplay },
+    publishedDisplay && { label: version ? 'Released' : 'Published', value: publishedDisplay },
   ].filter(Boolean)
 
   // ── Chip / taxonomy guards ──────────────────────────────────────────────

@@ -12,6 +12,7 @@ import pageStyles from './pages.module.css'
 const GROUP_ORDER = [
   'article',
   'caseStudy',
+  'releaseNote',
   'node',
   'page',
   'archivePage',
@@ -26,6 +27,7 @@ const GROUP_ORDER = [
 const TYPE_LABELS = {
   article: 'Articles',
   caseStudy: 'Case Studies',
+  releaseNote: 'Release Notes',
   node: 'Knowledge Graph',
   page: 'Pages',
   archivePage: 'Archive Pages',

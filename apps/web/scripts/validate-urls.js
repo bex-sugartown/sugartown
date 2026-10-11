@@ -56,6 +56,7 @@ const TYPE_NAMESPACES = {
   caseStudy: 'case-studies',
   node: 'nodes',
   glossaryTerm: 'glossary',
+  releaseNote: 'releases',
 }
 
 function getCanonicalPath({ docType, slug }) {
@@ -68,7 +69,7 @@ function getCanonicalPath({ docType, slug }) {
   return `/${prefix}/${s}`
 }
 
-const ARCHIVE_PATHS = ['/articles', '/case-studies', '/knowledge-graph', '/nodes']
+const ARCHIVE_PATHS = ['/articles', '/case-studies', '/knowledge-graph', '/nodes', '/releases']
 const TAXONOMY_BASE_PATHS = ['/tags', '/categories', '/projects', '/people', '/tools']
 
 // Reserved namespace slugs that page documents must never use.
@@ -78,6 +79,7 @@ const RESERVED_PAGE_SLUGS = [
   'case-studies',
   'knowledge-graph',
   'nodes',
+  'releases',
   'tags',
   'categories',
   'projects',
@@ -139,11 +141,13 @@ const query = `{
   "articles": *[_type == "article" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "caseStudies": *[_type == "caseStudy" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "nodes": *[_type == "node" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
+  "releaseNotes": *[_type == "releaseNote" && defined(slug.current)] { _id, _type, title, "slug": slug.current },
   "archivePages": *[_type == "archivePage" && defined(slug.current)] { _id, _type, title, "slug": slug.current, contentTypes },
   "pagesNoSlug": *[_type == "page" && !defined(slug.current)] { _id, _type, title },
   "articlesNoSlug": *[_type == "article" && !defined(slug.current)] { _id, _type, title },
   "caseStudiesNoSlug": *[_type == "caseStudy" && !defined(slug.current)] { _id, _type, title },
   "nodesNoSlug": *[_type == "node" && !defined(slug.current)] { _id, _type, title },
+  "releaseNotesNoSlug": *[_type == "releaseNote" && !defined(slug.current)] { _id, _type, title },
   "navItems": *[_type == "navigation"][0...10] {
     title,
     items[]{
@@ -172,12 +176,13 @@ async function run() {
     process.exit(1)
   }
 
-  const { pages, articles, caseStudies, nodes, archivePages } = data
+  const { pages, articles, caseStudies, nodes, releaseNotes, archivePages } = data
   const missingSlug = [
     ...data.pagesNoSlug,
     ...data.articlesNoSlug,
     ...data.caseStudiesNoSlug,
     ...data.nodesNoSlug,
+    ...data.releaseNotesNoSlug,
   ]
 
   // Build a set of published archive slugs for nav cross-reference
@@ -192,6 +197,7 @@ async function run() {
     ...articles.map((d) => ({ ...d, docType: 'article' })),
     ...caseStudies.map((d) => ({ ...d, docType: 'caseStudy' })),
     ...nodes.map((d) => ({ ...d, docType: 'node' })),
+    ...releaseNotes.map((d) => ({ ...d, docType: 'releaseNote' })),
   ]
 
   let totalDocs = allDocs.length
@@ -214,6 +220,7 @@ async function run() {
   console.log(`   Total docs with slugs inspected: ${totalDocs}`)
   console.log(`     pages:        ${pages.length}`)
   console.log(`     articles:     ${articles.length}`)
+  console.log(`     releaseNotes: ${releaseNotes.length}`)
   console.log(`     caseStudies:  ${caseStudies.length}`)
   console.log(`     nodes:        ${nodes.length}`)
   console.log()

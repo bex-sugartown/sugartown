@@ -39,7 +39,10 @@ function toRow(item, fallbackDocType) {
   const isNode = docType === 'node' || item._type === 'node'
   const useStatus = isNode && status && STATUS_LABELS[status]
   const cat = item.categories?.[0]
-  const tag = useStatus ? STATUS_LABELS[status] : (cat?.name ?? cat?.title)
+  const isRelease = docType === 'releaseNote' || item._type === 'releaseNote'
+  const tag = isRelease && item.version
+    ? `v${item.version}`
+    : useStatus ? STATUS_LABELS[status] : (cat?.name ?? cat?.title)
   return {
     key: item._id,
     tag,

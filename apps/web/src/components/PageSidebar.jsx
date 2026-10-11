@@ -84,7 +84,7 @@ function extractToc(sections, content) {
   return entries
 }
 
-const TYPE_LABELS = { node: 'Node', article: 'Article', caseStudy: 'Case Study' }
+const TYPE_LABELS = { node: 'Node', article: 'Article', releaseNote: 'Release note', caseStudy: 'Case Study' }
 
 const AI_TOOL_NAMES = ['claude', 'chatgpt', 'gemini', 'copilot', 'midjourney', 'dall-e', 'stable diffusion']
 function isAiTool(tool) {

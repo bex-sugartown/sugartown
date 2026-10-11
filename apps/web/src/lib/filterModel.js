@@ -84,6 +84,7 @@ const CONTENT_TYPE_DISPLAY_NAMES = {
   article:   'Article',
   node:      'Node',
   caseStudy: 'Case Study',
+  releaseNote: 'Release Note',
 }
 
 // ─── Facet extractors ─────────────────────────────────────────────────────────

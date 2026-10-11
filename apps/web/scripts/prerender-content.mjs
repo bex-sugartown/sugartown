@@ -2,7 +2,7 @@
 /**
  * prerender-content.mjs — SUG-183
  *
- * Generates static HTML snapshots for article, node, and case-study routes.
+ * Generates static HTML snapshots for article, node, case-study and release-note routes.
  * Runs after `vite build` so bots and importers (Medium, Googlebot, social
  * card scrapers) receive real content instead of the empty SPA shell.
  *
@@ -81,6 +81,7 @@ const TYPE_PREFIX = {
   article:   'articles',
   node:      'nodes',
   caseStudy: 'case-studies',
+  releaseNote: 'releases',
 }
 
 // ─── Lightweight Portable Text → HTML serialiser ─────────────────────────────
@@ -288,7 +289,7 @@ const CONTENT_QUERY = (type) => `*[
   _id,
   title,
   "slug": slug.current,
-  "description": coalesce(excerpt, seo.description, ""),
+  "description": coalesce(excerpt, summary, seo.description, ""),
   sections[]
 }`
 
@@ -303,16 +304,18 @@ async function run() {
   console.log('[prerender] Fetching published content from Sanity...')
   const assets = getViteAssets()
 
-  const [articles, nodes, caseStudies] = await Promise.all([
+  const [articles, nodes, caseStudies, releaseNotes] = await Promise.all([
     client.fetch(CONTENT_QUERY('article')),
     client.fetch(CONTENT_QUERY('node')),
     client.fetch(CONTENT_QUERY('caseStudy')),
+    client.fetch(CONTENT_QUERY('releaseNote')),
   ])
 
   const routes = [
     ...articles.map(doc  => ({ doc, prefix: TYPE_PREFIX.article })),
     ...nodes.map(doc     => ({ doc, prefix: TYPE_PREFIX.node })),
     ...caseStudies.map(doc => ({ doc, prefix: TYPE_PREFIX.caseStudy })),
+    ...releaseNotes.map(doc => ({ doc, prefix: TYPE_PREFIX.releaseNote })),
   ]
 
   console.log(`[prerender] Writing ${routes.length} route snapshots...`)
@@ -337,6 +340,7 @@ async function run() {
   console.log(`[prerender]   articles:    ${articles.length}`)
   console.log(`[prerender]   nodes:       ${nodes.length}`)
   console.log(`[prerender]   case-studies: ${caseStudies.length}`)
+  console.log(`[prerender]   releases:    ${releaseNotes.length}`)
 }
 
 run().catch(err => {

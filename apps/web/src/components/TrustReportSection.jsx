@@ -1,5 +1,5 @@
 import { useSanityDoc } from '../lib/useSanityDoc'
-import { latestArticleQuery, latestNodeQuery } from '../lib/queries'
+import { latestArticleQuery, latestNodeQuery, releaseNoteByVersionQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { Grid } from '../design-system'
 import stats from '../generated/stats.json'
@@ -105,6 +105,10 @@ function RecentlyShippedReport() {
   const { data: latestArticle, loading: articleLoading } = useSanityDoc(latestArticleQuery)
   const { data: latestNode, loading: nodeLoading } = useSanityDoc(latestNodeQuery)
   const release = stats.release?.current
+  const { data: releaseNote } = useSanityDoc(releaseNoteByVersionQuery, { version: release?.version ?? '' })
+  const releaseHref = releaseNote?.slug
+    ? getCanonicalPath({ docType: 'releaseNote', slug: releaseNote.slug })
+    : TRUST_LINKS.changelog
 
   return (
     <div className={styles.reportWrap}>
@@ -114,7 +118,7 @@ function RecentlyShippedReport() {
           title={release ? `v${release.version}` : '—'}
           body={release?.descriptor}
           meta={release ? `${release.date} · ${release.issueId ?? 'changelog'}` : null}
-          href={TRUST_LINKS.changelog}
+          href={releaseHref}
           labelColor="brand"
           titleSize="lg"
         />

@@ -9,6 +9,7 @@
  * Routes that use this component:
  *   /articles          → archivePage slug: articles        contentTypes: [article]
  *   /case-studies      → archivePage slug: case-studies    contentTypes: [caseStudy]
+ *   /releases          → archivePage slug: releases        contentTypes: [releaseNote]
  *   /knowledge-graph   → archivePage slug: knowledge-graph contentTypes: [node]
  *
  * L1/L2 model:
@@ -122,6 +123,19 @@ const ARCHIVE_QUERIES = {
       ${ENUM_PROJECTION}
     }
   `,
+  releaseNote: `
+    *[_type == "releaseNote" && defined(slug.current)] | order(releasedAt desc) {
+      _id,
+      _type,
+      title,
+      "slug": slug.current,
+      "excerpt": summary,
+      version,
+      "publishedAt": releasedAt,
+      ${TAXONOMY_PROJECTION},
+      ${ENUM_PROJECTION}
+    }
+  `,
   caseStudy: `
     *[_type == "caseStudy" && defined(slug.current)] | order(publishedAt desc) {
       _id,
@@ -141,6 +155,7 @@ const CONTENT_TYPE_TO_DOC_TYPE = {
   article: 'article',
   node: 'node',
   caseStudy: 'caseStudy',
+  releaseNote: 'releaseNote',
 }
 
 // ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
@@ -262,7 +277,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   const activeFilterCount = Object.values(activeFilters).reduce((s, a) => s + a.length, 0)
   const filterDrawerLabel = isMultiType
     ? 'Filter library'
-    : { article: 'Filter articles', caseStudy: 'Filter case studies', node: 'Filter nodes' }[contentType] ?? 'Filters'
+    : { article: 'Filter articles', caseStudy: 'Filter case studies', releaseNote: 'Filter releases', node: 'Filter nodes' }[contentType] ?? 'Filters'
 
   if (!isMultiType && (!query || !docType)) {
     if (import.meta.env.DEV) {
@@ -291,7 +306,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     ? (allItems ?? []).find(i => i.slug === selectedGraphNode.id.replace(/^item:/, '')) ?? null
     : null
 
-  const contentTypeLabel = isMultiType ? 'ITEMS' : contentType === 'article' ? 'ARTICLES' : contentType === 'caseStudy' ? 'CASE STUDIES' : 'NODES'
+  const contentTypeLabel = isMultiType ? 'ITEMS' : contentType === 'article' ? 'ARTICLES' : contentType === 'caseStudy' ? 'CASE STUDIES' : contentType === 'releaseNote' ? 'RELEASES' : 'NODES'
   const graphCtaHref = isMultiType ? '/knowledge-graph' : `/knowledge-graph?type=${contentType}`
 
   return (

@@ -74,6 +74,7 @@ const client = createClient({
 const TYPE_NAMESPACES = {
   article: 'articles',
   caseStudy: 'case-studies',
+  releaseNote: 'releases',
   node: 'nodes',
 }
 
@@ -101,6 +102,7 @@ const PRIORITY_MAP = {
   page: { priority: '0.8', changefreq: 'monthly' },
   article: { priority: '0.7', changefreq: 'monthly' },
   caseStudy: { priority: '0.7', changefreq: 'monthly' },
+  releaseNote: { priority: '0.5', changefreq: 'yearly' },
   node: { priority: '0.6', changefreq: 'weekly' },
   archivePage: { priority: '0.6', changefreq: 'weekly' },
   category: { priority: '0.4', changefreq: 'monthly' },
@@ -123,7 +125,7 @@ const STATIC_ROUTES = [
 const sitemapQuery = `
   *[
     _type in [
-      "page", "article", "caseStudy", "node", "archivePage",
+      "page", "article", "caseStudy", "releaseNote", "node", "archivePage",
       "category", "tag", "project", "person", "tool"
     ]
     && defined(slug.current)

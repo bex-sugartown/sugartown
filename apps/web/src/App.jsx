@@ -14,6 +14,7 @@ import HomePage from './pages/HomePage'
 import RootPage from './pages/RootPage'
 import ArchivePage from './pages/ArchivePage'
 import ArticlePage from './pages/ArticlePage'
+import ReleaseNotePage from './pages/ReleaseNotePage'
 import SeriesPage from './pages/SeriesPage'
 import CaseStudyPage from './pages/CaseStudyPage'
 import NodePage from './pages/NodePage'
@@ -116,6 +117,9 @@ function App() {
         <Route path="/articles" element={<ArchivePage archiveSlug="articles" />} />
         <Route path="/articles/:slug" element={<ArticlePage />} />
         <Route path="/series/:slug" element={<SeriesPage />} />
+
+        <Route path="/releases" element={<ArchivePage archiveSlug="releases" />} />
+        <Route path="/releases/:slug" element={<ReleaseNotePage />} />
 
         <Route path="/case-studies" element={<ArchivePage archiveSlug="case-studies" />} />
         <Route path="/case-studies/:slug" element={<CaseStudyPage />} />

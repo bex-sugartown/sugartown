@@ -485,6 +485,150 @@ export const nodeBySlugQuery = `
   }
 `
 
+// Shared by every content type that renders the article `sections` array
+// (article, releaseNote). Moved verbatim out of articleBySlugQuery (#147).
+export const SECTIONS_PROJECTION = `
+sections[]{
+  _type,
+  _key,
+  _type in ["heroSection", "hero"] => {
+    heading,
+    subheading,
+    eyebrow,
+    imageTreatment,
+    imageWidth,
+    backgroundImage {
+      asset->,
+      alt,
+      crop,
+      hotspot
+    },
+    cta {
+      text,
+      "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
+      style
+    },
+    "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
+    showStatRail,
+    showMetaFinePrint
+  },
+  _type == "textSection" => {
+    heading,
+    "content": content${PT_CONTENT_PROJECTION}
+  },
+  _type == "imageGallery" => {
+    heading,
+    layout,
+    treatment,
+    images[] {
+      "asset": asset.asset->,
+      "hotspot": asset.hotspot,
+      "crop": asset.crop,
+      alt,
+      caption,
+      credit,
+      "link": link {
+        type,
+        "url": ${LINKITEM_URL_EXPR_BARE},
+        label,
+        openInNewTab
+      },
+      "legacyLinkUrl": linkUrl
+    }
+  },
+  _type == "ctaSection" => {
+    heading,
+    description,
+    buttons[] { "text": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
+  },
+  _type == "htmlSection" => {
+    html,
+    label
+  },
+  _type == "cardBuilderSection" => {
+    heading,
+    layout,
+    cards[]{
+      title,
+      titleLink {
+        type,
+        "internalUrl": internalRef->slug.current,
+        "internalType": internalRef->_type,
+        externalUrl
+      },
+      image { asset->, alt, crop, hotspot },
+      overlay,
+      eyebrow,
+      categoryPosition,
+      subtitle,
+      body${PT_CONTENT_PROJECTION},
+      citations[]{
+        text,
+        link {
+          type,
+          "internalUrl": internalRef->slug.current,
+          "internalType": internalRef->_type,
+          "internalTitle": internalRef->title,
+          externalUrl
+        },
+        linkLabel
+      },
+      tools[]->{ _id, "title": name, slug },
+      tags[]->{ _id, "title": name, slug }
+    }
+  },
+  _type == "calloutSection" => {
+    variant,
+    number,
+    title,
+    "body": body${PT_CONTENT_PROJECTION}
+  },
+  _type == "mermaidSection" => {
+    code,
+    caption,
+    width
+  },
+  _type == "accordionSection" => {
+    heading,
+    semantic,
+    multi,
+    numbered,
+    numberPrefix,
+    items[] {
+      _key,
+      title,
+      "content": content${PT_CONTENT_PROJECTION}
+    }
+  },
+  _type == "trustReportSection" => {
+    heading,
+    reports,
+    defaultFormFactor,
+    cwvUrl,
+    "reportType": reportType
+  },
+  _type == "citedBlock" => {
+    heading,
+    "body": body${PT_CONTENT_PROJECTION},
+    references[]->{_id, _type, title, "slug": slug.current}
+  },
+  _type == "cardSection" => {
+    number,
+    name,
+    title,
+    kicker,
+    items[] {
+      _key,
+      metric,
+      valueAfter,
+      valueBefore,
+      impactStatement,
+      evidenceType
+    }
+  },
+},
+`
+
 // ---- ARTICLES ----
 
 export const allArticlesQuery = `
@@ -518,145 +662,7 @@ export const articleBySlugQuery = `
     "content": content${PT_CONTENT_PROJECTION},
     "body": content${PT_CONTENT_PROJECTION},
     excerpt,
-    sections[]{
-      _type,
-      _key,
-      _type in ["heroSection", "hero"] => {
-        heading,
-        subheading,
-        eyebrow,
-        imageTreatment,
-        imageWidth,
-        backgroundImage {
-          asset->,
-          alt,
-          crop,
-          hotspot
-        },
-        cta {
-          text,
-          "url": ${LINKITEM_URL_EXPR}, "label": link.label, "openInNewTab": link.openInNewTab,
-          style
-        },
-        "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
-        showStatRail,
-        showMetaFinePrint
-      },
-      _type == "textSection" => {
-        heading,
-        "content": content${PT_CONTENT_PROJECTION}
-      },
-      _type == "imageGallery" => {
-        heading,
-        layout,
-        treatment,
-        images[] {
-          "asset": asset.asset->,
-          "hotspot": asset.hotspot,
-          "crop": asset.crop,
-          alt,
-          caption,
-          credit,
-          "link": link {
-            type,
-            "url": ${LINKITEM_URL_EXPR_BARE},
-            label,
-            openInNewTab
-          },
-          "legacyLinkUrl": linkUrl
-        }
-      },
-      _type == "ctaSection" => {
-        heading,
-        description,
-        buttons[] { "text": coalesce(link.label, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style }
-      },
-      _type == "htmlSection" => {
-        html,
-        label
-      },
-      _type == "cardBuilderSection" => {
-        heading,
-        layout,
-        cards[]{
-          title,
-          titleLink {
-            type,
-            "internalUrl": internalRef->slug.current,
-            "internalType": internalRef->_type,
-            externalUrl
-          },
-          image { asset->, alt, crop, hotspot },
-          overlay,
-          eyebrow,
-          categoryPosition,
-          subtitle,
-          body${PT_CONTENT_PROJECTION},
-          citations[]{
-            text,
-            link {
-              type,
-              "internalUrl": internalRef->slug.current,
-              "internalType": internalRef->_type,
-              "internalTitle": internalRef->title,
-              externalUrl
-            },
-            linkLabel
-          },
-          tools[]->{ _id, "title": name, slug },
-          tags[]->{ _id, "title": name, slug }
-        }
-      },
-      _type == "calloutSection" => {
-        variant,
-        number,
-        title,
-        "body": body${PT_CONTENT_PROJECTION}
-      },
-      _type == "mermaidSection" => {
-        code,
-        caption,
-        width
-      },
-      _type == "accordionSection" => {
-        heading,
-        semantic,
-        multi,
-        numbered,
-        numberPrefix,
-        items[] {
-          _key,
-          title,
-          "content": content${PT_CONTENT_PROJECTION}
-        }
-      },
-      _type == "trustReportSection" => {
-        heading,
-        reports,
-        defaultFormFactor,
-        cwvUrl,
-        "reportType": reportType
-      },
-      _type == "citedBlock" => {
-        heading,
-        "body": body${PT_CONTENT_PROJECTION},
-        references[]->{_id, _type, title, "slug": slug.current}
-      },
-      _type == "cardSection" => {
-        number,
-        name,
-        title,
-        kicker,
-        items[] {
-          _key,
-          metric,
-          valueAfter,
-          valueBefore,
-          impactStatement,
-          evidenceType
-        }
-      },
-    },
+    ${SECTIONS_PROJECTION}
     author,
     aiDisclosure,
     authors[]->{${PERSON_FRAGMENT}},
@@ -682,6 +688,42 @@ export const articleBySlugQuery = `
       title, "slug": slug.current
     },
     ${SEO_FRAGMENT}
+  }
+`
+
+// ---- RELEASE NOTES (#147) ----
+// `releasedAt` is the canonical date. It is aliased to `publishedAt` so the shared
+// components (MetadataCard, JSON-LD, archive sort and filters) read it unchanged.
+
+export const releaseNoteBySlugQuery = `
+  *[_type == "releaseNote" && slug.current == $slug][0] {
+    _id,
+    _type,
+    title,
+    slug,
+    version,
+    releasedAt,
+    "publishedAt": releasedAt,
+    "excerpt": summary,
+    summary,
+    ${SECTIONS_PROJECTION}
+    aiDisclosure,
+    authors[]->{${PERSON_FRAGMENT}},
+    citations[],
+    "prev": *[_type == "releaseNote" && defined(slug.current) && releasedAt < ^.releasedAt] | order(releasedAt desc)[0] {
+      title, version, "slug": slug.current
+    },
+    "next": *[_type == "releaseNote" && defined(slug.current) && releasedAt > ^.releasedAt] | order(releasedAt asc)[0] {
+      title, version, "slug": slug.current
+    },
+    ${SEO_FRAGMENT}
+  }
+`
+
+// Homepage "Recently shipped" tile: link to the note for a version when one exists.
+export const releaseNoteByVersionQuery = `
+  *[_type == "releaseNote" && version == $version && defined(slug.current)][0] {
+    "slug": slug.current
   }
 `
 
@@ -1582,7 +1624,7 @@ export const sitemapQuery = `
   {
     "content": *[
       _type in [
-        "page", "article", "caseStudy", "node", "archivePage",
+        "page", "article", "caseStudy", "releaseNote", "node", "archivePage",
         "category", "tag", "project", "person", "tool"
       ]
       && defined(slug.current)
@@ -1597,14 +1639,14 @@ export const sitemapQuery = `
     "stats": {
       "totalPublished": count(*[
         _type in [
-          "page", "article", "caseStudy", "node", "archivePage",
+          "page", "article", "caseStudy", "releaseNote", "node", "archivePage",
           "category", "tag", "project", "person", "tool"
         ]
         && defined(slug.current)
       ]),
       "hiddenFromSearch": count(*[
         _type in [
-          "page", "article", "caseStudy", "node", "archivePage",
+          "page", "article", "caseStudy", "releaseNote", "node", "archivePage",
           "category", "tag", "project", "person", "tool"
         ]
         && defined(slug.current)
