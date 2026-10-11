@@ -105,7 +105,7 @@ const rawClient = createClient({
 const CONTENT_TYPES = ['article', 'caseStudy', 'node']
 const TAXONOMY_TYPES = ['category', 'tag', 'project', 'person', 'tool']
 const ALL_SLUGGED_TYPES = ['page', ...CONTENT_TYPES, ...TAXONOMY_TYPES, 'archivePage']
-const VALID_ARCHIVE_CONTENT_TYPES = ['article', 'caseStudy', 'releaseNote', 'node']
+const VALID_ARCHIVE_CONTENT_TYPES = ['article', 'caseStudy', 'releaseNote', 'node', 'project', 'glossaryTerm']
 
 // ─── GROQ query — fetch everything we need in one round-trip ─────────────────
 
