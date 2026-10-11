@@ -126,6 +126,14 @@ Next step is Phase 0, the vspec. Nothing in Phases 1 to 3 has started; no code, 
 - `schema deploy` is required before MCP writes of the new type succeed.
 - Check #82 (SEO prerendering) before editing `prerender-content.mjs`; it extends the same script.
 
+## Progress (2026-10-11)
+
+- **Phase 0 done.** Vspec signed off by Bex 2026-10-11. Decisions: no archive filtering; version in the tag column; no summary in rows; article detail shell with Version and Released; JSON-LD reuses the article generator.
+- **Phase 1 done, committed locally (not pushed).** Schema `aad9a9b3`, web `727d9952`. Schema deployed. `pnpm lint`, `pnpm build`, `pnpm test:smoke` pass. `releasedAt` is canonical; queries alias it to `publishedAt`. The article `sections` projection moved to a shared `SECTIONS_PROJECTION` in `queries.js`.
+- **Not yet verified:** the detail and archive pages with real data (no `releaseNote` documents or `releases` archivePage document exist yet).
+- **Phase 2 needs first:** a draft `archivePage` document with slug `releases`, contentTypes `[releaseNote]`, displayStyle `list` (Content Write Gate), alongside the migration proposal.
+- **Found, not fixed:** `pnpm validate:content` already fails on 2 archivePage errors unrelated to this epic (Library lists `project`, Glossary lists `glossaryTerm`; neither is in `VALID_ARCHIVE_CONTENT_TYPES`).
+
 ## Related
 
 - **GitHub:** [#147](https://github.com/bex-sugartown/sugartown/issues/147)
