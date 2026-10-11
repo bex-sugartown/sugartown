@@ -2,15 +2,21 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { SegmentedControl } from './SegmentedControl';
 
-const meta: Meta<typeof SegmentedControl> = {
+const meta: Meta<typeof Controlled> = {
   title: 'Components/SegmentedControl',
-  component: SegmentedControl,
+  component: Controlled,
   tags: ['autodocs'],
   parameters: { layout: 'centered' },
+  argTypes: {
+    'aria-label': { control: 'text', description: 'Accessible name for the group' },
+    defaultValue: { control: 'text', description: 'Which option starts selected (the option `value`)' },
+    variant: { table: { disable: true } },
+    options: { table: { disable: true } },
+  },
 };
 
 export default meta;
-type Story = StoryObj<typeof SegmentedControl>;
+type Story = StoryObj<typeof Controlled>;
 
 // ── Controlled wrapper ────────────────────────────────────────────────────────
 function Controlled(props: Omit<React.ComponentProps<typeof SegmentedControl>, 'value' | 'onChange'> & { defaultValue?: string }) {
@@ -21,31 +27,31 @@ function Controlled(props: Omit<React.ComponentProps<typeof SegmentedControl>, '
 // ── Pill variant (text labels) — CWV mobile/desktop toggle ───────────────────
 export const PillMobileDesktop: Story = {
   name: 'Pill — Mobile / Desktop',
-  render: () => (
+  args: { 'aria-label': 'Form factor', defaultValue: 'mobile' },
+  render: (args) => (
     <Controlled
+      {...args}
       variant="pill"
-      aria-label="Form factor"
       options={[
         { label: 'Mobile', value: 'mobile' },
         { label: 'Desktop', value: 'desktop' },
       ]}
-      defaultValue="mobile"
     />
   ),
 };
 
 export const PillThreeOptions: Story = {
   name: 'Pill — Three options',
-  render: () => (
+  args: { 'aria-label': 'Time range', defaultValue: '28d' },
+  render: (args) => (
     <Controlled
+      {...args}
       variant="pill"
-      aria-label="Time range"
       options={[
         { label: '7d', value: '7d' },
         { label: '28d', value: '28d' },
         { label: '90d', value: '90d' },
       ]}
-      defaultValue="28d"
     />
   ),
 };
@@ -84,31 +90,31 @@ const GraphIcon = () => (
 
 export const IconGridList: Story = {
   name: 'Icon — Grid / List',
-  render: () => (
+  args: { 'aria-label': 'Layout', defaultValue: 'grid' },
+  render: (args) => (
     <Controlled
+      {...args}
       variant="icon"
-      aria-label="Layout"
       options={[
         { icon: <GridIcon />, value: 'grid', ariaLabel: 'Grid view' },
         { icon: <ListIcon />, value: 'list', ariaLabel: 'List view' },
       ]}
-      defaultValue="grid"
     />
   ),
 };
 
 export const IconThreeOptions: Story = {
   name: 'Icon — Grid / List / Graph',
-  render: () => (
+  args: { 'aria-label': 'View', defaultValue: 'grid' },
+  render: (args) => (
     <Controlled
+      {...args}
       variant="icon"
-      aria-label="View"
       options={[
         { icon: <GridIcon />, value: 'grid', ariaLabel: 'Grid view' },
         { icon: <ListIcon />, value: 'list', ariaLabel: 'List view' },
         { icon: <GraphIcon />, value: 'graph', ariaLabel: 'Graph view' },
       ]}
-      defaultValue="grid"
     />
   ),
 };

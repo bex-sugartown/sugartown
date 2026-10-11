@@ -100,13 +100,17 @@ function Hero({ title, ctas }) {
 
 // ── Inline Code ──────────────────────────────────────────────────────────────
 
-export const InlineCodeStory: Story = {
+export const InlineCodeStory: StoryObj<{ sample: string }> = {
   name: 'Inline Code',
-  render: () => (
+  args: { sample: '--st-color-brand-primary' },
+  argTypes: {
+    sample: { control: 'text', description: 'Text shown in the last inline code sample' },
+  },
+  render: ({ sample }) => (
     <p style={{ fontSize: '1rem', lineHeight: 1.6, maxWidth: '600px' }}>
       Use <InlineCode>variant=&quot;listing&quot;</InlineCode> on the{' '}
       <InlineCode>Card</InlineCode> component for archive-density layouts.
-      The token <InlineCode>--st-color-brand-primary</InlineCode> resolves
+      The token <InlineCode>{sample}</InlineCode> resolves
       to <InlineCode>#ff247d</InlineCode> (Sugartown Pink).
     </p>
   ),

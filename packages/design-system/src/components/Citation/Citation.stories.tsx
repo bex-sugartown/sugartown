@@ -2,8 +2,13 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { CitationMarker, CitationNote, CitationZone } from './Citation';
 
-const meta: Meta = {
+const meta: Meta<{ index: number; note: string }> = {
   title: 'Components/Citation',
+  args: { index: 1, note: 'Source: Resume Engine v2.0 — deterministic content selection pipeline' },
+  argTypes: {
+    index: { control: { type: 'number', min: 1, max: 9 }, description: 'Citation number shown in the marker and the note' },
+    note: { control: 'text', description: 'Footnote text' },
+  },
   parameters: {
     chromatic: { disableSnapshot: false },
     docs: {
@@ -19,7 +24,7 @@ const meta: Meta = {
 };
 
 export default meta;
-type Story = StoryObj;
+type Story = StoryObj<{ index: number; note: string }>;
 
 
 /* ══════════════════════════════════════════════════════
@@ -28,7 +33,7 @@ type Story = StoryObj;
 
 export const Default: Story = {
   name: 'Default — Single Citation',
-  render: () => (
+  render: ({ index, note }) => (
     <div style={{ maxWidth: 480 }}>
       <h3 style={{ fontFamily: 'var(--st-font-family-narrative)', marginBottom: '0.75rem' }}>
         A Systems View of a Career
@@ -37,13 +42,11 @@ export const Default: Story = {
         The Resume Factory is a rules-based composition engine that assembles resumes
         from a single source of truth. Content is selected via variants, slots, and
         deterministic fallbacks so tailoring reflects intent, not AI guesswork.{' '}
-        <CitationMarker index={1} />
+        <CitationMarker index={index} />
       </p>
 
       <CitationZone>
-        <CitationNote index={1}>
-          Source: Resume Engine v2.0 — deterministic content selection pipeline
-        </CitationNote>
+        <CitationNote index={index}>{note}</CitationNote>
       </CitationZone>
     </div>
   ),
