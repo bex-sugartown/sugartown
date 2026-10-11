@@ -4,14 +4,14 @@
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** 19 September 2026
-**Related:** [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`), site Privacy / Terms / Accessibility pages
+**Related:** site Privacy / Terms / Accessibility pages
 
 ---
 
 ## Purpose
 
 A plain-language record of what `sugartown.io` collects, who processes it, and how AI is
-used in building the site. It closes the Layer 6 GDPR row in [[governance-coverage]], which
+used in building the site. It closes the Layer 6 GDPR row in `governance-coverage` (retired with the SUG-284 unwind), which
 previously had a site-level privacy policy but no data-handling note for the AI layer.
 
 This is the engineering-side source of truth. The public Privacy page is the visitor-facing
@@ -74,7 +74,7 @@ The boundary is clean: AI touches the *build*, never the *visitor*.
 | Anthropic / OpenAI / Google (model providers) | Build-time AI tooling | Repository and content only, at authoring time. No visitor data. |
 
 Encryption, key management, and anonymisation primitives are inherited from these platforms,
-not rebuilt locally (see [[governance-coverage]] Layer 3).
+not rebuilt locally (see Layer 3 of `governance-coverage`, retired with the SUG-284 unwind).
 
 ---
 
@@ -100,4 +100,4 @@ implementation. Replaces the no-banner finding recorded in v1.0.
 Initial document (SUG-198). Records the three collection points (contact form, analytics,
 hosting logs), the verified GA suppression-but-no-consent-banner behaviour, the build-only
 AI boundary, and the third-party processor list. Closes the Layer 6 GDPR data-handling gap
-in [[governance-coverage]].
+in `governance-coverage` (retired with the SUG-284 unwind).

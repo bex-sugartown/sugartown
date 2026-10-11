@@ -4,7 +4,7 @@
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** June 2026
-**Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`)
+**Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`)
 
 ---
 
@@ -13,7 +13,7 @@
 A registry entry for each agent in the Caucus. This is the lightweight equivalent of a
 model card: what the agent is, which model backs it, what it is good at, where it fails, and
 the rule for when to reach for it. It closes the Model Registry (Layer 1) and Model Cards
-(Layer 4) gaps named in [[governance-coverage]].
+(Layer 4) gaps named in `governance-coverage` (retired with the SUG-284 unwind).
 
 Version pinning note: Claude model IDs are exact because the repo controls them. ChatGPT and
 Gemini run as the latest model their consumer product serves; those are not pinned and the
@@ -67,7 +67,7 @@ Gemini run as the latest model their consumer product serves; those are not pinn
 
 When an agent's backing model changes tier or a new failure mode is confirmed, update the
 card in the same commit. When a new agent joins the Caucus, add a card here and a row to the
-coverage tally in [[governance-coverage]].
+coverage tally in `governance-coverage` (retired with the SUG-284 unwind).
 
 ---
 

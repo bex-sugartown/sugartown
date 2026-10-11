@@ -4,14 +4,14 @@
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** 11 August 2026
-**Related:** [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`), [[methodology]] (`docs/ai/agentic-caucus/methodology.md`)
+**Related:** [[failure-modes]] (`docs/ai/agentic-caucus/failure-modes.md`), [[methodology]] (`docs/ai/agentic-caucus/methodology.md`)
 
 ---
 
 ## Purpose
 
 This is the append-only home for confirmed incidents. It closes the Layer 6
-incident-reporting gap recorded in [[governance-coverage]]: before this log, confirmed
+incident-reporting gap recorded in `governance-coverage` (retired with the SUG-284 unwind): before this log, confirmed
 failures were scattered across session post-mortems, "process failure" annotations in
 commits, and ad-hoc notes. They now have one registry.
 
@@ -431,4 +431,4 @@ out to be better telemetry than the pipeline built to produce telemetry.
 ### v1.0 — 30 June 2026
 Initial document (SUG-198). Defined the append format and the failure-mode/incident
 distinction. Seeded with two confirmed, dated incidents (INC-001, INC-002) drawn from
-existing post-mortems. Closes the Layer 6 incident-reporting gap in [[governance-coverage]].
+existing post-mortems. Closes the Layer 6 incident-reporting gap in `governance-coverage` (retired with the SUG-284 unwind).

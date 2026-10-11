@@ -4,7 +4,7 @@
 **Status:** Active
 **Owner:** Bex Head
 **Last updated:** June 2026
-**Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`), [[governance-coverage]] (`docs/ai/agentic-caucus/governance-coverage.md`)
+**Related:** [[methodology]] (`docs/ai/agentic-caucus/methodology.md`)
 
 ---
 
@@ -13,7 +13,7 @@
 This writes down the risk tiering that already operates implicitly across `CLAUDE.md`. Every
 action an agent takes falls into one of four tiers, and each tier carries a gate and a named
 authority for who executes the irreversible step. It closes the Risk Tiering (Layer 1) gap in
-[[governance-coverage]].
+`governance-coverage` (retired with the SUG-284 unwind).
 
 The principle: autonomy scales inversely with reversibility. Mechanical, reversible work runs
 without a gate. Outward-facing, irreversible work is human-executed. The tier is set by the
