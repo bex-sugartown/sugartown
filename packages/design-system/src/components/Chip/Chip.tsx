@@ -21,7 +21,7 @@ export interface ChipProps {
   variant?: 'badge' | 'tag' | 'status';
   /** Status key for the semantic dot color. Only meaningful when variant="badge". */
   status?: ChipStatus;
-  /** Pink rubric — first-child taxonomy highlight. Only applied when variant="tag". */
+  /** @deprecated No visual effect since ST-150: the first tag looks like every other tag. Kept so existing callers compile. */
   featured?: boolean;
   /**
    * When provided, the chip renders as a link.
@@ -34,11 +34,11 @@ export interface ChipProps {
    * Useful for filter toggles or any click-to-select interaction.
    */
   onClick?: () => void;
-  /** Active / selected state — solid accent fill, white label */
+  /** Selected state — a solid reversed chip (text colour as fill, canvas as label). With `color` set, the fill is that colour with a white label. */
   isActive?: boolean;
   /**
-   * Named color preset from the Sugartown palette.
-   * On default chips: sets chip surface color via --chip-color.
+   * Named color preset from the Sugartown palette (opt-in tint).
+   * Chips without `color` are neutral. On default and tag chips: tints the chip surface (border, label, light fill) via --chip-color.
    * On variant="status": drives dot color instead of chip surface.
    */
   color?: ChipColor;
@@ -95,7 +95,8 @@ export const Chip: React.FC<ChipProps> = ({
     isDotColor && styles.ruleDot,
     isDotColor && styles.dotColor,
     isInteractive && styles.interactive,
-    !isRuleDot && !isDotColor && isActive && styles.active,
+    isActive && !isDotColor && styles.active,
+    (((!isRuleDot && !isDotColor) || tagWithColor) && (color || colorHex)) && styles.tinted,
     (isRuleDot || isDotColor) ? size === 'sm' && styles.sm : size === 'sm' && styles.sm,
     // Color class: default chips, OR status chips where color overrides the dot, OR tag+color
     (!isRuleDot && !isDotColor || hasColorDot || tagWithColor) && color && styles[color as string],

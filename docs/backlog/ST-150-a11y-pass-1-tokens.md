@@ -111,6 +111,8 @@ Results: tag chip text 19.16 light / 12.08 dark; selected 17.12 light / 17.50 da
 | `.featured` (l.182 to 186) comment and `font-weight` | "Pink rubric", `font-weight: 600` | comment updated; `font-weight: 600` removed (decided 2026-10-11) so it matches plain tags at rest |
 | `.featured.interactive:hover` (l.207 to 211) | keeps `--st-chip-rubric-border` and `-bg` | `border-color: var(--st-color-pink)`, so the featured chip gets the same pink hover as every chip |
 
+**Chip colour presets stay (decided 2026-10-11, overrides the handoff).** The handoff made presets stop tinting and left removal to the leftovers issue. Bex wants the colour variants kept, so: a chip with no `color` is neutral; a chip with `color` or `colorHex` is tinted (`.tinted` in `Chip.module.css`), using the AA-safe light shades from section 4 of the earlier build (pink to maroon, violet-600, seafoam-800, lime-800, amber-800, grey neutral-600). Selected tinted chips: white label on those fills in light; in dark an ink label on the bright fill, and pink-600 with white for pink. `isActive` now works on tag and badge chips too (solid reversed fill). `featured` is a deprecated no-op: hidden from the docs API and marked `@deprecated`; the `--st-chip-rubric-*` tokens remain as aliases of the tag tokens, so the prop is not removed.
+
 The rule-dot hover (`.ruleDot.interactive:hover`, `Chip.module.css`) also pinned the neutral border, so tag and badge chips never got the pink hover; only the featured chip did. It now sets the pink border too (found in Visual QA, 2026-10-11). The Storybook Tag and Badge stories gained `href: '#'` so the hover can be seen.
 
 **Knowledge-graph filter chips (`theme.pink-moon.css` light block).**

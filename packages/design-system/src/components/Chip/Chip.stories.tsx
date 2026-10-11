@@ -20,12 +20,16 @@ const meta: Meta<typeof Chip> = {
       description: '`tag` — neutral gray chassis, no dot, no active state. Use for taxonomy labels. `badge` — uppercase bold chassis with optional dot. Use for status labels, project tags, and abbreviations.',
       table: { order: 1 },
     },
-    featured: { control: 'boolean', description: 'Pink rubric — first-child taxonomy highlight. Only applied when `variant="tag"`.' },
+    featured: { table: { disable: true } }, // deprecated no-op since ST-150
     isActive: {
       control: 'boolean',
-      description: 'Active / selected state — solid accent fill, white label. Only applies to default chips (no `variant`). When `color` is set the fill reflects that color.',
+      description: 'Selected state: a solid reversed chip. When `color` is set the fill is that colour with a white label.',
     },
-    color:    { control: { type: 'select' }, options: [null, 'pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'] },
+    color:    {
+      control: { type: 'select' },
+      options: [null, 'pink', 'seafoam', 'lime', 'violet', 'amber', 'grey'],
+      description: 'Opt-in colour tint. Chips without `color` are neutral. On `variant="badge"` it colours the dot instead.',
+    },
     status:   { table: { disable: true } },
     children: { table: { disable: true } },
     colorHex: { table: { disable: true } },
@@ -44,6 +48,29 @@ type Story = StoryObj<typeof Chip>;
 /** Tag chip — neutral chassis, no dot, no active state. Use for taxonomy labels. */
 export const Tag: Story = {
   args: { label: 'Design Systems', variant: 'tag', href: '#' },
+};
+
+// ─── Selectable and coloured chips ───────────────────────────────────────────
+
+/** Selectable chip. Toggle `isActive` in the controls to see the solid reversed state. */
+export const Selectable: Story = {
+  args: { label: 'Filter', onClick: () => {}, isActive: true },
+};
+
+/** Opt-in colour tint via `color`. Inactive on the left, selected on the right. */
+export const Colours: Story = {
+  name: 'Colour presets',
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+      {(['pink', 'violet', 'seafoam', 'lime', 'amber', 'grey'] as const).map((c) => (
+        <div key={c} style={{ display: 'flex', gap: '10px' }}>
+          <Chip label={c} color={c} onClick={() => {}} />
+          <Chip label={c} color={c} onClick={() => {}} isActive />
+        </div>
+      ))}
+    </div>
+  ),
+  parameters: { layout: 'padded' },
 };
 
 // ─── Badge variant ────────────────────────────────────────────────────────────

@@ -116,13 +116,13 @@
 .grey    { --chip-color: var(--st-color-softgrey-700); }
 
 /* ── Neutral chips (ST-150) ───────────────────────────────
-   Pink is the one hot colour. Legacy colour chips no longer tint: the
-   preset classes (.pink, .seafoam ...) still set --chip-color so callers
-   don't break, but bg, border and text come from the tag chip tokens.
+   Pink is the one hot colour. A chip with no `color` is neutral: bg, border
+   and text come from the tag chip tokens. Passing `color` or `colorHex`
+   opts in to a tint (.tinted, below).
    :where() keeps this at the lowest specificity so .interactive:hover
    and .active (declared earlier) still win.
    ──────────────────────────────────────────────────────── */
-.chip:where(:not(.ruleDot):not(.dotColor):not(.featured):not(.active)) {
+.chip:where(:not(.ruleDot):not(.dotColor):not(.featured):not(.active):not(.tinted)) {
   background: var(--st-chip-tag-bg);
   border-color: var(--st-chip-border);
   color: var(--st-chip-fg);
@@ -171,6 +171,56 @@
   height: var(--st-chip-dot-size);
   border-radius: 50%;
   flex-shrink: 0;
+}
+
+/* ── Opt-in colour tint (color / colorHex props) ───────────
+   AA on light: each preset steps to a darker shade (ST-150).
+   ──────────────────────────────────────────────────────── */
+:global([data-theme="light-pink-moon"]) .tinted.pink    { --chip-color: var(--st-color-maroon); }
+:global([data-theme="light-pink-moon"]) .tinted.violet  { --chip-color: var(--st-color-violet-600); }
+:global([data-theme="light-pink-moon"]) .tinted.seafoam { --chip-color: var(--st-color-seafoam-800); }
+:global([data-theme="light-pink-moon"]) .tinted.lime    { --chip-color: var(--st-color-lime-800); }
+:global([data-theme="light-pink-moon"]) .tinted.amber   { --chip-color: var(--st-color-amber-800); }
+:global([data-theme="light-pink-moon"]) .tinted.grey    { --chip-color: var(--st-color-neutral-600); }
+:global([data-theme="dark-pink-moon"]) .tinted.grey     { --chip-color: var(--st-color-softgrey-300); }
+
+:global([data-theme="light-pink-moon"]) .tinted:not(.active) {
+  border-color: color-mix(in srgb, var(--_chip-color) 60%, var(--st-color-canvas));
+}
+:global([data-theme="dark-pink-moon"]) .tinted:not(.active) {
+  background: color-mix(in srgb, var(--_chip-color) 5%, color-mix(in srgb, white 5%, var(--st-color-canvas)));
+  border-color: var(--_chip-color);
+  color: var(--_chip-color);
+}
+.tinted.interactive:hover {
+  background: color-mix(in srgb, var(--_chip-color) 25%, var(--st-color-canvas));
+  border-color: var(--_chip-color);
+  box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
+}
+.tinted.active {
+  background: var(--_chip-color);
+  border-color: var(--_chip-color);
+  color: var(--st-color-white);
+}
+.tinted.active.interactive:hover {
+  background: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
+  border-color: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
+}
+/* Dark: bright fills take an ink label (white on lime is ~1.1:1). Pink uses pink-600 with white (4.80:1; pink-500 was 3.62:1). */
+:global([data-theme="dark-pink-moon"]) .tinted.active {
+  color: var(--st-color-ink);
+}
+:global([data-theme="dark-pink-moon"]) .tinted.pink.active {
+  background: var(--st-color-pink-600);
+  border-color: var(--st-color-pink-600);
+  color: var(--st-color-white);
+}
+
+/* Selected tag or badge: same reversed look as the default selected chip */
+.ruleDot.active {
+  background: var(--st-color-text-default);
+  border-color: var(--st-color-text-default);
+  color: var(--st-color-bg-canvas);
 }
 
 /* Rule-dot hover: lift and pink border (ST-150: every linked chip gets the pink hover), no color-mix tint */
