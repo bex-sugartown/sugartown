@@ -1,6 +1,11 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v6 (2026-09-22)
-**Supersedes:** v5 (2026-09-05)
+**Version:** v7 (2026-10-11)
+**Supersedes:** v6 (2026-09-22)
+
+> **v6 → v7 changes (2026-10-11):**
+> - New STEP 3E: after the tag, create the release's `releaseNote` document in Sanity as a draft, from the Release Notes just approved at Gate 4. Closes the gap left by #147, which made release notes a Sanity type but left nothing in `/release` that creates one. Draft only; publishing stays with the human.
+> - No new gate: the text written is the text approved at Gate 4.
+> - RELEASE COMPLETION CHECKLIST and Enforcement Rules updated to match.
 
 > **v5 → v6 changes (2026-09-22):**
 > - STEP 1/2: bullets capped at one line, two sentences ceiling, evidence in a trailing parenthetical — closes the gap where Normalize deduped but never shortened, which let CHANGELOG bullets grow into paragraphs.
@@ -440,6 +445,39 @@ is explicit: a tag has to exist on GitHub before a release can be built from it,
 commit and tag are local-only until a future `/ship` pushes them. Both happen in
 `docs/ship-prompt.md` PHASE 3 step 8, triggered once the push actually lands them on origin.
 
+### STEP 3E — Create the Sanity Draft
+
+After the tag, create the release's `releaseNote` document in Sanity as a **draft**. This is
+the last write `/release` makes. No separate gate: the text written is the Release Notes
+approved at Gate 4, and the document stays a draft until a human publishes it.
+
+Use `create_documents` (project `poalmzla`, dataset `production`) with a `drafts.` ID. Do not
+use `create_version` with an `instruction`, or any other tool that rewrites content. Check
+first that no `releaseNote` with the same `version` exists (`*[_type=="releaseNote" && version=="X.(Y+1).0"]`);
+if one does, stop and tell the human instead of creating a second.
+
+**Field mapping** (schema: `apps/studio/schemas/documents/releaseNote.ts`):
+
+| Field | Value |
+|---|---|
+| `title` | `Release Note — vX.(Y+1).0` |
+| `slug` | `release-note-vX-(Y+1)-0`, dots to hyphens |
+| `version` | `X.(Y+1).0`, no leading `v` |
+| `releasedAt` | the release date, `YYYY-MM-DD` |
+| `summary` | the "What this release is" text cut to one sentence, 300 characters or fewer |
+| `aiDisclosure` | copy the value from the most recent published `releaseNote` |
+| `authors` | `[{_type: "reference", _ref: "person-bex"}]` |
+| `sections` | the three opening sections copied from the most recent published `releaseNote` (hero, pipeline diagram, pipeline links), hero `heading` set to `vX.(Y+1).0`; then one `textSection` per Release Notes heading, in order |
+
+Each `textSection` carries the Release Notes heading in its `heading` field and the body as
+Portable Text. Every block needs `markDefs: []` and every span needs `marks: []`
+(`CLAUDE.md` §Portable Text blocks written via MCP). Use `h3` blocks for sub-headings and
+bullet list items for lists.
+
+Then tell the human the draft exists and where: open **Release Note** in Studio, review it,
+and click Publish. **Do not publish.** A dismissed or unanswered prompt publishes nothing
+(`CLAUDE.md` §The Human-Publishes Rule).
+
 > **Note — RELEASE_STATE.json (retired):**
 > This artifact was carried over from the WP/Python pipeline era. Its role has no direct equivalent in the monorepo. The monorepo's accountability artifacts are `pnpm validate:tokens`, `pnpm lint`, and validator output, captured in the Release Notes "Validator state" section. Do not generate `RELEASE_STATE.json`.
 
@@ -478,6 +516,7 @@ Artifacts:
   ✅  Committed: [commit hash] — local, ships with the next `/ship`
   ✅  Tagged: vX.(Y+1).0 — local, ships with the next `/ship`
        (milestone + GitHub Release happen later, in `/ship` PHASE 3 step 8)
+  ✅  Sanity draft: releaseNote vX.(Y+1).0 created, unpublished. Open Studio > Release Note > Publish.
 
 Version bumps confirmed:
   ✅  package.json → X.(Y+1).0
@@ -506,6 +545,7 @@ Fail if:
 - Empty surfaces are included in CHANGELOG (e.g. `### apps/storybook` with no bullets).
 - The full release version is a patch number (e.g. `[0.23.27]`) — full releases must always be MINOR (`[0.24.0]`).
 - AI writes to disk before human approval at the relevant gate.
+- `/release` publishes the Sanity `releaseNote`, or writes it by any tool that rewrites content. It creates a draft and stops.
 - `/release` attempts to create a GitHub milestone or GitHub Release itself. It cannot — the tag
   it just created is local — and must not try. That work belongs to `/ship` PHASE 3 step 8.
 
