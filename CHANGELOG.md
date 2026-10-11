@@ -12,25 +12,69 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-- #133: no permission or link points at the SUG-284 governance layer any more, seven dead `pnpm validate:*` allowlist entries and 17 links to the retired `governance-coverage.md` removed (`grep` finds 0 of each; liveness probes show 0 inert gates).
-- #147: release notes are their own content type with a `/releases` archive and `/releases/<slug>` pages, the 17 notes moved out of Articles into it (Library now lists them, v0.36.0's old URL redirects), with Author and Type filters (smoke 5/5 locally, Chromatic build 99 clean; live 301 check owed at ship) (#147).
-- #74: `validate:tokens` now fails any raw `var(--st-*, value)` fallback of every value type, and all 144 are removed from app and design-system CSS with no rendering change expected (validator and liveness probe green, smoke 5/5 locally; Chromatic review and a Table caption check owed at ship).
-- #152: card status badges are the neutral chip with a pink dot (draft a ring), the dark card label row is a shade darker than the page, release-type badges and the imageless hero eyebrow pass contrast, and only weight 700 and above counts as bold for large text (smoke 5/5 locally; Chromatic review owed at ship, ships with #150 and #151).
-- #151: inline code is maroon (light) and pink (dark), glossary terms are ink on a pale pink fill with a pink dotted underline, body links carry a thin pink underline, each glossary term is one tab stop that opens its popover, and citation markers and notes are announced as citations with a back-link (smoke 5/5 locally; VoiceOver and Chromatic review owed at ship, ships with #150).
-- #150: pink is the one hot colour: small pink text on light is maroon, the primary button and accent table header use pink-600 with white labels, chips and the featured tag are neutral with a pink hover, status dots are pink with draft as a ring, and Storybook controls now work on Table, Chip, SegmentedControl and Citation (smoke 5/5 locally; Chromatic review owed at ship, ships with #151).
-- #146: the cookie consent banner is white with a strong edge in light theme and a brighter edge in dark, no longer covers the footer's version and toolchain rows, and Callout banner text sits centred on its row (smoke 5/5 locally; Chromatic review owed at ship) (#146).
-- #145: a measurable `/code` landing page and a consent-guarded `cta_click` GA4 event from every CMS button, with `/github` redirecting to it (`cta_label` and `cta_style` values seen in GA4 2026-10-07; Explore report check owed).
-- #140: the v0.36.0 release note is published (as an article for now); the other 16 move to the new Release Note type in #147 (#140).
-- #127: prerendered article, node and case-study pages are written as `<slug>.html` so Netlify answers the canonical no-slash URL with 200 instead of a 301 (smoke 5/5 locally; production `curl -sI` check after ship) (#127).
-- #144: cloud runs launch with `/cloud-launch` and finish with `/handback`, a read-only reviewer checks every cloud branch before merge, `/morning` lists runs ready for hand-back, `/ship` deletes merged cloud branches, and every step ends with a "your next step" note for Bex.
-- SUG-266: ScoreRing now follows a reduced-motion change mid-session and never counts up under reduced motion; tested in Storybook on both themes (#91).
-- #136: content Terms rows show only glossary terms linked in the text; the content-level relatedTerms field is retired, and articles now read inline terms from sections, so 11 live articles gain their Terms row.
-- SUG-258: apps/web now lints its 33 TypeScript files, and the web-must-not-import-studio rule is proven live on `.tsx` (#86).
-- #142: cloud execution procedure gains a starting-branch rule and a schema guard; the post-commit mirror skips wip/ branches.
-- #141: cloud execution procedure corrected from the first cloud run: GitHub MCP tools instead of gh, install step, start-review and hand-back fixes.
-- ST-22: apps/studio now has a typecheck script, so `pnpm typecheck` and CI cover Studio schemas; 7 type errors fixed, schema unchanged (#22).
-- SUG-257: apps/studio now has a lint script, so `pnpm lint`, pre-commit and CI cover Studio; 0 errors (first issue executed in a cloud session) (#85).
-- ST-135: release notes v0.20.0 to v0.36.0 drafted as 17 backdated articles in a new Release Notes series, with new Subtle and Subtle Centered rich-text styles; drafts, unpublished (#135).
+---
+
+## [0.37.0] — 2026-10-11
+
+Pink Moon accessibility passes 1 and 2, the Release Note content type and `/releases` archive, cookie consent and `/code` landing page, and the cloud-run workflow. Aggregates everything in `[Unreleased]` since v0.36.0.
+
+### apps/web
+
+#### Added
+- `/releases` archive and `/releases/<slug>` pages with Author and Type filters; Library lists release notes and v0.36.0's old URL redirects (#147).
+- `/code` landing page and a consent-guarded `cta_click` GA4 event from every CMS button; `/github` redirects to it (#145).
+- Glossary terms are one tab stop that opens its popover, and citation markers and notes are announced as citations with a back-link (#151).
+- apps/web lints its 33 TypeScript files; the web-must-not-import-studio rule is proven live on `.tsx` (#86).
+
+#### Changed
+- Cookie consent banner is white with a strong edge in light theme and a brighter edge in dark, and no longer covers the footer's version and toolchain rows (#146).
+- Content Terms rows show only glossary terms linked in the text; articles read inline terms from sections, so 11 live articles gain a Terms row (#136).
+- `llms.txt` role now matches the resume and LinkedIn, with location, surname, profile link and review date (October 2026) corrected.
+
+#### Fixed
+- Prerendered article, node and case-study pages are written as `<slug>.html`, so canonical no-slash URLs answer 200 instead of a 301 (#127).
+- Release note dates render on the right day and the archive honours its display style (#147).
+
+### apps/studio
+
+#### Added
+- `releaseNote` document type (#147).
+- `lint` and `typecheck` scripts, so `pnpm lint`, `pnpm typecheck`, pre-commit and CI cover Studio; 0 lint errors, 7 schema type errors fixed, schema unchanged (#85, #22).
+- Subtle and Subtle Centered per-block rich-text styles (#135).
+
+#### Removed
+- `textSection` tone and align fields, replaced by the per-block styles (#135).
+- Content-level `relatedTerms` field (#136).
+
+### packages/design-system
+
+#### Changed
+- Pink is the one hot colour: small pink text on light is maroon, the primary button and accent table header use pink-600 with white labels, chips and the featured tag are neutral with a pink hover, status dots are pink with draft as a ring (#150).
+- Inline code is maroon (light) and pink (dark), glossary terms are ink on a pale pink fill with a pink dotted underline, body links carry a thin pink underline (#151).
+- Card status badges are the neutral chip with a pink dot, the dark card label row is a shade darker than the page, release-type badges and the imageless hero eyebrow pass contrast, and only weight 700 and above counts as bold for large text (#152).
+- Callout banner text sits centred on its row (#146).
+- All 144 raw `var(--st-*, value)` fallbacks removed from app and design-system CSS, no rendering change expected (#74).
+
+#### Fixed
+- ScoreRing follows a reduced-motion change mid-session and never counts up under reduced motion (#91).
+
+### apps/storybook
+
+#### Added
+- Multi-line Callout and Banner stories (#146).
+
+#### Fixed
+- Controls now work on Table, Chip, SegmentedControl and Citation (#150).
+
+### Sanity production data
+
+- 17 release notes v0.20.0 to v0.36.0 drafted as backdated articles, then moved to the Release Note type; the other 16 moved in #147 after v0.36.0 was published as an article (#135, #140, #147).
+
+### Other
+
+- `validate:tokens` fails any raw `var(--st-*, value)` fallback of every value type (#74).
+- Cloud runs launch with `/cloud-launch` and finish with `/handback`; a read-only reviewer checks every cloud branch; the procedure gains a starting-branch rule, schema guard and first-run corrections (#144, #141, #142).
+- Seven dead `pnpm validate:*` allowlist entries and 17 links to retired `governance-coverage.md` removed (#133).
 
 ---
 

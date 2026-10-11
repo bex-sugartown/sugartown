@@ -1,98 +1,58 @@
-# Release Notes — v0.36.0
+# Release Notes — v0.37.0
 
-**Date:** 2026-09-19
-**Scope:** Sugartown monorepo (apps/web, packages/design-system, apps/storybook, process/tooling, docs)
+**Date:** 2026-10-11
+**Scope:** Sugartown monorepo (apps/web, apps/studio, packages/design-system, apps/storybook, process/tooling)
 
 ---
 
 ## What this release is
 
-Google Analytics now runs only with a visitor's consent, and a contrast fix brings every Callout
-banner up to WCAG AA. Behind the site, the epic process became one checked loop from pickup to
-post-ship, Linear was retired in favour of GitHub, and several tools that reported success while
-doing nothing were fixed.
+Pink Moon now passes WCAG 2.2 AA contrast and semantics checks across tokens, chips, badges and rich text, as two audit passes. Release notes become their own content type with a public `/releases` archive. A `/code` landing page, a rebuilt cookie consent banner and canonical-URL fixes round out the site.
 
 ---
 
 ## What changed
 
-### Analytics runs only after consent
+### Pink Moon accessibility, passes 1 and 2
 
-Visitors see a bar at the bottom of the page on their first visit, with Accept analytics and
-Reject analytics given equal weight. Until they accept, Google Analytics is not loaded at all
-(Consent Mode v2, basic implementation). The choice is remembered, "Cookie settings" in the footer
-reopens the bar, and rejecting after accepting removes the GA cookies.
+Pink is now the one hot colour. Small pink text on light backgrounds is maroon, the primary button and accent table header use pink-600 with white labels, and chips and the featured tag are neutral with a pink hover. Status dots are pink, with a ring for draft.
 
-Loading moved from an inline snippet in `index.html` into the app itself. The prebuilt article,
-node and case-study pages had been dropping that inline snippet, so visitors landing on them
-directly were never counted; they now load GA on consent like every other page.
+Rich text follows. Inline code is maroon in light theme and pink in dark. Glossary terms are ink on a pale pink fill with a dotted underline, and body links carry a thin pink underline. Each glossary term is a single tab stop that opens its popover, and citation markers and notes are announced as citations with a back-link.
 
-### Callout banners meet WCAG AA
+Cards and badges pass too: card status badges are the neutral chip with a pink dot, the dark card label row is a shade darker than the page, release-type badges and the imageless hero eyebrow meet contrast, and only weight 700 and above counts as bold for large text. Storybook controls now work on Table, Chip, SegmentedControl and Citation.
 
-The light-theme Callout banner label was pink on grey at 2.85:1, below the AA minimum for text. It
-now uses the brand text colour, maroon, at 4.82:1, which fixes every existing banner. Callout also
-takes optional `role` and `ariaLabel` props, so a banner can be announced as a labelled region
-rather than a live status, and its layout stacks the label above the text on narrow screens.
+### Release notes as a content type
 
-### The epic process is one checked loop
+Studio has a `releaseNote` document type. The site has a `/releases` archive and `/releases/<slug>` pages with Author and Type filters, and Library lists them. Seventeen notes covering v0.20.0 to v0.36.0 were drafted as backdated articles and moved into the new type; v0.36.0's old URL redirects. Release note dates render on the right day.
 
-An epic doc is now checked against the template when work starts, by `scripts/check-epic-doc.js`,
-which reads the required sections from the template itself. Questions are asked in one batch at
-the start; Phase 0 sign-off covers the design, copy, CSS class names and rule changes together; a
-Close-out review records what didn't work and where each follow-up went; and `/ship` runs the
-post-ship checks on the live site. `/new-tool` gives tooling work its own issue-only spec, and
-`/new-epic` now labels the issues it files.
+### Cookie consent and the /code page
 
-### Gates that were assumed to work are now proven
+The consent banner is white with a strong edge in light theme and a brighter edge in dark, and no longer covers the footer's version and toolchain rows. Callout banner text sits centred on its row. A `/code` landing page is live, every CMS button sends a consent-guarded `cta_click` GA4 event, and `/github` redirects to `/code`.
 
-`pnpm validate:liveness-probes` runs 13 gates against a deliberate violation each, in CI, and
-fails if any stays green. The ESLint boundary rules, which had reported as configured for 176 days
-while enforcing nothing, are among them. `Header.jsx` and `Footer.jsx`, left out of linting for
-seven months after a migration, are linted again.
+### Canonical URLs and content fixes
 
-### One tracker, and backups that report honestly
+Prerendered article, node and case-study pages are written as `<slug>.html`, so canonical no-slash URLs answer 200 instead of a 301. Content Terms rows show only glossary terms linked in the text; 11 live articles gain a Terms row, and the content-level `relatedTerms` field is gone. `llms.txt` role, location, surname, profile link and review date are corrected.
 
-Linear is retired; GitHub Issues and project 1 are the only tracker, and the governance page's
-roadmap reads from GitHub. The commit backup to `wip/` branches had several silent failure modes,
-including one that logged success for a commit that never left the disk; those are fixed, and
-`/morning` now reads the backup log and flags a failure.
+### Studio, tokens and tooling
 
-### Multi-repo operations and lighter sessions
+Studio has `lint` and `typecheck` scripts, with 7 schema type errors fixed and the schema unchanged. apps/web lints its 33 TypeScript files. `textSection` tone and align fields are replaced by Subtle and Subtle Centered per-block styles. `validate:tokens` fails any raw `var(--st-*, value)` fallback, and all 144 were removed from app and design-system CSS. ScoreRing follows a reduced-motion change mid-session.
 
-`/sweep` checks every repository under `SUGARTOWN_DEV` in one run and pushes the private ones on
-approval. A hook blocks any session from reading the two private directories, and each repository
-now carries its own settings. `CLAUDE.md` shrank from about 1,000 to about 630 lines, with rules
-that apply to one kind of file loading only when that file is read. `/ship --release` costs one
-Netlify deploy instead of two, and releases are now tagged, with milestones and GitHub Releases
-created at ship time.
-
-### Documentation
-
-The `docs/drafts` folder was audited (71 files classified, 6 issues filed), the Todo backlog was
-re-verified against the repo, issue status rules were tightened, and the data-handling note now
-records consent-gated analytics.
+Cloud runs launch with `/cloud-launch` and finish with `/handback`, with a read-only reviewer on every cloud branch. Seven dead allowlist entries and 17 links to a retired governance doc were removed.
 
 ---
 
 ## Not in this release
 
-- The Privacy page text describing the cookie banner is drafted in Sanity and not yet published.
-- Confirming consented visits in GA Realtime is a manual check still owed.
-- Existing backlog docs predate the new required `Visual` line and close-out sections; each is
-  updated when its epic is picked up, not in bulk.
+- Chromatic review, VoiceOver checks and a live 301 check for the `/releases` redirect are owed at ship.
+- GA4 Explore report check for `cta_click` is owed.
+- Surfaces with no changes: none.
 
 ---
 
 ## Validator state at release
 
-Run 2026-09-19 on the release commit's tree:
-
-| Check | Result |
-|---|---|
-| `pnpm validate:tokens` | All `var(--st-*)` references resolve |
-| `pnpm --filter web validate:tokens:strict` | No hardcoded colour values |
-| `pnpm --filter web validate:style-mirror` | All mirrors byte-identical |
-| `pnpm lint` | exit 0 |
-| `pnpm typecheck` | exit 0 |
-| `pnpm validate:liveness-probes` | 13 gates proven live, 0 inert |
-| CI run 35445972651 (pushed tree) | success, including Chromatic VRT |
+- `pnpm validate:tokens`: all references resolve, no raw fallbacks.
+- `pnpm validate:filters`: all filter models produced.
+- `pnpm validate:style-mirror`: mirrors byte-identical.
+- `pnpm validate:liveness-probes`: 0 gates inert.
+- `pnpm validate:urls`: exit 0 with 24 warnings (missing slugs and nav items, known).
