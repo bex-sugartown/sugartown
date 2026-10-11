@@ -16,7 +16,7 @@
   padding: 0;
   background: transparent;
   border: 1px solid var(--st-segmented-border);
-  border-radius: var(--st-radius-xs, 4px);
+  border-radius: var(--st-radius-xs);
   overflow: hidden;
 }
 
@@ -24,8 +24,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--st-space-1, 4px);
-  padding: var(--st-space-1, 4px) var(--st-space-3, 12px);
+  gap: var(--st-space-1);
+  padding: var(--st-space-1) var(--st-space-3);
   border: none;
   border-right: 1px solid var(--st-segmented-border);
   border-radius: 0;
@@ -65,7 +65,7 @@
 
 .iconGroup {
   display: flex;
-  gap: var(--st-space-1, 4px);
+  gap: var(--st-space-1);
 }
 
 .iconBtn {
@@ -76,7 +76,7 @@
   height: 32px;
   padding: 0;
   border: 1px solid var(--st-color-border-subtle);
-  border-radius: var(--st-radius-xs, 4px);
+  border-radius: var(--st-radius-xs);
   background: transparent;
   color: var(--st-color-text-muted);
   cursor: pointer;

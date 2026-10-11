@@ -18,7 +18,7 @@
  * property of behaviour, and the only way to check behaviour is to exercise
  * it.
  *
- * Six probes, chosen 2026-08-21 (`docs/backlog/ST-95-liveness-probes-only.md`
+ * Seven probes, chosen 2026-08-21 (`docs/backlog/ST-95-liveness-probes-only.md`
  * §Scope) — all local/file-based, no production-data risk. Three gates
  * considered and excluded, with reasons, live in that doc: Chromatic
  * (deliberately non-blocking today, SUG-263), the Storybook frozen-globals
@@ -322,6 +322,19 @@ const PROBES = [
         args: ['--filter', 'web', 'validate:tokens:strict'],
         success: 'rejected the raw hex',
         breakIt: () => tempFile('apps/web/src/__liveness_probe__.css', '.probe { color: #ff00aa; }\n'),
+      }),
+  },
+
+  {
+    gate: 'validate:tokens (raw fallback)',
+    why: 'a non-colour raw fallback such as var(--st-space-4, 1rem) must be rejected',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:tokens'],
+        success: 'rejected the raw fallback',
+        breakIt: () =>
+          tempFile('apps/web/src/__liveness_probe__.css', '.probe { padding: var(--st-space-4, 1rem); }\n'),
       }),
   },
 

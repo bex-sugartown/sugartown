@@ -13,7 +13,7 @@
   --st-media-overlay-blend-mode: hard-light;
   --st-media-duotone-angle: 135deg;
 
-  margin: var(--st-space-5, 1.5rem) 0;
+  margin: var(--st-space-5) 0;
   position: relative;
 }
 
@@ -25,8 +25,8 @@
 }
 
 .caption {
-  margin-top: var(--st-space-2, 0.5rem);
-  font-size: var(--st-font-size-sm, 0.875rem);
+  margin-top: var(--st-space-2);
+  font-size: var(--st-font-size-sm);
   color: var(--st-color-text-muted);
   text-align: center;
 }
@@ -41,7 +41,7 @@
 }
 
 .duotone .image {
-  filter: grayscale(var(--st-media-duotone-grayscale, 100%)) contrast(1.1);
+  filter: grayscale(var(--st-media-duotone-grayscale)) contrast(1.1);
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border-radius: 0; /* parent handles radius */
 }
@@ -106,8 +106,8 @@
   position: absolute;
   inset: 0;
   background: var(--st-media-overlay-color);
-  opacity: var(--st-media-overlay-opacity, 0.5);
-  mix-blend-mode: var(--st-media-overlay-blend, normal);
+  opacity: var(--st-media-overlay-opacity);
+  mix-blend-mode: var(--st-media-overlay-blend);
   pointer-events: none;
   z-index: 2;
 }

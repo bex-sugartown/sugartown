@@ -36,7 +36,13 @@
  *   are excluded — they are the definition layer and are permitted to contain raw values.
  *   Exits with code 1 if any hardcoded colors are found in non-token files.
  *
- * Exits with code 1 if any unknown token references are found.
+ * Raw fallback check (always on, blocking):
+ *   var(--st-token, <anything that is not var(--st-*)>) is rejected in every scanned
+ *   file, for any value type (space, size, radius, colour, keyword). The only permitted
+ *   fallback form is var(--st-token, var(--st-primitive)) (.claude/rules/tokens.md).
+ *   Token source files are not scanned, so tokens.css composition is unaffected.
+ *
+ * Exits with code 1 if any unknown token references or raw fallbacks are found.
  */
 
 import { readFileSync, readdirSync, statSync } from 'fs'
@@ -117,6 +123,27 @@ function findHardcodedColors(filePath) {
 
     const m = HARDCODED_COLOR_RE.exec(stripped)
     if (m) {
+      violations.push({ lineNum: i + 1, line: rawLines[i].trim(), match: m[0].trim() })
+    }
+  }
+  return violations
+}
+
+/**
+ * Find var(--st-*, <raw>) fallbacks: any fallback that is not itself a var(--st-*) reference.
+ * Comments are stripped first (newlines kept) so prose mentioning the pattern is ignored.
+ * Returns array of { lineNum, line, match } objects.
+ */
+const RAW_FALLBACK_RE = /var\(\s*(--st-[\w-]+)\s*,\s*(?!var\(\s*--st-)[^)\s][^)]*\)?/g
+
+function findRawFallbacks(filePath) {
+  const content = readFileSync(filePath, 'utf8')
+  const noComments = content.replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ''))
+  const rawLines = content.split('\n')
+  const strippedLines = noComments.split('\n')
+  const violations = []
+  for (let i = 0; i < strippedLines.length; i++) {
+    for (const m of strippedLines[i].matchAll(RAW_FALLBACK_RE)) {
       violations.push({ lineNum: i + 1, line: rawLines[i].trim(), match: m[0].trim() })
     }
   }
@@ -292,8 +319,34 @@ function run() {
     }
   }
 
+  // 6. Raw fallbacks (any value type), every scanned file
+  let fallbackErrorCount = 0
+  const fallbackFileErrors = new Map()
+  for (const file of cssFiles) {
+    const violations = findRawFallbacks(file)
+    if (violations.length > 0) {
+      fallbackFileErrors.set(file, violations)
+      fallbackErrorCount += violations.length
+    }
+  }
+  if (fallbackFileErrors.size === 0) {
+    console.log('✅  No raw var(--st-*, <value>) fallbacks found.\n')
+  } else {
+    console.log(`❌  Found ${fallbackErrorCount} raw token fallback(s) in ${fallbackFileErrors.size} file(s):\n`)
+    console.log('──────────────────────────────────────────────')
+    for (const [file, violations] of fallbackFileErrors) {
+      console.log(`\n   📄  ${relative(ROOT, file)}`)
+      for (const { lineNum, line, match } of violations) {
+        console.log(`        Line ${lineNum}: ${match}`)
+        console.log(`        ↳  ${line}`)
+      }
+    }
+    console.log('\n──────────────────────────────────────────────')
+    console.log(`\n   Fix: drop the fallback, or use var(--st-token, var(--st-primitive)). Add the primitive to tokens.json first if none exists.\n`)
+  }
+
   // Exit with error if any checks failed
-  if (fileErrors.size > 0 || colorErrorCount > 0) {
+  if (fileErrors.size > 0 || colorErrorCount > 0 || fallbackErrorCount > 0) {
     process.exit(1)
   }
   process.exit(0)

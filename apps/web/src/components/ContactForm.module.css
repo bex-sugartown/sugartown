@@ -1,7 +1,7 @@
 /* ContactForm — field styling via DS Field/Input/Textarea primitives (SUG-148) */
 
 .contactForm {
-  max-width: var(--st-width-detail, 760px);
+  max-width: var(--st-width-detail);
   margin: 0 auto;
   padding: var(--st-spacing-stack-lg) var(--st-page-gutter);
   display: flex;

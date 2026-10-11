@@ -2,13 +2,13 @@
 
 .strip {
   position: fixed;
-  top: var(--st-header-height, 56px);
+  top: var(--st-header-height);
   left: 0;
   right: 0;
   z-index: 90;
   background: var(--st-color-bg-surface);
   border-bottom: 1px solid var(--st-color-border-subtle);
-  padding: 6px var(--st-page-gutter, 1rem);
+  padding: 6px var(--st-page-gutter);
 }
 
 /* Hidden above the sidebar's breakpoint — sidebar rail takes over */

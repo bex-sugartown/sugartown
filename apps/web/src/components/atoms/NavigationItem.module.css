@@ -76,16 +76,16 @@
 /* ── Dropdown menu ── */
 .dropdownMenu {
   position: absolute;
-  top: calc(100% + var(--st-spacing-stack-xs, 4px));
+  top: calc(100% + var(--st-spacing-stack-xs));
   left: 0;
   min-width: 200px;
   background-color: var(--st-color-bg-surface-strong);
   backdrop-filter: blur(var(--st-effect-backdrop-blur-md));
   -webkit-backdrop-filter: blur(var(--st-effect-backdrop-blur-md));
   border: 1px solid var(--st-color-border-medium);
-  border-radius: var(--st-radius-md, 8px);
+  border-radius: var(--st-radius-md);
   box-shadow: var(--st-shadow-md);
-  padding: var(--st-spacing-stack-xs, 4px) 0;
+  padding: var(--st-spacing-stack-xs) 0;
   z-index: 200;
   opacity: 0;
   visibility: hidden;
@@ -103,7 +103,7 @@
 /* ── Child nav items inside dropdown ── */
 .childItem {
   display: block;
-  padding: var(--st-spacing-inset-xs, 6px) var(--st-spacing-inset-md, 16px);
+  padding: var(--st-spacing-inset-xs) var(--st-spacing-inset-md);
   color: var(--st-color-text-primary);
   text-decoration: none;
   font-size: var(--st-font-size-sm);
@@ -138,7 +138,7 @@
     position: static;
     box-shadow: none;
     border: none;
-    padding-left: var(--st-spacing-inline-md, 12px);
+    padding-left: var(--st-spacing-inline-md);
     opacity: 1;
     visibility: visible;
     transform: none;

@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--st-spacing-inset-md, 16px);
+  padding: var(--st-spacing-inset-md);
   flex-shrink: 0;
   border-bottom: 1px solid var(--st-color-border-subtle);
 }
@@ -61,7 +61,7 @@
   color: var(--st-color-text-primary);
   cursor: pointer;
   padding: 8px;
-  border-radius: var(--st-radius-sm, 4px);
+  border-radius: var(--st-radius-sm);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -87,7 +87,7 @@
 /* ── Nav list ────────────────────────────────────────────────────────────────── */
 .navList {
   flex: 1;
-  padding: 0 var(--st-spacing-inset-md, 16px);
+  padding: 0 var(--st-spacing-inset-md);
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -148,7 +148,7 @@
 .accordionToggle:focus-visible {
   outline: 2px solid var(--st-color-brand-primary);
   outline-offset: 2px;
-  border-radius: var(--st-radius-sm, 4px);
+  border-radius: var(--st-radius-sm);
 }
 
 /* ── Accordion panel (child items) ───────────────────────────────────────────── */
@@ -171,7 +171,7 @@
   padding: 10px 0 10px 16px;
   color: var(--st-color-text-secondary, var(--st-color-text-primary));
   text-decoration: none;
-  font-size: var(--st-font-body, 1rem);
+  font-size: var(--st-font-body);
   font-weight: 500;
   transition: color 150ms ease;
 }
@@ -186,10 +186,10 @@
 
 /* ── Drawer footer ───────────────────────────────────────────────────────────── */
 .drawerFooter {
-  padding: var(--st-spacing-inset-md, 16px);
+  padding: var(--st-spacing-inset-md);
   display: flex;
   flex-direction: column;
-  gap: var(--st-spacing-stack-sm, 12px);
+  gap: var(--st-spacing-stack-sm);
   flex-shrink: 0;
   margin-top: auto;
 }
@@ -214,7 +214,7 @@
 .footerLink {
   color: var(--st-color-text-secondary, var(--st-color-text-primary));
   text-decoration: none;
-  font-size: var(--st-font-size-sm, 0.875rem);
+  font-size: var(--st-font-size-sm);
   font-weight: 500;
   padding: 4px 0;
   transition: color 150ms ease;
@@ -228,19 +228,19 @@
 .footerSocial {
   display: flex;
   align-items: center;
-  gap: var(--st-spacing-inline-sm, 12px);
+  gap: var(--st-spacing-inline-sm);
 }
 
 .footerSocialLabel {
   color: var(--st-color-text-secondary, var(--st-color-text-primary));
-  font-size: var(--st-font-size-sm, 0.875rem);
+  font-size: var(--st-font-size-sm);
   font-weight: 600;
   flex-shrink: 0;
 }
 
 .footerSocialIcons {
   display: flex;
-  gap: var(--st-spacing-inline-sm, 12px);
+  gap: var(--st-spacing-inline-sm);
   align-items: center;
 }
 
@@ -249,10 +249,10 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--st-spacing-inline-sm, 12px);
+  gap: var(--st-spacing-inline-sm);
 }
 
 .footerCopyright {
   color: var(--st-color-text-muted, var(--st-color-text-secondary));
-  font-size: var(--st-font-size-xs, 0.75rem);
+  font-size: var(--st-font-size-xs);
 }

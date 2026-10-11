@@ -74,7 +74,7 @@
 
 /* Platform pages suppress the right sidebar — match hub page width */
 .detailPage[data-no-sidebar] {
-  max-width: var(--st-width-detail-wide, 1080px);
+  max-width: var(--st-width-detail-wide);
 }
 
 /* Wide viewport: CSS grid with main + page sidebar.
@@ -84,12 +84,12 @@
    Without it, .detailPage stays at 760px single-column — no empty sidebar gap. */
 @media (min-width: 1024px) {
   .detailPage[data-has-margin] {
-    max-width: var(--st-width-detail-wide, 1080px);
+    max-width: var(--st-width-detail-wide);
     display: grid;
     /* minmax(0, 1fr) prevents grid items with wide content (tables, code blocks,
        long URLs) from forcing the 1fr track beyond max-width via min-width: auto. */
-    grid-template-columns: minmax(0, 1fr) var(--st-space-sidebar, 220px);
-    gap: 0 var(--st-space-sidebar-gap, 2.5rem);
+    grid-template-columns: minmax(0, 1fr) var(--st-space-sidebar);
+    gap: 0 var(--st-space-sidebar-gap);
   }
 
   /* MetadataCard (first aside), page eyebrow, full-span nodes span both columns */
@@ -166,7 +166,7 @@
   width: 100%;
   max-height: 480px;
   object-fit: cover;
-  border-radius: var(--st-radius-md, 12px);
+  border-radius: var(--st-radius-md);
   margin-bottom: 2rem;
 }
 
@@ -180,7 +180,7 @@
 
 .inlineImageImg {
   width: 100%;
-  border-radius: var(--st-radius-sm, 8px);
+  border-radius: var(--st-radius-sm);
   display: block;
 }
 
@@ -260,7 +260,7 @@
 .detailContent hr {
   border: none;
   border-top: 1px solid var(--st-color-pt-divider-light-strong);
-  margin: var(--st-space-section-break-detail, 2.5rem) 0;
+  margin: var(--st-space-section-break-detail) 0;
 }
 
 :global([data-theme="light-pink-moon"]) .detailContent hr {
@@ -271,7 +271,7 @@
 .metadataDivider {
   border: none;
   border-top: 1px solid var(--st-color-pt-divider-light);
-  margin: var(--st-spacing-stack-lg, 2rem) 0;
+  margin: var(--st-spacing-stack-lg) 0;
 }
 
 :global([data-theme="light-pink-moon"]) .metadataDivider {
@@ -300,7 +300,7 @@
   font-weight: 400;
   letter-spacing: 0.05em;
   padding: 0.45em 0.75em;
-  border-radius: var(--st-radius-xs, 4px);
+  border-radius: var(--st-radius-xs);
   background: color-mix(in srgb, var(--st-color-accent) 8%, transparent);
   border: 1px solid color-mix(in srgb, var(--st-color-accent) 35%, transparent);
   color: var(--st-color-accent);
@@ -477,12 +477,12 @@
    strip is visible on page load without being behind the preheader bars. */
 .filterStrip {
   position: sticky;
-  top: var(--st-header-height, 56px);
+  top: var(--st-header-height);
   width: 100%;
   z-index: 90;
   background: var(--st-color-bg-surface);
   border-bottom: 1px solid var(--st-color-border-medium);
-  padding: 6px var(--st-page-gutter, 1rem);
+  padding: 6px var(--st-page-gutter);
   display: flex;
   align-items: center;
   gap: 8px;
