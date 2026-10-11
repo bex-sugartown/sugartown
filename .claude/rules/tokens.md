@@ -11,7 +11,7 @@ Loads when a session reads token sources, any stylesheet, or design-system code.
 
 ## DS Component Authoring — Token-First Rule (blocking)
 
-Applies to any component CSS file in `apps/web/src/design-system/` or `packages/design-system/src/`. A hardcoded value bypasses the token graph: the theme system cannot override it and the validator cannot audit it.
+Applies to any CSS file `validate:tokens` scans: `apps/web/src/` (design-system and app CSS alike), `packages/design-system/src/`, and `apps/storybook/.storybook/`. A hardcoded value bypasses the token graph: the theme system cannot override it and the validator cannot audit it.
 
 **Verify every token name exists before writing it** — `grep "token-name" apps/web/src/design-system/styles/tokens.css`. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). Pre-commit catches this, but catching it there costs a correction commit.
 
@@ -21,7 +21,7 @@ Applies to any component CSS file in `apps/web/src/design-system/` or `packages/
 
 **Inline CSS custom property injection on DS components is banned.** `style={{ '--st-table-header-bg': '#fff' }}` bypasses the token graph and has to be removed every time the token is renamed. To vary a visual zone from the call site, add a `tone` value: define the prop, add the token to `tokens.json`, apply it in the component CSS.
 
-**Fallback syntax:** `var(--st-token, #hex)` is banned. The only permitted form is `var(--st-token, var(--st-primitive))`. If no matching primitive exists, add it to `tokens.css` first. If no fallback is needed, omit it.
+**Fallback syntax:** `var(--st-token, <raw value>)` is banned for every value type (`#hex`, `1rem`, `12px`, `0.5`, `normal`). The only permitted form is `var(--st-token, var(--st-primitive))`. `validate:tokens` enforces this. If no matching primitive exists, add it to `tokens.css` first. If no fallback is needed, omit it.
 
 **Token names are contracts, not descriptions.** A token used in 2+ distinct surfaces needs a name that works for all of them. A placement-specific name (`--st-card-folio-bg`) also used in FilterBar headers and MetadataCard label cells is renamed to the shared concept (`--st-card-label-bg`). Full rules: `docs/conventions/token-naming.md`.
 
@@ -54,7 +54,7 @@ Whenever `tokens/source/tokens.json` is edited, or whenever any component CSS fi
 - Outputs: `apps/web/src/design-system/styles/tokens.css` + `packages/design-system/src/styles/tokens.css`
 - Theme overrides (`theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`) remain hand-authored — they are NOT generated files, but they ARE duplicated to both the web and DS-package style dirs and **must be kept byte-identical by hand** (see Mirrored File Registry below).
 
-`validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references.
+`validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references, raw `var(--st-*, <value>)` fallbacks of any type.
 `validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`.
 `validate:style-mirror` catches: drift between the duplicated DS style files (theme/tokens/globals/utilities) across web ↔ DS package.
 
