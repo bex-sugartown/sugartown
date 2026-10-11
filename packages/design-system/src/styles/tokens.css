@@ -245,7 +245,6 @@
   --st-callout-danger-border-light: rgba(220, 38, 38, 0.35);
   --st-chip-bg: transparent;
   --st-chip-dot-size: 6px;
-  --st-chip-rubric-bg: color-mix(in srgb, var(--st-color-pink) 10%, white);
   --st-metadata-density-label-size: 0.55rem;
   --st-metadata-density-row-pad: 5px;
   --st-metadata-density-chip-gap: 4px;
@@ -476,10 +475,6 @@
   --st-callout-danger-icon-light: var(--st-color-red-600);
   --st-chip-tag-bg: var(--st-color-white-50);
   --st-chip-border: var(--st-color-rule-accent);
-  --st-chip-dot-evergreen: var(--st-color-lime-600);
-  --st-chip-dot-validated: var(--st-color-seafoam-700);
-  --st-chip-dot-exploring: var(--st-color-amber-700);
-  --st-chip-dot-deprecated: var(--st-color-neutral-500);
   --st-metadata-label-bg: var(--st-color-neutral-200);
   --st-metadata-body-bg: var(--st-color-white);
   --st-metadata-label-bg-light: var(--st-color-neutral-200);
@@ -594,11 +589,15 @@
   --st-callout-tip-icon: var(--st-color-seafoam);
   --st-callout-tip-icon-light: var(--st-color-seafoam);
   --st-chip-fg: var(--st-color-text-default);
-  --st-chip-rubric-border: var(--st-color-pink);
-  --st-chip-rubric-fg: var(--st-color-maroon);
+  --st-chip-rubric-bg: var(--st-chip-tag-bg);
+  --st-chip-rubric-border: var(--st-chip-border);
+  --st-chip-dot-evergreen: var(--st-color-pink);
+  --st-chip-dot-validated: var(--st-color-pink);
+  --st-chip-dot-exploring: var(--st-color-pink);
   --st-chip-dot-active: var(--st-color-pink);
-  --st-chip-dot-draft: var(--st-color-violet);
-  --st-chip-dot-operationalized: var(--st-color-seafoam);
+  --st-chip-dot-draft: var(--st-color-pink);
+  --st-chip-dot-deprecated: var(--st-color-pink);
+  --st-chip-dot-operationalized: var(--st-color-pink);
   --st-card-bg: var(--st-color-bg-surface);
   --st-card-bg-alt: var(--st-color-bg-surface-alt);
   --st-card-text: var(--st-color-text-default);
@@ -646,6 +645,7 @@
   --st-breadcrumb-sep-color: var(--st-color-text-muted);
   --st-color-link-default: var(--st-color-brand-primary);
   --st-color-link-hover: var(--st-color-brand-secondary);
+  --st-chip-rubric-fg: var(--st-chip-fg);
   --st-pill-text: var(--st-color-text-brand);
   --st-tag-text: var(--st-color-text-brand);
   --st-button-bg: var(--st-color-accent-primary);

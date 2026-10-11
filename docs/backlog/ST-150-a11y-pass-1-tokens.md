@@ -110,6 +110,7 @@ Results: tag chip text 19.16 light / 12.08 dark; selected 17.12 light / 17.50 da
 |---|---|---|
 | `.featured` (l.182 to 186) comment and `font-weight` | "Pink rubric", `font-weight: 600` | comment updated; `font-weight: 600` removed (decided 2026-10-11) so it matches plain tags at rest |
 | `.featured.interactive:hover` (l.207 to 211) | keeps `--st-chip-rubric-border` and `-bg` | `border-color: var(--st-color-pink)`, so the featured chip gets the same pink hover as every chip |
+
 **Knowledge-graph filter chips (`theme.pink-moon.css` light block).**
 
 | Token | Current | New |
@@ -145,7 +146,7 @@ Only the hard-coded box values change here. Colours change in Pass 2.
 | font-size | `0.85em` | `var(--st-code-inline-font-size)` (0.9em) |
 | padding | `0.2em 0.5em` | `var(--st-code-inline-padding)` (0.1em 0.35em) |
 | border-radius | `4px` | `var(--st-radius-code)` (0) |
-| white-space | not set | `nowrap` |
+| white-space | not set | not `nowrap` (as built): `overflow-wrap: anywhere` and `box-decoration-break: clone`, because `nowrap` pushed long commands past the right edge at 320px (verified 2026-10-11) |
 
 ### 7. Reduced motion (`globals.css`, append)
 
@@ -158,6 +159,8 @@ Only the hard-coded box values change here. Colours change in Pass 2.
 }
 ```
 Then disable the hover `translateY` lifts (cards, chips) and the `.st-duotone` 1.05 scale under `reduce` where they are declared.
+
+As built: the hover transforms are removed in a `reduce` block beside each rule (Chip hover, Card thumbnail zoom and hover lift, Media `hoverScale`, `.st-duotone` in `utilities.css`, and the web hero image zoom in `PageSections.module.css`), because CSS modules hash their class names and a global rule cannot reach them. The selected chip's ring shadow was dropped with the colour change.
 
 ## Phases
 
@@ -185,7 +188,7 @@ Single phase.
 - [ ] `pnpm --filter @sugartown/design-system build` run before checking the local site (the web app loads component CSS from the built package, not source).
 - [ ] Storybook, both themes: Button (all variants, hover), Chip (every preset, active, featured, interactive hover, rule-dot status for every status), Card (eyebrow, folio strip, footer), Citation, Table (accent and subdued), SegmentedControl, knowledge-graph filter strip. No pink-500 text under 24px on light anywhere; no tinted chips anywhere; featured and plain tag chips are indistinguishable at rest.
 - [ ] With OS reduced motion on, card, chip and button hovers do not translate and the duotone does not scale.
-- [ ] Inline `code` renders square and does not wrap.
+- [ ] Inline `code` renders square and never overflows the viewport at 320px (as built; the handoff's "does not wrap" check was dropped).
 - [ ] Route smoke test: one article and one knowledge-graph node in both themes, with no change beyond the listed rows.
 
 ## Human QA Walkthrough — example local pages

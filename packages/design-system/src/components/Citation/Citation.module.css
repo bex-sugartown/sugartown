@@ -67,7 +67,7 @@
 
 /* Links inside footnotes inherit theme link colour */
 .note a {
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-link-default);
   text-decoration: underline;
   text-underline-offset: 2px;
 }

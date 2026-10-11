@@ -55,12 +55,12 @@
 /* ── Primary — pink fill ─────────────────────────────── */
 
 .primary {
-  background-color: var(--st-color-brand-primary);
+  background-color: var(--st-color-pink-600);   /* ST-150: white label 4.80:1 */
   color: var(--st-color-white);
 }
 
 .primary:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--st-color-pink-600);
+  background-color: var(--st-color-pink-700);   /* 6.90:1 */
 }
 
 /* ── Secondary — lime fill ───────────────────────────── */
