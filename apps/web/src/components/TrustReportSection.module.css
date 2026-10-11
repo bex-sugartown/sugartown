@@ -114,13 +114,13 @@
 
 .badgeMinor {
   background: var(--st-status-validated-bg);
-  color: var(--st-color-accent);
+  color: var(--st-color-text-brand);      /* #152: pink-500 text was 3.24:1 on light; maroon is 5.47:1, pink on dark */
   border: 1px solid var(--st-status-validated-border);
 }
 
 .badgePatch {
   background: var(--st-status-archived-bg);
-  color: var(--st-color-text-muted);
+  color: var(--st-status-archived-fg);    /* #152: text-muted was below 4.5:1 on the grey tint in light */
   border: 1px solid var(--st-status-archived-border);
 }
 
