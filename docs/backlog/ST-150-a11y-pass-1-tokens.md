@@ -102,7 +102,7 @@ Results: tag chip text 19.16 light / 12.08 dark; selected 17.12 light / 17.50 da
 
 | Where | Current | New |
 |---|---|---|
-| `.featured` (l.182 to 186) comment and `font-weight` | "Pink rubric", `font-weight: 600` | comment updated; `font-weight`: OPEN (see Technical notes, decision 1) |
+| `.featured` (l.182 to 186) comment and `font-weight` | "Pink rubric", `font-weight: 600` | comment updated; `font-weight: 600` removed (decided 2026-10-11) so it matches plain tags at rest |
 | `.featured.interactive:hover` (l.207 to 211) | keeps `--st-chip-rubric-border` and `-bg` | `border-color: var(--st-color-pink)`, so the featured chip gets the same pink hover as every chip |
 **Knowledge-graph filter chips (`theme.pink-moon.css` light block).**
 
@@ -193,9 +193,9 @@ Single phase.
 
 **Review of the 11 Oct handoff (2026-10-11).** Every file path, line number and "current" value was checked against the repo on this date. Line references to `Button.module.css`, `SegmentedControl.module.css`, `Citation.module.css` and `Label.module.css` are correct. Chip line numbers were off by one and are corrected above. The contrast figures were recomputed and match (pink-600 4.80, pink-700 6.90, maroon on white 6.12, on neutral-200 4.82, on canvas 5.47, tag chip 19.16 and 12.08, selected 17.12, light pink dot 3.62).
 
-**Open decisions (Bex), settle before Phase 0 sign-off:**
-1. **Featured chip weight.** `.featured` sets `font-weight: 600`. The acceptance criterion says featured and plain tags are indistinguishable at rest. Remove the weight, or relax the criterion.
-2. **Accent table header.** This handoff sets a pink-600 fill with a white label. On 10 Oct you approved option C instead (grey header, ink label, 3px pink rule). Confirm which holds.
+**Decided 2026-10-11:** (1) the featured chip loses its 600 weight and is indistinguishable from plain tags at rest; (2) the accent table header is the v4 pink-600 fill with a white label, replacing the 10 Oct option C.
+
+**Still open (Bex), settle before Phase 0 sign-off:**
 3. **Knowledge-graph filter chips.** The handoff lists this as a leftover question, but Pass 1 already makes them neutral and removes their node-colour echo. Confirm.
 4. **Release pairing.** Pass 1 turns links maroon without an underline; the underline arrives in ST-151. Ship both together, or a maroon link on light is identified by colour alone (WCAG 1.4.1) until Pass 2 lands.
 

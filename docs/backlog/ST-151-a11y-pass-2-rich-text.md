@@ -132,8 +132,9 @@ Single phase.
 
 **Review of the 11 Oct handoff (2026-10-11).** Token names, current values and contrast figures were checked against the repo. `--st-color-pink-50`, `-pink-300`, `-pink-800`, `-maroon-200` and `--st-citation-size` (0.72rem) exist. `--st-glossary-annotation-fg` is new, as stated. Recomputed: glossary ink on pink-50 17.38, dark 14.53; code maroon on soft grey 5.47, dark pink-300 on midnight-700 6.66.
 
-**Open decisions (Bex), settle before Phase 0 sign-off:**
-1. **Card titles.** On 10 Oct you decided card H3 titles at 28px are pink (v2 audit). The v4 leftovers list says titles stay ink (18px at 600 is not large text). Confirm which holds; ST-150 assumes ink.
+**Decided 2026-10-11:** card titles stay ink (v4), replacing the 10 Oct pink-at-28px decision.
+
+**Still open (Bex), settle before Phase 0 sign-off:**
 2. **Card eyebrows.** The v2 decision was text colour on cards. v4 uses maroon on light and white on dark (ST-150). Confirm v4.
 3. **Lime in rich text.** v4 removes lime from glossary terms and code, reversing the lime glossary decision from v2 (and SUG-211 Option E). The handoff states this was decided 10 Oct (v4). Confirm.
 
