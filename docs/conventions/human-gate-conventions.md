@@ -109,6 +109,10 @@ Content Write Gate's publish half, the Human-Publishes Rule. Nothing to convert 
 **Guidance:** keep the block message to one or two sentences, naming the exact instruction
 that would unblock it.
 
+**Publish gates also get a popup once drafts exist.** Use the multi-select form: one option
+per document group, `All the below (Recommended)` first. A selection is the standalone
+instruction for those groups only, and a dismissed popup publishes nothing.
+
 ## Response wording standard
 
 - The question itself: one sentence wherever possible.

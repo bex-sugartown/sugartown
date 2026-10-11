@@ -419,6 +419,8 @@ This is the fail-softly layer referenced above: even a Content Write Gate failur
 
 **Response mechanism:** a negative/absence gate per `docs/conventions/human-gate-conventions.md` — no prompt shown; block on the absence of a standalone publish instruction, message kept to one sentence.
 
+**When drafts are ready to publish, offer one `AskUserQuestion` with `multiSelect: true`.** One option per document group (for example the notes, the archive page, the redirect), and `All the below (Recommended)` first. Selecting an option is the standalone publish instruction for exactly the groups selected. A dismissed popup publishes nothing. The block message above still applies when no popup was offered.
+
 ### Instruction & Rule File Write Gate (Tier 1 — stop and ask; skill/CLAUDE.md/governance doc edits)
 
 The agent — or any subagent it spawns — never edits a rule-defining file (`.claude/skills/**`, `.claude/rules/**`, this file, `docs/epic-template.md`, or anything under `docs/ai/agentic-caucus/`, `docs/conventions/`, or `docs/diagrams/`) without first showing the human the exact diff and getting explicit approval. Applies even when the edit is accurate and well-intentioned.
