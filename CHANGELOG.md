@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #133: no permission or link points at the SUG-284 governance layer any more, seven dead `pnpm validate:*` allowlist entries and 17 links to the retired `governance-coverage.md` removed (`grep` finds 0 of each; liveness probes show 0 inert gates).
 - #147: release notes are their own content type with a `/releases` archive and `/releases/<slug>` pages, the 17 notes moved out of Articles into it (Library now lists them, v0.36.0's old URL redirects), with Author and Type filters (smoke 5/5 locally, Chromatic build 99 clean; live 301 check owed at ship) (#147).
 - #74: `validate:tokens` now fails any raw `var(--st-*, value)` fallback of every value type, and all 144 are removed from app and design-system CSS with no rendering change expected (validator and liveness probe green, smoke 5/5 locally; Chromatic review and a Table caption check owed at ship).
 - #152: card status badges are the neutral chip with a pink dot (draft a ring), the dark card label row is a shade darker than the page, release-type badges and the imageless hero eyebrow pass contrast, and only weight 700 and above counts as bold for large text (smoke 5/5 locally; Chromatic review owed at ship, ships with #150 and #151).
