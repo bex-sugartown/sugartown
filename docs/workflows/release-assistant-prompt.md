@@ -470,7 +470,7 @@ if one does, stop and tell the human instead of creating a second.
 | `sections` | the three opening sections copied from the most recent published `releaseNote` (hero, pipeline diagram, pipeline links), hero `heading` set to `vX.(Y+1).0`; then one `textSection` per Release Notes heading, in order |
 
 Each `textSection` carries the Release Notes heading in its `heading` field and the body as
-Portable Text. Every block needs `markDefs: []` and every span needs `marks: []`
+Portable Text in its `content` field (not `body`). Every block needs `markDefs: []` and every span needs `marks: []`
 (`CLAUDE.md` §Portable Text blocks written via MCP). Use `h3` blocks for sub-headings and
 bullet list items for lists.
 
