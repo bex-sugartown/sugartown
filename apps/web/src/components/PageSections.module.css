@@ -420,11 +420,15 @@
 .link {
   color: var(--st-color-link-default);
   text-decoration: underline;
+  text-decoration-color: var(--st-color-brand-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--st-link-underline-offset);
   transition: opacity 0.2s ease;
 }
 
 .link:hover {
   color: var(--st-color-link-hover);
+  text-decoration-thickness: 2px;
   opacity: 1;
 }
 
@@ -1124,11 +1128,15 @@
 :global(.st-html-section) a {
   color: var(--st-color-link-default, var(--st-color-brand-primary));
   text-decoration: underline;
+  text-decoration-color: var(--st-color-brand-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--st-link-underline-offset);
   transition: opacity 0.2s ease;
 }
 
 :global(.st-html-section) a:hover {
   color: var(--st-color-link-hover, var(--st-color-brand-primary));
+  text-decoration-thickness: 2px;
   opacity: 0.8;
 }
 

@@ -208,7 +208,7 @@ export default function GlossaryTermPage() {
               }
               title={
                 <>
-                  {term.term}
+                  <dfn>{term.term}</dfn>
                   {term.abbreviation && (
                     <Chip
                       variant="badge"

@@ -3,7 +3,7 @@
  * Canonical CSS extracted from: artifacts/style 260118.css §02
  *
  * Block code: dark background, pink left border, monospace.
- * Inline code: inherits the global Option E treatment (recessive seafoam, SUG-211).
+ * Inline code: inherits the global inline code treatment (maroon on soft grey, ST-151; supersedes SUG-211 Option E).
  * Syntax theme: Sugartown custom (pink keywords, seafoam strings, lime comments).
  */
 
@@ -99,7 +99,7 @@
   --st-code-shadow: var(--st-shadow-code-dark);
 }
 
-/* Inline code takes no dark-theme override — it inherits the global Option E
+/* Inline code takes no dark-theme override — it inherits the global inline code treatment
    --st-code-inline-* tokens (themed in theme.pink-moon.css), matching prose
    inline code in both light and dark. See SUG-212 (reconciliation) / SUG-211. */
 
@@ -149,8 +149,8 @@
   align-items: center;
 }
 
-/* ── Inline code — inherits the global Option E treatment (SUG-211): a recessive
-   seafoam pill in both themes, matching :not(pre) > code. No local override so
+/* ── Inline code — inherits the global inline code treatment (ST-151, supersedes SUG-211 Option E): a maroon (light) or pink-300 (dark)
+   pill, matching :not(pre) > code. No local override so
    there is a single inline-code look site-wide. ───────────────────────────── */
 .inline {
   background-color: var(--st-code-inline-bg);

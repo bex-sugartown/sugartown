@@ -239,6 +239,14 @@
 
 .detailContent a {
   color: var(--st-color-link-default);
+  text-decoration: underline;
+  text-decoration-color: var(--st-color-brand-primary);
+  text-decoration-thickness: 1px;
+  text-underline-offset: var(--st-link-underline-offset);
+}
+
+.detailContent a:hover {
+  text-decoration-thickness: 2px;
 }
 
 .detailContent blockquote {

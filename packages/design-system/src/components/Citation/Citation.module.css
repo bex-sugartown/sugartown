@@ -75,3 +75,20 @@
 .note a:hover {
   opacity: 0.85;
 }
+
+/* ── Back-link to the marker (ST-151) ─────────────── */
+
+.backLink {
+  color: var(--st-color-link-default);
+  text-decoration: none;
+  margin-left: 0.25em;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.backLink:focus-visible {
+  outline: 2px solid var(--st-color-focus);
+  outline-offset: 2px;
+}

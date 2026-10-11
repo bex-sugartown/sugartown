@@ -143,6 +143,14 @@ Single phase.
 - The Tactical Guide and `colors_and_type.css` are not tracked in this repo; step 8 needs their location confirmed.
 - Leftovers (not in this epic, see the leftovers issue): hero eyebrow, retiring chip presets, legacy status badges, dark label strip, the node-page sidebar duplication bug.
 
+**As built (2026-10-11).**
+- Prose link underline went into the six prose link rules, not one: `portableTextComponents.module.css`, `ContentBlock.module.css`, `RichText.module.css`, `PageSections.module.css` (`.link` and `.st-html-section a`) and `pages.module.css` (`.detailContent a`). The offset token stays 2px.
+- New tokens: `--st-glossary-annotation-fg` and `--st-glossary-annotation-bg-hover` (pink-100 light, 24% pink dark). The lime hover is gone.
+- Glossary: the wrapper no longer has `tabIndex` (it gave two tab stops per term); the link carries `aria-expanded` and `aria-controls`; the popover has an id. `<dfn>` now wraps the term in the glossary term page heading (the component already used `<dfn>` for a term's first occurrence in prose).
+- Citation: `role="doc-noteref"`, `id="cite-ref-N"` and the label moved from the `<sup>` onto the link; notes are `role="doc-endnote"` with a `doc-backlink`. If one citation index is referenced twice in a page, the `cite-ref-N` id repeats; not seen in the current content.
+- The Tactical Guide is `docs/briefs/design-system/PROJ-003-design-system-ruleset.md`; `colors_and_type.css` is still not in this repo (step 8 item not done).
+- At 320px the card list is wider than the screen with or without this change (164 elements, same count at the old label size), and no footer label wraps.
+
 **Upstream dependency:** #150 merged. **Schema:** none expected. **Content Write Gate:** not applicable. **Phase 0 gate fires** (Visual: yes); the v4 audit specimens are the vspec.
 
 ## Model & Mode [REQUIRED]

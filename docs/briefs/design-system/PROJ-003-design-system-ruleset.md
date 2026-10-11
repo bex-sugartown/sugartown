@@ -136,7 +136,7 @@ Prefix all system classes to prevent collisions:
 
 ```css
 /* Tier 1: Primitive (raw values) */
---st-color-pink-500: #FF69B4;
+--st-color-pink-500: #FF247D;
 --st-spacing-4: 1rem;
 
 /* Tier 2: Semantic (purpose-based) */
@@ -160,7 +160,7 @@ Prefix all system classes to prevent collisions:
 ```css
 /* Colors: Use numeric scale (100-900) */
 --st-color-pink-100: #ffe6f2;
---st-color-pink-500: #FF69B4;
+--st-color-pink-500: #FF247D;
 --st-color-pink-900: #661145;
 
 --st-color-green-500: #2BD4AA;
@@ -532,14 +532,25 @@ Every component must specify:
 ```
 
 **Touch Targets:**
+
+WCAG 2.2 AA requires a 24x24px minimum target. The house target is 44x44px for primary actions only; chips are exempt at 24 to 28px.
+
 ```css
-/* Minimum 44x44px touch target */
+/* House target for primary actions */
 .st-button {
   min-height: 44px;
   min-width: 44px;
   padding: var(--st-spacing-3) var(--st-spacing-4);
 }
 ```
+
+**Colour use (ST-150, ST-151):**
+- Pink is the one hot colour. Everything else is neutral.
+- Small pink text on light uses `--st-color-text-brand` (maroon-600). Never `--st-color-pink` as text on light.
+- White on a pink fill sits on `--st-color-pink-600` (hover `--st-color-pink-700`).
+- Dark eyebrows and folio labels use `--st-color-text-default`.
+- Chips are neutral. A chip is tinted only when `color` is passed. Status dots are pink; draft is a ring.
+- Rich text uses pink and maroon only. Lime is the secondary button fill and nothing else.
 
 **Motion & Animation:**
 ```css
@@ -1150,8 +1161,8 @@ sugartown-cms/
 
 ```css
 /* Brand colors */
---st-color-brand-primary: #FF69B4;      /* Sugartown Pink */
---st-color-brand-secondary: #2BD4AA;    /* Seafoam */
+--st-color-brand-primary: #FF247D;      /* Sugartown Pink */
+--st-color-brand-secondary: #B91C68;    /* Maroon */
 
 /* Text colors */
 --st-color-text-primary

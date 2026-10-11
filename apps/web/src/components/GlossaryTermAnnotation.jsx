@@ -8,7 +8,7 @@
  * WCAG 1.4.13: dismissible via Escape, persistent while pointer is over term or popover.
  * Mobile (@media pointer: coarse): popover is suppressed; tap navigates to the term page.
  */
-import { useState, useEffect, useRef, useCallback } from 'react'
+import { useState, useEffect, useRef, useCallback, useId } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
@@ -20,6 +20,7 @@ export default function GlossaryTermAnnotation({ value, children }) {
   const [popoverPos, setPopoverPos] = useState(null)
   const termElRef = useRef(null)
   const hideTimer = useRef(null)
+  const popoverId = useId()
 
   // Escape key — WCAG 1.4.13
   useEffect(() => {
@@ -71,18 +72,25 @@ export default function GlossaryTermAnnotation({ value, children }) {
       <Wrapper
         ref={termElRef}
         className={styles.glossaryLink}
-        tabIndex={0}
         onMouseEnter={handleShow}
         onMouseLeave={scheduleHide}
         onFocus={handleShow}
         onBlur={scheduleHide}
       >
-        <Link to={href} style={{ color: 'inherit', textDecoration: 'none' }}>
+        {/* The link is the one tab stop and the trigger: it navigates, so it stays an <a>.
+            (ST-151: the wrapper used to carry tabIndex=0 as well, giving two tab stops per term.) */}
+        <Link
+          to={href}
+          style={{ color: 'inherit', textDecoration: 'none' }}
+          aria-expanded={shown}
+          aria-controls={shown ? popoverId : undefined}
+        >
           {children}
         </Link>
       </Wrapper>
       {shown && popoverPos && createPortal(
         <span
+          id={popoverId}
           className={styles.glossaryPopover}
           style={{
             position: 'fixed',

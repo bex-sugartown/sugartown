@@ -27,8 +27,14 @@ export const CitationMarker: React.FC<CitationMarkerProps> = ({
   const id = targetId ?? `st-citation-${index}`;
 
   return (
-    <sup className={styles.marker} aria-label={`Citation ${index}`}>
-      <a href={`#${id}`} className={styles.markerLink}>
+    <sup className={styles.marker}>
+      <a
+        href={`#${id}`}
+        id={`cite-ref-${index}`}
+        role="doc-noteref"
+        aria-label={`Citation ${index}`}
+        className={styles.markerLink}
+      >
         [{index}]
       </a>
     </sup>
@@ -59,9 +65,17 @@ export const CitationNote: React.FC<CitationNoteProps> = ({
   const noteId = id ?? `st-citation-${index}`;
 
   return (
-    <p id={noteId} className={styles.note}>
+    <p id={noteId} role="doc-endnote" className={styles.note}>
       <span className={styles.index}>[{index}]</span>
-      {children}
+      {children}{' '}
+      <a
+        href={`#cite-ref-${index}`}
+        role="doc-backlink"
+        aria-label={`Back to citation ${index}`}
+        className={styles.backLink}
+      >
+        {'\u21a9'}
+      </a>
     </p>
   );
 };

@@ -130,7 +130,7 @@
 /* Inline badge — same visual as .statusBadge but not absolutely positioned */
 .folioStatus {
   font-family: var(--st-font-family-mono);
-  font-size: 0.65rem;
+  font-size: var(--st-label-size);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -270,7 +270,7 @@
   top: var(--st-space-5);
   right: var(--st-space-5);
   font-family: var(--st-font-family-mono);
-  font-size: 0.65rem;
+  font-size: var(--st-label-size);
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -427,7 +427,7 @@
 
 .chipGroupLabel {
   font-family: var(--st-font-family-mono);
-  font-size: 0.65rem;
+  font-size: var(--st-label-size);
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -603,19 +603,19 @@
 }
 
 .compact .eyebrow {
-  font-size: 0.68rem;
+  font-size: var(--st-label-size);
 }
 
 .compact .folioLabel {
-  font-size: 0.65rem;
+  font-size: var(--st-label-size);
 }
 
 .compact .footerCategoryLink {
-  font-size: 0.65rem;
+  font-size: var(--st-label-size);
 }
 
 .compact .date {
-  font-size: 0.65rem;
+  font-size: var(--st-label-size);
 }
 
 .compact .excerpt {
