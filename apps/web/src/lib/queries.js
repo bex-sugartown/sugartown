@@ -703,7 +703,8 @@ export const releaseNoteBySlugQuery = `
     slug,
     version,
     releasedAt,
-    "publishedAt": releasedAt,
+    // Noon UTC so a date-only value renders as the same day in every timezone.
+    "publishedAt": releasedAt + "T12:00:00Z",
     "excerpt": summary,
     summary,
     ${SECTIONS_PROJECTION}
@@ -1153,6 +1154,7 @@ export const archivePageBySlugQuery = `
     "slug": slug.current,
     description,
     contentTypes,
+    displayStyle,
     listStyle,
     sortBy,
     itemsPerPage,

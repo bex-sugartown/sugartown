@@ -131,7 +131,8 @@ const ARCHIVE_QUERIES = {
       "slug": slug.current,
       "excerpt": summary,
       version,
-      "publishedAt": releasedAt,
+      // Noon UTC so a date-only value renders as the same day in every timezone.
+      "publishedAt": releasedAt + "T12:00:00Z",
       ${TAXONOMY_PROJECTION},
       ${ENUM_PROJECTION}
     }
