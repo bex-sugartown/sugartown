@@ -42,6 +42,29 @@ executing, confirm it still holds — several of these were written between 2026
 2026-08-09 and the platform has moved since (SUG-284 removed the governance layer; v0.33.0
 shipped 2026-08-15).
 
+## Activation notes, 2026-10-12
+
+Read before activating. Source material lives outside this repo, in
+`resume-factory/data/content/drafts/shrinking-job/` (`EVIDENCE-BRIEF_2026-08-31.md`, then
+`EVIDENCE-UPDATE_2026-10-12.md`). Both are internal and fail the publish gate on purpose.
+
+- **The mock's lede is now false.** "I have never spoken to the hiring manager" stopped being true
+  on 2026-09-24, when a fifth pass of the same seat reached a hiring-manager round. The lede, the
+  pull quote and "The wall I never got past" all need rewriting before Sanity.
+- **New ending:** a recruiter carried the seat to the hiring manager, the answer was a stated fit
+  reason, and seven days later the same seat came back through another firm at a lower rate. The
+  reseller layer has no memory. The human door can open; it opened once, because one recruiter
+  was good.
+- **Extend the descent table** with the Sep and Oct 2026 passes (rates in the evidence update).
+- **Replace the 8% duplicate figure.** Not reproducible. Use the scripted floor from the evidence update.
+- **Gap aside (SUG-213):** 14 rows now, including a repost under a new req ID and a pulled req.
+- **Cross-link** with the follow-up to "I Treated My Job Search Like a Data Pipeline"
+  (https://sugartown.io/articles/job-search-funnel-data-postmortem), handoff at
+  `resume-factory/data/content/drafts/ai-screening/HANDOFF_2026-10-12_article.md`. That post is the
+  portal door; this one is the human door.
+- **Open decisions at activation:** name the retailer or not; Gap aside before or after publish;
+  publish order relative to the AI post.
+
 ## Related
 
 - **Linear:** [SUG-234](https://linear.app/sugartown/issue/sug-234)
