@@ -33,7 +33,7 @@ After this epic, the neutral chip border meets WCAG 1.4.11 (3:1 non-text contras
 
 - [x] **1. Vspec** (Phase 0 gate): before and after of the neutral chip on the canvas, a card and the dark theme, with measured ratios and the exact token values, signed off by Bex — layer: docs
 - [x] **2. Light value:** add `--st-color-neutral-450` (`#878789`, 3.20:1 on the `#F2F2F3` canvas, 3.59:1 on white) and point `--st-chip-border` at it — layer: tokens
-- [x] **3. Dark value:** override `--st-chip-border` in `dark-pink-moon` to a value at 3:1 or more against `--st-color-midnight-700` (`#1c2240`) and the dark canvas; the vspec proposes `#767b92` (3.71:1 and 4.58:1) — layer: tokens
+- [x] **3. Dark value:** override `--st-chip-border` in `dark-pink-moon` to a value at 3:1 or more against `--st-color-midnight-700` (`#1c2240`) and the dark canvas; the vspec proposes `#8a90a8` (4.91:1 against the chip fill, 5.86:1 against the card surround; revised from `#767b92` on 2026-10-12 after review) — layer: tokens
 - [ ] **4. Verify every consumer:** chips render correctly everywhere `--st-chip-border` is read (see Technical notes) in both themes, and the axe baseline is unchanged — layer: verification
 
 ## Phases

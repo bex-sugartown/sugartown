@@ -271,7 +271,7 @@
   /* Chip rule-dot — dark overrides (SUG-88) */
   --st-chip-tag-bg:         var(--st-color-midnight-700);  /* white-50 is too light on dark canvas */
   --st-chip-fg:             var(--st-color-softgrey-200);
-  --st-chip-border:         var(--st-color-slate-450);       /* SUG-164: 3.71:1 on midnight-700, 4.58:1 on the dark canvas; rule-accent was 1.6:1 */
+  --st-chip-border:         var(--st-color-slate-450);       /* SUG-164: 4.91:1 on midnight-700, 5.86:1 on the dark card surround; rule-accent was 1.6:1 */
   /* ST-150: featured rubric chip and status dots use the base tokens (neutral chip, pink dot) */
 
   /* MetadataCard V2 Inverted Well — dark overrides (SUG-88) */
