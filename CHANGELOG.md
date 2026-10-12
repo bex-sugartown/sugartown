@@ -12,6 +12,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- ST-159: smoke suite now runs axe on five routes, crawls 294 internal links, and a weekly workflow checks outbound links; Lighthouse accessibility below 0.9 now fails the stats run. (`pnpm test:smoke`: 13 passed.)
+
 ---
 
 ## [0.37.0] — 2026-10-11

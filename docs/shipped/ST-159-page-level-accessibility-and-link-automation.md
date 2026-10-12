@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-159 — Page-level accessibility and link automation
 **Issue:** [#159](https://github.com/bex-sugartown/sugartown/issues/159)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** no
@@ -21,11 +21,11 @@ After this epic, a pull request or push that introduces a WCAG A or AA axe viola
 
 ## Scope
 
-- [ ] **1. Baseline run:** add `@axe-core/playwright`, run axe against the five smoke routes, record every violation found with rule id and route in this doc's close-out; no failing gate yet — layer: tooling
-- [ ] **2. axe gate in the smoke suite:** a shared helper in `tests/smoke/` runs axe (tags `wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`) on each route and fails on any violation not on a named, dated allowlist that points at a filed issue — layer: tooling + CI
-- [ ] **3. Internal link check:** a script that crawls the built `apps/web` output and fails on any internal link that returns 404 or points at a missing anchor, wired into `ci.yml` after Build — layer: tooling + CI
-- [ ] **4. External link check, scheduled:** a weekly workflow that checks outbound links, opens or updates one issue with the broken list, and never blocks a deploy — layer: tooling + CI
-- [ ] **5. Lighthouse assertion:** change `categories:accessibility` in `lighthouserc.cjs` from `warn` to `error` at the threshold the baseline supports, and state in the doc what a failure does (the run is post-deploy, so it fails the stats workflow and `ci-failure-alert.yml`) — layer: tooling
+- [x] **1. Baseline run:** add `@axe-core/playwright`, run axe against the five smoke routes, record every violation found with rule id and route in this doc's close-out; no failing gate yet — layer: tooling
+- [x] **2. axe gate in the smoke suite:** a shared helper in `tests/smoke/` runs axe (tags `wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`) on each route and fails on any violation not on a named, dated allowlist that points at a filed issue — layer: tooling + CI
+- [x] **3. Internal link check:** a script that crawls the built `apps/web` output and fails on any internal link that returns 404 or points at a missing anchor, wired into `ci.yml` after Build — layer: tooling + CI
+- [x] **4. External link check, scheduled:** a weekly workflow that checks outbound links, opens or updates one issue with the broken list, and never blocks a deploy — layer: tooling + CI
+- [x] **5. Lighthouse assertion:** change `categories:accessibility` in `lighthouserc.cjs` from `warn` to `error` at the threshold the baseline supports, and state in the doc what a failure does (the run is post-deploy, so it fails the stats workflow and `ci-failure-alert.yml`) — layer: tooling
 
 ## Phases
 
@@ -85,3 +85,50 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **GitHub:** [#159](https://github.com/bex-sugartown/sugartown/issues/159)
 - **Related issues:** [#50](https://github.com/bex-sugartown/sugartown/issues/50), [#84](https://github.com/bex-sugartown/sugartown/issues/84), [#143](https://github.com/bex-sugartown/sugartown/issues/143), [#153](https://github.com/bex-sugartown/sugartown/issues/153), closed [#150](https://github.com/bex-sugartown/sugartown/issues/150) to [#152](https://github.com/bex-sugartown/sugartown/issues/152)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] `pnpm test:smoke` runs axe on all five routes and fails on a violation. Evidence: with an empty allowlist the five route tests failed on `color-contrast` and `aria-deprecated-role` (`PLAYWRIGHT_BASE_URL=http://localhost:4173 npx playwright test a11y.spec.ts`). `tests/smoke/axe-liveness.spec.ts` feeds the helper a known-bad page and requires a throw, and runs on every smoke run.
+- [x] Every allowlisted violation names a rule, route, date and issue. Evidence: `tests/smoke/helpers/axe-allowlist.ts` (6 entries, #163 and #164). The helper fails an entry whose issue is not written `#N`. It does not check the issue is still open.
+- [x] The CI "Route smoke tests" step runs the new specs. Evidence: `pnpm test:smoke` ran 13 tests, 13 passed, 2.4m including the build. The CI conclusion itself is a post-ship check.
+- [x] Internal link check fails on a broken link and passes on `main`. Evidence: `tests/smoke/links.spec.ts` probe test (a seed page linking to a missing path must fail) and the main test, which printed `internal links checked: 294 unique targets from 14 seed pages`.
+- [ ] External link workflow runs on its schedule and opens one tracking issue. Not done: `.github/workflows/external-links.yml` has never run on GitHub. The script ran locally against production (`node scripts/check-external-links.mjs https://sugartown.io`: 17 links, 1 broken, 1 skipped). Moved to Post-ship checks.
+- [x] `lighthouserc.cjs` asserts `categories:accessibility` at `error`, threshold justified. Evidence: `jq` over `apps/web/src/generated/stats.json` gave min 90 across 24 samples; `lhci assert` on `/about` passed at 0.9 and exited 1 against a planted 0.99.
+- [x] A probe shows each new gate goes red on known-bad input: the axe probe and the link probe above, both inside the smoke suite.
+- [x] Measured counts name their commands: 294 targets and 13 tests (`pnpm test:smoke`), 24 samples and min 90 (the `jq` call above), 17 outbound links (`check-external-links.mjs`).
+
+### What didn't work
+
+- The Lighthouse step could not just flip `warn` to `error`. `lighthouse:no-pwa` made every individual audit an error (14 failed on `/about`), hidden by `lhci assert || true`, so the preset was dropped and only category scores are asserted.
+- `/about` scores exactly 0.90, the floor, so a one-point noise drop turns the stats run red.
+- `__dirname` is undefined in the ESM test files; the first full run failed on it and was fixed before the commit.
+- GitHub's secondary rate limit rejected project-board calls mid-run, so #164, #165 and #166 are not yet on the board.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Preheader banner fails contrast on every route (3.62:1) | implementation | #163 |
+| Citation uses deprecated `doc-endnote` roles | implementation | #164 |
+| Lighthouse accessibility audits fail on `/about` | implementation | #165 |
+| Widen axe and link coverage, add the dark theme | implementation | #166 |
+| Governance page links to a private project board (404 for visitors) | implementation | comment on #157 |
+| Put #164, #165 and #166 on the board (rate-limited) | workflow-docs | owed, see Post-ship checks |
+| Keep an allowlist entry honest after its issue closes | implementation | declined: #166 reviews the allowlist when coverage widens |
+
+### Friction line
+
+A Lighthouse `|| true` and a preset that errors on every audit meant the first plan, flipping one assertion to `error`, would have made the stats run red daily until the real behaviour was run.
+
+---
+
+## Post-ship checks
+
+- [ ] CI concludes `success` on the pushed commit, including the new smoke specs: `gh run list --branch main --limit 1`
+- [ ] External link workflow runs and produces or updates one issue: `gh workflow run external-links.yml`, then `gh issue list --search "External links in:title"`
+- [ ] Stats workflow's "Assert Lighthouse accessibility score" step runs and its result is read: `gh run list --workflow=stats.yml --limit 1`
+- [ ] #164, #165 and #166 are on the board with priority: person, or `gh project item-list 1 --owner bex-sugartown`
