@@ -47,7 +47,6 @@ jobs:
         run: |
           lhci collect --config=lighthouserc.cjs --settings.formFactor=mobile --settings.screenEmulation.mobile=true --settings.throttlingMethod=simulate --settings.throttling.rttMs=150 --settings.throttling.throughputKbps=1638.4
           lhci collect --config=lighthouserc.cjs --settings.preset=desktop
-          lhci assert --config=lighthouserc.cjs || true
         env:
           LHCI_ORIGIN: https://sugartown.io
         continue-on-error: true  # Lighthouse flakiness should not block stats commit
@@ -102,3 +101,11 @@ jobs:
             git commit -m "chore(stats): update trust signals [skip ci]"
             git push
           fi
+
+      # ST-159: the accessibility assertion fails the run (a red run in Actions;
+      # ci-failure-alert.yml watches only 'CI', so there is no alert). It sits last
+      # with if: always() so a failing score never blocks the stats commit above,
+      # which is the reason the collect step is continue-on-error.
+      - name: Assert Lighthouse accessibility score
+        if: always()
+        run: lhci assert --config=lighthouserc.cjs

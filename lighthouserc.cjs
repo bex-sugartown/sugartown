@@ -28,10 +28,14 @@ const URLS = [
 ]
 
 const ASSERT = {
-  preset: 'lighthouse:no-pwa',
+  // ST-159: no preset. 'lighthouse:no-pwa' turns every individual audit into an error
+  // (14 failed on /about on 2026-10-12, mostly performance), which an assert step that
+  // fails the run cannot tolerate. Only the three category scores are asserted.
   assertions: {
     'categories:performance':   ['warn', { minScore: 0.8 }],
-    'categories:accessibility': ['warn', { minScore: 0.9 }],
+    // ST-159: error, not warn. Baseline 2026-10-12: min 90 across 24 samples (/about is
+    // the margin), so 0.9 is the current floor and a drop fails the stats run.
+    'categories:accessibility': ['error', { minScore: 0.9 }],
     'categories:seo':           ['warn', { minScore: 0.9 }],
   },
 }

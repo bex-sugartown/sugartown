@@ -1,0 +1,60 @@
+name: External links, weekly check
+
+# ST-159 phase 4. Advisory: this workflow never gates a deploy and is not
+# watched by ci-failure-alert.yml. It keeps one open issue listing broken
+# outbound links, updates it each week, and closes it when the list is empty.
+# Kill criterion: retire on 2027-01-12 if it has opened no actionable issue.
+
+on:
+  schedule:
+    - cron: '0 7 * * 1' # Mondays 07:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  external-links:
+    name: Check outbound links on sugartown.io
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
+      - name: Check outbound links
+        run: node scripts/check-external-links.mjs https://sugartown.io external-links-report.md
+
+      - name: Open, update or close the tracking issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TITLE="External links: broken outbound links on sugartown.io"
+          EXISTING=$(gh issue list --state open --search "\"$TITLE\" in:title" --json number --jq '.[0].number // empty')
+          if grep -q '^No broken outbound links' external-links-report.md; then
+            if [ -n "$EXISTING" ]; then
+              gh issue comment "$EXISTING" --body-file external-links-report.md
+              gh issue close "$EXISTING" --comment "All outbound links resolve. Closing."
+            fi
+          elif [ -n "$EXISTING" ]; then
+            gh issue edit "$EXISTING" --body-file external-links-report.md
+          else
+            gh issue create --title "$TITLE" --body-file external-links-report.md --label chore
+          fi
