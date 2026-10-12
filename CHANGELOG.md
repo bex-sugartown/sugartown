@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- SUG-164: neutral chip borders now meet 3:1 non-text contrast in light and dark Pink Moon, set by one token and no component changes. (light 3.20:1, dark 4.91:1)
 - ST-159: smoke suite now runs axe on five routes, crawls 294 internal links, and a weekly workflow checks outbound links; Lighthouse accessibility below 0.9 now fails the stats run. (`pnpm test:smoke`: 13 passed.)
 
 ---

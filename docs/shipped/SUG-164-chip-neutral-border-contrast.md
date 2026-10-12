@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-164 — Chip neutral border contrast — 1.3:1 non-text contrast (system token review)
 **Linear Issue:** [SUG-164](https://linear.app/sugartown/issue/sug-164)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Labels:** Design System
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at the end
@@ -34,7 +34,7 @@ After this epic, the neutral chip border meets WCAG 1.4.11 (3:1 non-text contras
 - [x] **1. Vspec** (Phase 0 gate): before and after of the neutral chip on the canvas, a card and the dark theme, with measured ratios and the exact token values, signed off by Bex — layer: docs
 - [x] **2. Light value:** add `--st-color-neutral-450` (`#878789`, 3.20:1 on the `#F2F2F3` canvas, 3.59:1 on white) and point `--st-chip-border` at it — layer: tokens
 - [x] **3. Dark value:** override `--st-chip-border` in `dark-pink-moon` to a value at 3:1 or more against `--st-color-midnight-700` (`#1c2240`) and the dark canvas; the vspec proposes `#8a90a8` (4.91:1 against the chip fill, 5.86:1 against the card surround; revised from `#767b92` on 2026-10-12 after review) — layer: tokens
-- [ ] **4. Verify every consumer:** chips render correctly everywhere `--st-chip-border` is read (see Technical notes) in both themes, and the axe baseline is unchanged — layer: verification
+- [x] **4. Verify every consumer:** chips render correctly everywhere `--st-chip-border` is read (see Technical notes) in both themes, and the axe baseline is unchanged — layer: verification
 
 ## Phases
 
@@ -99,3 +99,40 @@ Slugs captured 2026-10-12 from `apps/web/dist/` after the Phase 1 build (`ls app
 
 - **Linear:** [SUG-164](https://linear.app/sugartown/issue/sug-164)
 - Backfilled by the Phase 2 parity audit — `docs/briefs/linear-to-github-migration-plan.md` §5.1
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] `--st-chip-border` is at least 3:1 in both themes. Evidence (WCAG relative-luminance formula, Python one-liner, 2026-10-12): light `#878789` is 3.20 against the `#F2F2F3` canvas, 3.59 against white, 3.44 against `#FAFAFA`; dark `#8a90a8` is 4.91 against the `#1C2240` chip fill, 5.86 against the real card surround `#0D1226`, 6.05 against the `#0A0F1A` canvas. Live check in the browser pane after the real theme toggle: chip border `rgb(138,144,168)` on fill `rgb(28,34,64)`.
+- [x] `pnpm tokens:build` regenerated both `tokens.css` copies; `pnpm validate:style-mirror` and `pnpm validate:tokens` pass.
+- [x] No component CSS or JSX changed. `git diff --stat b4a3fb61~1 142fa7f0 -- . ':!apps/web/src/generated' ':!docs'` lists five files: both `tokens.css`, both `theme.pink-moon.css`, `tokens/source/tokens.json`.
+- [x] Vspec-to-build comparison: the design-reviewer subagent returned 0 drifts on the first build (every ratio recomputed, every consumer confirmed by grep). The dark value was then revised from `#767b92` to `#8a90a8` after you found it softer than the mock; the vspec was corrected to the real card surround and re-approved. Bex wrote "vqa approved".
+- [x] `pnpm test:smoke`: 13 tests, 13 passed, 1.1 minutes; the axe allowlist is unchanged.
+- [x] The Chip story hard-codes no border (`grep -n border packages/design-system/src/components/Chip/Chip.stories.tsx` returned nothing), so it reads the shipped token. Not viewed in Storybook; the server was down.
+
+### What didn't work
+
+- The vspec's dark mock drew the card on a lighter surface than the real one, so it showed a crisper outline than the site could produce. The first dark value (`#767b92`) was approved against that mock and had to be revised after commit.
+- A first browser measurement of the dark theme set the theme attribute by hand and read light values; the real toggle gave the correct ones.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Archive `.filterChip` keeps the pale border, sits lighter than tag chips | implementation | #167 |
+| Other meaningful hairlines (`border-wrap`, table cells, button rules) | implementation | declined here: the Non-Goals leave them to #160, which flags each failing pair |
+| Vspec dark mocks must use the real card surround | workflow-docs | declined: one occurrence; this friction line is the record for the three-strike rule |
+
+### Friction line
+
+The vspec's dark panels used a different surface from the real card, so the approved mock overstated the outline and the dark value needed a second commit.
+
+---
+
+## Post-ship checks
+
+- [ ] Chromatic: one human-approved pass on the pushed commit, owed because this change touches CSS tokens (`/chromatic`, or at `/ship`) <!-- Chromatic: pending -->
+- [ ] Production chips show the firmer outline in both themes: person, open any article page on sugartown.io and toggle the moon icon

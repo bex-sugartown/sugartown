@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SUG-164 Chip border contrast, vspec</title>
+<style>
+  :root {
+    --st-color-neutral-50: #fafafa;
+    --st-color-neutral-100: #f2f2f3;
+    --st-color-neutral-300: #c6c6c8;
+    --st-color-neutral-450: #878789; /* NEW, light */
+    --st-color-neutral-600: #525252;
+    --st-color-midnight-700: #1c2240;
+    --st-color-midnight-950: #0a0f1a;
+    --chip-border-dark-new: #8a90a8; /* NEW, dark, name TBD */
+    --st-font-heading: 'EB Garamond', Georgia, serif;
+    --st-font-meta: 'Courier Prime', 'Courier New', monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; padding: 32px 16px; background: #fff; color: #171717; font: 16px/1.5 Georgia, serif; }
+  main { max-width: 960px; margin: 0 auto; }
+  h1 { font-family: var(--st-font-heading); font-size: 32px; margin: 0 0 4px; }
+  h2 { font-family: var(--st-font-heading); font-size: 22px; margin: 40px 0 8px; border-bottom: 1px solid var(--st-color-neutral-300); padding-bottom: 4px; }
+  p, li { max-width: 70ch; }
+  .meta { font-family: var(--st-font-meta); font-size: 12px; color: var(--st-color-neutral-600); }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; margin: 12px 0; }
+  th, td { text-align: left; padding: 6px 10px; border: 1px solid var(--st-color-neutral-300); vertical-align: top; }
+  th { background: var(--st-color-neutral-100); font-family: var(--st-font-meta); font-size: 12px; font-weight: 400; text-transform: uppercase; letter-spacing: .04em; }
+  .pass { color: #0a6b2d; font-weight: 700; }
+  .fail { color: #a11a1a; font-weight: 700; }
+  .annot { background: #fff8d6; border-left: 3px solid #b58900; padding: 8px 12px; font-size: 14px; margin: 12px 0; max-width: 70ch; }
+
+  /* Stage: a canvas with a card on it, before and after */
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 16px 0; }
+  @media (max-width: 640px) { .stage { grid-template-columns: 1fr; } }
+  .canvas { background: var(--st-color-neutral-100); padding: 20px; }
+  .canvas--dark { background: #0d1226; color: #e4e4e5; } /* real dark card surround rgb(13,18,38) */
+  .stage-label { font-family: var(--st-font-meta); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 10px; }
+  .card { background: var(--st-color-neutral-50); border: 1px solid var(--st-color-neutral-300); padding: 14px; }
+  .canvas--dark .card { background: #0d1226; border-color: rgba(255,255,255,.15); }
+
+  /* Production class names, mirroring Chip.module.css and Card.module.css */
+  .chip {
+    display: inline-flex; align-items: center; gap: 5px;
+    padding: 2px 10px; margin: 0 6px 6px 0;
+    font-family: var(--st-font-meta); font-size: 12px; line-height: 20px;
+    border: 1px solid var(--chip-border); background: var(--chip-bg); color: var(--chip-fg);
+  }
+  .canvas .chip { --chip-bg: #fff; --chip-fg: #171717; }
+  .canvas--dark .chip { --chip-bg: var(--st-color-midnight-700); --chip-fg: #d9dbe3; }
+  .before .chip { --chip-border: var(--st-color-neutral-300); }
+  .after .chip { --chip-border: var(--st-color-neutral-450); }
+  .canvas--dark.before .chip { --chip-border: rgba(255,255,255,.15); }
+  .canvas--dark.after .chip { --chip-border: var(--chip-border-dark-new); }
+  .swatch { display: inline-block; width: 14px; height: 14px; vertical-align: -2px; border: 1px solid #0003; margin-right: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>SUG-164: neutral chip border contrast</h1>
+  <p class="meta">Issue #51 · Phase 0 visual spec · 2026-10-12 · Status: dark value revised 2026-10-12 (#767b92 to #8a90a8), awaiting re-approval</p>
+
+  <p>One token changes: <code>--st-chip-border</code>. It is read by every neutral chip, the card status badges, the rubric chip and the knowledge-graph chips. No component CSS or JSX changes. The canvas, chip fill, text and dots are untouched.</p>
+
+  <h2>1. Before and after, light theme</h2>
+  <div class="stage">
+    <div class="canvas before">
+      <div class="stage-label">Before · neutral-300 · #c6c6c8</div>
+      <div class="card">
+        <span class="chip">Governance</span><span class="chip">Design System</span><span class="chip">Post Mortem</span>
+        <span class="chip statusBadge">Published</span>
+      </div>
+    </div>
+    <div class="canvas after">
+      <div class="stage-label">After · neutral-450 · #878789</div>
+      <div class="card">
+        <span class="chip">Governance</span><span class="chip">Design System</span><span class="chip">Post Mortem</span>
+        <span class="chip statusBadge">Published</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>2. Before and after, dark theme</h2>
+  <div class="stage">
+    <div class="canvas canvas--dark before">
+      <div class="stage-label">Before · rgba(255,255,255,0.15)</div>
+      <div class="card">
+        <span class="chip">Governance</span><span class="chip">Design System</span><span class="chip">Post Mortem</span>
+        <span class="chip statusBadge">Published</span>
+      </div>
+    </div>
+    <div class="canvas canvas--dark after">
+      <div class="stage-label">After · #8a90a8</div>
+      <div class="card">
+        <span class="chip">Governance</span><span class="chip">Design System</span><span class="chip">Post Mortem</span>
+        <span class="chip statusBadge">Published</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>3. Measured contrast (WCAG 1.4.11 needs 3:1)</h2>
+  <table>
+    <thead><tr><th>Theme</th><th>Border</th><th>Against</th><th>Before</th><th>After</th></tr></thead>
+    <tbody>
+      <tr><td>Light</td><td><span class="swatch" style="background:#878789"></span>#878789</td><td>canvas #F2F2F3</td><td class="fail">1.45</td><td class="pass">3.20</td></tr>
+      <tr><td>Light</td><td>#878789</td><td>chip fill #FFFFFF</td><td class="fail">1.71</td><td class="pass">3.59</td></tr>
+      <tr><td>Light</td><td>#878789</td><td>card #FAFAFA</td><td class="fail">1.63</td><td class="pass">3.44</td></tr>
+      <tr><td>Dark</td><td><span class="swatch" style="background:#8a90a8"></span>#8a90a8</td><td>chip fill #1C2240</td><td class="fail">1.60</td><td class="pass">4.91</td></tr>
+      <tr><td>Dark</td><td>#8a90a8</td><td>card surround #0D1226</td><td class="fail">1.91</td><td class="pass">5.86</td></tr>
+      <tr><td>Dark</td><td>#8a90a8</td><td>canvas #0A0F1A</td><td class="fail">n/a</td><td class="pass">6.05</td></tr>
+    </tbody>
+  </table>
+  <p class="meta">Computed with the WCAG relative-luminance formula in a Python one-liner on 2026-10-12. The dark "before" border is white at 15% over the chip fill, which composites to #3E435D. The dark panels now sit on the real card surround rgb(13,18,38), measured on the running site on 2026-10-12; the first draft used a lighter surround that made the outline look crisper than it is. Revised from #767b92 after review: that value measured 3.71:1 against the chip fill, and read softer than the mock.</p>
+
+  <h2>4. Token spec</h2>
+  <table>
+    <thead><tr><th>Token</th><th>Now</th><th>Proposed</th><th>Where</th></tr></thead>
+    <tbody>
+      <tr><td><code>--st-color-neutral-450</code></td><td>does not exist</td><td>#878789</td><td><code>tokens/source/tokens.json</code>, both generated <code>tokens.css</code></td></tr>
+      <tr><td><code>--st-chip-border</code> (light, default)</td><td><code>var(--st-color-rule-accent)</code> = #c6c6c8</td><td><code>var(--st-color-neutral-450)</code></td><td><code>tokens.css</code></td></tr>
+      <tr><td><code>--st-chip-border</code> (<code>dark-pink-moon</code>)</td><td>inherits rgba(255,255,255,0.15)</td><td>#8a90a8 (token name <code>/* TBD */</code>)</td><td><code>theme.pink-moon.css</code></td></tr>
+      <tr><td><code>--st-color-rule-accent</code></td><td>unchanged</td><td>unchanged</td><td>dividers keep their soft hairline</td></tr>
+    </tbody>
+  </table>
+
+  <h2>5. Surfaces this reaches</h2>
+  <ul>
+    <li><code>Chip</code> neutral chassis and <code>.ruleDot</code> (<code>Chip.module.css</code>), so every tag and status chip.</li>
+    <li><code>Card</code> <code>.statusBadge</code> and <code>.folioStatus</code> (<code>Card.module.css</code>).</li>
+    <li>Rubric chip via <code>--st-chip-rubric-border</code>.</li>
+    <li>Knowledge-graph article and case chips via <code>--st-kg-chip-*-border</code>.</li>
+    <li>Not reached: tinted opt-in chips, status dots, <code>border-wrap</code>, table cell borders, dividers.</li>
+  </ul>
+
+  <h2>6. Annotations</h2>
+  <div class="annot"><strong>What you will notice:</strong> chip outlines become visibly firmer, close to a mid-grey rule instead of a pale hairline. Text, fill and size do not move. The pink stays the only hot colour.</div>
+  <div class="annot"><strong>Interaction states:</strong> hover and active states already override the border in <code>Chip.module.css</code> and keep winning, because the neutral rule is wrapped in <code>:where()</code>. No change to them.</div>
+  <div class="annot"><strong>Navigation surface:</strong> not applicable. This is not a nav, sidebar or tab bar.</div>
+  <div class="annot"><strong>Prototype triggers:</strong> none fire (no scroll-spy, filtering, expand, tab, sticky, drag or persisted state), so this spec carries no script.</div>
+
+  <h2>7. Sign-off</h2>
+  <p>Approve this spec, or name what to change: a lighter light value (a lower contrast would drop under 3:1 against the canvas, so the floor is about #8c8c8f at 3.00:1), a different dark value, or a different approach.</p>
+</main>
+</body>
+</html>
