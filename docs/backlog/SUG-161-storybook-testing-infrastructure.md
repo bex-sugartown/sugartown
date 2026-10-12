@@ -2,7 +2,7 @@
 **Epic:** SUG-161 — Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest
 **Linear Issue:** [SUG-161](https://linear.app/sugartown/issue/SUG-161/storybook-testing-infrastructure-interaction-tests-a11y-ci-gate-vitest)
 **Status:** Backlog
-**Priority:** ⚪ Later
+**Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
 ---
 
@@ -29,6 +29,8 @@ After this epic, Storybook stories can assert interactive behaviour (click → s
 - [ ] Pipe Vitest coverage report to CI summary (GitHub Actions `$GITHUB_STEP_SUMMARY`) — layer: CI
 
 ## Phases
+
+> **Rescoped 2026-10-12.** Priority raised to High for the a11y gate only. Phase 2 below runs first; Phases 1 and 3 stay Later and are not started with it. Page-level axe lives in ST-159 (#159); use the same axe rule tags there and here (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`).
 
 ### Phase 1 — Interaction tests (merge-as-you-go)
 Install `@storybook/test` + `@storybook/test-runner`. Write `.play()` functions for the target components. Add `storybook:test` CI step. Ships as its own mini-release.
