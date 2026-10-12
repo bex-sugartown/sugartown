@@ -3,7 +3,7 @@
 **Issue:** [#159](https://github.com/bex-sugartown/sugartown/issues/159)
 **Status:** Backlog
 **Priority:** 🟢 Next
-**Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at the end of each
+**Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** no
 ---
 
