@@ -52,6 +52,7 @@
     "validate:urls": "pnpm --filter web validate:urls"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.62.0",
     "husky": "^9.0.0",
     "linkedom": "^0.18.12",

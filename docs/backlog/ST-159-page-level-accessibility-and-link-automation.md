@@ -61,6 +61,9 @@ Not applicable — no shared CSS, token, or multi-page component changes.
   - Read `.github/workflows/ci.yml` to confirm where a link-check step fits after Build, and whether the built output is available at that step.
   - Read `.github/workflows/stats.yml` and `ci-failure-alert.yml` to confirm what a failing `lhci assert` does today before moving it to `error`.
   - Confirm the smoke suite's route set against `apps/web/src/App.jsx`; five routes is a sample, not coverage of every page type, and the close-out says so.
+- **Link check method (decided 2026-10-12):** crawl the running Playwright preview, not the built `dist/` files. Only content detail pages are prerendered (`apps/web/scripts/prerender-content.mjs`); archive and taxonomy pages are an empty shell until JavaScript runs, so a `dist/` parse would pass while their links are broken. Phase 3 reuses the smoke suite's server and config.
+- **Kill criterion (set at activation, 2026-10-12):** on 2027-01-12, retire the weekly external link workflow if it has opened no actionable broken-link issue; on 2027-04-12, review the axe gate and the internal link check against what they caught. A gate that caught nothing and has no probe is removed or rescoped, never loosened.
+- **Branch:** strategy (b), so all phases accumulate on `feat/st-159-page-level-a11y-automation` and merge once at close-out.
 - **axe is not a conformance claim.** Automated rules catch a minority of WCAG criteria. This epic does not change the "partially conforms" status that #153 addresses.
 - **Model & Mode:** see below.
 
