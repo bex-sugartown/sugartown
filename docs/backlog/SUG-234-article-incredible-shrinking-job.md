@@ -55,6 +55,9 @@ Read before activating. Source material lives outside this repo, in
   reason, and seven days later the same seat came back through another firm at a lower rate. The
   reseller layer has no memory. The human door can open; it opened once, because one recruiter
   was good.
+- **The flood, 2026-10-06/07:** a week after the no, the same seat arrived 9+ times in about 31
+  hours from at least 4 firms (one firm sent three recruiters), plus a morning of phone calls Bex
+  had to mute. Mailbox-verified; table in the evidence update §7. This is the scene for the post.
 - **Extend the descent table** with the Sep and Oct 2026 passes (rates in the evidence update).
 - **Replace the 8% duplicate figure.** Not reproducible. Use the scripted floor from the evidence update.
 - **Gap aside (SUG-213):** 14 rows now, including a repost under a new req ID and a pulled req.
