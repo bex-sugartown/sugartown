@@ -23,6 +23,7 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
   - `resume-factory/data/content/drafts/ai-screening/HANDOFF_2026-10-12_article.md` (angle, shape, decisions)
   - `resume-factory/data/content/drafts/ai-screening/RESEARCH-BRIEF_AI-hiring-bias_2026-10-12.md` (every external claim, labelled Record / Reported / Theory)
 - **Sibling:** [SUG-234](SUG-234-article-incredible-shrinking-job.md), "The Incredible Shrinking Job". That post is the human door, this one is the portal door. Cross-link both ways. Publish order is undecided (see Open decisions).
+- **Teaser:** [ST-173](ST-173-article-five-minute-call-that-was-an-application.md), a short separate article that previews this one and publishes first. Tracked on its own; nothing in this epic's scope depends on it.
 - **Pre-flight on the original post (read 2026-10-12):** its headline recruiter-inbound figure is **67% (n=12)**; the handoff cites "69% of warm touches". Resolve before the "then" column is published (see Data reconciliation).
 
 **No mock and no draft exists.** Nothing is written to Sanity until Bex asks.
