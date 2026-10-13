@@ -22,7 +22,9 @@ export async function expectNoAxeViolations(page: Page, route: string) {
   const results = await new AxeBuilder({ page }).withTags(AXE_TAGS).analyze()
 
   const violations = results.violations
-    .filter((v) => !AXE_ALLOWLIST.some((a) => a.rule === v.id && a.route === route))
+    .filter(
+      (v) => !AXE_ALLOWLIST.some((a) => a.rule === v.id && a.route === route && v.nodes.length <= a.maxNodes),
+    )
     .map((v) => ({
       rule: v.id,
       impact: v.impact,

@@ -29,7 +29,9 @@
 
 /* Background color variants */
 .bgPink {
-  background-color: var(--st-color-brand-primary);
+  /* #163: white on brand-primary (#ff247d) was 3.62:1. pink-600 gives 4.80:1, the same
+     treatment Pass 1 (#150) gave every white label on pink. */
+  background-color: var(--st-color-pink-600);
   color: var(--st-color-white);
 }
 

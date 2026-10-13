@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #163: the preheader banner is pink-600 with white text, 4.80:1 instead of 3.62:1, on every page; the axe allowlist now caps each entry's node count so a new failing node can't hide behind it. (`pnpm test:smoke`: 13 passed.)
 - #160: `pnpm validate:contrast` fails CI when a token colour pair drops below WCAG 2.2 AA; 198 pairs across five themes checked, 25 existing failures allowlisted against #169, #170 and #171. (`pnpm validate:liveness-probes`: 16 gates live.)
 - SUG-164: neutral chip borders now meet 3:1 non-text contrast in light and dark Pink Moon, set by one token and no component changes. (light 3.20:1, dark 4.91:1)
 - ST-159: smoke suite now runs axe on five routes, crawls 294 internal links, and a weekly workflow checks outbound links; Lighthouse accessibility below 0.9 now fails the stats run. (`pnpm test:smoke`: 13 passed.)
