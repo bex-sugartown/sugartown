@@ -178,6 +178,19 @@ decoupled from merge strategy — SUG-100 S9, `/mini-release` retired 2026-08-19
 
 {One paragraph: what exists after this epic that didn't before. Name every layer this epic touches: Sanity schema / GROQ query / React render / content (Studio copy edit). Explicitly exclude layers not in scope.}
 
+## Metadata plan
+
+{An article, node, case study or glossary epic fills this from `docs/write-pipeline-prompt.md` §1a. Any other epic writes "Not applicable, no content piece."}
+
+| Type | Existing (use) | New (recommend) |
+|---|---|---|
+| Categories | | |
+| Tags | | |
+| Tools | | |
+| Glossary terms | | |
+
+{Each new glossary term names the tests it passes (§1a). The epic recommends terms; `/glossy` creates them.}
+
 ## Scope
 
 {Specific, layer-named deliverable bullets derived from the description and tags. Each bullet must:}

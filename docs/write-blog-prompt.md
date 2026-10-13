@@ -39,6 +39,8 @@ Article-specific target ranges:
 - Tools only if the article is specifically about those tools
 - Authors: Bex Head by default (look up her person _id)
 - Project: Sugartown CMS if relevant
+- Glossary terms: link existing matches in `relatedTerms`; recommend 0 to 2 new ones per
+  `docs/write-pipeline-prompt.md` §1a. Do not create them here.
 
 ---
 

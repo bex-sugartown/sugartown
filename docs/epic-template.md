@@ -179,6 +179,21 @@ stage (SUG-246).
 
 ---
 
+## Metadata Plan [REQUIRED if the epic is an article, node, case study or glossary piece]
+
+> Choose per `docs/write-pipeline-prompt.md` §1a. Existing and recommended-new side by side.
+
+| Type | Existing (use) | New (recommend) |
+|---|---|---|
+| Categories | | |
+| Tags | | |
+| Tools | | |
+| Glossary terms | | |
+
+> Each new glossary term names the tests it passes. The epic recommends terms; `/glossy` creates them.
+
+---
+
 ## Doc Type Coverage Audit [REQUIRED if the epic adds a field, section type, schema object, or renderer]
 
 > For EVERY epic that adds a new field, section type, schema object, or

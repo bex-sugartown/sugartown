@@ -18,24 +18,34 @@ Every character description, scene detail, color hex, and composition rule is ba
 
 ## Step 0 — Load character reference images
 
-Before doing anything else, read both character study images to use as visual context
-when writing Becky's description in the prompt:
+Before doing anything else, read the canonical model sheet. It is the source of truth for
+how Becky looks (front, three-quarter, side and back views):
+
+```
+docs/brand/character-studies/becky-boop-canonical.png
+```
+
+Then read the two earlier studies for expression and pose vocabulary only:
 
 ```
 docs/brand/character-studies/becky-boop-study-1.png
 docs/brand/character-studies/becky-boop-study-2.png
 ```
 
-Use these images to:
-- Confirm and sharpen the character description (hair shape, glasses style, build, blush spots, pose vocabulary)
-- Note the expression range shown (skeptical, exasperated, side-eye, pointing, mid-stride)
-- Carry any detail from the sheets that would strengthen the prompt — e.g. the star-cluster hair clips, the specific cat-eye frame shape, the hoop earring size
+**Where they disagree, the canonical sheet wins.** The earlier studies show black heels and a
+plain black skirt; the canonical sheet shows black lace-up Doc Martens boots and a polka-dot skirt.
+
+Use the images to:
+- Confirm and sharpen the character description (hair shape, glasses style, build, blush spots, outfit)
+- Note the expression range in the earlier studies (skeptical, exasperated, side-eye, pointing, mid-stride)
+- Carry any detail from the canonical sheet that would strengthen the prompt, such as the daisy hair clips, the cat-eye frame shape and the hoop earring size
 
 After the generated prompt block, append a **Style reference** note:
 
 ```
-Style reference: upload both character study images as style references in your generator
-for consistent character rendering.
+Style reference: upload the canonical sheet (becky-boop-canonical.png) first, then the two
+study images if the generator accepts more than one, as style references for consistent
+character rendering.
 — Midjourney: --cref [image_url] or drag into the prompt field
 — Ideogram: Image reference upload in the sidebar
 — DALL-E / ChatGPT: attach images to the message before submitting the prompt
@@ -130,11 +140,12 @@ Output a single, complete image-generation prompt. Format rules:
 ## Character reference (bake into the prompt verbatim)
 
 ### Becky B00p (always present)
-Curly cherry-red bob, straight blunt bangs, small star-cluster hair accessories scattered
+Curly hot-pink `#ff247d` bob, straight blunt bangs, small white daisy hair clips scattered
 through the curls. Oversized angular black cat-eye glasses with thick frames and pronounced
-upswept outer corners. Large prominent rosy blush circles on a round soft face. Medium gold
-hoop earrings. Short-sleeve black collared blouse. Black polka-dot pencil skirt. White gloves.
-Black Doc Martens boots. Zaftig build, rubber-hose cartoon proportions. Always mid-reaction:
+upswept outer corners. Large prominent rosy blush circles on a round soft face. Medium hoop
+earrings (drawn as white rings on the dark ground). Short-sleeve black collared blouse. Black
+polka-dot pencil skirt with white dots. White gloves. Black lace-up Doc Martens boots with
+white laces, white stitching and thick lug soles. Zaftig build, rubber-hose cartoon proportions. Always mid-reaction:
 skeptical, exasperated, side-eye, occasionally delighted. Never the cause of chaos — she is
 documenting it. **No nametag.**
 
@@ -217,3 +228,13 @@ brown tones, yellowed paper`
 Deliver the prompt inside a fenced code block so the user can copy it cleanly.
 Then add a one-line note below the block: casting decision + one sentence on the
 visual punchline.
+
+Then add the upload file name and an alt-text starter, per
+`docs/conventions/image-naming-convention.md`:
+
+- **File name:** `{docType}-{subject}-hero.webp`. `docType` is the prefix of the content
+  the banner is for (`article-`, `node-`, `cs-`). `subject` is a short kebab-case slug of
+  its topic. Example: `article-five-minute-call-hero.webp`.
+- **Alt text:** one sentence describing the scene, ending with the generator's name
+  (Midjourney, Ideogram, DALL-E, and so on). Ask which generator was used if it is not
+  known. An AI-generated image must name its tool (`docs/write-pipeline-prompt.md` §5).

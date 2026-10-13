@@ -94,6 +94,9 @@ Run these queries in parallel:
 
 // Projects
 *[_type == "project"]{ _id, name } | order(name asc)
+
+// Glossary terms (display field is `term`, not `name`)
+*[_type == "glossaryTerm"]{ _id, term, abbreviation, "slug": slug.current } | order(term asc)
 ```
 
 Also query for potentially related content:
@@ -112,6 +115,31 @@ register-specific taxonomy nuance like case study's engagement facts pre-flight)
 Glossy's taxonomy pre-flight is structurally different (it's keyed on `glossaryTerm`'s own
 relation fields, not `related`/`tags`/`tools`) — see `docs/glossy-prompt.md` Gate 1a/1b
 directly rather than this section.
+
+---
+
+## 1a. Which metadata: tag, tool, category or glossary term
+
+**Use the cheapest type that does the job.** Cost, lowest first:
+
+| Type | Cost | Use when | Limit |
+|---|---|---|---|
+| Tag | Lowest. Pick from the existing list; a new tag needs editorial review | Readers would browse all content on the theme | 3 to 6 per piece |
+| Tool | Low. Pick from the existing list | A named product, vendor or platform (never a tag) | Per register, see its Step 1 |
+| Category | Structural. The list is fixed; a content epic never adds one | The piece sits under one of the site's broad pillars | 1 to 2 |
+| Glossary term | Highest. Research, sources, the two-gate `/glossy` flow, a definition to maintain | A reader needs the word defined to follow the piece, and all four tests below pass | 0 to 2 new per piece |
+
+**Recommend a new glossary term only when all four tests pass:**
+
+1. It has a definition that can be sourced, or it is a Sugartown coinage Bex defines.
+2. It recurs: it appears in at least 3 pieces, published or in the backlog.
+3. A reader of this piece would stall without it.
+4. No existing term covers it. Check the pre-flight list, including abbreviations.
+
+A term and a tag can both apply to one concept: the tag groups content, the term defines it.
+The writing skills link existing terms through `relatedTerms` and recommend new ones. They never
+create them. `/glossy` creates terms, and the Content Write Gate applies. Report each
+recommendation as: term, reason, tests passed.
 
 ---
 
@@ -314,6 +342,8 @@ After creating any draft, report at minimum:
 - Any related content linked
 - Any images included — confirm alt text is present
 - Tracking issue link (created in §0) and its current state
+- Glossary terms: existing ones linked, new ones recommended (term, reason, tests passed).
+  New terms are not created here; `/glossy` does that
 
 Register-specific report items (node's `aiDisclosure` string; article's `aiDisclosure`
 string plus any optional disclosure callout; case study's engagement facts, outcome tile
@@ -322,6 +352,10 @@ string plus any optional disclosure callout; case study's engagement facts, outc
 ---
 
 ## Changelog
+
+### v2026.10.13 (glossary and metadata decision rule)
+- Added §1a: cost ladder and decision rule for tag, tool, category and glossary term; glossary
+  pre-flight query in §1; glossary line in §8. Each `write-*-prompt.md` Step 1 now points here.
 
 ### v2026.08.03 (aiDisclosure correction)
 - §5 and §8: corrected the false claim that article has no `aiDisclosure` field. The field
