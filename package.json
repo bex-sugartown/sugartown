@@ -43,6 +43,7 @@
     "tokens:migrate": "node tokens/scripts/migrate-css-to-json.mjs",
     "typecheck": "turbo run typecheck --continue",
     "validate:content": "pnpm --filter web validate:content",
+    "validate:contrast": "pnpm --filter web validate:contrast",
     "validate:filters": "pnpm --filter web validate:filters",
     "validate:schema-parity": "pnpm --filter studio validate:schema-parity",
     "validate:style-mirror": "pnpm --filter web validate:style-mirror",

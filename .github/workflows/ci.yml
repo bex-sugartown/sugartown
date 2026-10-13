@@ -81,6 +81,9 @@ jobs:
       - name: Validate taxonomy
         run: pnpm validate:taxonomy
 
+      - name: Validate token contrast
+        run: pnpm validate:contrast
+
       - name: Validate schema parity
         run: pnpm validate:schema-parity
         env:

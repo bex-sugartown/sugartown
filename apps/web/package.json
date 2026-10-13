@@ -17,6 +17,7 @@
     "validate:filters": "node scripts/validate-filters.js",
     "validate:content": "node scripts/validate-content.js",
     "validate:tokens": "node scripts/validate-tokens.js",
+    "validate:contrast": "node scripts/validate-contrast.js",
     "validate:tokens:strict": "node scripts/validate-tokens.js --strict-colors",
     "validate:style-mirror": "node scripts/validate-style-mirror.js",
     "validate:dead-refs": "node scripts/validate-dead-refs.js",

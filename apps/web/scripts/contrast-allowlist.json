@@ -1,0 +1,17 @@
+[
+  { "themes": ["light-pink-moon", "light-shop"], "fg": "--st-status-draft-fg", "bg": "--st-status-draft-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["light", "light-pink-moon", "light-shop"], "fg": "--st-status-designing-fg", "bg": "--st-status-designing-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["light-pink-moon", "light-shop"], "fg": "--st-status-testing-fg", "bg": "--st-status-testing-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["dark-pink-moon", "dark-shop", "light"], "fg": "--st-status-exploring-fg", "bg": "--st-status-exploring-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["dark-pink-moon", "dark-shop"], "fg": "--st-status-validated-fg", "bg": "--st-status-validated-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["light"], "fg": "--st-status-active-fg", "bg": "--st-status-active-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["light"], "fg": "--st-status-archived-fg", "bg": "--st-status-archived-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["light"], "fg": "--st-status-implemented-fg", "bg": "--st-status-implemented-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["light"], "fg": "--st-status-deprecated-fg", "bg": "--st-status-deprecated-bg", "date": "2026-10-13", "issue": "#169" },
+  { "themes": ["dark-pink-moon", "dark-shop", "light"], "fg": "--st-kg-chip-case-fg", "bg": "--st-kg-chip-case-bg", "date": "2026-10-13", "issue": "#170" },
+  { "themes": ["dark-pink-moon", "dark-shop"], "fg": "--st-color-text-brand", "bg": "--st-color-bg-surface", "date": "2026-10-13", "issue": "#171" },
+  { "themes": ["light"], "fg": "--st-color-text-muted", "bg": "--st-color-bg-canvas", "date": "2026-10-13", "issue": "#171" },
+  { "themes": ["light"], "fg": "--st-color-text-muted", "bg": "--st-color-bg-surface", "date": "2026-10-13", "issue": "#171" },
+  { "themes": ["light"], "fg": "--st-color-text-eyebrow", "bg": "--st-color-bg-canvas", "date": "2026-10-13", "issue": "#171" },
+  { "themes": ["light"], "fg": "--st-color-text-eyebrow", "bg": "--st-color-bg-surface", "date": "2026-10-13", "issue": "#171" }
+]
