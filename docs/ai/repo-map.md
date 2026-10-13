@@ -42,6 +42,7 @@ path below exists; re-check with `ls` before adding one.
 | `pnpm validate:filters` | `apps/web/scripts/validate-filters.js` | filter model drift |
 | `pnpm validate:content` | `apps/web/scripts/validate-content.js` | missing slugs and required fields, orphaned taxonomy refs, duplicate slugs, HTML entities in Portable Text |
 | `pnpm validate:tokens` | `apps/web/scripts/validate-tokens.js` | `var(--st-*)` references that resolve to nothing; `--strict-colors` adds raw colour values |
+| `pnpm validate:contrast` | `apps/web/scripts/validate-contrast.js` | colour token pairs below WCAG 2.2 AA (4.5:1 text, 3:1 chip border) across five themes; known failures in `contrast-allowlist.json` |
 | `pnpm validate:style-mirror` | `apps/web/scripts/validate-style-mirror.js` | drift between the two copies of the hand-authored style files |
 | `pnpm validate:liveness-probes` | `scripts/validate-liveness-probes.js` | a gate that stays green on known-bad input |
 | `pnpm docs:skills-index --check` | `scripts/build-skills-index.js` | a stale skills index |
