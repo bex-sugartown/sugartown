@@ -19,6 +19,7 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
 
 - **Source:** the LinkedIn post and screenshots in `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo).
 - **Related, not merged:** ST-162 is the data follow-up to "I Treated My Job Search Like a Data Pipeline" and waits for the 10-30 headline read. This piece does not wait for it. Both use the same cohort figures (92 applications, 10 of 10 recruiter-first, 3 of 82 other).
+- **Handoff 2026-10-15:** `resume-factory/data/content/drafts/linkedin-ziprecruiter/HANDOFF_2026-10-15_ST-173-Testjob-and-Post-Final.md` (internal, outside this repo) added the Oct 14 testjob email as a second example, and aligned the funnel bullets with the final LinkedIn post (three bullets, no closing question).
 - **Origin:** drafted inside ST-162 as Scope 8 on 2026-10-13, then split out at Bex's request.
 
 ## Objective
@@ -66,7 +67,7 @@ Single phase.
 | Working title | A Five-Minute Call That Was an Application |
 | Slug | `five-minute-call-that-was-an-application` |
 | Excerpt | A recruiter invite promised a live intro call. The page behind it said no sessions were scheduled. What that says about funnels, and a preview of my follow-up to the job-search data post. |
-| Length | about 620 words, standard band (400 to 1,200) |
+| Length | about 700 words, standard band (400 to 1,200) |
 | Source | Bex's LinkedIn post, `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
 | LinkedIn version | `linkedin-post_ziprecruiter_v2-3000.txt` (2,638 characters, limit 3,000) and `linkedin-first-comment_v2.txt` (615), same folder |
 | `aiDisclosure` | "Drafted with Claude from Bex Head's own LinkedIn post, edited by Bex Head." |
@@ -75,7 +76,7 @@ Single phase.
 | Tool | Claude Code |
 | Project | The Resume Factory |
 | Related | `job-search-funnel-data-postmortem` (June post); SUG-234 once it exists |
-| Skim skeleton | Title; the six subheads below; first sentence of each section; closer "Product folks: where in your funnel does the promise change?" |
+| Skim skeleton | Title; the six subheads below; first sentence of each section. The closing rhetorical question was cut from the LinkedIn post and is cut here. |
 
 ### Evidence for every figure and claim
 
@@ -89,6 +90,7 @@ Single phase.
 | "No sessions scheduled", Apply Now, No Thanks | `ziprecruiter-rsvp-landing.png` | measured |
 | Promise 16px bold, fine print 12px | `.eml` HTML: promise `font-weight:700;font-size:16px`, disclaimer `font-size:12px` | measured |
 | "Next Available" written at send time, page checks on click | Bex's reading of the page source; not testable from the files | inference, worded "my read" |
+| Oct 14 email: "really good fit", testjob_apr01, WFNQAFR44D, arrived from ziprecruiter.com | `HANDOFF_2026-10-15_ST-173-Testjob-and-Post-Final.md` §1, from a screenshot only (not yet saved in the repo or the draft folder) | observed; headers (DKIM, SPF, DMARC) not verified, so the text says only "arrived" and "looks like a test listing" |
 | UW study: 85.1% White-associated, 11.1% female-associated, 500+ resumes | arXiv 2407.20371 abstract, fetched 2026-10-13 | study |
 
 **Corrections made to the LinkedIn original while drafting:**
@@ -125,12 +127,15 @@ In June I reported a cold-apply rate of 6.7%. It is now 3.7%. These are small sa
 
 That is why the invite landed the way it did. An email saying a person wants a call is the one message my data says to answer.
 
-### Four funnel basics the page broke
+### Three funnel basics the page broke
 
 - **Message match.** The page has to deliver what the email promised.
 - **Honest CTA.** RSVP means "save my spot." Apply is a bigger ask.
 - **Design the unhappy path.** The page knew there was no session. The email did not. "What if the slot is gone?" needs an answer before the send.
-- **Say it up front.** "Automated" and "not guaranteed" belong in the first line.
+
+"Automated" and "not guaranteed" belong in the first line, not the fine print.
+
+A second email landed on Oct 14. It said "I think you're a really good fit" for a job called testjob_apr01 at a company called WFNQAFR44D. That looks like a test listing that reached a real inbox. It's the same missing gate as the RSVP, earlier in the pipeline: nothing checked that the job was real before the send. One QA leak says nothing about the whole company. It does show where the checkpoint belongs.
 
 ### What I cannot say
 
@@ -142,11 +147,9 @@ The full follow-up to "I Treated My Job Search Like a Data Pipeline" lands at th
 
 It will sort what is on record from what is alleged from what is only theory, because the public evidence on AI in hiring contains all three. One example of the first kind: University of Washington researchers tested embedding models for resume screening on more than 500 resumes. The models favored White-associated names in 85.1% of cases and female-associated names in 11.1%. That is a controlled study, not a live hiring system. Whether anything like it sits behind a portal I applied through, I cannot know, and the follow-up will say so.
 
-Product folks: where in your funnel does the promise change?
-
 ### Compliance (run 2026-10-13)
 
-Zero em dashes; banned-vocabulary and filler-transition scan clean; publish gate (`python3 checks/check_tiers.py --publish`, run in `resume-factory/os`) clean on the article text and both LinkedIn files. The gate does not flag ZipRecruiter or the role title, so naming them is Bex's decision (see Open decisions).
+Re-run 2026-10-15 after the testjob paragraph: zero em dashes, publish gate clean on the article text. First run 2026-10-13: zero em dashes; banned-vocabulary and filler-transition scan clean; publish gate (`python3 checks/check_tiers.py --publish`, run in `resume-factory/os`) clean on the article text and both LinkedIn files. The gate does not flag ZipRecruiter or the role title, so naming them is Bex's decision (see Open decisions).
 
 ## Hero image
 
@@ -163,6 +166,11 @@ Zero em dashes; banned-vocabulary and filler-transition scan clean; publish gate
 - Name ZipRecruiter and the role title in public text while that pursuit is live (decided 2026-10-13: keep both).
 - Restore the A/B testing tool and ASCII logo lines in the first comment, if she wants them.
 - Re-open the live June post and confirm the 6.7% figure before publish.
+- Which rate the article cites: 3.7% (all non-recruiter, as drafted), or 2.5% (pure portal, 2 of 81). Check against `HANDOFF_2026-10-12_Funnel-Recut` in the resume-factory project. Keep the small-sample caveat either way.
+- Crop and save the testjob screenshot (remove the Gmail label chips and the "to bex" line; the sender name can stay) in the draft folder. Optionally export the `.eml` and run the header check before any wording stronger than "arrived from ziprecruiter.com".
+- Keep the testjob beat to one paragraph here. The two-gates, one-pipeline argument belongs in ST-162. Name no sender person.
+- Bring back the HBS "Hidden Workers" 88% and ghost-jobs bullets, which were cut from the LinkedIn post only for its 3,000-character limit? The article has no limit.
+- Not done yet, owner Bex: submit the ZipRecruiter feedback form (`ziprecruiter-feedback-form.txt`), click "No Thanks" on the RSVP page, post the LinkedIn first comment right after the post.
 - Publish order and timing relative to the LinkedIn post.
 
 ## Acceptance Criteria
