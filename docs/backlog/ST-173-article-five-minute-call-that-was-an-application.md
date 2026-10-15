@@ -76,7 +76,7 @@ Single phase.
 | Tool | Claude Code |
 | Project | The Resume Factory |
 | Related | `job-search-funnel-data-postmortem` (June post); SUG-234 once it exists |
-| Skim skeleton | Title; the six subheads below; first sentence of each section. The closing rhetorical question was cut from the LinkedIn post and is cut here. |
+| Skim skeleton | Title; the seven subheads below; first sentence of each section. The closing rhetorical question was cut from the LinkedIn post and is cut here. |
 
 ### Evidence for every figure and claim
 
@@ -135,6 +135,8 @@ That is why the invite landed the way it did. An email saying a person wants a c
 
 "Automated" and "not guaranteed" belong in the first line, not the fine print.
 
+### Hi, Becky, hold my beer! Hugs, Phil (Your Career Advisor)
+
 A second email landed on Oct 14. It said "I think you're a really good fit" for a job called testjob_apr01 at a company called WFNQAFR44D. That looks like a test listing that reached a real inbox. It's the same missing gate as the RSVP, earlier in the pipeline: nothing checked that the job was real before the send. One QA leak says nothing about the whole company. It does show where the checkpoint belongs.
 
 ### What I cannot say
@@ -168,7 +170,7 @@ Re-run 2026-10-15 after the testjob paragraph: zero em dashes, publish gate clea
 - Re-open the live June post and confirm the 6.7% figure before publish.
 - Which rate the article cites: 3.7% (all non-recruiter, as drafted), or 2.5% (pure portal, 2 of 81). Check against `HANDOFF_2026-10-12_Funnel-Recut` in the resume-factory project. Keep the small-sample caveat either way.
 - Crop and save the testjob screenshot (remove the Gmail label chips and the "to bex" line; the sender name can stay) in the draft folder. Optionally export the `.eml` and run the header check before any wording stronger than "arrived from ziprecruiter.com".
-- Keep the testjob beat to one paragraph here. The two-gates, one-pipeline argument belongs in ST-162. Name no sender person.
+- Keep the testjob beat to one paragraph here. The two-gates, one-pipeline argument belongs in ST-162. Name no sender person. "Phil" stays in the Oct 14 subhead (decided 2026-10-15): it is the email's own sign-off, a sender persona, not a person.
 - Bring back the HBS "Hidden Workers" 88% and ghost-jobs bullets, which were cut from the LinkedIn post only for its 3,000-character limit? The article has no limit.
 - Not done yet, owner Bex: submit the ZipRecruiter feedback form (`ziprecruiter-feedback-form.txt`), click "No Thanks" on the RSVP page, post the LinkedIn first comment right after the post.
 - Publish order and timing relative to the LinkedIn post.
