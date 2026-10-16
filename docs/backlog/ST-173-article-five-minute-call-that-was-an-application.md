@@ -24,7 +24,7 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
 
 ## Objective
 
-A published article at `/articles/{slug}` in Bex's first-person voice, about 700 words, with a LinkedIn version posted separately. Layers touched: content (one Sanity `article` draft) and process (compliance gate, review). No schema, GROQ, React or CSS changes.
+A published article at `/articles/{slug}` in Bex's first-person voice, about 840 words, with a LinkedIn version posted separately. Layers touched: content (one Sanity `article` draft) and process (compliance gate, review). No schema, GROQ, React or CSS changes.
 
 ## Metadata plan
 
@@ -67,8 +67,8 @@ Single phase.
 | Title | Bait and Switch, or Just a Bug (chosen 2026-10-16; the epic and issue keep the working name "A Five-Minute Call That Was an Application") |
 | Subtitle | The invite promised a screening call and the funnel delivered an application. Malice or incompetence, the conversion is the same. |
 | Slug | `bait-and-switch-or-just-a-bug` |
-| Excerpt | A recruiter invite promised a live intro call. The page behind it said no sessions were scheduled, only an application. Whether the funnel did that by design or by accident, the conversion looks the same. A preview of my follow-up to the job-search data post. |
-| Length | about 700 words, standard band (400 to 1,200) |
+| Excerpt | A recruiter invite promised a screening call, the bottom of my funnel. The page behind it offered an application, the top, which benefits the sender far more than me. Whether that was by design or by accident, the conversion is the same. A preview of my follow-up to the job-search data post. |
+| Length | about 840 words, standard band (400 to 1,200) |
 | Source | Bex's LinkedIn post, `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
 | LinkedIn version | `linkedin-post_ziprecruiter_v2-3000.txt` (2,638 characters, limit 3,000) and `linkedin-first-comment_v2.txt` (615), same folder |
 | `aiDisclosure` | "Drafted with Claude from Bex Head's own LinkedIn post, edited by Bex Head." |
@@ -127,6 +127,15 @@ I track my job search like a data pipeline, which is the subject of my June post
 In June my cold-apply screen rate was 6.7%. Every non-recruiter route combined is now 3.7%. These are small samples and different cohorts, and a recruiter who writes first has already chosen me, so the rows are not like for like. But the pattern is loud: a human choosing me first works, and the portal almost never does.
 
 That is why the invite landed the way it did. An email saying a person wants a call is the one message my data says to answer.
+
+It also shows what the email swapped. A screening call sits at the bottom of the funnel. An application sits at the top. The invite promised the first and delivered the second.
+
+| | Screening call | Application |
+|---|---|---|
+| Where it sits in my funnel | Bottom, after the application | Top, the first commitment |
+| Who has already chosen whom | They chose me | I chose them |
+| Who pays | The employer, in recruiter time | Me, in effort |
+| Who benefits most | Me: a person is already interested | The sender: one more application to count |
 
 ### Three funnel basics the page broke
 
