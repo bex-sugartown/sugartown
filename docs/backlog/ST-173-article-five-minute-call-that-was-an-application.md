@@ -135,7 +135,9 @@ It also shows what the email swapped. A screening call sits at the bottom of the
 | Where it sits in my funnel | Bottom, after the application | Top, the first commitment |
 | Who has already chosen whom | They chose me | I chose them |
 | Who pays | The employer, in recruiter time | Me, in effort |
-| Who benefits most | Me: a person is already interested | The sender: one more application to count |
+| Who benefits most | Me: a person is already interested | The sender, if applications are what they count |
+
+I cannot see ZipRecruiter's metrics. If this funnel is judged on conversion to application, the swap is a win for the sender and a loss for me. That is a theory, not a finding.
 
 ### Three funnel basics the page broke
 
