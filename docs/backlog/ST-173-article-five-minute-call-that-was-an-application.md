@@ -64,9 +64,10 @@ Single phase.
 
 | Field | Value |
 |---|---|
-| Working title | A Five-Minute Call That Was an Application |
-| Slug | `five-minute-call-that-was-an-application` |
-| Excerpt | A recruiter invite promised a live intro call. The page behind it said no sessions were scheduled. What that says about funnels, and a preview of my follow-up to the job-search data post. |
+| Title | Bait and Switch, or Just a Bug (chosen 2026-10-16; the epic and issue keep the working name "A Five-Minute Call That Was an Application") |
+| Subtitle | The invite promised a screening call and the funnel delivered an application. Malice or incompetence, the conversion is the same. |
+| Slug | `bait-and-switch-or-just-a-bug` |
+| Excerpt | A recruiter invite promised a live intro call. The page behind it said no sessions were scheduled, only an application. Whether the funnel did that by design or by accident, the conversion looks the same. A preview of my follow-up to the job-search data post. |
 | Length | about 700 words, standard band (400 to 1,200) |
 | Source | Bex's LinkedIn post, `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
 | LinkedIn version | `linkedin-post_ziprecruiter_v2-3000.txt` (2,638 characters, limit 3,000) and `linkedin-first-comment_v2.txt` (615), same folder |
@@ -137,7 +138,7 @@ That is why the invite landed the way it did. An email saying a person wants a c
 
 ### Hi, Becky, hold my beer! Hugs, Phil (Your Career Advisor)
 
-A second email landed on Oct 14. It said "I think you're a really good fit" for a job called testjob_apr01 at a company called WFNQAFR44D. That looks like a test listing that reached a real inbox. It's the same missing gate as the RSVP, earlier in the pipeline: nothing checked that the job was real before the send. One QA leak says nothing about the whole company. It does show where the checkpoint belongs.
+A second email landed on Oct 14. It said "I think you're a really good fit" for a job called testjob_apr01 at a company called WFNQAFR44D. That looks like a test listing that reached a real inbox. It's the same missing gate as the RSVP, earlier in the pipeline: nothing checked that the job was real before the send. One QA leak says nothing about the whole company. It does show where the checkpoint belongs. A bait and switch would have checked the bait. This one shipped a job called testjob_apr01. My read is incompetence, and the person on the other end gets the same page either way.
 
 ### What I cannot say
 
