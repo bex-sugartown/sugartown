@@ -50,8 +50,8 @@ Chosen by the cost ladder proposed for `docs/write-pipeline-prompt.md` §1a (pen
 
 - [x] **1. Draft in this doc**, with an evidence row for every figure (layer: editorial)
 - [x] **2. LinkedIn version** at or under 3,000 characters, plus first comment (layer: editorial)
-- [ ] **3. Bex reviews the draft below** (layer: process)
-- [ ] **4. Sanity draft** via `create_documents` only, taxonomy and `aiDisclosure` attached, after item 3 (layer: content)
+- [x] **3. Bex reviews the draft below** (layer: process; red-pen `docs/reviews/red-pen/2026-10-16-five-minute-call-that-was-an-application.md`, 9 findings applied)
+- [x] **4. Sanity draft** via `create_documents` only, taxonomy and `aiDisclosure` attached, after item 3 (layer: content; `drafts.218e24d5-2d8b-430b-8b2c-9f686ffcea2e`)
 - [ ] **5. Human review and publish decision** (layer: process; Human-Publishes Rule applies)
 
 ## Phases
@@ -60,17 +60,17 @@ Single phase.
 
 ## Draft (in this doc first, per the content workflow)
 
-**Status:** text only, awaiting Bex's review. Nothing is in Sanity.
+**Status:** approved by Bex 2026-10-16. Sanity draft `drafts.218e24d5-2d8b-430b-8b2c-9f686ffcea2e` created 2026-10-16, not published.
 
 | Field | Value |
 |---|---|
 | Title | Bait and Switch, or Just a Bug (chosen 2026-10-16; the epic and issue keep the working name "A Five-Minute Call That Was an Application") |
 | Subtitle | The invite promised a screening call and the funnel delivered an application. Malice or incompetence, the candidate walks away either way. |
 | Slug | `bait-and-switch-or-just-a-bug` |
-| Excerpt | A recruiter invite promised a screening call, the bottom of my funnel. The page behind it offered an application, the top, which benefits the sender far more than me. Whether that was by design or by accident, the candidate walks away either way. A preview of my follow-up to the job-search data post. |
+| Excerpt | A recruiter invite promised a screening call, the bottom of my funnel. The page behind it offered an application, the top, which suits the sender more than me. By design or by accident, the candidate walks away either way. A preview of my follow-up to the job-search data post. |
 | Length | about 840 words, standard band (400 to 1,200) |
 | Source | Bex's LinkedIn post, `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
-| LinkedIn version | `linkedin-post_ziprecruiter_v2-3000.txt` (2,638 characters, limit 3,000) and `linkedin-first-comment_v2.txt` (615), same folder |
+| LinkedIn version | Short version: `linkedin-post_bait-and-switch_short.txt` (post 1,298 characters, first comment 209), same folder. The older `linkedin-post_ziprecruiter*.txt` files predate the new title and still carry the 82-portal wording |
 | `aiDisclosure` | "Drafted with Claude from Bex Head's own LinkedIn post, edited by Bex Head." |
 | Categories | Career Engineering, AI |
 | Tags | ATS, customer journey, process insight, data science |
@@ -165,6 +165,8 @@ It will sort what is on record from what is alleged from what is only theory, be
 
 Re-run 2026-10-15 after the testjob paragraph: zero em dashes, publish gate clean on the article text. First run 2026-10-13: zero em dashes; banned-vocabulary and filler-transition scan clean; publish gate (`python3 checks/check_tiers.py --publish`, run in `resume-factory/os`) clean on the article text and both LinkedIn files. The gate does not flag ZipRecruiter or the role title, so naming them is Bex's decision (see Open decisions).
 
+Re-run 2026-10-16 on the final text and the short LinkedIn file: zero em dashes, `check_tiers.py --publish` clean on both.
+
 ## Hero image
 
 | Field | Value |
@@ -173,7 +175,7 @@ Re-run 2026-10-15 after the testjob paragraph: zero em dashes, publish gate clea
 | Generator | ChatGPT, from a `/becky-boop` prompt (Claude only, Becky as witness) |
 | Alt text | Black-and-white cartoon with hot pink and teal accents. A deadpan Becky B00p, hands on hips, side-eyes a robot in a calendar costume and a Claude name tag, dangling from a hook. On the right, a steaming funnel machine swallows a heap of forms and lets out a single application. Generated with ChatGPT. |
 | Disclosure | AI-generated image; the alt text names the tool (`docs/write-pipeline-prompt.md` §5) |
-| Hero section | `heroSection` image, `imageWidth: content-width`; upload when the Sanity draft is created |
+| Hero section | `heroSection` image, `imageWidth: content-width`; uploaded 2026-10-16 as `image-c04e4dcd42d6b3df724a391f11808ff851c5f465-1672x941-webp` |
 
 ## Open decisions (Bex)
 
