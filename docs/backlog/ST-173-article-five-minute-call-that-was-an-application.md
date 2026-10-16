@@ -24,7 +24,7 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
 
 ## Objective
 
-A published article at `/articles/{slug}` in Bex's first-person voice, about 620 words, with a LinkedIn version posted separately. Layers touched: content (one Sanity `article` draft) and process (compliance gate, review). No schema, GROQ, React or CSS changes.
+A published article at `/articles/{slug}` in Bex's first-person voice, about 700 words, with a LinkedIn version posted separately. Layers touched: content (one Sanity `article` draft) and process (compliance gate, review). No schema, GROQ, React or CSS changes.
 
 ## Metadata plan
 
@@ -90,7 +90,7 @@ Single phase.
 | "No sessions scheduled", Apply Now, No Thanks | `ziprecruiter-rsvp-landing.png` | measured |
 | Promise 16px bold, fine print 12px | `.eml` HTML: promise `font-weight:700;font-size:16px`, disclaimer `font-size:12px` | measured |
 | "Next Available" written at send time, page checks on click | Bex's reading of the page source; not testable from the files | inference, worded "my read" |
-| Oct 14 email: "really good fit", testjob_apr01, WFNQAFR44D, arrived from ziprecruiter.com | `HANDOFF_2026-10-15_ST-173-Testjob-and-Post-Final.md` §1, from a screenshot only (not yet saved in the repo or the draft folder) | observed; headers (DKIM, SPF, DMARC) not verified, so the text says only "arrived" and "looks like a test listing" |
+| Oct 14 email: "really good fit", testjob_apr01, WFNQAFR44D, arrived from ziprecruiter.com | `HANDOFF_2026-10-15_ST-173-Testjob-and-Post-Final.md` §1, from a screenshot only (not yet saved in the repo or the draft folder) | measured; `.eml` headers checked 2026-10-16: DKIM, SPF and DMARC pass (d=mg.ziprecruiter.com, from ziprecruiter.com). Text still says only "arrived" and "looks like a test listing" |
 | UW study: 85.1% White-associated, 11.1% female-associated, 500+ resumes | arXiv 2407.20371 abstract, fetched 2026-10-13 | study |
 
 **Corrections made to the LinkedIn original while drafting:**
@@ -108,22 +108,22 @@ On October 12 an email arrived inviting me to a "brief, 5-minute intro call" abo
 
 I clicked RSVP. The page said "No sessions scheduled." Under that sat two buttons: Apply Now and No Thanks.
 
-### An application wearing a calendar invite as a costume (USE FOR HERO ART - BECKY BOOP PROMPT)
+### An application wearing a calendar invite as a costume
 
-The email is real, and the link goes exactly where it says: ZipRecruiter's own RSVP page for the same job. My read from the page source is that the "Next Available" time is written into the email when it is sent, while the page checks for open sessions only when you click. When the two disagree, the invitation promises something the page cannot deliver.
+The costume is convincing. The email is real, and the link goes exactly where it says: ZipRecruiter's own RSVP page for the same job. My read from the page source is that the "Next Available" time is written into the email when it is sent, while the page checks for open sessions only when you click. When the two disagree, the invitation promises something the page cannot deliver.
 
 The fine print does say "automated message" and "not a guaranteed meeting." The promise is set in 16px bold. The caveat is set in 12px.
 
 ### Two doors, and one of them works
 
-I track my job search like a data pipeline, which is the subject of my June post. Since 1 June I have sent 92 applications. How each one started matters more than anything on the resume.
+I track my job search like a data pipeline, which is the subject of my June post. Since 1 June I have sent 92 applications. How each one started looks like the strongest signal in my data.
 
 | How it started | Applications | Screens | Rate |
 |---|---|---|---|
 | A recruiter wrote to me first | 10 | 10 | 100% |
 | Everything else (alerts, boards, cold applies, referrals) | 82 | 3 | 3.7% |
 
-In June I reported a cold-apply rate of 6.7%. It is now 3.7%. These are small samples and different cohorts, and a recruiter who writes first has already chosen me, so the rows are not like for like. But the pattern is loud: a human choosing me first works, and the portal almost never does.
+In June my cold-apply screen rate was 6.7%. Every non-recruiter route combined is now 3.7%. These are small samples and different cohorts, and a recruiter who writes first has already chosen me, so the rows are not like for like. But the pattern is loud: a human choosing me first works, and the portal almost never does.
 
 That is why the invite landed the way it did. An email saying a person wants a call is the one message my data says to answer.
 
@@ -131,7 +131,7 @@ That is why the invite landed the way it did. An email saying a person wants a c
 
 - **Message match.** The page has to deliver what the email promised.
 - **Honest CTA.** RSVP means "save my spot." Apply is a bigger ask.
-- **Design the unhappy path.** The page knew there was no session. The email did not. "What if the slot is gone?" needs an answer before the send.
+- **Design the unhappy path.** The page knew there was no session; the email did not. Answer "what if the slot is gone?" before the send.
 
 "Automated" and "not guaranteed" belong in the first line, not the fine print.
 
@@ -147,7 +147,7 @@ I have no evidence that ZipRecruiter's applicant tracking system, or anyone's, t
 
 The full follow-up to "I Treated My Job Search Like a Data Pipeline" lands at the end of October, after my next read of the data. The angle: I fixed the resume, and the rate went down. The thing I controlled improved. The thing I did not control decided.
 
-It will sort what is on record from what is alleged from what is only theory, because the public evidence on AI in hiring contains all three. One example of the first kind: University of Washington researchers tested embedding models for resume screening on more than 500 resumes. The models favored White-associated names in 85.1% of cases and female-associated names in 11.1%. That is a controlled study, not a live hiring system. Whether anything like it sits behind a portal I applied through, I cannot know, and the follow-up will say so.
+It will sort what is on record from what is alleged from what is only theory, because the public evidence on AI in hiring contains all three. One example of the first kind: University of Washington researchers tested embedding models for resume screening on more than 500 resumes. The models favored White-associated names in 85.1% of cases and female-associated names in 11.1%. That is a controlled study, not a live hiring system. Whether anything like it sits behind a portal I applied through, I cannot know.
 
 ### Compliance (run 2026-10-13)
 
@@ -159,7 +159,7 @@ Re-run 2026-10-15 after the testjob paragraph: zero em dashes, publish gate clea
 |---|---|
 | File | `article-five-minute-call-hero.webp`, kept in `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
 | Generator | ChatGPT, from a `/becky-boop` prompt (Claude only, Becky as witness) |
-| Alt text | Black-and-white 1930s cartoon. A deadpan Becky B00p side-eyes a robot dangling from a fishing hook in a flimsy calendar costume, while a steaming funnel machine swallows a heap of forms and lets out a single application. Generated with ChatGPT. |
+| Alt text | Black-and-white cartoon with hot pink and teal accents. A deadpan Becky B00p, hands on hips, side-eyes a robot in a calendar costume and a Claude name tag, dangling from a hook. On the right, a steaming funnel machine swallows a heap of forms and lets out a single application. Generated with ChatGPT. |
 | Disclosure | AI-generated image; the alt text names the tool (`docs/write-pipeline-prompt.md` §5) |
 | Hero section | `heroSection` image, `imageWidth: content-width`; upload when the Sanity draft is created |
 
