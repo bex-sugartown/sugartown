@@ -90,10 +90,10 @@ In `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (never gitted):
 
 | Folder | File | Use |
 |---|---|---|
-| `upload-ready/` | `article-five-minute-call-hero.webp` (1672x941) | Hero, `imageWidth: content-width` |
+| `upload-ready/` | `article-bait-and-switch-hero.webp` (1672x941) | Hero, `imageWidth: content-width` |
 | `upload-ready/` | `article-five-minute-call-invite-email-redacted.png` (1229x1378) | Inline figure; sender name blacked out |
 | `upload-ready/` | `article-five-minute-call-rsvp-landing.png` (1490x1150) | Inline figure; no personal data visible |
-| `source-originals/` | `article-five-minute-call-hero-original.png` (2.9 MB) | Editable original of the hero |
+| `source-originals/` | `article-bait-and-switch-hero-original.png` (2.9 MB) | Editable original of the hero |
 | `source-originals/` | `testjob_apr01-email.eml` | Evidence for the Oct 14 email; contains your address, never upload |
 
 | `upload-ready/` | `article-five-minute-call-testjob-email.png` (845x1568) | Inline figure, added by Bex. Gmail label chips are gone; the "to bex" line under the sender is still visible |

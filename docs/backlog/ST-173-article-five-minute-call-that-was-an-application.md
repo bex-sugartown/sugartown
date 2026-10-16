@@ -158,7 +158,7 @@ Re-run 2026-10-15 after the testjob paragraph: zero em dashes, publish gate clea
 
 | Field | Value |
 |---|---|
-| File | `article-five-minute-call-hero.webp`, kept in `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
+| File | `article-bait-and-switch-hero.webp`, kept in `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
 | Generator | ChatGPT, from a `/becky-boop` prompt (Claude only, Becky as witness) |
 | Alt text | Black-and-white cartoon with hot pink and teal accents. A deadpan Becky B00p, hands on hips, side-eyes a robot in a calendar costume and a Claude name tag, dangling from a hook. On the right, a steaming funnel machine swallows a heap of forms and lets out a single application. Generated with ChatGPT. |
 | Disclosure | AI-generated image; the alt text names the tool (`docs/write-pipeline-prompt.md` §5) |
