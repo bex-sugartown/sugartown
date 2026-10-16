@@ -65,9 +65,9 @@ Single phase.
 | Field | Value |
 |---|---|
 | Title | Bait and Switch, or Just a Bug (chosen 2026-10-16; the epic and issue keep the working name "A Five-Minute Call That Was an Application") |
-| Subtitle | The invite promised a screening call and the funnel delivered an application. Malice or incompetence, the conversion is the same. |
+| Subtitle | The invite promised a screening call and the funnel delivered an application. Malice or incompetence, the candidate walks away either way. |
 | Slug | `bait-and-switch-or-just-a-bug` |
-| Excerpt | A recruiter invite promised a screening call, the bottom of my funnel. The page behind it offered an application, the top, which benefits the sender far more than me. Whether that was by design or by accident, the conversion is the same. A preview of my follow-up to the job-search data post. |
+| Excerpt | A recruiter invite promised a screening call, the bottom of my funnel. The page behind it offered an application, the top, which benefits the sender far more than me. Whether that was by design or by accident, the candidate walks away either way. A preview of my follow-up to the job-search data post. |
 | Length | about 840 words, standard band (400 to 1,200) |
 | Source | Bex's LinkedIn post, `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo) |
 | LinkedIn version | `linkedin-post_ziprecruiter_v2-3000.txt` (2,638 characters, limit 3,000) and `linkedin-first-comment_v2.txt` (615), same folder |
@@ -107,7 +107,7 @@ Single phase.
 
 On October 12 an email arrived inviting me to a "brief, 5-minute intro call" about a Sr. Product Manager, Employer ATS role at ZipRecruiter. It had a named sender and a time, Wednesday at 2:00 PM PDT. It called the call a live event: I would join a virtual queue, and the sender would speak with me as soon as they were available.
 
-I clicked RSVP. The page said "No sessions scheduled." Under that sat two buttons: Apply Now and No Thanks.
+I clicked RSVP. The landing page said "No sessions scheduled." Under that sat two buttons: Apply Now and No Thanks. I did not apply. Mistake or design, the page turned me off.
 
 ### An application wearing a calendar invite as a costume
 
@@ -145,13 +145,13 @@ It also shows what the email swapped. A screening call sits at the bottom of the
 
 "Automated" and "not guaranteed" belong in the first line, not the fine print.
 
-### Hi, Becky, hold my beer! Hugs, Phil (Your Career Advisor)
+### Hi, Bex, hold my beer! Hugs, Phil (Your Career Advisor)
 
 A second email landed on Oct 14. It said "I think you're a really good fit" for a job called testjob_apr01 at a company called WFNQAFR44D. That looks like a test listing that reached a real inbox. It's the same missing gate as the RSVP, earlier in the pipeline: nothing checked that the job was real before the send. One QA leak says nothing about the whole company. It does show where the checkpoint belongs. A bait and switch would have checked the bait. This one shipped a job called testjob_apr01. My read is incompetence, and the person on the other end gets the same page either way.
 
 ### What I cannot say
 
-I have no evidence that ZipRecruiter's applicant tracking system, or anyone's, treated my application unfairly. An invitation email and an ATS are different products. I am describing a funnel, not accusing a vendor.
+I have no evidence that ZipRecruiter's applicant tracking system, or anyone's, treated an application unfairly. I never applied through either of these emails. An invitation email and an ATS are different products. I am describing a funnel, not accusing a vendor.
 
 ### What the follow-up will cover
 
