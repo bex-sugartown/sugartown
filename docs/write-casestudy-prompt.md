@@ -70,8 +70,8 @@ Case-study-specific target ranges:
 - Tools: what **Bex** used in the engagement (`tools` is "Bex's Tools" — practitioner tools like Storybook, Claude, dbt; client-operated platforms are tagged `kind=platform` on the tool doc)
 - Authors: Bex Head by default (look up her person _id)
 - Project: only if the engagement maps to an existing project doc
-- Glossary terms: link existing matches in `relatedTerms`; recommend 0 to 2 new ones per
-  `docs/write-pipeline-prompt.md` §1a. Do not create them here.
+- Glossary terms: link existing matches with inline `glossaryTermRef` marks on the first mention
+  in the body (`docs/write-pipeline-prompt.md` §1a); recommend 0 to 2 new ones. Do not create them here.
 
 ---
 

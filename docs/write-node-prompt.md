@@ -40,8 +40,8 @@ Node-specific target ranges:
 - 1+ tools (include Claude Code if Claude was involved)
 - Authors: Bex Head by default (look up her person _id)
 - Project: Sugartown CMS if relevant
-- Glossary terms: link existing matches in `relatedTerms`; recommend 0 to 2 new ones per
-  `docs/write-pipeline-prompt.md` §1a. Do not create them here.
+- Glossary terms: link existing matches with inline `glossaryTermRef` marks on the first mention
+  in the body (`docs/write-pipeline-prompt.md` §1a); recommend 0 to 2 new ones. Do not create them here.
 
 If a concept has no close taxonomy match, note it — do not invent new docs.
 

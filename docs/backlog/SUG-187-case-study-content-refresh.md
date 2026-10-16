@@ -65,7 +65,7 @@ Nine corpus-level defects, worst first:
 7. **6 of 7 excerpts are broken:** four open with a heading fragment scraped from the WP
    body, two contain em dashes. The excerpt is both the archive card and the meta
    description.
-8. **`relatedTerms` empty on all 8**, and `citations` present on only one (`fx-networks`, 3).
+8. **`relatedTerms` was empty on all 8** (field since retired by #136; terms now link through inline `glossaryTermRef` marks), and `citations` present on only one (`fx-networks`, 3).
 9. **`dateRange` is used inconsistently.** `launching-lunar-landing` spans 2004-11 → 2011-09
    (full Lyris tenure) for a project built in 2011; `beringer` spans the full TWE tenure;
    the rest are engagement-scoped. Nothing can filter or sort on the field as it stands.
@@ -286,7 +286,7 @@ JSON-LD, the archive card, and the metadata rail) from the **variable narrative 
 - [ ] **Rewrite `fx-networks`, `backroads`, `bare-minerals` from scratch.** Layer: content
 - [ ] **Rewrite `beringer`, `launching-lunar-landing` from scratch.** Layer: content
 - [ ] **Retrieval and linking pass across all 7** — rewrite `aeoSummary` / `geoSummary` /
-      `excerpt` against the resolved facts, populate `relatedTerms`, fill `related` on the
+      `excerpt` against the resolved facts, link glossary terms with inline `glossaryTermRef` marks, fill `related` on the
       four documents that have none. Layer: content
 - [ ] **`/red-pen` each rebuilt document** before it is proposed for publish. Layer:
       editorial QA

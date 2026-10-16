@@ -1,5 +1,5 @@
 ---
-**Epic:** SUG-236 — Pages as knowledge-graph nodes: consume page related/relatedTerms + harden person.bio annotations
+**Epic:** SUG-236 — Pages as knowledge-graph nodes: consume page related + harden person.bio annotations
 **Linear Issue:** [SUG-236](https://linear.app/sugartown/issue/sug-236)
 **Status:** Backlog
 **Priority:** 🟡 Medium
@@ -7,7 +7,7 @@
 **Merge strategy:** (a) Merge-as-you-go
 ---
 
-# SUG-236 — Pages as knowledge-graph nodes: consume page related/relatedTerms + harden person.bio annotations
+# SUG-236 — Pages as knowledge-graph nodes: consume page related + harden person.bio annotations
 
 > **Backlog doc created 2026-08-15**, backfilled during migration Phase 2. This issue was open
 > in Linear with no `docs/backlog/` doc — one of nine found by the first parity audit since
@@ -20,13 +20,13 @@ Two loose ends from [SUG-210](https://linear.app/sugartown/issue/SUG-210/content
 
 ## 1. Pages become first-class knowledge-graph nodes
 
-[SUG-210](https://linear.app/sugartown/issue/SUG-210/content-pipeline-rules-consolidation) added `related` + `relatedTerms` to the `page` schema (`page.ts:239`/`:253`) to align pages with article/node/caseStudy, and the GROQ projection is already wired (`queries.js` `pageBySlugQuery` projects both — confirmed 2026-07-23). What's missing is that **nothing consumes them**: the page render path (`RootPage.jsx`) reads neither, and pages don't appear to feed the knowledge graph via these edges.
+[SUG-210](https://linear.app/sugartown/issue/SUG-210/content-pipeline-rules-consolidation) added `related` to the `page` schema (`page.ts:239`; its `relatedTerms` was retired by #136, 2026-09-25) to align pages with article/node/caseStudy, and the GROQ projection is already wired (`queries.js` `pageBySlugQuery` projects it — confirmed 2026-07-23). What's missing is that **nothing consumes them**: the page render path (`RootPage.jsx`) reads neither, and pages don't appear to feed the knowledge graph via this edge.
 
 **Intent (per Bex):** standard site content pages should be aligned in metadata with casestudy/article/node so pages are part of the knowledge graph — but the metadata should **not** necessarily be surfaced the way MetadataCard surfaces it on content pages. Some of it is display metadata; some is "true metadata" that exists to power relationships/graph/SEO and is never rendered as a visible card.
 
 **Required deliverable — display-vs-data-only review:** before wiring anything, produce a per-field classification of page metadata: which fields should be *displayed* on the page, and which are *data-only* (feed the knowledge graph, related-content edges, SEO/JSON-LD, internal linking) with no visible surface. Wire each field to the correct destination based on that review — do not default to rendering a MetadataCard on pages.
 
-Scope after review: feed page `related`/`relatedTerms` into the knowledge-graph collector/edges (same treatment as article/node/caseStudy where it's data-only), plus any display the review explicitly approves. Verify against the KG build-time GROQ-to-JSON collector ([SUG-73](https://linear.app/sugartown/issue/SUG-73/dynamic-knowledge-graph-force-directed-viz-on-knowledge-graph-sanity) lineage).
+Scope after review: feed page `related` into the knowledge-graph collector/edges (same treatment as article/node/caseStudy where it's data-only), plus any display the review explicitly approves. Verify against the KG build-time GROQ-to-JSON collector ([SUG-73](https://linear.app/sugartown/issue/SUG-73/dynamic-knowledge-graph-force-directed-viz-on-knowledge-graph-sanity) lineage).
 
 **Cleanup:** the comment at `page.ts:237` ("no GROQ projection or rendering wired") is now half-stale — the projection exists; only render/consume is missing. Correct it.
 

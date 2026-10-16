@@ -44,7 +44,7 @@ Chosen by the cost ladder proposed for `docs/write-pipeline-prompt.md` §1a (pen
 | Reader stalls without it | yes, the role title and the closing lines | yes, the whole article is about one |
 | No existing term | confirmed by query | confirmed by query |
 
-`/glossy` creates both terms, as a separate step after this draft is approved. Once they exist, the article links them through `relatedTerms`.
+`/glossy` creates both terms, as a separate step after this draft is approved. Once they exist and Bex has published them, the article links them with inline `glossaryTermRef` marks on the first mention.
 
 ## Scope
 

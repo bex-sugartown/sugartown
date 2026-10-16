@@ -137,9 +137,16 @@ directly rather than this section.
 4. No existing term covers it. Check the pre-flight list, including abbreviations.
 
 A term and a tag can both apply to one concept: the tag groups content, the term defines it.
-The writing skills link existing terms through `relatedTerms` and recommend new ones. They never
-create them. `/glossy` creates terms, and the Content Write Gate applies. Report each
+The writing skills link existing terms and recommend new ones. They never create them.
+`/glossy` creates terms, and the Content Write Gate applies. Report each
 recommendation as: term, reason, tests passed.
+
+**To link an existing term, add an inline `glossaryTermRef` mark on its first mention.** Add a
+markDef `{"_key": "<key>", "_type": "glossaryTermRef", "term": {"_type": "reference", "_ref": "<glossaryTerm _id>"}}`
+to the block, and put `<key>` in the `marks` of the span that carries the text. There is no
+`relatedTerms` field on article, node, caseStudy or page (retired by #136, 2026-09-25); writing
+one produces an Unknown field error in Studio. A reference can only target a published term,
+so link after `/glossy` has created the term and Bex has published it.
 
 ---
 
@@ -153,9 +160,9 @@ supports.
 
 | Content type | categories | tags | tools | related content | glossary terms | citations |
 |---|---|---|---|---|---|---|
-| **article** | `categories` (max 2) `:235` | `tags` `:253` | `tools` `:221` | `related` → node\|article\|caseStudy `:168` | `relatedTerms` `:271` + inline `glossaryTermRef` | `citations[]` (`citationItem`) `:95` + inline `citationRef` |
-| **node** | `categories` (max 2) `:300` | `tags` `:318` | `tools` `:284` | `related` → node\|article\|caseStudy `:351` | `relatedTerms` `:336` + inline `glossaryTermRef` | `citations[]` (`citationItem`) `:106` + inline `citationRef` |
-| **caseStudy** | `categories` (max 2) `:348` | `tags` `:365` | `tools` `:334` | `related` → node\|article\|caseStudy `:398` | `relatedTerms` `:383` + inline `glossaryTermRef` | `citations[]` (`citationItem`) `:93` + inline `citationRef` |
+| **article** | `categories` (max 2) `:235` | `tags` `:253` | `tools` `:221` | `related` → node\|article\|caseStudy `:168` | inline `glossaryTermRef` only | `citations[]` (`citationItem`) `:95` + inline `citationRef` |
+| **node** | `categories` (max 2) `:300` | `tags` `:318` | `tools` `:284` | `related` → node\|article\|caseStudy `:351` | inline `glossaryTermRef` only | `citations[]` (`citationItem`) `:106` + inline `citationRef` |
+| **caseStudy** | `categories` (max 2) `:348` | `tags` `:365` | `tools` `:334` | `related` → node\|article\|caseStudy `:398` | inline `glossaryTermRef` only | `citations[]` (`citationItem`) `:93` + inline `citationRef` |
 | **glossaryTerm** | `categories` (no max) `:82` | `relatedTags` (⚠ different name) `:100` | `relatedTools` (⚠ different name) `:108` | `relatedContent` → article\|caseStudy\|node\|page\|person\|project\|tool (⚠ different name + shape) `:116` | `relatedTerms` (bidirectional — adding here also updates the target's Related Terms on publish) `:90` + inline `glossaryTermRef` | `sources[]` — plain `{text, url}`, **not** the shared `citationItem` type `:132` |
 | **page** | `categories` `:165` — **`hidden: true`**, editors can't set it | `tags` `:178` — **`hidden: true`** | `tools` `:205` (visible) | **none** | **none** (inline `glossaryTermRef` only, no curated array) | `citations[]` (`citationItem`) `:116` + inline `citationRef` (added via SUG-48, was previously missing) |
 | **project** | `categories` `:177` | `tags` `:190` | `tools` `:163` | — | — | — (no Portable Text field on this schema, so no inline mechanism either) |
@@ -164,7 +171,7 @@ supports.
 | **tool** | — | — | — | — | — | — (pure taxonomy leaf, zero content-type fields — expected, not a gap) |
 
 **Tier 1 recommendations (schema, pending approval — see SUG-210's own doc for the full
-proposal):** unhide `page.ts` categories/tags; add `relatedTerms`/`related` to `page.ts`.
+proposal):** unhide `page.ts` categories/tags; add `related` to `page.ts`. Content-level `relatedTerms` was retired by #136.
 Not yet executed as of this doc's creation — check `docs/shipped/SUG-210-*.md` or the schema
 files directly for current state before relying on this as "done."
 
