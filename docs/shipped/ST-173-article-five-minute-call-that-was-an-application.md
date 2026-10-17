@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-173: Article: A Five-Minute Call That Was an Application
 **Issue:** [#173](https://github.com/bex-sugartown/sugartown/issues/173)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out: draft, review and publish decision as one unit
 **Visual:** no (existing table block only)
@@ -52,7 +52,7 @@ Chosen by the cost ladder proposed for `docs/write-pipeline-prompt.md` §1a (pen
 - [x] **2. LinkedIn version** at or under 3,000 characters, plus first comment (layer: editorial)
 - [x] **3. Bex reviews the draft below** (layer: process; red-pen `docs/reviews/red-pen/2026-10-16-five-minute-call-that-was-an-application.md`, 9 findings applied)
 - [x] **4. Sanity draft** via `create_documents` only, taxonomy and `aiDisclosure` attached, after item 3 (layer: content; `drafts.218e24d5-2d8b-430b-8b2c-9f686ffcea2e`)
-- [ ] **5. Human review and publish decision** (layer: process; Human-Publishes Rule applies)
+- [x] **5. Human review and publish decision** (layer: process; Bex published the article and both glossary terms herself on 2026-10-16; the wide-table draft is a post-ship check)
 
 ## Phases
 
@@ -191,11 +191,11 @@ Re-run 2026-10-16 on the final text and the short LinkedIn file: zero em dashes,
 
 ## Acceptance Criteria
 
-- [ ] Every figure traces to a command or file in the evidence table; none is copied from the LinkedIn original without a re-check.
-- [ ] Zero em dashes; compliance gate passed; `aiDisclosure` set to match who drafted it.
-- [ ] `python3 checks/check_tiers.py --publish` (run in `resume-factory/os`) passes on the final text, and the recruiter's name does not appear.
-- [ ] Draft exists as `drafts.*` in Sanity with taxonomy attached, and nothing is published without Bex's standalone instruction.
-- [ ] `node scripts/check-epic-doc.js docs/backlog/ST-173-article-five-minute-call-that-was-an-application.md` exits 0.
+- [x] Every figure traces to a command or file in the evidence table; none is copied from the LinkedIn original without a re-check.
+- [x] Zero em dashes; compliance gate passed; `aiDisclosure` set to match who drafted it.
+- [x] `python3 checks/check_tiers.py --publish` (run in `resume-factory/os`) passes on the final text, and the recruiter's name does not appear.
+- [x] Draft exists as `drafts.*` in Sanity with taxonomy attached, and nothing is published without Bex's standalone instruction.
+- [x] `node scripts/check-epic-doc.js docs/backlog/ST-173-article-five-minute-call-that-was-an-application.md` exits 0.
 
 ## Non-Goals
 
@@ -203,3 +203,45 @@ Re-run 2026-10-16 on the final text and the short LinkedIn file: zero em dashes,
 - No claim that any vendor's ATS or AI treated an application unfairly.
 - The data follow-up and its evidence tour stay in ST-162.
 - No schema, GROQ, component or CSS changes. New taxonomy documents are not created.
+
+## Close-out review
+
+### Acceptance criteria
+
+- Every figure traces to a command or file: ticked. Counts re-read from `findings.json` on 2026-10-16 (92 applied, 10 of 10 recruiter-first, 3 of 82 other); the 6.7% was confirmed on the live June post; the UW and own-resume-preference papers were fetched. The 2.5% figure does not reconcile (2 of 78, not 2 of 81) and the article does not cite it. Record: `docs/reviews/red-pen/2026-10-16-five-minute-call-that-was-an-application.md`.
+- Zero em dashes, gate passed, `aiDisclosure` set: ticked. a search of the epic doc for the em dash character returns 0; `check_tiers.py --publish` clean on the article text and the short LinkedIn file on 2026-10-16; `aiDisclosure` reads "Drafted with Claude from Bex Head's own LinkedIn post, edited by Bex Head."
+- Publish gate passes and the sender's name does not appear: ticked. The gate does not flag ZipRecruiter or the role title; keeping both was Bex's decision on 2026-10-13. The sender person's name appears nowhere in the published text.
+- Draft existed as `drafts.*`, nothing published without Bex: ticked. Bex published the article herself.
+- `check-epic-doc.js` exits 0: ticked at close-out.
+- Visual QA gate: approved by Bex on 2026-10-17 on this evidence: hero, metadata card Terms row, 4 inline glossary links, 4 inline images and 2 tables checked on the live page at desktop; tables checked at 375px. Not checked: dark mode, and the wide table variant on a phone (a draft cannot be previewed). Both are in Post-ship checks.
+- `pnpm test:smoke` passes locally: 13 passed, exit 0 on 2026-10-17. The CI half belongs to `/ship`.
+
+### What didn't work
+
+- The write docs still listed a content-level `relatedTerms` field that commit 5781c7ab retired; a session followed them, wrote the field to the article, and Studio showed "Unknown field found". Removed, and the docs were corrected in 34677910.
+- The first subtitle and excerpt said "the conversion is the same" and the "What I cannot say" paragraph said "my application", but Bex never converted or applied. Both were corrected after she pointed it out.
+- A glossary approval question went out before the proposal tables were shown, so it had to be asked again.
+- The two terms could not be linked to each other or to the article until published, because a reference needs a published target.
+- Both article tables use the responsive variant, which hides column headers on a phone. Filed as #175; the article's two tables are switched to wide as an unpublished draft.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Responsive table variant hides column headers on mobile | implementation | #175 |
+| Stale `relatedTerms` guidance in the write prompts | workflow-docs | declined: already fixed in 34677910 (local, not pushed) |
+| "Two missing gates, one pipeline" argument cut from this article | implementation | #162, scope item 8, phase 2 |
+| Pure-portal rate (2 of 78 vs the handoff's 2 of 81) does not reconcile | implementation | #162, scope item 1 (data check) |
+| Ask for a gate approval only after showing what is being approved | workflow-docs | declined: one instance, below the three-strike threshold |
+
+### Friction line
+
+Wrote the retired `relatedTerms` field onto the article from a stale write-pipeline matrix, which Studio flagged as an unknown field.
+
+## Post-ship checks
+
+- [ ] Wide tables on a phone: person, publish the wide-table draft in Studio, then open the article at phone width and confirm each cell shows its column header; if cramped, revert to responsive and let #175 own the fix.
+- [ ] Dark mode: person, open the article in dark mode and confirm the screenshots, tables and glossary links read correctly.
+- [ ] LinkedIn: person, post `linkedin-post_bait-and-switch_short.txt`, then the first comment right after.
+- [ ] ZipRecruiter: person, submit the feedback form and click "No Thanks" on the RSVP page.
+- [ ] Follow-up date: person, confirm "the end of October" still holds against ST-162, or edit the last section.

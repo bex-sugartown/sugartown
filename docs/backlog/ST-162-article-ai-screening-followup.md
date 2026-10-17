@@ -104,6 +104,7 @@ Every figure carries its command or file. Passes the gate as written; no company
 - [ ] **4. Outline approval:** Bex approves or edits the outline above and settles the open decisions (layer: process)
 - [ ] **5. Draft created in Sanity** via `create_documents` only, with `aiDisclosure` set (layer: content)
 - [ ] **6. Compliance gate** passed (`docs/write-pipeline-prompt.md` §4, zero em dashes, publish gate on the final text) (layer: process)
+- [ ] **8. Two missing gates, one pipeline** (handed off from ST-173, which cut it to one paragraph): the RSVP email checked no session before the send, the testjob email checked no listing before the send; argue them as one pipeline failure, link the published ST-173 article (`/articles/bait-and-switch-or-just-a-bug`) and use its screening-call versus application stage table rather than rebuilding it (layer: editorial)
 - [ ] **7. Human review and publish decision**, cross-links to SUG-234 added once both exist (layer: process; Human-Publishes Rule applies)
 
 ## Phases
@@ -111,7 +112,7 @@ Every figure carries its command or file. Passes the gate as written; no company
 | Phase | Ships | Scope items |
 |---|---|---|
 | 1 | Verified data table and evidence list, discovery notes | 1, 2, 3 |
-| 2 | Approved outline | 4 |
+| 2 | Approved outline | 4, 8 |
 | 3 | Sanity draft, compliance gate passed | 5, 6 |
 | 4 | Human review, publish decision (not before the 10-30 headline read) | 7 |
 
