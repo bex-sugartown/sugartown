@@ -150,7 +150,8 @@ const portableTextComponents = {
               {bodyRows.map((row, ri) => (
                 <tr key={row._key ?? ri}>
                   {row.cells?.map((cell, ci) => (
-                    <td key={ci}>{cell}</td>
+                    // data-label: column name shown on each card cell by the responsive variant (ST-175); the first cell is the card title
+                    <td key={ci} data-label={ci > 0 ? headerRow?.cells?.[ci] || undefined : undefined}>{cell}</td>
                   ))}
                 </tr>
               ))}

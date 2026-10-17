@@ -72,6 +72,19 @@ export const Accent: Story = {
   ),
 };
 
+// ── Responsive (cell labels below 860px, ST-175) ──────────────────────────────
+
+export const ResponsiveLabels: Story = {
+  name: 'Responsive / Cell labels at 375px',
+  args: { variant: 'responsive' },
+  parameters: { viewport: { defaultViewport: 'mobile1' } },
+  render: (args) => (
+    <TableWrap>
+      <Table columns={COLUMNS} rows={ROWS} {...args} />
+    </TableWrap>
+  ),
+};
+
 // ── Subdued ───────────────────────────────────────────────────────────────────
 
 export const Subdued: Story = {

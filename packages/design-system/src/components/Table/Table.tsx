@@ -123,8 +123,13 @@ export function Table({
           <tbody>
             {rows.map((row, rowIdx) => (
               <tr key={rowIdx}>
-                {columns.map((col) => (
-                  <td key={col.key}>
+                {columns.map((col, colIdx) => (
+                  // data-label feeds the responsive variant's per-cell label (ST-175).
+                  // The first column is the card title, so it takes none.
+                  <td
+                    key={col.key}
+                    data-label={colIdx > 0 && typeof col.label === 'string' && col.label ? col.label : undefined}
+                  >
                     {col.render ? col.render(row[col.key], row) : (row[col.key] as React.ReactNode)}
                   </td>
                 ))}
