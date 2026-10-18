@@ -17,7 +17,7 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
 
 ## Background
 
-- **Original post:** [I Treated My Job Search Like a Data Pipeline](https://sugartown.io/articles/job-search-funnel-data-postmortem). Cohort Jul 2025 to May 2026, about 111 applications, 19 recruiter screens, 5 panels, 1 offer. Four chapters: CH1 Electric Resumes (marked Solved), CH2 Six Out of 100 (cold apply 6.7% vs an 8% benchmark), CH3 All or Nothing (recruiter inbound works), CH4 These Should Have Been a Shoe-In (panels stall). Closes with a six-item plan.
+- **Original post:** [I Treated My Job Search Like a Data Pipeline](https://sugartown.io/articles/job-search-funnel-data-postmortem). Published 2026-05-20 (Sanity `publishedAt`; call it "the earlier post", not "the June post"). Cohort Jul 2025 to May 2026, about 111 applications, 19 recruiter screens, 5 panels, 1 offer. Four chapters: CH1 Electric Resumes (marked Solved), CH2 Six Out of 100 (cold apply 6.7% vs an 8% benchmark), CH3 All or Nothing (recruiter inbound works), CH4 These Should Have Been a Shoe-In (panels stall). Closes with a six-item plan.
 - **New data:** Resume Factory era, 2026-06-01 to 2026-10-12, re-cut 2026-10-12. Source: `resume-factory/data/00 FUNNEL ANALYSIS 2026-08/findings.json` and `HANDOFF_2026-10-12.md` beside it.
 - **Handoffs (internal, outside this repo, fail the publish gate on purpose):**
   - `resume-factory/data/content/drafts/ai-screening/HANDOFF_2026-10-12_article.md` (angle, shape, decisions)
@@ -40,7 +40,7 @@ Target 1,600 words, long-form band, justified by two data blocks and a sourced e
 
 | # | Section (working subhead) | Job | Data / evidence |
 |---|---|---|---|
-| 1 | Cold open | Quote the line that marked CH1 Solved, then the new number | CH1 vs 6.7% to 3.7% |
+| 1 | Cold open | Quote the line that marked CH1 Solved, then the new number | CH1 vs 6.7% cold-only, then 2.6% cold-only (2 of 78) |
 | 2 | Two doors | Human door vs portal door, one table or bar | 10 of 10 vs 3 of 82 |
 | 3 | What is behind the door | Short, sourced tour; each item labelled allegation / study / theory | Research brief §1 to §3 |
 | 4 | What my data cannot say | Resume already strips age proxies; cohorts differ; small n; no vendor proof | Handoff §4 |
@@ -61,7 +61,8 @@ Every figure carries its command or file. Passes the gate as written; no company
 | Screens / loops / offers | 13 / 6 / 0 | `funnel` |
 | Captured, packaged | 793 / 106 | `funnel` |
 | Recruiter-first applications to screen | 10 of 10, 5 became loops | `channel["Recruiter Inbound"]` |
-| Non-inbound applications to screen | 3 of 82 (3.7%) | `channel`, sum of Job Alert 28, Board 27, Cold 21, Untagged 2, Referral 4 |
+| Cold-only applications to screen (no prior relationship) | 2 of 78 (2.6%) | `channel`: Job Alert 28 + Board 27 + Cold 21 + Untagged 2 = 78 applied; screened Board 1, Cold 1 |
+| All non-recruiter applications to screen | 3 of 82 (3.7%) | `channel`, sum of Job Alert 28, Board 27, Cold 21, Untagged 2, Referral 4 |
 | Of those, screened | Board 1, Cold 1, Referral 1 | `channel` |
 | Applied-to-screen, all channels | 14.1% (floor until about 11-02) | handoff §2 |
 | Workday-hosted portals | 1 of 19, the one with a referral | handoff §4, pattern-matched, not a column |
@@ -73,7 +74,8 @@ Every figure carries its command or file. Passes the gate as written; no company
 | | First post (Jul 2025 to May 2026) | This post (Jun to Oct 2026) |
 |---|---|---|
 | Applications | about 111 | 92 |
-| Cold / portal rate | 6.7% | 3.7% |
+| Cold-only rate (no prior relationship) | 6.7% | 2.6% (2 of 78) |
+| All non-recruiter routes | not reported | 3.7% (3 of 82) |
 | Recruiter-first to screen | 67% (n=12) | 10 of 10 |
 | Offers | 1 | 0 |
 
@@ -92,7 +94,7 @@ Every figure carries its command or file. Passes the gate as written; no company
 ### Data reconciliation (resolve before drafting)
 
 1. **Inbound rate:** original post says 67% (n=12); handoff says 69%. Use the post's own figure for "then".
-2. **"Pure portal" denominator:** the handoff removes one referral (2 of 81). `channel` shows 4 Referral applications; removing all four gives 2 of 78 (2.6%). Pick one definition and state it.
+2. **"Pure portal" denominator (resolved 2026-10-18):** use cold-only, 2 of 78 (2.6%), as the like-for-like with the first post's definition of cold apply (no prior relationship, so referrals excluded). Report 3 of 82 (3.7%) separately as all non-recruiter routes. The handoff's "2 of 81 (2.5%)" matches no channel split in `findings.json`; do not cite it. The teaser article ([ST-173](../shipped/ST-173-article-five-minute-call-that-was-an-application.md)) already states both figures.
 3. **Cohort comparability:** different windows, market and role mix; scope widened to PM and web platform roles in October. Say so in the post.
 4. **Her age:** the resume strips date proxies, the site does not (28-year career in the original). Bex's call whether the post states it.
 
