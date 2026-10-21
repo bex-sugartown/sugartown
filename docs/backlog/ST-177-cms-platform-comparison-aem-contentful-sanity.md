@@ -20,6 +20,37 @@ A Dice sample on 2026-10-21 (search "Adobe Experience Manager", sorted by date p
 
 CMS comes first. The same layout (tree, "same job, different name" table, "where they differ" table) is the template for later PIM and DAM comparisons.
 
+## Research log: AEM architecture signal in job postings
+
+**Status: unconfirmed.** Page-based work is the most common signal in the 11 AEM-related Dice postings read in full. The sample is far too small for percentages. It is one day of US postings, and Dice leans toward staffing firms. Postings show what employers hire for, not what clients run, so this supports a direction only and must not be quoted as a figure.
+
+**Method:** Dice search "Adobe Experience Manager", sorted by date posted, first 30 results on 2026-10-21. 11 were AEM-related; the rest were unrelated roles. Each of the 11 was read in full and tagged by what the description asks for.
+
+| Role (employer omitted, repo is public) | Tag | What the description says |
+|---|---|---|
+| Senior AEM product analyst | Page-based | AEM Cloud Service, Sites, components, editable templates; Content Fragments listed too |
+| AEM lead developer | Page-based | Cloud Service, Sling, OSGi, HTL, clientlibs; Content Fragments listed too |
+| AEM architect | Page-based | Cloud Service, Sling, HTL, content models, reusable components, CDN management |
+| AEM developer (healthcare, internal website team) | Page-based | Components, templates, Sling Models, HTL; Content Fragments and GraphQL listed as familiarity |
+| AEM lead/architect (remote) | Page-based | Sites, templates, components; "headless CMS or AEM CIF" as a plus |
+| Project manager (AEM components) | Page-based, classic | AEM 6.4+; Cloud only "an advantage" |
+| Principal software engineer (hospitality) | Headless named | "headless/headful implementations", React, Next.js, GraphQL |
+| Adobe program and delivery lead | Edge Delivery Services | Production EDS experience; document-based authoring preferred |
+| Senior digital experience leader | Unstated | "AEM or a comparable enterprise CMS" |
+| AEM developer (analytics focus) | Unstated | AEM plus Web SDK instrumentation |
+| Principal IT delivery manager | Unstated | AEM is one of about ten platforms listed |
+
+**Tally:** 6 page-based (1 of them classic AEM 6.x), 1 headless, 1 Edge Delivery Services, 3 unstated. Four of the six page-based roles also list a headless-adjacent skill (Content Fragments, GraphQL or "headless CMS"), so headless appears as an add-on, not a replacement.
+
+**Not found:** no published split of AEM customers by classic, Cloud page-based and Cloud headless. Three web searches (2026-10-21) returned vendor and consultancy pages with no adoption data. A same-day Dice query comparison was discarded: counts stayed near 60 to 80 for every specific term, which looks like a relevance cutoff in the search tool, not term counts.
+
+**Still to confirm before the brief quotes any of this:**
+
+- Repeat the read on another day and a second board (Indeed) to see whether the tally holds.
+- Ask Adobe, a partner or an analyst for an adoption split, or find one in Adobe earnings material or Gartner and Forrester reports.
+- Verify the Edge Delivery Services claims against Adobe documentation (see the red-pen scope item).
+- Say "in the postings I reviewed" in any reader-facing text, never a percentage.
+
 ## Objective
 
 After this epic there is a Pink Moon light FigJam diagram comparing the five CMS implementations, a committed SVG export, a red-pen claim table that classifies every claim, and a recommendations document that says how to use the comparison in a hiring conversation. A short template note records the layout so PIM and DAM comparisons reuse it. Layers touched: design (FigJam), docs (diagram source, claim table, brief). Not touched: Sanity schema, GROQ, React, Studio content, and the live site.
