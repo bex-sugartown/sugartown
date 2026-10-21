@@ -14,7 +14,7 @@ A five-column comparison of AEM Cloud Service (traditional, headless, Edge Deliv
 
 ## Background
 
-Hiring that screens on a named platform treats experience with one CMS as separate from another. A first-draft SVG (`docs/drafts/cms-platform-comparison.svg`, local only, 2026-10-21) shows the opposite: nine of twelve comparison rows are the same job under a different name, and three genuinely differ (where the model is defined, how far the editor UI bends, who runs delivery). The draft is generic grey and green, not Pink Moon, and its platform claims are unchecked.
+Hiring that screens on a named platform treats experience with one CMS as separate from another. A first-draft SVG (`docs/drafts/cms-platform-comparison.svg`, local only, 2026-10-21) shows the opposite: nine of thirteen comparison rows are the same job under a different name, and four genuinely differ (where the model is defined, who can change the model, how far the editor UI bends, who runs delivery). The draft is generic grey and green, not Pink Moon, and its platform claims are unchecked.
 
 A Dice sample on 2026-10-21 (search "Adobe Experience Manager", sorted by date posted, 11 AEM-related roles read in full) found 6 page-based roles, 1 naming headless, 1 naming Edge Delivery Services and 3 with no architecture signal. No published split of AEM customers by classic, Cloud page-based and Cloud headless was found in three searches. The sample supports a direction only, so the epic quotes no percentage.
 
@@ -80,7 +80,7 @@ Not applicable, no content piece.
 - [ ] `docs/diagrams/redpen-cms-platform-comparison.md` has one row per claim, no blank Evidence cell, and no `roadmap` claim drawn as current state.
 - [ ] Every Edge Delivery Services claim cites an Adobe documentation page fetched during the epic.
 - [ ] The recommendations brief states the Dice sample with its date, query, count and limits, and contains no adoption percentage.
-- [ ] The template note lists the layout and the nine "same job" rows plus three "differ" rows so a PIM version can reuse them.
+- [ ] The template note lists the layout and the nine "same job" rows plus four "differ" rows so a PIM version can reuse them.
 - [ ] No em dashes in the brief's reader-facing sentences; `grep` for the banned-word list in `instruction-writing-style.md` returns nothing for the new docs.
 
 ## Human QA Walkthrough — example local pages
@@ -99,7 +99,9 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **Activation audit, starting point:** the local SVG draft is gitignored and its generator lived in a session scratchpad that will not survive. Treat the SVG as the content reference and rebuild from it.
 - **Activation audit, claims:** re-verify the Contentful and Sanity rows against vendor docs, not the 2026-10-21 draft.
 - **Two analogy rows:** "Governed UI baseline" (AEM Core Components against your own component library) and "Page structure control" (editable templates and policies against content type validations and Studio structure) are a mapping, not vendor-stated equivalents. The diagram labels them "analogy". Verify the Core Components and editable templates wording against Adobe docs before the red-pen table accepts them. The Edge Delivery Services and headless cells for these two rows are untested guesses.
-- **Interview talking points:** the spoken version lives in the job-search project, not here. Keep any AEM experience claim to what that project's resume rules allow (completed course, certification in progress), and do not put personal claims in this public repo.
+- **Model authoring: UI or code.** Contentful content types, AEM Content Fragment Models and editable template policies are defined in a UI. Sanity's schema is code in the repo. A UI lowers the barrier for non-coders to work with the data shapes, and AI lowers it further. That is an access question. Governance is a separate question: a UI-edited model can change without review or repo history, while a code model gets pull requests. When AI changes a code-defined model, review becomes the control. The "differ" table carries this as its own row, "Who can change the model and who reviews it", framed as who may change the model and who reviews it, not as a vendor ranking.
+- **Activation audit, vendor claims:** before any cell says one vendor has no UI modelling, check each vendor's current documentation. Sanity's schema-in-code position is long-standing, but whether it now offers UI-based modelling is unchecked. Do not write "unlike Sanity" until verified, and name no vendor in a claim that has not been checked.
+- **Personal and employer claims stay out of this repo.** It is public. Interview talking points and any claim about past roles live in the job-search project, under that project's resume rules.
 - **Model & Mode:** see below.
 
 ## Model & Mode [REQUIRED]
