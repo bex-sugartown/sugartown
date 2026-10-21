@@ -10,7 +10,7 @@
 
 # ST-177 — CMS platform comparison: AEM, Contentful, Sanity
 
-A five-column comparison of AEM Cloud Service (traditional, headless, Edge Delivery Services), Contentful and Sanity, built in FigJam with Pink Moon light fonts and colours, plus a recommendations write-up that makes the case that content-data experience transfers across CMS platforms.
+A six-column comparison of AEM Cloud Service (traditional, headless, Edge Delivery Services), Contentful, Storyblok and Sanity, built in FigJam with Pink Moon light fonts and colours, plus a recommendations write-up that makes the case that content-data experience transfers across CMS platforms.
 
 ## Background
 
@@ -53,7 +53,7 @@ CMS comes first. The same layout (tree, "same job, different name" table, "where
 
 ## Objective
 
-After this epic there is a Pink Moon light FigJam diagram comparing the five CMS implementations, a committed SVG export, a red-pen claim table that classifies every claim, and a recommendations document that says how to use the comparison in a hiring conversation. A short template note records the layout so PIM and DAM comparisons reuse it. Layers touched: design (FigJam), docs (diagram source, claim table, brief). Not touched: Sanity schema, GROQ, React, Studio content, and the live site.
+After this epic there is a Pink Moon light FigJam diagram comparing the six CMS implementations, a committed SVG export, a red-pen claim table that classifies every claim, and a recommendations document that says how to use the comparison in a hiring conversation. A short template note records the layout so PIM and DAM comparisons reuse it. Layers touched: design (FigJam), docs (diagram source, claim table, brief). Not touched: Sanity schema, GROQ, React, Studio content, and the live site.
 
 ## Metadata plan
 
@@ -61,7 +61,7 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] FigJam diagram, five columns (AEM traditional, AEM headless, AEM Edge Delivery Services, Contentful, Sanity), tree plus both tables, in Pink Moon light colours and fonts (EB Garamond headings, Courier Prime metadata) — layer: design. Phase 1.
+- [ ] FigJam diagram, six columns (AEM traditional, AEM headless, AEM Edge Delivery Services, Contentful, Storyblok, Sanity), tree plus both tables, in Pink Moon light colours and fonts (EB Garamond headings, Courier Prime metadata) — layer: design. Phase 1.
 - [ ] Exported SVG committed to `docs/diagrams/cms-platform-comparison.svg` before any publish, as the diagram's source of record — layer: docs. Phase 1.
 - [ ] Red-pen claim table at `docs/diagrams/redpen-cms-platform-comparison.md`: one row per box, arrow and label, each with evidence and a class (enforced-by-code, measured, convention, roadmap); EDS rows verified against Adobe docs first — layer: docs. Phase 1.
 - [ ] Recommendations brief at `docs/briefs/cms-platform-comparison-recommendations.md`: how to make the transferable-skills case, with the Dice sample recorded as an estimate with its method and limits — layer: docs. Phase 2.
@@ -74,7 +74,7 @@ Not applicable, no content piece.
 
 ## Acceptance Criteria
 
-- [ ] A FigJam file exists with five platform columns, the "same job" table and the "differ" table, and its link is recorded in the vspec file.
+- [ ] A FigJam file exists with six platform columns, the "same job" table and the "differ" table, and its link is recorded in the vspec file.
 - [ ] Every colour and font in the FigJam file maps to a Pink Moon light token or the documented font stack; the vspec lists the mapping.
 - [ ] `docs/diagrams/cms-platform-comparison.svg` is committed and matches the FigJam file's content row for row.
 - [ ] `docs/diagrams/redpen-cms-platform-comparison.md` has one row per claim, no blank Evidence cell, and no `roadmap` claim drawn as current state.
@@ -100,6 +100,7 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **Activation audit, claims:** re-verify the Contentful and Sanity rows against vendor docs, not the 2026-10-21 draft.
 - **Two analogy rows:** "Governed UI baseline" (AEM Core Components against your own component library) and "Page structure control" (editable templates and policies against content type validations and Studio structure) are a mapping, not vendor-stated equivalents. The diagram labels them "analogy". Verify the Core Components and editable templates wording against Adobe docs before the red-pen table accepts them. The Edge Delivery Services and headless cells for these two rows are untested guesses.
 - **Model authoring: UI or code.** Contentful content types, AEM Content Fragment Models and editable template policies are defined in a UI. Sanity's schema is code in the repo. A UI lowers the barrier for non-coders to work with the data shapes, and AI lowers it further. That is an access question. Governance is a separate question: a UI-edited model can change without review or repo history, while a code model gets pull requests. When AI changes a code-defined model, review becomes the control. The "differ" table carries this as its own row, "Who can change the model and who reviews it", framed as who may change the model and who reviews it, not as a vendor ranking.
+- **Storyblok column (added 2026-10-21):** every Storyblok cell is new and unverified. At activation read Storyblok documentation for its content model (components and content types), editor, preview, publishing workflow, delivery APIs and CDN, then fill both tables. Storyblok models in a UI, so it sits with Contentful and AEM on the "where the model is defined" and "who can change the model" rows. The issue title and filename predate this column and stay as they are.
 - **Activation audit, vendor claims:** before any cell says one vendor has no UI modelling, check each vendor's current documentation. Sanity's schema-in-code position is long-standing, but whether it now offers UI-based modelling is unchecked. Do not write "unlike Sanity" until verified, and name no vendor in a claim that has not been checked.
 - **Personal and employer claims stay out of this repo.** It is public. Interview talking points and any claim about past roles live in the job-search project, under that project's resume rules.
 - **Model & Mode:** see below.
