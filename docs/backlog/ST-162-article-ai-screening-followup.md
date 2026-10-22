@@ -89,6 +89,7 @@ Every figure carries its command or file. Passes the gate as written; no company
 | ChatGPT rated older women's resumes lower (*Nature*, Oct 2025) | Study |
 | LLMs prefer AI-written text and their own resumes (PNAS 2025, AIES 2025) | Study |
 | Average weeks unemployed, 55-64 vs all 16+: 34.9 vs 25.4 (BLS, Sept 2026) | Record; attributes nothing to AI |
+| Women are 26% of new hires in AI roles vs 50% in non-AI; Millennials are 60% of Head of AI hires; age is a weaker pay predictor than gender or education (LinkedIn Economic Graph, "The AI Talent Divide", Aug 2026, 17 pp, descriptive and correlational, LinkedIn US member data) | Study; covers who is hired into AI roles, not who is screened out, so use for section 5 context only; local PDF `~/Downloads/The_AI_Talent_Divide_2026.pdf`, add the public URL before publish |
 | Monoculture, arms race, age proxies at scale | Theory |
 
 ### Data reconciliation (resolve before drafting)
