@@ -1,0 +1,120 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EPIC-XXXX — Pink Moon accessibility, Pass 1: token contrast and neutral chips</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../_ds/sugartown-design-system-86a5dc12-490a-470e-a13a-f3f86eeaf3ef/colors_and_type.css">
+<style>
+:root{--ink:var(--st-color-ink);--muted:var(--st-color-text-secondary);--rule:var(--st-color-softgrey-200);--pink:var(--st-color-pink);--pink6:var(--st-color-pink-600);--maroon:var(--st-color-maroon);--bg:var(--st-color-bg-surface)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--st-font-ui);text-wrap:pretty}
+a{color:var(--maroon);text-decoration:underline;text-decoration-color:var(--pink);text-underline-offset:2px}a:hover{text-decoration-thickness:2px}
+main{max-width:860px;margin:0 auto;padding:56px 28px 96px}
+h1,h2{font-family:var(--st-font-narrative);font-weight:600}
+h1{font-size:2.6rem;line-height:1.1;margin:0 0 20px;padding-bottom:18px;border-bottom:3px solid var(--pink)}
+h2{font-size:1.8rem;margin:44px 0 12px}h3{font-size:1.1rem;margin:28px 0 8px;color:var(--maroon)}
+p{margin:0 0 12px}ul,ol{margin:0 0 14px;padding-left:22px}li{margin:4px 0}
+ul.check{list-style:none;padding:0}ul.check li{display:flex;gap:10px;align-items:flex-start}
+.box{flex:0 0 18px;height:18px;margin-top:3px;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:12px;font-weight:700}
+li.done .box{background:var(--ink);color:var(--st-color-neutral-50)}li.open .box{border-color:var(--pink6)}
+:not(pre)>code,code{font-family:var(--st-font-mono);font-size:.9em;background:var(--st-color-softgrey-100);padding:.1em .35em;border-radius:0;border:1px solid var(--st-color-maroon-200);color:var(--maroon)}
+pre{background:var(--st-color-midnight);color:var(--st-color-neutral-100);padding:16px 18px;overflow:auto;margin:0 0 16px}pre code{background:none;border:0;color:inherit;padding:0;font-size:.82rem}
+.tw{overflow-x:auto;margin:0 0 18px}table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{text-align:left;background:var(--st-color-neutral-200);color:var(--ink);border-bottom:3px solid var(--pink);padding:8px 10px;font-family:var(--st-font-mono);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em}
+td{padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+</style></head><body>
+<template id="__bundler_thumbnail" data-bg-color="#fafafa"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect x="380" y="180" width="440" height="440" fill="#e00069"/><text x="600" y="455" text-anchor="middle" font-family="monospace" font-weight="700" font-size="150" fill="#fff">AA</text></svg></template>
+<main><h1>EPIC-XXXX — Pink Moon accessibility, Pass 1: token contrast and neutral chips</h1>
+<p>Rebuilt 10 Oct 2026 against the design-system canonical snapshot (sync of 7 Oct: <code>canonical-snapshot/tokens.css</code>, <code>theme.pink-moon.css</code>, <code>globals.css</code>, and <code>packages/design-system/src/components/*</code>). Matches <strong>Pink Moon Accessibility Audit v4</strong> (approved 10 Oct). Supersedes all earlier Pass 1 drafts.</p>
+<p>Revised 11 Oct 2026: the featured rubric chip is now the standard neutral chip, border included.</p>
+<p>Every change is written as <strong>current value → new value</strong>, with the file it lives in. Contrast figures are computed from canonical values against the surface each element actually sits on.</p>
+<p>No PRD. Assumptions are listed below.</p>
+<h2>Principle</h2>
+<p>Pink is the one hot colour, and everything else is neutral.</p>
+<ul>
+<li><strong>Small pink text on light</strong> → <code>--st-color-text-brand</code> (maroon-600, already commented "Deep Pink Rule — WCAG AA" in theme.pink-moon.css).</li>
+<li><strong>White on a pink fill</strong> → <code>--st-color-pink-600</code> (4.80:1).</li>
+<li><strong>Dark eyebrow and folio label</strong> → <code>--st-color-text-default</code> (white).</li>
+<li><strong>Chips</strong> → the existing neutral tag chassis, featured rubric chip included. Colour presets no longer tint chips.</li>
+<li><strong>Status dots</strong> → pink for every status, with draft drawn as a ring.</li>
+</ul>
+<p>Lime stays on the secondary button only. Rich-text colours (code, glossary) are Pass 2.</p>
+<h2>Pre-Execution Completeness Gate</h2>
+<ul class="check">
+<li class="open"><span class="box"></span><span><strong>Epic ID</strong> — OPEN (Bex): assign next EPIC number from CHANGELOG.md, rename file.</span></li>
+<li class="open"><span class="box"></span><span><strong>Drift check</strong> — OPEN (Claude Code, step 0): diff <code>apps/web/src/design-system/styles/*</code> and <code>packages/design-system/src/styles/*</code> against the values quoted in the "current" column below. If any current value differs, STOP and report.</span></li>
+<li class="done"><span class="box">✓</span><span><strong>Layout contract</strong> — no layout changes. Colour values, one size/padding/radius wiring (step 7), one dot shape (step 5), and a motion media query.</span></li>
+<li class="done"><span class="box">✓</span><span><strong>Enum values</strong> — none touched. Chip <code>color</code> presets stay in the API; they stop tinting.</span></li>
+<li class="done"><span class="box">✓</span><span><strong>Dark / theme treatment</strong> — explicit per row.</span></li>
+<li class="done"><span class="box">✓</span><span><strong>Schema changes</strong> — none. No Sanity schema, no GROQ.</span></li>
+<li class="done"><span class="box">✓</span><span><strong>Web adapter</strong> — token files exist in both <code>apps/web</code> and <code>packages/design-system</code> and must stay byte-identical. Component CSS lives in <code>packages/design-system/src/components/</code>; mirror to <code>apps/web</code> only if a copy exists there.</span></li>
+</ul>
+<h2>Scope (execution order)</h2>
+<h3>1. White on pink fills → pink-600 (both themes)</h3>
+<div class="tw"><table><thead><tr><th>Where</th><th>Current</th><th>New</th><th>Result</th></tr></thead><tbody><tr><td><code>Button.module.css</code> <code>.primary</code> background-color (l.58)</td><td><code>var(--st-color-brand-primary)</code> (pink-500)</td><td><code>var(--st-color-pink-600)</code></td><td>3.62 → 4.80</td></tr><tr><td><code>Button.module.css</code> <code>.primary:hover</code> background-color (l.63)</td><td><code>var(--st-color-pink-600)</code></td><td><code>var(--st-color-pink-700)</code></td><td>4.80 → 6.90</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-table-header-bg-accent</code></td><td><code>var(--st-color-pink)</code></td><td><code>var(--st-color-pink-600)</code></td><td>3.62 → 4.80</td></tr><tr><td><code>theme.pink-moon.css</code> dark <code>--st-table-header-bg-accent</code></td><td><code>var(--st-color-pink)</code></td><td><code>var(--st-color-pink-600)</code></td><td>3.62 → 4.80</td></tr></tbody></table></div>
+<p>Accent table header labels are 9.5px, so large-text relief does not apply.</p>
+<h3>2. Small pink text on light → <code>--st-color-text-brand</code> (light block only)</h3>
+<div class="tw"><table><thead><tr><th>Where</th><th>Current</th><th>New</th><th>Result (light)</th></tr></thead><tbody><tr><td><code>theme.pink-moon.css</code> light <code>--st-color-text-eyebrow</code></td><td><code>var(--st-color-pink)</code></td><td><code>var(--st-color-text-brand)</code></td><td>card 3.62 → 6.12; label strip 2.85 → 4.82</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-color-link-default</code> (new override; base is <code>brand-primary</code>)</td><td>inherits pink</td><td><code>var(--st-color-text-brand)</code></td><td>canvas 3.24 → 5.47</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-citation-marker-color</code> (new override)</td><td>inherits pink</td><td><code>var(--st-color-text-brand)</code></td><td>3.24 → 5.47</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-citation-index-color</code> (new override)</td><td>inherits pink</td><td><code>var(--st-color-text-brand)</code></td><td>3.24 → 5.47</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-button-tertiary-text</code></td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-color-text-brand)</code></td><td>3.24 → 5.47</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-button-tertiary-border</code></td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-color-text-brand)</code></td><td>border matches text</td></tr><tr><td><code>theme.pink-moon.css</code> light <code>--st-segmented-active-fg</code></td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-color-text-brand)</code></td><td>3.24 → 5.47</td></tr></tbody></table></div>
+<p><code>--st-color-text-eyebrow</code> also drives Card <code>.metadataLabel</code>, <code>.aiToolLabel</code> and <code>.kpiLink</code>. All of them take the same change. Hero eyebrows are not known to read this token; step 0 confirms. If they do, STOP and flag.</p>
+<p>Component CSS that bypasses the tokens above:</p>
+<div class="tw"><table><thead><tr><th>Where</th><th>Current</th><th>New</th></tr></thead><tbody><tr><td><code>SegmentedControl.module.css</code> <code>.pillSegment:hover</code> color (l.49)</td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-segmented-active-fg)</code></td></tr><tr><td><code>SegmentedControl.module.css</code> <code>.pillActive</code> color + inset box-shadow (l.54–55)</td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-segmented-active-fg)</code></td></tr><tr><td><code>SegmentedControl.module.css</code> <code>.iconBtnActive</code> color + border-color (l.92–93)</td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-segmented-active-fg)</code></td></tr><tr><td><code>Citation.module.css</code> <code>.note a</code> color (l.70)</td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-color-link-default)</code></td></tr><tr><td><code>Label.module.css</code> <code>.required</code> color (l.13)</td><td><code>var(--st-color-brand-primary)</code></td><td><code>var(--st-color-text-brand)</code></td></tr></tbody></table></div>
+<p>Because SegmentedControl now reads its token, dark needs an override to keep its current pink: <code>theme.pink-moon.css</code> dark <code>--st-segmented-active-fg</code> (new override; base is <code>--st-color-text-default</code>) → <code>var(--st-color-brand-primary)</code>. Visually unchanged (5.13 on canvas).</p>
+<p>Focus outlines that read <code>brand-primary</code> are unchanged (non-text, pink on canvas is 3.24 ≥ 3.0).</p>
+<h3>3. Dark eyebrow and folio label → white (dark block only)</h3>
+<div class="tw"><table><thead><tr><th>Where</th><th>Current</th><th>New</th><th>Result (dark)</th></tr></thead><tbody><tr><td><code>theme.pink-moon.css</code> dark <code>--st-color-text-eyebrow</code> (new override)</td><td>inherits pink</td><td><code>var(--st-color-text-default)</code></td><td>card 4.45 → 15.19</td></tr><tr><td><code>theme.pink-moon.css</code> dark <code>--st-label-color-badge</code></td><td><code>var(--st-color-softgrey-500)</code></td><td><code>var(--st-color-text-default)</code></td><td>label strip 4.27 → 16.46</td></tr></tbody></table></div>
+<p>Dark links and citation markers sit on canvas at 5.13 and stay pink.</p>
+<h3>4. Chips → neutral (both themes)</h3>
+<p><strong>Legacy colour chips (<code>Chip.module.css</code>).</strong> The base <code>.chip</code> derives bg, border and text from <code>--_chip-color</code>. Replace the two theme blocks with one neutral rule:</p>
+<div class="tw"><table><thead><tr><th>Where</th><th>Current</th><th>New</th></tr></thead><tbody><tr><td>l.123–125 <code>[data-theme="light-pink-moon"] .chip:not(.active):not(.ruleDot)</code></td><td><code>border-color: color-mix(--_chip-color 60%, canvas)</code></td><td>delete</td></tr><tr><td>l.127–141 light preset overrides (<code>.seafoam</code>, <code>.lime</code>, <code>.amber</code>, <code>.grey</code>)</td><td>darker <code>--chip-color</code> per preset</td><td>delete</td></tr><tr><td>l.143–153 dark <code>.grey</code> override and dark <code>.chip:not(.ruleDot):not(.dotColor)</code> tint</td><td>tinted bg, coloured border and text</td><td>delete</td></tr><tr><td>new rule, both themes: <code>.chip:not(.ruleDot):not(.dotColor):not(.featured)</code></td><td>—</td><td><code>background: var(--st-chip-tag-bg); border-color: var(--st-chip-border); color: var(--st-chip-fg);</code></td></tr><tr><td>new rule, both themes: <code>.chip.active</code></td><td><code>background/border: var(--_chip-color); color: white</code></td><td><code>background: var(--st-color-text-default); border-color: var(--st-color-text-default); color: var(--st-color-bg-canvas);</code></td></tr><tr><td><code>.interactive:hover</code> (l.57–62)</td><td>tinted bg via <code>--_chip-color</code></td><td><code>background: var(--st-chip-tag-bg); border-color: var(--st-color-pink);</code> (keeps the decided pink hover border)</td></tr><tr><td><code>.interactive:focus-visible</code> (l.64–67)</td><td><code>outline: 2px solid var(--_chip-color)</code></td><td><code>outline: 2px solid var(--st-color-focus)</code></td></tr><tr><td><code>.active.interactive:hover</code> (l.79–83)</td><td>darkened <code>--_chip-color</code></td><td><code>background: var(--st-color-text-default); border-color: var(--st-color-pink);</code></td></tr></tbody></table></div>
+<p>Results: tag chip text 19.16 light / 12.08 dark; selected 17.12 light / 17.50 dark. The <code>.pink</code>, <code>.seafoam</code>, <code>.lime</code>, <code>.violet</code>, <code>.amber</code>, <code>.grey</code> classes stay so callers don't break; they no longer change the chip's appearance. Retiring them is in the leftovers issue.</p>
+<p><strong>Featured rubric chip (tokens).</strong> Becomes the standard neutral chip. Pink appears on it only on interactive hover, as on every chip.</p>
+<div class="tw"><table><thead><tr><th>Token</th><th>Current</th><th>New</th></tr></thead><tbody><tr><td><code>tokens.css</code> <code>--st-chip-rubric-bg</code></td><td><code>color-mix(in srgb, var(--st-color-pink) 10%, white)</code></td><td><code>var(--st-chip-tag-bg)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-rubric-fg</code></td><td><code>var(--st-color-maroon)</code></td><td><code>var(--st-chip-fg)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-rubric-border</code></td><td><code>var(--st-color-pink)</code></td><td><code>var(--st-chip-border)</code></td></tr><tr><td><code>theme.pink-moon.css</code> dark <code>--st-chip-rubric-bg</code></td><td><code>color-mix(in srgb, var(--st-color-pink) 18%, var(--st-color-midnight-800))</code></td><td>delete override</td></tr><tr><td><code>theme.pink-moon.css</code> dark <code>--st-chip-rubric-fg</code></td><td><code>var(--st-color-pink)</code> (4.07, fails)</td><td>delete override</td></tr><tr><td><code>theme.pink-moon.css</code> dark <code>--st-chip-rubric-border</code> (if present)</td><td>pink</td><td>delete override</td></tr></tbody></table></div>
+<p><strong>Knowledge-graph filter chips (<code>theme.pink-moon.css</code> light block).</strong></p>
+<div class="tw"><table><thead><tr><th>Token</th><th>Current</th><th>New</th></tr></thead><tbody><tr><td><code>--st-kg-chip-article-bg</code> / <code>-fg</code> / <code>-border</code></td><td>seafoam-50 / seafoam-800 / seafoam 35%</td><td><code>var(--st-chip-tag-bg)</code> / <code>var(--st-chip-fg)</code> / <code>var(--st-chip-border)</code></td></tr><tr><td><code>--st-kg-chip-case-bg</code> / <code>-fg</code> / <code>-border</code></td><td>pink 8% / pink (2.72, fails) / pink 35%</td><td><code>var(--st-chip-tag-bg)</code> / <code>var(--st-chip-fg)</code> / <code>var(--st-chip-border)</code></td></tr><tr><td><code>--st-kg-chip-all-*</code>, <code>--st-kg-chip-node-*</code></td><td>ink fill, neutral-100 text</td><td>unchanged (already neutral)</td></tr></tbody></table></div>
+<p>Graph node colours (<code>--st-kg-node-*</code>) are unchanged.</p>
+<h3>5. Status dots → pink, draft as a ring</h3>
+<div class="tw"><table><thead><tr><th>Where</th><th>Current</th><th>New</th></tr></thead><tbody><tr><td><code>tokens.css</code> <code>--st-chip-dot-evergreen</code></td><td><code>var(--st-color-lime-600)</code></td><td><code>var(--st-color-pink)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-dot-validated</code></td><td><code>var(--st-color-seafoam-700)</code></td><td><code>var(--st-color-pink)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-dot-exploring</code></td><td><code>var(--st-color-amber-700)</code></td><td><code>var(--st-color-pink)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-dot-deprecated</code></td><td><code>var(--st-color-neutral-500)</code></td><td><code>var(--st-color-pink)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-dot-active</code></td><td><code>var(--st-color-pink)</code></td><td>unchanged</td></tr><tr><td><code>tokens.css</code> <code>--st-chip-dot-draft</code></td><td><code>var(--st-color-violet)</code></td><td><code>var(--st-color-pink)</code></td></tr><tr><td><code>tokens.css</code> <code>--st-chip-dot-operationalized</code></td><td><code>var(--st-color-seafoam)</code></td><td><code>var(--st-color-pink)</code></td></tr><tr><td><code>theme.pink-moon.css</code> dark <code>--st-chip-dot-evergreen</code> / <code>-validated</code> / <code>-exploring</code> / <code>-deprecated</code></td><td>lime / seafoam / amber / softgrey-500</td><td>delete overrides</td></tr><tr><td><code>Chip.module.css</code> <code>.dot-draft</code> (l.217)</td><td><code>background: var(--st-chip-dot-draft)</code></td><td><code>background: transparent; border: 1.5px solid var(--st-chip-dot-draft); box-sizing: border-box;</code></td></tr></tbody></table></div>
+<p>Results (non-text, 3:1): 3.62 on a light card, 4.45 on a dark card. The status word carries the state; the ring marks draft. Every chip or dot used without a visible label must get one (or <code>aria-label</code>).</p>
+<h3>6. Inline code reads its own tokens (<code>globals.css</code>, <code>:not(pre) &gt; code</code>)</h3>
+<p>Only the hard-coded box values change here. Colours change in Pass 2.</p>
+<div class="tw"><table><thead><tr><th>Property</th><th>Current</th><th>New</th></tr></thead><tbody><tr><td>font-size</td><td><code>0.85em</code></td><td><code>var(--st-code-inline-font-size)</code> (0.9em)</td></tr><tr><td>padding</td><td><code>0.2em 0.5em</code></td><td><code>var(--st-code-inline-padding)</code> (0.1em 0.35em)</td></tr><tr><td>border-radius</td><td><code>4px</code></td><td><code>var(--st-radius-code)</code> (0)</td></tr><tr><td>white-space</td><td>not set</td><td><code>nowrap</code></td></tr></tbody></table></div>
+<h3>7. Reduced motion (<code>globals.css</code>, append)</h3>
+<pre><code>@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}</code></pre>
+<p>Then disable the hover <code>translateY</code> lifts (cards, chips) and the <code>.st-duotone</code> 1.05 scale under <code>reduce</code> where they are declared.</p>
+<h2>Out of scope (see ISSUE-XXXX-a11y-leftovers)</h2>
+<ul>
+<li>Card titles stay <code>--st-color-text-primary</code> (18px / 600 is not large text).</li>
+<li>Legacy <code>--st-status-*</code> badge colours.</li>
+<li>Retiring the chip colour preset classes.</li>
+<li>Rich-text colours and treatments (Pass 2).</li>
+</ul>
+<h2>Technical Constraints</h2>
+<ul>
+<li>Token-only rule: no raw hex in component CSS.</li>
+<li>Both token-file copies stay byte-identical for every token touched.</li>
+<li>Do not change fills, borders or focus rings except where listed. The focus ring stays pink, 2px, 2px offset.</li>
+<li>Do not touch Sanity schema, GROQ or React components.</li>
+</ul>
+<h2>Acceptance Criteria</h2>
+<ul class="check">
+<li class="open"><span class="box"></span><span><code>pnpm validate:tokens --strict-colors</code> passes with zero new warnings.</span></li>
+<li class="open"><span class="box"></span><span>The token files diff clean between <code>apps/web</code> and <code>packages/design-system</code>.</span></li>
+<li class="open"><span class="box"></span><span>Computed contrast meets or beats:</span></li>
+</ul>
+<div class="tw"><table><thead><tr><th>Pair</th><th>Theme</th><th>Target</th></tr></thead><tbody><tr><td>White on primary button / hover</td><td>both</td><td>4.80 / 6.90</td></tr><tr><td>White on accent table header</td><td>both</td><td>4.80</td></tr><tr><td>Card eyebrow on card / on label strip</td><td>light</td><td>6.12 / 4.82</td></tr><tr><td>Link, citation marker, tertiary text, segmented active on canvas</td><td>light</td><td>5.47</td></tr><tr><td>Card eyebrow on card</td><td>dark</td><td>15.19</td></tr><tr><td>Folio badge label on label strip</td><td>dark</td><td>16.46</td></tr><tr><td>Tag chip text (any preset)</td><td>light / dark</td><td>19.16 / 12.08</td></tr><tr><td>Selected chip text</td><td>light / dark</td><td>17.12 / 17.50</td></tr><tr><td>Featured rubric chip text</td><td>light / dark</td><td>19.16 / 12.08</td></tr><tr><td>Status dot vs card (non-text)</td><td>light / dark</td><td>3.62 / 4.45</td></tr></tbody></table></div>
+<ul class="check">
+<li class="open"><span class="box"></span><span>Storybook, both themes: Button (all variants, hover), Chip (every preset, active, featured, interactive hover, rule-dot status for every status), Card (eyebrow, folio strip, footer), Citation, Table (accent and subdued), SegmentedControl, knowledge-graph filter strip. No pink-500 text under 24px on light anywhere; no tinted chips anywhere; featured and plain tag chips are indistinguishable at rest.</span></li>
+<li class="open"><span class="box"></span><span>With OS reduced motion on, card, chip and button hovers do not translate and the duotone does not scale.</span></li>
+<li class="open"><span class="box"></span><span>Inline <code>code</code> renders square and does not wrap.</span></li>
+<li class="open"><span class="box"></span><span>Route smoke test: one article and one knowledge-graph node in both themes, with no change beyond the listed rows.</span></li>
+</ul>
+<h2>Assumptions standing in for PRD</h2>
+<ul>
+<li>Maroon (<code>--st-color-text-brand</code>) reads as pink-family on light and is accepted as the small-text form of pink.</li>
+<li>Losing per-status dot hues is accepted: the word plus ring/solid carries state (decided 10 Oct, v4).</li>
+<li>Pass 2 ships in the same release, so maroon links gain an underline.</li>
+</ul>
+<h2>Post-Epic Close-Out</h2>
+<ol><li><code>git status</code> must show nothing staged or unstaged</li><li>Run <code>/mini-release EPIC-XXXX [Epic name]</code> or <code>/release</code> for MINOR version bumps</li><li>Start next epic only after mini-release commit is confirmed</li></ol></main></body></html>

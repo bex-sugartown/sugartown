@@ -1,0 +1,31 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ISSUE-XXXX — Pink Moon accessibility: leftovers</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,700&family=IBM+Plex+Mono:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="../_ds/sugartown-design-system-86a5dc12-490a-470e-a13a-f3f86eeaf3ef/colors_and_type.css">
+<style>
+:root{--ink:var(--st-color-ink);--muted:var(--st-color-text-secondary);--rule:var(--st-color-softgrey-200);--pink:var(--st-color-pink);--pink6:var(--st-color-pink-600);--maroon:var(--st-color-maroon);--bg:var(--st-color-bg-surface)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 var(--st-font-ui);text-wrap:pretty}
+a{color:var(--maroon);text-decoration:underline;text-decoration-color:var(--pink);text-underline-offset:2px}a:hover{text-decoration-thickness:2px}
+main{max-width:860px;margin:0 auto;padding:56px 28px 96px}
+h1,h2{font-family:var(--st-font-narrative);font-weight:600}
+h1{font-size:2.6rem;line-height:1.1;margin:0 0 20px;padding-bottom:18px;border-bottom:3px solid var(--pink)}
+h2{font-size:1.8rem;margin:44px 0 12px}h3{font-size:1.1rem;margin:28px 0 8px;color:var(--maroon)}
+p{margin:0 0 12px}ul,ol{margin:0 0 14px;padding-left:22px}li{margin:4px 0}
+ul.check{list-style:none;padding:0}ul.check li{display:flex;gap:10px;align-items:flex-start}
+.box{flex:0 0 18px;height:18px;margin-top:3px;border:1.5px solid var(--ink);display:grid;place-items:center;font-size:12px;font-weight:700}
+li.done .box{background:var(--ink);color:var(--st-color-neutral-50)}li.open .box{border-color:var(--pink6)}
+:not(pre)>code,code{font-family:var(--st-font-mono);font-size:.9em;background:var(--st-color-softgrey-100);padding:.1em .35em;border-radius:0;border:1px solid var(--st-color-maroon-200);color:var(--maroon)}
+pre{background:var(--st-color-midnight);color:var(--st-color-neutral-100);padding:16px 18px;overflow:auto;margin:0 0 16px}pre code{background:none;border:0;color:inherit;padding:0;font-size:.82rem}
+.tw{overflow-x:auto;margin:0 0 18px}table{border-collapse:collapse;width:100%;font-size:.92rem}
+th{text-align:left;background:var(--st-color-neutral-200);color:var(--ink);border-bottom:3px solid var(--pink);padding:8px 10px;font-family:var(--st-font-mono);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.1em}
+td{padding:8px 10px;border-bottom:1px solid var(--rule);vertical-align:top}
+</style></head><body>
+<template id="__bundler_thumbnail" data-bg-color="#fafafa"><svg viewBox="0 0 1200 800" xmlns="http://www.w3.org/2000/svg"><rect x="380" y="180" width="440" height="440" fill="#e00069"/><text x="600" y="455" text-anchor="middle" font-family="monospace" font-weight="700" font-size="150" fill="#fff">AA</text></svg></template>
+<main><h1>ISSUE-XXXX — Pink Moon accessibility: leftovers</h1>
+<p>Updated 10 Oct 2026 for the approved v4 direction (Pass 1 and Pass 2 rewritten to match). Items here need a decision or a code read before they can join an epic.</p>
+<h2>1. Open decisions (Bex)</h2>
+<ul class="check"><li class="open"><span class="box"></span><span><strong>Bold threshold.</strong> Treat only 700+ as bold for WCAG large text (matches axe and Stark), or accept tooling flags on 600.</span></li><li class="open"><span class="box"></span><span><strong>Hero eyebrow.</strong> Size and colour are governed by the hero image; it was not found reading <code>--st-color-text-eyebrow</code>. Locate the component, then decide.</span></li><li class="open"><span class="box"></span><span><strong>Card titles in pink.</strong> Would need <code>--st-card-title-size</code> ≥ 24px (or 18.66px at 700). At 18px / 600 they stay ink.</span></li><li class="open"><span class="box"></span><span><strong>Knowledge-graph filter chips.</strong> Pass 1 makes the article and case filter chips neutral, so they no longer echo the graph's node colours. Confirm, or add a pink/ink dot to tie each chip to its node type.</span></li></ul>
+<h2>2. Follow-up code work</h2>
+<ul class="check"><li class="open"><span class="box"></span><span><strong>Retire chip colour presets.</strong> After Pass 1 the <code>.pink</code>, <code>.seafoam</code>, <code>.lime</code>, <code>.violet</code>, <code>.amber</code>, <code>.grey</code> classes and the <code>color</code> / <code>colorHex</code> props no longer change a chip's appearance. Find every caller, then remove them from Chip and its stories.</span></li><li class="open"><span class="box"></span><span><strong>Legacy status badges (<code>--st-status-*</code>).</strong> Card <code>.statusBadge</code> / <code>.folioStatus</code> still use per-status tints, and several fail: draft light 2.72, designing light 3.76, testing light 4.14, validated dark 4.12. To match v4, move them to the rule-dot chassis (neutral chip, pink dot), or retire the tokens if no caller remains.</span></li><li class="open"><span class="box"></span><span><strong>Dark label strip.</strong> <code>--st-card-label-bg</code> on dark is midnight-800, the same as the surrounding surface, so the strip only shows through its rule. Propose a distinct value.</span></li><li class="open"><span class="box"></span><span><strong>Sidebar duplication (bug).</strong> On knowledge-graph node pages the right sidebar repeats and overlaps "Related" and "AI Disclosure" entries.</span></li></ul>
+<h2>3. Decided 10 Oct (v4), now in the epics</h2>
+<ul><li>Pink is the one hot colour; chips neutral; status dots pink with a draft ring.</li><li>Rich text in pink and maroon only; SUG-211 Option E superseded.</li><li>Dark eyebrow and folio label white.</li><li>Primary button and accent table header white on pink-600; hover pink-700.</li><li>Small pink text on light uses <code>--st-color-text-brand</code>.</li></ul></main></body></html>
