@@ -60,6 +60,7 @@ Skim skeleton to test at draft time: title, subheads, first sentence of each sec
 | Figure | 10-12 cut | **10-20 cut** | Source (`findings.json` key) |
 |---|---:|---:|---|
 | Captured / packaged | 793 / 106 | **810 / 111** | `funnel.captured`, `funnel.packaged` |
+| JDs entering the system, per month (added 2026-10-22 at Bex's request) | n/a | **810 captured: Jun 32, Jul 169, Aug 425, Sep 128, Oct 56 (to the 20th)** | `monthly[*].captured`. Jun-Oct 26 only: 25-26 predates the tracker, so there is no comparable count. Chart it as a Jun-Oct 26 series beside applications per month, and say why 25-26 has none. |
 | Applications | 92 | **99** | `funnel.applied` |
 | Screens / loops / offers | 13 / 6 / 0 | **16 / 6 / 0** | `funnel` |
 | Applied-to-screen, all channels | 12.0% (11 of 92; the handoff's 14.1% was 13 of 92 and counted two screens with no application) | **14.1%** (14 of 99) | `screened_ids` against `applied_ids` |
