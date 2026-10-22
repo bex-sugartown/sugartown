@@ -43,7 +43,7 @@ Publishable after fixing one number comparison. The hook is strong (an invite pr
 | 3.7% is "the cold-apply rate now" | Wrong as worded: 3.7% is all 82 non-recruiter applications (finding 1) |
 | UW study: 85.1% and 11.1%, 500+ resumes | Verified on arXiv 2407.20371 abstract. Tests embedding models in a retrieval framework simulating selection |
 | Arithmetic: 10 + 82 = 92, 3/82 = 3.66%, 28+27+21+2+4 = 82 | Verified by calculation only |
-| 92 applications, 10 of 10 recruiter-first, 3 of 82 other | Verified 2026-10-16 in `resume-factory/data/00 FUNNEL ANALYSIS 2026-08/findings.json`: `funnel.applied` 92; `channel` applied 28+27+10+21+2+4, screened Board 1, Recruiter 10, Cold 1, Referral 1 |
+| 92 applications, 8 of 10 recruiter-first (corrected 2026-10-22, was 10 of 10), 3 of 82 other | Verified 2026-10-16 in `resume-factory/data/00 FUNNEL ANALYSIS 2026-08/findings.json`: `funnel.applied` 92; `channel` applied 28+27+10+21+2+4, screened Board 1, Recruiter 10, Cold 1, Referral 1 |
 | Invite email text, time slot, "live event", virtual queue, fine print | Verified against the redacted screenshot `ziprecruiter-invite-email_redacted.png` (Oct 12, 2:41 PM; "Next Available: Wednesday, October 14 at 2:00 PM PDT") |
 | "No sessions scheduled", Apply Now, No Thanks | Verified on `ziprecruiter-rsvp-landing.png` |
 | 16px bold promise, 12px fine print | Not re-verified: the invite `.eml` is not in the repo or Downloads. Source is the 2026-10-15 handoff §3 |

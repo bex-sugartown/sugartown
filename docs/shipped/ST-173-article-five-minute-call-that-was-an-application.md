@@ -18,7 +18,7 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
 ## Background
 
 - **Source:** the LinkedIn post and screenshots in `resume-factory/data/content/drafts/linkedin-ziprecruiter/` (internal, outside this repo).
-- **Related, not merged:** ST-162 is the data follow-up to "I Treated My Job Search Like a Data Pipeline" and waits for the 10-30 headline read. This piece does not wait for it. Both use the same cohort figures (92 applications, 10 of 10 recruiter-first, 3 of 82 other).
+- **Related, not merged:** ST-162 is the data follow-up to "I Treated My Job Search Like a Data Pipeline" and waits for the 10-30 headline read. This piece does not wait for it. Both use the same cohort figures (92 applications, 8 of 10 recruiter-first, 3 of 82 other). Corrected 2026-10-22: "10 of 10" counted two recruiter screens that had no application.
 - **Handoff 2026-10-15:** `resume-factory/data/content/drafts/linkedin-ziprecruiter/HANDOFF_2026-10-15_ST-173-Testjob-and-Post-Final.md` (internal, outside this repo) added the Oct 14 testjob email as a second example, and aligned the funnel bullets with the final LinkedIn post (three bullets, no closing question).
 - **Origin:** drafted inside ST-162 as Scope 8 on 2026-10-13, then split out at Bex's request.
 
@@ -208,7 +208,7 @@ Re-run 2026-10-16 on the final text and the short LinkedIn file: zero em dashes,
 
 ### Acceptance criteria
 
-- Every figure traces to a command or file: ticked. Counts re-read from `findings.json` on 2026-10-16 (92 applied, 10 of 10 recruiter-first, 3 of 82 other); the 6.7% was confirmed on the live June post; the UW and own-resume-preference papers were fetched. The 2.5% figure does not reconcile (2 of 78, not 2 of 81) and the article does not cite it. Record: `docs/reviews/red-pen/2026-10-16-five-minute-call-that-was-an-application.md`.
+- Every figure traces to a command or file: ticked. Counts re-read from `findings.json` on 2026-10-16 (92 applied, 8 of 10 recruiter-first, 3 of 82 other; corrected 2026-10-22, was 10 of 10); the 6.7% was confirmed on the live June post; the UW and own-resume-preference papers were fetched. The 2.5% figure does not reconcile (2 of 78, not 2 of 81) and the article does not cite it. Record: `docs/reviews/red-pen/2026-10-16-five-minute-call-that-was-an-application.md`.
 - Zero em dashes, gate passed, `aiDisclosure` set: ticked. a search of the epic doc for the em dash character returns 0; `check_tiers.py --publish` clean on the article text and the short LinkedIn file on 2026-10-16; `aiDisclosure` reads "Drafted with Claude from Bex Head's own LinkedIn post, edited by Bex Head."
 - Publish gate passes and the sender's name does not appear: ticked. The gate does not flag ZipRecruiter or the role title; keeping both was Bex's decision on 2026-10-13. The sender person's name appears nowhere in the published text.
 - Draft existed as `drafts.*`, nothing published without Bex: ticked. Bex published the article herself.

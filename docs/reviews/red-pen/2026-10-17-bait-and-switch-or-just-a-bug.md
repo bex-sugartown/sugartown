@@ -49,7 +49,7 @@ Close to publishable. The piece now says only what its evidence supports: the em
 | 17 Oct answer: empty, inactive session, RSVP switched off | Verified in the Response tab: `scheduledSessionId` "", `isActive` false, `disableRsvp` true |
 | "automated message", "not a guaranteed meeting" | Verified in the `.eml` fine print |
 | "The promise is set in 16px bold. The caveat is set in 12px." | Half right. The "Next Available" line is bold in a 16px cell; the intro sentence is 16px regular; the caveat is 12px (finding 1) |
-| 92 applications, 10 of 10, 3 of 82, 3.7% | Verified in `findings.json`: `funnel.applied` 92; recruiter 10 of 10; others 82 applied, 3 screened |
+| 92 applications, 8 of 10 (corrected 2026-10-22, was 10 of 10), 3 of 82, 3.7% | Verified in `findings.json`: `funnel.applied` 92; recruiter 8 of 10 applications (corrected 2026-10-22); others 82 applied, 3 screened |
 | Cold-only rate now | Computed from `findings.json` `channel`: Job Alert 28, Board 27, Cold 21, Untagged 2 = 78 applied, 2 screened = 2.6% (finding 3) |
 | 6.7% in the earlier post | Verified in the live post's "Six Out of 100" section: "I'm sitting at 6.7%". Definition: cold apply, no prior relationship |
 | Earlier post date | Sanity `publishedAt` and `_createdAt` 2026-05-20, `_updatedAt` 2026-08-08. The article says "June" (finding 2) |
