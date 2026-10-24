@@ -55,14 +55,14 @@ Skim skeleton to test at draft time: title, subheads, first sentence of each sec
 
 **Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Oct 26** is this post's cohort: Jun 1 to Oct 20, 2026, 4.6 months, 99 applications. Use these in every chart, table and sentence. Compare on rates and per-month pace, never on totals, because the windows differ in length. Pre-flight: the original post's By the Numbers kicker reads "Jun '25-May '26" while its body and charts say Jul 2025. Confirm the true start month before "25-26" goes public; fixing the original is a Content Write Gate item.
 
-**Re-cut to 2026-10-23 on 2026-10-24 (latest).** Same source and method, `END = 2026-10-23`; 10-20 outputs frozen in `_frozen_2026-10-20/`. One new screen with a debrief on disk (recruiter screen 10-23, recruiter inbound; hiring-manager round booked 10-29 and not yet held, so loops stay at 6). Two new applications. The next check is 10-30. The tables below keep the 10-20 cut for comparison; the **10-23 column** is the current figure. The by-month and weekly tables are not re-cut yet (see the note under each).
+**Re-cut to 2026-10-23 on 2026-10-24 (latest).** Same source and method, `END = 2026-10-23`; 10-20 outputs frozen in `_frozen_2026-10-20/`. One new screen with a debrief on disk (recruiter screen 10-23, recruiter inbound; hiring-manager round booked 10-29 and not yet held, so it is not a loop). Loops go 6 to 7 for a different reason: Third and Grove round 2 (director of PM, 10-20) had a debrief on disk but was missed in the 10-20 cut. Two new applications. The next check is 10-30. The tables below keep the 10-20 cut for comparison; the **10-23 column** is the current figure. The by-month and weekly tables are not re-cut yet (see the note under each).
 
 | Figure | 10-20 cut | **10-23 cut** | Source (`findings.json` key) |
 |---|---:|---:|---|
 | Captured / packaged | 810 / 111 | **835 / 114** | `funnel` |
 | JDs entering per month, Oct (to the 23rd) | 56 (to the 20th) | **81** | `monthly["2026-10"].captured` |
 | Applications | 99 | **101** | `funnel.applied` |
-| Screens / loops / offers | 16 / 6 / 0 | **17 / 6 / 0** | `funnel` |
+| Screens / loops / offers | 16 / 6 / 0 | **17 / 7 / 0** | `funnel` |
 | Applied-to-screen, all channels | 14.1% (14 of 99) | **14.9% (15 of 101)** | `screened_ids` against `applied_ids` |
 | Rejected / closed with no answer / still open | 50 / 21 / 28 | **50 / 22 / 29** | `outcomes` |
 | Recruiter-first applications that reached a screen | 9 of 11 | **10 of 12** | `channel["Recruiter Inbound"]`, minus the 2 screens with no application |
