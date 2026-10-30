@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-162: Article: AI screening follow-up to the funnel postmortem (working title)
 **Issue:** [#162](https://github.com/bex-sugartown/sugartown/issues/162)
-**Status:** Backlog
+**Status:** On Hold (paused by Bex 2026-10-30; headline and outline approved; resume at language, narrative and drama pass)
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out: outline, data, draft and publish as one unit
 **Visual:** no (reuses existing table and chart blocks; if the two-door chart needs a new block, stop and open Phase 0)
@@ -40,7 +40,7 @@ Target 1,600 words, long-form band, justified by two data blocks and a sourced e
 
 | # | Section (working subhead) | Job | Data / evidence |
 |---|---|---|---|
-| 1 | Cold open | Quote the line that marked CH1 Solved, then the per-month number: twice the applications, the same 0.6 cold screens a month | Per-month table: 10.1 to 21.0 applications, 0.64 to 0.63 cold-only screens |
+| 1 | Cold open | Quote the line that marked CH1 Solved, then the per-month number: twice the applications, the same 0.6 cold screens a month | Per-month table: 10.1 to 20.0 applications, 0.64 to 0.60 cold-only screens (corrected 2026-10-30 to the 10-30 cut; the old row read 21.0 and 0.63) |
 | 2 | Two doors | Human door vs portal door, one table or bar, per month | 9 of 10 recruiter-first applications vs 3 of 84 cold-only (reconciliation 5); warm screens 1.0 to 2.2 a month |
 | 2b | Before and after the tracker | What the system changed and what it did not: intake 10x, applications 2x, cold yield flat | System epochs table; per-month table |
 | 3 | What is behind the door | Short, sourced tour; each item labelled allegation / study / theory | Research brief §1 to §3 |
@@ -51,6 +51,16 @@ Target 1,600 words, long-form band, justified by two data blocks and a sourced e
 | 8 | Close | The six-item plan from the original post, scored | Original plan list |
 
 Skim skeleton to test at draft time: title, subheads, first sentence of each section, closer.
+
+### Approved 2026-10-30 (Bex)
+
+**Headline (approved): "Twice the Applications, the Same Number of Cold Calls".** It is the only candidate the data supports. Rejected or held: "I Fixed the Resume. The Rate Went Down." (R2: the 6.7% to 3.6% drop is inside chance, p=0.52; keep it only as "stayed flat"), "Nine of Ten, Three of Eighty-Four" (depends on reconciliation 5), "Two Doors, One Resume" (softer), "The Resume Wasn't the Problem" (claims a conclusion the post says it cannot reach).
+
+**Outline above approved as the structure.** Bex expects to rework the language, narrative and drama heavily, so the skeleton is a starting shape and not copy. Working skeleton (title, subheads, first sentences, closer), local only: `docs/drafts/ST-162-skim-skeleton.md`. Closer, working line: "I improved the part I controlled, and the part I didn't control decided."
+
+Open when work resumes: row 8 (the six-item plan, scored) needs the plan list from the original post; the LinkedIn application-volume line in row 5 must be attributed as Reported (New York Times via eWeek); the angle "the rate went down" is not to be stated as a finding.
+
+Nothing is written to Sanity. The Content Write Gate still applies at Scope 5.
 
 ## Data draft (publishable figures only)
 
@@ -341,7 +351,7 @@ Comparison charts: `docs/drafts/ST-162-charts/` (local, gitignored; `index.html`
 - [ ] **1. Data check:** re-run the source commands for every row in the data draft, record the command beside each figure, settle the four reconciliation items (layer: editorial)
 - [ ] **2. Evidence check:** open each external link in the research brief, confirm it resolves and says what the brief claims, drop any that fail (layer: editorial)
 - [ ] **3. Discovery:** taxonomy pre-flight and related-content check per `docs/write-pipeline-prompt.md` §1 (article target: 1 to 2 categories, 3 to 6 tags, Bex Head as author, tool `claude-code` for attribution) (layer: process)
-- [ ] **4. Outline approval:** Bex approves or edits the outline above and settles the open decisions (layer: process)
+- [ ] **4. Outline approval:** Bex approves or edits the outline above and settles the open decisions (layer: process). Outline and headline approved 2026-10-30; the four open decisions below are still open.
 - [ ] **5. Draft created in Sanity** via `create_documents` only, with `aiDisclosure` set (layer: content)
 - [ ] **6. Compliance gate** passed (`docs/write-pipeline-prompt.md` §4, zero em dashes, publish gate on the final text) (layer: process)
 - [ ] **8. Two missing gates, one pipeline** (handed off from ST-173, which cut it to one paragraph): the RSVP email checked no session before the send, the testjob email checked no listing before the send; argue them as one pipeline failure, link the published ST-173 article (`/articles/bait-and-switch-or-just-a-bug`) and use its screening-call versus application stage table rather than rebuilding it (layer: editorial)
