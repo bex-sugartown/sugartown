@@ -24,6 +24,12 @@
   display: block;
 }
 
+/* AI label frame (SUG-178): wraps only the image so the label anchors to it, not to the caption. */
+.aiFrame {
+  position: relative;
+  container-type: inline-size;
+}
+
 .caption {
   margin-top: var(--st-space-2);
   font-size: var(--st-font-size-sm);

@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from './Media.module.css';
+import { AiLabel } from '../AiLabel';
 
 /**
  * Media — Sugartown Design System
@@ -65,6 +66,10 @@ export interface MediaProps {
   width?: number;
   /** Intrinsic image height — rendered as <img height=""> for CLS prevention (SUG-63) */
   height?: number;
+  /** AI transparency (SUG-178): renders the AiLabel on the image when true. */
+  aiGenerated?: boolean;
+  /** `richImage.aiTool` schema value; shown on expand at 320px and up. */
+  aiTool?: string;
 }
 
 /**
@@ -199,6 +204,8 @@ export function Media({
   className,
   width,
   height,
+  aiGenerated,
+  aiTool,
 }: MediaProps) {
   if (!src) return null;
 
@@ -238,18 +245,29 @@ export function Media({
     ? { objectPosition: `${(hotspot.x * 100).toFixed(1)}% ${(hotspot.y * 100).toFixed(1)}%` }
     : {};
 
+  const image = (
+    <img
+      src={src}
+      alt={alt}
+      className={styles.image}
+      style={imgStyle}
+      {...(width ? { width } : {})}
+      {...(height ? { height } : {})}
+      loading="lazy"
+      decoding="async"
+    />
+  );
+
   return (
     <figure className={figureClassNames} style={figureStyle}>
-      <img
-        src={src}
-        alt={alt}
-        className={styles.image}
-        style={imgStyle}
-        {...(width ? { width } : {})}
-        {...(height ? { height } : {})}
-        loading="lazy"
-        decoding="async"
-      />
+      {aiGenerated ? (
+        <div className={styles.aiFrame}>
+          {image}
+          <AiLabel aiGenerated aiTool={aiTool} />
+        </div>
+      ) : (
+        image
+      )}
       {caption && <figcaption className={styles.caption}>{caption}</figcaption>}
     </figure>
   );

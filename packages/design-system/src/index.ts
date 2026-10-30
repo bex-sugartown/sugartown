@@ -112,6 +112,8 @@ export type { AccordionProps, AccordionItem } from './components/Accordion';
 // ── Media ────────────────────────────────────────────────────────────────────
 export { Media, parseOverlay, getOverlayStyles, ensureSvgFilter } from './components/Media';
 export type { MediaProps, OverlayConfig, DuotonePreset } from './components/Media';
+export { AiLabel, toolLabel } from './components/AiLabel';
+export type { AiLabelProps, AiTool } from './components/AiLabel';
 
 // ── SegmentedControl ─────────────────────────────────────────────────────────
 export { SegmentedControl } from './components/SegmentedControl';

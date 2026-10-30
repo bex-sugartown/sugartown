@@ -1,0 +1,79 @@
+/*
+ * AiLabel — SUG-178 on-site AI label. Shares its look with the ST-178 baked mark.
+ * Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html
+ *
+ * Needs a container-type: inline-size ancestor the size of the image (Media supplies one).
+ * Type is 3.2% of the image width with a 9px floor and no ceiling, so it is never smaller than
+ * the baked mark and always covers it.
+ */
+
+.aiLabel {
+  position: absolute;
+  left: 3cqw;
+  bottom: 3cqw;
+  z-index: 3; /* above the Media overlay layer (z-index 2) */
+
+  display: none; /* under 96px: no label, metadata only */
+  align-items: center;
+  gap: 0.6em;
+  box-sizing: border-box;
+  max-width: 70cqw;
+  overflow: hidden;
+  white-space: nowrap;
+
+  font-family: var(--st-label-font);
+  font-weight: 700;
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+  font-size: max(9px, 3.2cqw);
+  line-height: 1;
+  padding: 0.35em 0.6em;
+
+  border: 1px solid var(--st-chip-border);
+  background: var(--st-color-midnight-950);
+  color: var(--st-color-white);
+  cursor: default;
+}
+
+.aiLabel:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--st-color-accent);
+}
+
+.short { display: inline; }
+.full { display: none; }
+
+.tool {
+  display: none;
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: max-width 0.2s ease, opacity 0.2s ease;
+}
+
+/* 96 to 199px: "AI" */
+@container (min-width: 96px) {
+  .aiLabel { display: inline-flex; }
+}
+
+/* 200px and up: "AI-generated" */
+@container (min-width: 200px) {
+  .short { display: none; }
+  .full { display: inline; }
+}
+
+/* 320px and up: tool name expands, up to 16 characters then an ellipsis */
+@container (min-width: 320px) {
+  .tool { display: inline; }
+  .aiLabel:hover .tool,
+  .aiLabel:focus-visible .tool,
+  .aiLabel[data-open='true'] .tool {
+    max-width: 16ch;
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tool { transition: none; }
+}

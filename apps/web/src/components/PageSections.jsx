@@ -48,6 +48,8 @@ function InlineImage({ value }) {
           src={imgSrc}
           alt={value.alt ?? ''}
           overlay={value.overlay}
+          aiGenerated={value.aiGenerated}
+          aiTool={value.aiTool}
           className={styles.inlineImageImg}
           width={width}
           height={height}

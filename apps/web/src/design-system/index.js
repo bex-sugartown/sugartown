@@ -1,4 +1,5 @@
 export { Media } from '@sugartown/design-system'
+export { AiLabel } from '@sugartown/design-system'
 export { Button } from '@sugartown/design-system'
 export { IconButton } from '@sugartown/design-system'
 export { Card } from '@sugartown/design-system'
