@@ -245,14 +245,14 @@ This is distinct from #3 (Transparency about AI involvement at the system level)
 
 | Layer | What it is | Survives a download or repost | Status |
 |---|---|---|---|
-| Metadata | IPTC digital source type (and C2PA if it survives the image CDN) written into the file | Until another site strips it | Planned, ST-178 |
-| Invisible watermark | A watermark used as a C2PA soft binding, so the credential can be found after metadata is stripped | Often, depending on resizing and format | Under evaluation, ST-178 |
-| Visible mark | A small mark baked into the image pixels | Until the image is cropped | Planned, ST-178 |
-| On-site label | Alt text or caption flag today; an "AI" badge on the image once SUG-178 ships | No, it lives in the page | Alt text and caption live; badge planned |
+| Metadata | IPTC digital source type and the AI system used, written into stamped JPEG copies that the site serves as-is (the Sanity image CDN strips embedded metadata, so the stamped copies bypass it) | Until another site strips it | Tooling built, ST-178; no image has been stamped yet |
+| Invisible watermark and C2PA signing | Hidden watermark or signed credential, so a label can be recovered after metadata is stripped | Often | Not done: both need original bytes plus a signing service. Revisit through a new issue |
+| Visible mark | The same label as the on-site badge, baked into the image pixels | Until the image is cropped | Tooling built, ST-178; no image has been stamped yet |
+| On-site label | Alt text or caption flag, and an "AI-generated" label on the image from SUG-178 | No, it lives in the page | Alt text and caption in use. The AI-generated label is built (SUG-178) and not yet on the live site: nothing is pushed, and no image is flagged |
 
 No layer is tamper-proof. The aim is that an honest reader, or an honest platform, can tell.
 
-**In practice:** Published articles drafted with AI carry an editorial note. AI-generated images include a caption or alt text flag, and carry the metadata and visible mark once ST-178 ships. Automated copy in production UI is documented as such in the component spec. When in doubt, label it.
+**In practice:** Published articles drafted with AI carry an editorial note. AI-generated images include a caption or alt text flag, and, once stamped (ST-178), carry the metadata and the visible mark. Automated copy in production UI is documented as such in the component spec. When in doubt, label it.
 
 [↑ Back to top](#ai-ethics-operations-aka-how-not-to-build-skynet)
 
@@ -375,7 +375,7 @@ And if something breaks? A human apologizes. Not a model.
 
 ### Unreleased
 
-- Principle 13: added the layered labelling table for AI-generated images (metadata, invisible watermark, visible mark, on-site label) and an Article 50 direction note. Everything except alt text and caption is marked planned or under evaluation until ST-178 ships
+- Principle 13: added the layered labelling table for AI-generated images (metadata, invisible watermark and C2PA signing, visible mark, on-site label) and an EU AI Act Article 50 direction note. Updated after the ST-178 audit: the Sanity image CDN strips embedded metadata, so stamped copies are served as file assets; watermarking and C2PA signing are not done
 
 ### v2026.06.01 (June Review — Magnifica Humanitas Update)
 
