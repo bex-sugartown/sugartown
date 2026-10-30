@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {ImageIcon} from '@sanity/icons'
+import {aiImageFields} from './aiImageFields'
 
 /**
  * Gallery Image Object
@@ -66,6 +67,8 @@ export default defineType({
           allowRelative: true
         })
     }),
+    // AI transparency (ST-179): shows the on-site AI label on the gallery image when set
+    ...aiImageFields,
   ],
   preview: {
     select: {

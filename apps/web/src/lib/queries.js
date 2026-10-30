@@ -364,6 +364,9 @@ export const nodeBySlugQuery = `
           alt,
           caption,
           credit,
+          aiGenerated,
+          aiTool,
+          ${AI_PROVENANCE_PROJECTION},
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},
@@ -393,7 +396,7 @@ export const nodeBySlugQuery = `
             "internalType": internalRef->_type,
             externalUrl
           },
-          image { asset->, alt, crop, hotspot },
+          image { asset->, alt, crop, hotspot, aiGenerated, aiTool, ${AI_PROVENANCE_PROJECTION} },
           overlay,
           eyebrow,
           categoryPosition,
@@ -538,6 +541,9 @@ sections[]{
       alt,
       caption,
       credit,
+      aiGenerated,
+      aiTool,
+      ${AI_PROVENANCE_PROJECTION},
       "link": link {
         type,
         "url": ${LINKITEM_URL_EXPR_BARE},
@@ -567,7 +573,7 @@ sections[]{
         "internalType": internalRef->_type,
         externalUrl
       },
-      image { asset->, alt, crop, hotspot },
+      image { asset->, alt, crop, hotspot, aiGenerated, aiTool, ${AI_PROVENANCE_PROJECTION} },
       overlay,
       eyebrow,
       categoryPosition,
@@ -805,6 +811,9 @@ export const pageBySlugQuery = `
           alt,
           caption,
           credit,
+          aiGenerated,
+          aiTool,
+          ${AI_PROVENANCE_PROJECTION},
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},
@@ -834,7 +843,7 @@ export const pageBySlugQuery = `
             "internalType": internalRef->_type,
             externalUrl
           },
-          image { asset->, alt, crop, hotspot },
+          image { asset->, alt, crop, hotspot, aiGenerated, aiTool, ${AI_PROVENANCE_PROJECTION} },
           overlay,
           eyebrow,
           categoryPosition,
@@ -1024,6 +1033,9 @@ export const caseStudyBySlugQuery = `
           alt,
           caption,
           credit,
+          aiGenerated,
+          aiTool,
+          ${AI_PROVENANCE_PROJECTION},
           "link": link {
             type,
             "url": ${LINKITEM_URL_EXPR_BARE},
@@ -1064,7 +1076,7 @@ export const caseStudyBySlugQuery = `
             "internalType": internalRef->_type,
             externalUrl
           },
-          image { asset->, alt, crop, hotspot },
+          image { asset->, alt, crop, hotspot, aiGenerated, aiTool, ${AI_PROVENANCE_PROJECTION} },
           overlay,
           eyebrow,
           categoryPosition,

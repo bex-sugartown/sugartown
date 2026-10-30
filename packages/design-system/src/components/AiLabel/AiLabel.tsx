@@ -24,6 +24,11 @@ export interface AiLabelProps {
   aiTool?: AiTool;
   /** Wrap in a full-size container layer. Use where the image is a CSS background (hero). */
   frame?: boolean;
+  /**
+   * Show the tool name on expand. Default true. Pass false on cards: the label is then decorative,
+   * not focusable, and clicks reach the card link.
+   */
+  showTool?: boolean;
   className?: string;
 }
 
@@ -38,11 +43,12 @@ export function toolLabel(aiTool?: string): string | undefined {
   return aiTool ? TOOL_NAMES[aiTool] : undefined;
 }
 
-export function AiLabel({ aiGenerated, aiTool, frame, className }: AiLabelProps) {
+export function AiLabel({ aiGenerated, aiTool, frame, showTool = true, className }: AiLabelProps) {
   const [open, setOpen] = useState(false);
   if (!aiGenerated) return null;
 
-  const tool = toolLabel(aiTool);
+  const tool = showTool ? toolLabel(aiTool) : undefined;
+  const interactive = showTool;
   const label = tool ? `AI-generated image, ${tool}` : 'AI-generated image';
 
   // The label can sit inside a clickable figure (lightbox). Keep its own clicks and keys to itself.
@@ -53,15 +59,19 @@ export function AiLabel({ aiGenerated, aiTool, frame, className }: AiLabelProps)
       className={[styles.aiLabel, className ?? ''].filter(Boolean).join(' ')}
       role="img"
       aria-label={label}
-      tabIndex={0}
+      tabIndex={interactive ? 0 : undefined}
       data-open={open ? 'true' : undefined}
-      onClick={(e) => { stop(e); setOpen((v) => !v); }}
-      onKeyDown={(e) => {
-        if (e.key === 'Escape') setOpen(false);
-        if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); }
-        stop(e);
-      }}
-      onBlur={() => setOpen(false)}
+      {...(interactive
+        ? {
+            onClick: (e: React.MouseEvent) => { stop(e); setOpen((v) => !v); },
+            onKeyDown: (e: React.KeyboardEvent) => {
+              if (e.key === 'Escape') setOpen(false);
+              if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setOpen((v) => !v); }
+              stop(e);
+            },
+            onBlur: () => setOpen(false),
+          }
+        : {})}
     >
       <span className={styles.short} aria-hidden="true">AI</span>
       <span className={styles.full} aria-hidden="true">AI-generated</span>

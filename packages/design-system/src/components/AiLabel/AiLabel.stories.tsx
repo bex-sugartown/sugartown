@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { Media } from '../Media';
+import { Card } from '../Card';
 
 const SAMPLE_IMAGE = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=1200&h=800&fit=crop';
 
@@ -53,4 +54,49 @@ export const WithStampedCopies: Story = {
     ],
   },
   decorators: [at(480)],
+};
+
+// ── ST-179: cards and gallery ────────────────────────────────────────────────
+
+/** Card thumbnail: decorative label, no tool name, not focusable (clicks reach the card link). */
+export const OnCardThumbnail: StoryObj<typeof Card> = {
+  render: () => (
+    <div style={{ width: 360 }}>
+      <Card
+        title="A card with an AI-generated thumbnail"
+        thumbnailUrl={SAMPLE_IMAGE}
+        thumbnailAlt="Sample"
+        thumbnailAiGenerated
+      />
+    </div>
+  ),
+};
+
+export const OnCardThumbnailNotFlagged: StoryObj<typeof Card> = {
+  render: () => (
+    <div style={{ width: 360 }}>
+      <Card title="A card with an ordinary thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" />
+    </div>
+  ),
+};
+
+/** Listing variant: the thumbnail rail is narrow, so the label reads "AI". */
+export const OnListingRail: StoryObj<typeof Card> = {
+  render: () => (
+    <div style={{ width: 560 }}>
+      <Card
+        variant="listing"
+        title="A listing card with an AI-generated thumbnail"
+        thumbnailUrl={SAMPLE_IMAGE}
+        thumbnailAlt="Sample"
+        thumbnailAiGenerated
+      />
+    </div>
+  ),
+};
+
+/** Gallery-style frame: fixed aspect ratio with hotspot crop keeps the label on the image. */
+export const InGalleryFrame: Story = {
+  args: { aspectRatio: '4/3', hotspot: { x: 0.5, y: 0.4 } },
+  decorators: [at(360)],
 };

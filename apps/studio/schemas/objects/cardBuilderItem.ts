@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {BlockContentIcon, BookIcon} from '@sanity/icons'
+import {aiImageFields} from './aiImageFields'
 
 /**
  * Card Builder Item — EPIC-0160
@@ -51,7 +52,9 @@ export default defineType({
           title: 'Alt Text',
           type: 'string',
           description: 'Describe the image for accessibility'
-        })
+        }),
+        // AI transparency (ST-179): shows the on-site AI label on the card thumbnail when set
+        ...aiImageFields,
       ]
     }),
     defineField({

@@ -157,6 +157,10 @@
   overflow: hidden;
 }
 
+.figure[style*="aspect-ratio"] .aiFrame {
+  height: 100%; /* ST-179: keep the cover-crop chain intact when the image is wrapped for the AI label */
+}
+
 .figure[style*="aspect-ratio"] .image {
   width: 100%;
   height: 100%;

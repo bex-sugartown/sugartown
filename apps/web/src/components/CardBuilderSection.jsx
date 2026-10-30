@@ -14,6 +14,7 @@
  */
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
+import { stampedCopies, imageUrlFor } from '../lib/provenance'
 import { getCanonicalPath } from '../lib/routes'
 import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, Grid } from '../design-system'
 import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '@sugartown/design-system'
@@ -144,9 +145,12 @@ function BuilderCard({ card, variant }) {
   const href = resolveLinkHref(card.titleLink)
   const tags = mapTaxonomyRefs(card.tags, 'tag')
   const tools = mapTaxonomyRefs(card.tools, 'tool')
-  const thumbnailUrl = card.image?.asset
-    ? urlFor(card.image.asset).width(600).quality(85).url()
-    : undefined
+  // ST-179: a flagged image with stamped copies is served from them (the Sanity CDN strips metadata)
+  const thumbnailUrl = stampedCopies(card.image)
+    ? imageUrlFor(card.image, 600)
+    : card.image?.asset
+      ? urlFor(card.image.asset).width(600).quality(85).url()
+      : undefined
 
   // Build card-local citation index map so body markers match footnote numbering
   const citationIndexMap = buildCitationIndexMap(card.body)
@@ -255,6 +259,7 @@ function BuilderCard({ card, variant }) {
       href={href}
       thumbnailUrl={thumbnailUrl}
       thumbnailAlt={card.image?.alt || ''}
+      thumbnailAiGenerated={card.image?.aiGenerated}
       thumbnailClassName={thumbOverlayClass}
       thumbnailStyle={Object.keys(thumbStyle).length ? thumbStyle : undefined}
       footerChildren={footerContent}

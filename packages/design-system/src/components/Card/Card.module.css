@@ -67,6 +67,7 @@
 
 /* ── Hero thumbnail (default variant) ─────────────────────────────────────── */
 .thumbnailHero {
+  position: relative; /* ST-179: anchors the AI label frame */
   width: 100%;
   aspect-ratio: 16 / 9;
   overflow: hidden;
@@ -567,6 +568,7 @@
 }
 
 .thumbnailRail {
+  position: relative; /* ST-179: anchors the AI label frame */
   flex: 0 0 25%;
   overflow: hidden;
   align-self: stretch;

@@ -410,6 +410,9 @@ function GalleryImage({ image, index, onLightbox, treatment, layout }) {
       aspectRatio={aspectRatio}
       hotspot={image.hotspot}
       className={styles.galleryImage}
+      aiGenerated={image.aiGenerated}
+      aiTool={image.aiTool}
+      provenance={image.provenance}
     />
   )
 
