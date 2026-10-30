@@ -10,17 +10,17 @@
 
 # ST-178 — AI image provenance — embedded metadata and visible watermark
 
-Write provenance into AI-generated images at upload (embedded metadata) and bake a visible mark into the image pixels, so the AI label survives download, hotlinking and reposting.
+Write provenance into AI-generated images at upload (embedded metadata), bake a visible mark into the image pixels, and evaluate an invisible watermark as a soft binding, so the AI label survives download, hotlinking and reposting.
 
 > **Not SUG-178.** `SUG-178` (issue #57, the on-site AI badge) and `ST-178` (this epic) share a number by coincidence. #57 is the HTML badge; this epic is the file itself.
 
 ## Background
 
-The `richImage` schema carries `aiGenerated` and `aiTool` (SUG-55). SUG-178 (#57) will render them as an HTML corner badge. That badge lives in the page, so a saved, hotlinked or reposted image loses it. Nothing today writes provenance into the image file (no C2PA or IPTC metadata) or marks the pixels. `docs/briefs/ai-ethics-and-operations.md` Principles 3 and 13 require labelling through alt text or a caption only, and do not mention metadata or watermarking.
+The `richImage` schema carries `aiGenerated` and `aiTool` (SUG-55). SUG-178 (#57) will render them as an HTML corner badge. That badge lives in the page, so a saved, hotlinked or reposted image loses it. Nothing today writes provenance into the image file (no C2PA or IPTC metadata) or marks the pixels. The industry direction is layered marking: IPTC `DigitalSourceType` metadata (read by Google, Meta and Pinterest to show AI labels), C2PA Content Credentials with an invisible watermark as a soft binding, and a visible label. EU AI Act Article 50 applies from 2026-08-02 and its transparency code of practice accepts a multi-layered approach. A site publishing AI illustrations is probably outside the strict provider and deployer duties, so this epic follows the direction rather than claiming compliance. Activation audit: read the Commission's code of practice and Article 50 guidelines directly before citing either; this paragraph rests on secondary summaries dated 2026-10-30. `docs/briefs/ai-ethics-and-operations.md` Principles 3 and 13 require labelling through alt text or a caption only, and do not mention metadata or watermarking.
 
 ## Objective
 
-After this epic, every image flagged `aiGenerated: true` carries three layers of label. Layer 1: embedded metadata in the file (IPTC digital source type, plus C2PA if the feasibility audit confirms it survives the Sanity CDN). Layer 2: a visible mark baked into the pixels. Layer 3: the on-site badge from SUG-178, which this epic does not build. Layers touched: Sanity asset pipeline (upload or migration script), possibly schema (a provenance field), and the AI ethics brief. No React render changes.
+After this epic, every image flagged `aiGenerated: true` carries up to four layers of label. Layer 1: embedded metadata in the file (IPTC digital source type as the must-have, plus C2PA as a stretch if the feasibility audit confirms it survives the Sanity CDN). Layer 2: an invisible watermark used as a C2PA soft binding, only if the audit finds tooling that is practical for this stack. Layer 3: a visible mark baked into the pixels. Layer 4: the on-site badge from SUG-178, which this epic does not build. Layers touched: Sanity asset pipeline (upload or migration script), possibly schema (a provenance field), and the AI ethics brief. No React render changes.
 
 ## Metadata plan
 
@@ -29,6 +29,7 @@ Not applicable, no content piece.
 ## Scope
 
 - [ ] **Feasibility audit (Phase 1):** test whether IPTC and C2PA metadata written to an uploaded image survives the Sanity image CDN (original vs `?w=` transformed URLs, `.webp` conversion). Record the result per format in this doc. — layer: tooling
+- [ ] **Invisible watermark evaluation:** assess whether an invisible watermark (C2PA soft binding) is practical, covering tooling, licence, survival through resizing and `.webp` conversion, and cost. Output is a go or no-go recorded in this doc, not an implementation. — layer: tooling
 - [ ] **Metadata writer:** a script or upload step that writes IPTC `DigitalSourceType` (`trainedAlgorithmicMedia`) and the `aiTool` value into the file before upload, and into the Sanity asset record where Sanity exposes a field. — layer: tooling / asset pipeline
 - [ ] **Visible watermark:** a script that stamps the approved mark onto the image pixels per the vspec (position, size, opacity, contrast on light and dark images). Original unmarked file is kept outside the repo. — layer: tooling
 - [ ] **Studio guard:** a validation or warning in Studio when `aiGenerated` is true but the asset has no provenance record. Schema change only if the audit shows a field is needed. — layer: schema
@@ -39,13 +40,14 @@ Not applicable, no content piece.
 ## Phases
 
 - **Phase 0:** vspec for the visible mark; sign-off before any pipeline code.
-- **Phase 1:** feasibility audit (metadata survival through the CDN). Output decides whether C2PA is in scope or IPTC only.
+- **Phase 1:** feasibility audit (metadata survival through the CDN) and the invisible watermark evaluation. Output decides whether C2PA and a soft binding are in scope, or IPTC only.
 - **Phase 2:** metadata writer, watermark script, Studio guard.
 - **Phase 3:** back-fill list, content re-uploads, ethics brief update.
 
 ## Acceptance Criteria
 
 - [ ] Phase 0 vspec reviewed and the Phase 0 checkboxes marked complete before any implementation.
+- [ ] The invisible watermark evaluation records a go or no-go with the reason.
 - [ ] The feasibility audit result is recorded in this doc, with the command or file that produced each finding.
 - [ ] An image flagged `aiGenerated: true`, downloaded from the live site, shows the digital source type when read with `exiftool` (or the audit documents why the CDN strips it).
 - [ ] The same downloaded image shows the visible mark, legible on a light and a dark test image.
@@ -75,6 +77,8 @@ Not applicable, no content piece.
 
 - No on-site badge. That is SUG-178 (#57).
 - No change to alt-text or caption rules.
+- No implementation of an invisible watermark in this epic unless the Phase 1 evaluation returns go and the doc is amended; Scope then gains the item and Non-Goals is re-read.
+- No claim of EU AI Act compliance. Article 50 is cited as direction only.
 - No claim that the mark is tamper-proof. A visible mark can be cropped, and metadata can be stripped by other sites.
 - No retroactive re-labelling without the Content Write Gate.
 
@@ -83,5 +87,6 @@ Not applicable, no content piece.
 - **GitHub:** [#178](https://github.com/bex-sugartown/sugartown/issues/178)
 - **On-site badge:** SUG-178 / [#57](https://github.com/bex-sugartown/sugartown/issues/57)
 - **Schema origin:** SUG-55 (`aiGenerated`, `aiTool` on `richImage`)
+- **Industry references (verify before citing):** EU AI Act Article 50 and the transparency code of practice; C2PA specification 2.x soft binding; IPTC Photo Metadata Standard 2025.1.
 - **Ethics brief:** `docs/briefs/ai-ethics-and-operations.md` Principles 3 and 13
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
