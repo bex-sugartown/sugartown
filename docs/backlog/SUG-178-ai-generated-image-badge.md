@@ -11,7 +11,9 @@
 
 # SUG-178 — AI-generated image badge — transparency overlay
 
-Surface the existing `aiGenerated` toggle and `aiTool` field from the `richImage` schema as a small corner badge on rendered images, giving readers AI transparency without editorial friction.
+> **Phase 0 (vspec) approved 2026-10-30.** The badge is now one shared component, `AiLabel` (`.aiLabel`), used by both this epic and ST-178's baked mark. Vspec: `docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html`. Where this doc says "badge" below, read `AiLabel`. The vspec wins on any conflict: lower-left anchor (not lower-right), one dark pill on every image, text and tool name chosen by displayed image width.
+
+Surface the existing `aiGenerated` toggle and `aiTool` field from the `richImage` schema as a label on rendered images, giving readers AI transparency without editorial friction.
 
 ## Paired with ST-178
 
@@ -32,20 +34,21 @@ The `richImage` Sanity schema object already has two fields added in SUG-55: `ai
 
 ## Objective
 
-After this epic, any `richImage` with `aiGenerated: true` renders a small badge in the lower-right corner of the image showing "AI" (and on hover, the tool name). The badge is a new shared DS component (`AiBadge`) applied in every image-rendering context: inline images in article/node/case study content, hero images, and card thumbnails. The GROQ projections for `richImage` are updated to include both fields. No schema changes are required — schema is already deployed.
+After this epic, any `richImage` with `aiGenerated: true` renders a small badge in the lower-right corner of the image showing "AI" (and on hover, the tool name). The badge is a new shared DS component (`AiLabel`) applied in every image-rendering context: inline images in article/node/case study content, hero images, and card thumbnails. The GROQ projections for `richImage` are updated to include both fields. No schema changes are required — schema is already deployed.
 
 ## Scope
 
 - [ ] **GROQ — query layer:** Add `aiGenerated` and `aiTool` to the `richImage` projection in `PT_CONTENT_PROJECTION` in `queries.js`. Verify any other GROQ fragments that dereference `richImage` (hero images, card thumbnails) also project these fields. — layer: query
-- [ ] **DS component — `AiBadge`:** Small absolute-positioned badge, lower-right corner. At rest: monogram "AI" label in a pill using DS tokens (`--st-label-*`). On hover/focus: expands to show tool name (e.g. "Midjourney"). Renders `null` when `aiGenerated` is false or absent. `aria-label="AI-generated image"`. — layer: frontend / Design System
+- [ ] **DS component — `AiLabel`:** Absolute-positioned label, lower-left, 3% of image width in from the left and bottom edges. Type is `max(9px, 3.2cqw)` inside a container-query wrapper. One dark pill (midnight token, white text, chip border). Text by displayed width: under 96 px nothing, 96 to 199 px "AI", 200 px and up "AI-generated"; tool name (max 16 chars, ellipsis) expands on hover, focus or tap at 320 px and up only. Max width 70% of the image. Renders `null` when `aiGenerated` is false or absent. `role="img"`, `aria-label` "AI-generated image" plus the tool when known, focusable, accent focus ring, no transition under reduced motion. — layer: frontend / Design System
 - [ ] **InlineImage integration:** Pass `aiGenerated` + `aiTool` through to `<InlineImage>` and render `<AiBadge>` inside its image wrapper. — layer: frontend
 - [ ] **Hero image integration:** Wherever hero `richImage` is rendered (article, node, case study hero sections), pass fields through and render badge. — layer: frontend
 - [ ] **ContentCard thumbnail integration:** Pass fields from card data projection and render badge on card hero image when present. — layer: frontend
-- [ ] **Storybook:** `AiBadge` story with: default (no badge), AI-generated no tool, AI-generated with each tool value. Dark + light themes. — layer: Storybook
+- [ ] **Storybook:** `AiLabel` story with: default (no badge), AI-generated no tool, AI-generated with each tool value. Dark + light themes. — layer: Storybook
 
 ## Phases
 
-Single-phase — all work touches the same GROQ + frontend + Storybook layer.
+- [x] **Phase 0:** vspec approved 2026-10-30 (shared with ST-178).
+- [ ] **Phase 1:** GROQ, `AiLabel` component, integrations, Storybook. All work touches the same GROQ + frontend + Storybook layer.
 
 ## Acceptance criteria
 
@@ -54,7 +57,7 @@ Single-phase — all work touches the same GROQ + frontend + Storybook layer.
 - [ ] Badge renders correctly in both light and dark themes with no hardcoded colours
 - [ ] Hero images on article, node, and case study detail pages show badge when flagged
 - [ ] ContentCard thumbnails show badge when the source item has a flagged hero image
-- [ ] `pnpm validate:tokens` and `pnpm validate:tokens:strict` pass — no raw colour values in `AiBadge` CSS
+- [ ] `pnpm validate:tokens` and `pnpm validate:tokens:strict` pass — no raw colour values in `AiLabel` CSS
 - [ ] Storybook story covers all states; renders correctly on dark-pink-moon theme
 
 ## Human QA Walkthrough — example local pages

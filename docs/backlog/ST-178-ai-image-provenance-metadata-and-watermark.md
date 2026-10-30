@@ -34,7 +34,7 @@ Not applicable, no content piece.
 - [ ] **Feasibility audit (Phase 1):** test whether IPTC and C2PA metadata written to an uploaded image survives the Sanity image CDN (original vs `?w=` transformed URLs, `.webp` conversion). Record the result per format in this doc. — layer: tooling
 - [ ] **Invisible watermark evaluation:** assess whether an invisible watermark (C2PA soft binding) is practical, covering tooling, licence, survival through resizing and `.webp` conversion, and cost. Output is a go or no-go recorded in this doc, not an implementation. — layer: tooling
 - [ ] **Metadata writer:** a script or upload step that writes IPTC `DigitalSourceType` (`trainedAlgorithmicMedia`) and the `aiTool` value into the file before upload, and into the Sanity asset record where Sanity exposes a field. — layer: tooling / asset pipeline
-- [ ] **Visible watermark:** a script that stamps the approved mark onto the image pixels per the vspec (position, size, opacity, contrast on light and dark images). Original unmarked file is kept outside the repo. — layer: tooling
+- [ ] **Visible watermark:** a script that stamps the approved mark onto the image pixels per the vspec: the same label as `AiLabel` (lower-left, 3% inset, type 3.2% of image width with no floor, dark pill), skipped under 96 px. Original unmarked file is kept outside the repo. — layer: tooling
 - [ ] **Studio guard:** a validation or warning in Studio when `aiGenerated` is true but the asset has no provenance record. Schema change only if the audit shows a field is needed. — layer: schema
 - [ ] **Back-fill list:** query every existing `richImage` and hero image with `aiGenerated: true` and list which need processing. Re-uploading is a content task done under the Content Write Gate. — layer: content
 - [ ] **AI ethics brief:** update `docs/briefs/ai-ethics-and-operations.md` Principle 13 to state the three labelling layers, marking any layer not yet shipped as planned. — layer: docs (rule-defining file: exact diff shown and approved first)
@@ -42,7 +42,7 @@ Not applicable, no content piece.
 
 ## Phases
 
-- **Phase 0:** one vspec for the visible mark and the SUG-178 badge together (position, size, contrast, how they coexist on one image); sign-off before any pipeline code or badge code.
+- [x] **Phase 0:** one vspec for the visible mark and the SUG-178 badge together; approved 2026-10-30. Outcome: one shared `AiLabel` component (`.aiLabel`), lower-left, one dark pill, text "AI-generated" ("AI" under 200 px, nothing under 96 px). The on-site label covers the baked mark, so only one label is ever visible. The stamping script reads its anchor, padding ratio, border and fill from the same shared config as the component.
 - **Phase 1:** feasibility audit (metadata survival through the CDN) and the invisible watermark evaluation. Output decides whether C2PA and a soft binding are in scope, or IPTC only.
 - **Phase 2:** metadata writer, watermark script, Studio guard.
 - **Phase 3:** back-fill list, content re-uploads, ethics brief update.
