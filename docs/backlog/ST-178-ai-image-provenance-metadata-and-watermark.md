@@ -31,7 +31,7 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] **Feasibility audit (Phase 1):** test whether IPTC and C2PA metadata written to an uploaded image survives the Sanity image CDN (original vs `?w=` transformed URLs, `.webp` conversion). Record the result per format in this doc. — layer: tooling
+- [x] **Feasibility audit (Phase 1, done 2026-10-30, see result below):** test whether IPTC and C2PA metadata written to an uploaded image survives the Sanity image CDN (original vs `?w=` transformed URLs, `.webp` conversion). Record the result per format in this doc. — layer: tooling
 - [ ] **Invisible watermark evaluation:** assess whether an invisible watermark (C2PA soft binding) is practical, covering tooling, licence, survival through resizing and `.webp` conversion, and cost. Output is a go or no-go recorded in this doc, not an implementation. — layer: tooling
 - [ ] **Metadata writer:** a script or upload step that writes IPTC `DigitalSourceType` (`trainedAlgorithmicMedia`) and the `aiTool` value into the file before upload, and into the Sanity asset record where Sanity exposes a field. — layer: tooling / asset pipeline
 - [ ] **Visible watermark:** a script that stamps the approved mark onto the image pixels per the vspec: the same label as `AiLabel` (lower-left, 3% inset, type 3.2% of image width capped at 14 px with no floor, dark pill), skipped under 96 px. Original unmarked file is kept outside the repo. — layer: tooling
@@ -46,6 +46,31 @@ Not applicable, no content piece.
 - **Phase 1:** feasibility audit (metadata survival through the CDN) and the invisible watermark evaluation. Output decides whether C2PA and a soft binding are in scope, or IPTC only.
 - **Phase 2:** metadata writer, watermark script, Studio guard.
 - **Phase 3:** back-fill list, content re-uploads, ethics brief update.
+
+## Phase 1 audit result: metadata survival (2026-10-30)
+
+**Finding: the Sanity image CDN strips all embedded metadata, including from the plain, unparameterised URL.** A file asset serves the original bytes untouched.
+
+Method: a synthetic 800 x 600 JPEG (16,357 bytes) carrying an IPTC `DigitalSourceType` of `trainedAlgorithmicMedia` in XMP, an XMP description marker and an EXIF description marker was uploaded twice to dataset `production`, once as an image asset and once as a file asset. Each served response was fetched with `curl` and searched for the three markers. Both test assets were then deleted (`sanity documents delete`; a follow-up query counted 0 documents left).
+
+| URL form | Response | Bytes | DigitalSourceType | XMP | EXIF |
+|---|---|---|---|---|---|
+| image CDN, plain URL | image/jpeg | 6,115 | gone | gone | gone |
+| image CDN `?w=400` | image/jpeg | 1,643 | gone | gone | gone |
+| image CDN `?q=80` | image/jpeg | 6,115 | gone | gone | gone |
+| image CDN `?fm=webp` | image/webp | 3,076 | gone | gone | gone |
+| image CDN `?auto=format` (with and without a webp Accept header) | jpeg or webp | 6,115 or 3,076 | gone | gone | gone |
+| image CDN `?fm=png` | image/png | 14,685 | gone | gone | gone |
+| image CDN `?dl=` | image/jpeg | 6,115 | gone | gone | gone |
+| **file CDN** (`cdn.sanity.io/files/...`) | image/jpeg | **16,357, SHA-1 identical to the upload** | **kept** | **kept** | **kept** |
+
+Consequences:
+- Writing IPTC or C2PA metadata into a file before a normal Sanity image upload does nothing for any image the site serves. Only the visible mark, which is in the pixels, survives.
+- A file asset keeps the metadata but bypasses Sanity's resizing, format conversion and hotspot crop.
+- C2PA needs the original bytes plus a signature, so it has the same limit.
+- Cached copies of the deleted test images were still served by the CDN minutes after deletion (HTTP 200). They are synthetic gradients and will expire.
+
+Not yet tested: whether Google, Meta or Pinterest read AI labels from the CDN-served file (it has none), and whether a Netlify edge function could re-inject XMP on the fly.
 
 ## Acceptance Criteria
 
