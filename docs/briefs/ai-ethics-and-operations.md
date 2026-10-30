@@ -241,7 +241,18 @@ If a machine made it, say so. This isn't about apologising for using AI — it's
 
 This is distinct from #3 (Transparency about AI involvement at the system level) and #11 (Attribution of tools and co-authorship). This principle is narrower and more concrete: the output itself should carry a signal.
 
-**In practice:** Published articles drafted with AI carry an editorial note. AI-generated images include a caption or alt text flag. Automated copy in production UI is documented as such in the component spec. When in doubt, label it.
+**AI-generated images carry the label in layers**, so it survives wherever the image travels. This follows the direction of the industry (IPTC metadata, C2PA Content Credentials with watermarking, visible labels) and of EU AI Act Article 50, which applies from 2026-08-02 and accepts a multi-layered approach. It is direction, not a claim of compliance.
+
+| Layer | What it is | Survives a download or repost | Status |
+|---|---|---|---|
+| Metadata | IPTC digital source type (and C2PA if it survives the image CDN) written into the file | Until another site strips it | Planned, ST-178 |
+| Invisible watermark | A watermark used as a C2PA soft binding, so the credential can be found after metadata is stripped | Often, depending on resizing and format | Under evaluation, ST-178 |
+| Visible mark | A small mark baked into the image pixels | Until the image is cropped | Planned, ST-178 |
+| On-site label | Alt text or caption flag today; an "AI" badge on the image once SUG-178 ships | No, it lives in the page | Alt text and caption live; badge planned |
+
+No layer is tamper-proof. The aim is that an honest reader, or an honest platform, can tell.
+
+**In practice:** Published articles drafted with AI carry an editorial note. AI-generated images include a caption or alt text flag, and carry the metadata and visible mark once ST-178 ships. Automated copy in production UI is documented as such in the component spec. When in doubt, label it.
 
 [↑ Back to top](#ai-ethics-operations-aka-how-not-to-build-skynet)
 
@@ -361,6 +372,10 @@ And if something breaks? A human apologizes. Not a model.
 ---
 
 ## Changelog
+
+### Unreleased
+
+- Principle 13: added the layered labelling table for AI-generated images (metadata, invisible watermark, visible mark, on-site label) and an Article 50 direction note. Everything except alt text and caption is marked planned or under evaluation until ST-178 ships
 
 ### v2026.06.01 (June Review — Magnifica Humanitas Update)
 
