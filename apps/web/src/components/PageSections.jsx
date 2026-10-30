@@ -5,7 +5,7 @@ import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { trackCtaClick } from '../lib/trackCtaClick'
 import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
-import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel } from '../design-system'
+import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel, AiLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '@sugartown/design-system'
 import StatCard from './StatCard'
 import stats from '../generated/stats.json'
@@ -351,6 +351,7 @@ export function HeroSection({ section }) {
           </div>
         )}
       </div>
+      {hasImage && <AiLabel frame aiGenerated={backgroundImage.aiGenerated} aiTool={backgroundImage.aiTool} />}
     </section>
   )
 }

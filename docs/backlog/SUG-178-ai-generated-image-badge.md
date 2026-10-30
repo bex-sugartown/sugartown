@@ -39,11 +39,16 @@ After this epic, any `richImage` with `aiGenerated: true` renders a small badge 
 ## Scope
 
 - [ ] **GROQ — query layer:** Add `aiGenerated` and `aiTool` to the `richImage` projection in `PT_CONTENT_PROJECTION` in `queries.js`. Verify any other GROQ fragments that dereference `richImage` (hero images, card thumbnails) also project these fields. — layer: query
-- [ ] **DS component — `AiLabel`:** Absolute-positioned label, lower-left, 3% of image width in from the left and bottom edges. Type is `max(9px, 3.2cqw)` inside a container-query wrapper. One dark pill (midnight token, white text, chip border). Text by displayed width: under 96 px nothing, 96 to 199 px "AI", 200 px and up "AI-generated"; tool name (max 16 chars, ellipsis) expands on hover, focus or tap at 320 px and up only. Max width 70% of the image. Renders `null` when `aiGenerated` is false or absent. `role="img"`, `aria-label` "AI-generated image" plus the tool when known, focusable, accent focus ring, no transition under reduced motion. — layer: frontend / Design System
+- [ ] **DS component — `AiLabel`:** Absolute-positioned label, lower-left, 3% of image width in from the left and bottom edges. Type is `clamp(9px, 3.2cqw, 14px)` inside a container-query wrapper (the 14 px cap was added 2026-10-30 after a 1920 px hero came out at about 61 px). One dark pill (midnight token, white text, chip border). Text by displayed width: under 96 px nothing, 96 to 199 px "AI", 200 px and up "AI-generated"; tool name (max 16 chars, ellipsis) expands on hover, focus or tap at 320 px and up only. Max width 70% of the image. Renders `null` when `aiGenerated` is false or absent. `role="img"`, `aria-label` "AI-generated image" plus the tool when known, focusable, accent focus ring, no transition under reduced motion. — layer: frontend / Design System
 - [ ] **InlineImage integration:** Pass `aiGenerated` + `aiTool` through to `<InlineImage>` and render `<AiBadge>` inside its image wrapper. — layer: frontend
-- [ ] **Hero image integration:** Wherever hero `richImage` is rendered (article, node, case study hero sections), pass fields through and render badge. — layer: frontend
+- [x] **Hero image integration (done 2026-10-30):** schema scope widened with sign-off: the two AI fields now also live on the hero `backgroundImage` through one shared field set (`apps/studio/schemas/objects/aiImageFields.ts`, also used by `richImage`). The hero renders `AiLabel frame`. Original text follows.
+- [ ] **Hero image integration (original):** Wherever hero `richImage` is rendered (article, node, case study hero sections), pass fields through and render badge. — layer: frontend
 - [ ] **ContentCard thumbnail integration:** Pass fields from card data projection and render badge on card hero image when present. — layer: frontend
 - [ ] **Storybook:** `AiLabel` story with: default (no badge), AI-generated no tool, AI-generated with each tool value. Dark + light themes. — layer: Storybook
+
+## Scope finding (2026-10-30)
+
+Only `richImage` carried `aiGenerated` and `aiTool`, so inline body images were covered by the original "no schema change" plan. The detail-page hero (`hero` section `backgroundImage`) and card images use a plain `image` type with no AI fields. Bex chose to add the fields to the hero `backgroundImage` inside this epic. **Still uncovered, no AI fields:** `cardImage` (deprecated), `editorialCard.image`, `cardBuilderItem.image`, `galleryImage`. Card thumbnails fall back to the hero image, so a flagged hero does not yet flag its card. Follow-up needed (file at close-out).
 
 ## Phases
 

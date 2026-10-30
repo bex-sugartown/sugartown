@@ -6,7 +6,8 @@ import styles from './AiLabel.module.css';
  *
  * The on-site AI-generated label (SUG-178). Same anchor, type, padding, border and fill as the
  * visible mark ST-178 stamps into the image file, so the two never look different. Place it
- * inside a `position: relative; container-type: inline-size` frame the size of the image.
+ * inside a `position: relative; container-type: inline-size` frame the size of the image, or pass
+ * `frame` to get that container layer for a CSS-background image such as the hero.
  *
  * Width rules (container queries, no JS): under 96px nothing; 96 to 199px "AI"; 200px and up
  * "AI-generated"; at 320px and up the tool name expands on hover, focus or tap.
@@ -21,6 +22,8 @@ export interface AiLabelProps {
   aiGenerated?: boolean;
   /** Schema value from `richImage.aiTool`. 'other' and unknown values show no tool name. */
   aiTool?: AiTool;
+  /** Wrap in a full-size container layer. Use where the image is a CSS background (hero). */
+  frame?: boolean;
   className?: string;
 }
 
@@ -35,7 +38,7 @@ export function toolLabel(aiTool?: string): string | undefined {
   return aiTool ? TOOL_NAMES[aiTool] : undefined;
 }
 
-export function AiLabel({ aiGenerated, aiTool, className }: AiLabelProps) {
+export function AiLabel({ aiGenerated, aiTool, frame, className }: AiLabelProps) {
   const [open, setOpen] = useState(false);
   if (!aiGenerated) return null;
 
@@ -45,7 +48,7 @@ export function AiLabel({ aiGenerated, aiTool, className }: AiLabelProps) {
   // The label can sit inside a clickable figure (lightbox). Keep its own clicks and keys to itself.
   const stop = (e: React.SyntheticEvent) => e.stopPropagation();
 
-  return (
+  const labelEl = (
     <span
       className={[styles.aiLabel, className ?? ''].filter(Boolean).join(' ')}
       role="img"
@@ -65,4 +68,6 @@ export function AiLabel({ aiGenerated, aiTool, className }: AiLabelProps) {
       {tool && <span className={styles.tool} aria-hidden="true">{tool}</span>}
     </span>
   );
+
+  return frame ? <span className={styles.frame}>{labelEl}</span> : labelEl;
 }

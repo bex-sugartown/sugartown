@@ -182,6 +182,44 @@ export const ContentWidth: Story = {
   render: (args) => <HeroSection section={buildSection(args)} />,
 };
 
+/** AI-generated hero (SUG-178): the AiLabel sits lower-left over the image. Stat rail on to check for collisions. */
+export const AiGenerated: Story = {
+  name: 'AI-generated image',
+  args: { imageWidth: 'full-width', showStatRail: true },
+  render: (args) => (
+    <HeroSection
+      section={buildSection(args, {
+        backgroundImage: {
+          asset: { _id: 'image-hero-platform-mock' },
+          hotspot: { x: 0.5, y: 0.4 },
+          alt: args.altText,
+          aiGenerated: true,
+          aiTool: 'midjourney',
+        },
+      })}
+    />
+  ),
+};
+
+/** AI-generated hero, content width: the label anchors to the rounded image block, not the page. */
+export const AiGeneratedContentWidth: Story = {
+  name: 'AI-generated image (content width)',
+  args: { imageWidth: 'content-width' },
+  render: (args) => (
+    <HeroSection
+      section={buildSection(args, {
+        backgroundImage: {
+          asset: { _id: 'image-hero-platform-mock' },
+          hotspot: { x: 0.5, y: 0.4 },
+          alt: args.altText,
+          aiGenerated: true,
+          aiTool: 'adobe-firefly',
+        },
+      })}
+    />
+  ),
+};
+
 // ═══════════════════════════════════════════════════════════════════
 // SNAPSHOT — Chromatic VRT (both width variants in one capture)
 // ═══════════════════════════════════════════════════════════════════

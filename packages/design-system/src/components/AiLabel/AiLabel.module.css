@@ -3,8 +3,8 @@
  * Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html
  *
  * Needs a container-type: inline-size ancestor the size of the image (Media supplies one).
- * Type is 3.2% of the image width with a 9px floor and no ceiling, so it is never smaller than
- * the baked mark and always covers it.
+ * Type is 3.2% of the image width, held between 9px and 14px. ST-178 stamps the baked mark with
+ * the same 14px cap, so the on-site label is never smaller than it and covers it.
  */
 
 .aiLabel {
@@ -25,7 +25,7 @@
   font-weight: 700;
   letter-spacing: var(--st-label-tracking);
   text-transform: uppercase;
-  font-size: max(9px, 3.2cqw);
+  font-size: clamp(9px, 3.2cqw, 14px);
   line-height: 1;
   padding: 0.35em 0.6em;
 
@@ -38,6 +38,20 @@
 .aiLabel:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--st-color-accent);
+}
+
+/* Frame for surfaces where the image is a CSS background (hero): a full-size layer that carries
+   the container the label sizes from. Never intercepts clicks; only the label does. */
+.frame {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  container-type: inline-size;
+  pointer-events: none;
+}
+
+.frame > .aiLabel {
+  pointer-events: auto;
 }
 
 .short { display: inline; }
