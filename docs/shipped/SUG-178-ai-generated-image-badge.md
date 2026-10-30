@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-178 — AI-generated image badge — transparency overlay
 **Linear Issue:** [SUG-178](https://linear.app/sugartown/issue/SUG-178/ai-generated-image-badge-transparency-overlay)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Visual:** yes
 **Vspec:** `docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html` (shared with ST-178; badge and mark are specified together)
@@ -38,13 +38,14 @@ After this epic, any `richImage` with `aiGenerated: true` renders a small badge 
 
 ## Scope
 
-- [ ] **GROQ — query layer:** Add `aiGenerated` and `aiTool` to the `richImage` projection in `PT_CONTENT_PROJECTION` in `queries.js`. Verify any other GROQ fragments that dereference `richImage` (hero images, card thumbnails) also project these fields. — layer: query
-- [ ] **DS component — `AiLabel`:** Absolute-positioned label, lower-left, 3% of image width in from the left and bottom edges. Type is `clamp(9px, 3.2cqw, 14px)` inside a container-query wrapper (the 14 px cap was added 2026-10-30 after a 1920 px hero came out at about 61 px). One dark pill (midnight token, white text, chip border). Text by displayed width: under 96 px nothing, 96 to 199 px "AI", 200 px and up "AI-generated"; tool name (max 16 chars, ellipsis) expands on hover, focus or tap at 320 px and up only. Max width 70% of the image. Renders `null` when `aiGenerated` is false or absent. `role="img"`, `aria-label` "AI-generated image" plus the tool when known, focusable, accent focus ring, no transition under reduced motion. — layer: frontend / Design System
-- [ ] **InlineImage integration:** Pass `aiGenerated` + `aiTool` through to `<InlineImage>` and render `<AiBadge>` inside its image wrapper. — layer: frontend
+- [x] **GROQ — query layer (done 2026-10-30):** `richImage` already projected both fields through its `...` spread; the four hero `backgroundImage` projections now add them.
+- [x] **GROQ — query layer (original):** Add `aiGenerated` and `aiTool` to the `richImage` projection in `PT_CONTENT_PROJECTION` in `queries.js`. Verify any other GROQ fragments that dereference `richImage` (hero images, card thumbnails) also project these fields. — layer: query
+- [x] **DS component — `AiLabel`:** Absolute-positioned label, lower-left, 3% of image width in from the left and bottom edges. Type is `clamp(9px, 3.2cqw, 14px)` inside a container-query wrapper (the 14 px cap was added 2026-10-30 after a 1920 px hero came out at about 61 px). One dark pill (midnight token, white text, chip border). Text by displayed width: under 96 px nothing, 96 to 199 px "AI", 200 px and up "AI-generated"; tool name (max 16 chars, ellipsis) expands on hover, focus or tap at 320 px and up only. Max width 70% of the image. Renders `null` when `aiGenerated` is false or absent. `role="img"`, `aria-label` "AI-generated image" plus the tool when known, focusable, accent focus ring, no transition under reduced motion. — layer: frontend / Design System
+- [x] **InlineImage integration:** passes `aiGenerated` and `aiTool` to `Media` in all three richImage renderers (`ArticlePage.jsx`, `PageSections.jsx`, `portableTextComponents.jsx`); `Media` renders the label. — layer: frontend
 - [x] **Hero image integration (done 2026-10-30):** schema scope widened with sign-off: the two AI fields now also live on the hero `backgroundImage` through one shared field set (`apps/studio/schemas/objects/aiImageFields.ts`, also used by `richImage`). The hero renders `AiLabel frame`. Original text follows.
-- [ ] **Hero image integration (original):** Wherever hero `richImage` is rendered (article, node, case study hero sections), pass fields through and render badge. — layer: frontend
-- [ ] **ContentCard thumbnail integration:** Pass fields from card data projection and render badge on card hero image when present. — layer: frontend
-- [ ] **Storybook:** `AiLabel` story with: default (no badge), AI-generated no tool, AI-generated with each tool value. Dark + light themes. — layer: Storybook
+- [x] **Hero image integration (original, superseded by the line above):** Wherever hero `richImage` is rendered (article, node, case study hero sections), pass fields through and render badge. — layer: frontend
+- [ ] **ContentCard thumbnail integration (moved to ST-179, #179):** Pass fields from card data projection and render badge on card hero image when present. — layer: frontend
+- [x] **Storybook:** `AiLabel` story with: default (no badge), AI-generated no tool, AI-generated with each tool value. Dark + light themes. — layer: Storybook
 
 ## Scope finding (2026-10-30)
 
@@ -53,17 +54,17 @@ Only `richImage` carried `aiGenerated` and `aiTool`, so inline body images were 
 ## Phases
 
 - [x] **Phase 0:** vspec approved 2026-10-30 (shared with ST-178).
-- [ ] **Phase 1:** GROQ, `AiLabel` component, integrations, Storybook. All work touches the same GROQ + frontend + Storybook layer.
+- [x] **Phase 1:** GROQ, `AiLabel` component, integrations, Storybook. All work touches the same GROQ + frontend + Storybook layer.
 
 ## Acceptance criteria
 
-- [ ] An article with a `richImage` block where `aiGenerated: true` and `aiTool: 'midjourney'` renders a badge in the lower-right corner of the image; hovering shows "Midjourney"
-- [ ] An article with `aiGenerated: false` (or field absent) renders no badge
-- [ ] Badge renders correctly in both light and dark themes with no hardcoded colours
-- [ ] Hero images on article, node, and case study detail pages show badge when flagged
-- [ ] ContentCard thumbnails show badge when the source item has a flagged hero image
-- [ ] `pnpm validate:tokens` and `pnpm validate:tokens:strict` pass — no raw colour values in `AiLabel` CSS
-- [ ] Storybook story covers all states; renders correctly on dark-pink-moon theme
+- [x] A `richImage` with `aiGenerated: true` and a tool renders the label lower-left (the vspec moved it from lower-right); hovering shows the tool name at 320 px and up. Evidence: Storybook `Components/AiLabel` stories, hover checked in the browser 2026-10-30. Live check in Post-ship checks.
+- [x] `aiGenerated: false` or absent renders no label. Evidence: `NotAiGenerated` story; `Media` keeps its original DOM when the flag is unset.
+- [x] The label renders in light and dark with no hardcoded colours. Evidence: light and dark checked in Storybook for the inline and hero stories; `pnpm validate:tokens:strict` clean.
+- [ ] Hero images on article, node and case study pages show the label when flagged. Verified on `Regions/Hero` stories in both widths, light and dark. No real page is flagged yet, so the live check is in Post-ship checks.
+- [ ] ContentCard thumbnails show the label when the source has a flagged hero. Not done: moved to ST-179 (#179).
+- [x] `pnpm validate:tokens` and `validate:tokens:strict` pass. Evidence: pre-commit hook on every commit; independent review confirmed zero hardcoded colours.
+- [x] Storybook covers all states and renders on dark-pink-moon. Evidence: 12 `AiLabel` stories and 2 hero stories; Chromatic build 102, 14 visual changes reviewed and accepted by Bex.
 
 ## Human QA Walkthrough — example local pages
 
@@ -94,3 +95,39 @@ Only `richImage` carried `aiGenerated` and `aiTool`, so inline body images were 
 - **Linear:** [SUG-178](https://linear.app/sugartown/issue/SUG-178/ai-generated-image-badge-transparency-overlay)
 - **Schema origin:** SUG-55 (AI ethics compliance — `aiGenerated` + `aiTool` fields added to `richImage`)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+See the ticked list above. Two criteria are not closed: card thumbnails (moved to ST-179) and a live-page check of a flagged hero (Post-ship checks).
+
+### What didn't work
+
+- The epic assumed hero and card images were `richImage`. Only body images are; hero and card images are a plain `image` type with no AI fields. Found while wiring the hero, after the component was built.
+- The vspec's "no ceiling on type size" gave about 61 px type on a 1920 px hero. Caught by checking the hero, not by the vspec review. A 14 px cap was added and the vspec amended.
+- The web app imports the design system from its built `dist`, so Storybook showed a missing-export error until the package was rebuilt.
+- The first Phase 0 vspec showed an unreadable badge: it used a 50% transparent white token for text.
+- A lint error (missing display name on a story decorator) blocked the first commit.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| AI fields and label on card thumbnails, editorial cards, card-builder cards and gallery images | implementation | #179 |
+| Stamp the baked mark with the same 14 px cap | implementation | in ST-178 (#178) Scope |
+| Epic docs must check which image type a surface uses before scoping an AI-field epic | workflow-docs | declined: one case; revisit if a second epic assumes the wrong image type |
+| Fresh Storybook sessions fail on a stale design-system `dist` | workflow-docs | declined: already a known property of the build, noted here |
+
+### Friction line
+
+Scope assumed hero and card images shared `richImage`'s AI fields; they do not, which cost a schema change and a scope decision mid-epic.
+
+---
+
+## Post-ship checks
+
+- [ ] A flagged inline image shows the label on the live site: person: in Studio, set AI-Generated on one image in a draft article, then view that article's preview page.
+- [ ] A flagged hero shows the label on a live detail page: person: in Studio, set AI-Generated on one hero background image, publish, and open the page at desktop and phone width.

@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- SUG-178: images flagged AI-generated now show a small "AI-generated" label lower-left on body images and the detail-page hero, with the tool name on hover; card thumbnails follow in #179. (`pnpm test:smoke`: 13 passed; Chromatic build 102 reviewed.)
 - #176: the "Bait and Switch, or Just a Bug" article is republished after a second red-pen pass and linked from the K'snag, ATS and Funnel glossary terms. (live article returns 200.)
 - #175: responsive tables now show each column name above its value on a phone, where the header row was hidden and cells were unlabelled. (contrast 7.37:1 light, 10.61:1 or better dark-pink-moon; new Storybook story)
 - ST-173: new article "Bait and Switch, or Just a Bug" on a recruiter invite that promised a screening call and delivered an application, with ATS and Funnel added to the glossary. (`pnpm test:smoke`: 13 passed.)
