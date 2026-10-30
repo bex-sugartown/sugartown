@@ -54,9 +54,24 @@ Skim skeleton to test at draft time: title, subheads, first sentence of each sec
 
 ## Data draft (publishable figures only)
 
-**Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Oct 26** is this post's cohort: Jun 1 to Oct 23, 2026, 4.8 months, 100 applications. Use these in every chart, table and sentence. Compare on rates and per-month pace, never on totals, because the windows differ in length. Pre-flight: the original post's By the Numbers kicker reads "Jun '25-May '26" while its body and charts say Jul 2025. Confirm the true start month before "25-26" goes public; fixing the original is a Content Write Gate item.
+**Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Oct 26** is this post's cohort: Jun 1 to Oct 30, 2026, 5.0 months, 107 applications. Use these in every chart, table and sentence. Compare on rates and per-month pace, never on totals, because the windows differ in length. Pre-flight: the original post's By the Numbers kicker reads "Jun '25-May '26" while its body and charts say Jul 2025. Confirm the true start month before "25-26" goes public; fixing the original is a Content Write Gate item.
 
-**Re-cut to 2026-10-23 on 2026-10-24 (latest).** Same source and method, `END = 2026-10-23`; 10-20 outputs frozen in `_frozen_2026-10-20/`. One new screen with a debrief on disk (recruiter screen 10-23, recruiter inbound; hiring-manager round booked 10-29 and not yet held, so it is not a loop). Loops go 6 to 7 for a different reason: Third and Grove round 2 (director of PM, 10-20) had a debrief on disk but was missed in the 10-20 cut. One new application (JD-0870). Count rule changed 2026-10-26: an application dated after the cut's END no longer counts, so later applies to older rows (JD-0799 on 10-24, JD-0833 and JD-0875 on 10-26) stay out; without it the same cut read 103. `packaged` is not frozen the same way (115, not 114). The next check is 10-30. The tables below keep the 10-20 cut for comparison; the **10-23 column** is the current figure. The by-month and weekly tables are not re-cut yet (see the note under each).
+**Re-cut to 2026-10-30 on 2026-10-30 (latest).** Same source and method, `END = 2026-10-30`; the 10-23 outputs are frozen in `_frozen_2026-10-23/`. Screens stay at 17 (no new screen: the Patagonia client round was moved to 11-02, so only a prep call happened, and Avalara was rejected 10-27). Loops go 7 to 8: the lululemon hiring-manager round 1 was held 10-29 with a debrief on disk. Applications 100 to 107: seven applications dated 10-24 to 10-30 (JD-0799, JD-0833, JD-0839, JD-0875, JD-0876, JD-0879, JD-0884). Rejections 50 to 53; closed with no answer 22 to 36 (a ghost sweep, see R3); still open 28 to 18. Integrity check: the source report is stale again until Cowork regenerates it. The tables below keep the 10-23 cut for comparison; the **10-30 figures** are in the list that follows, and the per-month, epoch and rate tables below are at 10-30.
+
+| Figure | 10-23 cut | **10-30 cut** |
+|---|---:|---:|
+| Captured / packaged | 835 / 115 | **854 / 119** |
+| Applications | 100 | **107** |
+| Screens / loops / offers | 17 / 7 / 0 | **17 / 8 / 0** |
+| Applied-to-screen | 15.0% (15 of 100) | **14.0% (15 of 107)** |
+| Rejected / closed with no answer / still open | 50 / 22 / 28 | **53 / 36 / 18** |
+| Cold-only to screen | 3 of 83 (3.6%) | **3 of 89 (3.4%, p=0.35)** |
+| Recruiter-first to screen | 10 of 12 | **10 of 12** |
+| Referral to screen | 2 of 5 | **2 of 6** |
+| Warm to screen | 12 of 17 (71%) | **12 of 18 (67%)** |
+| All non-recruiter to screen | 5 of 88 (5.7%) | **5 of 95 (5.3%)** |
+
+**Previous cut, 2026-10-23 (re-cut 2026-10-24).** Same source and method, `END = 2026-10-23`; 10-20 outputs frozen in `_frozen_2026-10-20/`. One new screen with a debrief on disk (recruiter screen 10-23, recruiter inbound; hiring-manager round booked 10-29 and not yet held, so it is not a loop). Loops go 6 to 7 for a different reason: Third and Grove round 2 (director of PM, 10-20) had a debrief on disk but was missed in the 10-20 cut. One new application (JD-0870). Count rule changed 2026-10-26: an application dated after the cut's END no longer counts, so later applies to older rows (JD-0799 on 10-24, JD-0833 and JD-0875 on 10-26) stay out; without it the same cut read 103. `packaged` is not frozen the same way (115, not 114). The next check is 10-30. The tables below keep the 10-20 cut for comparison; the **10-23 column** is the current figure. The by-month and weekly tables are not re-cut yet (see the note under each).
 
 | Figure | 10-20 cut | **10-23 cut** | Source (`findings.json` key) |
 |---|---:|---:|---|
@@ -108,7 +123,7 @@ Note: Board 29 to 28 and Cold 22 to 23 between cuts means one row changed channe
 | Sep '26 | 14 | 13 | 1 | 0 | 2 | 1 | 2 | 2 |
 | Oct '26 (to 10-20) | 14 | 12 | 1 | 1 | 2 | 0 | 2 | 1 |
 
-10-23 cut, Oct only: Apps 15 (was 14), Recr 3 (was 2). Cold, Inbnd, Refrl, Denied and Ghost for Oct are not re-cut; Inbnd is 2 if the new row is the only addition.
+10-30 cut, by month: Jun 20/17/1/2/3/15/5, Jul 25/19/5/1/3/14/11, Aug 26/22/3/1/4/17/8, Sep 14/13/1/0/2/4/8, Oct (to 10-30) 22/18/2/2/3/3/4; total 107/89/12/6/15/53/36. Full table: `docs/drafts/ST-162-charts/6-monthly-table.html`.
 | **Total** | **99** | **83** | **11** | **5** | **14** | **6** | **50** | **21** |
 
 Read Sep and Oct Denied and Ghost low: those applications have had under 8 weeks to resolve. Recr totals 14 here, not 16, because two screens (a recruiter pitch with no application) have no application month.
@@ -134,37 +149,37 @@ The 10-05 inbound count carries the touches-versus-seats caveat from the 10-12 h
 
 **25-26 vs Jun-Oct 26**
 
-| | 25-26 (Jul 2025 to May 2026) | Jun-Oct 26 (Jun 1 to Oct 23, 2026) |
+| | 25-26 (Jul 2025 to May 2026) | Jun-Oct 26 (Jun 1 to Oct 30, 2026) |
 |---|---|---|
-| Applications | 111 | 100 |
-| Cold-only screen rate (no prior relationship) | 6.7% (7 of 105) | 3.6% (3 of 83) |
-| Warm (recruiter inbound plus referral) screen rate | 69% (11 of 16) | 71% (12 of 17: 10 of 12 recruiter-first, 2 of 5 referral; see reconciliation 5) |
+| Applications | 111 | 107 |
+| Cold-only screen rate (no prior relationship) | 6.7% (7 of 105) | 3.4% (3 of 89) |
+| Warm (recruiter inbound plus referral) screen rate | 69% (11 of 16) | 67% (12 of 18: 10 of 12 recruiter-first, 2 of 6 referral; see reconciliation 5) |
 | Recruiter inbound alone | 67% (8 of 12) | 10 of 12 applications reached a screen |
-| Referral alone | 75% (3 of 4) | 2 of 5 |
+| Referral alone | 75% (3 of 4) | 2 of 6 |
 | Offers | 1 | 0 |
 
-The warm rate (12 of 17, 71%) is within two points of the original post's 69% (11 of 16). With n of 16 to 17 on each side that is a coincidence, not stability. The change is inside it: referral fell from 3 of 4 to 2 of 5.
+The warm rate (12 of 18, 67%) is within two points of the original post's 69% (11 of 16). With n of 16 to 18 on each side that is a coincidence, not stability. The change is inside it: referral fell from 3 of 4 to 2 of 5.
 
 ## Per-month comparison and system epochs (added 2026-10-26)
 
-The windows differ (25-26 is 11 months, Jun-Oct 26 is 4.8: 145 days to 10-23, divided by 30.44). Totals are never compared; every figure below is per month. The 25-26 column comes from the original post's published monthly table and funnel chart (read from Sanity 2026-10-26, `sections` of `job-search-funnel-data-postmortem`). The Jun-Oct 26 column comes from `findings.json` at the 10-23 cut.
+The windows differ (25-26 is 11 months, Jun-Oct 26 is 5.0: 152 days to 10-30, divided by 30.44). Totals are never compared; every figure below is per month. The 25-26 column comes from the original post's published monthly table and funnel chart (read from Sanity 2026-10-26, `sections` of `job-search-funnel-data-postmortem`). The Jun-Oct 26 column comes from `findings.json` at the 10-30 cut.
 
 ### Per month, 25-26 against Jun-Oct 26
 
-| Measure | 25-26 total | 25-26 per month (11) | Jun-Oct 26 total | Jun-Oct 26 per month (4.8) | Change |
+| Measure | 25-26 total | 25-26 per month (11) | Jun-Oct 26 total | Jun-Oct 26 per month (5.0) | Change |
 |---|---:|---:|---:|---:|---:|
-| Applications | 111 | 10.1 | 100 | 21.0 | **2.1x** |
-| Cold applications | 105 | 9.5 | 83 | 17.4 | 1.8x |
-| **Cold-only screens** | 7 | **0.64** | 3 | **0.63** | **1.0x** |
-| Warm touches (inbound plus referral) | 16 | 1.5 | 17 | 3.6 | 2.4x |
-| Warm screens | 11 | 1.0 | 12 | 2.5 | 2.5x |
-| All recruiter screens | 19 | 1.7 | 17 | 3.6 | 2.1x |
-| Hiring-manager round or later | 9 | 0.8 | 7 (loops) | 1.5 | 1.8x |
+| Applications | 111 | 10.1 | 107 | 21.4 | **2.1x** |
+| Cold applications | 105 | 9.5 | 89 | 17.8 | 1.9x |
+| **Cold-only screens** | 7 | **0.64** | 3 | **0.60** | **0.9x (flat)** |
+| Warm touches (inbound plus referral) | 16 | 1.5 | 18 | 3.6 | 2.4x |
+| Warm screens | 11 | 1.0 | 12 | 2.4 | 2.4x |
+| All recruiter screens | 19 | 1.7 | 17 | 3.4 | 2.0x |
+| Hiring-manager round or later | 9 | 0.8 | 8 (loops) | 1.6 | 1.9x |
 | Offers | 1 | 0.09 | 0 | 0 | none |
-| Explicit rejections | 46 | 4.2 | 50 | 10.5 | 2.5x |
+| Explicit rejections | 46 | 4.2 | 53 | 10.6 | 2.5x |
 | Closed with no answer | 70 | 6.4 | 22 | 4.6 | see R3 |
-| JDs captured | not tracked | n/a | 835 | 175 | n/a |
-| Applied-to-screen rate | 17.1% | | 15.0% | | about flat |
+| JDs captured | not tracked | n/a | 854 | 171 | n/a |
+| Applied-to-screen rate | 17.1% | | 14.0% | | about flat |
 
 Source for Jun-Oct 26: `findings.json` keys `funnel`, `channel`, `outcomes`, `applied_ids`, `screened_ids`, `looped_ids`, via `python3 os/scripts/analyze.py` (`END = 2026-10-23`). Warm touches 17 is 12 recruiter-first plus 5 referral applications; warm screens 12 is 10 of 12 plus 2 of 5.
 
@@ -172,10 +187,10 @@ Definition mismatches to state in the post, not hide: (1) 25-26 "recruiter scree
 
 ### The story the per-month numbers tell (proposed, for outline approval)
 
-1. **Effort doubled and cold results did not move.** Applications per month went from 10.1 to 21.0. Cold-only screens per month went from 0.64 to 0.63. Twice the cold volume bought no extra cold screen. Small n (7 then 3), so say "flat", not "fell"; p=0.52 on the rate (R2).
+1. **Effort doubled and cold results did not move.** Applications per month went from 10.1 to 21.4. Cold-only screens per month went from 0.64 to 0.60. Twice the cold volume bought no extra cold screen. Small n (7 then 3), so say "flat", not "fell"; p=0.35 on the rate (R2).
 2. **The extra screens were all warm.** Warm screens per month went from 1.0 to 2.5. Screens per month more than doubled, and the whole gain came from recruiters and referrals, not from the portal.
-3. **The machine widened the top, not the middle.** 835 JDs captured (175 a month) and 115 packaged, but applications stayed near 18 to 27 a month in every epoch below. Intake grew about 10x; applications did not follow it, because the gates and Bex's hours cap them.
-4. **Rejections rose with volume.** Explicit rejections per month went from 4.2 to 10.5 (2.5x). More applications means more answers, mostly no.
+3. **The machine widened the top, not the middle.** 854 JDs captured (171 a month) and 119 packaged, but applications stayed near 18 to 27 a month in every epoch below. Intake grew about 10x; applications did not follow it, because the gates and Bex's hours cap them.
+4. **Rejections rose with volume.** Explicit rejections per month went from 4.2 to 10.6 (2.5x). More applications means more answers, mostly no.
 5. **No offer in either window that came from an application.** The one 25-26 offer arrived as cold recruiter inbound with no application. Jun-Oct 26 has none yet.
 
 Do not claim the machine failed or that portals use AI to screen. The claim is narrower: the same cold yield at twice the effort, and the gain came from the human door. Cohorts differ in market, role scope (PM and web platform roles added in October) and tooling.
@@ -190,7 +205,7 @@ Before 2026-06-27 everything was manual: sourcing, inbound and referrals, logged
 | 1. Backfill | 06-01 to 06-26 | Resume Factory era starts; rows backfilled before the tracker | 0.85 | 20 | 17.6 | 5 (3 from apps) | 3 of 15 |
 | 2. Tracker plus Gmail, open intake | 06-27 to 08-04 | v1.0 tracker built, Gmail mirror (06-27); hard gates v1.1 to v1.7 | 1.28 | 179 | 27.3 | 3 | 3 of 35 |
 | 3. Gates and P2 queue | 08-05 to 09-19 | Consumer, AI, federal and commute gates (v2.0 to v2.4); P2 queue and scoring (v2.9); funnel recommendations R2 to R5 (v3.1, 08-30); dedup as code (v4.13); PjM lane (v4.15, 09-04) | 1.51 | 302 | 18.5 | 5 | 5 of 28 |
-| 4. Tight filters | 09-20 to 10-23 | `Date Applied` column and follow-up clock (v4.26, 09-20); seniority ceiling (v4.29, 09-22); Shopify focus (v4.33); comp floor to $100k and PjM lane (v4.36, 10-16); Director tier cut (v4.38, 10-18); LinkedIn alerts rebuilt remote-only (v4.40, 10-19) | 1.12 | 119 | 19.7 | 4 | 4 of 22 |
+| 4. Tight filters | 09-20 to 10-30 | `Date Applied` column and follow-up clock (v4.26, 09-20); seniority ceiling (v4.29, 09-22); Shopify focus (v4.33); comp floor to $100k and PjM lane (v4.36, 10-16); Director tier cut (v4.38, 10-18); LinkedIn alerts rebuilt remote-only (v4.40, 10-19) | 1.35 | 113 | 21.5 | 4 | 4 of 29 |
 
 Reading it: intake peaked in epoch 3 (about 300 JDs a month) and fell by more than half in epoch 4 as the filters tightened, while applications held at 18 to 20 a month. Screen counts per epoch are 3 to 5 rows, so no rate in this table is a finding. Two limits: (1) a screen is attributed to the row's capture date, not the date the screen happened, and the newest rows have had under eight weeks to resolve; (2) epoch 1 is a backfill, so its pace is not a real pre-tracker measurement.
 
@@ -206,19 +221,19 @@ Before 2026-06-27 the search was manual: Evernote tags, hand sourcing, inbound a
 
 | Stage | Manual era (25-26) | Pipeline era (Jun-Oct 26) | Numbers (10-23 cut) |
 |---|---|---|---|
-| Sourcing | Job boards, recruiter inbound, referrals | Gmail Inbox Engine reads alert and recruiter mail into the tracker; LinkedIn saved searches (rebuilt remote-only 10-19) | 835 JDs captured, 175 a month |
+| Sourcing | Job boards, recruiter inbound, referrals | Gmail Inbox Engine reads alert and recruiter mail into the tracker; LinkedIn saved searches (rebuilt remote-only 10-19) | 854 JDs captured, 171 a month |
 | Triage | By eye | Hard gates (role, level, commute, federal, AI-as-product), P2 triage board with scoring (08-21), Director tier cut (10-18) | captured per month 20, 179, 302, 119 across the four epochs |
 | De-duplication | By memory | `check_duplicate.py` (09-04) | not measured |
-| Packaging | One resume, edited per role | Resume Factory: tailored resume and cover letter per role | 115 packaged |
-| Apply | Manual | Manual, now with a `Date Applied` column and a 14-day follow-up clock (09-20) | 100 applications; `Date Applied` is filled on only 38 of 99 older rows |
+| Packaging | One resume, edited per role | Resume Factory: tailored resume and cover letter per role | 119 packaged |
+| Apply | Manual | Manual, now with a `Date Applied` column and a 14-day follow-up clock (09-20) | 107 applications; `Date Applied` is filled on only 38 of 99 older rows |
 | Tracking and analysis | Evernote tags, a one-off analysis | Tracker, dashboard, `analyze.py`, funnel integrity check | this epic's tables |
 
-What the tools changed, in numbers: intake grew about 10x, packaging reached 115, and applications doubled to 21 a month. What they did not change: the cold-only screen rate per month (0.64 then 0.63). Applications are capped by Bex's hours and the gates, not by intake. Not measured anywhere: hours spent per application, time from capture to apply, and cost per screen. These are the gaps in Perspective A.
+What the tools changed, in numbers: intake grew about 10x, packaging reached 119, and applications doubled to 21 a month. What they did not change: the cold-only screen rate per month (0.64 then 0.60). Applications are capped by Bex's hours and the gates, not by intake. Not measured anywhere: hours spent per application, time from capture to apply, and cost per screen. These are the gaps in Perspective A.
 
 | ID | Hypothesis about the pipeline (unverified) | Check | Data in hand? |
 |---|---|---|---|
 | A1 | Automation widened the top of the funnel and the gates, not the tools, decided what got applied to. | Captured, packaged and applied by epoch (table above); applications stayed at 18 to 27 a month while captures moved 10x. | Yes |
-| A2 | Tailored resumes did not change the cold-door yield. | Cold-only screens per month: 0.64 before tailoring, 0.63 after. Confounded by market, role mix and the Oct scope change. | Partly |
+| A2 | Tailored resumes did not change the cold-door yield. | Cold-only screens per month: 0.64 before tailoring, 0.60 after. Confounded by market, role mix and the Oct scope change. | Partly |
 | A3 | The tighter filters in Sep and Oct raised quality per application, and it is too early to see it. | Apps-to-screen by epoch: 3 of 35, 5 of 28, 4 of 22. Rows under eight weeks old have not resolved. Re-run on 11-02 and again on 11-30. | Not yet |
 | A4 | Most of Bex's time went to packaging and following up, not sourcing. | Needs hours. Add a time log, or drop the claim. | No |
 
@@ -244,8 +259,8 @@ Market data is by month, Jul 2025 to Oct 2026, from Challenger (announced cuts),
 | Jun '26 | 20 | 3 | 15 | 15.5 | 73.1 | 108.0 | 74.0 | 3.1 |
 | Jul '26 | 25 | 3 | 14 | 9.9 | 75.0 | 110.7 | 74.7 | 2.8 |
 | Aug '26 | 26 | 4 | 17 | 6.1 | 74.4 | 112.6 | 76.5 | 4.3 (prelim) |
-| Sep '26 | 14 | 2 | 2 | 10.8 | 77.1 | 116.8 | 76.2 | not yet published |
-| Oct '26 | 15 | 3 | 2 | not yet published | 78.3 (to 10-16) | 117.7 (to 10-16) | 75.4 (to 10-16) | not yet published |
+| Sep '26 | 14 | 2 | 4 | 10.8 | 77.1 | 116.8 | 76.2 | not yet published |
+| Oct '26 | 22 | 3 | 3 | not yet published | 78.3 (to 10-16) | 117.7 (to 10-16) | 75.4 (to 10-16) | not yet published |
 
 Market in one paragraph (Record or Estimate, see the file): announced US cuts through September are down 39% on 2025 (573,195 vs 946,426) but tech cuts are up 54% (165,925 vs 107,878), peaking at 38,242 in May 2026. Software-development postings rose from about 65 to 78 and project-management postings from 99 to 118, while marketing and retail stayed flat to down. Information-sector openings roughly halved, from 6.5% to about 3%. JOLTS layoffs stayed near 1.0 to 1.2%. Ghost postings held in Greenhouse's 18% to 22% range.
 
@@ -255,7 +270,7 @@ Market in one paragraph (Record or Estimate, see the file): announced US cuts th
 |---|---|---|---|---|---|
 | T1 | Widened into project and program roles (09-04, 10-16) | Project-management postings up about 18% since Jul 2025, the fastest-growing sector tracked; software dev up about 20% but still below the pre-pandemic baseline; marketing and retail flat | Her core buckets (ecommerce, DAM, design system) sit in the flat sectors; she moved toward where postings grew. | **Stands.** Bex confirmed the intent: to follow where postings were. | Market side is Estimate data (Indeed's index, monthly means calculated from its CSVs). Kill: Indeed's sectors do not map to her roles; there is no product-manager or ecommerce sector. |
 | T2 | Captures fell from 425 (Aug) to 81 (Oct) | Indeed all-postings index flat, 101.9 to 104.0 | The drop is her filters (Director cut, remote-only alerts, seniority ceiling), not a shrinking market. | **Stands.** Bex confirmed it was her filters. | Kill: alert email volume fell before the gates ran. Compare alert emails received by month. |
-| T3 | "Closed with no answer" fell from 63% to 22% | Ghost postings steady at about 19% | The market's ghost share did not change, so the fall is the cohorts' definition and the ghost sweep (R3), not employers answering more. | **Stands.** Bex agreed. | Kill: recompute 25-26 on the pipeline-era definition. |
+| T3 | "Closed with no answer" fell from 63% to 34% | Ghost postings steady at about 19% | The market's ghost share did not change, so the fall is the cohorts' definition and the ghost sweep (R3), not employers answering more. | **Stands.** Bex agreed. | Kill: recompute 25-26 on the pipeline-era definition. |
 
 Context, not ties:
 
@@ -305,9 +320,9 @@ Comparison charts: `docs/drafts/ST-162-charts/` (local, gitignored; `index.html`
 
 | ID | Move | What is known | Hypotheses (unverified) | Check |
 |---|---|---|---|---|
-| R1 | Applications per month 10.1 (25-26) to 21.0 (Jun-Oct 26), then 24 a month in Jun-Aug to 14 in Sep and 15 in Oct (to the 23rd). The total is lower (100 vs 111) only because the window is 4.8 months, not 11. | Captures per month fell 425 (Aug), 128 (Sep), 56 (Oct to the 20th) (`monthly`). 688 of 759 closed rows closed before an application (`closes`). The Sourced backlog fell 46 to 16 between 09-29 and 10-12 (10-12 handoff). | Automation lowered the cost of an application. The August intake was a bulk pass that has been worked through. Rule changes in Sep and Oct (Ecom and DAM re-rank 10-02, Director tier cut 10-18, scope widened to PM roles) removed candidates before the apply stage. Bex's own question: did the volume overwhelm the pipeline? | Compare captures, pre-application closes and applications by month from `findings.json`; check whether the intake method changed when captures fell; time per package is not recorded anywhere. |
+| R1 | Applications per month 10.1 (25-26) to 21.4 (Jun-Oct 26), then 24 a month in Jun-Aug to 14 in Sep and 22 in Oct (to the 30th). The total is lower (107 vs 111) only because the window is 5.0 months, not 11. | Captures per month fell 425 (Aug), 128 (Sep), 56 (Oct to the 20th) (`monthly`). 688 of 759 closed rows closed before an application (`closes`). The Sourced backlog fell 46 to 16 between 09-29 and 10-12 (10-12 handoff). | Automation lowered the cost of an application. The August intake was a bulk pass that has been worked through. Rule changes in Sep and Oct (Ecom and DAM re-rank 10-02, Director tier cut 10-18, scope widened to PM roles) removed candidates before the apply stage. Bex's own question: did the volume overwhelm the pipeline? | Compare captures, pre-application closes and applications by month from `findings.json`; check whether the intake method changed when captures fell; time per package is not recorded anywhere. |
 | R2 | Cold-only screen rate 6.7% to 3.6% | 7 of 105 vs 3 of 83; p=0.52, so the drop is inside chance. | A real portal effect, a different role mix, or nothing. | Wait for the 11-02 maturity read; add the `ATS` column; compare by Focus. Do not state the drop as a finding without that. |
-| R3 | Closed with no answer 63% (25-26) vs 22% (Jun-Oct 26) | 70 of 111 vs 22 of 100. 28 Jun-Oct 26 applications are still open. | The two cohorts define "no answer" differently. Sep and Oct rows have not had time to go silent. A ghost sweep script appeared on 10-04. | Recompute the 25-26 definition on the new cohort; compare Jun-Aug applications only, which have had time to resolve. |
+| R3 | Closed with no answer 63% (25-26) vs 34% (Jun-Oct 26) | 70 of 111 vs 36 of 107 (22 of 100 a week earlier, so a ghost sweep closed 14 rows in a week). 18 Jun-Oct 26 applications are still open. | The two cohorts define "no answer" differently. Sep and Oct rows have not had time to go silent. A ghost sweep script appeared on 10-04. | Recompute the 25-26 definition on the new cohort; compare Jun-Aug applications only, which have had time to resolve. |
 | R4 | Recruiter inbound rows per week: 9 at the mid-August peak, 0 to 3 since | Headline decision A has been open 43 days (10-12 handoff). The week of 10-05 counts rows, not threads. | Market change, an unchanged headline, one seat inflating August, or a change in how rows are captured. | Count distinct seats, not touches, by week; check the mailbox against the tracker. |
 
 ### Data reconciliation (resolve before drafting)
