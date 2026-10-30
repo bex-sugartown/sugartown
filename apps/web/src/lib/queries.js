@@ -330,7 +330,9 @@ export const nodeBySlugQuery = `
           asset->,
           alt,
           crop,
-          hotspot
+          hotspot,
+          aiGenerated,
+          aiTool
         },
         cta {
           text,
@@ -501,7 +503,9 @@ sections[]{
       asset->,
       alt,
       crop,
-      hotspot
+      hotspot,
+      aiGenerated,
+      aiTool
     },
     cta {
       text,
@@ -759,7 +763,9 @@ export const pageBySlugQuery = `
           asset->,
           alt,
           crop,
-          hotspot
+          hotspot,
+          aiGenerated,
+          aiTool
         },
         // Support both embedded cta object and ctas array of inline buttons
         cta {
@@ -1025,7 +1031,7 @@ export const caseStudyBySlugQuery = `
         eyebrow,
         imageTreatment,
         imageWidth,
-        backgroundImage { asset->, alt, crop, hotspot },
+        backgroundImage { asset->, alt, crop, hotspot, aiGenerated, aiTool },
         "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
         showStatRail,
         showMetaFinePrint

@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {ImageIcon} from '@sanity/icons'
+import {aiImageFields} from '../objects/aiImageFields'
 
 /**
  * Hero Section
@@ -51,7 +52,9 @@ export default defineType({
           title: 'Alt Text',
           type: 'string',
           description: 'Describe the image for accessibility and SEO'
-        })
+        }),
+        // AI transparency (SUG-178): shows the on-site AI label on the hero when set
+        ...aiImageFields,
       ]
     }),
     defineField({
