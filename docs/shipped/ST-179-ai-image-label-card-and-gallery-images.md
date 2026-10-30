@@ -100,10 +100,10 @@ See the ticked list above. Nothing on the live site was checked: no card-builder
 
 | Follow-up | Kind | Where it went |
 |---|---|---|
-| Hero-derived card thumbnails must carry the hero's flag and stamped copies | implementation | SUG-50 doc §AI label hand-off (open backlog epic) |
+| Hero-derived card thumbnails must carry the hero's flag and stamped copies | implementation | declined: written into SUG-50's doc §AI label hand-off, the open backlog epic that adds the hero fallback |
 | `editorialCard` images are stored but never rendered, and the type is deprecated | implementation | declined: out of this epic; revisit if `cardSection` ever renders images |
 | Archive-grid card thumbnails read the deprecated `cardImage` (0 published uses) | implementation | declined: 0 uses, SUG-50 replaces the source |
-| Check a live gallery and the home page card-builder with a real flagged image | implementation | Post-ship checks below |
+| Check a live gallery and the home page card-builder with a real flagged image | implementation | declined: tracked as the Post-ship checks below, which `/ship` reads |
 
 ### Friction line
 

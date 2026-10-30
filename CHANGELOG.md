@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- ST-179: the AI-generated label now also shows on card-builder card thumbnails and gallery images, and flagged ones are served from stamped copies; card and gallery images gain the same AI fields in Studio. (`pnpm test:smoke`: 13 passed; Chromatic build 104 reviewed.)
 - ST-178: images flagged AI-generated can now carry the label in the file itself: a stamping tool bakes the mark into sized copies and writes IPTC metadata, and the site serves those copies because the Sanity image CDN strips embedded metadata; a Studio warning flags images that are flagged but unstamped. (`pnpm validate:ai-provenance`: 14 tests; Chromatic build 103 reviewed; no image stamped yet.)
 - SUG-178: images flagged AI-generated now show a small "AI-generated" label lower-left on body images and the detail-page hero, with the tool name on hover; card thumbnails follow in #179. (`pnpm test:smoke`: 13 passed; Chromatic build 102 reviewed.)
 - #176: the "Bait and Switch, or Just a Bug" article is republished after a second red-pen pass and linked from the K'snag, ATS and Funnel glossary terms. (live article returns 200.)
