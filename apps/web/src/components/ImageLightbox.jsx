@@ -12,6 +12,7 @@
  */
 import { useEffect, useCallback, useRef, useState } from 'react'
 import { urlFor } from '../lib/sanity'
+import { stampedCopies } from '../lib/provenance'
 import styles from './ImageLightbox.module.css'
 
 export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
@@ -62,9 +63,13 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
   }
 
   // Build image URL — use Sanity CDN for full quality
-  const imgUrl = image?.asset
-    ? urlFor(image.asset).width(1600).auto('format').url()
-    : null
+  // AI-generated images with stamped copies (ST-178) show the stamped copy, not the Sanity URL.
+  const copies = stampedCopies(image)
+  const imgUrl = copies
+    ? (copies.find((c) => c.width >= 1600) ?? copies[copies.length - 1]).url
+    : image?.asset
+      ? urlFor(image.asset).width(1600).auto('format').url()
+      : null
 
   if (!imgUrl) return null
 

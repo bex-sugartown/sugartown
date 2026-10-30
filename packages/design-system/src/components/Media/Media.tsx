@@ -70,6 +70,13 @@ export interface MediaProps {
   aiGenerated?: boolean;
   /** `richImage.aiTool` schema value; shown on expand at 320px and up. */
   aiTool?: string;
+  /**
+   * ST-178: stamped copies of an AI-generated image (mark baked in, IPTC metadata in the file).
+   * When set with `aiGenerated`, the image is served from these instead of `src`.
+   */
+  provenance?: { width: number; url: string }[];
+  /** `sizes` for the provenance srcset. Defaults to the 900px article column. */
+  sizes?: string;
 }
 
 /**
@@ -206,6 +213,8 @@ export function Media({
   height,
   aiGenerated,
   aiTool,
+  provenance,
+  sizes,
 }: MediaProps) {
   if (!src) return null;
 
@@ -245,9 +254,17 @@ export function Media({
     ? { objectPosition: `${(hotspot.x * 100).toFixed(1)}% ${(hotspot.y * 100).toFixed(1)}%` }
     : {};
 
+  // Stamped copies replace the Sanity image URL: that CDN strips embedded metadata.
+  const stamped = aiGenerated && provenance?.length
+    ? [...provenance].sort((a, b) => a.width - b.width)
+    : null;
+  const imageSrc = stamped ? (stamped.find((p) => p.width >= 960) ?? stamped[stamped.length - 1]).url : src;
+  const imageSrcSet = stamped ? stamped.map((p) => `${p.url} ${p.width}w`).join(', ') : undefined;
+
   const image = (
     <img
-      src={src}
+      src={imageSrc}
+      {...(imageSrcSet ? { srcSet: imageSrcSet, sizes: sizes ?? '(min-width: 900px) 900px, 100vw' } : {})}
       alt={alt}
       className={styles.image}
       style={imgStyle}

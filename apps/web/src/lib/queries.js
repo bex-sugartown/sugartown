@@ -168,6 +168,10 @@ export const LINKITEM_FRAGMENT = `
 // the markDefs need dereferencing to resolve internalRef → _type + slug.
 // This projection is spread inside content[] array projections.
 
+// ST-178: stamped copies of AI-generated images (file assets served as-is; the Sanity image CDN
+// strips embedded metadata). Spliced into every projection that carries aiGenerated.
+const AI_PROVENANCE_PROJECTION = `"provenance": provenanceFiles[] { width, "url": file.asset->url }`
+
 const PT_CONTENT_PROJECTION = `[] {
   ...,
   // Project richImage asset metadata dimensions so InlineImage can render
@@ -176,7 +180,8 @@ const PT_CONTENT_PROJECTION = `[] {
   // the inner ref (asset.asset->) per MEMORY.md nested image rule.
   _type == "richImage" => {
     ...,
-    "dimensions": asset.asset->metadata.dimensions
+    "dimensions": asset.asset->metadata.dimensions,
+    ${AI_PROVENANCE_PROJECTION}
   },
   markDefs[] {
     ...,
@@ -332,7 +337,8 @@ export const nodeBySlugQuery = `
           crop,
           hotspot,
           aiGenerated,
-          aiTool
+          aiTool,
+          ${AI_PROVENANCE_PROJECTION}
         },
         cta {
           text,
@@ -505,7 +511,8 @@ sections[]{
       crop,
       hotspot,
       aiGenerated,
-      aiTool
+      aiTool,
+      ${AI_PROVENANCE_PROJECTION}
     },
     cta {
       text,
@@ -765,7 +772,8 @@ export const pageBySlugQuery = `
           crop,
           hotspot,
           aiGenerated,
-          aiTool
+          aiTool,
+          ${AI_PROVENANCE_PROJECTION}
         },
         // Support both embedded cta object and ctas array of inline buttons
         cta {
@@ -1031,7 +1039,7 @@ export const caseStudyBySlugQuery = `
         eyebrow,
         imageTreatment,
         imageWidth,
-        backgroundImage { asset->, alt, crop, hotspot, aiGenerated, aiTool },
+        backgroundImage { asset->, alt, crop, hotspot, aiGenerated, aiTool, ${AI_PROVENANCE_PROJECTION} },
         "ctas": ctas[]{ "label": coalesce(link.label, link.internalRef->title, text), "url": ${LINKITEM_URL_EXPR}, "openInNewTab": link.openInNewTab, style },
         showStatRail,
         showMetaFinePrint

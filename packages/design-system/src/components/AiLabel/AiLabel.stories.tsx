@@ -42,3 +42,15 @@ export const WithDuotoneOverlay: Story = {
   decorators: [at(480)],
 };
 export const WithCaption: Story = { args: { caption: 'Caption sits below the image, not under the label.' }, decorators: [at(480)] };
+
+/** ST-178: a flagged image with stamped copies is served from them (srcset), not from `src`. */
+export const WithStampedCopies: Story = {
+  args: {
+    provenance: [
+      { width: 480, url: `${SAMPLE_IMAGE}&w=480` },
+      { width: 960, url: `${SAMPLE_IMAGE}&w=960` },
+      { width: 1920, url: `${SAMPLE_IMAGE}&w=1920` },
+    ],
+  },
+  decorators: [at(480)],
+};

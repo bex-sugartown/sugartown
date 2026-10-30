@@ -70,6 +70,7 @@ function SharedInlineImage({ value }) {
           overlay={value.overlay}
           aiGenerated={value.aiGenerated}
           aiTool={value.aiTool}
+          provenance={value.provenance}
         />
         {value.caption && (
           <figcaption style={{ fontSize: '0.85rem', color: 'var(--st-color-text-muted, #555)', marginTop: '0.5rem', textAlign: 'center', fontStyle: 'italic' }}>

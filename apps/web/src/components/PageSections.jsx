@@ -7,6 +7,7 @@ import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
 import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel, AiLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '@sugartown/design-system'
+import { imageUrlFor } from '../lib/provenance'
 import StatCard from './StatCard'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -50,6 +51,7 @@ function InlineImage({ value }) {
           overlay={value.overlay}
           aiGenerated={value.aiGenerated}
           aiTool={value.aiTool}
+          provenance={value.provenance}
           className={styles.inlineImageImg}
           width={width}
           height={height}
@@ -203,7 +205,7 @@ export function HeroSection({ section }) {
   if (hasImage) {
     const x = backgroundImage.hotspot?.x ?? 0.5
     const y = backgroundImage.hotspot?.y ?? 0.5
-    const bgUrl = `url(${urlFor(backgroundImage.asset).width(1920).quality(90).url()})`
+    const bgUrl = `url(${imageUrlFor(backgroundImage, 1920)})`
 
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
     // CSS variable consumed by ::after pseudo-element (all hero treatments)

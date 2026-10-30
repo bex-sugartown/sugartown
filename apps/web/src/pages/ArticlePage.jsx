@@ -51,6 +51,7 @@ function ArticleInlineImage({ value }) {
           overlay={value.overlay}
           aiGenerated={value.aiGenerated}
           aiTool={value.aiTool}
+          provenance={value.provenance}
           className={styles.inlineImageImg}
         />
         {value.caption && (
