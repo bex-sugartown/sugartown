@@ -30,6 +30,7 @@ Not applicable, no content piece.
 - [ ] **Schema:** spread `aiImageFields` into `cardImage` (article, node, case study), `editorialCard.image`, `cardBuilderItem.image` and `galleryImage`; deploy the schema. — layer: schema
 - [ ] **Card fallback rule:** when a card shows the hero image, carry the hero's `aiGenerated` and `aiTool` to the card projection; when it shows `cardImage` or `imageOverride`, use that image's own fields. Write the rule down in this doc after the audit. — layer: query
 - [ ] **Query projections:** add `aiGenerated` and `aiTool` to every projection of those images in `queries.js`. — layer: query
+- [ ] **Stamped copies (handed off from ST-178):** the new image types inherit `provenanceFiles` through `aiImageFields`; project `provenance` (`AI_PROVENANCE_PROJECTION` in `queries.js`) for each and serve the stamped copies instead of the Sanity image URL, using `stampedCopies` and `imageUrlFor` in `apps/web/src/lib/provenance.js`. Workflow: `docs/workflows/ai-image-provenance.md`. — layer: query / frontend
 - [ ] **Render:** pass the fields through ContentCard, the card-builder and editorial card renderers and ImageGallery to `AiLabel` (compact: width rules already hide the tool name under 320 px). — layer: frontend
 - [ ] **Gallery decision:** a gallery image sits inside a gallery-level overlay treatment; confirm the label's z-index and position against it. — layer: frontend
 - [ ] **Storybook:** a card story and a gallery story with a flagged image, light and dark. — layer: Storybook
@@ -38,8 +39,8 @@ Not applicable, no content piece.
 ## Phases
 
 - **Phase 0:** vspec addendum (card and gallery fixtures); sign-off before code.
-- **Phase 1:** schema, deploy, projections.
-- **Phase 2:** render and Storybook.
+- **Phase 1:** schema, deploy, projections (including the stamped-copy projection).
+- **Phase 2:** render (including serving stamped copies) and Storybook.
 
 ## Acceptance Criteria
 

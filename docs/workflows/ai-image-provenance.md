@@ -1,0 +1,24 @@
+# AI image provenance: stamping and attaching copies
+
+**To label an AI-generated image so the label survives download, a Claude session stamps it and attaches the copies.** Bex asks in plain words ("stamp the image on <page>"); no terminal step is hers.
+
+Why: the Sanity image CDN strips embedded metadata from every image URL, so the site serves flagged images from stamped file assets instead (ST-178 Phase 1 audit, `docs/backlog/ST-178-ai-image-provenance-metadata-and-watermark.md`).
+
+## Steps for a session
+
+| # | Step | How |
+|---|---|---|
+| 1 | Find the flagged image and its tool | Query `aiGenerated == true` on the image object (inline `richImage` in `content[]`, or hero `backgroundImage` in `sections[]`). Take `aiTool`. |
+| 2 | Get the source pixels | The file Bex supplies, or the full-size Sanity image URL (pixels only; metadata is not needed from the source). |
+| 3 | Stamp | `python3 scripts/ai-provenance/stamp.py SOURCE --tool <aiTool> --outdir <scratchpad dir> --name <slug>` writes `<slug>-480.jpg`, `-960.jpg` and `-1920.jpg` (never upscaled). Needs Pillow. |
+| 4 | Check each copy | `python3 scripts/ai-provenance/stamp.py --verify <file>` must report `digitalSourceType: true`. Open one copy and look at the mark. |
+| 5 | Upload each copy as a **file** asset | Sanity MCP `dataset_assets_upload_from_file` with `assetType: file`, then POST the bytes. An image asset would strip the metadata. |
+| 6 | Propose, then attach | Content Write Gate: show a before/after table for `provenanceFiles` (`width` plus `file` reference per copy) and wait for approval. Patch the image object. Do not publish. |
+| 7 | Prove it | `curl` the file URL from the asset, then `--verify` the downloaded file. Report the result. |
+
+## Rules
+
+- The mark's look is `scripts/ai-provenance/label-spec.json`; `pnpm validate:ai-provenance` fails if `AiLabel.module.css` disagrees.
+- Re-stamp when `aiTool` changes or the source image is replaced. Old copies are replaced, not added.
+- Never stamp an image that is not flagged `aiGenerated`.
+- Invisible watermarking and C2PA signing are a recorded no-go (ST-178); revisit only through a new issue.
