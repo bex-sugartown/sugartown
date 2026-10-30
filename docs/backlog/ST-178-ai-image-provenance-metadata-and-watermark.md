@@ -3,6 +3,7 @@
 **Issue:** [#178](https://github.com/bex-sugartown/sugartown/issues/178)
 **Status:** Backlog
 **Priority:** 🟢 Next
+**Paired with:** SUG-178 ([#57](https://github.com/bex-sugartown/sugartown/issues/57), on-site badge)
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** yes
 **Vspec:** `docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html`
@@ -13,6 +14,8 @@
 Write provenance into AI-generated images at upload (embedded metadata), bake a visible mark into the image pixels, and evaluate an invisible watermark as a soft binding, so the AI label survives download, hotlinking and reposting.
 
 > **Not SUG-178.** `SUG-178` (issue #57, the on-site AI badge) and `ST-178` (this epic) share a number by coincidence. #57 is the HTML badge; this epic is the file itself.
+
+**Paired with SUG-178.** Shared goal: a reader or a platform can tell an image is AI-generated, wherever it travels. Sequence: one shared vspec first (this doc's Phase 0 covers the badge and the visible mark together, so they do not collide or double up); then SUG-178; then Phases 1 to 3 here. Neither blocks the other after the vspec.
 
 ## Background
 
@@ -39,7 +42,7 @@ Not applicable, no content piece.
 
 ## Phases
 
-- **Phase 0:** vspec for the visible mark; sign-off before any pipeline code.
+- **Phase 0:** one vspec for the visible mark and the SUG-178 badge together (position, size, contrast, how they coexist on one image); sign-off before any pipeline code or badge code.
 - **Phase 1:** feasibility audit (metadata survival through the CDN) and the invisible watermark evaluation. Output decides whether C2PA and a soft binding are in scope, or IPTC only.
 - **Phase 2:** metadata writer, watermark script, Studio guard.
 - **Phase 3:** back-fill list, content re-uploads, ethics brief update.
@@ -75,7 +78,7 @@ Not applicable, no content piece.
 
 ## Non-Goals
 
-- No on-site badge. That is SUG-178 (#57).
+- No on-site badge build. That is SUG-178 (#57); this epic only specifies how the mark and the badge coexist.
 - No change to alt-text or caption rules.
 - No implementation of an invisible watermark in this epic unless the Phase 1 evaluation returns go and the doc is amended; Scope then gains the item and Non-Goals is re-read.
 - No claim of EU AI Act compliance. Article 50 is cited as direction only.

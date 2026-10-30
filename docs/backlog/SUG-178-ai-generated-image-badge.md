@@ -2,13 +2,29 @@
 **Epic:** SUG-178 — AI-generated image badge — transparency overlay
 **Linear Issue:** [SUG-178](https://linear.app/sugartown/issue/SUG-178/ai-generated-image-badge-transparency-overlay)
 **Status:** Backlog
-**Priority:** ⚪ Later
+**Priority:** 🟢 Next
+**Visual:** yes
+**Vspec:** `docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html` (shared with ST-178; badge and mark are specified together)
+**Paired with:** ST-178 ([#178](https://github.com/bex-sugartown/sugartown/issues/178))
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 ---
 
 # SUG-178 — AI-generated image badge — transparency overlay
 
 Surface the existing `aiGenerated` toggle and `aiTool` field from the `richImage` schema as a small corner badge on rendered images, giving readers AI transparency without editorial friction.
+
+## Paired with ST-178
+
+**Shared goal:** a reader or a platform can tell an image is AI-generated, wherever the image travels. This epic is the on-site label, which lives in the page. ST-178 is the file itself: embedded metadata, a visible mark in the pixels, and an evaluation of an invisible watermark. The numbers match by coincidence (`SUG-178` here, `ST-178` there).
+
+| | This epic (SUG-178, #57) | ST-178 (#178) |
+|---|---|---|
+| Layer | On-site badge | File metadata, visible mark, invisible watermark |
+| Survives a download | No | Yes, until stripped or cropped |
+| Needs | GROQ projection and DS component | Upload pipeline and a mark script |
+| Shared input | `aiGenerated`, `aiTool` on `richImage` | Same fields |
+
+**Sequence:** one shared vspec first (Phase 0, covers the badge and the visible mark so they do not collide or double up); then this epic; then ST-178 Phases 1 to 3. Neither blocks the other after the vspec. Activation audit: if ST-178's Phase 1 adds a provenance field, add it to the projection here before the badge ships, or record why not.
 
 ## Background
 
