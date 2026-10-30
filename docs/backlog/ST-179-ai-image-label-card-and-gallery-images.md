@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-179 — AI image label on card, editorial card, card-builder and gallery images
 **Issue:** [#179](https://github.com/bex-sugartown/sugartown/issues/179)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** yes
@@ -27,14 +27,14 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] **Schema:** spread `aiImageFields` into the `image` field of `cardBuilderItem` and `editorialCard`, and into `galleryImage`; deploy the schema. `cardImage` (deprecated, 0 uses) is not touched. — layer: schema
-- [ ] **Card source rule:** card-builder and editorial cards use their own image's fields. Archive-grid thumbnails (`cardImage`, `imageOverride`, 0 uses; hero fallback unwired) are out of scope; record in SUG-50's doc that its hero-derived thumbnail must carry the hero's flag and stamped copies when it ships. — layer: query
-- [ ] **Query projections:** add `aiGenerated` and `aiTool` to every projection of those images in `queries.js`. — layer: query
-- [ ] **Stamped copies (handed off from ST-178):** the new image types inherit `provenanceFiles` through `aiImageFields`; project `provenance` (`AI_PROVENANCE_PROJECTION` in `queries.js`) for each and serve the stamped copies instead of the Sanity image URL, using `stampedCopies` and `imageUrlFor` in `apps/web/src/lib/provenance.js`. Workflow: `docs/workflows/ai-image-provenance.md`. — layer: query / frontend
-- [ ] **Render:** pass the fields through ContentCard, the card-builder and editorial card renderers and ImageGallery to `AiLabel` (compact: width rules already hide the tool name under 320 px). — layer: frontend
-- [ ] **Gallery decision:** a gallery image sits inside a gallery-level overlay treatment; confirm the label's z-index and position against it. — layer: frontend
-- [ ] **Storybook:** a card story and a gallery story with a flagged image, light and dark. — layer: Storybook
-- [ ] **Vspec addendum:** add a card-thumbnail and gallery section to the shared vspec for sign-off. — layer: design
+- [x] **Schema (done 2026-10-30):** spread `aiImageFields` into the `image` field of `cardBuilderItem` and into `galleryImage`; deploy the schema. **Not done, with reasons (found 2026-10-30):** `editorialCard.image` (the 10 stored images sit in `cardSection`, which renders metric tiles only, so they never display; `editorialCard` is also deprecated) and `cardImage` (deprecated, 0 uses). — layer: schema
+- [x] **Card source rule (done: SUG-50 doc carries the hand-off):** card-builder and editorial cards use their own image's fields. Archive-grid thumbnails (`cardImage`, `imageOverride`, 0 uses; hero fallback unwired) are out of scope; record in SUG-50's doc that its hero-derived thumbnail must carry the hero's flag and stamped copies when it ships. — layer: query
+- [x] **Query projections (done):** add `aiGenerated` and `aiTool` to every projection of those images in `queries.js`. — layer: query
+- [x] **Stamped copies (handed off from ST-178, done):** the new image types inherit `provenanceFiles` through `aiImageFields`; project `provenance` (`AI_PROVENANCE_PROJECTION` in `queries.js`) for each and serve the stamped copies instead of the Sanity image URL, using `stampedCopies` and `imageUrlFor` in `apps/web/src/lib/provenance.js`. Workflow: `docs/workflows/ai-image-provenance.md`. — layer: query / frontend
+- [x] **Render (done):** pass the fields through ContentCard, the card-builder and editorial card renderers and ImageGallery to `AiLabel` (compact: width rules already hide the tool name under 320 px). — layer: frontend
+- [x] **Gallery decision (done: the label sits on the image inside Media, below the caption overlay's z-order; the lightbox is not triggered by label clicks):** a gallery image sits inside a gallery-level overlay treatment; confirm the label's z-index and position against it. — layer: frontend
+- [x] **Storybook (done):** a card story and a gallery story with a flagged image, light and dark. — layer: Storybook
+- [x] **Vspec addendum (approved 2026-10-30):** add a card-thumbnail and gallery section to the shared vspec for sign-off. — layer: design
 
 ## Phases
 
@@ -44,11 +44,11 @@ Not applicable, no content piece.
 
 ## Acceptance Criteria
 
-- [ ] A card-builder or editorial card whose image is flagged shows the label on its thumbnail ("AI" or "AI-generated" by width, never a tool name); an unflagged one shows none.
-- [ ] An editorial card, a card-builder card and a gallery image each show the label when flagged and nothing when not.
-- [ ] SUG-50's doc records the hero-flag hand-off, and a Storybook story exists for a flagged card-builder card and a flagged editorial card.
-- [ ] `pnpm validate:tokens`, `validate:tokens:strict` and `validate:schema-parity` pass; schema deployed.
-- [ ] Storybook covers a flagged card and a flagged gallery on `default` and `dark-pink-moon`.
+- [x] A card-builder card whose image is flagged shows the label on its thumbnail ("AI-generated" at 360 px, "AI" on the 140 px listing rail, never a tool name); an unflagged one shows none. Evidence: Storybook `Components/AiLabel` stories `On card thumbnail`, `On listing rail`, `On card thumbnail not flagged`, light and dark. Editorial card images are out of scope (see Scope).
+- [x] A gallery image shows the label when flagged and nothing when not. Evidence: story `In gallery frame` (4:3 frame, hotspot crop kept, label inside the image), light and dark. The label click does not open the lightbox (`stopPropagation`, read in code; not clicked on a live gallery).
+- [x] SUG-50's doc records the hero-flag hand-off. Evidence: `docs/backlog/SUG-50-card-image-from-hero.md` §AI label hand-off. Stories exist for a flagged card-builder-style card and a flagged gallery frame.
+- [x] `pnpm validate:tokens`, `validate:tokens:strict` and `validate:schema-parity` pass; schema deployed. Evidence: pre-commit hook on every commit; `sanity schema deploy` then `validate:schema-parity`: no drift.
+- [x] Storybook covers a flagged card, rail and gallery on `default` and `dark-pink-moon`. Evidence: checked in the browser on both themes 2026-10-30; Chromatic build 104, 4 visual changes accepted by Bex.
 
 ## Human QA Walkthrough — example local pages
 
@@ -80,3 +80,38 @@ Not applicable, no content piece.
 - **On-site label:** SUG-178 / [#57](https://github.com/bex-sugartown/sugartown/issues/57)
 - **File provenance:** ST-178 / [#178](https://github.com/bex-sugartown/sugartown/issues/178)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+See the ticked list above. Nothing on the live site was checked: no card-builder or gallery image is flagged and nothing is pushed (Post-ship checks).
+
+### What didn't work
+
+- The epic, and my own earlier notes in the SUG-178 doc, assumed archive cards fall back to the hero image. They do not: no query projects `heroImageUrl`. Found by reading the queries during the activation audit; the SUG-178 doc now carries an erratum.
+- The first count of editorial-card images (10) implied a surface to cover. The renderer for `cardSection` shows metric tiles only, so those images never display. Found by reading the renderer, after the schema edit had been made, and reverted.
+- Wrapping a flagged image in a frame would have broken the cover crop of gallery images (fixed aspect ratio). Caught by reading Media's aspect-ratio rule before testing, and fixed in the same commit.
+- The independent review flagged "unflagged images keep the same DOM" as a blocker by reading the requirement backwards; the wrapper exists only for flagged images.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Hero-derived card thumbnails must carry the hero's flag and stamped copies | implementation | SUG-50 doc §AI label hand-off (open backlog epic) |
+| `editorialCard` images are stored but never rendered, and the type is deprecated | implementation | declined: out of this epic; revisit if `cardSection` ever renders images |
+| Archive-grid card thumbnails read the deprecated `cardImage` (0 published uses) | implementation | declined: 0 uses, SUG-50 replaces the source |
+| Check a live gallery and the home page card-builder with a real flagged image | implementation | Post-ship checks below |
+
+### Friction line
+
+Scope and an earlier doc assumed card thumbnails come from the hero image and that editorial card images render; both were wrong and were only caught by reading the queries and renderers.
+
+---
+
+## Post-ship checks
+
+- [ ] A flagged card-builder image shows the label on the live home page: person: in Studio set AI-Generated on one card image on a draft of the home page, publish, and look at the card at desktop and phone width.
+- [ ] A flagged gallery image shows the label on a live page and clicking the label does not open the lightbox: person: same steps on one gallery image, then click the label and then the image.

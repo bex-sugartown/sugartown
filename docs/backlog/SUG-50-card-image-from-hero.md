@@ -93,6 +93,10 @@ GROQ projection pattern:
 
 ---
 
+## AI label hand-off (from ST-179, 2026-10-30)
+
+When a card thumbnail is derived from a hero image, it must carry that hero's `aiGenerated`, `aiTool` and `provenance` (stamped copies) too, or a flagged hero stays unflagged on its card and the card serves the Sanity URL, which strips embedded metadata. Concretely: project `backgroundImage.aiGenerated`, `aiTool` and `${AI_PROVENANCE_PROJECTION}` (see `apps/web/src/lib/queries.js`) into the card projection, pass them through `ContentCard` as `thumbnailAiGenerated`, and pick the URL with `stampedCopies` and `imageUrlFor` from `apps/web/src/lib/provenance.js`. The DS `Card` already renders the label. Found while auditing ST-179: no query projects `heroImageUrl` today, so this fallback branch in `ContentCard.jsx` never runs.
+
 ## Non-Goals
 
 - No schema changes (cardImage already hidden by SUG-48)
