@@ -51,6 +51,8 @@ After this epic, any `richImage` with `aiGenerated: true` renders a small badge 
 
 Only `richImage` carried `aiGenerated` and `aiTool`, so inline body images were covered by the original "no schema change" plan. The detail-page hero (`hero` section `backgroundImage`) and card images use a plain `image` type with no AI fields. Bex chose to add the fields to the hero `backgroundImage` inside this epic. **Still uncovered, no AI fields:** `cardImage` (deprecated), `editorialCard.image`, `cardBuilderItem.image`, `galleryImage`. Card thumbnails fall back to the hero image, so a flagged hero does not yet flag its card. Follow-up needed (file at close-out).
 
+> **Erratum, 2026-10-30 (found during ST-179's audit):** the hero-fallback sentence above is wrong. No query projects `heroImageUrl`, so archive cards never show the hero image today; they read `cardImage` (0 published uses) or `imageOverride` (0 uses). The real gaps are card-builder and editorial card images and gallery images. See `docs/backlog/ST-179-ai-image-label-card-and-gallery-images.md`.
+
 ## Phases
 
 - [x] **Phase 0:** vspec approved 2026-10-30 (shared with ST-178).

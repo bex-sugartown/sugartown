@@ -11,11 +11,11 @@
 
 # ST-179 — AI image label on card, editorial card, card-builder and gallery images
 
-Extend the on-site `AiLabel` from SUG-178 to the image types it does not reach yet.
+Extend the on-site `AiLabel` from SUG-178 to card-builder and editorial card images and gallery images.
 
 ## Background
 
-SUG-178 (#57) shipped the `AiLabel` on inline `richImage` images and the detail-page hero. Four image types still carry no `aiGenerated` or `aiTool` field: `cardImage` on article, node and case study (deprecated in Studio, still read by cards), `editorialCard.image`, `cardBuilderItem.image`, and `galleryImage`. Card thumbnails fall back to the hero image, so a flagged hero does not flag its card today. Every archive grid shows card thumbnails, so this is the most-seen gap. The schema field set (`apps/studio/schemas/objects/aiImageFields.ts`) and the component already exist.
+SUG-178 (#57) shipped the `AiLabel` on inline `richImage` images and the detail-page hero; ST-178 (#178) added stamped-copy serving. Image types that still carry no `aiGenerated`, `aiTool` or `provenanceFiles`: `cardBuilderItem.image`, `editorialCard.image` and `galleryImage`. **Activation audit, 2026-10-30:** published content uses `cardBuilderItem.image` 6 times (the home page and the ds-section-showcase page), `editorialCard.image` in `cardSection` 10 times, and gallery images 40 times across 8 documents. `cardImage` (deprecated) is set on 0 published documents and archive `cardOptions.imageOverride` on 0, so archive-grid thumbnails show nothing from those sources today. **Correction to earlier docs:** card thumbnails do not fall back to the hero image: no query projects `heroImageUrl`, so that branch in `ContentCard.jsx` never runs (SUG-50, "card image from hero", is the open backlog epic for it). The schema field set (`apps/studio/schemas/objects/aiImageFields.ts`) and the component already exist.
 
 ## Objective
 
@@ -27,8 +27,8 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] **Schema:** spread `aiImageFields` into `cardImage` (article, node, case study), `editorialCard.image`, `cardBuilderItem.image` and `galleryImage`; deploy the schema. — layer: schema
-- [ ] **Card fallback rule:** when a card shows the hero image, carry the hero's `aiGenerated` and `aiTool` to the card projection; when it shows `cardImage` or `imageOverride`, use that image's own fields. Write the rule down in this doc after the audit. — layer: query
+- [ ] **Schema:** spread `aiImageFields` into the `image` field of `cardBuilderItem` and `editorialCard`, and into `galleryImage`; deploy the schema. `cardImage` (deprecated, 0 uses) is not touched. — layer: schema
+- [ ] **Card source rule:** card-builder and editorial cards use their own image's fields. Archive-grid thumbnails (`cardImage`, `imageOverride`, 0 uses; hero fallback unwired) are out of scope; record in SUG-50's doc that its hero-derived thumbnail must carry the hero's flag and stamped copies when it ships. — layer: query
 - [ ] **Query projections:** add `aiGenerated` and `aiTool` to every projection of those images in `queries.js`. — layer: query
 - [ ] **Stamped copies (handed off from ST-178):** the new image types inherit `provenanceFiles` through `aiImageFields`; project `provenance` (`AI_PROVENANCE_PROJECTION` in `queries.js`) for each and serve the stamped copies instead of the Sanity image URL, using `stampedCopies` and `imageUrlFor` in `apps/web/src/lib/provenance.js`. Workflow: `docs/workflows/ai-image-provenance.md`. — layer: query / frontend
 - [ ] **Render:** pass the fields through ContentCard, the card-builder and editorial card renderers and ImageGallery to `AiLabel` (compact: width rules already hide the tool name under 320 px). — layer: frontend
@@ -44,9 +44,9 @@ Not applicable, no content piece.
 
 ## Acceptance Criteria
 
-- [ ] A card whose source item has a flagged hero image shows the label on its thumbnail; an unflagged one shows none.
+- [ ] A card-builder or editorial card whose image is flagged shows the label on its thumbnail ("AI" or "AI-generated" by width, never a tool name); an unflagged one shows none.
 - [ ] An editorial card, a card-builder card and a gallery image each show the label when flagged and nothing when not.
-- [ ] The card fallback rule is written in this doc and a test case exists for each of the three image sources.
+- [ ] SUG-50's doc records the hero-flag hand-off, and a Storybook story exists for a flagged card-builder card and a flagged editorial card.
 - [ ] `pnpm validate:tokens`, `validate:tokens:strict` and `validate:schema-parity` pass; schema deployed.
 - [ ] Storybook covers a flagged card and a flagged gallery on `default` and `dark-pink-moon`.
 
@@ -59,7 +59,7 @@ Not applicable, no content piece.
 - **Content Write Gate:** flagging existing images is a content change; it needs an approved proposal before any patch.
 - **Schema changes:** reuse `aiImageFields`; no new field definitions. Deploy required.
 - **Upstream dependencies:** SUG-178 (#57) must be shipped first (it provides `AiLabel` and `Media` support). No other in-flight epic touches these image types; activation audit: grep `docs/backlog/` for `cardImage`, `editorialCard` and `cardBuilderItem` before starting.
-- **Activation audits:** read `ContentCard.jsx` (thumbnail fallback chain), `CardBuilderSection.jsx`, the editorial card renderer, and the `images[]` projections in `queries.js` (the four `imageGallery` blocks).
+- **Activation audits (done 2026-10-30):** card-builder and editorial cards render through `CardBuilderSection.jsx` into the DS `Card` (`thumbnailUrl`); galleries render through `GalleryImage` in `PageSections.jsx`; `ContentCard.jsx` is archive grids only. Remaining reads: the four `imageGallery` `images[]` projections and the `card.image` projections in `queries.js`.
 - **Cards are links:** the label must not fight card hover; the width rules already keep the tool name off thumbnails.
 - **Model & Mode:** `/model sonnet`.
 
