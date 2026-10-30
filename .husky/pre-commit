@@ -50,3 +50,10 @@ pnpm --filter web validate:css-names || exit 1
 # nobody reading it. A gate that inspects a fifth of the repo reports on a fifth
 # of the repo. `pnpm lint` is turbo-cached and costs ~4s warm.
 pnpm lint || exit 1
+
+# AI image provenance (ST-178) — the baked mark's spec (scripts/ai-provenance/label-spec.json)
+# and AiLabel.module.css repeat the same values. Fails when they drift. Runs only when a file
+# that feeds either copy is staged.
+if echo "$STAGED" | grep -qE "scripts/ai-provenance/|components/AiLabel/AiLabel\.(module\.css|tsx)|styles/(tokens|theme\.pink-moon)\.css"; then
+  pnpm validate:ai-provenance || exit 1
+fi
