@@ -27,7 +27,7 @@ Not applicable, no content piece.
 ## Scope
 
 - [ ] **Vspec incl. Chip-variant check — layer: design.** The shared vspec gains a section comparing `AiLabel` today against `Chip variant="badge"` plus `tone="inverse"` and `size="fluid"`, with measured values at 96 to 480 px, and a class and prop naming table. Done at filing as a first draft; needs sign-off.
-- [ ] **Signing feasibility audit — layer: tooling.** Read primary sources (C2PA specification, Official Journal text of the AI Omnibus, TrustMark documentation, a C2PA trust-list or certificate route) and record per item: what a publisher must hold or run, cost, whether Sugartown is a provider or deployer for each duty. Output is a go or no-go in this doc, not an implementation.
+- [x] **Signing feasibility audit (done 2026-10-31, see Phase 1 audit result) — layer: tooling.** Read primary sources (C2PA specification, Official Journal text of the AI Omnibus, TrustMark documentation, a C2PA trust-list or certificate route) and record per item: what a publisher must hold or run, cost, whether Sugartown is a provider or deployer for each duty. Output is a go or no-go in this doc, not an implementation.
 - [ ] **Share-image stamping — layer: tooling.** `stamp.py` renders a 1200 x 630 cover-crop rendition with the baked mark and IPTC tags, recorded in `provenanceFiles` with a width of 1200 and a marker distinguishing it from the page renditions.
 - [ ] **Share-image schema — layer: schema.** Spread `aiImageFields` into the SEO `openGraph.image` field (and `defaultOgImage` if the audit shows it is used), deploy the schema.
 - [ ] **Share-image query and render — layer: query / frontend.** Project `aiGenerated`, `aiTool` and `provenance` for `seo.openGraph.image`; `SeoHead` uses the stamped 1200 x 630 copy when flagged and the current URL otherwise.
@@ -40,16 +40,31 @@ Not applicable, no content piece.
 ## Phases
 
 - [x] **Phase 0 (design, approved 2026-10-31 by Bex):** Chip-variant rebuild approved as shown in the vspec section 6: new `Chip` props `tone="inverse"` and `size="fluid"`, classes `.toneInverse` and `.sizeFluid`, tokens `--st-chip-inverse-bg` and `--st-chip-inverse-fg`, letter-spacing moves to Chip's 0.06em for both the label and the baked mark. The ethics page wording is not part of this sign-off: it is proposed in Phase 4 under the Content Write Gate once Phase 1 has run.
-- [ ] **Phase 1:** signing feasibility audit (go or no-go). Its outcome fixes the ethics page wording in Phase 5.
+- [x] **Phase 1 (done 2026-10-31):** signing feasibility audit (go or no-go). Its outcome fixes the ethics page wording in Phase 5.
 - [ ] **Phase 2:** share images (stamping, schema, query, render) and the IPTC 2025.1 fields.
 - [ ] **Phase 3:** `AiLabel` on `Chip` and Storybook (approved in Phase 0).
 - [ ] **Phase 4:** ethics page and brief.
 - [ ] **Phase 5:** live verification.
 
+## Phase 1 audit result: signing and soft binding (2026-10-31)
+
+**Decision: no-go on C2PA signing and on a soft binding. Revisit through a new issue only if Sugartown becomes an image generator or wants to sign editorial edits.** Sources are search results and fetched pages read 2026-10-31; limits are stated per row.
+
+| Question | Finding | Source and limit |
+|---|---|---|
+| Who owes Article 50(2) machine-readable marking? | Providers of generative AI systems, not the site that publishes the output. Deployers owe 50(4) disclosure for deepfakes and public-interest text, reduced for evidently artistic or creative work. A site that publishes illustrations is at most a deployer. | [Article 50 guide](https://artificialintelligenceact.eu/transparency-rules-article-50/), third-party, dated 2026-05-14. It does not address a website publisher using a third-party generator directly. |
+| When does it apply? | 50(2), (4) and (5) from 2026-08-02. Outputs made available before that need no retroactive marking. | [Commission FAQ](https://digital-strategy.ec.europa.eu/en/faqs/signing-code-practice-transparency-ai-generated-content), updated 2026-07-29. |
+| Is there a 2026-12-02 grace date for marking? | Secondary sources say Regulation (EU) 2026/1744 was published 2026-07-24 and gives systems placed on the market before 2026-08-02 until 2026-12-02 for the 50(2) marking duty. The Commission FAQ called it conditional ("if adopted"). **Not verified against the regulation text: EUR-Lex returned an empty HTTP 202 page for both URLs.** | Law-firm summaries via search. Read the text on EUR-Lex before citing the date on the ethics page; say "reported" until then. |
+| What does C2PA signing take? | A product that passes the C2PA conformance program, then a claim signing certificate from a CA on the C2PA trust list. Ordinary enterprise certificates do not work. Fees are set by the CAs and I found no published figure. Managed signing services exist. | [C2PA conformance](https://opensource.contentauthenticity.org/docs/conformance/), [signing certificate](https://opensource.contentauthenticity.org/docs/signing/get-cert). No fee found. |
+| What does a soft binding take? | An approved watermark algorithm (TrustMark variant P is on the C2PA list, MIT licence, reliable from about 150 px shortest side) plus a manifest store and lookup service, because the watermark only carries an identifier. With no signed manifest there is nothing to look up. | [TrustMark FAQ](https://opensource.contentauthenticity.org/docs/tm-faq), [C2PA FAQ](https://c2pa.org/faq/). Resize robustness is not documented on the pages read. The TrustMark C2PA page itself returned an empty body. |
+| Does anything in the site keep generators' own credentials? | No. `stamp.py` re-encodes with Pillow, which drops any manifest in the source. Declined in Non-Goals; named on the ethics page. | `scripts/ai-provenance/stamp.py`. |
+
+Consequence for the ethics page (Phase 4): say the visible label and IPTC metadata are the publisher's layers, say provider-side marking is the generator's duty, and say signing and a soft binding are not done because they need a conforming signing product, a trusted certificate and a lookup service.
+
 ## Acceptance Criteria
 
 - [ ] The vspec section compares `AiLabel` and the Chip variant at 96, 160, 240, 320 and 480 px with measured pixel values, and Bex has signed it off. Evidence: a browser measurement of both in the vspec.
-- [ ] The feasibility audit records a go or no-go per item (C2PA signing, soft binding, preserving generator credentials), each with a cited primary source and a date.
+- [x] The feasibility audit records a go or no-go per item (C2PA signing, soft binding, preserving generator credentials), each with a cited source and a date. Evidence: Phase 1 audit result. Limit: the Omnibus text itself was not readable, so its date is reported, not confirmed.
 - [ ] A flagged image in a draft page produces an `og:image` URL that is a file asset, not an image-CDN URL. Evidence: the rendered `<meta property="og:image">` content.
 - [ ] That file shows `digitalSourceType: true` and the baked mark. Evidence: `stamp.py --verify` output and the file opened.
 - [ ] An unflagged image's `og:image` URL is byte-identical to today's. Evidence: before and after capture on one page.
