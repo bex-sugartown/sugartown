@@ -1,11 +1,11 @@
 ---
 **Epic:** ST-181 — AI image provenance: close the compliance gaps
 **Issue:** [#181](https://github.com/bex-sugartown/sugartown/issues/181)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** yes
-**Vspec:** `docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html`
+**Vspec:** `docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html` (second, lightbox only: `docs/drafts/ST-181-lightbox-ai-label.vspec.html`; both preserved beside this doc in `docs/shipped/`)
 ---
 
 # ST-181 — AI image provenance: close the compliance gaps
