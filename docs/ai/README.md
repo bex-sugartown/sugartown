@@ -28,6 +28,7 @@ docs/ai/
 │   ├── risk-tiers.md                 # action risk tiers (A–D) mapped to CLAUDE.md gates
 │   ├── incident-log.md               # append-only registry of confirmed dated incidents
 │   └── data-handling.md              # what the site collects, processors, build-only AI boundary
+├── ai-generated-images.md            # when an image counts as AI-generated (aiGenerated flag)
 └── skills-index.md                   # inventory of Claude Code skills + claude.ai skills
 ```
 

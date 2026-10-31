@@ -16,7 +16,7 @@ export const aiImageFields = [
     name: 'aiGenerated',
     title: 'AI-Generated',
     type: 'boolean',
-    description: 'Is this image AI-generated or AI-manipulated?',
+    description: 'Flag it when an AI tool authored the content, including diagrams and screenshots of AI-authored content. A screenshot of human-authored content is not flagged. Full rule: docs/ai/ai-generated-images.md',
     initialValue: false,
     validation: (Rule) =>
       Rule.custom((value, context) => {
