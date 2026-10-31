@@ -587,7 +587,7 @@ Applies to any technical or architecture diagram destined for a published surfac
 
 **This gate also fires on published governance statistics** — any rendered count, tally, or coverage claim about the platform's own rigour (`/platform/governance`'s "30 checkpoints · 0 gaps", validator counts, enforcement tallies). Same claim table and evidence classes, plus two requirements: the claim carries a **measurement date**, and its Evidence cell names the command or file producing the number, not the intent behind it. A tally that is true when written and never re-measured becomes a false public claim silently.
 
-1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not count — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked later except by reconstructing it.
+1. **Source is committed first.** The diagram's source (SVG or Mermaid) lives in `docs/diagrams/` and is committed before upload. `docs/drafts/` does not count — it is local-only and gitignored. A published diagram with no committed source cannot be fact-checked later except by reconstructing it. After upload, `pnpm validate:diagram-assets` confirms each published diagram matches its committed source; run it at this gate and at close-out of any epic that touches `docs/diagrams/`.
 2. **Red-pen accuracy pass.** Before upload, produce a claim table — one row per box, arrow, or label that asserts something about the system. Captions and alt text are claims too; include them as rows. Each row names the file or mechanism that makes it true and classifies it:
 
    | Diagram element | Evidence (file / mechanism) | Class |

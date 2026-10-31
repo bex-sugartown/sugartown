@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- #182: new `pnpm validate:diagram-assets` checks that every diagram published from Sanity still matches its committed source in docs/diagrams/, ignoring how Sanity re-serialises SVG. (Live run: 3 match; probe: a moved legend reported as drift, exit 1; 4 normaliser tests.)
 - ST-183: the image label component is now `MediaLabel`, named for what it does rather than the AI use, and the AI wording comes from the web app; nothing on screen changed. (Storybook sizes identical to ST-181; Chromatic build 107: 4 renamed stories, approved; `pnpm test:smoke`: 13 passed.)
 - ST-101: closed the QA-walkthrough follow-ups: S3 was already met by a 2026-09-19 skill-prompt edit, and per-group QA profiles are not worth building (31 runs, 4.6 to 5.8 findings per run in every group). (`git log --since=2026-08-21 -i --grep=walkthrough`; no code change.)
 - #180: the case study diagrams now size to the lightbox view and keep legends out of the AI label's corner, the AI tool list includes Claude Code, and a written rule (docs/ai/ai-generated-images.md) says an image is flagged when an AI tool authored its content, linked from the Studio field. (Same work as ST-181; `validate:ai-provenance`: 21 tests passed; schema deployed.)

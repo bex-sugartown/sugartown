@@ -43,6 +43,7 @@
     "tokens:migrate": "node tokens/scripts/migrate-css-to-json.mjs",
     "typecheck": "turbo run typecheck --continue",
     "validate:ai-provenance": "python3 -W ignore scripts/ai-provenance/test_stamp.py",
+    "validate:diagram-assets": "node --test scripts/diagram-assets/canon.test.mjs && pnpm --filter studio exec sanity exec scripts/check-diagram-assets.mjs --with-user-token",
     "validate:content": "pnpm --filter web validate:content",
     "validate:contrast": "pnpm --filter web validate:contrast",
     "validate:filters": "pnpm --filter web validate:filters",
