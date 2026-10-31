@@ -12,21 +12,65 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
-- #182: new `pnpm validate:diagram-assets` checks that every diagram published from Sanity still matches its committed source in docs/diagrams/, ignoring how Sanity re-serialises SVG. (Live run: 3 match; probe: a moved legend reported as drift, exit 1; 4 normaliser tests.)
-- ST-183: the image label component is now `MediaLabel`, named for what it does rather than the AI use, and the AI wording comes from the web app; nothing on screen changed. (Storybook sizes identical to ST-181; Chromatic build 107: 4 renamed stories, approved; `pnpm test:smoke`: 13 passed.)
-- ST-101: closed the QA-walkthrough follow-ups: S3 was already met by a 2026-09-19 skill-prompt edit, and per-group QA profiles are not worth building (31 runs, 4.6 to 5.8 findings per run in every group). (`git log --since=2026-08-21 -i --grep=walkthrough`; no code change.)
-- #180: the case study diagrams now size to the lightbox view and keep legends out of the AI label's corner, the AI tool list includes Claude Code, and a written rule (docs/ai/ai-generated-images.md) says an image is flagged when an AI tool authored its content, linked from the Studio field. (Same work as ST-181; `validate:ai-provenance`: 21 tests passed; schema deployed.)
-- ST-181: AI-labelled images now cover the gaps found in the ST-178 audit: share images (og:image) can carry the label and metadata, stamped files record the tool version, the AI tool list is ChatGPT, Claude, Claude Code, Gemini, Adobe Firefly, Photoshop Generative Fill, Canva AI, Microsoft Copilot and Stable Diffusion with a detect-from-file helper, the label is built on a Chip variant, the click-through lightbox shows the label and sizes diagrams to the view, and the three case study diagrams keep legends out of the label's corner (new rule in docs/diagrams/README.md); the /ai-ethics draft corrects what Article 50 requires of publishers. (`pnpm test:smoke`: 13 passed; Chromatic build 105: 7 changes reviewed and accepted; `pnpm validate:ai-provenance`: 21 tests passed.)
-- ST-179: the AI-generated label now also shows on card-builder card thumbnails and gallery images, and flagged ones are served from stamped copies; card and gallery images gain the same AI fields in Studio. (`pnpm test:smoke`: 13 passed; Chromatic build 104 reviewed.)
-- ST-178: images flagged AI-generated can now carry the label in the file itself: a stamping tool bakes the mark into sized copies and writes IPTC metadata, and the site serves those copies because the Sanity image CDN strips embedded metadata; a Studio warning flags images that are flagged but unstamped. (`pnpm validate:ai-provenance`: 14 tests; Chromatic build 103 reviewed; no image stamped yet.)
-- SUG-178: images flagged AI-generated now show a small "AI-generated" label lower-left on body images and the detail-page hero, with the tool name on hover; card thumbnails follow in #179. (`pnpm test:smoke`: 13 passed; Chromatic build 102 reviewed.)
-- #176: the "Bait and Switch, or Just a Bug" article is republished after a second red-pen pass and linked from the K'snag, ATS and Funnel glossary terms. (live article returns 200.)
-- #175: responsive tables now show each column name above its value on a phone, where the header row was hidden and cells were unlabelled. (contrast 7.37:1 light, 10.61:1 or better dark-pink-moon; new Storybook story)
-- ST-173: new article "Bait and Switch, or Just a Bug" on a recruiter invite that promised a screening call and delivered an application, with ATS and Funnel added to the glossary. (`pnpm test:smoke`: 13 passed.)
-- #163: the preheader banner is pink-600 with white text, 4.80:1 instead of 3.62:1, on every page; the axe allowlist now caps each entry's node count so a new failing node can't hide behind it. (`pnpm test:smoke`: 13 passed.)
-- #160: `pnpm validate:contrast` fails CI when a token colour pair drops below WCAG 2.2 AA; 198 pairs across five themes checked, 25 existing failures allowlisted against #169, #170 and #171. (`pnpm validate:liveness-probes`: 16 gates live.)
-- SUG-164: neutral chip borders now meet 3:1 non-text contrast in light and dark Pink Moon, set by one token and no component changes. (light 3.20:1, dark 4.91:1)
-- ST-159: smoke suite now runs axe on five routes, crawls 294 internal links, and a weekly workflow checks outbound links; Lighthouse accessibility below 0.9 now fails the stats run. (`pnpm test:smoke`: 13 passed.)
+---
+
+## [0.38.0] — 2026-10-31
+
+AI image labelling end to end (on-site label, stamped file copies, cards, gallery, lightbox and share images), the label rebuilt as a Chip-based `MediaLabel`, contrast and link test gates, and a diagram drift check. Aggregates everything in `[Unreleased]` since v0.37.0.
+
+### apps/web
+
+#### Added
+- Images flagged AI-generated show an "AI-generated" label lower-left on body images, the detail-page hero, card-builder thumbnails, gallery images and the lightbox, with the tool name on hover (SUG-178, ST-179, ST-181, #180).
+- Flagged images and share images (og:image) are served from stamped copies that carry the baked mark and IPTC metadata, because the Sanity image CDN strips embedded metadata (ST-178, ST-181).
+
+#### Changed
+- Current-release links (footer, hero stat rail, governance tile) and each version in the governance page's recent releases open that version's release note.
+- Preheader banner is pink-600 with white text, 4.80:1 instead of 3.62:1 (#163).
+
+#### Fixed
+- The lightbox sizes images from their dimensions, so SVG diagrams fill the view instead of rendering at about 258 x 150 (#180).
+
+### apps/studio
+
+#### Added
+- Inline, hero, card-builder, gallery and share images gain AI-Generated, AI Tool, AI Tool Version and Stamped copies fields, with a warning when an AI image has no stamped copies; the tool list covers ChatGPT, Claude, Claude Code, Gemini, Adobe Firefly, Photoshop Generative Fill, Canva AI, Microsoft Copilot and Stable Diffusion (SUG-178, ST-178, ST-179, ST-181).
+
+#### Changed
+- The AI-Generated field description links the rule for when an image counts as AI-generated (#180).
+
+### packages/design-system
+
+#### Added
+- `MediaLabel`: a label laid over an image, with width tiers and an expandable detail, built on Chip (ST-181, ST-183).
+- Chip `tone="inverse"` and `size="fluid"` (ST-181).
+
+#### Changed
+- **Breaking:** `AiLabel` is removed; Media takes `label` instead of `aiGenerated` and `aiTool`, and Card takes `thumbnailLabel` instead of `thumbnailAiGenerated`. The AI wording now comes from the caller (ST-183). No rendered change.
+- Neutral chip borders reach 3:1 non-text contrast in light and dark Pink Moon (SUG-164; light 3.20:1, dark 4.91:1).
+
+#### Fixed
+- Responsive tables show each column name above its value on a phone, where the header row was hidden and cells were unlabelled (#175).
+
+### apps/storybook
+
+#### Changed
+- AiLabel's 17 stories became 4 multi-case MediaLabel stories; Chip gains one `FluidInverse` story (ST-181, ST-183).
+
+### Sanity production data
+
+- Article "Bait and Switch, or Just a Bug" published, then republished after a second red-pen pass with links from the K'snag, ATS and Funnel glossary terms; ATS and Funnel added (ST-173, #176).
+- `/ai-ethics` Principle 13 states Article 50's duties as the sources read; changelog entries for 2026-10-30 and 2026-10-31 (ST-181).
+- Case study "Sugartown: The Platform Is the Portfolio" diagrams replaced with the corrected sources, legends out of the label corner, tool recorded on all three (#180).
+
+### Other
+
+- Smoke tests run axe on five routes and crawl 294 internal links; a weekly workflow checks outbound links; Lighthouse accessibility below 0.9 fails the stats run (ST-159).
+- `pnpm validate:contrast` fails CI when a token colour pair drops below WCAG 2.2 AA; 25 existing failures allowlisted (#160).
+- `scripts/ai-provenance/stamp.py` stamps sized and share copies with the mark and IPTC metadata, and suggests the tool from a file's metadata (ST-178, ST-181; 21 tests).
+- `pnpm validate:diagram-assets` checks that published diagrams match their committed sources (#182).
+- Process rules from the 2026-10-31 post-mortem: existing-system check at start review, reuse and naming check at Phase 0, one story per variant, On Hold sweep in `/morning`, GROQ nested-match rule, diagram label corner.
+- ST-95 liveness probes verdict is no; #96 and #97 cancelled; probes kept. ST-101 closed without per-group QA profiles.
 
 ---
 
