@@ -104,5 +104,5 @@ none
 
 ## Post-ship checks
 
-- [ ] The labels on the live case study page and its lightbox still show after the next ship: session: open `/case-studies/sugartown-platform-is-the-portfolio` on sugartown.io, measure a label (130 px wide at desktop width) and open one lightbox.
+- [x] The labels on the live case study page and its lightbox still show after the next ship (checked 2026-10-31 on sugartown.io: 5 MediaLabel labels at 130 px, no old class, lightbox label at 17 px inset): session: open `/case-studies/sugartown-platform-is-the-portfolio` on sugartown.io, measure a label (130 px wide at desktop width) and open one lightbox.
 
