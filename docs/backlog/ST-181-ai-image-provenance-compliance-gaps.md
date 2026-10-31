@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-181 — AI image provenance: close the compliance gaps
 **Issue:** [#181](https://github.com/bex-sugartown/sugartown/issues/181)
-**Status:** Todo
+**Status:** In Progress
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
 **Visual:** yes
@@ -32,17 +32,17 @@ Not applicable, no content piece.
 - [ ] **Share-image schema — layer: schema.** Spread `aiImageFields` into the SEO `openGraph.image` field (and `defaultOgImage` if the audit shows it is used), deploy the schema.
 - [ ] **Share-image query and render — layer: query / frontend.** Project `aiGenerated`, `aiTool` and `provenance` for `seo.openGraph.image`; `SeoHead` uses the stamped 1200 x 630 copy when flagged and the current URL otherwise.
 - [ ] **IPTC 2025.1 AI fields — layer: tooling / schema.** Write `AISystemVersionUsed` when a version is recorded (new optional field `aiToolVersion` on the shared set). Prompt fields (`AIPromptInformation`, `AIPromptWriterName`) only with an explicit per-image opt-in, since prompts can hold private text; activation decision recorded in this doc.
-- [ ] **`AiLabel` on `Chip` — layer: frontend / Design System.** If the vspec approves: add `tone="inverse"` and `size="fluid"` to `Chip`, rebuild `AiLabel` as a positioned wrapper that renders `Chip` (keeping the width tiers and tool-name expand), repoint `label-spec.json` and `test_stamp.py` at the Chip tokens, zero change to every existing Chip story.
+- [ ] **`AiLabel` on `Chip` — layer: frontend / Design System.** Approved 2026-10-31: add `tone="inverse"` and `size="fluid"` to `Chip`, rebuild `AiLabel` as a positioned wrapper that renders `Chip` (keeping the width tiers and tool-name expand), repoint `label-spec.json` and `test_stamp.py` at the Chip tokens, zero change to every existing Chip story.
 - [ ] **Storybook — layer: Storybook.** Chip stories for the new props (light and dark), `AiLabel` stories unchanged in output.
 - [ ] **Ethics page and brief — layer: content / docs.** Correct Principle 13's Article 50 sentence, add a changelog entry that carries the rewritten "not done" line, update "Last updated", and sync `docs/briefs/ai-ethics-and-operations.md`. Each statement carries a source and a measurement date. Sanity write under the Content Write Gate; the draft is left for Bex to publish.
 - [ ] **Live verification — layer: content.** Flag one real image, stamp it, publish, then download both the page image and the `og:image` file and run `stamp.py --verify` on each; record the result.
 
 ## Phases
 
-- [ ] **Phase 0:** vspec sign-off, covering the Chip-variant decision, the class and prop naming table, new tokens, and the ethics page wording. Nothing else starts before it.
+- [x] **Phase 0 (design, approved 2026-10-31 by Bex):** Chip-variant rebuild approved as shown in the vspec section 6: new `Chip` props `tone="inverse"` and `size="fluid"`, classes `.toneInverse` and `.sizeFluid`, tokens `--st-chip-inverse-bg` and `--st-chip-inverse-fg`, letter-spacing moves to Chip's 0.06em for both the label and the baked mark. The ethics page wording is not part of this sign-off: it is proposed in Phase 4 under the Content Write Gate once Phase 1 has run.
 - [ ] **Phase 1:** signing feasibility audit (go or no-go). Its outcome fixes the ethics page wording in Phase 5.
 - [ ] **Phase 2:** share images (stamping, schema, query, render) and the IPTC 2025.1 fields.
-- [ ] **Phase 3:** `AiLabel` on `Chip` and Storybook, if Phase 0 approved it.
+- [ ] **Phase 3:** `AiLabel` on `Chip` and Storybook (approved in Phase 0).
 - [ ] **Phase 4:** ethics page and brief.
 - [ ] **Phase 5:** live verification.
 
