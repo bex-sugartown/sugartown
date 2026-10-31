@@ -53,8 +53,14 @@ export interface ChipProps {
    * No token needed — color is injected inline via --chip-dot CSS custom property.
    */
   dotColor?: string;
-  /** Size variant. Defaults to 'md'. */
-  size?: 'sm' | 'md';
+  /**
+   * Size variant. Defaults to 'md'. 'fluid' (ST-181) sizes the type from the nearest
+   * container (`clamp(9px, 3.2cqw, 14px)`), has no minimum height, and is meant for labels laid
+   * over an image inside a `container-type: inline-size` frame, such as AiLabel.
+   */
+  size?: 'sm' | 'md' | 'fluid';
+  /** Dark fill with white text, for chips laid over an image (ST-181). Omit for the default light chassis. */
+  tone?: 'inverse';
   /** Extra class names (for external layout overrides) */
   className?: string;
   /** Accessible label when the visible text alone is insufficient */
@@ -74,6 +80,7 @@ export const Chip: React.FC<ChipProps> = ({
   color,
   colorHex,
   size = 'md',
+  tone,
   className,
   'aria-label': ariaLabel,
 }) => {
@@ -97,7 +104,9 @@ export const Chip: React.FC<ChipProps> = ({
     isInteractive && styles.interactive,
     isActive && !isDotColor && styles.active,
     (((!isRuleDot && !isDotColor) || tagWithColor) && (color || colorHex)) && styles.tinted,
-    (isRuleDot || isDotColor) ? size === 'sm' && styles.sm : size === 'sm' && styles.sm,
+    size === 'sm' && styles.sm,
+    size === 'fluid' && styles.sizeFluid,
+    tone === 'inverse' && styles.toneInverse,
     // Color class: default chips, OR status chips where color overrides the dot, OR tag+color
     (!isRuleDot && !isDotColor || hasColorDot || tagWithColor) && color && styles[color as string],
     hasColorDot && styles.colorDot,

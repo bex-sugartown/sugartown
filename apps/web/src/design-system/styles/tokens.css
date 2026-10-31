@@ -477,6 +477,8 @@
   --st-callout-danger-icon-light: var(--st-color-red-600);
   --st-chip-tag-bg: var(--st-color-white-50);
   --st-chip-border: var(--st-color-neutral-450);
+  --st-chip-inverse-bg: var(--st-color-midnight-950);
+  --st-chip-inverse-fg: var(--st-color-white);
   --st-metadata-label-bg: var(--st-color-neutral-200);
   --st-metadata-body-bg: var(--st-color-white);
   --st-metadata-label-bg-light: var(--st-color-neutral-200);

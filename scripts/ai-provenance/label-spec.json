@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source for the baked AI mark. AiLabel.module.css repeats these values; test_stamp.py fails when the two disagree. Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html",
+  "_comment": "Single source for the baked AI mark. AiLabel.module.css and Chip.module.css (variant badge, tone inverse, size fluid) repeat these values; test_stamp.py fails when they disagree. Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html",
   "anchorPct": 3,
   "sizePct": 3.2,
   "capPx": 14,
@@ -7,7 +7,7 @@
   "minWidthFull": 200,
   "padYEm": 0.35,
   "padXEm": 0.6,
-  "trackingEm": 0.1,
+  "trackingEm": 0.06,
   "borderPx": 1,
   "textShort": "AI",
   "textFull": "AI-generated",
@@ -15,8 +15,8 @@
   "jpegQuality": 85,
   "digitalSourceType": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia",
   "tokens": {
-    "fill": "--st-color-midnight-950",
-    "text": "--st-color-white",
+    "fill": "--st-chip-inverse-bg",
+    "text": "--st-chip-inverse-fg",
     "border": "--st-chip-border"
   },
   "fonts": [

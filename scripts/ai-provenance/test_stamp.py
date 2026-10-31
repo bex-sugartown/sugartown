@@ -6,6 +6,7 @@ import stamp
 from PIL import Image
 
 CSS = os.path.join(stamp.ROOT, "packages", "design-system", "src", "components", "AiLabel", "AiLabel.module.css")
+CHIP_CSS = os.path.join(stamp.ROOT, "packages", "design-system", "src", "components", "Chip", "Chip.module.css")
 TOKENS = os.path.join(stamp.STYLES, "tokens.css")
 
 
@@ -13,7 +14,8 @@ class SpecMatchesCss(unittest.TestCase):
     """One fact, two places: the CSS and the stamping spec must agree."""
 
     def setUp(self):
-        self.css = open(CSS).read()
+        self.css = open(CSS).read()  # placement and width tiers
+        self.chip = open(CHIP_CSS).read()  # ST-181: type, padding, tracking, fill and border live in Chip
         self.spec = stamp.load_spec()
 
     def test_anchor(self):
@@ -23,23 +25,22 @@ class SpecMatchesCss(unittest.TestCase):
 
     def test_type_size_and_cap(self):
         s, c = self.spec["sizePct"], self.spec["capPx"]
-        self.assertRegex(self.css, rf"font-size: clamp\(\d+px, {s}cqw, {c}px\);")
+        self.assertRegex(self.chip, rf"\.sizeFluid \{{[^}}]*font-size: clamp\(\d+px, {s}cqw, {c}px\);")
 
     def test_width_tiers(self):
         self.assertIn(f"@container (min-width: {self.spec['minWidthShort']}px)", self.css)
         self.assertIn(f"@container (min-width: {self.spec['minWidthFull']}px)", self.css)
 
     def test_padding(self):
-        self.assertIn(f"padding: {self.spec['padYEm']}em {self.spec['padXEm']}em;", self.css)
+        self.assertRegex(self.chip, rf"\.sizeFluid \{{[^}}]*padding: {self.spec['padYEm']}em {self.spec['padXEm']}em;")
 
-    def test_tracking_token(self):
-        self.assertIn("letter-spacing: var(--st-label-tracking);", self.css)
-        tokens = stamp._tokens(TOKENS)
-        self.assertEqual(tokens["--st-label-tracking"], f"{self.spec['trackingEm']}em")
+    def test_tracking(self):
+        self.assertRegex(self.chip, rf"\.variantStatus \{{[^}}]*letter-spacing: {self.spec['trackingEm']}em;")
 
     def test_colour_tokens(self):
+        inverse = re.search(r"\.chip\.toneInverse \{([^}]*)\}", self.chip).group(1)
         for key, var in self.spec["tokens"].items():
-            self.assertIn(f"var({var})", self.css, f"{key} token {var} not used in AiLabel.module.css")
+            self.assertIn(f"var({var})", inverse if key != "border" else inverse, f"{key} token {var} not used by Chip tone inverse")
 
     def test_texts(self):
         tsx = open(CSS.replace("module.css", "tsx")).read()

@@ -1,6 +1,10 @@
 /*
  * AiLabel — SUG-178 on-site AI label. Shares its look with the ST-178 baked mark.
- * Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html
+ * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
+ *
+ * ST-181: the look (font, weight, case, tracking, border, dark fill, padding, fluid type) is the
+ * Chip variant `badge` + tone `inverse` + size `fluid`. This file keeps only what a Chip does not
+ * own: placement on the image, the width tiers, the tool-name expand and the focus ring.
  *
  * Needs a container-type: inline-size ancestor the size of the image (Media supplies one).
  * Type is 3.2% of the image width, held between 9px and 14px. ST-178 stamps the baked mark with
@@ -14,25 +18,16 @@
   z-index: 3; /* above the Media overlay layer (z-index 2) */
 
   display: none; /* under 96px: no label, metadata only */
-  align-items: center;
-  gap: 0.6em;
-  box-sizing: border-box;
   max-width: 70cqw;
   overflow: hidden;
   white-space: nowrap;
-
-  font-family: var(--st-label-font);
-  font-weight: 700;
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
-  font-size: clamp(9px, 3.2cqw, 14px);
-  line-height: 1;
-  padding: 0.35em 0.6em;
-
-  border: 1px solid var(--st-chip-border);
-  background: var(--st-color-midnight-950);
-  color: var(--st-color-white);
   cursor: default;
+}
+
+/* The three text parts share one inline row inside the Chip. */
+.text {
+  display: inline-flex;
+  align-items: center;
 }
 
 .aiLabel:focus-visible {
@@ -85,6 +80,7 @@
   .aiLabel[data-open='true'] .tool {
     max-width: 16ch;
     opacity: 1;
+    margin-left: 0.6em;
   }
 }
 

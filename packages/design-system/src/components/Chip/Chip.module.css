@@ -96,6 +96,15 @@
   min-height: 24px;
 }
 
+/* ST-181: fluid size. Type follows the nearest container (cqw), held between 9px and 14px, and
+   there is no minimum height, so the chip can sit on a small image. Needs a
+   container-type: inline-size ancestor; outside one it clamps to 14px. */
+.sizeFluid {
+  font-size: clamp(9px, 3.2cqw, 14px);
+  padding: 0.35em 0.6em;
+  min-height: 0;
+}
+
 /* ── Named color presets ────────────────────────────────
    Each preset sets --chip-color to the corresponding Sugartown palette token.
    The base .chip rule resolves bg/border/text from --chip-color via color-mix().
@@ -139,6 +148,14 @@
   border: 1px solid var(--st-chip-border);
   color: var(--st-chip-fg);
   gap: 5px;
+}
+
+/* ST-181: inverse tone, a dark chip for use over an image. Two classes outrank .ruleDot and the
+   :where() neutral rule above. */
+.chip.toneInverse {
+  background: var(--st-chip-inverse-bg);
+  color: var(--st-chip-inverse-fg);
+  border-color: var(--st-chip-border);
 }
 
 /* Status chips: uppercase mono, bold, with dot */

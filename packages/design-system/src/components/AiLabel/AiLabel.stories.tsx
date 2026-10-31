@@ -15,88 +15,85 @@ const meta: Meta<typeof Media> = {
   component: Media,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
-  args: { src: SAMPLE_IMAGE, alt: 'Sample photograph', aiGenerated: true, aiTool: 'midjourney' },
+  args: { src: SAMPLE_IMAGE, alt: 'Sample photograph', aiGenerated: true, aiTool: 'gemini' },
 };
 export default meta;
 type Story = StoryObj<typeof Media>;
 
-const at = (w: number) => {
-  const Decorator = (StoryFn: React.ComponentType) => (
-    <div style={{ width: w }}><StoryFn /></div>
-  );
-  Decorator.displayName = `AtWidth${w}`;
-  return Decorator;
-};
+/**
+ * ST-181: one story per use case group, not one per variant. Each story is one Chromatic snapshot,
+ * so cases that differ only by width, tool or surface are shown together in a single frame.
+ */
+const Row = ({ label, width, children }: { label: string; width: number; children: React.ReactNode }) => (
+  <div style={{ display: 'grid', gap: 4 }}>
+    <small style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: 11 }}>{label}</small>
+    <div style={{ width }}>{children}</div>
+  </div>
+);
 
-export const NotAiGenerated: Story = { args: { aiGenerated: false }, decorators: [at(480)] };
-export const NoToolRecorded: Story = { args: { aiTool: undefined }, decorators: [at(480)] };
-export const AdobeFirefly: Story = { args: { aiTool: 'adobe-firefly' }, decorators: [at(480)] };
-export const OtherToolShowsNoName: Story = { args: { aiTool: 'other' }, decorators: [at(480)] };
-export const Width480_ToolOnHover: Story = { decorators: [at(480)] };
-export const Width320_ToolOnHover: Story = { decorators: [at(320)] };
-export const Width240_FullTextNoTool: Story = { decorators: [at(240)] };
-export const Width160_ShortText: Story = { decorators: [at(160)] };
-export const Width96_ShortText: Story = { decorators: [at(96)] };
-export const Width80_NoLabel: Story = { decorators: [at(80)] };
-export const WithDuotoneOverlay: Story = {
-  args: { overlay: { type: 'duotone', duotonePreset: 'standard' } },
-  decorators: [at(480)],
-};
-export const WithCaption: Story = { args: { caption: 'Caption sits below the image, not under the label.' }, decorators: [at(480)] };
+const grid: React.CSSProperties = { display: 'grid', gap: 24 };
 
-/** ST-178: a flagged image with stamped copies is served from them (srcset), not from `src`. */
-export const WithStampedCopies: Story = {
-  args: {
-    provenance: [
-      { width: 480, url: `${SAMPLE_IMAGE}&w=480` },
-      { width: 960, url: `${SAMPLE_IMAGE}&w=960` },
-      { width: 1920, url: `${SAMPLE_IMAGE}&w=1920` },
-    ],
-  },
-  decorators: [at(480)],
-};
-
-// ── ST-179: cards and gallery ────────────────────────────────────────────────
-
-/** Card thumbnail: decorative label, no tool name, not focusable (clicks reach the card link). */
-export const OnCardThumbnail: StoryObj<typeof Card> = {
-  render: () => (
-    <div style={{ width: 360 }}>
-      <Card
-        title="A card with an AI-generated thumbnail"
-        thumbnailUrl={SAMPLE_IMAGE}
-        thumbnailAlt="Sample"
-        thumbnailAiGenerated
-      />
+/** Width tiers: nothing under 96 px, "AI" to 199 px, "AI-generated" from 200 px, tool name on hover from 320 px. */
+export const Widths: Story = {
+  render: (args) => (
+    <div style={grid}>
+      {[480, 320, 240, 160, 96, 80].map((w) => (
+        <Row key={w} label={`${w} px`} width={w}><Media {...args} /></Row>
+      ))}
     </div>
   ),
 };
 
-export const OnCardThumbnailNotFlagged: StoryObj<typeof Card> = {
-  render: () => (
-    <div style={{ width: 360 }}>
-      <Card title="A card with an ordinary thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" />
+/** Tool and flag states at 480 px: not flagged, no tool recorded, a known tool, and Other (no name shown). */
+export const ToolStates: Story = {
+  render: (args) => (
+    <div style={grid}>
+      <Row label="Not flagged: no label" width={480}><Media {...args} aiGenerated={false} /></Row>
+      <Row label="No tool recorded" width={480}><Media {...args} aiTool={undefined} /></Row>
+      <Row label="Adobe Firefly" width={480}><Media {...args} aiTool="adobe-firefly" /></Row>
+      <Row label="Other: no name shown" width={480}><Media {...args} aiTool="other" /></Row>
     </div>
   ),
 };
 
-/** Listing variant: the thumbnail rail is narrow, so the label reads "AI". */
-export const OnListingRail: StoryObj<typeof Card> = {
+/** Cards: decorative label (no tool name, not focusable, clicks reach the card link); the listing rail reads "AI". */
+export const OnCards: StoryObj<typeof Card> = {
   render: () => (
-    <div style={{ width: 560 }}>
-      <Card
-        variant="listing"
-        title="A listing card with an AI-generated thumbnail"
-        thumbnailUrl={SAMPLE_IMAGE}
-        thumbnailAlt="Sample"
-        thumbnailAiGenerated
-      />
+    <div style={grid}>
+      <Row label="Card thumbnail, flagged" width={360}>
+        <Card title="A card with an AI-generated thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" thumbnailAiGenerated />
+      </Row>
+      <Row label="Card thumbnail, not flagged" width={360}>
+        <Card title="A card with an ordinary thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" />
+      </Row>
+      <Row label="Listing rail, flagged" width={560}>
+        <Card variant="listing" title="A listing card with an AI-generated thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" thumbnailAiGenerated />
+      </Row>
     </div>
   ),
 };
 
-/** Gallery-style frame: fixed aspect ratio with hotspot crop keeps the label on the image. */
-export const InGalleryFrame: Story = {
-  args: { aspectRatio: '4/3', hotspot: { x: 0.5, y: 0.4 } },
-  decorators: [at(360)],
+/** Media treatments: duotone overlay, caption below, stamped copies (served from srcset), and a cropped gallery-style frame. */
+export const MediaTreatments: Story = {
+  render: (args) => (
+    <div style={grid}>
+      <Row label="Duotone overlay" width={480}><Media {...args} overlay={{ type: 'duotone', duotonePreset: 'standard' }} /></Row>
+      <Row label="Caption sits below the image, not under the label" width={480}>
+        <Media {...args} caption="Caption sits below the image, not under the label." />
+      </Row>
+      <Row label="Stamped copies (ST-178): served from srcset" width={480}>
+        <Media
+          {...args}
+          provenance={[
+            { width: 480, url: `${SAMPLE_IMAGE}&w=480` },
+            { width: 960, url: `${SAMPLE_IMAGE}&w=960` },
+            { width: 1920, url: `${SAMPLE_IMAGE}&w=1920` },
+          ]}
+        />
+      </Row>
+      <Row label="Gallery-style frame: 4/3 with hotspot crop" width={360}>
+        <Media {...args} aspectRatio="4/3" hotspot={{ x: 0.5, y: 0.4 }} />
+      </Row>
+    </div>
+  ),
 };

@@ -13,7 +13,8 @@ const meta: Meta<typeof Chip> = {
   argTypes: {
     label:    { control: 'text' },
     href:     { control: 'text' },
-    size:     { control: { type: 'select' }, options: ['sm', 'md'] },
+    size:     { control: { type: 'select' }, options: ['sm', 'md', 'fluid'] },
+    tone:     { control: { type: 'select' }, options: [undefined, 'inverse'], description: '`inverse` — dark fill, white text, for chips laid over an image (ST-181).' },
     variant:  {
       control: { type: 'select' },
       options: ['tag', 'badge'],
@@ -55,6 +56,25 @@ export const Tag: Story = {
 /** Selectable chip. Toggle `isActive` in the controls to see the solid reversed state. */
 export const Selectable: Story = {
   args: { label: 'Filter', onClick: () => {}, isActive: true },
+};
+
+/**
+ * ST-181: `tone="inverse"` with `size="fluid"`, the AiLabel chassis. The type follows the width of the
+ * frame it sits in (3.2% of it, held between 9px and 14px), so one frame per width shows the whole range.
+ * Needs a container-type: inline-size ancestor.
+ */
+export const FluidInverse: Story = {
+  parameters: { layout: 'padded' },
+  render: () => (
+    <div style={{ display: 'flex', gap: 24, alignItems: 'flex-end', flexWrap: 'wrap' }}>
+      {[480, 320, 160, 96].map((w) => (
+        <div key={w} style={{ width: w, containerType: 'inline-size', padding: 12, background: 'var(--st-color-softgrey-200)' }}>
+          <Chip variant="badge" tone="inverse" size="fluid" label={w < 200 ? 'AI' : 'AI-generated'} />
+          <small style={{ display: 'block', marginTop: 8, fontFamily: 'var(--st-font-family-mono)', fontSize: 11 }}>{w} px frame</small>
+        </div>
+      ))}
+    </div>
+  ),
 };
 
 /** Opt-in colour tint via `color`. Inactive on the left, selected on the right. */

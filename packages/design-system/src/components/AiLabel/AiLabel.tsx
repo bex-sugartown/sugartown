@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import styles from './AiLabel.module.css';
+import { Chip } from '../Chip';
 
 /**
  * AiLabel — Sugartown Design System
  *
  * The on-site AI-generated label (SUG-178). Same anchor, type, padding, border and fill as the
- * visible mark ST-178 stamps into the image file, so the two never look different. Place it
+ * visible mark ST-178 stamps into the image file, so the two never look different. Since ST-181
+ * the look is a Chip (`variant="badge" tone="inverse" size="fluid"`); this component adds the
+ * placement, the width tiers and the tool-name expand. Place it
  * inside a `position: relative; container-type: inline-size` frame the size of the image, or pass
  * `frame` to get that container layer for a CSS-background image such as the hero.
  *
  * Width rules (container queries, no JS): under 96px nothing; 96 to 199px "AI"; 200px and up
  * "AI-generated"; at 320px and up the tool name expands on hover, focus or tap.
  *
- * Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html
+ * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
  */
 
 export type AiTool = 'chatgpt' | 'claude' | 'claude-code' | 'gemini' | 'adobe-firefly' | 'photoshop-generative-fill' | 'canva-ai' | 'microsoft-copilot' | 'stable-diffusion' | 'other' | string;
@@ -81,9 +84,13 @@ export function AiLabel({ aiGenerated, aiTool, frame, showTool = true, className
           }
         : {})}
     >
-      <span className={styles.short} aria-hidden="true">AI</span>
-      <span className={styles.full} aria-hidden="true">AI-generated</span>
-      {tool && <span className={styles.tool} aria-hidden="true">{tool}</span>}
+      <Chip variant="badge" tone="inverse" size="fluid">
+        <span className={styles.text}>
+          <span className={styles.short} aria-hidden="true">AI</span>
+          <span className={styles.full} aria-hidden="true">AI-generated</span>
+          {tool && <span className={styles.tool} aria-hidden="true">{tool}</span>}
+        </span>
+      </Chip>
     </span>
   );
 
