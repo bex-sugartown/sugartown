@@ -163,9 +163,9 @@ Three epics shipped a new visual component without recording the Component choic
 
 ## Post-ship checks
 
-- [ ] The case study draft is published (new diagrams, legends right-aligned, `aiTool` on all three): person: open "Sugartown: The Platform Is the Portfolio" in Studio, look at the Overview diagrams, click Publish. The live agnostic-stack diagram also changes from a dashed roadmap arrow to the solid one the repo has had since SUG-224 Phase 6.
-- [ ] The ethics draft is published: person: open "AI Ethics & Operations" in Studio, check Principle 13 and the new 10/31 changelog entry, click Publish.
+- [x] The case study draft is published (new diagrams, legends right-aligned, `aiTool` on all three): person: open "Sugartown: The Platform Is the Portfolio" in Studio, look at the Overview diagrams, click Publish. The live agnostic-stack diagram also changes from a dashed roadmap arrow to the solid one the repo has had since SUG-224 Phase 6. Done 2026-10-31 by Bex (published document updated 15:27Z; all three diagrams serve the new assets, `aiTool` on all three).
+- [x] The ethics draft is published: person: open "AI Ethics & Operations" in Studio, check Principle 13 and the new 10/31 changelog entry, click Publish. Done 2026-10-31 by Bex (published page carries the v2026.10.31 changelog entry).
 - [ ] A flagged share image yields a stamped `og:image`: person: ask a Claude session to stamp one image with `--share` and attach it to the home page share image; the session then reads the rendered `<meta property="og:image">`, downloads it and runs `stamp.py --verify`.
-- [ ] The lightbox shows the AI label on a flagged image (fixed 2026-10-31, checked in the dev server on the case study page): person: open a flagged image's lightbox on the live site after the next ship.
+- [x] The lightbox shows the AI label on a flagged image (fixed 2026-10-31, checked in the dev server on the case study page): person: open a flagged image's lightbox on the live site after the next ship. Checked live 2026-10-31 on sugartown.io: lightbox image 553 x 322 at a 614 px viewport, label 17 px from the left and bottom, 130 px wide.
 - [ ] A flagged page image downloads from the live site with the IPTC tag intact (carried over from ST-178): person: same session, on one flagged page image.
 - [ ] `stamp.py --detect` is tried on one real Firefly, ChatGPT and Gemini export: person: supply the three files; the session reports what it found and fixes the marker list.
