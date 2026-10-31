@@ -26,6 +26,14 @@
   cursor: default;
 }
 
+/* Shrink-wraps the image; AiLabel's frame fills it (absolute, so it never changes the size). */
+.imageWrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+}
+
 .image {
   max-width: 100%;
   max-height: 80vh;

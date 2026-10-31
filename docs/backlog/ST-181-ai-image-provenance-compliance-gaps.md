@@ -134,6 +134,7 @@ Ticked above except: the rendered `og:image` on a real flagged page (needs a fla
 
 - The three shipped epics never ran the Component choice gate, so `AiLabel` copied about 60% of `Chip` and needed a rebuild here. Found by Bex asking "could this be a chip variant?", not by any check.
 - The first GROQ query for "any flagged image anywhere" returned 94 documents because `defined()` is true for an array of nulls; the same trap ST-178 recorded as a one-off. Listing the documents, then reading the values, showed zero.
+- The click-through lightbox showed no AI label. ST-179's gallery decision covered the label on the gallery image and said clicks on the label do not open the lightbox, but never checked the lightbox's own image. Bex found it on 2026-10-31; fixed in `ImageLightbox` (the label's frame wraps the shrink-wrapped image) and checked in the dev server: the label sits inside the image, bottom-left, with the tool name. The lightbox has no Storybook story, so Chromatic does not cover it.
 - A `sed -i` chain with `&&` stopped on macOS before the python step, so the tests and workflow edit silently did not run; caught because the test count had not changed.
 - EUR-Lex returned an empty HTTP 202 page, so the Omnibus date was never read from the regulation; the ethics page leaves it out.
 
@@ -161,5 +162,6 @@ Three epics shipped a new visual component without recording the Component choic
 
 - [ ] The ethics draft is published: person: open "AI Ethics & Operations" in Studio, check Principle 13 and the new 10/31 changelog entry, click Publish.
 - [ ] A flagged share image yields a stamped `og:image`: person: ask a Claude session to stamp one image with `--share` and attach it to the home page share image; the session then reads the rendered `<meta property="og:image">`, downloads it and runs `stamp.py --verify`.
+- [ ] The lightbox shows the AI label on a flagged image (fixed 2026-10-31, checked in the dev server on the case study page): person: open a flagged image's lightbox on the live site after the next ship.
 - [ ] A flagged page image downloads from the live site with the IPTC tag intact (carried over from ST-178): person: same session, on one flagged page image.
 - [ ] `stamp.py --detect` is tried on one real Firefly, ChatGPT and Gemini export: person: supply the three files; the session reports what it found and fixes the marker list.

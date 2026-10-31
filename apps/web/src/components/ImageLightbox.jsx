@@ -13,6 +13,7 @@
 import { useEffect, useCallback, useRef, useState } from 'react'
 import { urlFor } from '../lib/sanity'
 import { stampedCopies } from '../lib/provenance'
+import { AiLabel } from '../design-system'
 import styles from './ImageLightbox.module.css'
 
 export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
@@ -101,11 +102,15 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
       )}
 
       <div className={styles.content}>
-        <img
-          src={imgUrl}
-          alt={image.alt || ''}
-          className={styles.image}
-        />
+        {/* ST-181: the wrapper shrink-wraps the image so the AI label sits on the picture, not the screen. */}
+        <div className={styles.imageWrap}>
+          <img
+            src={imgUrl}
+            alt={image.alt || ''}
+            className={styles.image}
+          />
+          <AiLabel frame aiGenerated={image.aiGenerated} aiTool={image.aiTool} />
+        </div>
         {(image.caption || image.credit || image.alt) && (
           <p className={styles.caption}>
             {image.caption || image.alt}
