@@ -1,5 +1,6 @@
 import {defineType, defineField} from 'sanity'
 import {SearchIcon} from '@sanity/icons'
+import {aiImageFields} from './aiImageFields'
 
 /**
  * SEO Metadata Object (Embedded)
@@ -129,7 +130,8 @@ export default defineType({
               title: 'Alt Text',
               type: 'string',
               description: 'Describe the image for accessibility'
-            })
+            }),
+            ...aiImageFields
           ]
         }),
         defineField({

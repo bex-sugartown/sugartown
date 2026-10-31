@@ -3,8 +3,8 @@ import {defineArrayMember, defineField} from 'sanity'
 /**
  * AI-generated image disclosure fields (SUG-55, SUG-178)
  *
- * One definition shared by every image that can be AI-generated: `richImage` and the hero
- * `backgroundImage`. Add the spread to any other image type that needs the on-site AI label.
+ * One definition shared by every image that can be AI-generated: `richImage`, the hero
+ * `backgroundImage`, card-builder and gallery images, and (ST-181) the SEO share image. Add the spread to any other image type that needs the on-site AI label.
  * The web app reads `aiGenerated` and `aiTool` and renders the AiLabel design-system component.
  *
  * ST-178: the Sanity image CDN strips embedded metadata, so a flagged image also carries
@@ -31,18 +31,31 @@ export const aiImageFields = [
     name: 'aiTool',
     title: 'AI Tool',
     type: 'string',
-    description: 'Which AI tool generated this image?',
+    description: 'Which AI tool generated this image? A Claude session can suggest this from the source file when it stamps the image.',
     hidden: ({parent}) => !parent?.aiGenerated,
     options: {
       list: [
-        {title: 'DALL-E', value: 'dall-e'},
-        {title: 'Midjourney', value: 'midjourney'},
-        {title: 'Stable Diffusion', value: 'stable-diffusion'},
+        {title: 'ChatGPT', value: 'chatgpt'},
+        {title: 'Claude', value: 'claude'},
+        {title: 'Claude Code', value: 'claude-code'},
+        {title: 'Gemini', value: 'gemini'},
         {title: 'Adobe Firefly', value: 'adobe-firefly'},
+        {title: 'Photoshop Generative Fill', value: 'photoshop-generative-fill'},
+        {title: 'Canva AI', value: 'canva-ai'},
+        {title: 'Microsoft Copilot', value: 'microsoft-copilot'},
+        {title: 'Stable Diffusion', value: 'stable-diffusion'},
         {title: 'Other', value: 'other'},
       ],
       layout: 'dropdown',
     },
+  }),
+  defineField({
+    name: 'aiToolVersion',
+    title: 'AI Tool Version',
+    type: 'string',
+    description:
+      'Optional. The version or model of the tool, for example "v6.1". Written into the stamped files as the IPTC AI System Version Used. Leave empty when unknown.',
+    hidden: ({parent}) => !parent?.aiGenerated,
   }),
   defineField({
     name: 'provenanceFiles',

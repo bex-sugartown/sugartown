@@ -15,7 +15,7 @@ import styles from './AiLabel.module.css';
  * Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html
  */
 
-export type AiTool = 'dall-e' | 'midjourney' | 'stable-diffusion' | 'adobe-firefly' | 'other' | string;
+export type AiTool = 'chatgpt' | 'claude' | 'claude-code' | 'gemini' | 'adobe-firefly' | 'photoshop-generative-fill' | 'canva-ai' | 'microsoft-copilot' | 'stable-diffusion' | 'other' | string;
 
 export interface AiLabelProps {
   /** Renders nothing when false or absent. */
@@ -33,10 +33,18 @@ export interface AiLabelProps {
 }
 
 const TOOL_NAMES: Record<string, string> = {
+  chatgpt: 'ChatGPT',
+  claude: 'Claude',
+  'claude-code': 'Claude Code',
+  gemini: 'Gemini',
+  'adobe-firefly': 'Adobe Firefly',
+  'photoshop-generative-fill': 'Photoshop Generative Fill',
+  'canva-ai': 'Canva AI',
+  'microsoft-copilot': 'Microsoft Copilot',
+  'stable-diffusion': 'Stable Diffusion',
+  // Legacy values (no longer in the Studio list) still display.
   'dall-e': 'DALL-E',
   midjourney: 'Midjourney',
-  'stable-diffusion': 'Stable Diffusion',
-  'adobe-firefly': 'Adobe Firefly',
 };
 
 export function toolLabel(aiTool?: string): string | undefined {

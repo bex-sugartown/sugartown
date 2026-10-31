@@ -44,6 +44,7 @@
  */
 
 import { getCanonicalPath } from './routes'
+import { AI_PROVENANCE_PROJECTION } from './provenance'
 
 // ─── GROQ fragments ───────────────────────────────────────────────────────────
 
@@ -76,7 +77,10 @@ export const SEO_FRAGMENT = `
       description,
       image {
         asset->,
-        alt
+        alt,
+        aiGenerated,
+        aiTool,
+        ${AI_PROVENANCE_PROJECTION}
       },
       type
     }
@@ -95,7 +99,10 @@ export const SITE_SEO_FRAGMENT = `
   defaultMetaDescription,
   defaultOgImage {
     asset->,
-    alt
+    alt,
+    aiGenerated,
+    aiTool,
+    ${AI_PROVENANCE_PROJECTION}
   }
 `.trim()
 

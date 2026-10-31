@@ -194,7 +194,7 @@ export const AiGenerated: Story = {
           hotspot: { x: 0.5, y: 0.4 },
           alt: args.altText,
           aiGenerated: true,
-          aiTool: 'midjourney',
+          aiTool: 'gemini',
         },
       })}
     />

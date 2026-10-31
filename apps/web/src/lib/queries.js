@@ -8,6 +8,7 @@
 // Use resolveSeo() in page components to merge doc overrides with site defaults.
 
 import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
+import { AI_PROVENANCE_PROJECTION } from './provenance'
 
 // ---- TAXONOMY FRAGMENTS (centralized — use in every query that expands categories/projects) ----
 // Stage 4: PERSON_FRAGMENT and TAG_FRAGMENT added alongside existing fragments.
@@ -168,9 +169,7 @@ export const LINKITEM_FRAGMENT = `
 // the markDefs need dereferencing to resolve internalRef → _type + slug.
 // This projection is spread inside content[] array projections.
 
-// ST-178: stamped copies of AI-generated images (file assets served as-is; the Sanity image CDN
-// strips embedded metadata). Spliced into every projection that carries aiGenerated.
-const AI_PROVENANCE_PROJECTION = `"provenance": provenanceFiles[] { width, "url": file.asset->url }`
+// ST-178: stamped copies of AI-generated images; the fragment lives in provenance.js (ST-181).
 
 const PT_CONTENT_PROJECTION = `[] {
   ...,

@@ -22,5 +22,21 @@
   "fonts": [
     "/System/Library/Fonts/Menlo.ttc",
     "/System/Library/Fonts/Supplemental/Courier New Bold.ttf"
-  ]
+  ],
+  "shareSize": [1200, 630],
+  "tools": {
+    "chatgpt": "ChatGPT",
+    "claude": "Claude",
+    "claude-code": "Claude Code",
+    "gemini": "Gemini",
+    "adobe-firefly": "Adobe Firefly",
+    "photoshop-generative-fill": "Photoshop Generative Fill",
+    "canva-ai": "Canva AI",
+    "microsoft-copilot": "Microsoft Copilot",
+    "stable-diffusion": "Stable Diffusion"
+  },
+  "legacyTools": {
+    "dall-e": "DALL-E",
+    "midjourney": "Midjourney"
+  }
 }

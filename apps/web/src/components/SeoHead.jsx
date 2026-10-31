@@ -30,6 +30,7 @@
  */
 import { useEffect, useMemo } from 'react'
 import { urlFor } from '../lib/sanity'
+import { shareImageUrl } from '../lib/provenance'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -105,7 +106,8 @@ export default function SeoHead({ seo: seoProp, title: titleProp, description: d
     const ogImageAsset = seo.openGraph?.image
     if (ogImageAsset) {
       try {
-        const imgUrl = urlFor(ogImageAsset).width(1200).height(630).url()
+        // ST-181: a flagged share image is served from its stamped copy (the CDN strips the metadata).
+        const imgUrl = shareImageUrl(ogImageAsset) ?? urlFor(ogImageAsset).width(1200).height(630).url()
         ogImageEl = setMeta('og:image', imgUrl, 'property')
       } catch {
         // urlForImage may throw if asset ref is malformed — fail silently

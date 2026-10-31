@@ -1,5 +1,6 @@
 import {defineType, defineField, defineArrayMember} from 'sanity'
 import {CogIcon} from '@sanity/icons'
+import {aiImageFields} from '../objects/aiImageFields'
 
 /**
  * Site Settings Document (Singleton)
@@ -213,7 +214,8 @@ export default defineType({
       group: 'seo',
       options: {
         hotspot: true
-      }
+      },
+      fields: [...aiImageFields]
     })
   ],
   preview: {
