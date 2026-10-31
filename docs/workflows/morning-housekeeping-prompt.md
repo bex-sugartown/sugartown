@@ -279,6 +279,7 @@ gh project item-list 1 --owner bex-sugartown --limit 200 --format json
 - **Cloud hand-backs waiting** — `gh issue list --label handback-ready --state open`. For each,
   name the issue and say: run `/handback {n}`. An In Progress issue labelled `cloud` with no
   `handback-ready` label is a cloud run still going, not a stale issue (#144).
+- **On Hold sweep** — for every `On Hold` issue, read the hold reason (issue body, last comment, or the epic doc's Status line) and check whether it still holds: a date that has passed, a blocking issue now closed, an event that has since happened. Also list every kill-criterion or check date that is past due (`grep -rn -i "check date" docs/backlog docs/shipped`). Name each issue that can move. (2026-10-31: ST-101 sat blocked ten weeks after its condition was met, and the ST-95 verdict was 11 days overdue.)
 
 If the board is unreachable, skip this section and note it was skipped.
 

@@ -80,4 +80,6 @@ When a `define:` entry is added to `apps/web/vite.config.js`, check whether it p
 
 Every new or modified component that has visual output must have a Storybook story before close-out. The story must cover: default state, all meaningful variants, and at least one edge case (long text, missing fields, empty arrays). Components without stories are invisible to Chromatic VRT.
 
+**One story per variant, not one per case.** Each story is one Chromatic snapshot and counts against the test allotment, so show a variant's cases (widths, states, surfaces) together in one story. When you touch a component with many single-case stories, consolidate them and record the before and after counts. (Bex, 2026-10-31; ST-181 cut AiLabel from 17 stories to 4.)
+
 **Dark mode is a shipping AC, not a follow-up.** Before close-out, confirm in Storybook — not by assumption — that every story renders correctly on both `default` and `dark-pink-moon`. "Untested" in the registry's dark mode column is a blocking state, and a component entered that way needs an open issue before the epic closes.

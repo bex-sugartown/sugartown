@@ -23,3 +23,7 @@ images[] {
 ```
 
 Do **not** write `asset->` on a `richImage` — that dereferences the `image` object, not the reference inside it, and silently returns null.
+
+### Checking whether any nested item matches
+
+**List the matching values; never count or `defined()` a nested filter.** `defined(sections[].items[image.aiGenerated == true][0]._key)` is true for an array of nulls, so a "which documents have a flagged image" query returns every document that has the array. Project the values and read them: `*[...]{_id, "hits": content[aiGenerated == true]._key}`. (ST-178 reported 171 false hits and ST-181 reported 94; both were zero.)

@@ -304,7 +304,7 @@ usually differs only by its `generatedAt` date.
 
 A vspec is a specification, not a sketch: its class names, spacing values, and annotated behaviours bind the implementation, and it is what the vspec-to-build comparison table judges against. Updating the backlog spec triggers a vspec update in the same response, so the two stay in sync.
 
-**Sign-off covers everything knowable up front, in one batch:** the vspec, reader-facing copy, the CSS class naming table (`.claude/rules/css-layout.md` proposal gate), design-system changes, and diffs for every rule file the Scope names. After sign-off, stop mid-epic only for what could not be known at the start. (SUG-202 stopped four times mid-epic; two were knowable at the start.)
+**Sign-off covers everything knowable up front, in one batch:** the vspec, reader-facing copy, the CSS class naming table (`.claude/rules/css-layout.md` proposal gate), the Component choice audit (`.claude/rules/react.md`; it is path-scoped and not loaded at Phase 0, so open it) for every new component or DS primitive change, design-system changes, and diffs for every rule file the Scope names. **Before asking for sign-off, check every vspec class and component name against the content-type rule below:** `.aiLabel` or `AiLabel` fails it. A vspec that places anything over images also mocks one text-heavy image, such as a diagram with a legend. After sign-off, stop mid-epic only for what could not be known at the start. (SUG-202 stopped four times mid-epic; two were knowable at the start. SUG-178 named a new component after its use case and skipped the audit; ST-181 rebuilt it as a Chip variant.)
 
 **Response mechanism:** a select-list gate per `docs/conventions/human-gate-conventions.md` — present the vspec, then ask via a single select option.
 
@@ -456,7 +456,7 @@ Output is a findings table in the commit message for the change it audited. No n
 
 **Renaming a heading obliges a grep for inbound references to the old text**, in the same commit. It was the only defect class to repeat across the first three runs and it reached six files at once. Shipped docs keep the old name: a shipped doc records what was true when it shipped. `node scripts/check-renamed-headings.js <file>` runs this grep mechanically (ST-101 S1) — a session-run aid for step 1 above, not a pre-commit or CI gate; it found a live orphaned reference from 2026-08-16's rename on its first real run, five days after the fact.
 
-Retire this when three consecutive rule changes pass with no finding. Record and review: `docs/shipped/ST-99-rules-change-qa.md`.
+Retire this when three consecutive rule changes pass with no finding. Each run's findings table lives in its commit body; list the runs with `git log -i --grep=walkthrough`, not a hand-kept table (the table in `docs/shipped/ST-99-rules-change-qa.md` stopped at run 8 while 31 later commits carried tables; ST-101, 2026-10-31).
 
 ### Sanity MCP content writes — no AI rewriting
 
