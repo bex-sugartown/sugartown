@@ -16,6 +16,17 @@ import { stampedCopies } from '../lib/provenance'
 import { AiLabel } from '../design-system'
 import styles from './ImageLightbox.module.css'
 
+/**
+ * Pixel size of a Sanity image from its CDN URL (`.../<hash>-880x512.svg?w=1600`) or asset id
+ * (`image-<hash>-880x512-svg`), or null. An SVG with only a viewBox has no intrinsic size, so the
+ * lightbox sizes the image from this instead. Stamped file-asset URLs carry no size (null).
+ */
+function assetSize(url, asset) {
+  const id = asset?._ref || asset?._id || ''
+  const m = /-(\d+)x(\d+)\.(\w+)(?:\?|$)/.exec(url || '') || /-(\d+)x(\d+)-(\w+)$/.exec(id)
+  return m ? { w: Number(m[1]), h: Number(m[2]), isSvg: m[3] === 'svg' } : null
+}
+
 export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const closeRef = useRef(null)
@@ -74,6 +85,13 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
 
   if (!imgUrl) return null
 
+  // Fit the viewport (90vw by 80vh). Vector images scale up to fill it; photos stop at the 1600px
+  // that was requested, so they are never stretched past their pixels.
+  const size = assetSize(imgUrl, image.asset)
+  const wrapStyle = size
+    ? { width: `min(90vw, calc(80vh * ${size.w / size.h}), ${size.isSvg ? '100vw' : '1600px'})`, aspectRatio: `${size.w} / ${size.h}` }
+    : undefined
+
   return (
     <div
       className={styles.overlay}
@@ -103,11 +121,11 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
 
       <div className={styles.content}>
         {/* ST-181: the wrapper shrink-wraps the image so the AI label sits on the picture, not the screen. */}
-        <div className={styles.imageWrap}>
+        <div className={styles.imageWrap} style={wrapStyle}>
           <img
             src={imgUrl}
             alt={image.alt || ''}
-            className={styles.image}
+            className={size ? styles.imageSized : styles.image}
           />
           <AiLabel frame aiGenerated={image.aiGenerated} aiTool={image.aiTool} />
         </div>
