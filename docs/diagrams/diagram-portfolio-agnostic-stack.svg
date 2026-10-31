@@ -58,9 +58,9 @@
     <tspan fill="#0d1226"> · 0 COMPONENT CHANGES · 0 SCHEMA REBUILD · 2 PACKAGING GAPS FIXED · 15 DECISION RECORDS</tspan>
   </text>
 
-  <!-- legend -->
-  <line x1="32" y1="452" x2="72" y2="452" stroke="#0d1226" stroke-opacity="0.8"/>
-  <text x="80" y="456" font-size="9.5" fill="#0d1226" fill-opacity="0.75">solid · one source, generated or ported — enforced in code</text>
-  <line x1="460" y1="452" x2="500" y2="452" stroke="#ff247d" stroke-width="2"/>
-  <text x="508" y="456" font-size="9.5" fill="#0d1226" fill-opacity="0.75">pink · direct dependency, zero component changes</text>
+  <!-- legend: right-aligned, outside the bottom-left label zone (docs/diagrams/README.md rule 4) -->
+  <line x1="808" y1="448" x2="848" y2="448" stroke="#0d1226" stroke-opacity="0.8"/>
+  <text x="800" y="452" text-anchor="end" font-size="9.5" fill="#0d1226" fill-opacity="0.75">solid · one source, generated or ported — enforced in code</text>
+  <line x1="808" y1="470" x2="848" y2="470" stroke="#ff247d" stroke-width="2"/>
+  <text x="800" y="474" text-anchor="end" font-size="9.5" fill="#0d1226" fill-opacity="0.75">pink · direct dependency, zero component changes</text>
 </svg>
