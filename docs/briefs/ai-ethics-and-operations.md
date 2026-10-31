@@ -241,16 +241,16 @@ If a machine made it, say so. This isn't about apologising for using AI — it's
 
 This is distinct from #3 (Transparency about AI involvement at the system level) and #11 (Attribution of tools and co-authorship). This principle is narrower and more concrete: the output itself should carry a signal.
 
-**AI-generated images carry the label in layers**, so it survives wherever the image travels. This follows the direction of the industry (IPTC metadata, C2PA Content Credentials with watermarking, visible labels) and of EU AI Act Article 50, which applies from 2026-08-02 and accepts a multi-layered approach. It is direction, not a claim of compliance.
+**AI-generated images carry the label in layers**, so it survives wherever the image travels. This follows the direction of the industry (IPTC metadata, C2PA Content Credentials with watermarking, visible labels). EU AI Act Article 50 applies from 2026-08-02: providers of generative AI systems must mark their outputs in a machine-readable way, and deployers must disclose deepfakes and AI-generated text published to inform the public, with lighter disclosure for evidently artistic or creative work (Commission FAQ on the transparency code, updated 2026-07-29; a third-party Article 50 guide dated 2026-05-14). A publisher of illustrations is at most a deployer, so these layers are voluntary and are not a claim of compliance.
 
 | Layer | What it is | Survives a download or repost | Status |
 |---|---|---|---|
-| Metadata | IPTC digital source type and the AI system used, written into stamped JPEG copies that the site serves as-is (the Sanity image CDN strips embedded metadata, so the stamped copies bypass it) | Until another site strips it | Tooling built, ST-178; no image has been stamped yet |
-| Invisible watermark and C2PA signing | Hidden watermark or signed credential, so a label can be recovered after metadata is stripped | Often | Not done: both need original bytes plus a signing service. Revisit through a new issue |
+| Metadata | IPTC digital source type and the AI system used, written into stamped JPEG copies that the site serves as-is (the Sanity image CDN strips embedded metadata, so the stamped copies bypass it) | Until another site strips it | Tooling built (ST-178, ST-181: page copies, a 1200 x 630 share image, tool version); no image has been stamped yet |
+| Invisible watermark and C2PA signing | Hidden watermark or signed credential, so a label can be recovered after metadata is stripped | Often | Not done (ST-181 audit, 2026-10-31): both need a signing product that has passed C2PA conformance, a certificate from a trusted authority and a lookup service. Revisit through a new issue |
 | Visible mark | The same label as the on-site badge, baked into the image pixels | Until the image is cropped | Tooling built, ST-178; no image has been stamped yet |
-| On-site label | Alt text or caption flag, and an "AI-generated" label on the image from SUG-178 | No, it lives in the page | Alt text and caption in use. The AI-generated label is built (SUG-178) and not yet on the live site: nothing is pushed, and no image is flagged |
+| On-site label | Alt text or caption flag, and an "AI-generated" label on the image from SUG-178 | No, it lives in the page | Alt text and caption in use. The AI-generated label is live (SUG-178, SUG-178 follow-ups ST-179 and ST-181); no image is flagged yet |
 
-No layer is tamper-proof. The aim is that an honest reader, or an honest platform, can tell.
+No layer is tamper-proof. The aim is that an honest reader, or an honest platform, can tell. Known gap: stamping re-encodes the image, which drops any Content Credentials the generator embedded.
 
 **In practice:** Published articles drafted with AI carry an editorial note. AI-generated images include a caption or alt text flag, and, once stamped (ST-178), carry the metadata and the visible mark. Automated copy in production UI is documented as such in the component spec. When in doubt, label it.
 
@@ -375,6 +375,7 @@ And if something breaks? A human apologizes. Not a model.
 
 ### Unreleased
 
+- Principle 13 corrected after the ST-181 audit: Article 50's marking duty sits with providers of generative AI systems and deployers owe disclosure for deepfakes and public-interest text, so the labelling layers are voluntary. Added share images, the tool-version field, and the known re-encoding gap
 - Principle 13: added the layered labelling table for AI-generated images (metadata, invisible watermark and C2PA signing, visible mark, on-site label) and an EU AI Act Article 50 direction note. Updated after the ST-178 audit: the Sanity image CDN strips embedded metadata, so stamped copies are served as file assets; watermarking and C2PA signing are not done
 
 ### v2026.06.01 (June Review — Magnifica Humanitas Update)
