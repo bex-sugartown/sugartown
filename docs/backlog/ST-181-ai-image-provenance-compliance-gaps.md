@@ -35,7 +35,7 @@ Not applicable, no content piece.
 - [x] **AI tool list and autodetect (added 2026-10-31 at Bex's request, done) — layer: schema / tooling.** The Studio dropdown lists the tools Bex uses: ChatGPT, Claude, Claude Code, Gemini, Adobe Firefly, Photoshop Generative Fill, Canva AI, Microsoft Copilot, Stable Diffusion, Other (Midjourney and DALL-E dropped from Studio, still displayed if found in old data; zero images are flagged today). The list lives once in `label-spec.json`; a test fails if `AiLabel.tsx` or the Studio list disagree. `stamp.py --detect FILE` reads the source file's own IPTC tag and known generator markers and suggests the tool; it is prefill only, flags Content Credentials that stamping would drop, and cannot detect Claude or Claude Code. The marker strings are best-effort guesses, not checked against real exports.
 - [x] **`AiLabel` on `Chip` (done 2026-10-31) — layer: frontend / Design System.** Approved 2026-10-31: add `tone="inverse"` and `size="fluid"` to `Chip`, rebuild `AiLabel` as a positioned wrapper that renders `Chip` (keeping the width tiers and tool-name expand), repoint `label-spec.json` and `test_stamp.py` at the Chip tokens, zero change to every existing Chip story.
 - [x] **Storybook (done 2026-10-31) — layer: Storybook.** Every Chromatic snapshot counts against the test allotment, so a variant gets one story that shows all its use cases, not one story per variant (Bex, 2026-10-31). Chip: one new story showing `tone="inverse"` and `size="fluid"` across the widths in one frame. `AiLabel`: its 17 stories (`grep -c "export const"`, 2026-10-31) are consolidated into a small set of multi-case stories (widths, tool and no-tool, on a card, in a gallery), and the Phase 3 PR records the before and after story counts. **Result:** `AiLabel` 17 to 4 stories; `Chip` 7 to 8 (one new, `FluidInverse`), counted with `grep -c "export const"`.
-- [ ] **Ethics page and brief — layer: content / docs.** Correct Principle 13's Article 50 sentence, add a changelog entry that carries the rewritten "not done" line, update "Last updated", and sync `docs/briefs/ai-ethics-and-operations.md`. Each statement carries a source and a measurement date. Sanity write under the Content Write Gate; the draft is left for Bex to publish.
+- [x] **Ethics page and brief (done 2026-10-31: draft written, brief committed, awaiting Bex to publish) — layer: content / docs.** Correct Principle 13's Article 50 sentence, add a changelog entry that carries the rewritten "not done" line, update "Last updated", and sync `docs/briefs/ai-ethics-and-operations.md`. Each statement carries a source and a measurement date. Sanity write under the Content Write Gate; the draft is left for Bex to publish.
 - [ ] **Live verification — layer: content.** Flag one real image, stamp it, publish, then download both the page image and the `og:image` file and run `stamp.py --verify` on each; record the result.
 
 ## Phases
@@ -44,7 +44,7 @@ Not applicable, no content piece.
 - [x] **Phase 1 (done 2026-10-31):** signing feasibility audit (go or no-go). Its outcome fixes the ethics page wording in Phase 5.
 - [ ] **Phase 2:** share images (stamping, schema, query, render) and the IPTC 2025.1 fields.
 - [x] **Phase 3 (done 2026-10-31):** `AiLabel` on `Chip` and Storybook (approved in Phase 0).
-- [ ] **Phase 4:** ethics page and brief.
+- [x] **Phase 4 (done 2026-10-31):** ethics page and brief.
 - [ ] **Phase 5:** live verification.
 
 ## Phase 1 audit result: signing and soft binding (2026-10-31)
@@ -70,7 +70,7 @@ Consequence for the ethics page (Phase 4): say the visible label and IPTC metada
 - [ ] That file shows `digitalSourceType: true` and the baked mark. Evidence: `stamp.py --verify` output and the file opened.
 - [x] An unflagged image's `og:image` URL is byte-identical to today's. Evidence 2026-10-31: the home page tag is unchanged and the code path for unflagged images is the same expression as before. Evidence: before and after capture on one page.
 - [ ] If `AiLabel` moves to `Chip` (code done; Chromatic run pending at close-out): every existing Chip story is unchanged in Chromatic (zero changes), the new Chip props add exactly one story, and `AiLabel` has fewer stories than the 17 it has now with the same cases still visible. Story counts before and after are recorded. `pnpm validate:ai-provenance` passes against the new tokens.
-- [ ] Live Principle 13 and the changelog match the cited sources, and no statement says marking is a publisher duty. Evidence: claim table in this doc, each row with a source and date. Proposal approved before patch (Content Write Gate); published by Bex.
+- [x] Draft Principle 13 and the changelog match the cited sources, and no statement says marking is a publisher duty. Evidence: the Phase 1 audit table (sources and dates) and the six-row proposal Bex approved 2026-10-31; read back from the draft after the patch. Published by Bex: not done, see Post-ship checks.
 - [x] Schema deployed (twice, 2026-10-31). `validate:schema-parity` ran without reporting drift.
 - [ ] `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm test:smoke` pass locally.
 
@@ -121,3 +121,45 @@ Consequence for the ethics page (Phase 4): say the visible label and IPTC metada
 - **Sources read 2026-10-31:** [Commission FAQ on signing the transparency code](https://digital-strategy.ec.europa.eu/en/faqs/signing-code-practice-transparency-ai-generated-content), [Article 50 practical guide (third party)](https://artificialintelligenceact.eu/transparency-rules-article-50/), [C2PA FAQ](https://c2pa.org/faq/), [IPTC Photo Metadata Standard](https://iptc.org/standards/photo-metadata/iptc-standard/)
 - **Ethics brief:** `docs/briefs/ai-ethics-and-operations.md` Principles 3 and 13
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+Ticked above except: the rendered `og:image` on a real flagged page (needs a flagged, stamped image: Post-ship checks), the Chromatic zero-change check and the Visual QA gate (Bex), and publishing the ethics draft (Bex).
+
+### What didn't work
+
+- The three shipped epics never ran the Component choice gate, so `AiLabel` copied about 60% of `Chip` and needed a rebuild here. Found by Bex asking "could this be a chip variant?", not by any check.
+- The first GROQ query for "any flagged image anywhere" returned 94 documents because `defined()` is true for an array of nulls; the same trap ST-178 recorded as a one-off. Listing the documents, then reading the values, showed zero.
+- A `sed -i` chain with `&&` stopped on macOS before the python step, so the tests and workflow edit silently did not run; caught because the test count had not changed.
+- EUR-Lex returned an empty HTTP 202 page, so the Omnibus date was never read from the regulation; the ethics page leaves it out.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| AI-edited state next to AI-generated | implementation | declined: not selected when filed (Non-Goals) |
+| Preserve the generator's C2PA credentials instead of re-encoding | implementation | declined: not selected when filed; named as a known gap on the ethics page |
+| Block publishing a flagged image with no stamped copies | implementation | declined: not selected when filed |
+| Share-image crop ignores the Sanity hotspot (centre crop) | implementation | declined: revisit if a real share image crops badly |
+| `stamp.py --detect` marker strings are guesses, not checked against real exports | implementation | declined: tune on the first real file; prefill only, a person confirms |
+| Crawlers that do not run JavaScript never see `og:image` | implementation | #82 (SEO meta prerendering), already filed |
+| `homepage.ogImage` in the Studio schema has no reader in the web app | implementation | declined: found by `grep ogImage apps/web/src`; remove when the homepage schema is next touched |
+| Run the Component choice gate before any new JSX surface, and record it in the epic doc | workflow-docs | declined: the rule already exists (`.claude/rules/react.md`); the miss was not applying it. See the friction line |
+| Nested-array GROQ counts mislead (second case after ST-178) | workflow-docs | declined: two cases; file at a third |
+
+### Friction line
+
+Three epics shipped a new visual component without recording the Component choice audit, and the reuse gap (AiLabel vs Chip) surfaced only when Bex asked.
+
+---
+
+## Post-ship checks
+
+- [ ] The ethics draft is published: person: open "AI Ethics & Operations" in Studio, check Principle 13 and the new 10/31 changelog entry, click Publish.
+- [ ] A flagged share image yields a stamped `og:image`: person: ask a Claude session to stamp one image with `--share` and attach it to the home page share image; the session then reads the rendered `<meta property="og:image">`, downloads it and runs `stamp.py --verify`.
+- [ ] A flagged page image downloads from the live site with the IPTC tag intact (carried over from ST-178): person: same session, on one flagged page image.
+- [ ] `stamp.py --detect` is tried on one real Firefly, ChatGPT and Gemini export: person: supply the three files; the session reports what it found and fixes the marker list.
