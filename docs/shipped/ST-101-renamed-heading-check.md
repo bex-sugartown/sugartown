@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-101 — Extract the renamed-heading check, and resume per-group QA profiles on a varied sample
 **GitHub Issue:** [#101](https://github.com/bex-sugartown/sugartown/issues/101)
-**Status:** On Hold — S1/S2/S4 done, S3/S5 wait on a real skill-prompt-only edit to audit; no active work until one occurs
+**Status:** Done
 **Priority:** 🟡 Medium
 **Merge strategy:** (a) Merge-as-you-go
 ---
@@ -32,7 +32,17 @@ ST-99's three runs produced nine findings. The review is in `docs/shipped/ST-99-
 
       **Walkthrough run 7 on that CLAUDE.md change** (`docs/shipped/ST-99-rules-change-qa.md` Ongoing runs): clean, no findings — first clean pass since v1's kill-criterion counter reset with the trigger fix. Verified the pointer's claims by running the script against two files it was never built or tested against (`docs/epic-template.md`, `docs/conventions/human-gate-conventions.md`) before committing, not just the one used to develop it.
 
-- [ ] **S3 — Run v1 on a skill-prompt-only edit** and record the findings table in its commit — layer: process
+- [x] **S3 — Run v1 on a skill-prompt-only edit** and record the findings table in its commit — layer: process
+
+      **Done, found 2026-10-31.** The sample the hold was waiting for already existed:
+      `508bf2d5` (2026-09-19, `/new-epic` applies Step 0 tags as issue labels) edited one file,
+      `.claude/skills/new-epic/docs/new-epic-prompt.md`, and its commit body carries the findings
+      table. Three findings, all fixed in that commit, each in a class already on record
+      (`docs/shipped/ST-99-rules-change-qa.md` §Scope): an empty `{labels}` would pass `--label ""`
+      (`unfollowable`), a claim of "#116 to #125" overreached (`contradiction`), and tag examples
+      with no matching label (`dangling reference`). Found by `git log --since=2026-08-21 -i
+      --grep=walkthrough`: 31 commits since the hold began mention a walkthrough, so the sample
+      was not monogroup for ten weeks while this epic sat On Hold.
 - [x] **S4 — Run v1 on a `docs/conventions/` edit** and record the findings table in its commit — layer: process
 
       **Done 2026-08-21, opportunistically** — `docs/conventions/schema-conventions.md`'s new
@@ -40,7 +50,27 @@ ST-99's three runs produced nine findings. The review is in `docs/shipped/ST-99-
       findings — logged as run 8 in `docs/shipped/ST-99-rules-change-qa.md`'s Ongoing runs
       table. Second consecutive clean pass; one more retires v1 per its own kill criterion.
 
-- [ ] **S5 — Revisit per-group QA profiles** once S3 and S4 give the sample some variation. Do not design the groups before then — layer: process
+- [x] **S5 — Revisit per-group QA profiles** once S3 and S4 give the sample some variation. Do not design the groups before then — layer: process
+
+      **Closed as answered, 2026-10-31 (Bex): no profiles.** The groups are not distinct enough to be
+      worth separating. Evidence, from the 31 commits above (`git log --since=2026-08-21 -i
+      --grep=walkthrough`, rows counted in each commit body's findings table, grouped by the paths
+      the commit touched; a commit touching several groups counts in each):
+
+      | Change group | Runs | Findings rows per run (mean) |
+      |---|---|---|
+      | Skill or command prompt | 11 | 4.6 |
+      | CLAUDE.md or rules | 15 | 5.3 |
+      | Workflow doc | 11 | 5.6 |
+      | Hooks, scripts, agents | 8 | 5.2 |
+      | AI or briefs docs | 11 | 4.7 |
+      | Epic template | 4 | 5.8 |
+      | Conventions | 3 | 5.7 |
+
+      Limits: this counts table rows and does not classify findings or step usage per group; a
+      few commits mention a walkthrough without a table; many commits touch more than one group.
+      v1's own kill criterion (three consecutive clean passes) has not fired: the only clean runs
+      are 7 and 8.
 
       **Partially unblocked** — S4 is done, S3 (skill-prompt-only edit) still isn't. Per this
       epic's own instruction, do not design the groups from one data point; wait for S3 too.
@@ -60,3 +90,36 @@ If S3 and S4 both come back with findings that look like the runs already record
 
 - **Predecessor:** ST-99 — [#99](https://github.com/bex-sugartown/sugartown/issues/99)
 - **Post-mortem:** `docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md` §6.1, §7
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+S1 to S5 are all resolved (ticked above): S1 and S2 built and decided 2026-08-21, S4 run 2026-08-21, S3 satisfied by `508bf2d5`, S5 closed as answered.
+
+Close-out steps 1b to 5b: N/A. Docs-only change, no code, schema, rendered surface, component or build pipeline.
+
+### What didn't work
+
+- The epic sat On Hold for ten weeks on the condition "wait for a real skill-prompt-only edit". The edit happened on 2026-09-19 and nothing rechecked the condition, so S3 and S5 stayed open until 2026-10-31.
+- The ST-99 run log stopped at run 8 while 31 commits since then mention a walkthrough. The commit bodies hold the findings, so nothing was lost, but the table no longer shows the practice.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| ST-99's run log stops at run 8 | workflow-docs | declined: the commit bodies are the record; a pointer to this doc was added to ST-99 |
+| S1's own kill criterion (drop it if three consecutive heading renames find nothing) was not measured here | workflow-docs | declined: no count of heading renames since 2026-08-21 was made; check at the next heading rename |
+
+### Friction line
+
+The hold condition was never rechecked, so the work it waited on stayed blocked for ten weeks after the condition was met.
+
+---
+
+## Post-ship checks
+
+none
+

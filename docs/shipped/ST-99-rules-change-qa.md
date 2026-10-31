@@ -174,6 +174,8 @@ above so that snapshot still reads as what was true on 2026-08-18.
 | 2026-08-19 | Run 6 — ST-100 Phase 3b, consolidating into `/ship --release` | 1 | 1 | `ac233967` |
 | 2026-08-21 | Run 7 — ST-101 S2, pointing the walkthrough at `scripts/check-renamed-headings.js` | 0 | 0 (clean) | `2a49f757` |
 | 2026-08-21 | Run 8 — ST-101 S4, `docs/conventions/schema-conventions.md` new `htmlSection` section (ST-16) | 0 | 0 (clean) | pending — lands with this commit |
+
+**Runs after run 8 are not in this table.** `git log --since=2026-08-21 -i --grep=walkthrough` lists 31 commits that carry a findings table in their body; the per-group summary of them is in `docs/shipped/ST-101-renamed-heading-check.md` (S5). The kill criterion has not fired (the only clean runs are 7 and 8).
 | | **Running total (all runs)** | **18** | **15** | |
 
 **First clean pass, run 7.** Walked the mock instance (ran the new script against three different files, including two never used to build or test it) before committing — every invocation the added sentence describes actually works as written. Kill-criterion counter: 1 of 3 needed for retirement, if the next two also come back clean.
