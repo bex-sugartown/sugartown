@@ -24,8 +24,8 @@
   display: block;
 }
 
-/* AI label frame (SUG-178): wraps only the image so the label anchors to it, not to the caption. */
-.aiFrame {
+/* Label frame (SUG-178, renamed ST-183): wraps only the image so the label anchors to it, not to the caption. */
+.labelFrame {
   position: relative;
   container-type: inline-size;
 }
@@ -157,8 +157,8 @@
   overflow: hidden;
 }
 
-.figure[style*="aspect-ratio"] .aiFrame {
-  height: 100%; /* ST-179: keep the cover-crop chain intact when the image is wrapped for the AI label */
+.figure[style*="aspect-ratio"] .labelFrame {
+  height: 100%; /* ST-179: keep the cover-crop chain intact when the image is wrapped for the label */
 }
 
 .figure[style*="aspect-ratio"] .image {

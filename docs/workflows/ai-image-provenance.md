@@ -19,7 +19,7 @@ Why: the Sanity image CDN strips embedded metadata from every image URL, so the 
 
 ## Rules
 
-- The mark's look is `scripts/ai-provenance/label-spec.json`; `pnpm validate:ai-provenance` fails if `AiLabel.module.css` disagrees.
+- The mark's look is `scripts/ai-provenance/label-spec.json`; `pnpm validate:ai-provenance` fails if `MediaLabel.module.css` or the AI wording in `apps/web/src/lib/provenance.js` disagrees.
 - Re-stamp when `aiTool` changes or the source image is replaced. Old copies are replaced, not added.
 - Never stamp an image that is not flagged `aiGenerated`.
 - Invisible watermarking and C2PA signing are a recorded no-go (ST-178); revisit only through a new issue.

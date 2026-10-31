@@ -59,7 +59,7 @@ export const Selectable: Story = {
 };
 
 /**
- * ST-181: `tone="inverse"` with `size="fluid"`, the AiLabel chassis. The type follows the width of the
+ * ST-181: `tone="inverse"` with `size="fluid"`, the MediaLabel chassis. The type follows the width of the
  * frame it sits in (3.2% of it, held between 9px and 14px), so one frame per width shows the whole range.
  * Needs a container-type: inline-size ancestor.
  */

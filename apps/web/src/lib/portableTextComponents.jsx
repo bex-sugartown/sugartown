@@ -9,6 +9,7 @@
  * via spread: { ...portableTextComponents, types: { ...portableTextComponents.types, richImage: … } }
  */
 import { CodeBlock, Table, TableWrap, CitationMarker, Media } from '../design-system'
+import { aiMediaProps } from './provenance'
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
 import ImageLightbox from '../components/ImageLightbox'
 import { urlFor } from './sanity'
@@ -68,9 +69,7 @@ function SharedInlineImage({ value }) {
           src={imgSrc}
           alt={value.alt ?? ''}
           overlay={value.overlay}
-          aiGenerated={value.aiGenerated}
-          aiTool={value.aiTool}
-          provenance={value.provenance}
+          {...aiMediaProps(value)}
         />
         {value.caption && (
           <figcaption style={{ fontSize: '0.85rem', color: 'var(--st-color-text-muted, #555)', marginTop: '0.5rem', textAlign: 'center', fontStyle: 'italic' }}>

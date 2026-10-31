@@ -19,6 +19,7 @@ import { extractLeadHero } from '../lib/heroUtils'
 import { useState, useEffect } from 'react'
 import { setPreviewDoc } from '../lib/previewDoc'
 import { CitationNote, CitationZone, Media } from '../design-system'
+import { aiMediaProps } from '../lib/provenance'
 import ImageLightbox from '../components/ImageLightbox'
 import SeoHead from '../components/SeoHead'
 import MetadataCard from '../components/MetadataCard'
@@ -49,9 +50,7 @@ function ArticleInlineImage({ value }) {
           src={imgSrc}
           alt={value.alt ?? ''}
           overlay={value.overlay}
-          aiGenerated={value.aiGenerated}
-          aiTool={value.aiTool}
-          provenance={value.provenance}
+          {...aiMediaProps(value)}
           className={styles.inlineImageImg}
         />
         {value.caption && (

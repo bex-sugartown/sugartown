@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Card.module.css';
-import { AiLabel } from '../AiLabel';
+import { MediaLabel } from '../MediaLabel';
+import type { MediaLabelProps } from '../MediaLabel';
 import { Chip } from '../Chip/Chip';
 import { Link } from '../../link/Link';
 import { isExternalHref } from '../../link/isExternalHref';
@@ -142,8 +143,8 @@ export interface CardProps {
   thumbnailUrl?: string;
   /** Alt text for thumbnail image. */
   thumbnailAlt?: string;
-  /** AI transparency (ST-179): shows the AI-generated label on the thumbnail. No tool name on cards. */
-  thumbnailAiGenerated?: boolean;
+  /** A MediaLabel on the thumbnail (ST-179, ST-183). Always decorative on cards: no detail, clicks reach the card link. */
+  thumbnailLabel?: MediaLabelProps;
   /** Extra class name applied to the thumbnail wrapper (hero or rail). For overlay/effect treatments. */
   thumbnailClassName?: string;
   /** Inline style applied to the thumbnail wrapper (hero or rail). For overlay styles or hotspot-driven object-position. */
@@ -221,7 +222,7 @@ export const Card: React.FC<CardProps> = ({
   kpiLink,
   thumbnailUrl,
   thumbnailAlt = '',
-  thumbnailAiGenerated,
+  thumbnailLabel,
   thumbnailClassName,
   thumbnailStyle,
   accentColor,
@@ -449,7 +450,7 @@ export const Card: React.FC<CardProps> = ({
       {variant === 'default' && thumbnailUrl && (
         <div className={[styles.thumbnailHero, thumbnailClassName].filter(Boolean).join(' ')} style={thumbnailStyle}>
           <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="1600" height="900" />
-          <AiLabel frame aiGenerated={thumbnailAiGenerated} showTool={false} />
+          {thumbnailLabel && <MediaLabel frame {...thumbnailLabel} interactive={false} />}
         </div>
       )}
 
@@ -461,7 +462,7 @@ export const Card: React.FC<CardProps> = ({
         <div className={styles.listingRow}>
           <div className={[styles.thumbnailRail, thumbnailClassName].filter(Boolean).join(' ')} style={thumbnailStyle}>
             <img src={thumbnailUrl} alt={thumbnailAlt} className={styles.thumbnailImg} loading="lazy" decoding="async" width="400" height="225" />
-            <AiLabel frame aiGenerated={thumbnailAiGenerated} showTool={false} />
+            {thumbnailLabel && <MediaLabel frame {...thumbnailLabel} interactive={false} />}
           </div>
           <div className={styles.listingContent}>
             {headerEl}

@@ -14,7 +14,7 @@
  */
 import { PortableText } from '@portabletext/react'
 import { urlFor } from '../lib/sanity'
-import { stampedCopies, imageUrlFor } from '../lib/provenance'
+import { stampedCopies, imageUrlFor, aiLabelProps } from '../lib/provenance'
 import { getCanonicalPath } from '../lib/routes'
 import { Card, Chip, CitationMarker, CitationNote, CitationZone, SectionLabel, Grid } from '../design-system'
 import { getOverlayStyles, parseOverlay, ensureSvgFilter } from '@sugartown/design-system'
@@ -259,7 +259,7 @@ function BuilderCard({ card, variant }) {
       href={href}
       thumbnailUrl={thumbnailUrl}
       thumbnailAlt={card.image?.alt || ''}
-      thumbnailAiGenerated={card.image?.aiGenerated}
+      thumbnailLabel={aiLabelProps(card.image, { interactive: false })}
       thumbnailClassName={thumbOverlayClass}
       thumbnailStyle={Object.keys(thumbStyle).length ? thumbStyle : undefined}
       footerChildren={footerContent}

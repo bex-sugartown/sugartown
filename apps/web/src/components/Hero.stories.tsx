@@ -182,7 +182,7 @@ export const ContentWidth: Story = {
   render: (args) => <HeroSection section={buildSection(args)} />,
 };
 
-/** AI-generated hero (SUG-178): the AiLabel sits lower-left over the image. Stat rail on to check for collisions. */
+/** AI-generated hero (SUG-178): the MediaLabel sits lower-left over the image. Stat rail on to check for collisions. */
 export const AiGenerated: Story = {
   name: 'AI-generated image',
   args: { imageWidth: 'full-width', showStatRail: true },

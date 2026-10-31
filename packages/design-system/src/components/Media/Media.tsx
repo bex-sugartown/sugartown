@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './Media.module.css';
-import { AiLabel } from '../AiLabel';
+import { MediaLabel } from '../MediaLabel';
+import type { MediaLabelProps } from '../MediaLabel';
 
 /**
  * Media — Sugartown Design System
@@ -66,13 +67,11 @@ export interface MediaProps {
   width?: number;
   /** Intrinsic image height — rendered as <img height=""> for CLS prevention (SUG-63) */
   height?: number;
-  /** AI transparency (SUG-178): renders the AiLabel on the image when true. */
-  aiGenerated?: boolean;
-  /** `richImage.aiTool` schema value; shown on expand at 320px and up. */
-  aiTool?: string;
+  /** A MediaLabel laid over the image (ST-183). Sugartown passes the AI-generated label here. */
+  label?: MediaLabelProps;
   /**
-   * ST-178: stamped copies of an AI-generated image (mark baked in, IPTC metadata in the file).
-   * When set with `aiGenerated`, the image is served from these instead of `src`.
+   * ST-178: stamped copies of the image (mark baked in, IPTC metadata in the file). When set, the
+   * image is served from these instead of `src`.
    */
   provenance?: { width: number; url: string }[];
   /** `sizes` for the provenance srcset. Defaults to the 900px article column. */
@@ -211,8 +210,7 @@ export function Media({
   className,
   width,
   height,
-  aiGenerated,
-  aiTool,
+  label,
   provenance,
   sizes,
 }: MediaProps) {
@@ -255,7 +253,7 @@ export function Media({
     : {};
 
   // Stamped copies replace the Sanity image URL: that CDN strips embedded metadata.
-  const stamped = aiGenerated && provenance?.length
+  const stamped = provenance?.length
     ? [...provenance].sort((a, b) => a.width - b.width)
     : null;
   const imageSrc = stamped ? (stamped.find((p) => p.width >= 960) ?? stamped[stamped.length - 1]).url : src;
@@ -277,10 +275,10 @@ export function Media({
 
   return (
     <figure className={figureClassNames} style={figureStyle}>
-      {aiGenerated ? (
-        <div className={styles.aiFrame}>
+      {label ? (
+        <div className={styles.labelFrame}>
           {image}
-          <AiLabel aiGenerated aiTool={aiTool} />
+          <MediaLabel {...label} />
         </div>
       ) : (
         image

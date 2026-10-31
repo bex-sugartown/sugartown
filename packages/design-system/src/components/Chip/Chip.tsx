@@ -56,7 +56,7 @@ export interface ChipProps {
   /**
    * Size variant. Defaults to 'md'. 'fluid' (ST-181) sizes the type from the nearest
    * container (`clamp(9px, 3.2cqw, 14px)`), has no minimum height, and is meant for labels laid
-   * over an image inside a `container-type: inline-size` frame, such as AiLabel.
+   * over an image inside a `container-type: inline-size` frame, such as MediaLabel.
    */
   size?: 'sm' | 'md' | 'fluid';
   /** Dark fill with white text, for chips laid over an image (ST-181). Omit for the default light chassis. */

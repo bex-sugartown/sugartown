@@ -74,6 +74,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | CodeBlock | ✅ `packages/ds/CodeBlock/` | ✅ `web/design-system/codeblock/` | ✅ Components/CodeBlock | ✅ | ✅ `code` inline PT decorator | |
 | FilterBar | ✅ `packages/ds/FilterBar/` | ✅ `web/design-system/FilterBar/` (pure mirror) | ✅ Components/FilterBar | ✅ | — | Web adapter is a pure API mirror of DS primitive — no web-specific logic. Barrel exports web adapter. SUG-155: pending-migration note resolved. |
 | Media | ✅ `packages/ds/Media/` | ✅ `web/design-system/media/` | ✅ Components/Media | ✅ | ✅ `heroSection.media[]` | |
+| MediaLabel | ✅ `packages/ds/MediaLabel/` | — (re-exported from `web/design-system/index.js`) | ✅ Components/MediaLabel | ✅ | ✅ `aiImageFields` (`aiGenerated`, `aiTool`), via the web app | Positions a Chip (`variant="badge" tone="inverse" size="fluid"`) over an image, with width tiers and expandable detail. Text comes from the caller. Renamed from AiLabel (ST-183); AiLabel was never registered (SUG-178 gap). |
 | ScoreRing | ✅ `packages/ds/ScoreRing/` | ✅ `web/design-system/score-ring/` | ✅ Components/ScoreRing | ✅ | — | SUG-100 |
 | SegmentedControl | ✅ `packages/ds/SegmentedControl/` | ✅ `web/design-system/segmented-control/` | ✅ Components/SegmentedControl | ✅ | — | SUG-100 |
 | Table | ✅ `packages/ds/Table/` | ✅ `web/design-system/table/` | ✅ Components/Table | ✅ accent + subdued, light + dark | ✅ `tableBlock` | SUG-119 shipped — tone prop (accent/subdued), caption surface, props-driven API. DataTable is deprecated shim; RoadmapTable composes Table. |

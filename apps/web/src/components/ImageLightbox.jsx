@@ -12,8 +12,8 @@
  */
 import { useEffect, useCallback, useRef, useState } from 'react'
 import { urlFor } from '../lib/sanity'
-import { stampedCopies } from '../lib/provenance'
-import { AiLabel } from '../design-system'
+import { stampedCopies, aiLabelProps } from '../lib/provenance'
+import { MediaLabel } from '../design-system'
 import styles from './ImageLightbox.module.css'
 
 /**
@@ -127,7 +127,7 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
             alt={image.alt || ''}
             className={size ? styles.imageSized : styles.image}
           />
-          <AiLabel frame aiGenerated={image.aiGenerated} aiTool={image.aiTool} />
+          {image.aiGenerated && <MediaLabel frame {...aiLabelProps(image)} />}
         </div>
         {(image.caption || image.credit || image.alt) && (
           <p className={styles.caption}>

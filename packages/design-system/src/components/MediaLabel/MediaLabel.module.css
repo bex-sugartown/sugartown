@@ -1,17 +1,18 @@
 /*
- * AiLabel — SUG-178 on-site AI label. Shares its look with the ST-178 baked mark.
+ * MediaLabel — a label over an image (renamed from AiLabel, ST-183). Used for the SUG-178 AI label,
+ * which shares its look with the ST-178 baked mark.
  * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
  *
  * ST-181: the look (font, weight, case, tracking, border, dark fill, padding, fluid type) is the
  * Chip variant `badge` + tone `inverse` + size `fluid`. This file keeps only what a Chip does not
- * own: placement on the image, the width tiers, the tool-name expand and the focus ring.
+ * own: placement on the image, the width tiers, the detail expand and the focus ring.
  *
  * Needs a container-type: inline-size ancestor the size of the image (Media supplies one).
  * Type is 3.2% of the image width, held between 9px and 14px. ST-178 stamps the baked mark with
  * the same 14px cap, so the on-site label is never smaller than it and covers it.
  */
 
-.aiLabel {
+.mediaLabel {
   position: absolute;
   left: 3cqw;
   bottom: 3cqw;
@@ -30,7 +31,7 @@
   align-items: center;
 }
 
-.aiLabel:focus-visible {
+.mediaLabel:focus-visible {
   outline: none;
   box-shadow: 0 0 0 2px var(--st-color-accent);
 }
@@ -45,14 +46,14 @@
   pointer-events: none;
 }
 
-.frame > .aiLabel {
+.frame > .mediaLabel {
   pointer-events: auto;
 }
 
 .short { display: inline; }
 .full { display: none; }
 
-.tool {
+.detail {
   display: none;
   max-width: 0;
   opacity: 0;
@@ -63,7 +64,7 @@
 
 /* 96 to 199px: "AI" */
 @container (min-width: 96px) {
-  .aiLabel { display: inline-flex; }
+  .mediaLabel { display: inline-flex; }
 }
 
 /* 200px and up: "AI-generated" */
@@ -72,12 +73,12 @@
   .full { display: inline; }
 }
 
-/* 320px and up: tool name expands, up to 16 characters then an ellipsis */
+/* 320px and up: detail expands, up to 16 characters then an ellipsis */
 @container (min-width: 320px) {
-  .tool { display: inline; }
-  .aiLabel:hover .tool,
-  .aiLabel:focus-visible .tool,
-  .aiLabel[data-open='true'] .tool {
+  .detail { display: inline; }
+  .mediaLabel:hover .detail,
+  .mediaLabel:focus-visible .detail,
+  .mediaLabel[data-open='true'] .detail {
     max-width: 16ch;
     opacity: 1;
     margin-left: 0.6em;
@@ -85,5 +86,5 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .tool { transition: none; }
+  .detail { transition: none; }
 }

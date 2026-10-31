@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-31T11:49:10.392Z",
+  "generatedAt": "2026-10-31T16:37:10.124Z",
   "release": {
     "current": {
       "version": "0.37.0",
@@ -45,7 +45,64 @@
         "issueId": "SUG-284"
       }
     ],
-    "latestPatches": [],
+    "latestPatches": [
+      {
+        "version": "0.33.1",
+        "descriptor": "ST-98 apply the six post-mortem rule changes",
+        "kind": "PATCH",
+        "date": "2026-08-16",
+        "issueId": "ST-98"
+      },
+      {
+        "version": "0.32.3",
+        "descriptor": "SUG-284 unwind the governance/verification-review layer",
+        "kind": "PATCH",
+        "date": "2026-08-15",
+        "issueId": "SUG-284"
+      },
+      {
+        "version": "0.32.2",
+        "descriptor": "SUG-281 gate posture and tiering",
+        "kind": "PATCH",
+        "date": "2026-08-12",
+        "issueId": "SUG-281"
+      },
+      {
+        "version": "0.32.1",
+        "descriptor": "SUG-260 migrate wp.* dotted document IDs",
+        "kind": "PATCH",
+        "date": "2026-08-08",
+        "issueId": "SUG-260"
+      },
+      {
+        "version": "0.31.2",
+        "descriptor": "SUG-254 fix ESLint boundary enforcement",
+        "kind": "PATCH",
+        "date": "2026-07-28",
+        "issueId": "SUG-254"
+      },
+      {
+        "version": "0.31.1",
+        "descriptor": "SUG-255 restore green CI",
+        "kind": "PATCH",
+        "date": "2026-07-28",
+        "issueId": "SUG-255"
+      },
+      {
+        "version": "0.30.10",
+        "descriptor": "SUG-244 GovernancePage workflow lifecycle diagram",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "issueId": "SUG-244"
+      },
+      {
+        "version": "0.30.9",
+        "descriptor": "SUG-248 Formalize stat-card/card-builder content schema pattern",
+        "kind": "PATCH",
+        "date": "2026-07-26",
+        "issueId": "SUG-248"
+      }
+    ],
     "count": {
       "total": 36,
       "major": 0,
@@ -55,16 +112,16 @@
   },
   "ds": {
     "tokens": {
-      "total": 660,
+      "total": 662,
       "primitives": 129,
       "semantic": 28,
-      "component": 503,
+      "component": 505,
       "byCategory": {
         "color": 190,
         "space": 20,
         "font": 26,
         "shadow": 31,
-        "other": 393
+        "other": 395
       }
     },
     "dsComponents": 43,
@@ -74,12 +131,12 @@
     "tokenCompliance": 98
   },
   "storybook": {
-    "stories": 403,
+    "stories": 391,
     "components": 97
   },
   "repo": {
-    "commits": 1,
-    "epicsShipped": 89
+    "commits": 3128,
+    "epicsShipped": 91
   },
   "perf": {
     "stale": false,
@@ -352,10 +409,10 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-10-31T11:46:09.593Z",
+    "fetchedAt": "2026-10-31T16:37:04.251Z",
     "origin": "https://sugartown.io",
     "available": false,
-    "reason": "no-data"
+    "reason": "no-api-key"
   },
   "security": {
     "fetchedAt": "2026-10-31T11:49:07.052Z",
@@ -379,7 +436,7 @@
     "lastCommit": "2026-10-30T21:50:26Z"
   },
   "sanity": {
-    "fetchedAt": "2026-10-31T11:49:08.654Z",
+    "fetchedAt": "2026-10-31T16:37:09.838Z",
     "counts": {
       "article": 16,
       "node": 52,
@@ -393,7 +450,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-10-31T11:49:08.907Z",
+    "generatedAt": "2026-10-31T16:37:10.122Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",

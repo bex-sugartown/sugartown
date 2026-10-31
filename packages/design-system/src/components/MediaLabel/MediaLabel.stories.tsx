@@ -6,16 +6,23 @@ import { Card } from '../Card';
 const SAMPLE_IMAGE = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b4126def2a72be61213f4fe69a909151fd-6000x4500.jpg?w=1200&h=800&fit=crop';
 
 /**
- * AiLabel renders through Media (`aiGenerated`, `aiTool`). It sizes from the width of the image it
- * sits on, using container queries, so the stories below pin the image width.
- * Vspec: docs/drafts/ST-178-ai-image-provenance-metadata-and-watermark.vspec.html
+ * MediaLabel renders through Media (`label`) and Card (`thumbnailLabel`). It sizes from the width of
+ * the image it sits on, using container queries, so the stories below pin the image width. The
+ * text here is the AI-generated label Sugartown passes (`aiLabelProps` in the web app).
+ * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html
  */
+const exampleLabel = (tool?: string) => ({
+  short: 'AI',
+  full: 'AI-generated',
+  detail: tool,
+  ariaLabel: tool ? `AI-generated image, ${tool}` : 'AI-generated image',
+});
 const meta: Meta<typeof Media> = {
-  title: 'Components/AiLabel',
+  title: 'Components/MediaLabel',
   component: Media,
   tags: ['autodocs'],
   parameters: { layout: 'padded' },
-  args: { src: SAMPLE_IMAGE, alt: 'Sample photograph', aiGenerated: true, aiTool: 'gemini' },
+  args: { src: SAMPLE_IMAGE, alt: 'Sample photograph', label: exampleLabel('Gemini') },
 };
 export default meta;
 type Story = StoryObj<typeof Media>;
@@ -48,10 +55,10 @@ export const Widths: Story = {
 export const ToolStates: Story = {
   render: (args) => (
     <div style={grid}>
-      <Row label="Not flagged: no label" width={480}><Media {...args} aiGenerated={false} /></Row>
-      <Row label="No tool recorded" width={480}><Media {...args} aiTool={undefined} /></Row>
-      <Row label="Adobe Firefly" width={480}><Media {...args} aiTool="adobe-firefly" /></Row>
-      <Row label="Other: no name shown" width={480}><Media {...args} aiTool="other" /></Row>
+      <Row label="Not flagged: no label" width={480}><Media {...args} label={undefined} /></Row>
+      <Row label="No tool recorded" width={480}><Media {...args} label={exampleLabel()} /></Row>
+      <Row label="Adobe Firefly" width={480}><Media {...args} label={exampleLabel('Adobe Firefly')} /></Row>
+      <Row label="Other: no name shown" width={480}><Media {...args} label={exampleLabel()} /></Row>
     </div>
   ),
 };
@@ -61,13 +68,13 @@ export const OnCards: StoryObj<typeof Card> = {
   render: () => (
     <div style={grid}>
       <Row label="Card thumbnail, flagged" width={360}>
-        <Card title="A card with an AI-generated thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" thumbnailAiGenerated />
+        <Card title="A card with an AI-generated thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" thumbnailLabel={exampleLabel()} />
       </Row>
       <Row label="Card thumbnail, not flagged" width={360}>
         <Card title="A card with an ordinary thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" />
       </Row>
       <Row label="Listing rail, flagged" width={560}>
-        <Card variant="listing" title="A listing card with an AI-generated thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" thumbnailAiGenerated />
+        <Card variant="listing" title="A listing card with an AI-generated thumbnail" thumbnailUrl={SAMPLE_IMAGE} thumbnailAlt="Sample" thumbnailLabel={exampleLabel()} />
       </Row>
     </div>
   ),

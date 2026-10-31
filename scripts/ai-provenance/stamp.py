@@ -3,7 +3,7 @@
 ST-178: stamp the AI-generated label into an image and write provenance metadata.
 
 For one source image, writes sized JPEG copies (480, 960, 1920 wide, never upscaled) that each
-carry (1) the visible mark baked into the pixels, the same label the site renders as AiLabel,
+carry (1) the visible mark baked into the pixels, the same label the site renders with MediaLabel,
 and (2) IPTC/XMP provenance: DigitalSourceType = trainedAlgorithmicMedia, AISystemUsed, and a
 description. The Sanity image CDN strips embedded metadata, so these copies are uploaded as
 file assets and served directly (Phase 1 audit, docs/backlog/ST-178-*.md).
@@ -14,7 +14,7 @@ Usage:
   python3 scripts/ai-provenance/stamp.py --verify FILE
 
 Needs Pillow. The mark's look comes from label-spec.json and the design tokens; the test in
-test_stamp.py fails if AiLabel.module.css drifts from them.
+test_stamp.py fails if MediaLabel.module.css drifts from them.
 """
 import argparse, io, json, os, re, struct, sys
 from xml.sax.saxutils import escape

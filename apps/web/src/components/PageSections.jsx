@@ -5,9 +5,9 @@ import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
 import { trackCtaClick } from '../lib/trackCtaClick'
 import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
-import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel, AiLabel } from '../design-system'
+import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel, MediaLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '@sugartown/design-system'
-import { imageUrlFor } from '../lib/provenance'
+import { imageUrlFor, aiLabelProps, aiMediaProps } from '../lib/provenance'
 import StatCard from './StatCard'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -49,9 +49,7 @@ function InlineImage({ value }) {
           src={imgSrc}
           alt={value.alt ?? ''}
           overlay={value.overlay}
-          aiGenerated={value.aiGenerated}
-          aiTool={value.aiTool}
-          provenance={value.provenance}
+          {...aiMediaProps(value)}
           className={styles.inlineImageImg}
           width={width}
           height={height}
@@ -353,7 +351,7 @@ export function HeroSection({ section }) {
           </div>
         )}
       </div>
-      {hasImage && <AiLabel frame aiGenerated={backgroundImage.aiGenerated} aiTool={backgroundImage.aiTool} />}
+      {hasImage && backgroundImage.aiGenerated && <MediaLabel frame {...aiLabelProps(backgroundImage)} />}
     </section>
   )
 }
@@ -410,9 +408,7 @@ function GalleryImage({ image, index, onLightbox, treatment, layout }) {
       aspectRatio={aspectRatio}
       hotspot={image.hotspot}
       className={styles.galleryImage}
-      aiGenerated={image.aiGenerated}
-      aiTool={image.aiTool}
-      provenance={image.provenance}
+      {...aiMediaProps(image)}
     />
   )
 

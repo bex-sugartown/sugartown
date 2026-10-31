@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
-"""Tests for stamp.py, including the check that fails when AiLabel.module.css drifts from label-spec.json."""
+"""Tests for stamp.py, including the check that fails when MediaLabel.module.css drifts from label-spec.json."""
 import os, re, sys, tempfile, unittest
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import stamp
 from PIL import Image
 
-CSS = os.path.join(stamp.ROOT, "packages", "design-system", "src", "components", "AiLabel", "AiLabel.module.css")
+CSS = os.path.join(stamp.ROOT, "packages", "design-system", "src", "components", "MediaLabel", "MediaLabel.module.css")
+# ST-183: the AI wording and the tool names live in the web app, not the design system.
+WEB_LABEL = os.path.join(stamp.ROOT, "apps", "web", "src", "lib", "provenance.js")
 CHIP_CSS = os.path.join(stamp.ROOT, "packages", "design-system", "src", "components", "Chip", "Chip.module.css")
 TOKENS = os.path.join(stamp.STYLES, "tokens.css")
 
@@ -43,21 +45,23 @@ class SpecMatchesCss(unittest.TestCase):
             self.assertIn(f"var({var})", inverse if key != "border" else inverse, f"{key} token {var} not used by Chip tone inverse")
 
     def test_texts(self):
-        tsx = open(CSS.replace("module.css", "tsx")).read()
-        self.assertIn(f">{self.spec['textShort']}<", tsx)
-        self.assertIn(f">{self.spec['textFull']}<", tsx)
+        with open(WEB_LABEL) as f:
+            js = f.read()
+        self.assertIn(f"short: '{self.spec['textShort']}'", js)
+        self.assertIn(f"full: '{self.spec['textFull']}'", js)
 
 
 class ToolList(unittest.TestCase):
-    """One list, three places: label-spec.json, the Studio dropdown and AiLabel must agree."""
+    """One list, three places: label-spec.json, the Studio dropdown and the web app's provenance.js must agree."""
 
     def test_lists_agree(self):
         spec = stamp.load_spec()
-        tsx = open(CSS.replace("module.css", "tsx")).read()
+        with open(WEB_LABEL) as f:
+            tsx = f.read()
         studio = open(os.path.join(stamp.ROOT, "apps", "studio", "schemas", "objects", "aiImageFields.ts")).read()
         for value, name in spec["tools"].items():
             key = f"'{value}'" if "-" in value else value
-            self.assertIn(f"{key}: '{name}'", tsx, f"{value} missing from AiLabel.tsx")
+            self.assertIn(f"{key}: '{name}'", tsx, f"{value} missing from apps/web/src/lib/provenance.js")
             self.assertIn(f"{{title: '{name}', value: '{value}'}}", studio, f"{value} missing from the Studio dropdown")
         for value in spec["legacyTools"]:
             self.assertNotIn(f"value: '{value}'", studio, f"legacy {value} must not be offered in Studio")

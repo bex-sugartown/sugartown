@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source for the baked AI mark. AiLabel.module.css and Chip.module.css (variant badge, tone inverse, size fluid) repeat these values; test_stamp.py fails when they disagree. Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html",
+  "_comment": "Single source for the baked AI mark. MediaLabel.module.css and Chip.module.css (variant badge, tone inverse, size fluid) repeat these values; test_stamp.py fails when they disagree. Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html",
   "anchorPct": 3,
   "sizePct": 3.2,
   "capPx": 14,
