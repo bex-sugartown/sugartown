@@ -198,3 +198,18 @@ Evidence, each from a command rather than from this doc's prior text:
 **On 2026-10-20, answer in writing: did the probes catch anything a human would not have?** A
 yes unlocks ST-96 (#96). A no, twice consecutively, ends the rebuild and retires the harness.
 All five Scope items are now complete.
+
+## Kill-criterion verdict, 2026-10-31
+
+**Verdict (Bex): no. The probes caught nothing a human would not have.** The check date was 2026-10-20 and the verdict ran 11 days late.
+
+| Measure | Result | Command |
+|---|---|---|
+| CI runs on `main` since 2026-08-25 | 24 | `gh run list --workflow CI --branch main --limit 300` |
+| "Liveness probes" step failed | 0 (23 passed, 1 skipped because an earlier step failed) | `gh api repos/bex-sugartown/sugartown/actions/runs/{id}/jobs` per run |
+| Extensions to the probe harness since | 4 (tokens fallback, lint, epic-doc check, contrast), measured as commits touching `scripts/validate-liveness-probes.js` | `git log --since=2026-08-25 -- scripts/validate-liveness-probes.js` |
+
+Not checked: whether any extension found an inert gate at author time.
+
+**Decisions:** the probes stay for now (Bex). Next check date: 2026-12-30 (60 days). #96 and #97 are cancelled: their gate was a written yes from this epic.
+
