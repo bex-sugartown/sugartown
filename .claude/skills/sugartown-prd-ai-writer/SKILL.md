@@ -80,6 +80,9 @@ Claims the build depends on that are not yet verified.
 
 Rows are settled before the first epic starts.
 
+A claim that needs code or a mockup to settle goes to a prototype
+(`sugartown-prototype-writer`). Its findings update this table and the requirement IDs.
+
 ### 5. Test and eval plan
 For each requirement ID: where the check runs (local, CI, human) and one known-bad input it
 must fail. A check that passes on bad input is the way this goes wrong
