@@ -58,7 +58,10 @@ Ask only what is missing, one question at a time, three at most.
    `grep -rniE "(api[_-]?key|secret|token|password)[\"' ]*[:=][\"' ]*[A-Za-z0-9_\-]{12,}" <folder>`
    and show any hit to Bex before finishing. Remove the file from the copy if she says so.
 7. **Write `README.md`** at the folder root (see below).
-8. **Zip only on request:** `ditto -c -k --keepParent <folder> <folder>.zip`.
+8. **Zip only on request:** `ditto -c -k --keepParent --norsrc --noextattr --noqtn <folder> <folder>.zip`.
+   The three flags keep macOS metadata out of the zip. Without them every file gains a hidden
+   `._` twin. Check with `unzip -Z1 <zip> | grep -v '/$' | wc -l`: it must equal the folder's
+   file count. Do not overwrite an existing zip; add `-2`.
 9. **Report:** the folder path, file count, total size, and the README's first paragraph.
 
 ## README contents
@@ -72,8 +75,9 @@ Write for a reader who has never seen the repo.
    it is checked, FSD says how the system behaves, epics say what was built and in what order.
    Name only the ones included.
 5. What is not included, and why.
-6. Provenance: repo, short commit id (`git rev-parse --short HEAD`), and the statement that the
-   files are a snapshot taken on that date.
+6. Provenance: repo, short commit id (`git rev-parse --short HEAD`), the statement that the
+   files are a snapshot taken on that date, and that repo paths inside the documents (for
+   example `docs/briefs/`) refer to the repository, not to files in this folder.
 7. One closing line: anything this skill got wrong on this run.
 
 Follow `docs/conventions/instruction-writing-style.md` for the wording: short sentences, no em
