@@ -12,6 +12,10 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### Other
+
+- ST-166: smoke tests now run axe and the link crawl on the first case study, node and glossary term found from each archive, light theme, with 8 axe routes and 17 seed pages; the link crawler resolves same-page anchors correctly; two new accessibility findings are allowlisted (#184, #185). (local `pnpm test:smoke`: 19 passed)
+
 ---
 
 ## [0.38.0] — 2026-10-31

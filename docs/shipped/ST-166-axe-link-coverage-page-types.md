@@ -147,23 +147,40 @@ The steps are `CLAUDE.md` §Epic close-out sequence. Run them in order.
 
 ### Acceptance criteria
 
-> Fill at close-out: each criterion ticked with its evidence.
+- [x] **R-1.** `pnpm test:smoke --list | grep -c "axe: "` printed 8. Local `pnpm test:smoke` on a fresh preview build: 19 passed (1.3 min). Also 19 passed against production.
+- [x] **R-3.** The theme probe passes (`allowlist entry recorded in light does not hide a dark violation`). `grep -c "theme:" tests/smoke/helpers/axe-allowlist.ts` printed 9: 8 entries plus the type line.
+- [x] **R-4.** All 8 entries name #164, #172, #184 or #185. Checked at close-out: `gh issue view {n} --json state` read OPEN for #164, #172, #184 and #185.
+- [x] **R-5.** Log reads `seed pages: 17 (14 static, 3 discovered)` and `internal links checked: 305 unique targets from 17 seed pages`. The test passes.
+- [x] **R-6.** `git diff main --name-only -- tests/smoke/helpers/seed-pages.json scripts/check-external-links.mjs` printed nothing. `scripts/check-external-links.mjs` line 24 still reads the seed file.
+- [x] **R-7.** `grep -nE "case-studies/[a-z]|nodes/[a-z]|glossary/[a-z]" tests/smoke/a11y.spec.ts tests/smoke/links.spec.ts` printed nothing.
+- [x] **Same-page anchors.** No `anchor not found` failures remain. The probe passes, and failed when `helpers/links.ts` was reverted to resolve against the origin (run once, reverted).
+- [x] **New findings recorded.** #184 (color-contrast, 1 node per page type) and #185 (link-in-text-block, 10 case study, 5 node) filed and allowlisted with `theme: 'light'`.
+- [x] **Discovery probe.** Passes, and failed when `discoverFirstDetail` returned `''` instead of throwing (run once, reverted).
+- [x] **Studio typecheck, route smoke-test, Visual QA.** N/A as stated in the criteria.
+- [x] **Close-out review present.** `node scripts/check-epic-doc.js <doc> --stage close-out` exits 0.
 
 ### What didn't work
 
-> Fill at close-out.
+The first run against real pages found a crawler bug outside the epic's file list: `helpers/links.ts` resolved relative hrefs against the origin, so 14 same-page anchors on the new detail pages failed. The epic was amended mid-build (Files to Modify, Scope item 4, two acceptance criteria). The FSD had also put `applyTheme` and `assertTheme` (epic 2) into flow A; this was caught while writing the epic and fixed before the build.
 
 ### Follow-ups
 
 | Follow-up | Kind | Where it went |
 |---|---|---|
+| Dark-theme pass (R-2, R-8, R-9, contract C-3, flow B, flow A theme retrofit) | implementation | #186 |
+| ContentNav titles fail contrast (3.23:1) | implementation | #184 |
+| Glossary links told apart by colour alone | implementation | #185 |
+| Platform pages and `/about` coverage | implementation | declined: deferred by D-1, no requirement owns it |
+| Crawler never ran against pages with same-page anchors before this epic; no check asserts the seed pages contain such a link | workflow-docs | declined: the new probe covers the bug class directly |
+| `sugartown-epic-writer` has no step that checks an epic's file list against what the first run touches | workflow-docs | declined: the epic rule already says to stop and amend, and it did |
 
 ### Friction line
 
-> Fill at close-out.
+The first run against real pages exposed a crawler bug outside the epic's file list, which forced a mid-build amendment.
 
 ---
 
 ## Post-ship checks [REQUIRED at close-out]
 
-- [ ] The three new axe tests are green on the pushed commit: `gh run list --workflow ci.yml --limit 1` reads `success`.
+- [ ] The new axe and link tests are green on the pushed commit: `gh run list --workflow ci.yml --limit 1` reads `success`.
+- [ ] The two discovered pages that carry the most glossary links still sit under the #185 caps (case study 10, node 5): person: re-run `pnpm test:smoke` after the next publish to the case studies or nodes archive.
