@@ -60,6 +60,10 @@ gh api graphql -f query='{ repository(owner:"bex-sugartown", name:"sugartown") {
 
 The rule: when work finds a bug, depends on one, or spawns a follow-up, set that issue **Relates to** the project's issue at that moment (issue sidebar, Relationships). The relationship shows on both issues. Use **Blocked by** only for a dependency that blocks the work.
 
+### Other relationship types (not used yet)
+
+GitHub's Relationships menu offers three more types besides **Relates to**: Parent, Blocked by and Blocking. Projects use only **Relates to**. The epic template already asks for **Blocked by** on a dependency that blocks the work, but exports and release notes do not read it. **Parent** is not used: it is the sub-issue feature, and the epic rule is one epic, one issue. Add another type only after **Relates to** has been through a release and an export update without a fault, and record the decision in this section. It passed an export update test on 2026-11-02: the update found the 13 related issues, detected a planted test link as New, and found nothing after the link was removed.
+
 ## Exporting a project for sharing
 
 Packaging a project into a share folder is by choice and never automatic. Run `/sugartown-project-export` and name the project. The skill finds the files above, asks which to include, copies them (never moves them) into `SUGARTOWN_DEV/exports/{slug}-{date}/`, and writes a `README.md` at the top of that folder. A `.zip` is made only on request.
