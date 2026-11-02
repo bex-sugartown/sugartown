@@ -83,7 +83,8 @@ Ask only what is missing, one question at a time, three at most.
    `01-human-prd/`, `02-ai-prd/`, `03-fsd/`, `04-epics/`. Keep original file names. Release notes go in `release-notes/`, one file per
    version, named as in the repo. For issue
    text, write `gh issue view {n} --json title,state,body` (and comments only if the reader
-   choice allows) to `issues/ST-{n}.md`.
+   choice allows) to `issues/ST-{n}.md`, and record `comments: true` or `false` for that file
+   in the manifest.
 6. **Scan the copy for secrets.** Run
    `grep -rniE "(api[_-]?key|secret|token|password)[\"' ]*[:=][\"' ]*[A-Za-z0-9_\-]{12,}" <folder>`
    and show any hit to Bex before finishing. Remove the file from the copy if she says so.
@@ -108,7 +109,7 @@ holds:
 | `issues` | the issue numbers searched, plus any linked issue Bex added |
 | `releases` | versions whose notes are included, or `unreleased` |
 | `excluded` | groups Bex declined, so update does not offer them again |
-| `files` | one entry per copied file: `copy` (path in the folder), `source` (repo path, `gh:issue/{n}`, or `changelog:unreleased` for the unreleased excerpt), `sha256` of the copy as exported |
+| `files` | one entry per copied file: `copy` (path in the folder), `source` (repo path, `gh:issue/{n}`, or `changelog:unreleased` for the unreleased excerpt), `sha256` of the copy as exported, and for an issue copy `comments` (`true` if the copy includes the issue's comments, `false` if body only) |
 | `history` | one entry per update: date, commit, files changed |
 
 For an issue, the fingerprint is the sha256 of the generated Markdown (title, state, body and
@@ -164,12 +165,14 @@ without a human PRD or a search engine.
    only). If several match, ask which. Read `export-manifest.json`.
 2. **No manifest?** Backfill one: for each file in the folder except `README.md`, work out its
    source from the naming in `docs/conventions/project-artifacts.md` and record it with the
-   sha256 of the copy as it stands. A file whose source cannot be found is listed to Bex and
+   sha256 of the copy as it stands. For an issue copy, set `comments` to `true` if the file has a
+   `## Comment` heading, else `false`. A file whose source cannot be found is listed to Bex and
    left out of the manifest. Say that the manifest was backfilled. A backfill adds a file to the
    export, so it always adds the manifest row to the README's reading order table and one
    `## Update log` entry, even when no content changed.
 3. **Re-find the sources:** run the same `find` commands as create step 1 and regenerate the
-   issue Markdown into a temp folder. Re-run the release-note search too: an ID that was under
+   issue Markdown into a temp folder, each with its recorded `comments` setting (a different
+   setting would make an unchanged issue look Changed). Re-run the release-note search too: an ID that was under
    `[Unreleased]` and now sits in a version block means the project has shipped, so
    `release-notes/CHANGELOG-unreleased.md` is Removed and the release note is New. Re-scan for
    linked issues not yet in the manifest. Compute sha256 for each.
