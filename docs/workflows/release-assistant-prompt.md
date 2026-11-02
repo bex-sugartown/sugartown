@@ -329,6 +329,12 @@ It may not introduce an item the CHANGELOG line doesn't already name.
 ## Issues in this release
 
 [A table of ID, title and state, built as the Issue-list rules below say.]
+
+---
+
+## Related issues
+
+[A table of ID, title, state and relation, built as the Related-issues rules below say.]
 ```
 
 **Content rules:**
@@ -352,6 +358,14 @@ It may not introduce an item the CHANGELOG line doesn't already name.
 - A section under "What changed" cites its issue number in a trailing parenthetical where the CHANGELOG line carries one. This adds no change.
 - Each item under "Not in this release" cites the open issue that owns it where one exists.
 - No em dashes in titles: replace with a colon.
+
+**Related-issues rules:**
+- For each `#n` or `ST-n` in the "Issues in this release" list, read its GitHub **Relates to** list:
+  `gh api graphql -f query='{ repository(owner:"bex-sugartown", name:"sugartown") { issue(number: N) { relatesTo(first: 50) { nodes { number title state } } } } }'`.
+  Take the union, and drop any issue already in the shipped list.
+- One row each: ID, title, state, and the relation in one clause (bug found by #n, follow-up filed by #n, dependency of #n). Take the clause from the related issue's own text where it cites the shipped issue. Otherwise write `related to #n`. Never invent a reason.
+- No related issues: omit the section and say so at Gate 4.
+- The section is built from GitHub, not from the CHANGELOG, so it adds no change to the release.
 
 **Tone:**
 - Clear.

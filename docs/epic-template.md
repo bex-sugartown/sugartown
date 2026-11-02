@@ -31,7 +31,9 @@ stage (SUG-246).
 - Status: **On Hold** if the epic is paused, for a blocker or by choice (CLAUDE.md §Issue
   status = workflow stage)
 - Any cross-epic dependency stated in this doc ("blocked on X") must also exist on the issue,
-  not prose alone. GitHub has no relation field, so state it in the issue body
+  not prose alone. Set it as a **Blocked by** relationship in the issue sidebar (GitHub's native
+  relationship; this line used to say GitHub had no relation field). A bug the work finds or
+  depends on, and a follow-up it spawns, are set **Relates to** the epic's issue.
 
 **3. Shipped** (when the epic is complete)
 - Move the file from `docs/backlog/` to `docs/shipped/`
@@ -691,7 +693,8 @@ State how re-running the script produces no change:
 
 > Every finding raised during the epic gets a row: a change to the implementation, or to the
 > workflow and docs. Each is filed as an issue or declined with a reason. A finding whose only
-> record is the conversation has not been filed. `none` is valid.
+> record is the conversation has not been filed. Each filed follow-up is also set **Relates to**
+> the epic's issue. `none` is valid.
 
 | Follow-up | Kind | Where it went |
 |---|---|---|
