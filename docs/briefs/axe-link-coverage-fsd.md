@@ -77,10 +77,10 @@ Enum values: `Theme` is the two strings above, taken from `ThemeToggle.jsx` (`LI
 **Flow A: axe on discovered page types, light theme**
 
 1. For each `PAGE_TYPES` entry, one Playwright test.
-2. `applyTheme(page, 'light')`.
+2. `applyTheme(page, 'light')` (epic 2; epic 1 omits it because light is the default theme).
 3. `discoverFirstDetail(page, entry.archive, entry.pattern)` returns a path.
 4. `page.goto(path)`; wait for the level-1 heading; wait for network idle.
-5. `assertTheme(page, 'light')`.
+5. `assertTheme(page, 'light')` (epic 2; omitted in epic 1).
 6. `expectNoAxeViolations(page, entry.key, 'light')`.
 
 The existing five-route light loop also calls `applyTheme`, `assertTheme` and passes `'light'` as the third argument.
