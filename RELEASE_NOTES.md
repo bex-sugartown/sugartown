@@ -1,58 +1,62 @@
-# Release Notes — v0.38.0
+# Release Notes — v0.39.0
 
-**Date:** 2026-10-31
-**Scope:** Sugartown monorepo (apps/web, apps/studio, packages/design-system, apps/storybook, Sanity content, process/tooling)
+**Date:** 2026-11-02
+**Scope:** Sugartown monorepo (test suite, skills, process and tooling; no application code)
 
 ---
 
 ## What this release is
 
-Images flagged as AI-generated are now labelled everywhere they appear on the site, and once a session stamps them, in the image file itself. The label is one reusable design-system component built on Chip. Two test gates (colour contrast and links) and a diagram drift check now guard what ships.
+The automated accessibility checks now cover eight pages in both the light and dark themes, and four new skills carry a piece of work from requirements through to an epic and out to a shareable folder. No page on the site changes.
 
 ---
 
 ## What changed
 
-### AI images are labelled on the page
+### Accessibility checks cover more pages and both themes
 
-A flagged image shows an "AI-generated" label in its lower-left corner on article and case-study images, the detail-page hero, card thumbnails, gallery images and the click-through lightbox. Hover or focus shows the tool that made it. Small images show "AI", and very small ones show nothing. Studio records the flag, the tool (ChatGPT, Claude, Claude Code, Gemini, Adobe Firefly, Photoshop Generative Fill, Canva AI, Microsoft Copilot or Stable Diffusion) and, optionally, the tool's version.
+The axe gate scanned five pages in the light theme. It now scans eight, including the first case study, node and glossary term found from each archive, in both themes (16 tests). A new guard fails the run if the dark theme did not apply, so a dark scan cannot quietly run in light. The link crawl adds the same three pages and now resolves same-page anchors against the page they sit on, which removed 14 false failures. The wider scan found three problems on the live site, filed as #184, #185 and #187 and allowlisted until they are fixed.
 
-### And in the file, once stamped
+### A requirements-to-epic skill chain
 
-The Sanity image CDN strips embedded metadata from every image URL, which was measured rather than assumed. So a flagged image is served from stamped copies instead: the label is baked into the pixels and IPTC metadata (digital source type, tool, version) is written into the file. Share images (og:image) get the same treatment. Studio warns when an AI image has no stamped copies yet. C2PA signing and invisible watermarking were evaluated and are not done: both need a signing product that has passed C2PA conformance, a trusted certificate and a lookup service.
+Four skills now run in order: `/sugartown-prd-ai-writer` (requirements for AI agents, each with a check), `/sugartown-prototype-writer` (a placeholder for time-boxed experiments), `/sugartown-fsd-writer` (how the system behaves) and the existing epic writer. The chain ran once end to end on #166.
 
-### One label component
+### Project export
 
-The label began as its own component, `AiLabel`, which repeated most of the design system's Chip. It is now `MediaLabel`, a placement wrapper around Chip's new `tone="inverse"` and `size="fluid"` variants, and the AI wording comes from the web app. For design-system consumers, Media takes `label` and Card takes `thumbnailLabel` (breaking). Nothing on screen changed: sizes were re-measured at every width, and Chromatic showed only the renamed stories.
+`/sugartown-project-export` copies a project's documents into a share folder with a README, a glossary and a manifest. Its update mode compares each file with its source, adds changes, shipping release notes and linked issues, and logs the update in the README. `docs/conventions/project-artifacts.md` lists where each kind of artifact is stored.
 
-### Diagrams and the lightbox
+### Release notes list their issues
 
-SVG diagrams opened in the lightbox rendered at about 258 x 150, because an SVG with only a viewBox has no natural size. The lightbox now sizes images from their stored dimensions, so diagrams fill the view. Diagrams now reserve their bottom-left corner for the label and put legends on the right, and the three case-study diagrams were redrawn to match. A new check, `pnpm validate:diagram-assets`, confirms that each published diagram still matches its committed source; it found the old live diagram had drifted.
-
-### Accessibility and tests
-
-A new CI check fails when any colour token pair drops below WCAG 2.2 AA (198 pairs across five themes; 25 known failures allowlisted). The smoke suite runs axe on five routes and crawls every internal link from its seed pages, and a weekly job checks outbound links. The preheader banner, neutral chip borders and responsive tables on phones now pass.
-
-### Content
-
-"Bait and Switch, or Just a Bug" was published and later republished after a second edit, with ATS and Funnel added to the glossary. The AI Ethics page now says what EU AI Act Article 50 actually asks of a publisher, and what this site's labels do and don't do.
+Each release note now ends with an "Issues in this release" list built from the CHANGELOG entry. The notes for v0.36.0, v0.37.0 and v0.38.0 were backfilled.
 
 ---
 
 ## Not in this release
 
-- No image is stamped yet: the tooling is live, and the first stamped image is owed after this release.
-- C2PA signing, invisible watermarking, and keeping a generator's own Content Credentials (stamping re-encodes and drops them).
-- An "AI-edited" label state, blocking publish of an unstamped AI image, and hotspot-aware cropping for share images.
-- 25 colour pairs below AA remain allowlisted against #169, #170 and #171.
+- Three accessibility findings stay open: #184 (ContentNav title contrast), #185 (glossary links told apart by colour alone) and #187 (muted grey text in dark). The #185 and #187 allowlist caps follow page content, so a publish with more glossary terms or filter options can turn the gate red until they are fixed.
+- Contrast findings already allowlisted against #164, #171 and #172 remain.
+- Platform pages and `/about` are not covered by the axe gate.
+- The export skill's update path for changed source files, the swap from unreleased to released notes, and the GitHub Release body are untested.
+- The Sanity release note type has no issues field, so published notes cannot show issue numbers as data (#188).
 
 ---
 
 ## Validator state at release
 
-- CI run 41228938174 on `d28bfe1f`: success.
-- `pnpm test:smoke`: 13 passed (local, 2026-10-31).
-- `pnpm validate:tokens` and `validate:style-mirror`: clean.
-- `pnpm validate:ai-provenance`: 21 tests passed.
-- `pnpm validate:diagram-assets`: 3 published diagrams match their sources.
-- Chromatic build 107: 4 changes (renamed stories), approved.
+- CI run 41447469534 on `c1135896`: success, including the new axe and link tests.
+- `pnpm test:smoke`: 28 passed (local, 2026-11-02); the CI smoke step took 3m19s against 3m21s before #166.
+- Pre-commit validators on `de425754`: tokens, style mirror, strict colours, dead references, CSS names and lint passed.
+
+---
+
+## Issues in this release
+
+Issue and epic numbers cited in the CHANGELOG entry for this version, as written there. `#n` and `ST-n` are GitHub issue n; `SUG-n` is a legacy ID from the retired Linear tracker. State is as of 2026-11-02.
+
+| ID | Title | State |
+|---|---|---|
+| #166 (ST-166) | Axe and link-check coverage for case study, node and glossary pages (light theme) | Closed |
+| #184 | ContentNav next and previous titles fail text contrast on case study, node and glossary pages (3.23:1) | Open |
+| #185 | Glossary term links in body text are told apart by colour alone (axe link-in-text-block) | Open |
+| #186 | Axe dark-theme pass: scan the existing and discovered routes in dark-pink-moon | Closed |
+| #187 | Muted grey text (#888888) fails contrast in the dark theme: article filter counts and node sidebar series label | Open |

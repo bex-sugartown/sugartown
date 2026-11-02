@@ -12,10 +12,20 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+---
+
+## [0.39.0] — 2026-11-02
+
+Axe and link coverage widened to eight routes in both themes, and a PRD-to-epic skill chain with a project export. Aggregates everything in `[Unreleased]` since v0.38.0.
+
 ### Other
 
-- #186: the axe gate now runs every route in both the light and dark themes (16 axe tests), guards against scanning the wrong theme, and allowlists six dark findings against #164, #171, #185 and #187. (local `pnpm test:smoke`: 28 passed)
-- ST-166: smoke tests now run axe and the link crawl on the first case study, node and glossary term found from each archive, light theme, with 8 axe routes and 17 seed pages; the link crawler resolves same-page anchors correctly; two new accessibility findings are allowlisted (#184, #185). (local `pnpm test:smoke`: 19 passed)
+- The axe gate runs all 8 routes in light and dark (16 tests) and fails if the dark theme did not apply (#186). (local `pnpm test:smoke`: 28 passed)
+- Smoke runs axe and the link crawl on the first case study, node and glossary term from each archive, and the crawler resolves same-page anchors (ST-166). (local `pnpm test:smoke`: 19 passed; CI run 41447469534: success)
+- Three accessibility findings are filed and allowlisted in the axe gate (#184, #185, #187).
+- Four new skills chain human PRD, AI PRD, prototype, FSD and epic: `/sugartown-prd-ai-writer`, `/sugartown-fsd-writer`, `/sugartown-prototype-writer`, `/sugartown-project-export`; run once end to end on #166.
+- `/sugartown-project-export` packages a project's documents into a share folder with README, glossary and manifest; update mode adds changes, shipping release notes and linked issues; `docs/conventions/project-artifacts.md` lists where each artifact lives.
+- `/release` prompt v8: each release note ends with an "Issues in this release" list, and the v0.36.0 to v0.38.0 notes are backfilled.
 
 ---
 
