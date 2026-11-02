@@ -59,10 +59,12 @@ Page types in scope are the three chosen in D-1: case study, node, glossary term
 | Claim | Command or source that settles it | Run by | Done before |
 |---|---|---|---|
 | 294 unique internal link targets on the 14 seeds | Run `pnpm test:smoke` and read the `internal links checked:` line from `links.spec.ts` (the figure in #166 dates from 2026-10-12) | Agent | First epic |
-| Setting `localStorage['st-theme']` before load makes `data-theme` read `dark-pink-moon` on first paint | Prototype (`sugartown-prototype-writer`): a Playwright `addInitScript` on one route | Agent | FSD |
-| A dark axe scan of the five existing routes fails on known issues #169, #170, #171 | Prototype run with `AXE_BASELINE` set, which records violations without failing | Agent | FSD |
+| Setting `localStorage['st-theme']` before load makes `data-theme` read `dark-pink-moon` on first paint | Settled 2026-11-02 by prototype: true on all five routes (`addInitScript`, run against production) | Agent | Done |
+| A dark axe scan of the five existing routes fails on known issues #169, #170, #171 | Settled 2026-11-02 by prototype against production: `/` color-contrast 18 nodes, `/articles` color-contrast 38 nodes, other three routes none. `/` fits #171; `/articles` ownership unconfirmed. Scan takes 1.8 to 3.5 s per route | Agent | Done |
 | Smoke step time today | Read the step duration from the latest `ci.yml` run. Whole-workflow runs on 2026-10-30 to 2026-10-31 took 6 min 46 s to 9 min 14 s (`gh run list`, created to updated) | Agent | D-2 |
 | Which detail slugs exist and are stable for case study, node, glossary and platform pages | Read the archive pages in the running preview and note the first item for each page type | Agent | FSD |
+
+Prototype note for R-3: the allowlist matches rule and route only, so a dark entry would also hide the same rule in light. The FSD decides whether to add a theme key. Findings: `docs/drafts/axe-dark-prototype/FINDINGS.md` (local only).
 
 ## 5. Test and eval plan
 
