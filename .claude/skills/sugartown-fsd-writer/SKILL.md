@@ -22,6 +22,7 @@ order to build them.
 |---|---|---|
 | Human PRD | `sugartown-prd-writer` | what and why, for people |
 | AI PRD | `sugartown-prd-ai-writer` | what must be true, how we know |
+| Prototype (optional) | `sugartown-prototype-writer` | does this risky claim hold |
 | **FSD (this)** | `sugartown-fsd-writer` | how the system behaves |
 | Epic | `sugartown-epic-writer` | what to build, in what order |
 
@@ -118,6 +119,9 @@ exactly one epic, and the epic's Scope cites the section number.
 
 | Epic slug | FSD sections | Requirement IDs | Order |
 |---|---|---|---|
+
+**A flow uses contracts from its own epic or an earlier one.** A flow that needs a later epic's
+contract is split, or its steps are marked with the epic that adds them.
 
 ### 12. Improvement loop
 After each epic, add its friction line. At FSD close, re-read each section against the shipped

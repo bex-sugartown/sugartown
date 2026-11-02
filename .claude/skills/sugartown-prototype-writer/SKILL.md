@@ -58,7 +58,10 @@ summarise in one paragraph, then ask with `AskUserQuestion`: "Write it" or "Need
 ### Brief sections
 
 1. **Question.** One sentence.
-2. **Source.** AI PRD path and requirement or research-plan IDs.
+2. **Source.** AI PRD path and every requirement or research-plan row it settles. One
+   prototype may settle several rows.
+   **Target environment.** Local build, preview or production, and why. It decides the method
+   and what the results describe.
 3. **Pass and fail.** The observable result for each, with the command or observation.
 4. **Method.** What is built, and what is deliberately left out.
 5. **Time limit.** In hours or sessions.

@@ -66,6 +66,13 @@ gather what's missing.
 8. **Dark/theme treatment** — explicit per-component statement (token inheritance,
    `[data-theme]`, or "not applicable — [reason]")
 
+**When an AI PRD and FSD exist** (`docs/briefs/*-ai-prd.md`, `*-fsd.md`), read both in full. Each
+Scope item cites its FSD section number, and each acceptance criterion cites its requirement ID.
+Check that every contract a flow uses is built in this epic or an earlier one.
+
+**Test-only or tooling-only epics** (no schema, query or render change): items 3, 5, 6, 7 and 8
+above are N/A. Write one line of reason for each. Do not fill them with CMS detail.
+
 If any of these cannot be answered without reading the actual codebase, say so. The epic
 should block on missing information, not paper over it.
 

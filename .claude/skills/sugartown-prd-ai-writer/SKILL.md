@@ -48,6 +48,9 @@ Ask only what is missing, one question at a time, three at most.
 
 File: `docs/briefs/{slug}-ai-prd.md`. Draft it in the scratchpad first.
 
+**Drafting is spec work, not execution.** Leave the issue status unchanged and say so in the
+reply (CLAUDE.md §Issue status = workflow stage).
+
 Before writing it to the repo, summarise in one paragraph (requirement count, epic count,
 open decisions), then ask with `AskUserQuestion`: "Write it" or "Needs edits". Write only
 after "Write it".
