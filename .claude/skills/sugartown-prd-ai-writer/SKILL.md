@@ -20,7 +20,8 @@ claim will be checked. It does not restate the human PRD, and it does not sequen
 |---|---|---|---|
 | Human PRD | `sugartown-prd-writer` | engineers, designers, stakeholders | what and why |
 | **AI PRD (this)** | `sugartown-prd-ai-writer` | agents, plus a human reviewer | what must be true, how we know |
-| FSD | not built yet | agents | how the system works |
+| Prototype (optional) | `sugartown-prototype-writer` | agents, plus a human reviewer | does this risky claim hold |
+| FSD | `sugartown-fsd-writer` | agents | how the system works |
 | Epic | `sugartown-epic-writer` | Claude Code | what, in what order |
 
 ## Read first
