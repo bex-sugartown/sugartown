@@ -107,17 +107,38 @@ Write for a reader who has never seen the repo.
 4. How the documents relate: human PRD says what and why, AI PRD says what must be true and how
    it is checked, FSD says how the system behaves, epics say what was built and in what order.
    Name only the ones included.
-5. What is not included, and why.
-6. Provenance: repo, short commit id (`git rev-parse --short HEAD`), the statement that the
+5. Glossary (see §Glossary).
+6. What is not included, and why.
+7. Provenance: repo, short commit id (`git rev-parse --short HEAD`), the statement that the
    files are a snapshot taken on that date, and that repo paths inside the documents (for
    example `docs/briefs/`) refer to the repository, not to files in this folder.
-7. One closing line: anything this skill got wrong on this run.
+8. One closing line: anything this skill got wrong on this run.
 
 A `Last updated:` line sits under the date once an export has been updated, and an `## Update log`
 section (see §Update steps) sits before the closing skill-notes line.
 
 Follow `docs/conventions/instruction-writing-style.md` for the wording: short sentences, no em
 dashes, ISO dates.
+
+## Glossary
+
+The README carries a mini glossary so a reader outside engineering can follow the documents
+without a human PRD or a search engine.
+
+- **Which terms:** every tool, acronym, internal method name and file-type name in the included
+  documents that a non-engineer may not know (for example Axe, Playwright, smoke test, WCAG).
+  Find them by reading the included files, not by guessing. Leave out words the documents
+  already explain.
+- **Where a term has two meanings in these documents, list both.** (Example: a "node" is a
+  Sugartown content type and also an element flagged by an accessibility scan.)
+- **Source of wording:** check whether the term is in the Sugartown glossary at
+  `https://sugartown.io/glossary/{slug}` (read-only). If it is, use that definition, shortened,
+  and mark the row `(site)`. If not, write one plain sentence a non-engineer can follow. Do not
+  invent a definition you cannot state accurately; mark it `(check)` and ask Bex.
+- **Format:** a table of term and meaning, alphabetical, one or two sentences each, no em dashes.
+  Start the section with a line saying what the table is.
+- **Approval:** show the glossary to Bex with the README draft (`AskUserQuestion`: "Write it" or
+  "Needs edits") before saving. It is reader-facing content with factual claims about tools.
 
 ## Update steps
 
@@ -152,7 +173,8 @@ dashes, ISO dates.
 9. **Update the README:** set `Last updated: {ISO date}`, add or amend rows in the reading
    order table, and append to `## Update log` (create it if missing) one entry: date, short
    commit id, and a table of file, change (changed, new, removed) and one line of what changed.
-   Read the changed file to write that line; do not guess.
+   Read the changed file to write that line; do not guess. If a Changed or New file uses a term
+   the glossary lacks, propose the additions in the same approval step and log them.
 10. **Update the manifest:** new sha256 values, `lastUpdated`, `commit`, and a `history` entry.
 11. **Zip:** if a zip for this export exists, build
     `{folder}-updated-{ISO date}.zip` with the flags in create step 9 and the same count check.
