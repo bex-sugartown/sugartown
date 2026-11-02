@@ -8,6 +8,7 @@ description: >
   into SUGARTOWN_DEV/exports/{slug}-{date}/. Also updates an existing export when she says
   "update the export", "refresh the export" or "add the new changes to the package": it finds
   what changed since the export, applies what she picks, and adds a dated entry to the README.
+  Both modes include the release notes that shipped the project, and offer linked issues.
   Never runs unprompted. Status: placeholder, untested. Always produces a folder, never inline
   prose.
 ---
@@ -56,15 +57,31 @@ Ask only what is missing, one question at a time, three at most.
    wildcard stops the whole command). A project may span several issue numbers: search each.
    Prototype folders are named for what they test, so list every `*prototype*` folder in
    `docs/drafts/` and ask which belong to the project.
+   **Release notes.** For each issue number searched, find the releases that cite it (as `#n`,
+   `ST-n` or `SUG-n`):
+   `grep -lE "(#n|ST-n)([^0-9]|$)" docs/release-notes/RELEASE_NOTES_v*.md`, then read the
+   matching `CHANGELOG.md` version blocks. Group by version. If an ID appears only under
+   `[Unreleased]`, the project has not shipped: copy those CHANGELOG lines to
+   `release-notes/CHANGELOG-unreleased.md` under a header saying "Not yet released as of
+   {ISO date}". If a GitHub Release exists (`gh release view vX.Y.Z --json tagName,name,body,publishedAt,url`),
+   add its body as `release-notes/github-release-vX.Y.Z.md`.
+   **Linked issues.** Scan the included documents and issue text for `#n` and `ST-n`. Match
+   `#` plus 1 to 4 digits that is not preceded by a letter, digit or `&` and not followed by a
+   letter or digit (`grep -oE "(^|[^A-Za-z0-9&])#[0-9]{1,4}([^A-Za-z0-9]|$)"`), so hex colours
+   such as `#888888` and `#22263c` are ignored. Test fixtures such as `#1` will still match,
+   which is why Bex picks. Drop numbers already searched. Show the rest as a table: number,
+   title (`gh issue view`), state, where it is cited.
 2. **Show what was found** as a table: path, kind, whether it is tracked in git or local-only.
 3. **Ask what to include** with `AskUserQuestion`, `multiSelect: true`, one option per group
    found (human PRD, AI PRD, FSD, epics, approved vspecs, diagram sources, prototype findings,
-   issue text). For outside readers, recommend leaving out prototype code and raw issue
+   issue text, release notes, each linked issue). Linked issues are listed one by one so Bex
+   picks which bugs and follow-ups join the `issues/` folder. For outside readers, recommend leaving out prototype code and raw issue
    comments, which can hold private notes, and say so in the option text.
 4. **Create the folder** `SUGARTOWN_DEV/exports/{slug}-{YYYY-MM-DD}/`. If it exists, add `-2`
    and say so.
 5. **Copy with `cp`**, one numbered subfolder per group in reading order, for example
-   `01-human-prd/`, `02-ai-prd/`, `03-fsd/`, `04-epics/`. Keep original file names. For issue
+   `01-human-prd/`, `02-ai-prd/`, `03-fsd/`, `04-epics/`. Keep original file names. Release notes go in `release-notes/`, one file per
+   version, named as in the repo. For issue
    text, write `gh issue view {n} --json title,state,body` (and comments only if the reader
    choice allows) to `issues/ST-{n}.md`.
 6. **Scan the copy for secrets.** Run
@@ -88,9 +105,10 @@ holds:
 | `slug`, `created`, `lastUpdated` | project short name and ISO dates |
 | `commit` | short commit id at the last create or update |
 | `readers` | `outside` or `internal` |
-| `issues` | the issue numbers searched |
+| `issues` | the issue numbers searched, plus any linked issue Bex added |
+| `releases` | versions whose notes are included, or `unreleased` |
 | `excluded` | groups Bex declined, so update does not offer them again |
-| `files` | one entry per copied file: `copy` (path in the folder), `source` (repo path, or `gh:issue/{n}`), `sha256` of the copy as exported |
+| `files` | one entry per copied file: `copy` (path in the folder), `source` (repo path, `gh:issue/{n}`, or `changelog:unreleased` for the unreleased excerpt), `sha256` of the copy as exported |
 | `history` | one entry per update: date, commit, files changed |
 
 For an issue, the fingerprint is the sha256 of the generated Markdown (title, state, body and
@@ -151,7 +169,10 @@ without a human PRD or a search engine.
    export, so it always adds the manifest row to the README's reading order table and one
    `## Update log` entry, even when no content changed.
 3. **Re-find the sources:** run the same `find` commands as create step 1 and regenerate the
-   issue Markdown into a temp folder. Compute sha256 for each.
+   issue Markdown into a temp folder. Re-run the release-note search too: an ID that was under
+   `[Unreleased]` and now sits in a version block means the project has shipped, so
+   `release-notes/CHANGELOG-unreleased.md` is Removed and the release note is New. Re-scan for
+   linked issues not yet in the manifest. Compute sha256 for each.
 4. **Classify each file** and show one table:
 
    | Class | Meaning |
@@ -170,9 +191,12 @@ without a human PRD or a search engine.
    previous version is not kept: the README log records the change.
 8. **Scan what was added or changed** for secrets and forbidden paths, as in create steps 6
    and the checklist. Show any hit.
-9. **Update the README:** set `Last updated: {ISO date}`, add or amend rows in the reading
-   order table, and append to `## Update log` (create it if missing) one entry: date, short
-   commit id, and a table of file, change (changed, new, removed) and one line of what changed.
+9. **Update the README:** add a `Shipped:` line under the date (`Shipped: v0.39.0 (2026-11-14)`,
+   or `Shipped: not yet (CHANGELOG lines only)`). Set `Last updated: {ISO date}`, add or amend
+   rows in the reading order table, and append to `## Update log` (create it if missing) one
+   entry: date, short commit id, and a table of file, change (changed, new, removed) and one
+   line of what changed. When the project has shipped since the last update, the entry says
+   "Shipped in vX.Y.Z" and lists the release note file and any new linked issues.
    Read the changed file to write that line; do not guess. If a Changed or New file uses a term
    the glossary lacks, propose the additions in the same approval step and log them.
 10. **Update the manifest:** new sha256 values, `lastUpdated`, `commit`, and a `history` entry.

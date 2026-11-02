@@ -1,6 +1,9 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v7 (2026-10-11)
-**Supersedes:** v6 (2026-09-22)
+**Version:** v8 (2026-11-02)
+**Supersedes:** v7 (2026-10-11)
+
+> **v7 → v8 changes (2026-11-02):**
+> - STEP 3B: every Release Note ends with an `## Issues in this release` list built from the issue and epic IDs in the approved CHANGELOG entry, and "Not in this release" items cite the open issue that owns them. Before this, only 15 of 32 notes carried any issue number, and v0.35.0 to v0.37.0 carried none.
 
 > **v6 → v7 changes (2026-10-11):**
 > - New STEP 3E: after the tag, create the release's `releaseNote` document in Sanity as a draft, from the Release Notes just approved at Gate 4. Closes the gap left by #147, which made release notes a Sanity type but left nothing in `/release` that creates one. Draft only; publishing stays with the human.
@@ -320,6 +323,12 @@ It may not introduce an item the CHANGELOG line doesn't already name.
 ## Validator state at release
 
 [Output of any relevant validation scripts, e.g. `pnpm validate:tokens`, `pnpm lint`.]
+
+---
+
+## Issues in this release
+
+[A table of ID, title and state, built as the Issue-list rules below say.]
 ```
 
 **Content rules:**
@@ -334,6 +343,15 @@ It may not introduce an item the CHANGELOG line doesn't already name.
 - Bug fixes may be narrated with symptoms and resolution, not just listed.
 - The "Not in this release" section is required when there are partial implementations, placeholder routes, or deferred work that could cause confusion.
 - The "Validator state at release" section is required when validation scripts exist and were run.
+- The "Issues in this release" section is always required (omit it only if the CHANGELOG entry cites no ID, and say so).
+
+**Issue-list rules:**
+- Every issue or epic ID cited in the approved CHANGELOG entry appears in the list, as written there (`#n`, `ST-n` or `SUG-n`). Build it from the CHANGELOG entry, never from memory.
+- `#n` and `ST-n` with the same n are one row, written `#n (ST-n)`. `SUG-n` is a separate, legacy ID (Linear is retired) and keeps its own row.
+- Titles: for `#n` and `ST-n` run `gh issue view n --json title,state` (fall back to `gh pr view n`). For `SUG-n` use the first heading of `docs/shipped/SUG-n-*.md`. A title that cannot be found says `(title not found)`; it is not guessed.
+- A section under "What changed" cites its issue number in a trailing parenthetical where the CHANGELOG line carries one. This adds no change.
+- Each item under "Not in this release" cites the open issue that owns it where one exists.
+- No em dashes in titles: replace with a colon.
 
 **Tone:**
 - Clear.
