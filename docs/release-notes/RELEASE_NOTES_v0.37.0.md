@@ -56,3 +56,31 @@ Cloud runs launch with `/cloud-launch` and finish with `/handback`, with a read-
 - `pnpm validate:style-mirror`: mirrors byte-identical.
 - `pnpm validate:liveness-probes`: 0 gates inert.
 - `pnpm validate:urls`: exit 0 with 24 warnings (missing slugs and nav items, known).
+
+---
+
+## Issues in this release
+
+Issue and epic numbers cited in the CHANGELOG entry for this version, as written there. `#n` and `ST-n` are GitHub issue n; `SUG-n` is a legacy ID from the retired Linear tracker. State is as of 2026-11-02.
+
+| ID | Title | State |
+|---|---|---|
+| #22 | apps/studio has no typecheck script | Closed |
+| #74 | SUG-232: Non-colour raw token fallbacks pass CI silently (validator gap + 144 to remove) | Closed |
+| #85 | SUG-257: apps/studio has no lint script (82 problems, all errors in 3 Node scripts) | Closed |
+| #86 | SUG-258: apps/web lints only .js/.jsx: 32 TypeScript files under src/ are ungated | Closed |
+| #91 | SUG-266: ScoreRing: reduced-motion changes mid-session do not take effect | Closed |
+| #127 | Prerendered pages 301 to a trailing-slash URL their canonical tag does not match | Closed |
+| #133 | SUG-284 unwind residue: seven ghost permissions, links to a missing file, stale synced CLAUDE.md | Closed |
+| #135 | Release notes as public articles (governance visibility) | Closed |
+| #136 | MetadataCard Terms row conflates inline-linked terms with unlinked relatedTerms | Closed |
+| #140 | Publish the 17 Release Notes drafts from ST-135 | Closed |
+| #141 | Correct cloud-execution.md from the first cloud run (#85) | Closed |
+| #142 | Correct cloud-execution.md from the second cloud run (#22): wip start branch, schema guard | Closed |
+| #144 | Cloud hand-back automation: /cloud-launch, /handback, reviewer, ready label, ref cleanup | Closed |
+| #145 | /code landing page + site-wide cta_click GA4 event | Closed |
+| #146 | Cookie consent banner blends into the page | Closed |
+| #147 | Release Note content type and /releases archive | Closed |
+| #150 | Pink Moon accessibility Pass 1: token contrast | Closed |
+| #151 | Pink Moon accessibility Pass 2: rich text, semantics, status chips | Closed |
+| #152 | Pink Moon accessibility: leftovers after Pass 1 and Pass 2 | Closed |

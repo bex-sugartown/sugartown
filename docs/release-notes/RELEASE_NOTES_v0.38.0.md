@@ -56,3 +56,30 @@ A new CI check fails when any colour token pair drops below WCAG 2.2 AA (198 pai
 - `pnpm validate:ai-provenance`: 21 tests passed.
 - `pnpm validate:diagram-assets`: 3 published diagrams match their sources.
 - Chromatic build 107: 4 changes (renamed stories), approved.
+
+---
+
+## Issues in this release
+
+Issue and epic numbers cited in the CHANGELOG entry for this version, as written there. `#n` and `ST-n` are GitHub issue n; `SUG-n` is a legacy ID from the retired Linear tracker. State is as of 2026-11-02.
+
+| ID | Title | State |
+|---|---|---|
+| #95 (ST-95) | Liveness probes only, no register | Closed |
+| #96 | Claim honesty for published statistics | Closed |
+| #97 | Generated index, only if #95 and #96 prove out | Closed |
+| #101 (ST-101) | Extract the renamed-heading check, and resume per-group QA profiles on a varied sample | Closed |
+| #159 (ST-159) | Page-level accessibility and link automation | Closed |
+| #160 | validate:contrast: fail CI when a token colour pair drops below WCAG 2.2 AA | Closed |
+| #163 | Preheader banner text and link fail contrast on every page (3.62:1) | Closed |
+| #173 (ST-173) | Article: A Five-Minute Call That Was an Application | Closed |
+| #175 | Responsive table variant hides column headers on mobile, so cells are unlabelled | Closed |
+| #176 | Article: five-minute call, revisions and republish after red-pen | Closed |
+| #178 (ST-178) | AI image provenance: embedded metadata and visible watermark | Closed |
+| #179 (ST-179) | AI image label on card, editorial card, card-builder and gallery images | Closed |
+| #180 | Case study diagrams: lightbox renders small, AI label covers diagram text, aiTool missing | Closed |
+| #181 (ST-181) | AI image provenance: close the compliance gaps | Closed |
+| #182 | validate:diagram-assets: published diagrams match their committed sources | Closed |
+| #183 (ST-183) | AiLabel: rename to a use-case-neutral image overlay | Closed |
+| SUG-164 | Chip neutral border contrast: 1.3:1 non-text contrast (system token review) | legacy |
+| SUG-178 | AI-generated image badge: transparency overlay | legacy |

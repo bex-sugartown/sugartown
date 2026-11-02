@@ -96,3 +96,32 @@ Run 2026-09-19 on the release commit's tree:
 | `pnpm typecheck` | exit 0 |
 | `pnpm validate:liveness-probes` | 13 gates proven live, 0 inert |
 | CI run 35445972651 (pushed tree) | success, including Chromatic VRT |
+
+---
+
+## Issues in this release
+
+Issue and epic numbers cited in the CHANGELOG entry for this version, as written there. `#n` and `ST-n` are GitHub issue n; `SUG-n` is a legacy ID from the retired Linear tracker. State is as of 2026-11-02.
+
+| ID | Title | State |
+|---|---|---|
+| #65 | SUG-202: Cookie consent banner + GA Consent Mode (decided 2026-09-19) | Closed |
+| #95 (ST-95) | Liveness probes only, no register | Closed |
+| #103 (ST-103) | Single-deploy /ship --release | Closed |
+| #107 | /release should tag the version, assign a milestone, and publish a GitHub Release | Closed |
+| #108 (ST-108) | Multi-repo operations and /sweep command | Closed |
+| #109 (ST-109) | post-commit mirror races itself during a rebase | Closed |
+| #110 (ST-110) | PreToolUse guard hook: block reads and writes under cms-eval/bound and resume-factory/private | Closed |
+| #111 (ST-111) | Relayer Claude Code settings: global carries machine-wide only, each repo carries its own environment | Closed |
+| #112 (ST-112) | Split sugartown CLAUDE.md into path-scoped .claude/rules and clear hierarchy strays | Closed |
+| #113 (ST-113) | post-commit mirror skips the first commit of every day since ST-106: fetch exits 128 under sh -e | Closed |
+| #114 (ST-114) | post-commit mirror pushes HEAD, not the committed SHA: a branch switch after commit logs OK for an unpushed commit | Closed |
+| #115 (ST-115) | post-commit mirror keeps one ref per day: a second branch committed the same day is disk-only | Closed |
+| #117 (ST-117) | Retire Linear; GitHub is the single tracker | Closed |
+| #120 (ST-120) | Audit docs/drafts for unpublished articles, nodes and content | Closed |
+| #121 | Node: What Bex Meant Was flex-wrap: draft to Sanity and finish | Open |
+| #126 | Reword 8 remaining florid-phrase grep hits (load-bearing, corpus, failure class) | Closed |
+| #128 | Google Analytics does not load on prerendered article, node and case-study pages | Closed |
+| #129 (ST-129) | check-epic-doc: one definition of an epic doc, checked when an epic starts | Closed |
+| #130 (ST-130) | epic lifecycle: one start review, Phase 0 covers everything knowable, required close-out review, post-ship checks | Closed |
+| SUG-202 | Cookie consent + analytics decision: GA runs with no consent banner | legacy |
