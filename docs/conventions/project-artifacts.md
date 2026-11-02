@@ -54,6 +54,6 @@ A project can have more than one issue number (for example one per epic). Run th
 
 Packaging a project into a share folder is by choice and never automatic. Run `/sugartown-project-export` and name the project. The skill finds the files above, asks which to include, copies them (never moves them) into `SUGARTOWN_DEV/exports/{slug}-{date}/`, and writes a `README.md` at the top of that folder. A `.zip` is made only on request.
 
-The export is a snapshot. It does not update when the originals change.
+The export is a snapshot. It does not update when the originals change. To refresh one, run `/sugartown-project-export update` and name the project. The skill compares each copied file with its source using the fingerprints in the export's `export-manifest.json`, shows what changed, applies the changes you pick, and adds a dated entry to the README's update log.
 
 The skill never includes `.env` files, anything under `cms-eval/bound/`, or anything under `resume-factory/private/`. Each export asks who the readers are, because `docs/drafts/` files and issue comments can hold private notes.

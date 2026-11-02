@@ -5,8 +5,11 @@ description: >
   Use when Bex says "export this project", "package the docs", "share the PRD and FSD",
   "make a folder I can send", or "bundle the artifacts for X". Copies the PRD, AI PRD, FSD,
   epics, approved vspecs, diagram sources, prototype findings and issue text that she picks,
-  into SUGARTOWN_DEV/exports/{slug}-{date}/. Never runs unprompted. Status: placeholder,
-  untested. Always produces a folder, never inline prose.
+  into SUGARTOWN_DEV/exports/{slug}-{date}/. Also updates an existing export when she says
+  "update the export", "refresh the export" or "add the new changes to the package": it finds
+  what changed since the export, applies what she picks, and adds a dated entry to the README.
+  Never runs unprompted. Status: placeholder, untested. Always produces a folder, never inline
+  prose.
 ---
 
 # Sugartown Project Export
@@ -19,6 +22,15 @@ reading order, plus a `README.md`. It reads the repo and writes only to the expo
 
 Locations of each artifact: `docs/conventions/project-artifacts.md`.
 
+## Modes
+
+| Mode | When | Steps |
+|---|---|---|
+| Create | No export folder exists for the project | §Create steps |
+| Update | An export folder exists and Bex asks to refresh it | §Update steps |
+
+If an export folder exists and Bex asks for an export without saying update, ask which she means.
+
 ## Hard stops
 
 | Never | Why |
@@ -27,7 +39,8 @@ Locations of each artifact: `docs/conventions/project-artifacts.md`.
 | Move, edit or delete an original | The export is a copy |
 | Push, publish or upload the folder | Sharing is Bex's act |
 | Write outside `SUGARTOWN_DEV/exports/` | One known destination |
-| Overwrite an existing export folder | Add a suffix or ask |
+| Overwrite an existing export folder when creating | Add a suffix or ask |
+| In update mode, change a file the manifest does not list, or a change Bex did not pick | Update touches only what she selects |
 
 ## Intake
 
@@ -36,7 +49,7 @@ Ask only what is missing, one question at a time, three at most.
 - Project slug, or one or more issue numbers
 - Who the readers are: internal, or someone outside (a boss, a hiring manager, a client)
 
-## Steps
+## Create steps
 
 1. **Find the files.** Use the `find` commands in `docs/conventions/project-artifacts.md`
    §How to find every file for one project (not `ls` with wildcards: in zsh one unmatched
@@ -58,11 +71,31 @@ Ask only what is missing, one question at a time, three at most.
    `grep -rniE "(api[_-]?key|secret|token|password)[\"' ]*[:=][\"' ]*[A-Za-z0-9_\-]{12,}" <folder>`
    and show any hit to Bex before finishing. Remove the file from the copy if she says so.
 7. **Write `README.md`** at the folder root (see below).
-8. **Zip only on request:** `ditto -c -k --keepParent --norsrc --noextattr --noqtn <folder> <folder>.zip`.
+8. **Write `export-manifest.json`** at the folder root (see §Manifest).
+9. **Zip only on request:** `ditto -c -k --keepParent --norsrc --noextattr --noqtn <folder> <folder>.zip`.
    The three flags keep macOS metadata out of the zip. Without them every file gains a hidden
    `._` twin. Check with `unzip -Z1 <zip> | grep -v '/$' | wc -l`: it must equal the folder's
    file count. Do not overwrite an existing zip; add `-2`.
-9. **Report:** the folder path, file count, total size, and the README's first paragraph.
+10. **Report:** the folder path, file count, total size, and the README's first paragraph.
+
+## Manifest
+
+`export-manifest.json` is the update mode's memory. It is generated, never edited by hand. It
+holds:
+
+| Field | Content |
+|---|---|
+| `slug`, `created`, `lastUpdated` | project short name and ISO dates |
+| `commit` | short commit id at the last create or update |
+| `readers` | `outside` or `internal` |
+| `issues` | the issue numbers searched |
+| `excluded` | groups Bex declined, so update does not offer them again |
+| `files` | one entry per copied file: `copy` (path in the folder), `source` (repo path, or `gh:issue/{n}`), `sha256` of the copy as exported |
+| `history` | one entry per update: date, commit, files changed |
+
+For an issue, the fingerprint is the sha256 of the generated Markdown (title, state, body and
+comments), so a new comment or a closed state counts as a change. The README says the file is
+for the update command and readers can ignore it.
 
 ## README contents
 
@@ -80,8 +113,52 @@ Write for a reader who has never seen the repo.
    example `docs/briefs/`) refer to the repository, not to files in this folder.
 7. One closing line: anything this skill got wrong on this run.
 
+A `Last updated:` line sits under the date once an export has been updated, and an `## Update log`
+section (see §Update steps) sits before the closing skill-notes line.
+
 Follow `docs/conventions/instruction-writing-style.md` for the wording: short sentences, no em
 dashes, ISO dates.
+
+## Update steps
+
+1. **Locate the export:** `find SUGARTOWN_DEV/exports -maxdepth 1 -name "{slug}-*"` (folders
+   only). If several match, ask which. Read `export-manifest.json`.
+2. **No manifest?** Backfill one: for each file in the folder except `README.md`, work out its
+   source from the naming in `docs/conventions/project-artifacts.md` and record it with the
+   sha256 of the copy as it stands. A file whose source cannot be found is listed to Bex and
+   left out of the manifest. Say that the manifest was backfilled. A backfill adds a file to the
+   export, so it always adds the manifest row to the README's reading order table and one
+   `## Update log` entry, even when no content changed.
+3. **Re-find the sources:** run the same `find` commands as create step 1 and regenerate the
+   issue Markdown into a temp folder. Compute sha256 for each.
+4. **Classify each file** and show one table:
+
+   | Class | Meaning |
+   |---|---|
+   | Changed | source sha256 differs from the manifest |
+   | New | found now, not in the manifest, and its group is not in `excluded` |
+   | Removed | listed in the manifest, source no longer exists |
+   | Unchanged | same sha256 |
+
+5. **Nothing changed?** Say so and stop. Do not touch the README, manifest or zip, unless step 2
+   backfilled the manifest (then only the README note in step 2 and the manifest itself).
+6. **Ask what to apply** with `AskUserQuestion`, `multiSelect: true`, one option per Changed,
+   New or Removed group. Removed files are deleted from the export only if selected.
+7. **Apply:** replace changed files in place with `cp`. Put new files in their group's
+   numbered subfolder, or in the next free number for a new group (do not renumber). The
+   previous version is not kept: the README log records the change.
+8. **Scan what was added or changed** for secrets and forbidden paths, as in create steps 6
+   and the checklist. Show any hit.
+9. **Update the README:** set `Last updated: {ISO date}`, add or amend rows in the reading
+   order table, and append to `## Update log` (create it if missing) one entry: date, short
+   commit id, and a table of file, change (changed, new, removed) and one line of what changed.
+   Read the changed file to write that line; do not guess.
+10. **Update the manifest:** new sha256 values, `lastUpdated`, `commit`, and a `history` entry.
+11. **Zip:** if a zip for this export exists, build
+    `{folder}-updated-{ISO date}.zip` with the flags in create step 9 and the same count check.
+    Add `-2` for a second update on the same day. Leave every earlier zip untouched. If no zip
+    exists, make none.
+12. **Report:** the change table, the log entry, and the new zip path if any.
 
 ## Checklist before reporting done
 
@@ -90,3 +167,6 @@ dashes, ISO dates.
 - [ ] The secret scan ran and its hits were shown
 - [ ] Originals are unchanged: `git status --short` shows nothing new in the repo
 - [ ] The README names what was left out
+- [ ] Create mode: `export-manifest.json` lists every copied file
+- [ ] Update mode: the README log entry matches the files actually changed, the manifest was
+      updated, and no earlier zip was modified
