@@ -9,11 +9,13 @@ const CONCURRENCY = 6
 
 type Target = { path: string; hash: string }
 
-function internalTarget(href: string, origin: string): Target | null {
+// `base` is the page the link was found on, so a same-page link such as '#section-1'
+// resolves to that page and not to the site root (ST-166).
+function internalTarget(href: string, origin: string, base: string): Target | null {
   if (!href || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return null
   let url: URL
   try {
-    url = new URL(href, origin)
+    url = new URL(href, base)
   } catch {
     return null
   }
@@ -29,7 +31,7 @@ async function collectLinks(context: BrowserContext, origin: string, path: strin
     await page.waitForLoadState('networkidle')
     const hrefs = await page.$$eval('a[href]', (as) => as.map((a) => a.getAttribute('href') || ''))
     return hrefs
-      .map((h) => internalTarget(h, origin))
+      .map((h) => internalTarget(h, origin, new URL(path, origin).href))
       .filter((t): t is Target => t !== null)
       .map((t) => ({ ...t, from: path }))
   } finally {

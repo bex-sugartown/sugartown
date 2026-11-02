@@ -78,7 +78,7 @@ All items are in Phase 1.
 - [ ] **1. Discovery helper and its probe (Phase 1).** Create `tests/smoke/helpers/discover.ts` with `discoverFirstDetail(page, archivePath, pattern)` and `PAGE_TYPES` (FSD C-1, C-2). Create `tests/smoke/discover-liveness.spec.ts`: a call against `/__no-such-archive__` must reject with an error naming that path. Layer: tests.
 - [ ] **2. Theme-aware axe helper and allowlist (Phase 1).** In `helpers/axe.ts` add `type Theme = 'light' | 'dark'`, a third argument `theme`, a pure exported `isAllowlisted(violation, route, theme, list)`, and baseline file names that include the theme. In `helpers/axe-allowlist.ts` add a required `theme` field and set `'light'` on the three existing entries. In `axe-liveness.spec.ts` pass `'light'` and add a probe: `isAllowlisted` with a `theme: 'light'` entry and `theme = 'dark'` must return false (FSD C-4, edge case row 6). Layer: tests.
 - [ ] **3. Axe tests for discovered page types (Phase 1).** In `a11y.spec.ts` add one light-theme test per `PAGE_TYPES` entry (flow A, without the C-3 steps): discover the first detail, go to it, wait for the level-1 heading and network idle, run `expectNoAxeViolations(page, entry.key, 'light')`. The existing five tests pass `'light'`. Any new violation is allowlisted with an open issue number, a `maxNodes` and `theme: 'light'`, never fixed here. Layer: tests.
-- [ ] **4. Link crawl seeds (Phase 1).** In `links.spec.ts` run `discoverFirstDetail` for each `PAGE_TYPES` entry, add the three paths to the seed list, de-duplicate, and log the seed count (flow C, FSD D-4). `seed-pages.json` and `scripts/check-external-links.mjs` stay unchanged. Layer: tests.
+- [ ] **4. Link crawl seeds (Phase 1).** In `links.spec.ts` run `discoverFirstDetail` for each `PAGE_TYPES` entry, add the three paths to the seed list, de-duplicate, and log the seed count (flow C, FSD D-4). `seed-pages.json` and `scripts/check-external-links.mjs` stay unchanged. **Amended 2026-11-02:** `helpers/links.ts` also changes. It resolved every href against the site origin, so a same-page link such as `#section-challenge-1` on a detail page became `/#section-challenge-1` and failed on the homepage (14 false failures on first run). It now resolves against the page the link was found on, with a probe. Layer: tests.
 
 ## Phases [REQUIRED]
 
@@ -110,7 +110,8 @@ Single phase. Ships when all four Scope items are done and `pnpm test:smoke` pas
 - `tests/smoke/helpers/axe-allowlist.ts`: `theme` field on the type and the three entries, plus any new entries
 - `tests/smoke/axe-liveness.spec.ts`: pass `'light'`, add the theme probe
 - `tests/smoke/a11y.spec.ts`: three discovered-page tests, `'light'` argument on the existing five
-- `tests/smoke/links.spec.ts`: discovered seeds and the count log
+- `tests/smoke/links.spec.ts`: discovered seeds, the count log, and a same-page anchor probe
+- `tests/smoke/helpers/links.ts`: resolve hrefs against the page URL (added 2026-11-02, scope gap found on first run)
 
 **Close-out**
 - `CHANGELOG.md`: one line in `[Unreleased]`
@@ -123,6 +124,8 @@ Single phase. Ships when all four Scope items are done and `pnpm test:smoke` pas
 - [ ] **R-5.** `pnpm test:smoke` logs `internal links checked: N` where the seed count line reads 17 (14 plus 3), and the test passes with N greater than 20.
 - [ ] **R-6.** `git diff main --name-only -- tests/smoke/helpers/seed-pages.json scripts/check-external-links.mjs` prints nothing, and `grep -n seed-pages scripts/check-external-links.mjs` still finds the read.
 - [ ] **R-7.** `grep -nE "case-studies/[a-z]|nodes/[a-z]|glossary/[a-z]" tests/smoke/a11y.spec.ts tests/smoke/links.spec.ts` prints nothing (no hardcoded slug; the patterns live in `discover.ts`).
+- [ ] **Same-page anchors.** `pnpm test:smoke` reports no `anchor not found` failures from the three discovered pages. The new probe (a page with `<a href="#x">` and an element `id="x"`) passes, and fails when `helpers/links.ts` is reverted to resolve against the origin (run once, revert, record).
+- [ ] **New findings recorded.** Each new axe finding on the three page types has an open issue and an allowlist entry with `theme: 'light'`: #184 (color-contrast, 1 node per page type) and #185 (link-in-text-block, 10 case study, 5 node).
 - [ ] **Discovery probe.** The `discover-liveness.spec.ts` test passes, and fails when `discoverFirstDetail` is made to return `''` instead of throwing (run once with that change, revert, record the result).
 - [ ] **Studio typecheck.** N/A: no change under `apps/studio`.
 - [ ] **Route smoke-test.** N/A: no route or renderer changes. The new tests visit one detail page per type and the archives, which exercises both.
@@ -132,7 +135,7 @@ Single phase. Ships when all four Scope items are done and `pnpm test:smoke` pas
 ## Risks / Edge Cases [OPTIONAL]
 
 - A content publish changes the first item of an archive, and the new page has a violation. The gate goes red with no code change. The failure message carries the discovered path. See the kill criterion above. (FSD §7, row 4: untested, needs a real publish.)
-- The first scan of a new page type may find violations. They are allowlisted with a new open issue, not fixed here.
+- The first scan found violations: color-contrast on ContentNav titles (#184) and glossary links by colour alone (#185). They are allowlisted, not fixed here. #185's cap follows how many glossary terms the first case study (10) and node (5) carry; a publish with more terms turns the gate red until #185 is fixed.
 - Glossary has 83 terms, so the first item is arbitrary. Its representativeness is untested; a different term could carry different markup.
 - Added run time: three archive loads and three scans, about 15 to 20 s serial (an estimate from the prototype's 1.8 to 3.5 s per scan; measure in CI). Epic 2 owns the 3-minute budget (R-8).
 
