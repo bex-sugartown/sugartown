@@ -1,7 +1,7 @@
 # Skills Index
 
 **Version:** v1.1
-**Last updated:** 2026-09-26 (generated block)
+**Last updated:** 2026-11-02 (generated block)
 **Owner:** Bex Head
 
 ---
@@ -38,6 +38,7 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `restart` | `/restart` | `skills/` | Check which Sugartown dev servers are running and restart any that are down. |
 | `ship` | `/ship` | `commands/` | Thin command. Prompt: `docs/ship-prompt.md` |
 | `sugartown-epic-writer` | `/sugartown-epic-writer` | `skills/` | Write a Claude Code epic execution prompt for Sugartown monorepo implementation work. |
+| `sugartown-prd-ai-writer` | `/sugartown-prd-ai-writer` | `skills/` | Write the AI-facing requirements document for Sugartown work: a PRD in agent-executable form, sitting between the human PRD (sugartown-prd-writer) and the epic (sugartown-epic-writer). |
 | `sugartown-prd-writer` | `/sugartown-prd-writer` | `skills/` | Write a human-facing Product Requirements Document for CMS/headless architecture, design system governance, or ecommerce/platform implementation work. |
 | `switch` | `/switch` | `skills/` | Sync the Sugartown repo across machines (desktop ⇄ laptop). |
 | `update-cwv` | `/update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
