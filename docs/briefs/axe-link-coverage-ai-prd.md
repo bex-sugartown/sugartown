@@ -117,3 +117,21 @@ apply. Fixes to the violations found are separate issues (#169 to #172) and carr
 | A conformance claim from a passing scan | Automated rules catch a minority of WCAG criteria | #153 |
 | Other themes (`light-shop`, `dark-shop`) | Not requested in #166 | None filed |
 | A new validator or register | No named reader for its output | None |
+
+## Close-out (2026-11-02)
+
+Both epics shipped locally: ST-166 (#166) and #186. Each requirement re-read against the code.
+
+| ID | Result | Evidence |
+|---|---|---|
+| R-1 | Match | 8 light axe tests, `pnpm test:smoke --list \| grep -c "axe: "` |
+| R-2 | Match | 8 dark axe tests, `grep -c "axe (dark): "` |
+| R-3 | Match | `theme` field required; probe in `axe-liveness.spec.ts` |
+| R-4 | Match | #164, #171, #172, #184, #185, #187 all open on 2026-11-02 |
+| R-5 | Match | `seed pages: 17 (14 static, 3 discovered)` |
+| R-6 | Match, reworded | Base list shared; internal crawl adds discovered pages (FSD D-4) |
+| R-7 | Match | No hardcoded detail slug in `a11y.spec.ts` or `links.spec.ts` |
+| R-8 | Match locally, CI owed | 8 dark tests took 18.3 s serial (`--workers=1`); step time in CI is a post-ship check |
+| R-9 | Match | `theme-liveness.spec.ts`; failed when `assertTheme` was made a no-op |
+
+Drift fixed in the doc, not the code: the FSD had no entry for the exported `isAllowlisted` function or for the crawler fix in `helpers/links.ts`. Both are now noted in the FSD under section 5.

@@ -1,6 +1,8 @@
 import { test } from '@playwright/test'
 import { expectNoAxeViolations } from './helpers/axe'
+import type { Theme } from './helpers/axe-allowlist'
 import { PAGE_TYPES, discoverFirstDetail } from './helpers/discover'
+import { applyTheme, assertTheme } from './helpers/theme'
 
 // The five smoke routes (homepage, archive, detail, taxonomy, 404), then one
 // discovered detail page for each of case study, node and glossary term below.
@@ -15,23 +17,33 @@ const ROUTES: { path: string; ready: (page: import('@playwright/test').Page) => 
   { path: '/this-route-does-not-exist-smoke-test', ready: (p) => p.getByRole('heading', { level: 1 }).waitFor() },
 ]
 
-for (const route of ROUTES) {
-  test(`axe: ${route.path} has no WCAG A/AA violations`, async ({ page }) => {
-    await page.goto(route.path)
-    await route.ready(page)
-    await page.waitForLoadState('networkidle')
-    await expectNoAxeViolations(page, route.path, 'light')
-  })
-}
+// Both themes run the same routes (ST-186). Light keeps its original test names.
+const THEMES: Theme[] = ['light', 'dark']
+const label = (theme: Theme) => (theme === 'light' ? 'axe' : `axe (${theme})`)
 
-// One real detail page per page type, found from its archive at run time (ST-166).
-// The allowlist key is the page-type key, so entries do not depend on which item is first.
-for (const type of PAGE_TYPES) {
-  test(`axe: ${type.key} has no WCAG A/AA violations`, async ({ page }) => {
-    const path = await discoverFirstDetail(page, type.archive, type.pattern)
-    await page.goto(path)
-    await page.getByRole('heading', { level: 1 }).first().waitFor()
-    await page.waitForLoadState('networkidle')
-    await expectNoAxeViolations(page, type.key, 'light')
-  })
+for (const theme of THEMES) {
+  for (const route of ROUTES) {
+    test(`${label(theme)}: ${route.path} has no WCAG A/AA violations`, async ({ page }) => {
+      await applyTheme(page, theme)
+      await page.goto(route.path)
+      await route.ready(page)
+      await page.waitForLoadState('networkidle')
+      await assertTheme(page, theme)
+      await expectNoAxeViolations(page, route.path, theme)
+    })
+  }
+
+  // One real detail page per page type, found from its archive at run time (ST-166).
+  // The allowlist key is the page-type key, so entries do not depend on which item is first.
+  for (const type of PAGE_TYPES) {
+    test(`${label(theme)}: ${type.key} has no WCAG A/AA violations`, async ({ page }) => {
+      await applyTheme(page, theme)
+      const path = await discoverFirstDetail(page, type.archive, type.pattern)
+      await page.goto(path)
+      await page.getByRole('heading', { level: 1 }).first().waitFor()
+      await page.waitForLoadState('networkidle')
+      await assertTheme(page, theme)
+      await expectNoAxeViolations(page, type.key, theme)
+    })
+  }
 }

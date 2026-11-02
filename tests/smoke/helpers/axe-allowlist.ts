@@ -30,4 +30,16 @@ export const AXE_ALLOWLIST: AxeAllowEntry[] = [
   // glossary terms the first item carries (10 on the case study, 5 on the node on 2026-11-02).
   { rule: 'link-in-text-block', route: '/case-studies/:first', theme: 'light', date: '2026-11-02', issue: '#185', maxNodes: 10 },
   { rule: 'link-in-text-block', route: '/nodes/:first', theme: 'light', date: '2026-11-02', issue: '#185', maxNodes: 5 },
+  // Dark theme, recorded 2026-11-02 by the dark pass (#186). Counts follow page content, so a publish
+  // that adds filter options or glossary terms can fail the gate until the owning issue is fixed.
+  // #164: the same Citation roles as in light.
+  { rule: 'aria-deprecated-role', route: '/', theme: 'dark', date: '2026-11-02', issue: '#164', maxNodes: 5 },
+  // #171: text-brand (#ff247d) on the dark surface, 4.28 to 4.44:1 (18 nodes, 3 of them on #1c2240 at 4.28:1).
+  { rule: 'color-contrast', route: '/', theme: 'dark', date: '2026-11-02', issue: '#171', maxNodes: 18 },
+  // #187: muted grey (#888888) at 4.19 and 4.38:1.
+  { rule: 'color-contrast', route: '/articles', theme: 'dark', date: '2026-11-02', issue: '#187', maxNodes: 38 },
+  { rule: 'color-contrast', route: '/nodes/:first', theme: 'dark', date: '2026-11-02', issue: '#187', maxNodes: 1 },
+  // #185: glossary links by colour alone. 9 on the case study in dark (10 in light), 5 on the node.
+  { rule: 'link-in-text-block', route: '/case-studies/:first', theme: 'dark', date: '2026-11-02', issue: '#185', maxNodes: 9 },
+  { rule: 'link-in-text-block', route: '/nodes/:first', theme: 'dark', date: '2026-11-02', issue: '#185', maxNodes: 5 },
 ]

@@ -70,6 +70,8 @@ Flow, all inside `tests/smoke/`:
 | C-3 `applyTheme`, `assertTheme` | `type Theme = 'light' \| 'dark'`; `applyTheme(page, theme)` calls `addInitScript` to set `localStorage['st-theme']` to `light-pink-moon` or `dark-pink-moon`, before `goto`. `assertTheme(page, theme)` reads `document.documentElement.getAttribute('data-theme')` and throws on mismatch | `helpers/theme.ts` (new) | `a11y.spec.ts`, liveness spec |
 | C-4 `expectNoAxeViolations` and `AxeAllowEntry` | Signature gains a third argument: `(page, route: string, theme: Theme)`. `AxeAllowEntry` gains `theme: Theme` (required). An entry matches only when `rule`, `route` and `theme` all equal. The route argument is a literal path for static routes and the page-type key (for example `/nodes/:first`) for discovered ones. Baseline files are named by route and theme | `helpers/axe.ts`, `helpers/axe-allowlist.ts` | `a11y.spec.ts`, `axe-liveness.spec.ts` |
 
+Added during the build (2026-11-02): `isAllowlisted(violation, route, theme, list)` is exported from `helpers/axe.ts` as a pure function so a probe can test the theme match; `helpers/links.ts` resolves each href against the page it was found on, not the site origin (same-page anchors on detail pages failed before this).
+
 Enum values: `Theme` is the two strings above, taken from `ThemeToggle.jsx` (`LIGHT`, `DARK`).
 
 ## 6. Behaviour
