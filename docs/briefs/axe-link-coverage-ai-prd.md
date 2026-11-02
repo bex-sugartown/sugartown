@@ -49,7 +49,7 @@ Page types in scope are the three chosen in D-1: case study, node, glossary term
 | R-3 | A violation found by R-1 or R-2 is fixed or allowlisted with an issue number and a `maxNodes` | `axe-allowlist.ts` header | `expectNoAxeViolations` rejects an entry whose issue does not match `#N` | enforced-by-code |
 | R-4 | Every allowlisted entry names an issue that is open | `axe-allowlist.ts` header | No script checks this today. A reviewer reads the list at close-out | convention |
 | R-5 | The internal link crawl seeds include a page for each page type in scope | #166 body | `seed-pages.json` entries; `links.spec.ts` passes with more than 20 targets | enforced-by-code |
-| R-6 | Internal and weekly external checks keep one shared seed list | `links.spec.ts` comment | `grep -n seed-pages scripts/check-external-links.mjs` finds the read | enforced-by-code |
+| R-6 | Internal and weekly external checks share one base list in `seed-pages.json`; the internal crawl adds discovered pages (FSD D-4) | `links.spec.ts` comment | `grep -n seed-pages scripts/check-external-links.mjs` finds the read | enforced-by-code |
 | R-7 | New routes resolve a published document without a hardcoded slug that can be unpublished | assumption | No automated check. The FSD states the D-3 method (discover the first item from the archive page) and a reviewer confirms it | convention |
 | R-8 | The smoke step adds no more than 3 minutes to its current duration (D-2) | assumption | Smoke step duration read from the CI run | measured |
 | R-9 | The dark scan has a known-bad probe: it fails if the theme did not apply | R-2 | A test that clears `st-theme` and requires the dark helper to throw | enforced-by-code |
