@@ -50,6 +50,16 @@ Use `find`, not shell wildcards with `ls`. In zsh, one wildcard with no match st
 
 A project can have more than one issue number (for example one per epic). Run the search for each.
 
+## Related issues
+
+An issue belongs to a project if it is set **Relates to** one of the project's issues in GitHub. A passing mention in a document or comment does not count. Read the list with this command, replacing `N` with the issue number:
+
+```bash
+gh api graphql -f query='{ repository(owner:"bex-sugartown", name:"sugartown") { issue(number: N) { relatesTo(first: 50) { nodes { number title state } } } } }'
+```
+
+The rule: when work finds a bug, depends on one, or spawns a follow-up, set that issue **Relates to** the project's issue at that moment (issue sidebar, Relationships). The relationship shows on both issues. Use **Blocked by** only for a dependency that blocks the work.
+
 ## Exporting a project for sharing
 
 Packaging a project into a share folder is by choice and never automatic. Run `/sugartown-project-export` and name the project. The skill finds the files above, asks which to include, copies them (never moves them) into `SUGARTOWN_DEV/exports/{slug}-{date}/`, and writes a `README.md` at the top of that folder. A `.zip` is made only on request.
