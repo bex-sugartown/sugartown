@@ -57,3 +57,4 @@ path below exists; re-check with `ls` before adding one.
 | `docs/workflows/`, `docs/ship-prompt.md` | the prompts behind `/morning`, `/ship`, `/release` |
 | `docs/ai/` | skills index, agentic-caucus, this map |
 | `docs/drafts/` | local only, gitignored |
+| `docs/conventions/project-artifacts.md` | where each project artifact lives, and how to export a project |

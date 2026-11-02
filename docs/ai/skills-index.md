@@ -41,6 +41,7 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `sugartown-fsd-writer` | `/sugartown-fsd-writer` | `skills/` | Write a Functional Specification Document (FSD) for Sugartown work: the design layer that says how the system will implement the requirements in an AI PRD. |
 | `sugartown-prd-ai-writer` | `/sugartown-prd-ai-writer` | `skills/` | Write the AI-facing requirements document for Sugartown work: a PRD in agent-executable form, sitting between the human PRD (sugartown-prd-writer) and the epic (sugartown-epic-writer). |
 | `sugartown-prd-writer` | `/sugartown-prd-writer` | `skills/` | Write a human-facing Product Requirements Document for CMS/headless architecture, design system governance, or ecommerce/platform implementation work. |
+| `sugartown-project-export` | `/sugartown-project-export` | `skills/` | Package one Sugartown project's documents into a share folder with a README, by choice. |
 | `sugartown-prototype-writer` | `/sugartown-prototype-writer` | `skills/` | Plan and record a prototype for Sugartown work: a time-boxed experiment that settles one risky claim from an AI PRD before the FSD is written. |
 | `switch` | `/switch` | `skills/` | Sync the Sugartown repo across machines (desktop ⇄ laptop). |
 | `update-cwv` | `/update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
