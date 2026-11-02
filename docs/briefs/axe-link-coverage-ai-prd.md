@@ -40,7 +40,7 @@ rule is in the header of `tests/smoke/helpers/axe-allowlist.ts`.
 
 ## 3. Requirements
 
-"Page types in scope" is open decision D-1.
+Page types in scope are the three chosen in D-1: case study, node, glossary term.
 
 | ID | Requirement | Source | Check | Class |
 |---|---|---|---|---|
@@ -50,8 +50,8 @@ rule is in the header of `tests/smoke/helpers/axe-allowlist.ts`.
 | R-4 | Every allowlisted entry names an issue that is open | `axe-allowlist.ts` header | No script checks this today. A reviewer reads the list at close-out | convention |
 | R-5 | The internal link crawl seeds include a page for each page type in scope | #166 body | `seed-pages.json` entries; `links.spec.ts` passes with more than 20 targets | enforced-by-code |
 | R-6 | Internal and weekly external checks keep one shared seed list | `links.spec.ts` comment | `grep -n seed-pages scripts/check-external-links.mjs` finds the read | enforced-by-code |
-| R-7 | New routes resolve a published document without a hardcoded slug that can be unpublished | assumption | No automated check. The FSD states the method chosen in D-3 and a reviewer confirms it | convention |
-| R-8 | The smoke job stays inside a time budget set in D-2 | assumption | Smoke step duration read from the CI run | measured |
+| R-7 | New routes resolve a published document without a hardcoded slug that can be unpublished | assumption | No automated check. The FSD states the D-3 method (discover the first item from the archive page) and a reviewer confirms it | convention |
+| R-8 | The smoke step adds no more than 3 minutes to its current duration (D-2) | assumption | Smoke step duration read from the CI run | measured |
 | R-9 | The dark scan has a known-bad probe: it fails if the theme did not apply | R-2 | A test that clears `st-theme` and requires the dark helper to throw | enforced-by-code |
 
 ## 4. Research and verification plan
@@ -102,14 +102,15 @@ apply. Fixes to the violations found are separate issues (#169 to #172) and carr
 
 | ID | Decision | Options | Owner | Target |
 |---|---|---|---|---|
-| D-1 | Page types in scope | case study, node, glossary term, platform pages, `/about` (the list in #166) | Bex | Before the FSD |
-| D-2 | Smoke time budget | A number in minutes, or no budget | Bex | Before epic 2 |
-| D-3 | Detail route method | Hardcoded slug, or discover the first item from the archive page | Bex | Before the FSD |
+| D-1 | Page types in scope | Decided 2026-11-02: case study, node, glossary term. Platform pages and `/about` deferred | Bex | Closed |
+| D-2 | Smoke time budget | Decided 2026-11-02: the smoke step adds no more than 3 minutes | Bex | Closed |
+| D-3 | Detail route method | Decided 2026-11-02: discover the first item from the archive page | Bex | Closed |
 
 ## 10. Non-goals
 
 | Not doing | Reason | Owner |
 |---|---|---|
+| Platform pages and `/about` coverage | Deferred by D-1 on 2026-11-02 | None filed |
 | Fixing contrast or ARIA failures that the wider scan finds | Each is its own rendered change with its own gates | #164, #169, #170, #171, #172 |
 | A conformance claim from a passing scan | Automated rules catch a minority of WCAG criteria | #153 |
 | Other themes (`light-shop`, `dark-shop`) | Not requested in #166 | None filed |
