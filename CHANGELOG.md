@@ -15,7 +15,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ### Other
 
 - ST-193: The CV / Resume page now carries the full six-page resume, with a new hero and no phone number. (published in Studio; local `pnpm test:smoke`: 28 passed)
-- docs: The CV / Resume page draft is updated to resume r20 across the summary, Estée Lauder, Sephora, Elephant, StubHub, Backroads, Treasury Wine Estates, skills and projects. (draft text matches r20 line for line; awaiting publish in Studio)
+- docs: The CV / Resume page draft is updated to resume r23 across the summary, Estée Lauder, Sephora, Elephant, StubHub, Backroads, Treasury Wine Estates, skills and projects. (draft text matches r23 except the name and contact lines; awaiting publish in Studio)
 
 ---
 
