@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-193: Adapt the full resume to the sugartown.io CV / Resume page
 **Issue:** [#193](https://github.com/bex-sugartown/sugartown/issues/193)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🔴 Now
 **Merge strategy:** (b) Single close-out, one long-lived branch, one CHANGELOG line at the end
 **Visual:** no
@@ -93,3 +93,36 @@ Not applicable, no shared CSS, token, or multi-page component changes.
 - **GitHub:** [#193](https://github.com/bex-sugartown/sugartown/issues/193)
 - **Source:** `resume-factory/data/00 PROMPT + PROTOTYPE/Becky-Head_MASTER-PROTOTYPE_FirstOfItsName_2026_r6.pdf` (local only, never committed)
 - **Epic template:** `docs/epic-template.md`: complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] Proposal approved before patch. Before/after table shown, then four decisions answered (hero copy, email link, hero CTA, name heading), then "Approve, patch draft".
+- [~] Text matches the r6 PDF. Body was transcribed from the PDF by hand into `docs/drafts/ST-193-cv-resume-proposal.md` and converted to Portable Text by script; no mechanical PDF-to-page diff was possible because no PDF text extractor was available to a script. Bex reviewed the draft in Studio before publishing. Residual risk: a transcription slip nobody caught.
+- [x] No phone number and no em dashes: checked by script on the built blocks (`phone: false`, `emDash: false`).
+- [x] Hero no longer says "Live Demo" or the Python/CSV pipeline: published `heading` is "The Full Resume".
+- [x] Nine employers present, Lyris twice: draft query listed the 10 role headings.
+- [x] `markDefs` and `marks` on every block and span: script check, 114 blocks.
+- [x] Draft only, then published by Bex in Studio. Published query 2026-11-05: 114 blocks, no draft left.
+- [x] `pnpm test:smoke`: 28 passed locally.
+
+### What didn't work
+
+The PDF tool could not read `resume-factory/data/` (outside its allowed folders), and `pdftoppm` was missing, so the first page-render read failed; the plain Read tool worked. Bex answered "nothing cut (almost)" on the hero copy, which changed the subheading after the proposal.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Add the earliest tech roles to the page when Bex supplies them | implementation | declined here: content not yet written; file a new epic when ready |
+| Mechanical PDF-to-page text diff for resume pages | workflow-docs | declined: one-off, needs a PDF extractor the repo does not have |
+
+### Friction line
+
+The hero subheading wording was mine and changed once after Bex's direction; the PDF tool's folder limit cost one failed read.
+
+## Post-ship checks
+
+- [ ] Live page shows the new hero and body: person: open sugartown.io/cv-resume and confirm "The Full Resume" and the Lyris roles at the bottom.
+- [ ] Contact links work: person: click Email, LinkedIn and Portfolio on the live page.

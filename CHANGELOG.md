@@ -12,6 +12,10 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+### Other
+
+- ST-193: The CV / Resume page now carries the full six-page resume, with a new hero and no phone number. (published in Studio; local `pnpm test:smoke`: 28 passed)
+
 ---
 
 ## [0.39.0] — 2026-11-02
