@@ -131,7 +131,7 @@ The vspec's Before and prototype did not match the live surface, which cost thre
 ## Post-ship checks
 
 - [ ] Cast carousel on production: lightbox shows buttons and a counter, "Read: …" link works: person: open `/articles/becky-b00p-illustration-prompt-system` on the live site and click the active image.
-- [ ] Chromatic VRT pass on the carousel and lightbox stories: person: approve in Chromatic at ship.
+- [x] Chromatic VRT pass on the carousel and lightbox stories: person: approve in Chromatic at ship. (approved 2026-11-06, build 108)
 
 ## Change after close-out (2026-11-06)
 

@@ -112,4 +112,4 @@ The vspec class table missed a wrapper element its own arrow decision required, 
 ## Post-ship checks
 
 - [ ] Carousel on production shows visible arrows and advances on peek click: person: open `/articles/becky-b00p-illustration-prompt-system` on the live site.
-- [ ] Chromatic VRT pass on the carousel story: person: approve in Chromatic at ship.
+- [x] Chromatic VRT pass on the carousel story: person: approve in Chromatic at ship. (approved 2026-11-06, build 108)
