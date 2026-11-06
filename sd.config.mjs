@@ -12,7 +12,8 @@
  *   - $type: "color" → css/color transform applies (lowercases hex — cosmetic difference from
  *     hand-authored file; CSS hex is case-insensitive so this is not a meaningful regression)
  *   - $type: "other" → passed through as literal string (color-mix, shadows, font stacks, etc.)
- *   - Selector: :root — dark-first defaults live in tokens.css; theme overrides in theme.pink-moon.css
+ *   - Selector: :root plus [data-theme~="dark-pink-moon"] — dark-first defaults live in tokens.css (the attribute
+ *     selector lets a dark wrapper inside a light page reset to them); theme overrides in theme.pink-moon.css
  */
 
 import StyleDictionary from 'style-dictionary';
@@ -20,7 +21,9 @@ import StyleDictionary from 'style-dictionary';
 const sharedFileConfig = {
   format: 'css/variables',
   options: {
-    selector: ':root',
+    // ':root' carries the dark-first defaults. The dark-theme attribute selector repeats them so a dark-themed
+    // element inside a light page (the image lightbox) resets every token the light block overrode on the root.
+    selector: ':root, [data-theme~="dark-pink-moon"]',
     outputReferences: true,
     // fileHeader callback returns lines that go inside the /* */ block (no wrapping needed)
     fileHeader: () => [

@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Other
 
+- #207: The lightbox "Read" link is now lime on a light-themed page too, because the lightbox carries the dark theme; any future always-dark surface can do the same. (local `pnpm test:smoke`: 28 passed; computed colour lime in both page themes; Chromatic pending)
 - ST-205: Opening a carousel image full size now lets you step through every slide with next and previous, shows a "Read" link for linked slides, and moves the carousel to the slide you stopped on. (local `pnpm test:smoke`: 28 passed; Chromatic pending)
 - #203: The article filter counts in dark mode now meet the colour-contrast minimum, which clears the red dark-mode accessibility check on `/articles`. (local axe smoke: 16 passed; Chromatic pending)
 - ST-201: The image carousel now has visible arrows, advances when you click a peeking slide instead of opening its post, and has captions that pass contrast. (local `pnpm test:smoke`: 27 passed, 1 failed on an unrelated dark-mode check, #203)

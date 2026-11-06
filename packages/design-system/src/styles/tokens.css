@@ -4,7 +4,7 @@
  * Regenerate: pnpm tokens:build
  */
 
-:root {
+:root, [data-theme~="dark-pink-moon"] {
   --st-color-pink-50: #fff0f6;
   --st-color-pink-100: #ffe1ed;
   --st-color-pink-200: #ffb3d1;
@@ -504,7 +504,6 @@
   --st-button-radius: var(--st-radius-button);
   --st-button-hover-shadow: var(--st-shadow-pink-glow);
   --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
-  --st-button-tertiary-ondark-hover-bg: var(--st-button-tertiary-hover-bg);
   --st-table-header-color: var(--st-color-white);
   --st-table-header-color-accent: var(--st-color-white);
   --st-table-header-bg-subdued: var(--st-color-neutral-200);
@@ -654,8 +653,6 @@
   --st-pill-text: var(--st-color-text-brand);
   --st-tag-text: var(--st-color-text-brand);
   --st-button-bg: var(--st-color-accent-primary);
-  --st-button-tertiary-ondark-border: var(--st-button-tertiary-border);
-  --st-button-tertiary-ondark-text: var(--st-button-tertiary-text);
   --st-table-header-bg: var(--st-color-accent);
   --st-table-header-bg-accent: var(--st-color-accent);
   --st-tile-bg: var(--st-stat-tile-bg);

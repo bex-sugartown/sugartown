@@ -88,18 +88,3 @@
   border-color: var(--st-color-border-medium);
   color: var(--st-color-text-muted);
 }
-
-/* ── Tertiary on a surface that stays dark (ST-205) ───── */
-/* Dark theme: the standard tertiary (lime outline, lime text). Light theme: pink outline and pink text, because the */
-/* standard maroon is unreadable on a dark surface. Values come from --st-button-tertiary-ondark-*. */
-
-.tertiary.onDark {
-  border-color: var(--st-button-tertiary-ondark-border);
-  color: var(--st-button-tertiary-ondark-text);
-}
-
-.tertiary.onDark:hover:not(:disabled):not([aria-disabled="true"]) {
-  background: var(--st-button-tertiary-ondark-hover-bg);
-  border-color: var(--st-button-tertiary-ondark-border);
-  color: var(--st-button-tertiary-ondark-text);
-}

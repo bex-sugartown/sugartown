@@ -217,12 +217,6 @@
   --st-button-tertiary-border:  var(--st-color-text-brand);
   --st-button-tertiary-text:    var(--st-color-text-brand);
 
-  /* Button tertiary, on-dark tone (ST-205): sits on a dark surface such as the lightbox overlay, which stays near-black in both
-     themes. Dark theme (base value, tokens.json): the standard tertiary, lime outline and lime text. Light theme: the standard
-     tertiary is maroon, which is unreadable on that overlay, so it is hot pink outline and pink text with a white 10% hover tint. */
-  --st-button-tertiary-ondark-border:   var(--st-color-pink);
-  --st-button-tertiary-ondark-text:     var(--st-color-pink);
-  --st-button-tertiary-ondark-hover-bg: var(--st-color-white-10);
 }
 
 /* ══════════════════════════════════════════════════════════

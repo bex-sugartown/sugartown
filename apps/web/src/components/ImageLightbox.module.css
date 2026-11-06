@@ -130,7 +130,7 @@
 }
 
 /* ── Link to a linked image's destination (ST-205) ─────── */
-/* The DS tertiary Button, on-dark tone, supplies the look; this class only places it. */
+/* The DS tertiary Button supplies the look (lime, via the overlay's dark-theme wrapper); this class only places it. */
 .captionLink {
   margin-top: var(--st-spacing-stack-sm);
   text-align: center;

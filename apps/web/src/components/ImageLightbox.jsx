@@ -117,6 +117,7 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose, onInd
   return (
     <div
       className={styles.overlay}
+      data-theme="dark-pink-moon"
       onClick={handleBackdropClick}
       role="dialog"
       aria-modal="true"
@@ -162,7 +163,6 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose, onInd
         {linked && (
           <Button
             variant="tertiary"
-            tone="onDark"
             href={linked.linkProps.to ?? linked.linkProps.href}
             openInNewTab={linked.isExternal}
             className={styles.captionLink}

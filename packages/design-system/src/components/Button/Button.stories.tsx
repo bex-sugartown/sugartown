@@ -76,14 +76,14 @@ export const Tertiary: Story = {
   args: { children: 'Tertiary Button', variant: 'tertiary' },
 };
 
-/** ST-205: tertiary on a surface that stays dark in every theme (the image lightbox overlay).
- *  Dark theme: the standard tertiary, lime outline and lime text. Light theme: pink outline and pink text. Switch the theme to see both. */
-export const TertiaryOnDark: Story = {
-  name: 'Tertiary — on dark surface',
-  args: { children: 'Read: A linked post ↗', variant: 'tertiary', tone: 'onDark' },
+/** An always-dark surface (the image lightbox overlay) carries data-theme="dark-pink-moon", so the standard tertiary
+ *  resolves its dark tokens, lime outline and lime text, even when the page is light. No tone prop is needed. */
+export const TertiaryOnDarkSurface: Story = {
+  name: 'Tertiary — inside a dark-theme surface',
+  args: { children: 'Read: A linked post ↗', variant: 'tertiary' },
   decorators: [
     (Story) => (
-      <div style={{ background: 'rgba(0, 0, 0, 0.9)', padding: '2rem', display: 'flex', justifyContent: 'center' }}>
+      <div data-theme="dark-pink-moon" style={{ background: 'rgba(0, 0, 0, 0.9)', padding: '2rem', display: 'flex', justifyContent: 'center' }}>
         <Story />
       </div>
     ),
