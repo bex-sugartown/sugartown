@@ -28,7 +28,7 @@ Not applicable, no content piece.
 
 - [ ] Phase 0: vspec for the lightbox on a carousel: nav buttons, counter, the "Read the post" link, the open-lightbox control on a linked slide, light and dark, mobile; approved by Bex — layer: vspec
 - [ ] Lightbox list is every slide, in order, for carousel layout; grid and masonry unchanged unless the vspec says otherwise — layer: frontend (React)
-- [ ] Open the lightbox at the active slide, including linked slides, through an explicit control that does not follow the link — layer: frontend (React and CSS)
+- [ ] Click anywhere on the active image opens the lightbox at that slide, linked or not (Bex, 2026-11-06); an expand circle on the active slide is the visible cue and keyboard route; the carousel stops wrapping the active image in its link, so a linked slide's link is reached only through the lightbox (this changes #201's active-slide link click) — layer: frontend (React and CSS)
 - [ ] "Read the post" link in the lightbox for linked slides, respecting `openInNewTab` — layer: frontend (React and CSS)
 - [ ] On close, the carousel scrolls to the slide the lightbox was showing — layer: frontend (React)
 - [ ] Lightbox nav buttons meet the same visibility rule as the #201 carousel arrows on any image — layer: frontend (CSS)
@@ -49,7 +49,7 @@ Not applicable, no content piece.
 - [ ] Pressing next 9 times from slide 1 reaches slide 10; the 10th press wraps to slide 1.
 - [ ] A slide with a link has a "Read the post" link in the lightbox; clicking it follows the link and honours `openInNewTab`.
 - [ ] Closing the lightbox on slide 6 leaves the carousel centred on slide 6 with dot 6 active.
-- [ ] Clicking the open control on a linked slide opens the lightbox and does not navigate.
+- [ ] Clicking anywhere on the active image, or its expand circle, opens the lightbox on that slide for linked and unlinked slides, and does not navigate. Clicking a peeking slide still only advances the carousel.
 - [ ] Lightbox nav buttons are visible on a light image and a dark image in light and dark themes.
 - [ ] A grid or masonry gallery and an inline article image open the lightbox as before.
 - [ ] `pnpm validate:tokens --strict-colors` zero violations; `pnpm test:smoke` run, with any failure named and tracked.
