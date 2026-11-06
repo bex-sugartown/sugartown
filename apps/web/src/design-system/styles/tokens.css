@@ -504,6 +504,7 @@
   --st-button-radius: var(--st-radius-button);
   --st-button-hover-shadow: var(--st-shadow-pink-glow);
   --st-button-secondary-hover-shadow: var(--st-shadow-lime-glow);
+  --st-button-tertiary-ondark-text: var(--st-color-white);
   --st-table-header-color: var(--st-color-white);
   --st-table-header-color-accent: var(--st-color-white);
   --st-table-header-bg-subdued: var(--st-color-neutral-200);
@@ -613,6 +614,8 @@
   --st-button-secondary-text: var(--st-color-midnight);
   --st-button-tertiary-border: var(--st-color-lime);
   --st-button-tertiary-text: var(--st-color-lime);
+  --st-button-tertiary-ondark-border: var(--st-color-pink);
+  --st-button-tertiary-ondark-hover-bg: var(--st-color-pink);
   --st-table-header-color-subdued: var(--st-color-text-muted);
   --st-table-row-hover-bg: color-mix(in srgb, var(--st-color-pink) 2.5%, transparent);
   --st-table-caption-leader: var(--st-color-pink);

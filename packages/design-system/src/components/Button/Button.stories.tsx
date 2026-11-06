@@ -76,6 +76,20 @@ export const Tertiary: Story = {
   args: { children: 'Tertiary Button', variant: 'tertiary' },
 };
 
+/** ST-205: tertiary on a surface that stays dark in every theme (the image lightbox overlay).
+ *  Pink outline; text pink in the light theme, white in the dark theme. Switch the theme to see both. */
+export const TertiaryOnDark: Story = {
+  name: 'Tertiary — on dark surface',
+  args: { children: 'Read: A linked post ↗', variant: 'tertiary', tone: 'onDark' },
+  decorators: [
+    (Story) => (
+      <div style={{ background: 'rgba(0, 0, 0, 0.9)', padding: '2rem', display: 'flex', justifyContent: 'center' }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
+
 export const AsExternalLink: Story = {
   name: 'As link — external href',
   args: {

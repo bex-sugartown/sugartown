@@ -129,31 +129,12 @@
   outline-offset: 3px;
 }
 
-/* ── Link cue for a linked image (ST-205) ──────────────── */
-/* White text on the overlay carries the contrast; pink is the border only. */
+/* ── Link to a linked image's destination (ST-205) ─────── */
+/* The DS tertiary Button, on-dark tone, supplies the look; this class only places it. */
 .captionLink {
   margin-top: var(--st-spacing-stack-sm);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.35rem 0.75rem;
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-font-caption);
-  color: var(--st-color-white);
-  border: 2px solid var(--st-color-pink);
-  border-radius: var(--st-radius-md);
-  text-decoration: none;
   text-align: center;
   max-width: 60ch;
-}
-
-.captionLink:hover {
-  background: var(--st-color-pink);
-}
-
-.captionLink:focus-visible {
-  outline: 3px solid var(--st-color-pink);
-  outline-offset: 3px;
 }
 
 .prevButton {

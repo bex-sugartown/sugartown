@@ -216,6 +216,10 @@
   /* Button ghost tertiary — light theme: signal is maroon (ST-150; pink text fails on light), dark theme keeps base lime */
   --st-button-tertiary-border:  var(--st-color-text-brand);
   --st-button-tertiary-text:    var(--st-color-text-brand);
+
+  /* Button tertiary, on-dark tone (ST-205): sits on a dark surface such as the lightbox overlay, which stays near-black in both
+     themes. Pink outline always; text is pink in the light theme and white in the dark theme (base value, tokens.json). */
+  --st-button-tertiary-ondark-text: var(--st-color-pink);
 }
 
 /* ══════════════════════════════════════════════════════════

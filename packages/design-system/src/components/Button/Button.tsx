@@ -7,6 +7,12 @@ export interface ButtonProps {
   children: React.ReactNode;
   onClick?: () => void;
   variant?: 'primary' | 'secondary' | 'tertiary';
+  /**
+   * Surface the button sits on. `onDark` is for a surface that stays dark in every theme (for example
+   * the image lightbox overlay): tertiary only, pink outline, text pink in the light theme and white
+   * in the dark theme.
+   */
+  tone?: 'default' | 'onDark';
   size?: 'sm' | 'md' | 'lg';
   disabled?: boolean;
   className?: string;
@@ -35,6 +41,7 @@ export const Button: React.FC<ButtonProps> = ({
   children,
   onClick,
   variant = 'primary',
+  tone = 'default',
   size = 'md',
   disabled = false,
   className = '',
@@ -48,6 +55,7 @@ export const Button: React.FC<ButtonProps> = ({
   const classes = [
     styles.button,
     styles[variant],
+    tone === 'onDark' ? styles.onDark : null,
     size !== 'md' ? styles[size] : null,
     className,
   ].filter(Boolean).join(' ');

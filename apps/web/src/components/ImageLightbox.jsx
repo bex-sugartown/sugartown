@@ -12,11 +12,10 @@
  * 3. Composable API: images[], initialIndex, onClose
  */
 import { useEffect, useCallback, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { getLinkProps, resolveImageLink } from '../lib/linkUtils'
 import { stampedCopies, aiLabelProps } from '../lib/provenance'
-import { MediaLabel } from '../design-system'
+import { Button, MediaLabel } from '../design-system'
 import styles from './ImageLightbox.module.css'
 
 /**
@@ -160,9 +159,17 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose, onInd
             )}
           </p>
         )}
-        {linked && (linked.isExternal
-          ? <a className={styles.captionLink} {...linked.linkProps}>{linkText}</a>
-          : <Link className={styles.captionLink} {...linked.linkProps}>{linkText}</Link>)}
+        {linked && (
+          <Button
+            variant="tertiary"
+            tone="onDark"
+            href={linked.linkProps.to ?? linked.linkProps.href}
+            openInNewTab={linked.isExternal}
+            className={styles.captionLink}
+          >
+            {linkText}
+          </Button>
+        )}
         {hasMultiple && (
           <p className={styles.counter}>
             {currentIndex + 1} / {images.length}

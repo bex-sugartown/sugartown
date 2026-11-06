@@ -132,3 +132,7 @@ The vspec's Before and prototype did not match the live surface, which cost thre
 
 - [ ] Cast carousel on production: lightbox shows buttons and a counter, "Read: …" link works: person: open `/articles/becky-b00p-illustration-prompt-system` on the live site and click the active image.
 - [ ] Chromatic VRT pass on the carousel and lightbox stories: person: approve in Chromatic at ship.
+
+## Change after close-out (2026-11-06)
+
+Bex asked for the lightbox "Read:" link to be the standard tertiary Button, not the custom pill the approved vspec showed. The standard tertiary is maroon (light theme) and lime (dark theme), and the lightbox overlay is near-black in both, so Bex chose a new DS Button `tone="onDark"` (Pink outline; light theme text pink, dark theme text white). Added: tokens `st-button-tertiary-ondark-border`, `-text`, `-hover-bg` (the light-theme text override is in `theme.pink-moon.css`, both copies); Button `tone` prop; a Button story case. `.captionLink` now only places the button. The vspec copy beside this doc still shows the old pill. Checked: computed colours in both themes (dark: white text, pink 1px border; light: pink text, pink border), `pnpm test:smoke` 28 passed, token and mirror validators clean. The pink-on-black contrast (about 4.8:1) is a hand estimate, not tool-measured. Chromatic pending, now also for Button.
