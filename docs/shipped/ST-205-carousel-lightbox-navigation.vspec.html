@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-205 vspec: carousel lightbox navigation</title>
+<!-- Real Pink Moon files, so both themes use the site's own tokens. Path is relative to docs/drafts/. -->
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 system-ui,sans-serif;color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
+main{max-width:1040px;margin:0 auto;padding:2rem 1rem 4rem}
+h1{font-size:1.5rem;margin:0 0 .25rem} h2{font-size:1.15rem;margin:2.5rem 0 .5rem;border-top:1px solid var(--st-color-border-medium);padding-top:1.5rem}
+code{background:var(--st-color-bg-tertiary);padding:0 .25em}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:.5rem 0 1rem} th,td{border:1px solid var(--st-color-border-medium);padding:.4rem .5rem;text-align:left;vertical-align:top} th{background:var(--st-color-bg-tertiary)}
+.note{border:1px solid var(--st-color-border-strong);padding:.6rem .8rem;margin:1rem 0;font-size:13px;background:var(--st-color-bg-surface)}
+.themeToggle{position:sticky;top:.5rem;float:right;z-index:2000;padding:.4rem .8rem;border:1px solid var(--st-color-border-strong);background:var(--st-color-bg-surface);color:var(--st-color-text-default);cursor:pointer;font:13px system-ui}
+
+/* ===== Stage: a fake article column holding the carousel, and a lightbox overlay ===== */
+.stage{position:relative;border:1px solid var(--st-color-border-medium);background:var(--st-color-bg-surface);padding:1rem;overflow:hidden;min-height:520px}
+.carouselViewport{position:relative}
+.carouselTrack{display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
+.carouselTrack::-webkit-scrollbar{display:none}
+.carouselSlide{scroll-snap-align:center;flex:0 0 80%;min-width:260px;position:relative}
+.galleryItem{position:relative;margin:0;overflow:hidden;border-radius:var(--st-radius-md)}
+.galleryImage{display:block;aspect-ratio:16/9}
+.g1{background:radial-gradient(circle at 30% 40%,#3a3a48,#07070c)}.g2{background:linear-gradient(135deg,#f4efe6,#cfc7b5)}.g3{background:repeating-linear-gradient(45deg,#fff 0 14px,#111 14px 28px)}
+.galleryCaptionOverlay{position:absolute;left:0;right:0;bottom:0;padding:.5rem .75rem;background:var(--st-color-scrim-backdrop-heavy);z-index:3}
+.galleryCaptionText{font-size:13px;line-height:1.4;color:var(--st-color-white)}
+/* NEW: expand control on each carousel slide (opens the lightbox, never follows the link) */
+.carouselExpand{position:absolute;top:.5rem;right:.5rem;z-index:4;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.25rem;line-height:1;
+  background:var(--st-color-scrim-backdrop-heavy);color:var(--st-color-white);border:2px solid var(--st-color-white);box-shadow:0 2px 8px var(--st-color-scrim-backdrop-45)}
+.carouselExpand:hover{background:var(--st-color-pink)}
+/* Peek slides keep their #201 behaviour: a click advances the carousel. The expand control shows on the active slide only. */
+/* Carousel arrows and dots as shipped in #201, so the prototype shows the whole current surface. */
+.carouselArrow{position:absolute;top:50%;transform:translateY(-50%);z-index:4;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.5rem;line-height:1;
+  background:var(--st-color-scrim-backdrop-heavy);color:var(--st-color-white);border:2px solid var(--st-color-white);box-shadow:0 2px 8px var(--st-color-scrim-backdrop-45)}
+.carouselArrow:hover{background:var(--st-color-pink)}
+.carouselArrow:focus-visible{outline:3px solid var(--st-color-pink);outline-offset:3px}
+.carouselPrev{left:.5rem}.carouselNext{right:.5rem}
+.carouselDots{display:flex;justify-content:center;gap:.6rem;margin-top:1rem}
+.carouselDot{width:10px;height:10px;border-radius:50%;padding:0;cursor:pointer;background:transparent;border:2px solid var(--st-color-text-secondary)}
+.carouselDotActive{background:var(--st-color-pink);border-color:var(--st-color-pink);transform:scale(1.25)}
+.tag{display:inline-block;font:11px var(--st-font-family-mono);letter-spacing:.06em;padding:.1rem .45rem;border:1px solid var(--st-color-border-strong);margin-right:.4rem;background:var(--st-color-bg-tertiary)}
+.carouselSlide[data-active="false"]{cursor:pointer}
+.carouselSlide[data-active="true"]{cursor:zoom-in}
+.carouselSlide[data-active="false"] .carouselExpand{display:none}
+.carouselExpand:focus-visible,.navButton:focus-visible,.closeButton:focus-visible,.captionLink:focus-visible{outline:3px solid var(--st-color-pink);outline-offset:3px}
+
+/* ===== Lightbox (production class names from ImageLightbox.module.css) ===== */
+.overlay{position:absolute;inset:0;z-index:1000;background:var(--st-color-scrim-backdrop-heavy);display:none;align-items:center;justify-content:center;padding:1.5rem;color:var(--st-color-white)}
+.overlay.open{display:flex}
+.content{display:flex;flex-direction:column;align-items:center;max-width:78%}
+.imageWrap{position:relative;width:min(100%,640px);aspect-ratio:16/9;border-radius:var(--st-radius-md);overflow:hidden}
+.imageWrap .art{position:absolute;inset:0}
+.aiLabel{position:absolute;left:.5rem;bottom:.5rem;font:11px var(--st-font-family-mono);background:var(--st-color-scrim-backdrop-heavy);border:1px solid var(--st-color-white-55);padding:.15rem .4rem;letter-spacing:.05em}
+.caption{margin-top:.75rem;color:var(--st-color-white-85);font-size:13px;text-align:center;max-width:60ch}
+.counter{margin-top:.25rem;color:var(--st-color-white-50);font-size:12px}
+.closeButton{position:absolute;top:1rem;right:1rem;width:44px;height:44px;border-radius:50%;background:none;border:2px solid var(--st-color-white);color:var(--st-color-white);font-size:1.25rem;cursor:pointer}
+/* Nav buttons: same visible style as the #201 carousel arrows. Was white 8% fill, 15% border: nearly invisible. */
+.navButton{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1.75rem;line-height:1;
+  background:var(--st-color-scrim-backdrop-heavy);color:var(--st-color-white);border:2px solid var(--st-color-white);z-index:1}
+.navButton:hover{background:var(--st-color-pink)}
+.prevButton{left:1rem}.nextButton{right:1rem}
+/* NEW: link cue for a linked slide. Text is white on black, pink is the border, so contrast does not depend on pink. */
+.captionLink{margin-top:.6rem;display:inline-flex;gap:.4rem;align-items:center;padding:.35rem .75rem;font:12px var(--st-font-family-mono);color:var(--st-color-white);border:2px solid var(--st-color-pink);text-decoration:none;border-radius:var(--st-radius-md)}
+.captionLink:hover{background:var(--st-color-pink)}
+.before .navButton{background:var(--st-color-white-08);border:1px solid var(--st-color-white-15);width:48px;height:48px}
+.before .counter{color:var(--st-color-white-50)}
+.hint{font-size:12px;opacity:.8;margin:.5rem 0}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}@media(max-width:800px){.row{grid-template-columns:1fr}}
+.phone .overlay{padding:.5rem}.phone .content{max-width:92%}.phone .navButton{width:44px;height:44px;font-size:1.5rem}.phone .prevButton{left:.25rem}.phone .nextButton{right:.25rem}
+</style>
+</head>
+<body>
+<main>
+<button class="themeToggle" id="themeToggle">Switch to dark view</button>
+<h1>ST-205 · Carousel lightbox navigation</h1>
+<p>Issue #205. Phase 0 visual spec. Loads the real Pink Moon files (<code>tokens.css</code>, <code>theme.pink-moon.css</code>), so the toggle shows both themes with the site's own tokens. Class names are production names; every new class is in the naming table.</p>
+<div class="note"><strong>Status:</strong> awaiting Bex sign-off. No code in <code>apps/web/src/</code> until the Phase 0 boxes are ticked. Open decisions are in §8.</div>
+
+<h2>1. Interactive prototype (after)</h2>
+<p class="hint">Click a peeking slide: the carousel advances, as in #201, and the lightbox does not open. Click anywhere on the centre (active) image, or its expand circle: the lightbox opens on that slide, linked or not. The link now lives in the lightbox. Try Next, Prev, the arrow keys, Escape, and Close. After closing, the carousel is on the slide you left on. Slide 1 has no link, slides 2 and 3 do.</p>
+<div class="stage" id="stage1">
+  <h3 style="margin:0 0 .75rem;font-family:var(--st-font-family-narrative);color:var(--st-color-text-brand)">The Cast, Across the Catalogue</h3>
+  <div class="carouselViewport">
+    <button class="carouselArrow carouselPrev" id="cPrev" aria-label="Previous slide">‹</button>
+    <div class="carouselTrack" id="track"></div>
+    <button class="carouselArrow carouselNext" id="cNext" aria-label="Next slide">›</button>
+  </div>
+  <div class="carouselDots" id="dots" role="tablist" aria-label="Gallery slides"></div>
+  <div class="overlay" id="lb" role="dialog" aria-modal="true" aria-label="Image lightbox">
+    <button class="closeButton" id="lbClose" aria-label="Close lightbox">✕</button>
+    <button class="navButton prevButton" id="lbPrev" aria-label="Previous image">‹</button>
+    <div class="content">
+      <div class="imageWrap"><div class="art" id="lbArt"></div><span class="aiLabel">AI-GENERATED</span></div>
+      <p class="caption" id="lbCap"></p>
+      <a class="captionLink" id="lbLink" href="#" target="_blank" rel="noopener"></a>
+      <p class="counter" id="lbCount"></p>
+    </div>
+    <button class="navButton nextButton" id="lbNext" aria-label="Next image">›</button>
+  </div>
+</div>
+<p id="log" style="font-size:13px">Event log: (none yet)</p>
+
+<h2>2. Before (live today)</h2>
+<p><span class="tag">BEFORE</span> A real screenshot of the live site, 2026-11-06: the lightbox opened from the first slide of the Cast carousel on <code>/articles/becky-b00p-illustration-prompt-system</code>. The whole viewport is shown, not a fragment.</p>
+<img src="ST-205-before-live-lightbox-2026-11-06.webp" alt="Live lightbox on the Cast carousel: one image, an AI-generated label, a caption, a close button at the top right, and no previous or next buttons and no counter" style="width:100%;border:1px solid var(--st-color-border-strong);display:block">
+<p class="hint">What is there today: a close button (top right), the image with its AI-GENERATED label, a caption with the credit. What is missing: previous and next buttons, and an "n / total" counter, because the lightbox was handed a list of one image (the only unlinked slide).</p>
+
+<h2>3. After, mobile (375px wide)</h2>
+<p class="hint"><span class="tag">AFTER</span> A prototype of the lightbox alone at phone width. The lightbox is a fixed full-screen overlay, so this is the whole surface; the page behind it is dimmed to 90% black.</p>
+<div class="stage phone" style="max-width:375px;min-height:420px"><div class="overlay open" style="position:absolute">
+  <button class="closeButton" aria-label="Close">✕</button>
+  <button class="navButton prevButton" aria-label="Previous">‹</button>
+  <div class="content"><div class="imageWrap"><div class="art g2" style="position:absolute;inset:0"></div></div><p class="caption">Caption text</p><a class="captionLink" href="#">Read: Three Headless CMSes Walk Into a Bar ↗</a><p class="counter">2 / 10</p></div>
+  <button class="navButton nextButton" aria-label="Next">›</button></div></div>
+
+<h2>4. Behaviour annotations (nav surface, all six)</h2>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>The lightbox shows one image at a time; <code>currentIndex</code> is the active one. The counter reads "n / total" (white 50%, unchanged). Carousel active slide and dot follow it on close.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>None. The lightbox does not write to the URL.</td></tr>
+<tr><td>Scroll-spy</td><td>No. On close the carousel scrolls to the lightbox's current slide (<code>scrollIntoView</code>, centred), and the existing observer updates the dot.</td></tr>
+<tr><td>Sticky/fixed</td><td>Overlay is <code>position: fixed; inset: 0</code> (unchanged). Body scroll locks while open and the scroll position restores on close (unchanged).</td></tr>
+<tr><td>Mobile collapse</td><td>Below 768px the buttons stay 44px (was 36px, below the target size) and sit 0.25rem from the screen edge, over the image margin, never over the caption. The "Read" link wraps to two lines if needed.</td></tr>
+<tr><td>Click side-effects</td><td><strong>Peek slide click:</strong> unchanged from #201, advances the carousel and never opens the lightbox or follows a link. <strong>Click anywhere on the active image:</strong> opens the lightbox at that slide, for linked and unlinked slides alike (cursor is zoom-in). A linked slide's link is no longer followed from the carousel; it is the "Read:" link in the lightbox. This changes #201, where a click on the active linked slide followed the link. <strong>Expand control:</strong> the visible cue and the keyboard route to the same action; shown on the active slide only. The carousel no longer wraps the active image in the link, so tab order holds the arrows, the expand button and the dots. <strong>Next/Prev:</strong> wrap at the ends (unchanged). <strong>Keys:</strong> Left/Right, Escape (unchanged). <strong>Backdrop click:</strong> closes (unchanged). <strong>"Read" link:</strong> follows the slide's link, honouring <code>openInNewTab</code>, and the lightbox stays open behind a new tab or closes on same-tab navigation. <strong>Focus:</strong> lightbox focuses Close on open (unchanged) and returns focus to the expand control on close (new).</td></tr>
+</table>
+
+<h2>5. Lightbox list and ordering rules</h2>
+<table>
+<tr><th>Gallery</th><th>Lightbox list</th><th>Opened by</th></tr>
+<tr><td>Carousel</td><td>Every slide in order, linked or not</td><td>Click anywhere on the active image, or the expand control (linked and unlinked)</td></tr>
+<tr><td>Grid and masonry</td><td>Unchanged: unlinked images only (linked images still follow their link)</td><td>Click on an unlinked image (unchanged)</td></tr>
+<tr><td>Inline article image</td><td>One image, no nav (unchanged)</td><td>Click (unchanged)</td></tr>
+</table>
+
+<h2>6. Contrast, measured on the overlay</h2>
+<p>Overlay is 90% black, so the effective background is #1a1a1a at worst (a white page behind). These are hand-computed for this vspec; they are re-measured at implementation.</p>
+<table>
+<tr><th>Pair</th><th>Ratio (approx.)</th><th>Verdict</th></tr>
+<tr><td>Caption white 85% on overlay</td><td>about 12:1</td><td>Pass</td></tr>
+<tr><td>Counter white 50% on overlay (existing, unchanged)</td><td>about 5:1</td><td>Pass, narrowly</td></tr>
+<tr><td>Credit white 55% on overlay (existing)</td><td>about 6:1</td><td>Pass</td></tr>
+<tr><td>"Read the post" white text on overlay</td><td>about 17:1</td><td>Pass</td></tr>
+<tr><td>Nav and Close: 2px white ring on overlay, near-black fill</td><td>about 17:1 against the overlay (non-text needs 3:1)</td><td>Pass</td></tr>
+</table>
+
+<h2>7. Class naming table (for sign-off)</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.navButton</code>, <code>.prevButton</code>, <code>.nextButton</code></td><td>Exist in <code>ImageLightbox.module.css</code>; same look as #201 <code>.carouselArrow</code></td><td>Restyle, no new class</td></tr>
+<tr><td><code>.counter</code>, <code>.closeButton</code></td><td>Exist</td><td>Restyle (counter colour, close ring)</td></tr>
+<tr><td><code>.carouselExpand</code></td><td>None. Nearest is <code>.carouselArrow</code> (same circle button)</td><td>New class, shares the button recipe</td></tr>
+<tr><td><code>.captionLink</code></td><td>None in the lightbox. Named for its role, not "post link", so it works for any linked image</td><td>New class</td></tr>
+</table>
+<p><strong>Component choice audit:</strong> the DS <code>IconButton</code> fits the expand, close and nav buttons (44px target, focus ring) and is audited in <code>IconButton.audit.stories.tsx</code>. Decision at implementation: use it for all four if it supports the white ring on a dark fill and the 44px size, otherwise restyle the local classes. The link cue is a text link, so the DS <code>Button</code> or a plain anchor with a token border; no new component. <code>ImageLightbox</code> gains props, not a fork: <code>images</code>, <code>initialIndex</code>, <code>onIndexChange</code>, <code>onClose</code>, and per-image <code>link</code> read from the image object.</p>
+<p><strong>Tokens:</strong> only existing ones (<code>--st-color-scrim-backdrop-heavy</code>, <code>--st-color-white</code>, <code>--st-color-white-85</code>, <code>--st-color-white-55</code>, <code>--st-color-pink</code>, <code>--st-radius-md</code>, <code>--st-font-family-mono</code>). No new token proposed. The 44px size and 2px ring are literal in this prototype and map to existing size and border tokens at implementation (grep <code>tokens.css</code> first).</p>
+
+<h2>8. Decisions (2026-11-06)</h2>
+<ol>
+<li><strong>Link label:</strong> "Read: {linked post title} ↗", from the link's own label. Decided.</li>
+<li><strong>Link position:</strong> below the caption. Decided.</li>
+<li><strong>Opening the lightbox:</strong> click anywhere on the active image opens it, linked or not (Bex). Peek click still advances. The expand circle stays as the visible cue and keyboard route, always visible on the active slide. Side effect to confirm: a linked slide's link is reached through the lightbox, not directly from the carousel.</li>
+</ol>
+
+<h2>Phase 0 checklist</h2>
+<p>[ ] vspec reviewed &nbsp; [ ] class table approved &nbsp; [ ] component choice audit approved &nbsp; [ ] open decisions answered</p>
+</main>
+<script>
+(function(){
+  var slides=[
+    {art:'g1',cap:'The character model sheet the whole cast is built around.',link:null},
+    {art:'g2',cap:'The job-search funnel as a machine that eats resumes and returns them blank.',link:{label:'I Treated My Job Search Like a Data Pipeline',newTab:true}},
+    {art:'g3',cap:'Busy image, worst case for caption contrast.',link:{label:'Three Headless CMSes Walk Into a Bar',newTab:true}},
+    {art:'g1',cap:'Fourth slide.',link:null},
+    {art:'g2',cap:'Fifth slide.',link:{label:'Another linked post',newTab:false}}
+  ];
+  var track=document.getElementById('track'),lb=document.getElementById('lb'),log=document.getElementById('log'),cur=0,opener=null,active=0;
+  var els=[];
+  slides.forEach(function(s,i){
+    var d=document.createElement('div');d.className='carouselSlide';
+    d.innerHTML='<figure class="galleryItem"><div class="galleryImage '+s.art+'"></div><div class="galleryCaptionOverlay"><span class="galleryCaptionText">'+s.cap+'</span></div></figure><button class="carouselExpand" aria-label="Expand image" data-i="'+i+'">⤢</button>';
+    track.appendChild(d);els.push(d);
+    var xb=d.querySelector('.carouselExpand');
+    xb.onclick=function(e){e.stopPropagation();opener=xb;open(i)};
+    // Click anywhere on the active image opens the lightbox (linked or not); the link moves into the lightbox.
+    d.addEventListener('click',function(e){if(i===active){opener=xb;open(i)}});
+    // Peek click advances (same as #201); capture phase runs before the expand button or any link.
+    d.addEventListener('click',function(e){if(i!==active){e.preventDefault();e.stopPropagation();d.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});setActive(i);log.textContent='Event log: peek slide '+(i+1)+' clicked, carousel advanced, lightbox not opened'}},true);
+  });
+  var dotsEl=document.getElementById('dots');
+  slides.forEach(function(s,i){var b=document.createElement('button');b.className='carouselDot';b.setAttribute('role','tab');b.setAttribute('aria-label','Slide '+(i+1));b.onclick=function(){els[i].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});setActive(i)};dotsEl.appendChild(b)});
+  function setActive(n){active=n;els.forEach(function(el,k){el.dataset.active=(k===n)});[].forEach.call(dotsEl.children,function(d,k){d.className='carouselDot'+(k===n?' carouselDotActive':'')})}
+  function step(d){var n=(active+d+els.length)%els.length;els[n].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});setActive(n)}
+  document.getElementById('cPrev').onclick=function(){step(-1)};
+  document.getElementById('cNext').onclick=function(){step(1)};
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)setActive(els.indexOf(e.target))})},{root:track,threshold:.6});
+  els.forEach(function(el){io.observe(el)});
+  setActive(0);
+  function show(){
+    var s=slides[cur];
+    document.getElementById('lbArt').className='art '+s.art;
+    document.getElementById('lbCap').textContent=s.cap;
+    document.getElementById('lbCount').textContent=(cur+1)+' / '+slides.length;
+    var a=document.getElementById('lbLink');
+    if(s.link){a.style.display='inline-flex';a.textContent='Read: '+s.link.label+' ↗';a.target=s.link.newTab?'_blank':'_self'}else{a.style.display='none'}
+  }
+  function open(i){cur=i;show();lb.classList.add('open');document.getElementById('lbClose').focus();log.textContent='Event log: lightbox opened on slide '+(i+1)+', link not followed'}
+  function close(){lb.classList.remove('open');els[cur].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});setActive(cur);if(opener)opener.focus();log.textContent='Event log: closed; carousel moved to slide '+(cur+1)+'; focus returned to the expand control'}
+  function go(n){cur=(cur+n+slides.length)%slides.length;show()}
+  document.getElementById('lbNext').onclick=function(){go(1)};
+  document.getElementById('lbPrev').onclick=function(){go(-1)};
+  document.getElementById('lbClose').onclick=close;
+  lb.addEventListener('click',function(e){if(e.target===lb)close()});
+  document.addEventListener('keydown',function(e){if(!lb.classList.contains('open'))return;if(e.key==='Escape')close();if(e.key==='ArrowRight')go(1);if(e.key==='ArrowLeft')go(-1)});
+  var tt=document.getElementById('themeToggle');
+  tt.onclick=function(){var r=document.documentElement,d=r.dataset.theme==='dark-pink-moon';r.dataset.theme=d?'light-pink-moon':'dark-pink-moon';tt.textContent=d?'Switch to dark view':'Switch to light view'};
+})();
+</script>
+</body>
+</html>

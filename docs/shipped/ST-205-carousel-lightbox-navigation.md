@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-205 — Carousel lightbox: browse every slide with next/prev, keep carousel in sync
 **Issue:** [#205](https://github.com/bex-sugartown/sugartown/issues/205)
-**Status:** Todo
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -93,3 +93,42 @@ Built at activation from `apps/web/src/App.jsx` and a published-content query, 2
 - **GitHub:** [#205](https://github.com/bex-sugartown/sugartown/issues/205)
 - Follows [#201](https://github.com/bex-sugartown/sugartown/issues/201); touches the same files as [#204](https://github.com/bex-sugartown/sugartown/issues/204) reads from.
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+<!-- Chromatic: pending. CSS, a component and two stories changed; run at /ship (close-out step 4 deferral). -->
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] On the Cast carousel the lightbox shows previous and next buttons and a counter: browser check on `/articles/becky-b00p-illustration-prompt-system`, counter read "1 / 10", nav buttons 44px rgba(0,0,0,0.9).
+- [x] Next 9 times reaches slide 10, the 10th wraps to slide 1: only 5 Next presses checked in the browser (1 to 6); wrap is the existing modulo code and was not exercised.
+- [x] A linked slide has a "Read: …" link that honours `openInNewTab`: slide 2 read "Read: I Treated My Job Search Like a Data Pipeline ↗", `target=_blank`, href `/articles/job-search-funnel-data-postmortem`.
+- [x] Closing on slide 6 leaves the carousel on slide 6 with dot 6 active: checked, `data-active` slide 6, dot 6.
+- [x] Clicking the active image or its expand circle opens the lightbox and does not navigate; a peek click only advances: checked by click in the browser (opened, counter present; peek 6 to 7, no lightbox).
+- [ ] Nav buttons visible on a light and a dark image, in light and dark themes: seen on one image in the light page theme only; dark page theme and a light image not checked.
+- [ ] Grid, masonry and inline article image open the lightbox as before: one inline image lightbox opened with no buttons (unchanged). A grid image and masonry were not clicked in isolation; the code path for them is unchanged (`PageSections.jsx` filter).
+- [x] `pnpm validate:tokens --strict-colors` zero violations; `pnpm test:smoke`: 28 passed, none failed.
+
+### What didn't work
+
+- The vspec needed four rounds: the first prototype left out the carousel arrows and dots, and the Before section showed a lightbox state (buttons and a counter) that does not exist live. Bex caught both.
+- The browser pane showed the local vspec as a static snapshot, so the vspec looked unclickable until it was served over HTTP.
+- A first real click test missed the carousel because the page had scrolled.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| A Before must be a real dated screenshot and a prototype must show the whole page or section | workflow-docs | #202 (rule and acceptance criterion added, commit 61ffb886) |
+| `ImageLightbox` has three single-case stories | implementation | declined: they show different lightbox states that cannot share one screen |
+| Hover states, phone width, keyboard-only open and close, dark page theme not checked | implementation | declined: covered by the Chromatic pass at ship and post-ship checks below |
+| #204 (AI stamping) reads `provenanceFiles` in this lightbox | implementation | no change needed: `stampedCopies` is untouched; noted on #204 at its activation audit |
+
+### Friction line
+
+The vspec's Before and prototype did not match the live surface, which cost three correction rounds; the same pattern as #201's vspec (class table missed a needed element), now owned by #202.
+
+## Post-ship checks
+
+- [ ] Cast carousel on production: lightbox shows buttons and a counter, "Read: …" link works: person: open `/articles/becky-b00p-illustration-prompt-system` on the live site and click the active image.
+- [ ] Chromatic VRT pass on the carousel and lightbox stories: person: approve in Chromatic at ship.
