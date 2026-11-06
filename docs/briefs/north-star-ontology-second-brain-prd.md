@@ -178,6 +178,10 @@ Filed 2026-11-06 as issues #194 to #200, all Backlog and Low priority. #39 is an
 | #196 Delivery LLM, read-only, cited, published only | All of the above | Ask the site a question |
 | #39 (SUG-36) Site-wide search: fold in or keep separate | Decision 5 | Ask the site a question |
 
+### Labels
+
+Every issue in this roadmap carries `north-star` plus one pillar label: `pillar: ontology`, `pillar: delivery` or `pillar: second-brain`. List them with `gh issue list --label north-star --state all`. Applied 2026-11-06 to 31 issues, open and closed; the label query, not this table, is the current list.
+
 ### Sequencing rule
 
 Quick wins and gap fillers run in any order and need no prototype. North-star items wait on the prototype and on the ontology spec. No answer surface ships before US-002 (published only) and US-001 (grounding) have passing tests.
