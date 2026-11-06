@@ -1,6 +1,16 @@
 # PROMPT — Sugartown Ship
-**Version:** v3 (2026-09-05)
-**Supersedes:** v2 (2026-08-19) — consolidated from `/eod` and `/mini-release` under SUG-100 Phase 3b
+**Version:** v4 (2026-11-06)
+**Supersedes:** v3 (2026-09-05); v3 superseded v2 (2026-08-19), consolidated from `/eod` and `/mini-release` under SUG-100 Phase 3b
+
+> **v3 → v4 changes (issue #192, found on the v0.38.0 and v0.39.0 runs):**
+> - Step 8 picks the newest release tag on origin, not the newest local tag, so it no longer finds
+>   the unpushed tag step 7 just created and pushes it.
+> - Phase 2 and the hard rules stop only when nothing is `Done`, no commits are unpushed, and no
+>   release tag on origin lacks a GitHub Release. The run that lands an earlier release commit has
+>   nothing `Done` by design.
+> - Step 8's milestone window is bounded at the release tag's own date.
+> - Step 6b is advisory: it lists the deletable refs and does not delete them, because the
+>   permission classifier refuses remote branch deletion.
 
 > **v2 → v3 changes (issue #107):**
 > - Step 3's push now uses `--follow-tags`, so an annotated release tag `/release` created rides
@@ -85,7 +95,9 @@ Write a short briefing using this structure:
 - **For each, confirm its summary actually appears in `CHANGELOG.md`'s `[Unreleased]` section.**
   A `Done` issue with no `[Unreleased]` line is incompletely closed (CLAUDE.md close-out step 7) —
   flag it, don't ship silently around it. Fixing it is a small edit, not a reason to stop.
-- If nothing is `Done`, say so plainly and stop here — nothing to ship.
+- If nothing is `Done`, **and** no commits are unpushed, **and** the newest release tag on origin
+  already has a GitHub Release (step 8 detection), say so plainly and stop here — nothing to ship.
+  If only a release tag is unpublished, continue: step 8 is the whole run.
 
 ---
 
@@ -232,24 +244,27 @@ After delivering the briefing, propose actions in this order:
      re-stamping it, reverted.
    - Report which issues transitioned in Phase 4.
 
-6b. **Delete merged cloud refs** — only if step 5 concluded `success` (#144)
+6b. **List merged cloud refs (advisory, does not delete)** — only if step 5 concluded `success` (#144)
    - Cloud runs and desktop worktree sessions both leave `claude/*` branches and, through the
-     post-commit mirror, `wip/<date>-claude-*` copies. Delete each one whose tip is already in
-     `origin/main`, where its work is safe; keep and report any that is not, since it may be
-     unmerged work.
+     post-commit mirror, `wip/<date>-claude-*` copies. List each one whose tip is already in
+     `origin/main`, where its work is safe to delete; list any that is not, since it may be
+     unmerged work. The permission classifier refuses remote branch deletion, so this step reads
+     and reports only (#192).
      ```bash
      git fetch -q origin --prune
      git ls-remote --heads origin 'claude/*' 'wip/*-claude-*' | while read -r sha ref; do
        b=${ref#refs/heads/}
        if git merge-base --is-ancestor "$sha" origin/main; then
-         git push -q origin --delete "$b" && echo "deleted $b"
+         echo "deletable $b"
        else
          echo "kept $b: not in main"
        fi
      done
      ```
-   - Never touch `wip/<date>-main` (the Mac's mirror of `main`) or any other branch.
-   - Report deleted and kept refs in Phase 4.
+   - Never list `wip/<date>-main` (the Mac's mirror of `main`) or any other branch as deletable.
+   - Report the deletable and kept refs in Phase 4. To delete them, Bex opens
+     `https://github.com/bex-sugartown/sugartown/branches` and clicks the bin icon beside each
+     deletable branch.
 
 7. **`--release`, if passed** — invoke `/release`, do not reimplement it
    - Only if **both** are true: this run was invoked with the `--release` flag (see
@@ -270,20 +285,20 @@ After delivering the briefing, propose actions in this order:
    - This step is independent of whether `--release` was passed *this* run — it reacts to a
      release commit reaching origin, which may have been created by an earlier `/release` run and
      only now gets pushed as part of today's accumulated commits.
-   - Find a release tag with no GitHub Release: the newest local `v*.0` tag
-     (`git tag --list 'v*.0' --sort=-v:refname | head -1`), then `gh release view vX.Y.0`.
-     It succeeds: nothing to publish, skip the rest of this step. It fails: `vX.Y.0` is
-     pending. (Detection by tag, not by this push's commit list, so a release blocked by an
-     earlier red CI run is still found. v0.36.0 was published by hand on 2026-09-24 because the
-     old check missed it, #144.)
-   - Confirm its tag actually reached the remote (a
-     `--follow-tags` push should have carried it; this is a check, not a trust exercise):
-     ```bash
-     git ls-remote --tags origin vX.Y.0
-     ```
-     Empty result: push it explicitly (`git push origin vX.Y.0`) before continuing.
-   - **Create the milestone and assign issues shipped since the previous release.** The boundary
-     is the previous tag's date, not "every unmilestoned issue" — sweeping all history would
+   - Find a release tag with no GitHub Release: the newest `v*.0` tag **on origin**
+     (`git ls-remote --tags --refs origin 'v*.0' | sed 's#.*refs/tags/##' | sort -V | tail -1`),
+     then `gh release view vX.Y.0`. It succeeds: nothing to publish, skip the rest of this step.
+     It fails: `vX.Y.0` is pending. Choosing from origin, not from local tags, means the
+     unpushed tag step 7 just created is never picked (#192). Detection by tag, not by this
+     push's commit list, so a release blocked by an earlier red CI run is still found. (v0.36.0
+     was published by hand on 2026-09-24 because the old check missed it, #144.)
+   - Fetch the tag so it exists locally (`git fetch -q origin --tags`), then confirm its commit is
+     an ancestor of `origin/main`
+     (`git merge-base --is-ancestor "$(git rev-list -n1 vX.Y.0)" origin/main`). If it is not,
+     stop and report: the tag is on origin without its commit.
+   - **Create the milestone and assign issues shipped since the previous release.** The window runs
+     from the previous tag's date to this tag's own date, not "every unmilestoned issue" and not
+     open-ended (an open end swept #166 and #186 into v0.38.0, #192) — sweeping all history would
      backfill milestones onto issues shipped before this mechanism existed, which issue #107 puts
      out of scope:
      ```bash
@@ -291,9 +306,10 @@ After delivering the briefing, propose actions in this order:
 
      prev_tag=$(git describe --tags --abbrev=0 vX.Y.0^)
      prev_date=$(git log -1 --format=%ad --date=short "$prev_tag")
+     tag_date=$(git log -1 --format=%ad --date=short vX.Y.0)
 
-     # closed on/after the previous release, with no milestone yet
-     gh issue list --state closed --search "closed:>=$prev_date" --json number,milestone \
+     # closed from the previous release to this release's own date, with no milestone yet
+     gh issue list --state closed --search "closed:$prev_date..$tag_date" --json number,milestone \
        | jq -r '.[] | select(.milestone == null) | .number' > /tmp/release-candidates
 
      # confirm each is actually Shipped on the board, not Canceled or closed for another reason
@@ -336,8 +352,8 @@ Execute **one action at a time**. Wait for confirmation before each step.
 **Hard rules:**
 - Never `git push --force`
 - Never skip the confirmation step before pushing
-- If there are no commits to push and nothing is `Done`, say so and exit — nothing to do
-- If the tree is already clean, up to date, and nothing is `Done`, report "Nothing to do" and exit
+- If there are no commits to push, nothing is `Done`, and no release tag on origin lacks a GitHub Release, say so and exit — nothing to do
+- If the tree is already clean, up to date, nothing is `Done`, and no release tag on origin lacks a GitHub Release, report "Nothing to do" and exit
 
 ---
 
@@ -354,7 +370,7 @@ CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
 Post-ship checks: [passed: list / owed to Bex: list per issue / failed, kept at Done: list / none]
 Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /ship / --release passed but CI blocked it]
-Cloud refs (step 6b): [deleted: list / kept, not in main: list / none]
+Cloud refs (step 6b): [deletable, not deleted: list / kept, not in main: list / none]
 Release publish (step 8): [no unpublished release tag / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
 Uncommitted changes: [none / list]
 Stashes: [none / list]
