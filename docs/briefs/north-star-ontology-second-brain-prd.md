@@ -182,6 +182,8 @@ Filed 2026-11-06 as issues #194 to #200, all Backlog and Low priority. #39 is an
 
 Every issue in this roadmap carries `north-star` plus one pillar label: `pillar: ontology`, `pillar: delivery` or `pillar: second-brain`. List them with `gh issue list --label north-star --state all`. Applied 2026-11-06 to 31 issues, open and closed; the label query, not this table, is the current list.
 
+The board's `Priority` field carries the horizon, so there are no separate Now, Next or Later labels. Quick wins are High (and so at Todo), gap fillers are Medium, north-star items are Low. Set 2026-11-06. This bends the usual Now=Urgent mapping in `.claude/skills/new-epic/docs/new-epic-prompt.md`, on purpose: Urgent means it blocks current work, which no quick win does.
+
 ### Sequencing rule
 
 Quick wins and gap fillers run in any order and need no prototype. North-star items wait on the prototype and on the ontology spec. No answer surface ships before US-002 (published only) and US-001 (grounding) have passing tests.
