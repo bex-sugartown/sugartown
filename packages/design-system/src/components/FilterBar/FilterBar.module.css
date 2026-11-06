@@ -204,6 +204,6 @@
 .optionCount {
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs);
-  color: var(--st-label-color);
+  color: var(--st-color-text-secondary); /* #203: label-color (#888) is 4.4:1 on the dark facet surface; counts are body-level text, not a label strip */
   flex-shrink: 0;
 }
