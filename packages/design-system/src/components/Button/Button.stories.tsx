@@ -77,7 +77,7 @@ export const Tertiary: Story = {
 };
 
 /** ST-205: tertiary on a surface that stays dark in every theme (the image lightbox overlay).
- *  Pink outline; text pink in the light theme, white in the dark theme. Switch the theme to see both. */
+ *  Dark theme: the standard tertiary, lime outline and lime text. Light theme: pink outline and pink text. Switch the theme to see both. */
 export const TertiaryOnDark: Story = {
   name: 'Tertiary — on dark surface',
   args: { children: 'Read: A linked post ↗', variant: 'tertiary', tone: 'onDark' },

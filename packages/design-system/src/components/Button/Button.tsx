@@ -9,8 +9,8 @@ export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'tertiary';
   /**
    * Surface the button sits on. `onDark` is for a surface that stays dark in every theme (for example
-   * the image lightbox overlay): tertiary only, pink outline, text pink in the light theme and white
-   * in the dark theme.
+   * the image lightbox overlay): tertiary only. Dark theme: the standard tertiary (lime outline, lime
+   * text). Light theme: pink outline and pink text.
    */
   tone?: 'default' | 'onDark';
   size?: 'sm' | 'md' | 'lg';
