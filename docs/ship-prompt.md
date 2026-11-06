@@ -1,6 +1,10 @@
 # PROMPT — Sugartown Ship
-**Version:** v4 (2026-11-06)
-**Supersedes:** v3 (2026-09-05); v3 superseded v2 (2026-08-19), consolidated from `/eod` and `/mini-release` under SUG-100 Phase 3b
+**Version:** v5 (2026-11-06)
+**Supersedes:** v4 (2026-11-06); v4 superseded v3 (2026-09-05); v3 superseded v2 (2026-08-19), consolidated from `/eod` and `/mini-release` under SUG-100 Phase 3b
+
+> **v4 → v5 changes (issue #191):**
+> - New PHASE 3 step 9 and a Phase 4 line run `pnpm check:release`. A run whose check exits 1 is
+>   reported "Ship incomplete: N steps outstanding", never "Ship complete".
 
 > **v3 → v4 changes (issue #192, found on the v0.38.0 and v0.39.0 runs):**
 > - Step 8 picks the newest release tag on origin, not the newest local tag, so it no longer finds
@@ -347,6 +351,17 @@ After delivering the briefing, propose actions in this order:
      `/ship` finds the same tag and offers it again; choose Skip again to leave it.
    - Report milestone state, assigned issue numbers, and release publish state in Phase 4.
 
+9. **Release completeness check** — always, after steps 1 to 8 (#191)
+   - Run `pnpm check:release`. It checks the newest local release tag: CHANGELOG entry, release
+     notes file, tag on origin, GitHub Release, closed milestone, published Sanity `releaseNote`.
+   - Exit 0: print the line `Release completeness: complete`.
+   - Exit 1: print every unmet step, and the Phase 4 heading becomes "Ship incomplete: N steps
+     outstanding". Clear a step by completing it or running `/ship` again. After a `--release`
+     run the tag, GitHub Release, milestone and Sanity steps are unmet by design until the next
+     `/ship`: list them as outstanding, do not treat them as a failure.
+   - Exit 2: the check could not run (GitHub, git or Sanity unreachable). Say so. Never report
+     exit 2 as complete.
+
 Execute **one action at a time**. Wait for confirmation before each step.
 
 **Hard rules:**
@@ -359,6 +374,9 @@ Execute **one action at a time**. Wait for confirmation before each step.
 
 ### PHASE 4 — CLOSING STATUS
 
+Print `Ship complete.` only when step 9 exited 0. On exit 1 print `Ship incomplete: N steps
+outstanding.` in its place; on exit 2 print `Ship finished, release completeness not checked.`
+
 ```
 Ship complete.
 
@@ -370,6 +388,7 @@ CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
 Post-ship checks: [passed: list / owed to Bex: list per issue / failed, kept at Done: list / none]
 Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /ship / --release passed but CI blocked it]
+Release completeness (step 9): [complete / N steps outstanding: list / not checked, exit 2]
 Cloud refs (step 6b): [deletable, not deleted: list / kept, not in main: list / none]
 Release publish (step 8): [no unpublished release tag / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
 Uncommitted changes: [none / list]

@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Other
 
+- #191: A release with steps left undone is now flagged: `pnpm check:release` lists any missing release note, tag, GitHub Release, milestone or published Sanity note, and `/ship` reports "incomplete" until they are done. (`--self-test` passes; v0.39.0 reads complete, a fake v0.99.0 lists all six unmet)
 - #192: The ship prompt no longer picks the wrong release tag, stops early on a release-landing run, sweeps late issues into a milestone, or tries a branch delete it cannot run. (walkthrough of the v0.39.0 run in commit `72025fe3`; docs only)
 - #208: Grid and masonry galleries now open every image in the lightbox with next and previous, and a linked image shows its "Read" link there instead of opening a new tab from the thumbnail. (Storybook Grid story: linked image opens at 2 / 3 with its link, Next reaches 3 / 3; local `pnpm test:smoke` below; Chromatic pending)
 - #207: The lightbox "Read" link is now lime on a light-themed page too, because the lightbox carries the dark theme; any future always-dark surface can do the same. (local `pnpm test:smoke`: 28 passed; computed colour lime in both page themes; Chromatic pending)

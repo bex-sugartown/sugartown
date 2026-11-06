@@ -1,5 +1,5 @@
 # PROMPT — Sugartown Morning Housekeeping
-**Version:** v2 (2026-02-23)
+**Version:** v3 (2026-11-06)
 **Run with:** Claude Code (project context required)
 **When to use:** First thing in the morning, before starting new work
 
@@ -29,6 +29,13 @@ pwd
 ```
 - If `pwd` returns a path under `/Users/` (macOS home) → running locally ✅
 - If `pwd` returns `/home/user/...` or any other path → **STOP and warn the user**: "This session is running in a cloud VM, not on your local machine. Files written here won't appear on your local filesystem. You may want to use the Claude CLI (`claude`) from your terminal instead."
+
+Check the latest release is complete (advisory, #191):
+```bash
+pnpm check:release
+```
+- Exit 0: nothing to report. Exit 1: list the outstanding steps first in the briefing, before
+  anything else. Exit 2: say the check could not run. This never blocks the briefing.
 
 Then collect git state:
 ```bash

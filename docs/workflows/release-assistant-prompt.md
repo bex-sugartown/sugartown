@@ -1,6 +1,10 @@
 # PROMPT — Sugartown Release Assistant
-**Version:** v8 (2026-11-02)
-**Supersedes:** v7 (2026-10-11)
+**Version:** v9 (2026-11-06)
+**Supersedes:** v8 (2026-11-02)
+
+> **v8 → v9 changes (issue #191):**
+> - RELEASE COMPLETION CHECKLIST ends with `pnpm check:release`, so the unfinished steps after a
+>   local release (tag, GitHub Release, milestone, published Sanity note) are listed, not forgotten.
 
 > **v7 → v8 changes (2026-11-02):**
 > - STEP 3B: every Release Note ends with an `## Issues in this release` list built from the issue and epic IDs in the approved CHANGELOG entry, and "Not in this release" items cite the open issue that owns them. Before this, only 15 of 32 notes carried any issue number, and v0.35.0 to v0.37.0 carried none.
@@ -553,6 +557,10 @@ Artifacts:
 Version bumps confirmed:
   ✅  package.json → X.(Y+1).0
   ✅  apps/web/package.json → X.(Y+1).0
+
+Release completeness (`pnpm check:release`):
+  [paste its output. Outstanding steps are expected here: the tag, GitHub Release, milestone
+   and published Sanity note finish in the next `/ship`.]
 
 Validators run:
   [paste final validator output here or note "not run"]
