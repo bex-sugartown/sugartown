@@ -56,11 +56,16 @@ Not applicable, no content piece.
 
 ## Human QA Walkthrough — example local pages
 
-> Activation audit: read `apps/web/src/App.jsx`, list every page-type whose CSS this epic
-> can reach, and build the Human QA Walkthrough table (one example local URL per page-type,
-> incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
-> Walkthrough. Capture one real published slug per detail page-type and datestamp it.
-> Expected pages: one carousel page (the Cast article), one grid or masonry gallery page, one article with an inline image.
+Built at activation from `apps/web/src/App.jsx` and a published-content query, 2026-11-06. Slugs are real published documents.
+
+| Page-type | Route in `App.jsx` | Example local URL | Why |
+|---|---|---|---|
+| Article, carousel with linked slides | `/articles/:slug` | `/articles/becky-b00p-illustration-prompt-system` | The bug: 10 slides, 9 linked |
+| Case study, carousel, no links | `/case-studies/:slug` | `/case-studies/launching-lunar-landing` | Carousel lightbox with unlinked slides, as before |
+| Case study, grid gallery | `/case-studies/:slug` | `/case-studies/beauty-retail-from-monolith-to-microservice` | Regression guard: grid lightbox unchanged |
+| Article, carousel and grid | `/articles/:slug` | `/articles/pink-moon-and-ledger` | Two carousels and a grid on one page |
+| Section showcase | `/platform/design-system/sections` | `/platform/design-system/sections` | Carousel and grid in the showcase page |
+| Article with an inline image | `/articles/:slug` | Activation check: find one published article whose `content[]` has a `richImage` | Regression guard: single-image lightbox, no nav |
 
 ## Technical notes
 
