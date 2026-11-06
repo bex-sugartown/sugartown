@@ -690,14 +690,6 @@
   margin-bottom: var(--st-spacing-stack-md);
 }
 
-.galleryLinked {
-  cursor: pointer;
-}
-
-.galleryLinked a {
-  display: block;
-}
-
 .galleryLightbox {
   cursor: zoom-in;
 }

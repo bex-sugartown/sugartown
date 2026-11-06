@@ -14,6 +14,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ### Other
 
+- #208: Grid and masonry galleries now open every image in the lightbox with next and previous, and a linked image shows its "Read" link there instead of opening a new tab from the thumbnail. (Storybook Grid story: linked image opens at 2 / 3 with its link, Next reaches 3 / 3; local `pnpm test:smoke` below; Chromatic pending)
 - #207: The lightbox "Read" link is now lime on a light-themed page too, because the lightbox carries the dark theme; any future always-dark surface can do the same. (local `pnpm test:smoke`: 28 passed; computed colour lime in both page themes; Chromatic pending)
 - ST-205: Opening a carousel image full size now lets you step through every slide with next and previous, shows a "Read" link for linked slides, and moves the carousel to the slide you stopped on. (local `pnpm test:smoke`: 28 passed; Chromatic pending)
 - #203: The article filter counts in dark mode now meet the colour-contrast minimum, which clears the red dark-mode accessibility check on `/articles`. (local axe smoke: 16 passed; Chromatic pending)

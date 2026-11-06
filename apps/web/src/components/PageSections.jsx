@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, Children } from 'react'
 import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
-import { getLinkProps, resolveImageLink } from '../lib/linkUtils'
+import { getLinkProps } from '../lib/linkUtils'
 import { trackCtaClick } from '../lib/trackCtaClick'
 import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
@@ -374,7 +374,7 @@ function TextSection({ section }) {
 
 /**
  * GalleryImage — renders a single image in the gallery.
- * Wraps in <Link> (SPA), <a> (external), or attaches lightbox onClick.
+ * Opens the lightbox on click. A linked image shows its link there, in every layout (ST-205, #208).
  * In a carousel the slide wrapper owns the click (peek slide advances, active slide opens the
  * lightbox) and a slide's link is shown in the lightbox, so the image is rendered unwrapped (ST-205).
  */
@@ -382,8 +382,6 @@ function GalleryImage({ image, index, onLightbox, treatment, layout, inCarousel 
   if (!image.asset) return null
 
   const imgSrc = urlFor(image.asset).width(800).auto('format').url()
-  const linkTarget = resolveImageLink(image)
-
   // Uniform aspect ratio per layout; hotspot controls crop focus point
   const aspectRatio = layout === 'carousel' ? '16/9' : '4/3'
 
@@ -418,25 +416,7 @@ function GalleryImage({ image, index, onLightbox, treatment, layout, inCarousel 
     )
   }
 
-  if (linkTarget) {
-    const { isExternal, linkProps } = getLinkProps(linkTarget.url, linkTarget.openInNewTab)
-    if (isExternal) {
-      return (
-        <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
-          <a {...linkProps}>{mediaEl}</a>
-          {captionOverlay}
-        </figure>
-      )
-    }
-    return (
-      <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
-        <Link {...linkProps}>{mediaEl}</Link>
-        {captionOverlay}
-      </figure>
-    )
-  }
-
-  // No link — lightbox on click
+  // Lightbox on click. A linked image shows its link inside the lightbox (ST-205, #208).
   return (
     <figure
       className={`${styles.galleryItem} ${styles.galleryLightbox}`}
@@ -540,9 +520,9 @@ function ImageGallerySection({ section }) {
 
   const galleryClassName = `${styles.imageGallery} ${styles[`gallery-${layout}`] || ''}`
 
-  // Carousel: the lightbox holds every slide, in order. Grid and masonry: images without links
-  // (a linked image follows its link). ST-205.
-  const lightboxImages = isCarousel ? images : images.filter((img) => !resolveImageLink(img))
+  // Every layout: the lightbox holds every image, in order; a linked image shows its Read link there.
+  // ST-205 (carousel), #208 (grid and masonry).
+  const lightboxImages = images
 
   return (
     <>
@@ -585,8 +565,8 @@ function ImageGallerySection({ section }) {
             <GalleryImage
               key={index}
               image={image}
-              index={lightboxImages.indexOf(image)}
-              onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+              index={index}
+              onLightbox={setLightboxIndex}
               treatment={treatment}
               layout={layout}
             />

@@ -28,7 +28,8 @@ export const Grid: Story = {
       _key: 'ig-1',
       heading: 'Design System Overview',
       layout: 'grid',
-      images: IMAGES,
+      // #208: the linked image opens the lightbox like the others and shows its Read link there.
+      images: IMAGES.map((img, i) => (i === 1 ? { ...img, link: { url: 'https://example.com/post', openInNewTab: true } } : img)),
     }],
     context: 'detail',
   },
