@@ -693,7 +693,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 0.375rem 0.625rem;
+  padding: 0.5rem 0.75rem; /* ST-201 vspec */
   background: var(--st-color-scrim-backdrop-heavy); /* ST-201: was 50%, failed 4.5:1 over light and busy images */
   pointer-events: none;
   z-index: 3; /* above treatment overlay (z-index: 2) */
