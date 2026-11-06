@@ -391,7 +391,7 @@ function resolveImageLink(image) {
  * GalleryImage — renders a single image in the gallery.
  * Wraps in <Link> (SPA), <a> (external), or attaches lightbox onClick.
  */
-function GalleryImage({ image, index, onLightbox, treatment, layout }) {
+function GalleryImage({ image, index, onLightbox, treatment, layout, linkTabIndex }) {
   if (!image.asset) return null
 
   const imgSrc = urlFor(image.asset).width(800).auto('format').url()
@@ -427,14 +427,14 @@ function GalleryImage({ image, index, onLightbox, treatment, layout }) {
     if (isExternal) {
       return (
         <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
-          <a {...linkProps}>{mediaEl}</a>
+          <a {...linkProps} tabIndex={linkTabIndex}>{mediaEl}</a>
           {captionOverlay}
         </figure>
       )
     }
     return (
       <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
-        <Link {...linkProps}>{mediaEl}</Link>
+        <Link {...linkProps} tabIndex={linkTabIndex}>{mediaEl}</Link>
         {captionOverlay}
       </figure>
     )
@@ -446,7 +446,7 @@ function GalleryImage({ image, index, onLightbox, treatment, layout }) {
       className={`${styles.galleryItem} ${styles.galleryLightbox}`}
       onClick={() => onLightbox(index)}
       role="button"
-      tabIndex={0}
+      tabIndex={linkTabIndex ?? 0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLightbox(index) } }}
     >
       {mediaEl}
@@ -523,6 +523,20 @@ function ImageGallerySection({ section }) {
     scrollToSlide(next)
   }
 
+  // Peek slides: a click on a non-active slide advances to it. Capture phase runs
+  // before the slide's link or lightbox handler, so neither fires (ST-201).
+  function handleSlideClickCapture(e, index) {
+    if (index === activeSlide) return
+    e.preventDefault()
+    e.stopPropagation()
+    scrollToSlide(index)
+  }
+
+  function handleCarouselKeyDown(e) {
+    if (e.key === 'ArrowLeft') { e.preventDefault(); scrollPrev() }
+    if (e.key === 'ArrowRight') { e.preventDefault(); scrollNext() }
+  }
+
   const galleryClassName = `${styles.imageGallery} ${styles[`gallery-${layout}`] || ''}`
 
   // Images that can open the lightbox (those without links)
@@ -532,27 +546,34 @@ function ImageGallerySection({ section }) {
     <>
       <section className={galleryClassName} id={section._sectionId}>
         {heading && <h2 className={styles.sectionHeading}>{heading}</h2>}
-        {isCarousel && images.length > 1 && (
-          <button className={`${styles.carouselArrow} ${styles.carouselPrev}`} onClick={scrollPrev} aria-label="Previous slide">‹</button>
-        )}
-
         {isCarousel ? (
-          <div className={styles.carouselTrack} ref={scrollRef}>
-            {images.map((image, index) => (
-              <div
-                key={index}
-                ref={(el) => (slideRefs.current[index] = el)}
-                className={styles.carouselSlide}
-              >
-                <GalleryImage
-                  image={image}
-                  index={lightboxImages.indexOf(image)}
-                  onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
-                  treatment={treatment}
-                  layout={layout}
-                />
-              </div>
-            ))}
+          <div className={styles.carouselViewport} onKeyDown={handleCarouselKeyDown}>
+            {images.length > 1 && (
+              <button className={`${styles.carouselArrow} ${styles.carouselPrev}`} onClick={scrollPrev} aria-label="Previous slide">‹</button>
+            )}
+            <div className={styles.carouselTrack} ref={scrollRef}>
+              {images.map((image, index) => (
+                <div
+                  key={index}
+                  ref={(el) => (slideRefs.current[index] = el)}
+                  className={styles.carouselSlide}
+                  data-active={index === activeSlide}
+                  onClickCapture={(e) => handleSlideClickCapture(e, index)}
+                >
+                  <GalleryImage
+                    image={image}
+                    index={lightboxImages.indexOf(image)}
+                    onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+                    treatment={treatment}
+                    layout={layout}
+                    linkTabIndex={index === activeSlide ? undefined : -1}
+                  />
+                </div>
+              ))}
+            </div>
+            {images.length > 1 && (
+              <button className={`${styles.carouselArrow} ${styles.carouselNext}`} onClick={scrollNext} aria-label="Next slide">›</button>
+            )}
           </div>
         ) : (
           images.map((image, index) => (
@@ -568,10 +589,7 @@ function ImageGallerySection({ section }) {
         )}
 
         {isCarousel && images.length > 1 && (
-          <>
-            <button className={`${styles.carouselArrow} ${styles.carouselNext}`} onClick={scrollNext} aria-label="Next slide">›</button>
-            <CarouselDots count={images.length} activeIndex={activeSlide} onDotClick={scrollToSlide} />
-          </>
+          <CarouselDots count={images.length} activeIndex={activeSlide} onDotClick={scrollToSlide} />
         )}
       </section>
 

@@ -580,19 +580,27 @@
   min-width: 280px;
 }
 
+/* Positioning context so arrows centre on the images, not the heading and dots (ST-201) */
+.carouselViewport {
+  position: relative;
+}
+
 /* ── Carousel arrows ─────────────────────────────────────────────── */
+/* Sit on the image, so dark fill + white ring in both themes (ST-201: was 50% scrim, invisible on dark art) */
 .carouselArrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  z-index: 3;
-  background: var(--st-color-scrim-backdrop);
-  border: 1px solid var(--st-color-white-20);
+  z-index: 4; /* above caption overlay (z-index: 3) */
+  background: var(--st-color-scrim-backdrop-heavy);
+  border: 2px solid var(--st-color-white);
+  box-shadow: 0 2px 8px var(--st-color-scrim-backdrop-45);
   color: var(--st-color-white);
   font-size: 1.5rem;
+  line-height: 1;
   cursor: pointer;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -601,16 +609,16 @@
 }
 
 .carouselArrow:hover {
-  background: var(--st-color-scrim-backdrop-70);
+  background: var(--st-color-pink);
 }
 
 .carouselArrow:focus-visible {
-  outline: 2px solid var(--st-color-pink);
-  outline-offset: 2px;
+  outline: 3px solid var(--st-color-pink);
+  outline-offset: 3px;
 }
 
-.carouselPrev { left: -1rem; }
-.carouselNext { right: -1rem; }
+.carouselPrev { left: 0.5rem; }
+.carouselNext { right: 0.5rem; }
 
 /* ── Carousel dots ───────────────────────────────────────────────── */
 .carouselDots {
@@ -620,24 +628,31 @@
   margin-top: var(--st-spacing-stack-md);
 }
 
+/* Ring uses text-secondary: theme-aware, visible on the dark and the light page surface (ST-201) */
 .carouselDot {
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   border-radius: 50%;
-  border: 1px solid var(--st-color-border-medium);
-  background: var(--st-color-white-15);
+  border: 2px solid var(--st-color-text-secondary);
+  background: transparent;
   cursor: pointer;
   padding: 0;
   transition: background 0.2s, transform 0.2s;
 }
 
 .carouselDot:hover {
-  background: var(--st-color-white-50);
+  background: var(--st-color-text-secondary);
 }
 
 .carouselDotActive {
   background: var(--st-color-pink);
+  border-color: var(--st-color-pink);
   transform: scale(1.25);
+}
+
+/* Off-active slides: click advances the carousel; the link is not followed */
+.carouselSlide[data-active="false"] {
+  cursor: pointer;
 }
 
 /* ── Gallery items ───────────────────────────────────────────────── */
@@ -679,7 +694,7 @@
   left: 0;
   right: 0;
   padding: 0.375rem 0.625rem;
-  background: var(--st-color-scrim-backdrop);
+  background: var(--st-color-scrim-backdrop-heavy); /* ST-201: was 50%, failed 4.5:1 over light and busy images */
   pointer-events: none;
   z-index: 3; /* above treatment overlay (z-index: 2) */
   border-radius: 0 0 var(--st-radius-md) var(--st-radius-md);
@@ -687,7 +702,7 @@
 
 .galleryCaptionText {
   font-size: var(--st-font-caption);
-  color: var(--st-color-white-85);
+  color: var(--st-color-white);
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -697,7 +712,7 @@
 }
 
 .galleryCreditText {
-  color: var(--st-color-seafoam);
+  color: var(--st-color-white-85); /* ST-201: seafoam read as a link colour and failed contrast */
 }
 
 /* Callout Section — fills parent container width */
@@ -1185,9 +1200,6 @@
   .carouselSlide {
     flex: 0 0 90%;
   }
-
-  .carouselPrev { left: 0; }
-  .carouselNext { right: 0; }
 
 }
 

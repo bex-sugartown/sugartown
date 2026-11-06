@@ -40,7 +40,13 @@ export const Carousel: Story = {
       _type: 'imageGallery',
       _key: 'ig-2',
       layout: 'carousel',
-      images: IMAGES,
+      // ST-201: one multi-case story. Linked peek slides (click advances, no new tab),
+      // a credit, and a long caption exercise controls and caption legibility.
+      images: [
+        { ...IMAGES[0], credit: 'AI-generated illustration' },
+        { ...IMAGES[1], caption: 'A longer caption that wraps onto a second line so the caption bar contrast and clamp are visible over a busy image', link: { url: 'https://example.com/post', openInNewTab: true } },
+        { ...IMAGES[2], caption: 'Linked, same tab', link: { url: '/articles', openInNewTab: false } },
+      ],
     }],
     context: 'detail',
   },
