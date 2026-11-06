@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-201 — Image carousel controls and caption legibility
 **Issue:** [#201](https://github.com/bex-sugartown/sugartown/issues/201)
-**Status:** Todo
+**Status:** Done
 **Priority:** 🔴 Now
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -76,3 +76,40 @@ Single phase, after Phase 0 sign-off.
 
 - **GitHub:** [#201](https://github.com/bex-sugartown/sugartown/issues/201)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+<!-- Chromatic: pending. CSS and a story changed; run at /ship (close-out step 4 deferral). -->
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] Arrows visible on first, middle and last slides in light and dark: checked in the browser on `/articles/becky-b00p-illustration-prompt-system`, computed style 44px, rgba(0,0,0,0.9), 2px ring. Last slide not opened separately.
+- [x] Peek click advances, opens no tab: clicked the right peek slide, active index 0 to 1, URL unchanged, no new tab.
+- [x] Tab order reaches only the active slide's link: `tabIndex` read as `0,-1,-1,-1,-1,-1,-1,-1,-1`.
+- [x] `pnpm validate:contrast` passes: ran locally, one unresolved shop-theme pair warning that predates this epic. The vspec's per-treatment ratios are hand-computed and were not re-measured.
+- [x] `pnpm validate:tokens --strict-colors`: zero violations.
+- [ ] `pnpm test:smoke`: 27 passed, 1 failed (dark axe on `/articles`, filter counts). Not caused by this epic. Tracked in #203.
+
+### What didn't work
+
+- The approved vspec class table said "no new class", but centring the arrows on the image needed a wrapper (`.carouselViewport`). The design-reviewer flagged it as a deviation.
+- The browser pane was hidden at first, so visual verification waited for a round trip.
+- One shell command ran from the wrong directory after a `cd ..`.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| `/articles` dark-mode axe contrast failure in FilterBar option counts | implementation | #203 |
+| Dot ring uses `--st-color-text-secondary`, not the vspec prototype's white 85% in dark | implementation | declined: the vspec said to pick a theme-aware token; white 85% would vanish on the light page |
+| Vspec class table should list wrapper elements the behaviour needs | workflow-docs | declined here, belongs in the vspec template epic #202 |
+| Mobile slide width (90%, 100%) not tested at phone width | implementation | declined: rules unchanged by this epic |
+
+### Friction line
+
+The vspec class table missed a wrapper element its own arrow decision required, so the build added a class the table did not list.
+
+## Post-ship checks
+
+- [ ] Carousel on production shows visible arrows and advances on peek click: person: open `/articles/becky-b00p-illustration-prompt-system` on the live site.
+- [ ] Chromatic VRT pass on the carousel story: person: approve in Chromatic at ship.

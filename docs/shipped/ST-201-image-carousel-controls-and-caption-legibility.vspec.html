@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-201 vspec: carousel controls and caption legibility</title>
+<style>
+:root{
+  --st-color-midnight-900:#0a0f1f; --st-color-pink:#ff247d; --st-color-seafoam:#2bd4b0;
+  --st-color-white:#fff; --st-color-white-85:rgba(255,255,255,.85);
+  --st-color-scrim-backdrop:rgba(0,0,0,.5); --st-color-scrim-backdrop-70:rgba(0,0,0,.7); --st-color-scrim-backdrop-heavy:rgba(0,0,0,.9);
+  --st-radius-md:12px; --st-gap:1.25rem;
+  --ink:#1b1b22; --paper:#f3f3f5; --rule:#d6d6dc;
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 system-ui,sans-serif;color:var(--ink);background:var(--paper)}
+main{max-width:1000px;margin:0 auto;padding:2rem 1rem 4rem}
+h1{font-size:1.5rem;margin:0 0 .25rem} h2{font-size:1.15rem;margin:2.5rem 0 .5rem;border-top:1px solid var(--rule);padding-top:1.5rem}
+code{background:#e6e6ec;padding:0 .25em}
+table{border-collapse:collapse;width:100%;font-size:13px;margin:.5rem 0 1rem} th,td{border:1px solid var(--rule);padding:.4rem .5rem;text-align:left;vertical-align:top} th{background:#e9e9ef}
+.note{background:#fff7d6;border:1px solid #e3d48a;padding:.6rem .8rem;margin:1rem 0;font-size:13px}
+.pass{color:#0a6b3d;font-weight:600}.fail{color:#a11;font-weight:600}
+
+/* ===== Production class names ===== */
+.imageGallery{position:relative;max-width:760px;margin:1rem auto;padding:1.5rem 1rem;background:var(--st-color-midnight-900);border-radius:var(--st-radius-md)}
+.sectionHeading{color:var(--st-color-pink);font-family:Georgia,serif;font-size:1.6rem;margin:0 0 1rem}
+.carouselTrack{display:flex;gap:var(--st-gap);overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
+.carouselTrack::-webkit-scrollbar{display:none}
+.carouselSlide{scroll-snap-align:center;flex:0 0 80%;min-width:280px;cursor:pointer}
+.carouselSlide[data-active="true"]{cursor:default}
+.galleryItem{position:relative;margin:0;overflow:hidden;border-radius:var(--st-radius-md)}
+.galleryImage{display:block;width:100%;aspect-ratio:16/9;background:#222}
+.galleryImage.dark{background:radial-gradient(circle at 30% 40%,#3a3a48,#07070c)}
+.galleryImage.light{background:linear-gradient(135deg,#f4efe6,#cfc7b5)}
+.galleryImage.busy{background:repeating-linear-gradient(45deg,#fff 0 14px,#111 14px 28px)}
+/* Off-active slides: link is inert (click advances instead). */
+.carouselSlide[data-active="false"] a{pointer-events:none}
+.galleryCaptionOverlay{position:absolute;left:0;right:0;bottom:0;padding:.5rem .75rem;z-index:3;pointer-events:none;
+  background:var(--st-color-scrim-backdrop-heavy) /* was scrim-backdrop (50%) */}
+.galleryCaptionText{display:block;font-size:13px;line-height:1.4;color:var(--st-color-white) /* was white-85 */}
+.galleryCreditText{color:var(--st-color-white-85) /* was seafoam; neutral so it never reads as a link colour */}
+/* Arrows */
+.carouselArrow{position:absolute;top:50%;z-index:4;width:44px;height:44px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;line-height:1;
+  background:var(--st-color-scrim-backdrop-heavy);color:var(--st-color-white);
+  border:2px solid var(--st-color-white);box-shadow:0 2px 8px rgba(0,0,0,.45)}
+.carouselArrow:hover{background:var(--st-color-pink);border-color:var(--st-color-white)}
+.carouselArrow:focus-visible{outline:3px solid var(--st-color-pink);outline-offset:3px}
+.carouselPrev{left:.5rem}.carouselNext{right:.5rem}
+.carouselDots{display:flex;justify-content:center;gap:.6rem;margin-top:1rem}
+.carouselDot{width:10px;height:10px;border-radius:50%;padding:0;cursor:pointer;background:transparent;border:2px solid var(--st-color-white-85)}
+.carouselDotActive{background:var(--st-color-pink);border-color:var(--st-color-pink);transform:scale(1.25)}
+/* Light view: gallery sits on the light page surface. Dots need a dark ring there (white ring is invisible). */
+body.light .imageGallery{background:#f3f3f5;border:1px solid var(--rule)}
+body.light .sectionHeading{color:#d4146a}
+body.light .carouselDot{border-color:#55556a}
+body.light .carouselDotActive{border-color:var(--st-color-pink)}
+body.light .before .carouselDot{border-color:#c9c9d2}
+.themeToggle{position:sticky;top:.5rem;float:right;z-index:10;padding:.4rem .8rem;border:1px solid var(--rule);background:#fff;cursor:pointer;font:13px system-ui}
+.before .carouselArrow{width:40px;height:40px;background:var(--st-color-scrim-backdrop);border:1px solid rgba(255,255,255,.2);box-shadow:none}
+.before .galleryCaptionOverlay{background:var(--st-color-scrim-backdrop)}
+.before .galleryCaptionText{color:var(--st-color-white-85)}
+.before .galleryCreditText{color:var(--st-color-seafoam)}
+.before .carouselPrev{left:-1rem}.before .carouselNext{right:-1rem}
+</style>
+</head>
+<body>
+<main>
+<button class="themeToggle" id="themeToggle" aria-pressed="false">Switch to light view</button>
+<h1>ST-201 · Carousel controls and caption legibility</h1>
+<p>Issue #201, priority Urgent. Phase 0 visual spec. Class names are the production names; every new class is listed in the naming table below. Values are tokens unless marked.</p>
+
+<div class="note"><strong>Status:</strong> awaiting Bex sign-off. Nothing in <code>apps/web/src/</code> changes until the Phase 0 boxes are ticked. Open decisions are at the end.</div>
+
+<h2>1. Interactive prototype (after)</h2>
+<p>Try it: click the peeking slides (they advance, no link), click an arrow, click a dot, press Tab. Slide 3 stands in for a busy image; slide 2 is light.</p>
+
+<section class="imageGallery" id="demo">
+  <h2 class="sectionHeading" style="border:0;padding:0">The Cast, Across the Catalogue</h2>
+  <button class="carouselArrow carouselPrev" aria-label="Previous slide">‹</button>
+  <div class="carouselTrack" id="track">
+    <div class="carouselSlide"><figure class="galleryItem"><a href="#linked-post-1" target="_blank"><div class="galleryImage dark"></div></a>
+      <div class="galleryCaptionOverlay"><span class="galleryCaptionText">The job-search funnel as a machine that eats resumes and returns them blank. — <span class="galleryCreditText">AI-generated illustration</span></span></div></figure></div>
+    <div class="carouselSlide"><figure class="galleryItem"><a href="#linked-post-2" target="_blank"><div class="galleryImage light"></div></a>
+      <div class="galleryCaptionOverlay"><span class="galleryCaptionText">Light image: caption bar must still read. — <span class="galleryCreditText">AI-generated illustration</span></span></div></figure></div>
+    <div class="carouselSlide"><figure class="galleryItem"><a href="#linked-post-3" target="_blank"><div class="galleryImage busy"></div></a>
+      <div class="galleryCaptionOverlay"><span class="galleryCaptionText">Busy image, worst case for contrast. — <span class="galleryCreditText">AI-generated illustration</span></span></div></figure></div>
+    <div class="carouselSlide"><figure class="galleryItem"><a href="#linked-post-4" target="_blank"><div class="galleryImage dark"></div></a>
+      <div class="galleryCaptionOverlay"><span class="galleryCaptionText">The whole catalogue, as one ChatGPT conversation. — <span class="galleryCreditText">AI-generated illustration</span></span></div></figure></div>
+  </div>
+  <button class="carouselArrow carouselNext" aria-label="Next slide">›</button>
+  <div class="carouselDots" id="dots" role="tablist" aria-label="Gallery slides"></div>
+</section>
+<p id="log" style="font-size:13px">Event log: (none yet)</p>
+
+<h2>2. Before (live today)</h2>
+<section class="imageGallery before">
+  <button class="carouselArrow carouselPrev" aria-label="Previous slide">‹</button>
+  <div class="carouselTrack"><div class="carouselSlide" style="flex-basis:90%"><figure class="galleryItem"><div class="galleryImage dark"></div>
+    <div class="galleryCaptionOverlay"><span class="galleryCaptionText">The job-search funnel as a machine that eats resumes. — <span class="galleryCreditText">AI-generated illustration</span></span></div></figure></div></div>
+  <button class="carouselArrow carouselNext" aria-label="Next slide">›</button>
+</section>
+
+<h2>3. Behaviour annotations (nav surface, all six)</h2>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>Active slide is the one at least 60% in view (existing IntersectionObserver, threshold 0.6). Active dot: filled <code>--st-color-pink</code>, scale 1.25. Inactive dot: 2px ring, transparent fill (was a 15% white fill, invisible). Ring colour is theme-aware: <code>--st-color-white-85</code> in dark, a dark neutral in light (activation audit: pick the existing border or text-secondary token that gives at least 3:1 on the light surface). The arrows and caption bar stay dark in both themes because they sit on the image, not the page.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>None. Slides do not write to the URL.</td></tr>
+<tr><td>Scroll-spy</td><td>Yes: manual scroll, arrows and dots all update the active dot via the observer.</td></tr>
+<tr><td>Sticky/fixed</td><td>Arrows are absolutely positioned within <code>.imageGallery</code> and vertically centred on the track, not the whole section (see open decision 3). Not sticky.</td></tr>
+<tr><td>Mobile collapse</td><td>Below 768px slide basis 90%, below 480px 100% (existing). Arrows stay inside the image edge (<code>left/right: .5rem</code>), never outside the viewport. The 44px target stays at all widths.</td></tr>
+<tr><td>Click side-effects</td><td><strong>Peek slide click:</strong> scrolls that slide to centre; the link does not fire (the anchor gets <code>pointer-events:none</code> and <code>tabindex=-1</code> while the slide is not active). <strong>Active slide click:</strong> follows the link as configured in Studio (<code>openInNewTab</code> respected). <strong>Arrow:</strong> wraps at the ends (existing). Keyboard: Left/Right arrow on the track moves one slide (new).</td></tr>
+</table>
+
+<h2>4. Contrast, measured</h2>
+<p>Caption text on the caption bar, worst case being a white pixel under the bar (255 background, scrim over it). Computed as composite of black at alpha over white.</p>
+<table>
+<tr><th>Pair</th><th>Bar over white image</th><th>Ratio</th><th>Verdict</th></tr>
+<tr><td>Before: white 85% on black 50%</td><td>#808080</td><td>about 2.6:1</td><td class="fail">Fail</td></tr>
+<tr><td>Before: seafoam on black 50%</td><td>#808080</td><td>about 2.3:1</td><td class="fail">Fail</td></tr>
+<tr><td>After: white on black 90%</td><td>#1a1a1a</td><td>about 17:1</td><td class="pass">Pass</td></tr>
+<tr><td>After: white 85% on black 90%</td><td>#1a1a1a</td><td>about 11:1</td><td class="pass">Pass</td></tr>
+</table>
+<p>Figures are hand-computed for this vspec and are to be re-measured with <code>pnpm validate:contrast</code> at implementation (the Evidence cell for the AC). Arrow glyph: white on black 90% with a 2px white ring, 3:1 non-text contrast against any image because the ring is white and the fill is near black on both sides.</p>
+
+<h2>5. Image section treatments and legibility</h2>
+<table>
+<tr><th>Treatment (<code>treatment</code> prop to <code>Media overlay</code>)</th><th>Rule for legibility</th></tr>
+<tr><td>none</td><td>Caption bar uses the 90% scrim. Nothing else changes.</td></tr>
+<tr><td>duotone / scrim overlay</td><td>Overlay stays at z-index 2, caption bar at z-index 3, so caption always sits above the treatment. The bar is opaque enough that the treatment colour never reaches the text.</td></tr>
+<tr><td>Caption length</td><td>Clamp stays at 2 lines in the carousel; the full text is in the figure's accessible name. Grid and masonry use the same bar.</td></tr>
+<tr><td>Credit</td><td>Neutral white 85%, never seafoam: seafoam read as a link on the live page.</td></tr>
+<tr><td>Link affordance</td><td>Active slide only. Cursor is a pointer over the image when linked. No new badge in this epic (open decision 2).</td></tr>
+</table>
+
+<h2>6. Class naming table (for sign-off)</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.carouselArrow</code>, <code>.carouselPrev</code>, <code>.carouselNext</code></td><td>Exists in <code>PageSections.module.css</code></td><td>Restyle, no new class</td></tr>
+<tr><td><code>.carouselDot</code>, <code>.carouselDotActive</code></td><td>Exists</td><td>Restyle</td></tr>
+<tr><td><code>.galleryCaptionOverlay</code>, <code>.galleryCaptionText</code>, <code>.galleryCreditText</code></td><td>Exists</td><td>Restyle</td></tr>
+<tr><td><code>.carouselSlide[data-active]</code></td><td>Exists, adds a data attribute</td><td>Attribute selector, no new class</td></tr>
+</table>
+<p><strong>Component choice audit:</strong> DS <code>IconButton</code> covers the arrow button (44px target, focus ring). Candidate for the arrows, tracked by <code>IconButton.audit.stories.tsx</code>. Decision at implementation: use it if it supports the white ring on a dark fill; otherwise restyle <code>.carouselArrow</code>. <code>Media</code> unchanged. No new component.</p>
+<p><strong>Tokens:</strong> all values above use existing tokens (<code>--st-color-scrim-backdrop-heavy</code>, <code>--st-color-white</code>, <code>--st-color-white-85</code>, <code>--st-color-pink</code>). No new token proposed. The 44px size and 2px ring are literal in the prototype; implementation maps them to existing size and border tokens (activation audit: grep <code>tokens.css</code>).</p>
+
+<h2>7. Decisions (answered 2026-11-06)</h2>
+<ol>
+<li><strong>Caption style:</strong> overlay at 90% black.</li>
+<li><strong>Link affordance on the active slide:</strong> none, pointer cursor only.</li>
+<li><strong>Arrow position:</strong> centred on the image (needs a wrapper around the track so heading and dots are excluded).</li>
+</ol>
+
+<h2>Phase 0 checklist</h2>
+<p>[ ] vspec reviewed &nbsp; [ ] class table approved &nbsp; [ ] component choice audit approved &nbsp; [ ] open decisions answered</p>
+</main>
+<script>
+(function(){
+  var track=document.getElementById('track'),slides=[].slice.call(track.children),dots=document.getElementById('dots'),log=document.getElementById('log'),active=0;
+  slides.forEach(function(s,i){var b=document.createElement('button');b.className='carouselDot';b.setAttribute('role','tab');b.setAttribute('aria-label','Slide '+(i+1));b.onclick=function(){go(i)};dots.appendChild(b);});
+  function paint(){slides.forEach(function(s,i){s.dataset.active=(i===active);var a=s.querySelector('a');a.tabIndex=i===active?0:-1});
+    [].forEach.call(dots.children,function(d,i){d.className='carouselDot'+(i===active?' carouselDotActive':'');d.setAttribute('aria-selected',i===active)})}
+  function go(i){i=(i+slides.length)%slides.length;slides[i].scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});active=i;paint();}
+  slides.forEach(function(s,i){s.addEventListener('click',function(e){if(i!==active){e.preventDefault();go(i);log.textContent='Event log: peek slide '+(i+1)+' clicked, advanced, link suppressed'}})});
+  document.querySelector('#demo .carouselPrev').onclick=function(){go(active-1)};
+  document.querySelector('#demo .carouselNext').onclick=function(){go(active+1)};
+  new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){active=slides.indexOf(e.target);paint()}})},{root:track,threshold:.6}).observe(slides[0]);
+  slides.forEach(function(s){new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){active=slides.indexOf(e.target);paint()}})},{root:track,threshold:.6}).observe(s)});
+  paint();
+  var tt=document.getElementById('themeToggle');
+  tt.onclick=function(){var l=document.body.classList.toggle('light');tt.textContent=l?'Switch to dark view':'Switch to light view';tt.setAttribute('aria-pressed',l)};
+})();
+</script>
+</body>
+</html>
