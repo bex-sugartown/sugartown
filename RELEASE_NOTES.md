@@ -1,62 +1,78 @@
-# Release Notes — v0.39.0
+# Release Notes — v0.40.0
 
-**Date:** 2026-11-02
-**Scope:** Sugartown monorepo (test suite, skills, process and tooling; no application code)
+**Date:** 2026-11-06
+**Scope:** Sugartown monorepo (apps/web, packages/design-system, Sanity production data, process and tooling)
 
 ---
 
 ## What this release is
 
-The automated accessibility checks now cover eight pages in both the light and dark themes, and four new skills carry a piece of work from requirements through to an epic and out to a shareable folder. No page on the site changes.
+Image galleries now behave the same way in every layout: click an image, browse the whole set in a lightbox. The full resume is on the CV / Resume page, and a new check flags a release with steps left undone.
 
 ---
 
 ## What changed
 
-### Accessibility checks cover more pages and both themes
+### The carousel has visible controls and behaves predictably (#201)
 
-The axe gate scanned five pages in the light theme. It now scans eight, including the first case study, node and glossary term found from each archive, in both themes (16 tests). A new guard fails the run if the dark theme did not apply, so a dark scan cannot quietly run in light. The link crawl adds the same three pages and now resolves same-page anchors against the page they sit on, which removed 14 false failures. The wider scan found three problems on the live site, filed as #184, #185 and #187 and allowlisted until they are fixed.
+The carousel arrows were invisible against some images, and clicking the peeking next slide opened that slide's linked post in a new tab instead of moving to it. The arrows now sit in a dark ring, the peeking slide advances the carousel, and the caption bar passes the contrast minimum. Clicking the active image opens the lightbox.
 
-### A requirements-to-epic skill chain
+### The lightbox browses every slide (#205)
 
-Four skills now run in order: `/sugartown-prd-ai-writer` (requirements for AI agents, each with a check), `/sugartown-prototype-writer` (a placeholder for time-boxed experiments), `/sugartown-fsd-writer` (how the system behaves) and the existing epic writer. The chain ran once end to end on #166.
+Opening an image used to show that one image. The lightbox now has next and previous buttons and an "n / 10" counter, and the carousel moves to the slide you stopped on when you close it. A slide that links to a post shows a "Read: post title" link below its caption.
 
-### Project export
+### Grid and masonry galleries match the carousel (#208)
 
-`/sugartown-project-export` copies a project's documents into a share folder with a README, a glossary and a manifest. Its update mode compares each file with its source, adds changes, shipping release notes and linked issues, and logs the update in the README. `docs/conventions/project-artifacts.md` lists where each kind of artifact is stored.
+In grid and masonry layouts, a linked image skipped the lightbox and opened its link in a new tab. Every image now opens the lightbox, and the link appears there as a "Read" button. Checked in Storybook with a linked image; not yet checked on a live page with a linked grid gallery.
 
-### Release notes list their issues
+### The lightbox link is lime on light pages too (#207)
 
-Each release note now ends with an "Issues in this release" list built from the CHANGELOG entry. The notes for v0.36.0, v0.37.0 and v0.38.0 were backfilled.
+The "Read" button was pink on a light-themed page, because the button followed the page theme while the lightbox stays dark. The lightbox now carries the dark theme, and the token build writes the dark-theme values under the dark selector, so any future always-dark surface gets a complete reset from one source. The Button's short-lived `onDark` tone was removed.
+
+### The resume, and a release completeness check (#193, #191, #192, #190)
+
+The CV / Resume page carries the full six-page resume with a new hero and no phone number. Separately, `pnpm check:release` now lists missing release steps (notes file, tag, GitHub Release, milestone, published Sanity note), `/ship` says "incomplete" until they are done, and the ship prompt's four known defects are fixed. The export update ran after v0.39.0 (#190) and swapped in the released notes. Dark-mode article filter counts also pass the contrast minimum (#203).
 
 ---
 
 ## Not in this release
 
-- Three accessibility findings stay open: #184 (ContentNav title contrast), #185 (glossary links told apart by colour alone) and #187 (muted grey text in dark). The #185 and #187 allowlist caps follow page content, so a publish with more glossary terms or filter options can turn the gate red until they are fixed.
-- Contrast findings already allowlisted against #164, #171 and #172 remain.
-- Platform pages and `/about` are not covered by the axe gate.
-- The export skill's update path for changed source files, the swap from unreleased to released notes, and the GitHub Release body are untested.
-- The Sanity release note type has no issues field, so published notes cannot show issue numbers as data (#188).
+- Grid and masonry lightbox behaviour is verified in Storybook only (#208).
+- The vspec template and rules epic is open (#202).
+- AI image stamping automation is open (#204).
+- This release's tag, GitHub Release, milestone and published Sanity note finish in the next `/ship`.
 
 ---
 
 ## Validator state at release
 
-- CI run 41447469534 on `c1135896`: success, including the new axe and link tests.
-- `pnpm test:smoke`: 28 passed (local, 2026-11-02); the CI smoke step took 3m19s against 3m21s before #166.
-- Pre-commit validators on `de425754`: tokens, style mirror, strict colours, dead references, CSS names and lint passed.
+- CI run 42272206798 on `fbcbf476`: success.
+- `pnpm test:smoke`: 28 passed (local, 2026-11-06).
+- Chromatic build 108: 10 visual changes, approved at ship.
+- Pre-commit validators: tokens, style mirror, strict colours, dead references, CSS names and lint passed on each commit.
 
 ---
 
 ## Issues in this release
 
-Issue and epic numbers cited in the CHANGELOG entry for this version, as written there. `#n` and `ST-n` are GitHub issue n; `SUG-n` is a legacy ID from the retired Linear tracker. State is as of 2026-11-02.
+Issue and epic numbers cited in the CHANGELOG entry for this version, as written there. `#n` and `ST-n` are GitHub issue n; `SUG-n` is a legacy ID from the retired tracker.
 
 | ID | Title | State |
 |---|---|---|
-| #166 (ST-166) | Axe and link-check coverage for case study, node and glossary pages (light theme) | Closed |
-| #184 | ContentNav next and previous titles fail text contrast on case study, node and glossary pages (3.23:1) | Open |
-| #185 | Glossary term links in body text are told apart by colour alone (axe link-in-text-block) | Open |
-| #186 | Axe dark-theme pass: scan the existing and discovered routes in dark-pink-moon | Closed |
-| #187 | Muted grey text (#888888) fails contrast in the dark theme: article filter counts and node sidebar series label | Open |
+| #190 | Run the export update after v0.39.0 ships, to exercise the release note swap | Closed |
+| #191 | Release completeness check: flag a release with steps left undone | Closed |
+| #192 | Fix four defects in the ship prompt found on the v0.38.0 and v0.39.0 runs | Closed |
+| #193 (ST-193) | Adapt the full resume to the sugartown.io CV / Resume page | Closed |
+| #201 (ST-201) | Image carousel: invisible controls, peek slides open linked post, caption contrast | Closed |
+| #203 | /articles dark mode: filter option counts fail color-contrast (axe smoke red) | Closed |
+| #205 (ST-205) | Carousel lightbox: browse every slide with next/prev, keep carousel in sync | Closed |
+| #207 | Always-dark surfaces use a dark-theme wrapper, not a per-component tone | Closed |
+| #208 | Grid and masonry galleries: lightbox browses every image, linked images show the Read link | Closed |
+
+---
+
+## Related issues
+
+| ID | Title | State | Relation |
+|---|---|---|---|
+| #166 | Axe and link-check coverage for case study, node and glossary pages (light theme) | Closed | related to #190 |

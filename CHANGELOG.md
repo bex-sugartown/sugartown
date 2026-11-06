@@ -12,17 +12,39 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+---
+
+## [0.40.0] — 2026-11-06
+
+Image carousel and lightbox rework across every gallery layout, the full resume on the CV / Resume page, and a release completeness check. Aggregates everything in `[Unreleased]` since v0.39.0.
+
+### apps/web
+
+#### Added
+- Opening a carousel image shows a lightbox with next and previous across every slide and a "Read" link on linked slides, and the carousel follows where the lightbox stopped. (ST-205)
+- Grid and masonry galleries open every image in the lightbox, and a linked image shows its "Read" link there instead of opening a new tab. (#208)
+
+#### Fixed
+- The image carousel has visible arrows, advances on a click of the peeking slide instead of opening its post, and has captions that pass contrast. (ST-201)
+- The lightbox "Read" link is lime on light and dark pages, because the lightbox now carries the dark theme. (#207)
+- Dark-mode article filter counts meet the contrast minimum, clearing the red axe check on `/articles`. (#203)
+
+### packages/design-system
+
+#### Changed
+- Dark-theme token values now also apply to any element marked dark, so a dark surface inside a light page resets every token. (#207)
+
+### Sanity production data
+
+- The CV / Resume page carries the full six-page resume with a new hero and no phone number. (ST-193)
+
 ### Other
 
-- #191: A release with steps left undone is now flagged: `pnpm check:release` lists any missing release note, tag, GitHub Release, milestone or published Sanity note, and `/ship` reports "incomplete" until they are done. (`--self-test` passes; v0.39.0 reads complete, a fake v0.99.0 lists all six unmet)
-- #192: The ship prompt no longer picks the wrong release tag, stops early on a release-landing run, sweeps late issues into a milestone, or tries a branch delete it cannot run. (walkthrough of the v0.39.0 run in commit `72025fe3`; docs only)
-- #208: Grid and masonry galleries now open every image in the lightbox with next and previous, and a linked image shows its "Read" link there instead of opening a new tab from the thumbnail. (Storybook Grid story: linked image opens at 2 / 3 with its link, Next reaches 3 / 3; local `pnpm test:smoke` below; Chromatic pending)
-- #207: The lightbox "Read" link is now lime on a light-themed page too, because the lightbox carries the dark theme; any future always-dark surface can do the same. (local `pnpm test:smoke`: 28 passed; computed colour lime in both page themes; Chromatic pending)
-- ST-205: Opening a carousel image full size now lets you step through every slide with next and previous, shows a "Read" link for linked slides, and moves the carousel to the slide you stopped on. (local `pnpm test:smoke`: 28 passed; Chromatic pending)
-- #203: The article filter counts in dark mode now meet the colour-contrast minimum, which clears the red dark-mode accessibility check on `/articles`. (local axe smoke: 16 passed; Chromatic pending)
-- ST-201: The image carousel now has visible arrows, advances when you click a peeking slide instead of opening its post, and has captions that pass contrast. (local `pnpm test:smoke`: 27 passed, 1 failed on an unrelated dark-mode check, #203)
-- ST-193: The CV / Resume page now carries the full six-page resume, with a new hero and no phone number. (published in Studio; local `pnpm test:smoke`: 28 passed)
-- docs: The CV / Resume page draft is updated to resume r23 across the summary, Estée Lauder, Sephora, Elephant, StubHub, Backroads, Treasury Wine Estates, skills and projects. (draft text matches r23 except the name and contact lines; awaiting publish in Studio)
+- `pnpm check:release` flags a release with steps left undone, and `/ship` reports "incomplete" until they are done. (#191)
+- The ship prompt picks the right release tag, no longer stops early on a release-landing run, bounds the milestone window, and lists branch cleanup instead of deleting. (#192)
+- Related issues for a release come from GitHub's "Relates to" field, replacing three fuzzy tests. (commit `63e7fd65`)
+- The project export update ran after v0.39.0 and swapped in the release notes. (#190)
+- The CV / Resume draft text is updated to resume r23 across the summary and roles. (docs)
 
 ---
 
