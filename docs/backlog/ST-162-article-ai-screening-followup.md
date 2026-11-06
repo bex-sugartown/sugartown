@@ -4,7 +4,7 @@
 **Status:** On Hold (paused by Bex 2026-10-30; headline and outline approved; resume at language, narrative and drama pass)
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out: outline, data, draft and publish as one unit
-**Visual:** no (reuses existing table and chart blocks; if the two-door chart needs a new block, stop and open Phase 0)
+**Visual:** no (reuses `tableBlock` and `htmlSection`; there is no chart block, and the original post's charts are `htmlSection` embeds, corrected 2026-11-01. If a chart needs a new block, stop and open Phase 0)
 ---
 
 # ST-162: Article: AI screening follow-up to the funnel postmortem (working title)
@@ -304,6 +304,9 @@ Full text, every link and the Record / Reported / Theory labels: `resume-factory
 | Studies | ChatGPT wrote women's resumes as younger and rated older men highest (*Nature*, Oct 2025) | Study | [Stanford News](https://news.stanford.edu/stories/2025/10/ai-llms-age-bias-older-working-women-research) |
 | Studies | Age cues cut human and model invitations, 75.3% young vs 53.1% old (UNC, FLAIRS); 12 base CVs. **Not found in any source seen 2026-10-26 (the paper looks like Harris, FLAIRS vol. 36, crowdworker ratings and bias correction). Open the PDF by hand before keeping this row.** | Study, unverified | [FLAIRS](https://journals.flvc.org/FLAIRS/article/download/133236/137923/247012) |
 | Studies | LLMs prefer LLM-written text (*PNAS*, Aug 2025); prefer their own resumes (AIES 2025) | Study | [PNAS](https://ideas.repec.org/a/nas/journl/v122y2025pe2415697122.html), [arXiv](https://arxiv.org/abs/2509.00462) |
+| Studies | Credit line (Bex, 2026-11-01): Joy Buolamwini, the reason Bex has a perspective on algorithmic bias. Buolamwini and Gebru, "Gender Shades" (PMLR 81:77-91, 2018): three commercial gender classifiers, darker-skinned women the most misclassified group, error up to 34.7%, vs a maximum of 0.8% for lighter-skinned men. Read from the abstract only on 2026-11-01; vendor names, dataset size and body quotes not confirmed (PDF unreadable). Face analysis, not hiring: use as the origin of the perspective, never as evidence about screeners. Candidate quote, under 15 words, from the abstract: "darker-skinned females are the most misclassified group". Timnit Gebru is the co-author; credit both names. **Decided 2026-11-01 (Bex): credit Buolamwini and Gebru by name in the bias section. Sweeney and Noble rows stay in the table as optional, not credited.** Bex to confirm this is the right person (the paper is 2018, not over 10 years ago) | Study | [PMLR](https://proceedings.mlr.press/v81/buolamwini18a.html) |
+| Studies | Latanya Sweeney, "Discrimination in Online Ad Delivery" (arXiv 1301.6822, submitted 2013-01-29; sole author; no journal named on the arXiv page, PDF not opened): ads for searches of racially associated names were more likely to suggest an arrest record for names associated with Black babies, 2184 names, two websites. The earliest of the three, and the only one over 10 years old. Candidate quote, 6 words, from the abstract: "statistically significant discrimination in ad delivery". Ad delivery, not hiring | Study | [arXiv](https://arxiv.org/abs/1301.6822) |
+| Studies | Safiya Umoja Noble, *Algorithms of Oppression: How Search Engines Reinforce Racism* (NYU Press, February 2018, 248 pp.): argues search engines are not neutral and favour whiteness, with women of color most affected; built on analysis of search results and paid ads. Candidate quote, 7 words, from the publisher's description: "Data discrimination is a real social problem". Search, not hiring. Publisher page read 2026-11-01; book not read | Study | [NYU Press](https://nyupress.org/9781479837243/algorithms-of-oppression/) |
 | Studies | Bloomberg: GPT-3.5 ranked identical resumes 1,000 times, name-based disparities | Reported | [Bloomberg](https://prod.cm.bloomberg.com/graphics/2024-openai-gpt-hiring-racial-discrimination/) |
 | Market | Average weeks unemployed, 55-64 vs all 16+: 34.9 vs 25.4 (BLS, Sept 2026); the long-term share is 30.7% (55-64) vs 28.2% (all) on BLS and about equal on AARP's 55+ cut; name the cut | Record, attributes nothing to AI | [BLS](https://www.bls.gov/web/empsit/cpseea36.htm), [AARP](https://www.aarp.org/pri/topics/work-finances-retirement/employers-workforce/employment-data-digest/) |
 | Market | "Hidden Workers": 88% of employers say qualified candidates are screened out for not matching exactly (HBS and Accenture, 2021) | Reported, employer survey | [HR Dive](https://www.hrdive.com/news/report-applicant-tracking-systems-may-exclude-whole-segments-of-candidates/606614/) |
@@ -344,8 +347,79 @@ Comparison charts: `docs/drafts/ST-162-charts/` (local, gitignored; `index.html`
 6. **Recruiter screen is not a client screen:** the Patagonia row's screen was with the staffing recruiter, not the end client, and the manager meeting is still pending. The first post's definition of "recruiter screen" should be applied the same way; say which in the post.
 7. **One screen is past the cut:** the DXP analyst screen (2026-10-21) is one day after `END`. Counted because the application predates the cut; flag it in the figures note.
 
+## Themes for the rewrite (added 2026-11-01, Bex)
+
+Bex's framing, paraphrased: "I still don't have a job. The data pipeline can only tell us so much." The article concentrates on what the data can say, then brings in outside-force theories from the research links above, then adds Bex's own observations, labelled as observation. Nothing here is copy. Nothing here changes the approved headline or outline until Bex says so.
+
+### Theme 1. What the data can say (supported, keep)
+
+| # | Statement | Evidence in this doc |
+|---|---|---|
+| D1 | Applications doubled (10.1 to 20.0 a month); cold-only screens per month stayed flat (0.64 to 0.60). | Per-month table |
+| D2 | The extra screens were warm (recruiter or referral). Warm screens per month 1.0 to 2.2. | Per-month table |
+| D3 | Intake grew about 10x (854 JDs captured); applications did not follow, because gates and hours cap them. | System epochs table |
+| D4 | Rejections rose with volume (4.2 to 10.4 a month). | Per-month table |
+| D5 | No offer came from an application in either window. | Story point 5 |
+| D6 | The resume change did not move the cold rate; the 6.7% to 3.6% drop is inside chance (p=0.52). Say "stayed flat". | R2 |
+
+The limit to state in the post: small numbers (7 then 3 cold screens), different windows, different role mix. The data cannot say why a portal said no.
+
+### Theme 2. Outside-force theories (cite the research table, label each)
+
+Each of these is a Theory or Reported row in the research table, not a finding about Bex. Use the label in the sentence.
+
+| # | Theory | Research row | Label |
+|---|---|---|---|
+| O1 | Volume arms race: applicants automate, employers automate, both lose signal. | LinkedIn about 11,000 applications a minute; arms race row | Reported, Theory |
+| O2 | Exact-match filtering screens out qualified people. | Hidden Workers, HBS and Accenture | Reported, employer survey |
+| O3 | Postings that never fill dilute every cold apply. | Greenhouse about 1 in 5 postings | Reported |
+| O4 | Shared screening tools produce the same rejection everywhere. | Algorithmic monoculture | Theory |
+| O5 | Tech cuts up 54% and information-sector openings roughly halved, so more people compete for fewer seats. | Market timeline, Challenger and JOLTS | Record and Estimate; applicants per posting is not measured |
+| O6 | Time unemployed is longer for 55 to 64. | BLS weeks unemployed | Record, attributes nothing to AI |
+
+### Theme 3. Bias, and what the resume was built to do
+
+- **What is verified:** the resume already strips the classic age proxies: no dates before 2017, no graduation years, experience capped at "15+ years" (`HANDOFF_2026-10-12_article.md` §4, marked Certain there). This was a deliberate structure choice made before the Jun-Oct 26 cohort.
+- **What the public record says:** one confirmed automated age exclusion (iTutorGroup, a hard-coded rule); Mobley v. Workday and the other cases are allegations; lab studies show model preferences by name, gender and age cues. No court has found an AI tool discriminated by age.
+- **What the data cannot say:** whether any portal read age, which portals used AI, and whether stripping proxies helped. There is no before-and-after for it. The cold rate did not rise after the structure change, which fits "it did not help" and also fits "it helped and the market got worse".
+- **Age (decided 2026-11-01):** the post says "over 50". The site and the career length on the original post are not stripped, and the original says 28 years while the real figure from a 1992 start is 34. Fix or footnote before publish.
+- **Possible counter-point to raise honestly:** a "15+ years" cap and missing dates can themselves read as a gap to a human screener. No data either way.
+
+### Theme 4. Bex's own observations (first person, labelled as observation, not finding)
+
+| ID | Observation (Bex) | Data in hand | Status |
+|---|---|---|---|
+| U1 | PM roles now expect to be more technical because of AI. Bex is technical, not an engineer. | Partial. The tracker records gates that closed rows on stated hands-on engineering requirements (charter v4.43, 2026-10-29) and on AI-as-the-product titles. Rows closed by those gates could be counted by month. | Pull the count, or present as observation only |
+| U2 | PMs are expected to be "builders"; the phrase has appeared again and again in the last six months. | Unknown. Only checkable if the archived JD text for the 854 captured rows is searchable by month. | Check whether JD text is stored; if not, cut the "again and again" and keep the phrase as one anecdote |
+| U3 | The portfolio relaunch was well timed for that shift. | None. No measure links the site to a screen or a reply. | Hunch. Keep as a short aside or cut |
+| U4 | Roles now ask for specific platform experience (for example Salsify) rather than wider PIM or data experience. | Partial. The single-platform implementation remit gate (2026-09-01) closes rows on this basis. Counting JDs that name one vendor in the requirements would give a number for Jun-Oct 26. | Pull the count |
+| U5 | In earlier years, being able to learn the platform was enough. Bex's own hires: Critical Path (prove HTML, CSS, JS and Unix; learned the rest), Lyris (an email-marketing company, not generic webmail; same pattern), TWE (first B2C and ecommerce role; had managed a small web dev team and supported web), then PM for CMS (taken on green except general content management in Joomla, Hot Banana and eWinery). | Her own career record. Checkable against her resume and past offer or JD records, if kept. No market data. | **Kept (decided 2026-11-01) as a personal-experience trend**, stated as hers. Verify each role's requirements against what the resume says before publish |
+| U6 | Until this past year she cross-referenced specific platforms (Sitecore or AEM versus CMS in general); now each role names a particular tool (GraphQL versus APIs and data management in general). | "Now" half: countable from Jun-Oct 26 JDs if text is stored. "Before" half: her own roles (U5), not market data. | Frame as her trend, not the market's. The count, if it exists, backs only the "now" half |
+
+### Assumptions and ideas without good backing (decide: research, keep as observation, or cut)
+
+| # | Item | Why it is unbacked | Suggested call |
+|---|---|---|---|
+| X1 | "PMs are expected to be builders" is a market-wide shift. | One person's JD feed, no external source in the research table. | **Decided 2026-11-01: research, then decide.** Find one or two postings-trend sources; count the phrase in captured JD text by month if stored |
+| X2 | The shift is caused by AI. | Plausible, no source. Could equally be a downturn effect (employers asking for more per seat). | **Decided 2026-11-01: research, then decide.** If no source, drop the cause and describe the shift only |
+| X3 | Platform-specific demand has risen compared with earlier years. | No market data for earlier years. Bex's own role history (U5) is the evidence. | **Decided 2026-11-01: do not cut.** Keep as a personal-experience trend backed by her role history; do not state it as a market finding |
+| X4 | The relaunch timing was a good instinct. | No outcome measure. | **Decided 2026-11-01: keep as a one-line aside**, labelled instinct |
+| X5 | The resume's proxy-stripping helped, or hurt. | No before-and-after. | **Decided 2026-11-01:** say it was done and that its effect is unknown |
+| X6 | Older-worker framing (O6) applies to Bex. | Depends on the age decision; BLS row attributes nothing to AI. | **Decided 2026-11-01:** age decision made ("over 50"), so the older-worker framing is unblocked. Use BLS as Record, attributing nothing to AI |
+| X7 | Technical-expectation shift ties to the "AI as product" and "hands-on engineering" gates showing up more. | Gate dates are in the charter, but a gate being added is not the same as more JDs matching it. | Count matches by month before using |
+| X8 | A4 from Perspective A: most of Bex's time went to packaging and following up. | No hours logged (already listed as A4). | **Decided 2026-11-01:** drop the claim; no time log |
+
+### What this changes in the outline (proposed, not applied)
+
+- Row 3 ("What is behind the door") and row 5 ("It is not just me") merge into Theme 2, with every item labelled.
+- A new short section between rows 5 and 6, working title "What the postings are asking for", carries Theme 4 (U1, U2, U4) only if the counts exist. If they do not, it shrinks to one labelled paragraph.
+- Row 4 ("What my data cannot say") is where Theme 3's limits and the X-items that stay land.
+- The approved headline still fits Theme 1. The closer ("I improved the part I controlled, and the part I didn't control decided") needs a pass, since the new framing leans on "the data can only tell us so much".
+- Word budget: the 1,600 target is already tight with eight sections. Adding a section means cutting evidence-tour detail first, per the existing cut order.
+
 ## Scope
 
+- [ ] **1d. Themes and unbacked claims (added 2026-11-01):** Bex decides, for each X-item above, research, keep as observation or cut; run the JD counts for U1, U2, U4 and X7 if archived JD text allows; open the sources for X1 and X2 if Bex chooses research (layer: editorial)
 - [ ] **1c. Two perspectives:** confirm the pipeline account (Perspective A) is accurate in Bex's words, keep the three confirmed ties T1 to T3 and the context items (reviewed 2026-10-30), and add three tracker fields (posting age at apply, applicant count at apply, ATS) so A3, the competition context and the ghost-posting test can run on new rows (layer: editorial; the tracker change belongs to resume-factory)
 - [ ] **1b. Per-month and epoch tables:** re-run both tables from `findings.json` and the tracker at the final cut date, settle which tracker changes count as big, and chart 25-26 against Jun-Oct 26 per month (layer: editorial)
 - [ ] **1. Data check:** re-run the source commands for every row in the data draft, record the command beside each figure, settle the four reconciliation items (layer: editorial)
@@ -361,16 +435,17 @@ Comparison charts: `docs/drafts/ST-162-charts/` (local, gitignored; `index.html`
 
 | Phase | Ships | Scope items |
 |---|---|---|
-| 1 | Verified data table and evidence list, discovery notes | 1, 2, 3 |
+| 1 | Verified data table and evidence list, discovery notes | 1, 1d, 2, 3 |
 | 2 | Approved outline | 4, 8 |
 | 3 | Sanity draft, compliance gate passed | 5, 6 |
 | 4 | Human review, publish decision (not before the 10-30 headline read) | 7 |
 
 ## Open decisions (Bex, at activation)
 
-- Name her age, say "over 50", or leave it to the evidence.
+- ~~Name her age, say "over 50", or leave it to the evidence.~~ **Decided 2026-11-01 (Bex): say "over 50".** Career length: first tech job 1992 (Data Processing Goddess, then accounting at Wired Magazine because she could use a computer), so 34 years at 2026, not the 28 in the original post. Reconcile before publish (Content Write Gate applies to fixing the original).
 - Publish order relative to SUG-234.
 - Publish now, or after the JD-0813 outcome and the 10-30 headline read (handoff recommends waiting; the 14 newest applications mature by about 11-02).
+- **One article or two (raised by Bex 2026-11-01, decide later).** Article 1: "I automated my pipeline, here are the numbers" (Perspective A, Theme 1, the per-month and epoch tables). Article 2: "why don't I have a job?" (Perspective B, Themes 2 to 4, the unbacked-claims list, bias credits). Pointers for the decision: the 1,600-word target is already tight with eight sections plus the new Themes section; a split needs a second issue via `/new-epic` (one epic is one issue, no sub-issues); the 2026-12-01 kill criterion would apply to each; the approved headline fits article 1 best.
 - Build the `ATS` tracker column first, so the vendor cut is a real column and not a pattern match.
 
 ## Acceptance Criteria
