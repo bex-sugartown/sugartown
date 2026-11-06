@@ -75,12 +75,12 @@
   top: var(--st-spacing-stack-md);
   right: var(--st-spacing-stack-md);
   background: none;
-  border: none;
+  border: 2px solid var(--st-color-white); /* ST-205: visible ring, same recipe as the nav buttons */
   color: var(--st-color-white);
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   cursor: pointer;
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -90,12 +90,12 @@
 }
 
 .closeButton:hover {
-  background: var(--st-color-white-10);
+  background: var(--st-color-pink);
 }
 
 .closeButton:focus-visible {
-  outline: 2px solid var(--st-color-pink);
-  outline-offset: 2px;
+  outline: 3px solid var(--st-color-pink);
+  outline-offset: 3px;
 }
 
 /* ── Nav arrows ────────────────────────────────────────── */
@@ -103,29 +103,57 @@
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background: var(--st-color-white-08);
-  border: 1px solid var(--st-color-white-15);
+  /* ST-205: same look as the carousel arrows (#201). Was an 8% white fill and 15% ring, easy to miss. */
+  background: var(--st-color-scrim-backdrop-heavy);
+  border: 2px solid var(--st-color-white);
   color: var(--st-color-white);
-  font-size: 2rem;
+  font-size: 1.75rem;
+  line-height: 1;
   cursor: pointer;
-  width: 3rem;
-  height: 3rem;
+  width: 2.75rem;
+  height: 2.75rem;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: background 0.2s, border-color 0.2s;
+  transition: background 0.2s;
   z-index: 1;
 }
 
 .navButton:hover {
-  background: var(--st-color-white-15);
-  border-color: var(--st-color-white-18);
+  background: var(--st-color-pink);
 }
 
 .navButton:focus-visible {
-  outline: 2px solid var(--st-color-pink);
-  outline-offset: 2px;
+  outline: 3px solid var(--st-color-pink);
+  outline-offset: 3px;
+}
+
+/* ── Link cue for a linked image (ST-205) ──────────────── */
+/* White text on the overlay carries the contrast; pink is the border only. */
+.captionLink {
+  margin-top: var(--st-spacing-stack-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.75rem;
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-caption);
+  color: var(--st-color-white);
+  border: 2px solid var(--st-color-pink);
+  border-radius: var(--st-radius-md);
+  text-decoration: none;
+  text-align: center;
+  max-width: 60ch;
+}
+
+.captionLink:hover {
+  background: var(--st-color-pink);
+}
+
+.captionLink:focus-visible {
+  outline: 3px solid var(--st-color-pink);
+  outline-offset: 3px;
 }
 
 .prevButton {
@@ -142,17 +170,16 @@
     padding: var(--st-spacing-stack-sm);
   }
 
+  /* ST-205: stays 44px (was 36px, under the target size); sits at the screen edge, over the image margin */
   .navButton {
-    width: 2.25rem;
-    height: 2.25rem;
     font-size: 1.5rem;
   }
 
   .prevButton {
-    left: 0.5rem;
+    left: 0.25rem;
   }
 
   .nextButton {
-    right: 0.5rem;
+    right: 0.25rem;
   }
 }

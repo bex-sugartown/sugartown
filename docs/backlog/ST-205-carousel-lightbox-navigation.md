@@ -26,7 +26,7 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] Phase 0: vspec for the lightbox on a carousel: nav buttons, counter, the "Read the post" link, the open-lightbox control on a linked slide, light and dark, mobile; approved by Bex — layer: vspec
+- [x] Phase 0: vspec for the lightbox on a carousel: nav buttons, counter, the "Read the post" link, the open-lightbox control on a linked slide, light and dark, mobile; approved by Bex — layer: vspec
 - [ ] Lightbox list is every slide, in order, for carousel layout; grid and masonry unchanged unless the vspec says otherwise — layer: frontend (React)
 - [ ] Click anywhere on the active image opens the lightbox at that slide, linked or not (Bex, 2026-11-06); an expand circle on the active slide is the visible cue and keyboard route; the carousel stops wrapping the active image in its link, so a linked slide's link is reached only through the lightbox (this changes #201's active-slide link click) — layer: frontend (React and CSS)
 - [ ] "Read the post" link in the lightbox for linked slides, respecting `openInNewTab` — layer: frontend (React and CSS)

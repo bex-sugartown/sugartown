@@ -104,3 +104,21 @@ export function getLinkProps(url, openInNewTab = false) {
     },
   }
 }
+
+/**
+ * Resolves the link on a gallery image (linkItem or legacy linkUrl), or null when it has none.
+ * Shared by the gallery and the lightbox, which shows it as a "Read: …" link (ST-205).
+ *
+ * @param {object} image
+ * @returns {{ url: string, label: string|undefined, isExternal: boolean, openInNewTab: boolean }|null}
+ */
+export function resolveImageLink(image) {
+  const url = image?.link?.url || image?.legacyLinkUrl
+  if (!url) return null
+  return {
+    url,
+    label: image.link?.label,
+    isExternal: isExternalUrl(url) || Boolean(image.link?.openInNewTab),
+    openInNewTab: image.link?.openInNewTab ?? false,
+  }
+}

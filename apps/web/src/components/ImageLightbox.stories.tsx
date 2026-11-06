@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { MemoryRouter } from 'react-router-dom';
 import ImageLightbox from './ImageLightbox';
 
 const meta: Meta<typeof ImageLightbox> = {
   title: 'Patterns/ImageLightbox',
   component: ImageLightbox,
+  // ST-205: a linked image renders a router link in the lightbox
+  decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
   parameters: {
     chromatic: { disableSnapshot: false },
     layout: 'fullscreen',
@@ -30,6 +33,8 @@ const mockImages = [
     asset: { _ref: 'image-2' },
     alt: 'Component composition patterns',
     caption: 'Slot-based composition vs prop-driven configuration',
+    // ST-205: a linked image shows a "Read: …" link below the caption
+    link: { url: '/articles', label: 'Three Headless CMSes Walk Into a Bar', openInNewTab: false },
   },
   {
     asset: { _ref: 'image-3' },

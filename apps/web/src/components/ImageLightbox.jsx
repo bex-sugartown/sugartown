@@ -1,7 +1,8 @@
 /**
  * ImageLightbox — fullscreen image viewer modal
  *
- * Opens when clicking a gallery image that has no link.
+ * Opens from a gallery image or a carousel slide (the active slide, linked or not); a linked image
+ * shows a "Read: …" link below the caption (ST-205).
  * Supports prev/next navigation, Escape to close, click-outside to close,
  * and focus trapping for accessibility.
  *
@@ -11,7 +12,9 @@
  * 3. Composable API: images[], initialIndex, onClose
  */
 import { useEffect, useCallback, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
+import { getLinkProps, resolveImageLink } from '../lib/linkUtils'
 import { stampedCopies, aiLabelProps } from '../lib/provenance'
 import { MediaLabel } from '../design-system'
 import styles from './ImageLightbox.module.css'
@@ -27,9 +30,18 @@ function assetSize(url, asset) {
   return m ? { w: Number(m[1]), h: Number(m[2]), isSvg: m[3] === 'svg' } : null
 }
 
-export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
+export default function ImageLightbox({ images, initialIndex = 0, onClose, onIndexChange }) {
   const [currentIndex, setCurrentIndex] = useState(initialIndex)
   const closeRef = useRef(null)
+
+  // Tell the caller which image is showing, so a carousel can move to it on close (ST-205).
+  const onIndexChangeRef = useRef(onIndexChange)
+  useEffect(() => {
+    onIndexChangeRef.current = onIndexChange
+  })
+  useEffect(() => {
+    onIndexChangeRef.current?.(currentIndex)
+  }, [currentIndex])
 
   const image = images[currentIndex]
   const hasMultiple = images.length > 1
@@ -64,9 +76,15 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
     }
   }, [])
 
-  // Focus the close button on mount
+  // Focus the close button on mount; give focus back to whatever opened the lightbox on close (ST-205)
   useEffect(() => {
+    const opener = document.activeElement
     closeRef.current?.focus()
+    return () => {
+      if (opener && opener !== document.body && typeof opener.focus === 'function') {
+        opener.focus({ preventScroll: true })
+      }
+    }
   }, [])
 
   // Click on backdrop (not image or controls) closes
@@ -84,6 +102,11 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
       : null
 
   if (!imgUrl) return null
+
+  // A linked image shows where it goes, below the caption (ST-205 vspec).
+  const linkTarget = resolveImageLink(image)
+  const linked = linkTarget ? getLinkProps(linkTarget.url, linkTarget.openInNewTab) : null
+  const linkText = `${linkTarget?.label ? `Read: ${linkTarget.label}` : 'Open link'} ↗`
 
   // Fit the viewport (90vw by 80vh). Vector images scale up to fill it; photos stop at the 1600px
   // that was requested, so they are never stretched past their pixels.
@@ -137,6 +160,9 @@ export default function ImageLightbox({ images, initialIndex = 0, onClose }) {
             )}
           </p>
         )}
+        {linked && (linked.isExternal
+          ? <a className={styles.captionLink} {...linked.linkProps}>{linkText}</a>
+          : <Link className={styles.captionLink} {...linked.linkProps}>{linkText}</Link>)}
         {hasMultiple && (
           <p className={styles.counter}>
             {currentIndex + 1} / {images.length}

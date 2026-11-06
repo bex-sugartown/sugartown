@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, useCallback, Children } from 'react'
 import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
-import { isExternalUrl, getLinkProps } from '../lib/linkUtils'
+import { getLinkProps, resolveImageLink } from '../lib/linkUtils'
 import { trackCtaClick } from '../lib/trackCtaClick'
 import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
@@ -373,25 +373,12 @@ function TextSection({ section }) {
 }
 
 /**
- * Resolves the click target for a gallery image:
- * - If it has a link (linkItem or legacy linkUrl): returns { url, isExternal, openInNewTab }
- * - Otherwise: returns null (image should open lightbox)
- */
-function resolveImageLink(image) {
-  const url = image.link?.url || image.legacyLinkUrl
-  if (!url) return null
-  return {
-    url,
-    isExternal: isExternalUrl(url) || image.link?.openInNewTab,
-    openInNewTab: image.link?.openInNewTab ?? false,
-  }
-}
-
-/**
  * GalleryImage — renders a single image in the gallery.
  * Wraps in <Link> (SPA), <a> (external), or attaches lightbox onClick.
+ * In a carousel the slide wrapper owns the click (peek slide advances, active slide opens the
+ * lightbox) and a slide's link is shown in the lightbox, so the image is rendered unwrapped (ST-205).
  */
-function GalleryImage({ image, index, onLightbox, treatment, layout, linkTabIndex }) {
+function GalleryImage({ image, index, onLightbox, treatment, layout, inCarousel }) {
   if (!image.asset) return null
 
   const imgSrc = urlFor(image.asset).width(800).auto('format').url()
@@ -422,19 +409,28 @@ function GalleryImage({ image, index, onLightbox, treatment, layout, linkTabInde
     </div>
   ) : null
 
+  if (inCarousel) {
+    return (
+      <figure className={styles.galleryItem}>
+        {mediaEl}
+        {captionOverlay}
+      </figure>
+    )
+  }
+
   if (linkTarget) {
     const { isExternal, linkProps } = getLinkProps(linkTarget.url, linkTarget.openInNewTab)
     if (isExternal) {
       return (
         <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
-          <a {...linkProps} tabIndex={linkTabIndex}>{mediaEl}</a>
+          <a {...linkProps}>{mediaEl}</a>
           {captionOverlay}
         </figure>
       )
     }
     return (
       <figure className={`${styles.galleryItem} ${styles.galleryLinked}`}>
-        <Link {...linkProps} tabIndex={linkTabIndex}>{mediaEl}</Link>
+        <Link {...linkProps}>{mediaEl}</Link>
         {captionOverlay}
       </figure>
     )
@@ -446,7 +442,7 @@ function GalleryImage({ image, index, onLightbox, treatment, layout, linkTabInde
       className={`${styles.galleryItem} ${styles.galleryLightbox}`}
       onClick={() => onLightbox(index)}
       role="button"
-      tabIndex={linkTabIndex ?? 0}
+      tabIndex={0}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLightbox(index) } }}
     >
       {mediaEl}
@@ -482,6 +478,7 @@ function ImageGallerySection({ section }) {
   const [activeSlide, setActiveSlide] = useState(0)
   const scrollRef = useRef(null)
   const slideRefs = useRef([])
+  const lightboxCurrentRef = useRef(0) // image showing in the lightbox, so the carousel can follow it on close (ST-205)
 
   const isCarousel = layout === 'carousel'
 
@@ -523,13 +520,17 @@ function ImageGallerySection({ section }) {
     scrollToSlide(next)
   }
 
-  // Peek slides: a click on a non-active slide advances to it. Capture phase runs
-  // before the slide's link or lightbox handler, so neither fires (ST-201).
+  // Peek slide: a click advances to it (ST-201). Active slide: a click anywhere on it, or on its
+  // expand button, opens the lightbox on that slide, linked or not (ST-205).
   function handleSlideClickCapture(e, index) {
-    if (index === activeSlide) return
     e.preventDefault()
     e.stopPropagation()
-    scrollToSlide(index)
+    if (index === activeSlide) {
+      lightboxCurrentRef.current = index
+      setLightboxIndex(index)
+    } else {
+      scrollToSlide(index)
+    }
   }
 
   function handleCarouselKeyDown(e) {
@@ -539,8 +540,9 @@ function ImageGallerySection({ section }) {
 
   const galleryClassName = `${styles.imageGallery} ${styles[`gallery-${layout}`] || ''}`
 
-  // Images that can open the lightbox (those without links)
-  const lightboxImages = images.filter((img) => !resolveImageLink(img))
+  // Carousel: the lightbox holds every slide, in order. Grid and masonry: images without links
+  // (a linked image follows its link). ST-205.
+  const lightboxImages = isCarousel ? images : images.filter((img) => !resolveImageLink(img))
 
   return (
     <>
@@ -562,12 +564,15 @@ function ImageGallerySection({ section }) {
                 >
                   <GalleryImage
                     image={image}
-                    index={lightboxImages.indexOf(image)}
-                    onLightbox={(lbIdx) => setLightboxIndex(lbIdx >= 0 ? lbIdx : 0)}
+                    index={index}
+                    onLightbox={setLightboxIndex}
                     treatment={treatment}
                     layout={layout}
-                    linkTabIndex={index === activeSlide ? undefined : -1}
+                    inCarousel
                   />
+                  {image.asset && (
+                    <button type="button" className={styles.carouselExpand} aria-label="Expand image">⤢</button>
+                  )}
                 </div>
               ))}
             </div>
@@ -597,7 +602,11 @@ function ImageGallerySection({ section }) {
         <ImageLightbox
           images={lightboxImages}
           initialIndex={lightboxIndex}
-          onClose={() => setLightboxIndex(null)}
+          onIndexChange={(i) => { lightboxCurrentRef.current = i }}
+          onClose={() => {
+            setLightboxIndex(null)
+            if (isCarousel) scrollToSlide(lightboxCurrentRef.current) // carousel follows the lightbox (ST-205)
+          }}
         />
       )}
     </>

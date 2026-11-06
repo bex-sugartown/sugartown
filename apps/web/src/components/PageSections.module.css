@@ -578,6 +578,7 @@
   scroll-snap-align: center;
   flex: 0 0 80%;
   min-width: 280px;
+  position: relative; /* positioning context for the expand button (ST-205) */
 }
 
 /* Positioning context so arrows centre on the images, not the heading and dots (ST-201) */
@@ -587,7 +588,8 @@
 
 /* ── Carousel arrows ─────────────────────────────────────────────── */
 /* Sit on the image, so dark fill + white ring in both themes (ST-201: was 50% scrim, invisible on dark art) */
-.carouselArrow {
+.carouselArrow,
+.carouselExpand {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -608,17 +610,28 @@
   transition: background 0.2s;
 }
 
-.carouselArrow:hover {
+.carouselArrow:hover,
+.carouselExpand:hover {
   background: var(--st-color-pink);
 }
 
-.carouselArrow:focus-visible {
+.carouselArrow:focus-visible,
+.carouselExpand:focus-visible {
   outline: 3px solid var(--st-color-pink);
   outline-offset: 3px;
 }
 
 .carouselPrev { left: 0.5rem; }
 .carouselNext { right: 0.5rem; }
+
+/* Expand button (ST-205): top right of the active slide; same circle as the arrows. It is the visible
+   cue and the keyboard route; a click anywhere on the active slide opens the lightbox too. */
+.carouselExpand {
+  top: 0.5rem;
+  right: 0.5rem;
+  transform: none;
+  font-size: 1.25rem;
+}
 
 /* ── Carousel dots ───────────────────────────────────────────────── */
 .carouselDots {
@@ -650,9 +663,17 @@
   transform: scale(1.25);
 }
 
-/* Off-active slides: click advances the carousel; the link is not followed */
+/* Off-active slides: click advances the carousel. Active slide: click opens the lightbox (ST-205). */
 .carouselSlide[data-active="false"] {
   cursor: pointer;
+}
+
+.carouselSlide[data-active="true"] {
+  cursor: zoom-in;
+}
+
+.carouselSlide[data-active="false"] .carouselExpand {
+  display: none;
 }
 
 /* ── Gallery items ───────────────────────────────────────────────── */
