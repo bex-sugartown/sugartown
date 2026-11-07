@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-202 vspec: the vspec template</title>
+<!-- Pink Moon tokens, loaded by relative path. docs/drafts/ and docs/conventions/ sit at the same depth, so this path works from both. -->
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<style>
+/* Every value below is a Pink Moon token. No colour, font or spacing is defined here. */
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--st-font-family-ui);font-size:var(--st-font-size-md);line-height:1.5;color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
+main{max-width:1000px;margin:0 auto;padding:var(--st-space-6) var(--st-space-4) var(--st-space-9)}
+h1,h2,h3{font-family:var(--st-font-family-narrative);color:var(--st-color-text-default);font-weight:var(--st-font-weight-semibold)}
+h1{font-size:var(--st-font-size-2xl);margin:0 0 var(--st-space-1)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+p{margin:var(--st-space-2) 0}
+code{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);color:var(--st-color-text-brand)}
+table{border-collapse:collapse;width:100%;font-size:var(--st-font-size-sm);margin:var(--st-space-2) 0 var(--st-space-4);background:var(--st-color-bg-surface)}
+th,td{border:1px solid var(--st-color-border-medium);padding:var(--st-space-2);text-align:left;vertical-align:top}
+th{background:var(--st-color-bg-surface-strong);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold)}
+
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+/* Pass and fail keep default text colour; the signal colour is a border only (3:1 non-text), because the first draft coloured the words and failed 4.5:1 in light. */
+.vspecPass,.vspecFail{font-weight:var(--st-font-weight-bold);padding:0 var(--st-space-2);border:2px solid var(--st-color-border-strong)}
+.vspecPass{border-color:var(--st-posture-strong)}
+.vspecFail{border-color:var(--st-color-error)}
+.vspecThemeToggle{position:sticky;top:var(--st-space-2);float:right;z-index:10;padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);cursor:pointer}
+.vspecThemeToggle:hover{background:var(--st-color-brand-primary);color:var(--st-color-white)}
+.vspecThemeToggle:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}
+
+/* The ten fixed sections, as the template draws them */
+.vspecSection{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-default);padding:var(--st-space-4);margin:var(--st-space-3) 0}
+.vspecSectionHead{display:flex;gap:var(--st-space-3);align-items:baseline;margin:0 0 var(--st-space-2)}
+.vspecSectionNum{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted)}
+.vspecSectionTitle{font-family:var(--st-font-family-narrative);font-size:var(--st-font-size-lg);font-weight:var(--st-font-weight-semibold);margin:0}
+.vspecSlot{border:1px dashed var(--st-color-border-strong);padding:var(--st-space-3);font-size:var(--st-font-size-sm);color:var(--st-color-text-secondary)}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
+@media (max-width:768px){.vspecPair{grid-template-columns:1fr}}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm)}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecProtoControl{padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);cursor:pointer;font-family:var(--st-font-family-ui)}
+.vspecProtoControl[aria-pressed="true"]{background:var(--st-color-brand-primary);color:var(--st-color-white);border-color:var(--st-color-brand-primary)}
+.vspecProtoControl:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+</style>
+</head>
+<body>
+<main>
+<button class="vspecThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<h1>ST-202 · The vspec template</h1>
+<p>Issue #202. Phase 0 visual spec for the template itself. The page you are reading is drawn with the template's own styles: Pink Moon tokens only, light and dark, one toggle.</p>
+
+<div class="vspecNote"><strong>Status:</strong> awaiting Bex sign-off. Nothing is written to <code>docs/conventions/</code>, <code>CLAUDE.md</code>, <code>/new-epic</code> or the design-reviewer until the Phase 0 boxes at the end are ticked and each rule-file diff is approved.</div>
+
+<h2>1. What the template is</h2>
+<p>One copyable file, <code>docs/conventions/vspec-template.html</code>, plus a rules doc, <code>docs/conventions/vspec-rules.md</code>. A session copies the template into <code>docs/drafts/</code> as <code>ST-{N}-{slug}.vspec.html</code> and fills the ten sections below. It links <code>tokens.css</code> and <code>theme.pink-moon.css</code> by relative path (same depth in both folders). It defines no colour, font or spacing of its own. A sticky toggle sets <code>data-theme</code> on the root element between <code>light-pink-moon</code> and <code>dark-pink-moon</code>. Light is the default.</p>
+
+<h2>2. The ten fixed sections, in order</h2>
+<p>Each section keeps its number and title in every vspec. An unused section stays and says "Not applicable" with the reason, so a reviewer can tell skipped from forgotten.</p>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">1</span><h3 class="vspecSectionTitle">Interactive prototype</h3></div>
+<div class="vspecSlot">Slot for whatever the change touches, shown whole: a page layout, a section, a component, a style or a token, in both themes. Vanilla JS in a script tag, only when an interaction trigger fires. Section 3 below is a working example.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">2</span><h3 class="vspecSectionTitle">Before and after</h3></div>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span><div class="vspecSlot" style="margin-top:var(--st-space-2)">An image file of the live page, never hand-built markup.</div><div class="vspecCaption">Captured 2026-11-07 · file: ST-N-before-live-2026-11-07.webp</div></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span><div class="vspecSlot" style="margin-top:var(--st-space-2)">The prototype from section 1, or a render of the built change.</div><div class="vspecCaption">Source: section 1</div></div>
+</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">3</span><h3 class="vspecSectionTitle">Behaviour annotations</h3></div>
+<div class="vspecSlot">The six rows for any nav surface: active state, hash and anchor, scroll-spy, sticky or fixed, mobile collapse, click side-effects. "Same as X" is allowed; blank is not.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">4</span><h3 class="vspecSectionTitle">Contrast, measured</h3></div>
+<div class="vspecSlot">One row per text pair, a ratio for light and a ratio for dark, and the command that produced each figure. Section 6 below shows the table filled for this page.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">5</span><h3 class="vspecSectionTitle">Class naming table</h3></div>
+<div class="vspecSlot">Every new class, its closest existing pattern, and the decision. Class names are the production names.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">6</span><h3 class="vspecSectionTitle">Component choice audit</h3></div>
+<div class="vspecSlot">For each new component or DS primitive change: what exists, extend or replace, and why. "No new component" is a valid entry.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">7</span><h3 class="vspecSectionTitle">Token list</h3></div>
+<div class="vspecSlot">Every token the design uses. A literal value (a size, a ring width) is listed with the token it maps to at implementation.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">8</span><h3 class="vspecSectionTitle">Governance checks</h3></div>
+<div class="vspecSlot">Which gates applied and the evidence each was met: Phase 0 trigger, nav annotations, Content Write Gate, rule-file edits, diagram red-pen.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">9</span><h3 class="vspecSectionTitle">Decisions answered</h3></div>
+<div class="vspecSlot">Each decision, the answer, and the date. Open decisions sit here too, marked open, until answered.</div></section>
+
+<section class="vspecSection"><div class="vspecSectionHead"><span class="vspecSectionNum">10</span><h3 class="vspecSectionTitle">Phase 0 checklist</h3></div>
+<div class="vspecSlot">Four boxes: vspec reviewed, class table approved, component choice audit approved, open decisions answered.</div></section>
+
+<p class="vspecCaption">Section order differs from the #201 vspec in one place: governance checks (8) is new, and the token list (7) moves out of the class table paragraph into its own section.</p>
+
+<h2>3. Interactive prototype (working example of section 1)</h2>
+<p>The toggle is the only interaction in the template. Try it with the mouse, then press Tab to focus it and Enter to use it. The pressed state shows which view is active.</p>
+<div class="vspecFrame">
+  <button class="vspecProtoControl" id="protoToggle" aria-pressed="false">Dark view</button>
+  <span id="protoState" class="vspecCaption" style="margin-left:var(--st-space-3)">Showing: light-pink-moon</span>
+</div>
+
+<h2>4. Before and after (the two tags)</h2>
+<p>Every Before and After carries its tag. A Before is a dated image of the live page or a render of the live component. A state that is not live today is never shown as Before.</p>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> the #205 vspec, hand-built panel showing buttons and a counter that did not exist on the live page. <span class="vspecFail">Not allowed.</span></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span> an image file captured from the live lightbox, with its capture date. <span class="vspecPass">Required.</span></div>
+</div>
+
+<h2>5. Behaviour annotations (the theme toggle and the page, all six)</h2>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>The toggle label names the view it will switch to. <code>aria-pressed</code> is true in dark. Hover fills with <code>--st-color-brand-primary</code>. Focus ring is 3px <code>--st-color-focus</code>.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>None. The toggle does not write to the URL.</td></tr>
+<tr><td>Scroll-spy</td><td>None. The template has no table of contents.</td></tr>
+<tr><td>Sticky/fixed</td><td>The toggle is sticky at the top right and stays in view while the page scrolls.</td></tr>
+<tr><td>Mobile collapse</td><td>Below 768px the Before and After pair stacks to one column. The toggle stays sticky.</td></tr>
+<tr><td>Click side-effects</td><td>Switches <code>data-theme</code> on the root element. No scroll, no reload, no persistence. The choice resets on reload and the page opens in light.</td></tr>
+</table>
+
+<h2>6. Contrast, measured</h2>
+<p>Text pairs this page uses, each measured in both views on 2026-11-07. Text needs 4.5:1. The pass and fail borders are non-text and need 3:1.</p>
+<table>
+<tr><th>Pair</th><th>Light ratio</th><th>Dark ratio</th><th>Verdict</th></tr>
+<tr><td>Body text on canvas</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Muted caption text on surface</td><td>5.01</td><td>5.28</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Brand text (<code>code</code>) on canvas</td><td>5.47</td><td>5.13</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Toggle label on toggle surface</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Pass and fail words on surface (default text colour)</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Pass border against surface (non-text)</td><td>3.54</td><td>8.73</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Fail border against surface (non-text)</td><td>3.20</td><td>4.82</td><td><span class="vspecPass">Pass</span></td></tr>
+</table>
+<p><strong>What the measurement caught:</strong> the first draft coloured the pass and fail words with the signal tokens. Light measured 3.54:1 and 3.20:1, which fails text contrast, so the words now use the default text colour and the signal colour moved to a border. Dark was already above 4.5:1.</p>
+<p><strong>Command:</strong> a browser script, saved at <code>/private/tmp/claude-502/-Users-beckyalice-SUGARTOWN-DEV-sugartown/ff046e07-1d8e-4ddc-9b6e-5d980b56fe8a/scratchpad/measure-vspec-contrast.js</code>, run in the page opened over a local server. It switches <code>data-theme</code>, reads each element's computed colour, composites every ancestor background over white (needed because the dark surface is a translucent white wash), and applies the WCAG relative-luminance formula. <code>pnpm validate:contrast</code> was also run: every derived colour pair meets AA, with 25 allowlisted. It checks token pairs, not this page's composited pairs, so it does not replace the script. Phase 2 commits the script into the rules doc so a later session does not depend on a scratch file.</p>
+
+<h2>7. Class naming table (for sign-off)</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.vspecThemeToggle</code></td><td>None in the site; <code>SegmentedControl</code> is a different surface</td><td>Template-only class, never shipped to the site</td></tr>
+<tr><td><code>.vspecSection</code>, <code>.vspecSectionHead</code>, <code>.vspecSectionNum</code>, <code>.vspecSectionTitle</code></td><td>None</td><td>Template-only</td></tr>
+<tr><td><code>.vspecSlot</code>, <code>.vspecFrame</code>, <code>.vspecPair</code>, <code>.vspecCaption</code>, <code>.vspecNote</code></td><td>None</td><td>Template-only</td></tr>
+<tr><td><code>.vspecTag</code>, <code>.vspecTagAfter</code></td><td>DS <code>Chip</code> is a site component; this tag is a document label</td><td>Template-only (decision 3)</td></tr>
+<tr><td><code>.vspecPass</code>, <code>.vspecFail</code></td><td>None</td><td>Template-only</td></tr>
+</table>
+<p>The <code>vspec</code> prefix keeps template classes apart from the production class names a vspec draws. It names the document type, not a content type, so the content-type naming rule does not apply. Decision 2 asks you to confirm the prefix.</p>
+
+<h2>8. Component choice audit</h2>
+<p>No site component is used or changed. The template is a static HTML file under <code>docs/conventions/</code>. The toggle is a plain <code>button</code> with template-only styles because the DS <code>Button</code> is a React component and the template has no build step. No new DS primitive.</p>
+
+<h2>9. Tokens used</h2>
+<table>
+<tr><th>Role</th><th>Tokens</th></tr>
+<tr><td>Surfaces</td><td><code>--st-color-bg-canvas</code>, <code>--st-color-bg-surface</code>, <code>--st-color-bg-surface-strong</code></td></tr>
+<tr><td>Text</td><td><code>--st-color-text-default</code>, <code>--st-color-text-secondary</code>, <code>--st-color-text-muted</code>, <code>--st-color-text-brand</code></td></tr>
+<tr><td>Lines</td><td><code>--st-color-border-default</code>, <code>--st-color-border-medium</code>, <code>--st-color-border-strong</code>, <code>--st-color-rule-accent</code></td></tr>
+<tr><td>Signal</td><td><code>--st-color-brand-primary</code>, <code>--st-color-focus</code>, <code>--st-color-error</code>, <code>--st-posture-strong</code>, <code>--st-color-white</code> (text on the brand fill)</td></tr>
+<tr><td>Type</td><td><code>--st-font-family-ui</code>, <code>--st-font-family-narrative</code>, <code>--st-font-family-mono</code>, <code>--st-font-size-*</code>, <code>--st-font-weight-*</code></td></tr>
+<tr><td>Space and shape</td><td><code>--st-space-*</code>, <code>--st-radius-button</code> (0 in Pink Moon)</td></tr>
+</table>
+<p>No new token proposed. Fonts: the template names the token font stacks and loads no font files, so it falls back to system serif and sans where the machine lacks them (see decision 4). Literal values: layout widths (1000px page, 768px breakpoint), the 3px focus ring, and 1px borders map to tokens at build where one exists.</p>
+
+<h2>10. Governance checks that applied to this vspec</h2>
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>Yes</td><td>This file, and the template format it describes</td></tr>
+<tr><td>Nav annotations (six)</td><td>Yes, for the toggle</td><td>Section 5</td></tr>
+<tr><td>Interactive prototype</td><td>Yes (persisted-state and tab triggers do not fire; a visible state change does)</td><td>Section 3</td></tr>
+<tr><td>CSS class reuse audit</td><td>N/A for site CSS; template classes listed</td><td>Section 7</td></tr>
+<tr><td>Component choice audit</td><td>Yes, outcome "no new component"</td><td>Section 8</td></tr>
+<tr><td>Content Write Gate</td><td>No Sanity writes</td><td>Epic doc</td></tr>
+<tr><td>Rule-file write gate</td><td>Yes, for <code>CLAUDE.md</code>, <code>/new-epic</code>, the design-reviewer; diffs shown first</td><td>Epic doc Phase 3</td></tr>
+<tr><td>Diagram red-pen gate</td><td>No diagram</td><td>None</td></tr>
+</table>
+
+<h2>11. Decisions needed from Bex</h2>
+<ol>
+<li><strong>Section set:</strong> are these ten sections right? Governance checks is new compared with #201.</li>
+<li><strong>Class prefix:</strong> template-only classes use the <code>vspec</code> prefix, camelCase like the site. Confirm or pick another.</li>
+<li><strong>Before/After tag:</strong> a plain document label (as drawn), not the DS Chip. Confirm.</li>
+<li><strong>Fonts:</strong> load no font files, use token stacks and accept the system fallback; or link the same sanctioned font loader the site uses. Recommended: no font files, because a vspec judges layout and tokens, not the typeface.</li>
+<li><strong>Theme choice:</strong> opens in light every time, no memory across reloads. Confirm.</li>
+</ol>
+
+<h2>Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[x] vspec reviewed (Bex, 2026-11-07)</li>
+<li>[x] class table approved (Bex, 2026-11-07)</li>
+<li>[x] component choice audit approved (Bex, 2026-11-07)</li>
+<li>[x] open decisions answered (2026-11-07: approved as drawn, so each decision takes the answer drawn in this file)</li>
+</ul>
+</main>
+<script>
+(function(){
+  var root=document.documentElement,
+      top=document.getElementById('themeToggle'),
+      proto=document.getElementById('protoToggle'),
+      state=document.getElementById('protoState');
+  function apply(dark){
+    root.setAttribute('data-theme',dark?'dark-pink-moon':'light-pink-moon');
+    top.textContent=dark?'Switch to light view':'Switch to dark view';
+    top.setAttribute('aria-pressed',dark);
+    proto.setAttribute('aria-pressed',dark);
+    state.textContent='Showing: '+root.getAttribute('data-theme');
+  }
+  function flip(){apply(root.getAttribute('data-theme')!=='dark-pink-moon')}
+  top.onclick=flip; proto.onclick=flip;
+})();
+</script>
+</body>
+</html>

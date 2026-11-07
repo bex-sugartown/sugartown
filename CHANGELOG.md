@@ -12,6 +12,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- ST-202: vspecs start from one template with a light and dark toggle, ten fixed sections and a change-specific slot, plus a rules doc; epic Phases now carry a Gate so the next phase starts on its own. (local `pnpm test:smoke`: 28 passed)
+
 ---
 
 ## [0.40.0] — 2026-11-06

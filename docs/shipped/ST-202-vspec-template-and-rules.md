@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-202 — Vspec template and rules: light and dark, Pink Moon prototype, decisions log
 **Issue:** [#202](https://github.com/bex-sugartown/sugartown/issues/202)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -84,3 +84,39 @@ Not applicable — no shared CSS, token, or multi-page component changes. The te
 - **GitHub:** [#202](https://github.com/bex-sugartown/sugartown/issues/202)
 - Related: [#104](https://github.com/bex-sugartown/sugartown/issues/104), [#156](https://github.com/bex-sugartown/sugartown/issues/156), [#201](https://github.com/bex-sugartown/sugartown/issues/201), [#195](https://github.com/bex-sugartown/sugartown/issues/195)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+All seven ticked above with evidence. Two limits: the template's own text contrast was measured on the vspec page that shares its styles, not re-run on the template; the 3px keyboard focus ring and Safari were not verified (scripted focus does not trigger `:focus-visible`; Chromium only). Visual QA approved by Bex 2026-11-07 with those three recorded as gaps.
+
+Activation audit result: #156 is narrowed (the design-reviewer now names which template sections it checked and marks look-dependent rows "not rendered", but it still has no browser, so the orchestrating session must render them); #104 is left (vspecs still do not survive their epic beyond the existing step 6b copy).
+
+### What didn't work
+
+- After Phase 0 approval the session ended its turn with no next step and no named gate. The Phases section of the epic template had no rule for advancing, so a Gate column and a same-turn advance rule were added to `docs/epic-template.md` (4d97f2fd, outside this epic's Scope, requested by Bex).
+- The first draft of the vspec page coloured pass and fail words with signal tokens; light measured 3.54:1 and 3.20:1. Fixed to a border before sign-off.
+- The first draft of the design-reviewer note asked for a browser render the agent cannot do. Reworded before the diff was approved.
+- Pouring #201 into the template left one section with no home. Section 10, Change-specific sections, was added (9affabad).
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| design-reviewer only finds vspecs named with a SUG- prefix, so ST- vspecs are skipped | implementation | #209 |
+| Re-measure the template's own text contrast, check the focus ring with the keyboard, open in Safari | implementation | declined: the template shares the measured vspec page's styles and is a static docs file |
+| Existing epics' Phases are prose with no Gate column | workflow-docs | declined: updated when each epic is next edited, per the retrofit rule in `instruction-writing-style.md` |
+| A check that every vspec uses the template | workflow-docs | declined: stated Non-Goal; the Phase 0 gate and design-reviewer are the readers |
+
+### Friction line
+
+An epic ended a turn after Phase 0 with neither a next step nor a named gate, because the epic template had no phase-advance rule; fixed in 4d97f2fd.
+
+---
+
+## Post-ship checks
+
+none
