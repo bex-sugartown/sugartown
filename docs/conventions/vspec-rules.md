@@ -4,7 +4,7 @@
 
 ## What a vspec contains
 
-The template has ten sections, in this order. A section that does not apply keeps its heading and says "Not applicable" with the reason, so a reviewer can tell skipped from forgotten.
+The template has eleven sections, in this order. A section that does not apply keeps its heading and says "Not applicable" with the reason, so a reviewer can tell skipped from forgotten.
 
 | # | Section | Holds |
 |---|---|---|
@@ -17,7 +17,12 @@ The template has ten sections, in this order. A section that does not apply keep
 | 7 | Token list | Every token the design uses |
 | 8 | Governance checks | Which gates applied and the evidence each was met |
 | 9 | Decisions answered | Each decision, the answer, the date |
-| 10 | Phase 0 checklist | Four boxes, ticked by Bex |
+| 10 | Change-specific sections | Content that belongs to this change only and fits none of sections 1 to 9 |
+| 11 | Phase 0 checklist | Four boxes, ticked by Bex |
+
+## Change-specific content
+
+**Content that belongs to one change goes in section 10, under its own heading, not into a fixed section.** Example: #201's table of caption and credit rules per image treatment. The other ten sections keep one meaning in every vspec so a reviewer finds the same thing in the same place.
 
 ## Show the whole thing
 
