@@ -3,6 +3,7 @@
 **GitHub Issue:** [#82](https://github.com/bex-sugartown/sugartown/issues/82) (legacy ID SUG-251; Linear retired 2026-09-05)
 **Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
 **Merge strategy:** (b) Single close-out — one long-lived branch, shipped with `/ship`
+**Visual:** no
 ---
 
 # SUG-251 — SEO meta & structured-data prerendering (fix CSR mainEntity race)
@@ -189,3 +190,46 @@ mode gives Bex the Pre-Execution Gate checkpoint before Phase 2 implementation s
 - **Existing precedent for build-time Sanity → static output:**
   `apps/web/scripts/build-redirects.js`
 - **Hosting context:** `docs/reports/hosting-evaluation.md` (read in full at activation)
+
+## Close-out review
+
+### Approach chosen (Phase 1)
+
+Bex chose option 3, extend `prerender-content.mjs`, on 2026-11-07. Options 1 (Netlify Prerendering: plan tier unconfirmed, paid) and 2 (bot-only Edge Function: second render path, cloaking risk) were declined.
+
+### Acceptance criteria
+
+- [x] Route audit complete. Checked `apps/web/src/App.jsx` directly: detail routes with their own SEO are article, node, case study, release note, person, glossary term, series; the generic `/:slug` and `/platform` index render from `page` docs. Home, archives, taxonomy and `platform/*` sub-pages carry no per-document JSON-LD or are not Sanity-backed, so they are not prerendered.
+- [x] Two or more options compared and approved (see above).
+- [x] `/about` HTML carries ProfilePage with `mainEntity`, no client JS: `dist/about.html` read after `node scripts/prerender-content.mjs`; `tests/smoke/prerender-jsonld.spec.ts` fetches `/about` without running scripts and passes.
+- [x] One article and one node serve Article JSON-LD in the HTML (same spec); a glossary term serves DefinedTerm.
+- [x] Human traffic unchanged: full `pnpm test:smoke` 33 passed, and the spec asserts exactly one JSON-LD block after React loads.
+- Google's Rich Results Test on the live site moves to Post-ship checks.
+
+### What shipped
+
+197 snapshots (was 98): added 10 page, 1 person, 83 glossary-term and 5 series routes. JSON-LD comes from `src/lib/jsonLd.js`; the field lists are shared with `queries.js` through `src/lib/jsonLdQueries.js`. `SeoHead` removes the prerendered block before adding its own.
+
+### What didn't work
+
+none
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Project and Tool detail pages emit no type-specific JSON-LD | implementation | #83 (already filed; this epic blocks it, now unblocked) |
+
+### Friction line
+
+none
+
+<!-- Chromatic: pending -->
+Chromatic is deferred to the ship step: `SeoHead.jsx` was edited, but it renders no UI.
+
+## Post-ship checks
+
+- [ ] Rich Results Test on `https://sugartown.io/about` shows ProfilePage with `mainEntity`: person: run Google's Rich Results Test against production after `/ship`.
+- [ ] Rich Results Test shows valid Article JSON-LD on one live article and one live node: person: same tool.
+- [ ] Prerendered `/about` answers 200 on production with no redirect: `curl -sI https://sugartown.io/about | head -1`
+- [ ] Search Console Profile Page report stops flagging `/about`: person: check after the next crawl.

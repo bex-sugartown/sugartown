@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- Google now gets JSON-LD in the HTML it fetches: /about carries ProfilePage with mainEntity, and article, node, case study, release, page, person, glossary and series routes are prerendered (197 snapshots, was 98). (#82; new smoke spec reads the served HTML with no client JS, smoke 33 passed; Rich Results Test is a post-ship check)
 - Next and previous titles on case study, node and glossary pages meet 4.5:1 contrast: maroon in light, lighter pink in dark. (#184; axe passes with the three allowlist rows removed, smoke 28 passed, Visual QA approved)
 - Muted label text in the dark theme (article filter counts, node sidebar series label) meets 4.5:1 contrast, about 7:1 now. (#187; dark axe passes on /articles and /nodes with the allowlist rows removed, smoke 28 passed, Visual QA approved)
 - Dark-theme brand text meets 4.5:1 contrast (pink-400, 5.2:1, was 4.45:1), and the unused legacy light theme is removed. (#171; `pnpm validate:contrast` passes, Visual QA approved)
