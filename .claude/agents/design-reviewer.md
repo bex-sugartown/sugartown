@@ -92,6 +92,11 @@ you can.
 - **Status** is exactly one of: Match, Drift, Missing.
 - **Severity** is Blocker (breaks the spec gate) or Note (informational). Match
   rows use `—`.
+- When a vspec exists, add one line above the table naming which of the template's ten sections
+  you checked by running a command or opening a file, and which you could only read as text.
+  You have no browser, so you cannot render a page: a section whose row depends on how it looks
+  is marked Missing with the note "not rendered", never Match, and the orchestrating session
+  renders it before the VQA gate.
 - End with a one-line verdict: the count of Blockers, and whether the component
   clears the VQA gate or needs fixes before close-out.
 

@@ -66,6 +66,8 @@ Options:
   - "No: no new visual format"
 ```
 
+If the answer is yes, tell Bex the vspec starts as a copy of `docs/conventions/vspec-template.html`, and that `docs/conventions/vspec-rules.md` says what it must contain.
+
 ---
 
 ## STEP 1 — CREATE THE ISSUE
