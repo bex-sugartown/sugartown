@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- Muted label text in the dark theme (article filter counts, node sidebar series label) meets 4.5:1 contrast, about 7:1 now. (#187; dark axe passes on /articles and /nodes with the allowlist rows removed, smoke 28 passed, Visual QA approved)
 - Dark-theme brand text meets 4.5:1 contrast (pink-400, 5.2:1, was 4.45:1), and the unused legacy light theme is removed. (#171; `pnpm validate:contrast` passes, Visual QA approved)
 - Studio schema comments for tags point at the live tag list and the write pipeline rule instead of a doc that never existed. (#174; `grep -rn taxonomy/controlled apps` finds no schema hits)
 - ST-202: vspecs start from one template with a light and dark toggle, ten fixed sections and a change-specific slot, plus a rules doc; epic Phases now carry a Gate so the next phase starts on its own. (local `pnpm test:smoke`: 28 passed)
