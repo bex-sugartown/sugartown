@@ -433,6 +433,7 @@
   --st-color-text-primary: var(--st-color-softgrey-50);
   --st-color-text-secondary: var(--st-color-softgrey-400);
   --st-color-text-muted: var(--st-color-softgrey-400);
+  --st-color-text-brand: var(--st-color-pink-400);
   --st-color-border-wrap: var(--st-color-neutral-400);
   --st-dl-ledger-border: var(--st-color-neutral-400);
   --st-color-canvas: var(--st-color-midnight-800);
@@ -573,7 +574,6 @@
   --st-color-focus: var(--st-color-pink);
   --st-color-bg-canvas: var(--st-color-midnight);
   --st-color-bg-midnight: var(--st-color-midnight);
-  --st-color-text-brand: var(--st-color-pink);
   --st-color-danger: var(--st-color-maroon);
   --st-page-gutter: var(--st-spacing-stack-lg);
   --st-status-draft-fg: var(--st-color-error);
@@ -608,7 +608,9 @@
   --st-color-text-eyebrow: var(--st-color-pink);
   --st-callout-banner-bg: var(--st-card-label-bg);
   --st-pill-bg: var(--st-color-bg-subtle);
+  --st-pill-text: var(--st-color-text-brand);
   --st-tag-bg: var(--st-color-bg-subtle);
+  --st-tag-text: var(--st-color-text-brand);
   --st-button-secondary-bg: var(--st-color-lime);
   --st-button-secondary-text: var(--st-color-midnight);
   --st-button-tertiary-border: var(--st-color-lime);
@@ -624,6 +626,8 @@
   --st-tile-bg-hover: var(--st-color-bg-subtle);
   --st-blockquote-color: var(--st-color-text-secondary);
   --st-code-bg: var(--st-color-midnight);
+  --st-code-inline-color: var(--st-color-text-brand);
+  --st-code-inline-text: var(--st-color-text-brand);
   --st-glossary-annotation-color: var(--st-color-pink); /** Inline glossary-term annotation trigger underline (ST-151: the dotted rule only; text uses --st-glossary-annotation-fg). Pink in both themes. */
   --st-citation-color: var(--st-color-text-secondary);
   --st-citation-index-color: var(--st-color-pink);
@@ -650,8 +654,6 @@
   --st-color-link-default: var(--st-color-brand-primary);
   --st-color-link-hover: var(--st-color-brand-secondary);
   --st-chip-rubric-fg: var(--st-chip-fg);
-  --st-pill-text: var(--st-color-text-brand);
-  --st-tag-text: var(--st-color-text-brand);
   --st-button-bg: var(--st-color-accent-primary);
   --st-table-header-bg: var(--st-color-accent);
   --st-table-header-bg-accent: var(--st-color-accent);
@@ -660,8 +662,6 @@
   --st-tile-value-color: var(--st-stat-tile-value-color);
   --st-tile-sub-color: var(--st-stat-tile-sub-color);
   --st-blockquote-border-color: var(--st-color-brand-primary);
-  --st-code-inline-color: var(--st-color-text-brand);
-  --st-code-inline-text: var(--st-color-text-brand);
   --st-graph-node-item: var(--st-color-brand-primary);
   --st-graph-bg: var(--st-color-bg-canvas);
   --st-color-bg-void: var(--st-color-bg-midnight);

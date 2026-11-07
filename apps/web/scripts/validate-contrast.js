@@ -17,7 +17,7 @@
  * judgement a name pattern cannot make.
  *
  * Themes (base tokens.css :root plus the theme block that applies):
- *   light-pink-moon, dark-pink-moon, light, light-shop, dark-shop
+ *   light-pink-moon, dark-pink-moon, light-shop, dark-shop
  *
  * Known failures live in contrast-allowlist.json next to this file. An entry
  * names the themes it covers, the pair, a date and an issue written "#123".
@@ -73,13 +73,11 @@ const forTheme = (bs, name) => merge(bs.filter((b) => b.sel.includes(`"${name}"`
 
 const base = merge(blocks(read('tokens.css')).filter((b) => /(^|,)\s*:root\s*(,|$)/.test(b.sel)))
 const pinkMoon = blocks(read('theme.pink-moon.css'))
-const lightTheme = blocks(read('theme.light.css'))
 const shop = blocks(read('theme.shop.css'))
 
 const THEMES = {
   'light-pink-moon': { ...base, ...forTheme(pinkMoon, 'light-pink-moon') },
   'dark-pink-moon': { ...base, ...forTheme(pinkMoon, 'dark-pink-moon') },
-  light: { ...base, ...forTheme(lightTheme, 'light') },
   'light-shop': { ...base, ...forTheme(pinkMoon, 'light-pink-moon'), ...forTheme(shop, 'light-shop') },
   'dark-shop': { ...base, ...forTheme(pinkMoon, 'dark-pink-moon'), ...forTheme(shop, 'dark-shop') },
 }

@@ -58,7 +58,6 @@ const DS_COMPONENTS_DIR = 'packages/design-system/src/components'
 const MIRRORED = [
   'tokens.css',
   'theme.pink-moon.css',
-  'theme.light.css',
   'theme.shop.css',
   'globals.css',
   'utilities.css',
