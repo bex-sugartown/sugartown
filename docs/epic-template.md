@@ -48,6 +48,7 @@ stage (SUG-246).
 ---
 
 **Issue:** [#NN](url) _(create the issue first, then link it here)_
+**Aligned:** {YYYY-MM-DD} _(date the start review last confirmed this doc against the rules; `check-epic-doc.js --drift` reads it)_
 **Visual:** yes | no _(yes if this epic renders anything a user has not signed off on, CLAUDE.md §Phase 0 visual spec gate; then name the vspec path, `docs/drafts/{ID}-{slug}.vspec.html`)_
 ## EPIC NAME:
 
@@ -104,10 +105,22 @@ stage (SUG-246).
 
 > **This is the start review.** Run it when an issue is picked, before any file changes:
 > 1. `node scripts/check-epic-doc.js <doc>` exits 0.
-> 2. The judgement items in `.claude/rules/epics.md` §Incomplete epic doc hard stop (4 to 7) are clear.
-> 3. The checklist below is ticked, or each item marked N/A with its reason.
-> 4. Every gap, open question and knowable approval is asked in **one batch** (`AskUserQuestion`),
->    including the Phase 0 sign-off scope (CLAUDE.md §Phase 0 visual spec gate).
+> 2. `node scripts/check-epic-doc.js <doc> --drift` is read. It lists the rule files changed
+>    since the doc's `**Aligned:**` date and any path the doc names that no longer exists. Read
+>    the diff of each changed file whose topic touches this epic's Scope and skip the rest,
+>    saying which were skipped. Record one line per finding under `## Start audit` in the doc:
+>    what changed, what the epic says, the fix.
+> 3. The judgement items in `.claude/rules/epics.md` §Incomplete epic doc hard stop (4 to 7) are clear.
+> 4. The checklist below is ticked, or each item marked N/A with its reason.
+> 5. Every gap, open question and knowable approval is asked in **one batch** (`AskUserQuestion`),
+>    including the Phase 0 sign-off scope (CLAUDE.md §Phase 0 visual spec gate) and every edit
+>    step 2 proposes to the epic. Apply the edits on approval, then set `**Aligned:**` to today.
+>    Also put in the batch any change step 2 suggests to a rule file (contradiction, duplicate,
+>    dead reference, a step that cost time); each goes through CLAUDE.md §Instruction & Rule File
+>    Write Gate, never edited in passing. Recommended option first, with its cost.
+>
+> Kill criterion: remove step 2 if, 60 days after it lands, no start review has changed an epic
+> or a rule file because of it (check `git log -S"Start audit" -- docs/backlog`).
 >
 > Then set the issue to In Progress. A `/new-tool` issue runs its eight-section check in place of
 > step 1; a bare issue runs a read (CLAUDE.md §Issue status = workflow stage).

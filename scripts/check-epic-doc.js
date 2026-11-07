@@ -15,6 +15,12 @@
  * sections instead, and each `### ` subsection the template gives them. Every
  * Follow-ups row must name an issue (`#N`) or say `declined`; `none` is valid.
  *
+ * `--drift` (start review step 2) reports what changed in the rules since the
+ * epic was last aligned: rule-defining files with commits after the doc's
+ * `**Aligned:** YYYY-MM-DD` header date (first commit date if the line is
+ * absent), plus backticked repo paths in the doc that no longer exist. It lists
+ * evidence for the session to read; it does not judge the epic.
+ *
  * Session-invoked, not a commit or CI gate. Start stage: the start review
  * (`docs/epic-template.md` §Pre-Execution Completeness Gate, run by
  * `.claude/rules/epics.md` and `/new-epic`). Close-out stage: CLAUDE.md §Epic
@@ -34,7 +40,8 @@
  * ST-129 (#129)
  */
 
-import { readFileSync } from 'fs'
+import { readFileSync, existsSync } from 'fs'
+import { execFileSync } from 'child_process'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 
@@ -177,16 +184,88 @@ export function checkEpicDoc(docText, templatePath = DEFAULT_TEMPLATE, stage = '
   return gaps
 }
 
+// The rules an epic is written against. Release, cloud and export workflows are left out:
+// they govern how work ships, not what an epic may say.
+export const RULE_PATHSPECS = [
+  'CLAUDE.md',
+  'docs/ai/repo-map.md',
+  '.claude/rules',
+  'docs/conventions',
+  'docs/epic-template.md',
+  '.claude/skills/new-epic',
+  '.claude/skills/new-tool',
+  '.claude/skills/sugartown-epic-writer',
+]
+const ALIGNED_LINE = /^\*\*Aligned:\*\*\s*(\d{4}-\d{2}-\d{2})/im
+
+function git(args) {
+  return execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim()
+}
+
+/** Drift evidence for one doc: { since, sinceSource, changed: [{file, subjects}], deadPaths: [] }. */
+export function driftReport(docPath, docText) {
+  const aligned = docText.match(ALIGNED_LINE)
+  let since = aligned && aligned[1]
+  let sinceSource = 'Aligned: line'
+  if (!since) {
+    const rel = resolve(docPath).replace(ROOT + '/', '')
+    since = git(['log', '--diff-filter=A', '--follow', '--format=%as', '--', rel]).split('\n').pop() || ''
+    sinceSource = 'no Aligned: line, using the doc\'s first commit date'
+  }
+  const changed = []
+  if (since) {
+    const out = git(['log', '--format=@@%as %s', '--name-only', '--', ...RULE_PATHSPECS])
+    let subject = ''
+    let newer = false
+    const byFile = new Map()
+    for (const line of out.split('\n')) {
+      if (line.startsWith('@@')) {
+        subject = line.slice(2)
+        // ISO dates compare as strings. Commits on the Aligned day count as seen.
+        newer = subject.slice(0, 10) > since
+      } else if (line.trim() && newer) {
+        if (!byFile.has(line)) byFile.set(line, [])
+        byFile.get(line).push(subject)
+      }
+    }
+    for (const [file, subjects] of byFile) changed.push({ file, subjects })
+  }
+  const deadPaths = [
+    ...new Set(
+      [...docText.matchAll(/`((?:apps|packages|scripts|docs|tokens|\.claude)\/[^\s`*{}<>]+\.[a-z]{1,5})`/g)].map((m) => m[1])
+    ),
+  ].filter((p) => !existsSync(resolve(ROOT, p)) && !p.startsWith('docs/drafts/'))
+  return { since, sinceSource, changed, deadPaths }
+}
+
+function runDrift(docPath, docText) {
+  const r = driftReport(docPath, docText)
+  console.log(`${docPath}: drift since ${r.since || 'unknown'} (${r.sinceSource})`)
+  if (r.changed.length) {
+    console.log(`   ${r.changed.length} rule file(s) changed. Read these diffs against the epic:`)
+    for (const c of r.changed) console.log(`   - ${c.file}  (${c.subjects.length} commit(s), latest: ${c.subjects[0]})`)
+  }
+  if (r.deadPaths.length) {
+    console.log(`   ${r.deadPaths.length} path(s) named in the epic no longer exist:`)
+    for (const p of r.deadPaths) console.log(`   - ${p}`)
+  }
+  const clean = r.since && !r.changed.length && !r.deadPaths.length
+  if (clean) console.log('   ✓ no rule changes and no dead paths since the epic was aligned')
+  else console.log('   Outside this repo: also read ../conventions/rules/ if it changed (git -C ../conventions log --since=' + (r.since || '<date>') + ').')
+  return clean ? 0 : 1
+}
+
 function main(argv) {
   const args = argv.slice(2)
   const tIndex = args.indexOf('--template')
   const sIndex = args.indexOf('--stage')
   const templatePath = tIndex >= 0 ? resolve(args[tIndex + 1]) : DEFAULT_TEMPLATE
   const stage = sIndex >= 0 ? args[sIndex + 1] : 'start'
+  const drift = args.includes('--drift')
   const valueIndexes = [tIndex, sIndex].filter((i) => i >= 0).map((i) => i + 1)
   const docPath = args.find((a, i) => !a.startsWith('--') && !valueIndexes.includes(i))
   if (!docPath) {
-    console.error('usage: node scripts/check-epic-doc.js <epic-doc.md> [--stage start|close-out] [--template path]')
+    console.error('usage: node scripts/check-epic-doc.js <epic-doc.md> [--stage start|close-out] [--template path] [--drift]')
     return 1
   }
   if (!MARKERS[stage]) {
@@ -201,6 +280,8 @@ function main(argv) {
     console.error(`✗ cannot read ${docPath}: ${err.message}`)
     return 1
   }
+
+  if (drift) return runDrift(docPath, docText)
 
   let gaps
   try {

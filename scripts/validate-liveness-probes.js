@@ -447,6 +447,22 @@ const PROBES = [
     },
   },
 
+  // Drift stage: an epic aligned in the future has no rule changes after it; one aligned
+  // in 2000 must be told about the rule files changed since.
+  {
+    gate: 'check-epic-doc: --drift',
+    why: 'an epic aligned before the rules last changed must report drift',
+    run: () => {
+      tempFile(EPIC_PROBE_DOC, completeEpicDoc('no').replace('---\n', '---\n**Aligned:** 2999-01-01\n'))
+      return gateProbe({
+        cmd: 'node',
+        args: ['scripts/check-epic-doc.js', EPIC_PROBE_DOC, '--drift'],
+        success: 'reported rule files changed since 2000-01-01',
+        breakIt: () => mutateFile(EPIC_PROBE_DOC, (src) => src.replace('2999-01-01', '2000-01-01')),
+      })
+    },
+  },
+
   // Close-out stage (ST-130), built from the template's close-out sections.
   {
     gate: 'check-epic-doc: close-out review',
