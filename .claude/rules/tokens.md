@@ -25,7 +25,7 @@ Applies to any CSS file `validate:tokens` scans: `apps/web/src/` (design-system 
 
 **Token names are contracts, not descriptions.** A token used in 2+ distinct surfaces needs a name that works for all of them. A placement-specific name (`--st-card-folio-bg`) also used in FilterBar headers and MetadataCard label cells is renamed to the shared concept (`--st-card-label-bg`). Full rules: `docs/conventions/token-naming.md`.
 
-**Theme files are override-only.** `theme.light.css`, `theme.pink-moon.css`, and any future theme file may only override existing `--st-*` names with other token references. They may not introduce a colour value (hex, rgba, hsla) with no primitive anchor in `tokens.css`; add the primitive first.
+**Theme files are override-only.** `theme.pink-moon.css`, `theme.shop.css`, and any future theme file may only override existing `--st-*` names with other token references. They may not introduce a colour value (hex, rgba, hsla) with no primitive anchor in `tokens.css`; add the primitive first.
 
 **A component with chip/badge/status colour states** defines all `--st-status-<state>-{bg,fg,border}` tokens for every state in `tokens.css`, plus light-theme overrides, before the component CSS is written. Not deferrable: Card's status chips accumulated 90 hardcoded values by skipping it.
 
@@ -52,7 +52,7 @@ Whenever `tokens/source/tokens.json` is edited, or whenever any component CSS fi
 - Source of truth: `tokens/source/tokens.json`
 - Build command: `pnpm tokens:build` (runs `sd.config.mjs` via Style Dictionary v5)
 - Outputs: `apps/web/src/design-system/styles/tokens.css` + `packages/design-system/src/styles/tokens.css`
-- Theme overrides (`theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`) remain hand-authored — they are NOT generated files, but they ARE duplicated to both the web and DS-package style dirs and **must be kept byte-identical by hand** (see Mirrored File Registry below).
+- Theme overrides (`theme.pink-moon.css`, `theme.shop.css`) remain hand-authored — they are NOT generated files, but they ARE duplicated to both the web and DS-package style dirs and **must be kept byte-identical by hand** (see Mirrored File Registry below).
 
 `validate:tokens` catches: undefined `var(--st-*)` references, renamed tokens with lingering references, raw `var(--st-*, <value>)` fallbacks of any type.
 `validate:tokens --strict-colors` catches: raw hex, rgba, or hsla values in any component or theme CSS file outside `tokens.css`.
@@ -67,7 +67,7 @@ Some files exist in two locations and **must be byte-identical**. Each must have
 | File(s) | Locations | Source of truth | Enforced by |
 |---------|-----------|-----------------|-------------|
 | `tokens.css` | `apps/web/src/design-system/styles/` ↔ `packages/design-system/src/styles/` | generated from `tokens/source/tokens.json` | `pnpm tokens:build` + pre-commit "Do not edit directly" block + `validate:style-mirror` |
-| `theme.pink-moon.css`, `theme.light.css`, `theme.shop.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
+| `theme.pink-moon.css`, `theme.shop.css`, `globals.css`, `utilities.css` | same two style dirs | **web copy is canonical** (hand-authored) | `validate:style-mirror` (pre-commit) |
 When you edit a hand-authored mirrored file (any theme/style file), update **both** copies in the same commit, or `validate:style-mirror` will block the commit. When adding a new must-be-identical pair, register it here and wire it into `validate-style-mirror.js`. One pair was retired in SUG-224.
 
 ### Dark mode surface work — pre-flight

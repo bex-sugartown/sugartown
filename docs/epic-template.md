@@ -484,7 +484,7 @@ stage (SUG-246).
 **DS Component Color Authoring (token-first — blocking)**
 - No raw hex, rgba, or hsla value may appear in a component CSS file. Every color resolves through `var(--st-*)`. If the token doesn't exist, add it to `tokens.css` **in a prior commit** before writing component CSS.
 - Fallback form: `var(--st-token, var(--st-primitive))` only. `var(--st-token, #hex)` is banned.
-- Theme files (`theme.light.css`, `theme.pink-moon.css`) are override-only — they may not introduce a color value that has no primitive anchor in `tokens.css`.
+- Theme files (`theme.pink-moon.css`, `theme.shop.css`) are override-only — they may not introduce a color value that has no primitive anchor in `tokens.css`.
 - **If this epic introduces chip, badge, or status color states**: define all `--st-status-<state>-{bg,fg,border}` tokens (dark defaults + light overrides) in `tokens.css` before writing any component CSS. List every state here:
   - States: ______
   - Token prefix: `--st-status-` (or justify a different prefix)
