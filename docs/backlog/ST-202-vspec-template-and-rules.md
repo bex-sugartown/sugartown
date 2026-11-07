@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-202 — Vspec template and rules: light and dark, Pink Moon prototype, decisions log
 **Issue:** [#202](https://github.com/bex-sugartown/sugartown/issues/202)
-**Status:** Todo
+**Status:** In Progress
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -26,9 +26,9 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] Phase 0: vspec for the template itself (this epic's own vspec, showing the template layout in both themes), approved by Bex — layer: vspec
+- [x] Phase 0: vspec for the template itself (this epic's own vspec, showing the template layout in both themes), approved by Bex — layer: vspec
 - [ ] `docs/conventions/vspec-template.html`: the copyable template, light and dark toggle, Pink Moon tokens only, one interactive-prototype slot — layer: docs
-- [ ] `docs/conventions/vspec-rules.md`: what a vspec must contain, when it becomes interactive, class names equal production names, decisions-answered section, evidence per claim, where finished vspecs go, and the **true representation rule**: a Before is a dated real screenshot or a render of the live component, never a hand-built mock; a prototype shows the whole page or the whole section it changes (for a carousel: arrows, dots, caption and the peek slides, not the image alone); a state that is not live today is never shown as Before; every Before and After carries a BEFORE or AFTER tag (Bex, 2026-11-06, from #205, where a hypothetical Before panel showed buttons and a counter that do not exist) — layer: docs
+- [ ] `docs/conventions/vspec-rules.md`: what a vspec must contain, when it becomes interactive, class names equal production names, decisions-answered section, evidence per claim, where finished vspecs go, and the **true representation rule**: a Before is a dated real screenshot or a render of the live component, never a hand-built mock; a prototype shows whatever the change touches, whole: a page layout, a section, a component, a style or a token (for a carousel: arrows, dots, caption and the peek slides, not the image alone); a state that is not live today is never shown as Before; every Before and After carries a BEFORE or AFTER tag (Bex, 2026-11-06, from #205, where a hypothetical Before panel showed buttons and a counter that do not exist) — layer: docs
 - [ ] Contrast section rule: each text pair measured in both themes, with the command that produced the figure — layer: docs
 - [ ] Pointer from `CLAUDE.md` §Phase 0 visual spec gate and from the `/new-epic` stub (`**Vspec:**` line) to the template — layer: rule file (gate applies)
 - [ ] Design-reviewer note: the review table must cite which template sections it rendered, to address #156 — layer: agent definition (gate applies)
@@ -44,7 +44,7 @@ Not applicable, no content piece.
 - [ ] `docs/conventions/vspec-template.html` opens in a browser, shows a theme toggle, and renders every section in both light and dark with no raw colour values (`pnpm validate:tokens --strict-colors` does not scan it, so the check is a grep for `#` and `rgb` in the file, run and quoted).
 - [ ] The template loads `tokens.css` and `theme.pink-moon.css` from the repo by relative path, and no colour, font or spacing value is defined locally.
 - [ ] A copy of the template, filled in with the #201 carousel content, reproduces the #201 vspec sections one for one.
-- [ ] The template's Before slot holds an image file and a capture date, not hand-built markup; the rules doc states that a Before is a real screenshot or a live render and that a prototype shows the whole page or section (the #205 Before and #201 prototype are the two worked examples of getting it wrong).
+- [ ] The template's Before slot holds an image file and a capture date, not hand-built markup; the rules doc states that a Before is a real screenshot or a live render and that a prototype shows whatever the change touches, whole: a page layout, a section, a component, a style or a token (the #205 Before and #201 prototype are the two worked examples of getting it wrong).
 - [ ] `docs/conventions/vspec-rules.md` follows `instruction-writing-style.md` and the banned-words check returns nothing.
 - [ ] `CLAUDE.md` and `/new-epic` point at the template, with the exact diff approved before the edit.
 - [ ] The followability walkthrough findings table is in each rule-file commit body.
