@@ -7,9 +7,11 @@
  * Link resolution uses linkUtils.js for internal/external detection and
  * routes.js getCanonicalPath() for internal reference URL building.
  */
+import { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
 import { getLinkProps } from '../lib/linkUtils'
+import { AnchorContext } from '../lib/AnchorContext'
 import styles from './portableTextComponents.module.css'
 
 /**
@@ -24,6 +26,9 @@ import styles from './portableTextComponents.module.css'
  * are treated as external links (legacy behaviour).
  */
 export function LinkAnnotation({ value, children, className }) {
+  // An outer mark on the same span already drew an anchor: no nested <a> (#143).
+  const insideAnchor = useContext(AnchorContext)
+
   // Resolve href: internal ref → canonical path, external → href/externalUrl
   let href
   if (value?.type === 'internal' && value?.internalSlug) {
@@ -36,23 +41,27 @@ export function LinkAnnotation({ value, children, className }) {
   }
 
   // No href = broken/missing reference — render as plain text
-  if (!href) return <>{children}</>
+  if (!href || insideAnchor) return <>{children}</>
 
   const { isExternal, linkProps } = getLinkProps(href, value?.openInNewTab)
   const linkClass = className || styles.link
 
   if (isExternal) {
     return (
-      <a {...linkProps} className={linkClass}>
-        {children}
-      </a>
+      <AnchorContext.Provider value={true}>
+        <a {...linkProps} className={linkClass}>
+          {children}
+        </a>
+      </AnchorContext.Provider>
     )
   }
 
   return (
-    <Link {...linkProps} className={linkClass}>
-      {children}
-    </Link>
+    <AnchorContext.Provider value={true}>
+      <Link {...linkProps} className={linkClass}>
+        {children}
+      </Link>
+    </AnchorContext.Provider>
   )
 }
 

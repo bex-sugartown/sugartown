@@ -8,10 +8,11 @@
  * WCAG 1.4.13: dismissible via Escape, persistent while pointer is over term or popover.
  * Mobile (@media pointer: coarse): popover is suppressed; tap navigates to the term page.
  */
-import { useState, useEffect, useRef, useCallback, useId } from 'react'
+import { useState, useEffect, useRef, useCallback, useId, useContext } from 'react'
 import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { getCanonicalPath } from '../lib/routes'
+import { AnchorContext } from '../lib/AnchorContext'
 import styles from '../pages/GlossaryPage.module.css'
 
 export default function GlossaryTermAnnotation({ value, children }) {
@@ -21,6 +22,9 @@ export default function GlossaryTermAnnotation({ value, children }) {
   const termElRef = useRef(null)
   const hideTimer = useRef(null)
   const popoverId = useId()
+  // An outer mark on the same span already drew an anchor (#143): keep the hover popover,
+  // skip our own <a>. The popover's "Read full definition" link still reaches the term page.
+  const insideAnchor = useContext(AnchorContext)
 
   // Escape key — WCAG 1.4.13
   useEffect(() => {
@@ -90,14 +94,18 @@ export default function GlossaryTermAnnotation({ value, children }) {
       >
         {/* The link is the one tab stop and the trigger: it navigates, so it stays an <a>.
             (ST-151: the wrapper used to carry tabIndex=0 as well, giving two tab stops per term.) */}
-        <Link
-          to={href}
-          style={{ color: 'inherit', textDecoration: 'none' }}
-          aria-expanded={shown}
-          aria-controls={shown ? popoverId : undefined}
-        >
-          {children}
-        </Link>
+        {insideAnchor ? children : (
+          <AnchorContext.Provider value={true}>
+            <Link
+              to={href}
+              style={{ color: 'inherit', textDecoration: 'none' }}
+              aria-expanded={shown}
+              aria-controls={shown ? popoverId : undefined}
+            >
+              {children}
+            </Link>
+          </AnchorContext.Provider>
+        )}
       </Wrapper>
       {shown && popoverPos && createPortal(
         <span

@@ -16,6 +16,7 @@
  *      (EPIC-0183)
  *   I) Missing author attribution — every content doc should have ≥1 author (EPIC-0183)
  *   J) SEO metadata completeness — seo.title and seo.description (EPIC-0183)
+ *   K) Spans carrying both a link and a glossary term mark — only one anchor renders (#143)
  *
  * Flags:
  *   --strict   Treat quality warnings (H, I, J) as errors — exits non-zero
@@ -135,7 +136,12 @@ const query = `{
     title,
     "slug": slug.current,
     "contentBlocks": content[]{ _type, children[]{ _type, text } },
-    "bodyBlocks": body[]{ _type, children[]{ _type, text } }
+    "bodyBlocks": body[]{ _type, children[]{ _type, text } },
+    "markBlocks": [
+      ...content[_type == "block"],
+      ...body[_type == "block"],
+      ...sections[].content[_type == "block"]
+    ]{ "defs": markDefs[]{ _key, _type }, "spans": children[]{ _type, text, marks } }
   },
   "taxonomies": *[_type in $taxonomyTypes && defined(slug.current)] {
     _id,
@@ -474,6 +480,44 @@ async function run() {
 
   if (entityIssues === 0) {
     console.log('   ✅  No literal HTML entities found in PortableText spans')
+  }
+  console.log()
+
+  // ── K) Spans carrying both a link and a glossary term ────────────────────
+
+  console.log('🔗  Link + Glossary Term on One Span Check')
+  console.log('──────────────────────────────────────────────')
+
+  // The renderer draws one anchor when a span has both marks (#143), so this is a warning:
+  // the second destination is silently dropped. Fix in Studio by removing one mark.
+  let doubleMarkIssues = 0
+
+  for (const doc of portableDocs) {
+    const hits = []
+    for (const block of (doc.markBlocks ?? []).flat()) {
+      if (!block) continue // sections without content project to null
+      const typeByKey = new Map((block.defs ?? []).map((d) => [d._key, d._type]))
+      for (const span of block.spans ?? []) {
+        if (span._type !== 'span') continue
+        const types = (span.marks ?? []).map((m) => typeByKey.get(m))
+        if (types.includes('link') && types.includes('glossaryTermRef')) {
+          hits.push(span.text ?? '')
+        }
+      }
+    }
+    if (hits.length > 0) {
+      console.log(
+        `   ⚠️   [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hits.length} span(s) with both a link and a glossary term:`,
+      )
+      for (const text of hits.slice(0, 3)) console.log(`        Text: "${text.slice(0, 80)}"`)
+      console.log('        Fix: in Studio, remove either the link or the glossary term from that text')
+      doubleMarkIssues++
+      if (STRICT) { errors++ } else { warnings++ }
+    }
+  }
+
+  if (doubleMarkIssues === 0) {
+    console.log('   ✅  No span carries both a link and a glossary term')
   }
   console.log()
 
