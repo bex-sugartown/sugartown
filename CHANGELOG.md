@@ -12,6 +12,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- Studio schema comments for tags point at the live tag list and the write pipeline rule instead of a doc that never existed. (#174; `grep -rn taxonomy/controlled apps` finds no schema hits)
 - ST-202: vspecs start from one template with a light and dark toggle, ten fixed sections and a change-specific slot, plus a rules doc; epic Phases now carry a Gate so the next phase starts on its own. (local `pnpm test:smoke`: 28 passed)
 - The design-reviewer and the vspec instructions find ST- vspecs as well as SUG- ones, so an ST- epic's vspec is no longer skipped. (#209; reviewer run on ST-202 cited its vspec)
 - A span carrying both a link and a glossary term renders one anchor instead of a link inside a link, and `validate:content` flags such spans. (#143; no nested-anchor error on /articles/the-agentic-caucus, smoke 28 passed)
