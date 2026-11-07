@@ -167,7 +167,7 @@ The right version costs one sentence and gains every reader who has not written 
 
 Inherited from the Brand Voice Guide and non-negotiable here:
 
-- No em dashes. Use commas, parentheses, colons, or two sentences. Exception: the `Title — Subtitle` heading separator.
+- Em dashes are allowed in technical docs where grammatically correct. The ban applies to customer-facing and client-facing content only (`CLAUDE.md` §Anti-Slop Content Rules).
 - No "leverage," "utilize," "facilitate." Use "use," "use," "help."
 - No adjective triads. "Robust, scalable, and maintainable" is decoration. Use one specific adjective or a number.
 - No filler transitions. "That said," "With that in mind," "It's worth noting that," "At the end of the day."

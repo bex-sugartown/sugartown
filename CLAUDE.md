@@ -498,12 +498,12 @@ Omitting either field saves and renders correctly on the web but cannot be edite
 
 All AI-drafted content must pass the anti-slop checks documented in `docs/brand/brand-voice-guide.md`.
 
-**Scope:** these rules apply in full to *reader-facing* content — anything shipped to a human audience: Sanity content (articles, nodes, case studies, glossary terms, page copy), alt text, meta descriptions, and commit messages (public in repo history). *Internal planning docs* (`docs/backlog/`, `docs/shipped/`, `docs/reviews/`, `docs/diagrams/`, epic docs, post-mortems) are exempt from the **em dash ban specifically** — they are structural working documents, not prose anyone reads for AI tells. Every other rule below still applies to them. If internal doc text is lifted into published content, the full ban applies at the point of lift.
+**Scope:** these rules apply in full to *reader-facing* content — anything shipped to a human audience: Sanity content (articles, nodes, case studies, glossary terms, page copy), alt text, meta descriptions, and commit messages (public in repo history). *Internal documentation* (all of `docs/` outside the reader-facing paths, rule files, epic docs, post-mortems, commit messages, PR descriptions) and *session chat* are exempt from the **em dash ban specifically**: use one where it is grammatically correct. Every other rule below still applies to them. If internal text is lifted into published content, the full ban applies at the point of lift.
 
 The key enforcement rules:
 
 **Banned in all non-node content:**
-- **Em dashes** (`—`) in reader-facing content. Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell. **Exceptions:** `Title — Subtitle` separator usage in headings (a typographic convention, not a prose pattern); and internal planning docs per the scope note above.
+- **Em dashes** (`—`) in customer-facing and client-facing content. Use commas, parentheses, colons, or separate sentences. Em dashes are the single most reliable structural AI tell. **Exceptions:** `Title — Subtitle` separator usage in headings (a typographic convention, not a prose pattern); nodes (below); and internal documentation and session chat per the scope note above.
 - **Decorative emoji/icons.** No `🚀`, `✨`, `🌟` garnish. If an emoji doesn't earn its place through humour or irony, it doesn't appear.
 - **Filler transitions:** "That said," / "With that in mind," / "That being said," / "It's worth noting that" / "At the end of the day." If the next paragraph follows logically, it doesn't need a bridge.
 - **AI vocabulary:** "delve into", "leverage", "utilize", "facilitate", "synergize", "ideate", "learnings", "passionate about", "excited to announce", "in today's landscape."
@@ -512,7 +512,7 @@ The key enforcement rules:
 - **Sentence-opening repetition:** Three consecutive sentences starting with the same word is a rewrite signal.
 - **List-itis:** Bullets are for parallel items, not for avoiding prose.
 
-**Node exemptions:** Nodes (AI-narrated, forensic storyteller voice) are exempt from the em dash and emoji bans. Em dashes are part of the register. Emoji in nodes is used sarcastically or as deadpan humour only.
+**Node exemptions:** Nodes (AI-narrated, forensic storyteller voice) are exempt from the em dash and emoji bans. Em dashes are explicitly allowed in node copy: they are part of the AI register. Emoji in nodes is used sarcastically or as deadpan humour only.
 
 **Source of truth:** `docs/brand/brand-voice-guide.md` (full checklist with examples and rationale).
 

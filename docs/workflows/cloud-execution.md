@@ -59,7 +59,7 @@ No token. The dataset is public-read. Never add a write token to a cloud environ
 
 These live in the parent `conventions/` folder, which cloud never sees:
 
-- **No em dashes** in anything written for Bex: comments, commit messages, issue text, replies.
+- **Em dashes** are allowed in comments, commit messages, issue text and replies where grammatically correct. They stay banned in customer-facing and client-facing content (`CLAUDE.md` §Anti-Slop Content Rules).
 - **Session-facing text** follows `docs/conventions/instruction-writing-style.md` (repo copy).
 - **Steps written for Bex to follow** get one action per numbered step, say what she should see
   after each, name the menu before the shortcut, and never send her to a terminal when a

@@ -126,8 +126,7 @@ A rule nobody can follow is worse than a rule that runs long.
 
 ## Em dashes
 
-The reader-facing ban does not apply here. Plain English rarely needs one anyway. If a
-comma or a full stop works, use it.
+The reader-facing ban does not apply here. Use one where it is grammatically correct.
 
 ## Applying this
 
