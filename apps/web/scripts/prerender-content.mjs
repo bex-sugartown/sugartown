@@ -2,12 +2,14 @@
 /**
  * prerender-content.mjs — SUG-183
  *
- * Generates static HTML snapshots for article, node, case-study and release-note routes.
+ * Generates static HTML snapshots for article, node, case-study and release-note routes,
+ * plus page, person, glossary-term and series routes (#82).
  * Runs after `vite build` so bots and importers (Medium, Googlebot, social
  * card scrapers) receive real content instead of the empty SPA shell.
  *
  * Each route gets dist/<prefix>/<slug>.html containing:
  *   - Full <head> with title, description, canonical, and OG tags
+ *   - JSON-LD from src/lib/jsonLd.js (the one source; SeoHead drops this block on mount)
  *   - Article body as serialised HTML inside <div id="root">
  *   - The Vite bundle <script>/<link> tags so React loads and re-renders
  *
@@ -29,6 +31,9 @@ import { createClient } from '@sanity/client'
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { generateJsonLd, generateDefinedTermJsonLd } from '../src/lib/jsonLd.js'
+import { JSONLD_PERSON_PROJECTION, JSONLD_PRIMARY_PERSON_SELECT, JSONLD_SITE_SETTINGS_QUERY } from '../src/lib/jsonLdQueries.js'
+import { getCanonicalPath, ARCHIVE_PATHS, TAXONOMY_BASE_PATHS } from '../src/lib/routes.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DIST = resolve(__dirname, '../dist')
@@ -74,15 +79,6 @@ const client = createClient({
   perspective: 'published',
   ...(token ? { token } : {}),
 })
-
-// ─── Route map (mirrors routes.js TYPE_NAMESPACES) ────────────────────────────
-
-const TYPE_PREFIX = {
-  article:   'articles',
-  node:      'nodes',
-  caseStudy: 'case-studies',
-  releaseNote: 'releases',
-}
 
 // ─── Lightweight Portable Text → HTML serialiser ─────────────────────────────
 // Produces readable text for crawlers — not a full PT renderer.
@@ -235,7 +231,14 @@ function getViteAssets() {
 
 // ─── HTML template ────────────────────────────────────────────────────────────
 
-function buildHtml({ title, description, canonicalUrl, ogImageUrl, bodyHtml, assets }) {
+// JSON-LD goes in a <script>, so '<' is escaped to stop a value closing the tag.
+function jsonLdScript(jsonLd) {
+  if (!jsonLd) return ''
+  const json = JSON.stringify(jsonLd).replace(/</g, '\\u003c')
+  return `\n  <script type="application/ld+json" data-prerendered>${json}</script>`
+}
+
+function buildHtml({ title, description, canonicalUrl, ogImageUrl, bodyHtml, assets, jsonLd = null, ogType = 'article' }) {
   const safeTitle = escHtml(title)
   const safeDesc  = escAttr(description || '')
   const safeUrl   = escAttr(canonicalUrl)
@@ -249,10 +252,10 @@ function buildHtml({ title, description, canonicalUrl, ogImageUrl, bodyHtml, ass
   <title>${safeTitle} — Sugartown</title>
   <meta name="description" content="${safeDesc}" />
   <link rel="canonical" href="${safeUrl}" />
-  <meta property="og:type" content="article" />
+  <meta property="og:type" content="${ogType}" />
   <meta property="og:title" content="${escAttr(title)}" />
   <meta property="og:description" content="${safeDesc}" />
-  <meta property="og:url" content="${safeUrl}" />${ogImg}
+  <meta property="og:url" content="${safeUrl}" />${ogImg}${jsonLdScript(jsonLd)}
   ${assets.links}
 </head>
 <body>
@@ -287,11 +290,58 @@ const CONTENT_QUERY = (type) => `*[
   !(_id in path("drafts.**"))
 ]{
   _id,
+  _type,
   title,
   "slug": slug.current,
+  excerpt,
+  publishedAt,
+  updatedAt,
+  "authors": authors[]->{ name, "slug": slug.current },
   "description": coalesce(excerpt, summary, seo.description, ""),
   sections[]
 }`
+
+// Reserved first segments: a page doc with one of these slugs would shadow a real route.
+const RESERVED_PAGE_SLUGS = new Set([
+  'home', 'sitemap', 'glossary', 'series', 'dev',
+  ...ARCHIVE_PATHS.map(p => p.slice(1)),
+  ...TAXONOMY_BASE_PATHS.map(p => p.slice(1)),
+])
+
+const PAGE_QUERY = `*[
+  _type == "page" && defined(slug.current) && !(_id in path("drafts.**"))
+]{
+  _id,
+  _type,
+  title,
+  "slug": slug.current,
+  "description": coalesce(seo.description, ""),
+  sections[],
+  "primaryPerson": ${JSONLD_PRIMARY_PERSON_SELECT}
+}`
+
+const PERSON_QUERY = `*[
+  _type == "person" && defined(slug.current) && !(_id in path("drafts.**"))
+]{ _type, ${JSONLD_PERSON_PROJECTION} }`
+
+const GLOSSARY_QUERY = `*[
+  _type == "glossaryTerm" && defined(slug.current) && !(_id in path("drafts.**"))
+]{ _type, term, "slug": slug.current, definition }`
+
+const SERIES_QUERY = `*[
+  _type == "series" && defined(slug.current) && !(_id in path("drafts.**"))
+]{ _type, title, "slug": slug.current, description }`
+
+function plainTextOf(blocks) {
+  return (blocks || [])
+    .map(b => (b.children || []).map(c => c.text).join(''))
+    .join(' ')
+    .trim()
+}
+
+function truncate(text, max = 160) {
+  return text.length <= max ? text : text.slice(0, max - 1).trimEnd() + '…'
+}
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 
@@ -304,43 +354,108 @@ async function run() {
   console.log('[prerender] Fetching published content from Sanity...')
   const assets = getViteAssets()
 
-  const [articles, nodes, caseStudies, releaseNotes] = await Promise.all([
-    client.fetch(CONTENT_QUERY('article')),
-    client.fetch(CONTENT_QUERY('node')),
-    client.fetch(CONTENT_QUERY('caseStudy')),
-    client.fetch(CONTENT_QUERY('releaseNote')),
-  ])
+  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, siteSettings] =
+    await Promise.all([
+      client.fetch(CONTENT_QUERY('article')),
+      client.fetch(CONTENT_QUERY('node')),
+      client.fetch(CONTENT_QUERY('caseStudy')),
+      client.fetch(CONTENT_QUERY('releaseNote')),
+      client.fetch(PAGE_QUERY),
+      client.fetch(PERSON_QUERY),
+      client.fetch(GLOSSARY_QUERY),
+      client.fetch(SERIES_QUERY),
+      client.fetch(JSONLD_SITE_SETTINGS_QUERY),
+    ])
 
-  const routes = [
-    ...articles.map(doc  => ({ doc, prefix: TYPE_PREFIX.article })),
-    ...nodes.map(doc     => ({ doc, prefix: TYPE_PREFIX.node })),
-    ...caseStudies.map(doc => ({ doc, prefix: TYPE_PREFIX.caseStudy })),
-    ...releaseNotes.map(doc => ({ doc, prefix: TYPE_PREFIX.releaseNote })),
-  ]
+  // siteUrl on the siteSettings doc wins in generateJsonLd; fall back to the build's SITE_URL.
+  const site = { ...siteSettings, siteUrl: siteSettings?.siteUrl || SITE_URL }
+  const pages = pagesAll.filter(d => !RESERVED_PAGE_SLUGS.has(d.slug))
+
+  const contentRoutes = [
+    ...articles, ...nodes, ...caseStudies, ...releaseNotes,
+  ].map(doc => ({
+    doc,
+    path: getCanonicalPath({ docType: doc._type, slug: doc.slug }),
+    title: doc.title || '',
+    description: doc.description || '',
+    bodyHtml: sectionsToHtml(doc.sections),
+    jsonLd: generateJsonLd(doc, site),
+    ogType: 'article',
+  }))
+
+  const pageRoutes = pages.map(doc => ({
+    doc,
+    path: getCanonicalPath({ docType: 'page', slug: doc.slug }),
+    title: doc.title || '',
+    description: doc.description || '',
+    bodyHtml: sectionsToHtml(doc.sections),
+    jsonLd: generateJsonLd(doc, site),
+    ogType: 'website',
+  }))
+
+  const personRoutes = people.map(doc => ({
+    doc,
+    path: getCanonicalPath({ docType: 'person', slug: doc.slug }),
+    title: doc.name || '',
+    description: doc.headline || '',
+    bodyHtml: [`<h1>${escHtml(doc.name)}</h1>`, doc.headline ? `<p>${escHtml(doc.headline)}</p>` : ''].filter(Boolean).join('\n'),
+    jsonLd: generateJsonLd(doc, site),
+    ogType: 'profile',
+  }))
+
+  const termRoutes = terms.map(doc => {
+    const definition = plainTextOf(doc.definition)
+    return {
+      doc,
+      path: getCanonicalPath({ docType: 'glossaryTerm', slug: doc.slug }),
+      title: doc.term || '',
+      description: truncate(definition),
+      bodyHtml: [`<h1>${escHtml(doc.term)}</h1>`, definition ? `<p>${escHtml(definition)}</p>` : ''].filter(Boolean).join('\n'),
+      jsonLd: generateDefinedTermJsonLd(doc, site),
+      ogType: 'website',
+    }
+  })
+
+  // The client page sends no JSON-LD for a series, so the snapshot sends none either.
+  const seriesRoutes = seriesAll.map(doc => ({
+    doc,
+    path: getCanonicalPath({ docType: 'series', slug: doc.slug }),
+    title: doc.title || '',
+    description: doc.description || '',
+    bodyHtml: [`<h1>${escHtml(doc.title)}</h1>`, doc.description ? `<p>${escHtml(doc.description)}</p>` : ''].filter(Boolean).join('\n'),
+    jsonLd: null,
+    ogType: 'website',
+  }))
+
+  const routes = [...contentRoutes, ...pageRoutes, ...personRoutes, ...termRoutes, ...seriesRoutes]
 
   console.log(`[prerender] Writing ${routes.length} route snapshots...`)
   let written = 0
 
-  for (const { doc, prefix } of routes) {
+  for (const { doc, path, title, description, bodyHtml, jsonLd, ogType } of routes) {
     if (!doc.slug) continue
-    const canonicalUrl = `${SITE_URL}/${prefix}/${doc.slug}`
-    const bodyHtml     = sectionsToHtml(doc.sections)
-    const html         = buildHtml({
-      title: doc.title || '',
-      description: doc.description || '',
-      canonicalUrl,
+    const html = buildHtml({
+      title,
+      description,
+      canonicalUrl: `${SITE_URL}${path}`,
       bodyHtml,
       assets,
+      jsonLd,
+      ogType,
     })
-    writeRouteHtml(`/${prefix}/${doc.slug}`, html)
+    writeRouteHtml(path, html)
     written++
   }
 
   console.log(`[prerender] Done — ${written} routes written to dist/`)
-  console.log(`[prerender]   articles:    ${articles.length}`)
-  console.log(`[prerender]   nodes:       ${nodes.length}`)
+  console.log(`[prerender]   articles:     ${articles.length}`)
+  console.log(`[prerender]   nodes:        ${nodes.length}`)
   console.log(`[prerender]   case-studies: ${caseStudies.length}`)
-  console.log(`[prerender]   releases:    ${releaseNotes.length}`)
+  console.log(`[prerender]   releases:     ${releaseNotes.length}`)
+  console.log(`[prerender]   pages:        ${pages.length} (skipped ${pagesAll.length - pages.length} reserved)`)
+  console.log(`[prerender]   people:       ${people.length}`)
+  console.log(`[prerender]   glossary:     ${terms.length}`)
+  console.log(`[prerender]   series:       ${seriesAll.length}`)
 }
 
 run().catch(err => {

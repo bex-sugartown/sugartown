@@ -9,6 +9,7 @@
 
 import { SEO_FRAGMENT, SITE_SEO_FRAGMENT } from './seo'
 import { AI_PROVENANCE_PROJECTION } from './provenance'
+import { JSONLD_PRIMARY_PERSON_SELECT } from './jsonLdQueries'
 
 // ---- TAXONOMY FRAGMENTS (centralized — use in every query that expands categories/projects) ----
 // Stage 4: PERSON_FRAGMENT and TAG_FRAGMENT added alongside existing fragments.
@@ -922,19 +923,7 @@ export const pageBySlugQuery = `
     partNumber,
     citations[]{ _key, text, url, label },
     ${SEO_FRAGMENT},
-    "primaryPerson": select(
-      slug.current == "about" => *[_type == "person"][0] {
-        _id,
-        name,
-        "slug": slug.current,
-        titles,
-        headline,
-        location,
-        socialLinks[]{ platform, url, label },
-        image{ asset->{ _id, url }, alt },
-        "expertise": expertise[]->{ name }
-      }
-    )
+    "primaryPerson": ${JSONLD_PRIMARY_PERSON_SELECT}
   }
 `
 

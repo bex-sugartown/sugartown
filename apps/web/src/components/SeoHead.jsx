@@ -125,6 +125,9 @@ export default function SeoHead({ seo: seoProp, title: titleProp, description: d
     }
 
     // ── JSON-LD structured data ───────────────────────────────────────────────
+    // #82: scripts/prerender-content.mjs bakes the same JSON-LD into the static HTML (marked
+    // data-prerendered). Drop it before adding ours so the page never carries two blocks.
+    document.querySelectorAll('script[type="application/ld+json"][data-prerendered]').forEach(removeEl)
     let jsonLdEl = null
     if (jsonLd) {
       jsonLdEl = document.createElement('script')

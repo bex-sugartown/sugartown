@@ -14,6 +14,7 @@ import { getCanonicalPath } from '../lib/routes'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
+import { generateDefinedTermJsonLd } from '../lib/jsonLd'
 import { Blockquote, Breadcrumb, Chip, DescriptionList, PageHeader } from '../design-system'
 import SeoHead from '../components/SeoHead'
 import ContentNav from '../components/ContentNav'
@@ -33,13 +34,6 @@ const REF_TYPE_LABELS = {
   tool: 'Tool',
   person: 'Person',
   project: 'Project',
-}
-
-function plainText(blocks) {
-  if (!blocks?.length) return ''
-  return blocks
-    .map((b) => b.children?.map((s) => s.text).join('') ?? '')
-    .join(' ')
 }
 
 // Sanity values are inconsistent: some carry pre-typed slashes ("/ˌkaʊ…/"),
@@ -79,20 +73,7 @@ export default function GlossaryTermPage() {
 
   const seo = term ? resolveSeo(term, siteSettings) : null
 
-  const jsonLd = term
-    ? {
-        '@context': 'https://schema.org',
-        '@type': 'DefinedTerm',
-        name: term.term,
-        description: plainText(term.definition),
-        url: `https://sugartown.io/glossary/${term.slug}`,
-        inDefinedTermSet: {
-          '@type': 'DefinedTermSet',
-          name: 'Sugartown Glossary',
-          url: 'https://sugartown.io/glossary',
-        },
-      }
-    : null
+  const jsonLd = term ? generateDefinedTermJsonLd(term, siteSettings) : null
 
   const pronunciation = term?.pronunciation ? formatPronunciation(term.pronunciation) : null
 

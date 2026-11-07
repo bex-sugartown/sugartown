@@ -13,7 +13,7 @@
  *
  * Pass doc=null for pages without a Sanity document (e.g. archive pages).
  */
-import { getCanonicalPath } from './routes'
+import { getCanonicalPath } from './routes.js' // .js: scripts/prerender-content.mjs imports this file in plain Node
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -156,6 +156,30 @@ function buildPage(doc, base) {
     ...(path ? { url: `${base}${path}` } : {}),
     isPartOf: { '@id': `${base}/#website` },
     publisher: { '@id': `${base}/#organization` },
+  }
+}
+
+// ─── glossary term (was inline in GlossaryTermPage; shared with the prerender, #82) ───
+
+function blocksToText(blocks) {
+  if (!blocks?.length) return ''
+  return blocks.map((b) => b.children?.map((c) => c.text).join('') ?? '').join(' ')
+}
+
+/** DefinedTerm JSON-LD for a glossaryTerm doc ({ term, slug, definition }). */
+export function generateDefinedTermJsonLd(term, siteSettings) {
+  const base = siteBase(siteSettings)
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'DefinedTerm',
+    name: term.term,
+    description: blocksToText(term.definition),
+    url: `${base}/glossary/${term.slug}`,
+    inDefinedTermSet: {
+      '@type': 'DefinedTermSet',
+      name: 'Sugartown Glossary',
+      url: `${base}/glossary`,
+    },
   }
 }
 
