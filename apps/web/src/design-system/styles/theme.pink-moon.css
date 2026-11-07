@@ -263,7 +263,7 @@
   --st-margin-outline:  #4a5068;
 
   /* Label tokens — dark override (charcoal-400 shared with light for consistency) */
-  --st-label-color:       var(--st-color-charcoal-400);
+  --st-label-color:       var(--st-color-charcoal-300);   /* #187: charcoal-400 was 4.19:1 on the dark surface */
   --st-label-color-badge: var(--st-color-text-default);   /* ST-150: softgrey-500 was 4.27:1 on the label strip, now 16.46:1 */
   --st-color-text-eyebrow: var(--st-color-text-default);  /* ST-150: dark eyebrow is white, not pink */
   --st-segmented-active-fg: var(--st-color-brand-primary); /* ST-150: SegmentedControl now reads this token; keeps its current pink on dark */
