@@ -45,6 +45,8 @@ derive an `ST-` number — GitHub assigns it.** Full rationale:
 doc, one ship, however many phases. Phases get checkboxes in the parent doc. A phase
 that outgrows the epic's Objective splits out via `/new-epic`.
 
+**Phases advance on their own.** The rule is in `docs/epic-template.md` §Phases: the next phase starts in the same turn unless the Phases table names a Gate.
+
 Strategy governs merge cadence only. Declare one in the epic doc header when the epic opens,
 and stick to it:
 

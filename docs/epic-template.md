@@ -277,9 +277,16 @@ stage (SUG-246).
 
 ## Phases [REQUIRED]
 
-> One row per phase: what ships at the end of it, and any gate it stops at.
+> One table row per phase: Phase, what ships at the end of it, Gate, Done.
+> Gate is `none`, or the named stop: a human sign-off, a rule-file diff approval, or a push.
 > A single-phase epic writes "Single phase." Every Scope item names its
 > phase (`.claude/rules/epics.md` §Incomplete epic doc hard stop, item 6).
+>
+> **When a phase ends, start the next one in the same turn, unless its Gate is not `none`.**
+> At a named Gate, do the work that needs no approval first (draft the diff, build the
+> prototype), then stop, name the gate, and put the question to Bex in that turn with
+> `AskUserQuestion`. Never end a turn between two phases with neither a next step nor a named
+> gate. Tick the Done box when a phase ends. (#202 ended a turn after Phase 0 with neither.)
 
 ---
 
