@@ -27,7 +27,7 @@ Not applicable, no content piece.
 ## Scope
 
 - [x] Phase 0: vspec for the template itself (this epic's own vspec, showing the template layout in both themes), approved by Bex — layer: vspec
-- [ ] `docs/conventions/vspec-template.html`: the copyable template, light and dark toggle, Pink Moon tokens only, one interactive-prototype slot — layer: docs
+- [x] `docs/conventions/vspec-template.html`: the copyable template, light and dark toggle, Pink Moon tokens only, one interactive-prototype slot — layer: docs
 - [ ] `docs/conventions/vspec-rules.md`: what a vspec must contain, when it becomes interactive, class names equal production names, decisions-answered section, evidence per claim, where finished vspecs go, and the **true representation rule**: a Before is a dated real screenshot or a render of the live component, never a hand-built mock; a prototype shows whatever the change touches, whole: a page layout, a section, a component, a style or a token (for a carousel: arrows, dots, caption and the peek slides, not the image alone); a state that is not live today is never shown as Before; every Before and After carries a BEFORE or AFTER tag (Bex, 2026-11-06, from #205, where a hypothetical Before panel showed buttons and a counter that do not exist) — layer: docs
 - [ ] Contrast section rule: each text pair measured in both themes, with the command that produced the figure — layer: docs
 - [ ] Pointer from `CLAUDE.md` §Phase 0 visual spec gate and from the `/new-epic` stub (`**Vspec:**` line) to the template — layer: rule file (gate applies)
@@ -35,13 +35,18 @@ Not applicable, no content piece.
 
 ## Phases
 
-- **Phase 1:** Phase 0 vspec for the template (first Scope item), then the template file (second).
-- **Phase 2:** rules doc and contrast section rule (third and fourth Scope items).
-- **Phase 3:** the pointers and the design-reviewer note (fifth and sixth Scope items), each shown as a diff and approved before any edit.
+| Phase | Ships at the end | Gate | Done |
+|---|---|---|---|
+| 0 | Phase 0 vspec for the template (first Scope item) | Bex sign-off on the vspec | [x] 2026-11-07 |
+| 1 | The template file, `docs/conventions/vspec-template.html` (second Scope item) | Rule-file diff approval (`docs/conventions/**`) | [x] 2026-11-07 |
+| 2 | Rules doc and contrast section rule (third and fourth Scope items) | Rule-file diff approval (`docs/conventions/**`) | [ ] |
+| 3 | The `CLAUDE.md` and `/new-epic` pointers and the design-reviewer note (fifth and sixth Scope items) | Rule-file diff approval, one diff per file | [ ] |
+
+Each phase's no-approval work (writing the draft to a scratchpad copy, producing the diff) runs first; the stop is at the diff.
 
 ## Acceptance Criteria
 
-- [ ] `docs/conventions/vspec-template.html` opens in a browser, shows a theme toggle, and renders every section in both light and dark with no raw colour values (`pnpm validate:tokens --strict-colors` does not scan it, so the check is a grep for `#` and `rgb` in the file, run and quoted).
+- [x] `docs/conventions/vspec-template.html` opens in a browser, shows a theme toggle, and renders every section in both light and dark with no raw colour values (`pnpm validate:tokens --strict-colors` does not scan it, so the check is a grep for `#` and `rgb` in the file, run and quoted). Evidence 2026-11-07: `grep -n -E "#[0-9a-fA-F]{3,8}\b|rgba?\(|hsl"` returned none; served over a local server, the toggle moved `data-theme` from `light-pink-moon` (canvas `rgb(242, 242, 243)`) to `dark-pink-moon` (canvas `rgb(13, 18, 38)`), 10 section headings, 2 stylesheets loaded.
 - [ ] The template loads `tokens.css` and `theme.pink-moon.css` from the repo by relative path, and no colour, font or spacing value is defined locally.
 - [ ] A copy of the template, filled in with the #201 carousel content, reproduces the #201 vspec sections one for one.
 - [ ] The template's Before slot holds an image file and a capture date, not hand-built markup; the rules doc states that a Before is a real screenshot or a live render and that a prototype shows whatever the change touches, whole: a page layout, a section, a component, a style or a token (the #205 Before and #201 prototype are the two worked examples of getting it wrong).

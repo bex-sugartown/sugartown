@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- FILL: ST-{N} vspec: {short name} -->
+<title>ST-N vspec: short name</title>
+<!--
+  HOW TO USE
+  1. Copy this file to docs/drafts/ST-{N}-{slug}.vspec.html. docs/drafts/ and docs/conventions/ sit at the same depth, so the two stylesheet paths below work from both.
+  2. Replace every FILL marker. A section that does not apply keeps its heading and says "Not applicable" with the reason.
+  3. Do not add a colour, font or spacing value. Use a Pink Moon token (--st-*). To preview a component or style, link its CSS the way the site does.
+  4. Rules: docs/conventions/vspec-rules.md.
+-->
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<style>
+/* Template-only styles. Every value is a Pink Moon token. */
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--st-font-family-ui);font-size:var(--st-font-size-md);line-height:1.5;color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
+main{max-width:1000px;margin:0 auto;padding:var(--st-space-6) var(--st-space-4) var(--st-space-9)}
+h1,h2,h3{font-family:var(--st-font-family-narrative);color:var(--st-color-text-default);font-weight:var(--st-font-weight-semibold)}
+h1{font-size:var(--st-font-size-2xl);margin:0 0 var(--st-space-1)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+p{margin:var(--st-space-2) 0}
+code{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);color:var(--st-color-text-brand)}
+table{border-collapse:collapse;width:100%;font-size:var(--st-font-size-sm);margin:var(--st-space-2) 0 var(--st-space-4);background:var(--st-color-bg-surface)}
+th,td{border:1px solid var(--st-color-border-medium);padding:var(--st-space-2);text-align:left;vertical-align:top}
+th{background:var(--st-color-bg-surface-strong);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold)}
+img{max-width:100%;height:auto;display:block}
+
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+.vspecPass,.vspecFail{font-weight:var(--st-font-weight-bold);padding:0 var(--st-space-2);border:2px solid var(--st-color-border-strong)}
+.vspecPass{border-color:var(--st-posture-strong)}
+.vspecFail{border-color:var(--st-color-error)}
+.vspecThemeToggle{position:sticky;top:var(--st-space-2);float:right;z-index:10;padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);cursor:pointer}
+.vspecThemeToggle:hover{background:var(--st-color-brand-primary);color:var(--st-color-white)}
+.vspecThemeToggle:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
+@media (max-width:768px){.vspecPair{grid-template-columns:1fr}}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm)}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+</style>
+</head>
+<body>
+<main>
+<button class="vspecThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<!-- FILL: epic number, name, one-line purpose -->
+<h1>ST-N · Name of the change</h1>
+<p>Issue #N. Phase 0 visual spec. Class names are the production names. Values are tokens unless marked.</p>
+<div class="vspecNote"><strong>Status:</strong> awaiting Bex sign-off. Nothing in <code>apps/web/src/</code> or <code>apps/studio/schemas/</code> changes until the Phase 0 boxes are ticked. Open decisions are in section 9.</div>
+
+<h2>1. Interactive prototype</h2>
+<!-- FILL: show whatever the change touches, whole: a page layout, a section, a component, a style or a token, in both themes (use the toggle). Add a script tag only if an interaction trigger fires (scroll-spy, filtering, expand or collapse, tab switching, scroll-dependent sticky, drag, persisted state). -->
+<div class="vspecFrame" id="prototype">FILL: the prototype.</div>
+
+<h2>2. Before and after</h2>
+<!-- FILL: Before is a dated screenshot or a render of the live component, never hand-built markup. A state that is not live today is never shown as Before. -->
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-N-before-live-YYYY-MM-DD.webp" alt="FILL: what the live page shows today"><figcaption class="vspecCaption">Captured YYYY-MM-DD · FILL: URL or component</figcaption></figure></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span>
+    <p style="margin-top:var(--st-space-2)">FILL: the prototype from section 1, or an image of the built change.</p><div class="vspecCaption">Source: section 1</div></div>
+</div>
+
+<h2>3. Behaviour annotations</h2>
+<!-- FILL: every row, for any sidebar, nav rail, tab bar or anchor-bearing surface. "Same as X" is allowed. Blank is not. -->
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>FILL: which item, and how (border, colour, weight)</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>FILL: does a click scroll, does the URL update</td></tr>
+<tr><td>Scroll-spy</td><td>FILL: does the active item update on scroll</td></tr>
+<tr><td>Sticky/fixed</td><td>FILL: does it stay in view while content scrolls</td></tr>
+<tr><td>Mobile collapse</td><td>FILL: behaviour below the breakpoint</td></tr>
+<tr><td>Click side-effects</td><td>FILL: scroll-to-top, panel open or close, link behaviour</td></tr>
+</table>
+
+<h2>4. Contrast, measured</h2>
+<!-- FILL: one row per text pair, measured in both themes. Text needs 4.5:1, non-text 3:1. Name the command that produced the figures under the table. -->
+<table>
+<tr><th>Pair</th><th>Light ratio</th><th>Dark ratio</th><th>Verdict</th></tr>
+<tr><td>FILL</td><td>FILL</td><td>FILL</td><td>FILL</td></tr>
+</table>
+<p><strong>Command:</strong> FILL</p>
+
+<h2>5. Class naming table</h2>
+<!-- FILL: every new class. Class names in this section are the production names. -->
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>FILL</code></td><td>FILL</td><td>FILL</td></tr>
+</table>
+
+<h2>6. Component choice audit</h2>
+<!-- FILL: for each new component or DS primitive change, what exists, extend or replace, and why. "No new component" is a valid entry. -->
+<p>FILL</p>
+
+<h2>7. Token list</h2>
+<!-- FILL: every token the design uses. A literal value (a size, a ring width) is listed with the token it maps to at implementation. -->
+<table>
+<tr><th>Role</th><th>Tokens</th></tr>
+<tr><td>FILL</td><td><code>--st-FILL</code></td></tr>
+</table>
+
+<h2>8. Governance checks</h2>
+<!-- FILL: which gates applied and the evidence each was met. -->
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>FILL</td><td>FILL</td></tr>
+<tr><td>Nav annotations (six)</td><td>FILL</td><td>Section 3</td></tr>
+<tr><td>Interactive prototype</td><td>FILL</td><td>Section 1</td></tr>
+<tr><td>CSS class reuse audit</td><td>FILL</td><td>Section 5</td></tr>
+<tr><td>Component choice audit</td><td>FILL</td><td>Section 6</td></tr>
+<tr><td>Content Write Gate</td><td>FILL</td><td>FILL</td></tr>
+<tr><td>Rule-file write gate</td><td>FILL</td><td>FILL</td></tr>
+<tr><td>Diagram red-pen gate</td><td>FILL</td><td>FILL</td></tr>
+</table>
+
+<h2>9. Decisions answered</h2>
+<!-- FILL: each decision, the answer and the date. Open decisions stay here, marked open, until answered. -->
+<ol>
+<li><strong>FILL:</strong> answer (YYYY-MM-DD)</li>
+</ol>
+
+<h2>10. Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[ ] vspec reviewed</li>
+<li>[ ] class table approved</li>
+<li>[ ] component choice audit approved</li>
+<li>[ ] open decisions answered</li>
+</ul>
+</main>
+<script>
+(function(){
+  var root=document.documentElement, toggle=document.getElementById('themeToggle');
+  toggle.onclick=function(){
+    var dark=root.getAttribute('data-theme')!=='dark-pink-moon';
+    root.setAttribute('data-theme',dark?'dark-pink-moon':'light-pink-moon');
+    toggle.textContent=dark?'Switch to light view':'Switch to dark view';
+    toggle.setAttribute('aria-pressed',dark);
+  };
+})();
+</script>
+</body>
+</html>
