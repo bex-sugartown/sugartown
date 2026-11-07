@@ -52,14 +52,14 @@
   font-family: var(--st-font-ui);
   font-size: var(--st-font-size-sm);
   font-weight: 600;
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-text-brand);
   margin: 0;
   line-height: 1.3;
   transition: color 0.15s ease;
 }
 
 .item:hover .title {
-  color: var(--st-color-brand-secondary);
+  color: var(--st-color-text-brand);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 0.15em;
