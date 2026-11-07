@@ -14,9 +14,10 @@ import {createRemoveReferenceAction} from '../../components/RemoveReferenceActio
  * - Tags must be cross-cutting — useful across article, caseStudy, and node types
  * - Tool names belong in the tools[] enum field on each content type
  * - Status values belong in the status field on each content type
- * - New tags require editorial review before creation (see docs/taxonomy/controlled-vocabulary.md)
+ * - New tags require editorial review before creation (see docs/write-pipeline-prompt.md §1a)
  *
- * Canonical vocabulary: ~60–100 approved tags. Do not create tags outside this list.
+ * Canonical vocabulary: the published tag documents in Sanity (query `*[_type == "tag"]{ name }`).
+ * Target size ~60–100 (64 on 2026-11-07). Do not create tags outside this list.
  */
 export default defineType({
   name: 'tag',

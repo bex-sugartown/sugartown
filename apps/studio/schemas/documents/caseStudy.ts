@@ -367,7 +367,7 @@ export default defineType({
       type: 'array',
       // Tags must be references to published tag documents — no freeform strings.
       // The controlled vocabulary lives in the tag document collection.
-      // See docs/taxonomy/controlled-vocabulary.md for the canonical list.
+      // The canonical list is the published tag documents; see the tag schema header.
       description: 'Conceptual and thematic tags from the controlled vocabulary. Do not create new tags without editorial review.',
       group: 'metadata',
       of: [
