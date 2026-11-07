@@ -21,7 +21,8 @@ component" or "review ProjectDetailPage". Resolve it to its files:
 - CSS module: `*.module.css` next to the component, or shared `pages.module.css`
   / `*.module.css` it consumes.
 - JSX: the component or page file under `apps/web/src/`.
-- The Phase 0 vspec, if one exists, at `docs/drafts/SUG-{N}-*.vspec.html`.
+- The Phase 0 vspec, if one exists, at `docs/drafts/SUG-{N}-*.vspec.html` (epics created in Linear)
+  or `docs/drafts/ST-{n}-*.vspec.html` (epics created from a GitHub issue). Check both.
 - The token source of truth: `apps/web/src/design-system/styles/tokens.css`.
 
 If you cannot locate a file, say so plainly and review what you can. Do not
@@ -39,7 +40,7 @@ Review against these dimensions in order. Each maps to a CLAUDE.md rule.
    token names actually exist — grep the name in `tokens.css`. A `var(--st-*)`
    reference to a token that is not defined is a Blocker.
 
-2. **Phase 0 vspec comparison.** If a vspec exists at `docs/drafts/SUG-{N}-*.vspec.html`,
+2. **Phase 0 vspec comparison.** If a vspec exists at either glob above,
    read it and compare against the implementation across:
    - Typography — font-family, size, weight per element.
    - Spacing — gap, padding, margin values, mapped to the token scale.

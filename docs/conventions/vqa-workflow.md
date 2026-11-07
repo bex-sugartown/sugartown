@@ -45,7 +45,7 @@ Examples:
 ### What it reads
 
 - The component/page CSS module and JSX under `apps/web/src/`.
-- The Phase 0 vspec at `docs/drafts/SUG-{N}-*.vspec.html`, if one exists.
+- The Phase 0 vspec at `docs/drafts/SUG-{N}-*.vspec.html` or `docs/drafts/ST-{n}-*.vspec.html`, if one exists.
 - The token source of truth `apps/web/src/design-system/styles/tokens.css`.
 - It may run `pnpm validate:tokens` and `pnpm validate:tokens --strict-colors`
   for corroboration.

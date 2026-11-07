@@ -246,7 +246,7 @@ stage (SUG-246).
 > least one Acceptance Criterion below.
 >
 > **If this epic includes a Phase 0 (vspec / design review):**
-> - The vspec file MUST be created at `docs/drafts/SUG-{N}-{name}.vspec.html` before any
+> - The vspec file MUST be created at `docs/drafts/{ID}-{name}.vspec.html` before any
 >   implementation phases begin. A layout diagram in the epic doc is NOT a substitute.
 > - No code in `apps/web/src/` or `apps/studio/schemas/` may be written until the vspec
 >   file exists on disk and Phase 0 checkboxes are marked complete by the human.
