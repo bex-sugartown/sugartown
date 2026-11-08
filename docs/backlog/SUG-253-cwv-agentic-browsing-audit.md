@@ -2,6 +2,7 @@
 **Epic:** SUG-253 — CWV audit & Agentic Browsing fixes (llms.txt, accessibility tree, mobile performance)
 **Linear Issue:** [SUG-253](https://linear.app/sugartown/issue/SUG-253/cwv-audit-and-agentic-browsing-fixes-llmstxt-accessibility-tree-mobile)
 **Status:** Backlog
+**Visual:** no _(Phase 1 touches a static file and an ARIA fix; re-evaluate before Phase 2 if image or script loading on shared components changes)_
 **Priority:** 🟣 Soon — post-sprint
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---

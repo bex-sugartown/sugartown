@@ -65,7 +65,7 @@ export const CitationNote: React.FC<CitationNoteProps> = ({
   const noteId = id ?? `st-citation-${index}`;
 
   return (
-    <p id={noteId} role="doc-endnote" className={styles.note}>
+    <p id={noteId} className={styles.note}>
       <span className={styles.index}>[{index}]</span>
       {children}{' '}
       <a
@@ -94,8 +94,12 @@ export interface CitationZoneProps {
  */
 export const CitationZone: React.FC<CitationZoneProps> = ({ children }) => {
   return (
-    <footer className={styles.zone} role="doc-endnotes">
+    // A labelled <section>, not <footer role="doc-endnotes">. The footer does not allow that role
+    // (Lighthouse agent-accessibility-tree, aria-allowed-role, #84) and doc-endnote(s) are
+    // deprecated in DPUB-ARIA 1.1 (axe aria-deprecated-role, #164). The label and the
+    // doc-backlink links keep the footnote relationship for screen readers.
+    <section className={styles.zone} aria-label="Footnotes">
       {children}
-    </footer>
+    </section>
   );
 };

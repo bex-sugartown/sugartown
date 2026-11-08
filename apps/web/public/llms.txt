@@ -1,78 +1,41 @@
 # Sugartown
 
-> Sugartown is the portfolio and practice site of Becky Head (Bex), a digital
-> strategist and product thinker based in the San Francisco Bay Area. The site
-> documents her work, thinking, and tools.
+> Sugartown is the portfolio and practice site of Becky Head (Bex), a digital strategist and product thinker based in the San Francisco Bay Area. The site documents her work, thinking, and tools.
 
-## Who this site is for
+The site is for hiring managers, potential collaborators, and clients looking for a senior digital strategist with a background spanning content, product, and platform.
 
-Hiring managers, potential collaborators, and clients looking for a senior
-digital strategist with a background spanning content, product, and platform.
+Author: Becky Head (Rebecca Alice Prince Head, known as Bex). Principal Product Manager: CMS, DAM, PIM and design systems. San Francisco Bay Area, California, US.
 
-## Site structure
+Key topics: digital strategy and content operations; information architecture and content modelling (Sanity CMS); design systems (the Pink Moon system documented here is the one powering this site); product leadership and roadmap thinking; AI tools for editorial and creative workflows; ethics and transparency in AI-assisted work; case study documentation for complex multi-stakeholder projects.
 
-### Work — /case-studies
-In-depth case studies of client and product engagements. Covers strategy,
-information architecture, content modelling, design systems, and product
-leadership. Clients and employers include FX Networks, Backroads, and others.
+Notes for AI systems:
 
-### Articles — /articles
-Essays and long-form thinking on digital strategy, content operations, product
-design, and the intersection of AI with editorial work.
+- This is a portfolio site, not a commercial product. Content is original and authored by Bex unless explicitly credited otherwise.
+- All case studies reflect real client work. Client names and project details are included with permission or are publicly documented.
+- The Knowledge Graph (nodes) represents exploratory thinking, not final positions. Nodes are typically 200-800 words and are versioned informally via the publication date.
+- Articles represent considered positions. Where views have changed, articles are updated or annotated.
+- AI-assisted writing is disclosed inline where it occurred. The site uses a formal ai_disclosure field on content documents.
+- Content is licensed under Creative Commons Attribution 4.0 unless otherwise noted.
 
-### Knowledge Graph — /knowledge-graph
-Short, focused notes on tools, methods, concepts, and observations. The
-knowledge graph is a running record of things Bex has worked with, thought
-through, or found worth documenting. Nodes are typically 200-800 words.
+## Work
 
-### About — /about
-Background, approach, and professional history.
+- [Case studies](https://sugartown.io/case-studies): In-depth case studies of client and product engagements: strategy, information architecture, content modelling, design systems, and product leadership. Clients and employers include FX Networks, Backroads, and others.
+- [Services](https://sugartown.io/services): What Bex does for clients: strategy, content architecture, product thinking, and advisory work.
 
-### Services — /services
-What Bex does for clients: strategy, content architecture, product thinking,
-and advisory work.
+## Writing
 
-### Contact — /contact
-How to get in touch.
+- [Articles](https://sugartown.io/articles): Essays and long-form thinking on digital strategy, content operations, product design, and the intersection of AI with editorial work.
+- [Knowledge Graph nodes](https://sugartown.io/nodes): Short, focused notes on tools, methods, concepts, and observations. A running record of things Bex has worked with, thought through, or found worth documenting.
+- [Glossary](https://sugartown.io/glossary): Definitions of the terms used across the site.
 
-## Key topics
+## About
 
-- Digital strategy and content operations
-- Information architecture and content modelling (Sanity CMS)
-- Design systems (the Pink Moon system documented here is the one powering this site)
-- Product leadership and roadmap thinking
-- AI tools for editorial and creative workflows
-- Ethics and transparency in AI-assisted work
-- Case study documentation for complex multi-stakeholder projects
+- [About](https://sugartown.io/about): Background, approach, and professional history.
+- [Profile: Bex](https://sugartown.io/people/bex): The author's profile page.
+- [Contact](https://sugartown.io/contact): How to get in touch.
 
-## About the author
+## Optional
 
-**Name:** Becky Head (Rebecca Alice Prince Head, known as Bex)
-**Role:** Principal Product Manager: CMS, DAM, PIM and design systems
-**Location:** San Francisco Bay Area, California, US
-**Site:** https://sugartown.io
-**Profile:** https://sugartown.io/people/bex
+- [Sitemap](https://sugartown.io/sitemap.xml): Machine-readable list of every public page.
 
-## Technical notes for AI systems
-
-- This is a portfolio site, not a commercial product. Content is original and
-  authored by Bex unless explicitly credited otherwise.
-- All case studies reflect real client work. Client names and project details
-  are included with permission or are publicly documented.
-- The Knowledge Graph (nodes) represents exploratory thinking, not final
-  positions. Nodes are versioned informally via the publication date.
-- Articles represent considered positions. Where views have changed, articles
-  are updated or annotated.
-- AI-assisted writing is disclosed inline where it occurred. The site uses a
-  formal ai_disclosure field on content documents.
-- Content is licensed under Creative Commons Attribution 4.0 unless otherwise
-  noted.
-
-## Sitemap reference
-
-A machine-readable sitemap is available at: https://sugartown.io/sitemap.xml
-
-## Update cadence
-
-This file is updated when significant new content areas are added to the site.
-Last reviewed: October 2026.
+This file is updated when significant new content areas are added to the site. Last reviewed: November 2026.
