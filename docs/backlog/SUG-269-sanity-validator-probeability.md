@@ -1,123 +1,106 @@
 ---
 **Epic:** SUG-269 — Make the Sanity-backed validators probeable
-**Linear Issue:** [SUG-269](https://linear.app/sugartown/issue/SUG-269/make-the-sanity-backed-validators-probeable) — **this ID was reused.** It previously held "GlossaryTermPage: AI Attribution item + DescriptionList→List migration", cancelled the same day it was created and absorbed into [SUG-177](docs/backlog/SUG-177-list-component-audit-site-list-patterns.md). Repurposed 2026-08-10: the workspace is at its issue limit and deletion holds a slot for a month, so reusing a fully-superseded ID beats creating one. **References to "SUG-269, cancelled the same day" in `SUG-268-governance-data-layer.md` and `SUG-177-*.md` describe that prior life, not this epic.** The sub-issue parent link it inherited was cleared at repurposing, per one-epic-one-issue.
-**Origin:** AOP-0, 2026-08-09. Three of its six controls turned out to be structurally unprobeable; this is the fix, filed rather than absorbed
-**Status:** Backlog — sequenced after ST-95, not actionable as written (see reconciliation note)
-**Priority:** 🟣 Soon — three CI gates are trusted without proof, but none is newly broken
-**Merge strategy:** (a) Merge-as-you-go — one validator per commit
-**Depends on:** ST-95 ([#95](https://github.com/bex-sugartown/sugartown/issues/95)) — reuses its
-harness pattern once proven; do not build a second harness
+**Issue:** [#93](https://github.com/bex-sugartown/sugartown/issues/93). The Linear original [SUG-269](https://linear.app/sugartown/issue/SUG-269/make-the-sanity-backed-validators-probeable) is retired; this ID was reused from a cancelled epic absorbed into [SUG-177](docs/backlog/SUG-177-list-component-audit-site-list-patterns.md). References to "SUG-269, cancelled the same day" in `SUG-268-governance-data-layer.md` and `SUG-177-*.md` describe that prior life, not this epic.
+**Origin:** AOP-0, 2026-08-09. Three of its six controls were structurally unprobeable; rewritten 2026-11-08 against the shipped ST-95 harness.
+**Aligned:** 2026-11-08
+**Status:** Backlog, ready to start once this rewrite is approved
+**Priority:** 🟣 Soon: five CI or manual gates are trusted without proof, none newly broken
+**Merge strategy:** (a) Merge-as-you-go, one validator per commit
+**Depends on:** ST-95 ([#95](https://github.com/bex-sugartown/sugartown/issues/95)), closed 2026-10-31. Its harness, `scripts/validate-liveness-probes.js`, is reused; do not build a second one.
+**Visual:** no
 ---
 
 # SUG-269 — Make the Sanity-backed validators probeable
 
-## Reconciliation note — 2026-08-21
+## Model & Mode
 
-**This doc is not actionable as written.** ST-95's Scope decided to keep this epic separate
-rather than merge it, but flagged two things a rewrite must fix before work starts here:
+Plain `/model sonnet`. Mechanical refactor plus one probe per validator; the pattern is set by ST-95.
 
-1. **The mechanics below are dead.** `control-register.md`, `governance/source/probes.json`,
-   "Verification review" (§Technical constraints), `validate:enforcement-liveness` (§Acceptance
-   criteria), and the CTL-008/009/010 IDs were all removed by SUG-284's governance-layer unwind.
-   The AC as written calls a script that no longer exists. Rewrite against ST-95's actual
-   harness once it ships — reuse its pattern, don't invent a second one.
-2. **Scope is stale in scale, not just mechanics.** `validate:content` and
-   `validate:schema-parity` are the same remote-data-fetching shape as the three validators
-   below and were missed when this was filed (2026-08-09, before either existed in its current
-   form). Confirmed 2026-08-21 by reading both scripts directly — five candidates, not three.
+## Background
 
-**Sequencing, not blocking on capacity or priority:** pick this up once ST-95's harness has run
-long enough to show the pattern holds, per the post-mortem's own "prove one thing before the
-next" discipline (`docs/reviews/post-mortem/2026-08-15-governance-layer-buildup-and-unwind.md`
-§6.8, §7). ST-95 itself gates on a 60-day no-new-catch window before its own kill-criterion
-check; this doc doesn't need to wait that long, only until the harness pattern (cleanup stack,
-fixture shape, CI wiring) exists as real code to extend rather than a design direction.
+`pnpm validate:liveness-probes` (ST-95) proves a gate is live by breaking a repo file, running the gate, and asserting a non-zero exit. It cannot reach validators that judge **remote Sanity data**, because failing them means writing bad data to the production dataset. Five validators have that shape:
 
-Everything below this note is the original 2026-08-09 filing. Left as-is per this doc's own
-practice of not rewriting history until the rewrite actually happens — do not treat the Scope,
-Technical constraints, or Acceptance criteria below as current until this note's two points are
-resolved.
+| Validator | Script | Fetches | Runs in |
+|---|---|---|---|
+| `validate:urls` | `apps/web/scripts/validate-urls.js` | published docs, then checks duplicate canonical URLs and missing slugs | manual pre-PR; also `ci.yml` |
+| `validate:filters` | `apps/web/scripts/validate-filters.js` | `archivePage` docs and content items, then `buildFilterModel()` | `ci.yml` |
+| `validate:taxonomy` | `apps/web/scripts/validate-taxonomy.js` | content, tool, tag, person and project docs | `ci.yml` |
+| `validate:content` | `apps/web/scripts/validate-content.js` | published docs, then slug, required-field, orphan and entity checks | manual pre-PR only |
+| `validate:schema-parity` | `apps/studio/scripts/validate-schema-parity.js` | deployed schema via `sanity schema list`, compared to a local manifest | `ci.yml` |
 
----
+The original filing (2026-08-09) named the first three. `validate:content` and `validate:schema-parity` were added on 2026-08-21 and re-confirmed 2026-11-08 by reading the scripts.
 
-Three controls cannot be given a liveness probe as the validators are currently written:
+The old mechanics (`control-register.md`, `governance/source/probes.json`, `validate:enforcement-liveness`, CTL-008/009/010) were removed by SUG-284 and are not used. The target is the `PROBES` array in `scripts/validate-liveness-probes.js`.
 
-| Control | Gate | Why no probe is possible |
-|---|---|---|
-| CTL-008 | `validate:urls` | Fetches published Sanity documents and checks for duplicate canonical URLs and missing slugs |
-| CTL-009 | `validate:filters` | Fetches `archivePage` docs plus content items and runs `buildFilterModel()` |
-| CTL-010 | `validate:taxonomy` | Fetches content documents and checks taxonomy health |
+**Existing-system claims verified 2026-11-08**
 
-## The problem, stated precisely
+| Claim | Command |
+|---|---|
+| ST-95 is closed | `gh issue view 95 --json state` returns `CLOSED` |
+| The harness exists | `ls scripts/validate-liveness-probes.js` |
+| The harness has `gateProbe`, `tempFile`, `mutateFile`, a cleanup stack and a `PROBES` array | `grep -nE "function (gateProbe\|tempFile\|mutateFile)\|^const PROBES" scripts/validate-liveness-probes.js` |
+| Which of the five run in CI | `grep -nE "validate:(urls\|filters\|taxonomy\|content\|schema-parity)" .github/workflows/ci.yml .husky/pre-commit` |
+| `validate:filters` and `validate:taxonomy` take `--no-token` | `grep -n "no-token" apps/web/scripts/validate-{filters,taxonomy}.js` |
+| `validate:content` has `--strict` and `--report` | `grep -nE "STRICT\|REPORT" apps/web/scripts/validate-content.js` |
 
-`validate-enforcement-liveness.js` proves a gate is live by **writing a deliberately broken file
-into the repo** and asserting the gate then fails. None of these three reads a repo file. They
-judge remote data.
-
-Making them fail means writing bad data to the **production** Sanity dataset. That is not an
-acceptable probe at any price, so the current harness cannot reach them. Measured 2026-08-09:
-all three run clean locally (exit 0) and none accepts a fixture or offline input — `--no-token`
-on two of them controls draft access, not the data source.
-
-This is not "no probe yet". It is a structural property of a validator that judges remote data,
-and the register said so as of AOP-0's close.
+Still to confirm during Phase 1, per validator, before the refactor: which functions are already pure. `buildFilterModel()` is a function over `(archivePage, contentItems)` in `validate-filters.js`. `canonicalize()`, `fieldNames()` and `diffFieldNames()` in `validate-schema-parity.js` look pure. Rule logic in `urls`, `taxonomy` and `content` sits inside `run()` and must be extracted.
 
 ## Objective
 
-Each of the three separates **fetching** from **judging**, so the rule logic is a pure function
-over a document array that a probe can feed a deliberately broken fixture.
+Each of the five validators separates **fetching** from **judging**. The judging logic lives in a module that exports a pure function over a document array (or a manifest pair, for schema-parity). The validator calls that function; the probe calls the same function with a deliberately broken fixture and asserts it reports an error. The probes are entries in the existing `PROBES` array, so `pnpm validate:liveness-probes` covers all five.
 
 ## Scope
 
-- [ ] `validate:urls` — extract the rule logic into a pure function over a document array; probe it with a fixture containing a duplicate canonical URL and a published doc with no slug — layer: tooling
-- [ ] `validate:filters` — same shape; the seam is around `buildFilterModel()`, which is already a pure function, so this may be the cheapest of the three — layer: tooling
-- [ ] `validate:taxonomy` — same shape; fixture carries a document with 0 categories and one with >2 — layer: tooling
-- [ ] One `PROBES` entry per validator, each proven to fail on its fixture, plus a `governance/source/probes.json` record — layer: tooling
-- [ ] Update CTL-008, CTL-009, CTL-010 rows: probe name in, `Next read` to `continuous` — layer: docs (gated)
+- [ ] **S1** `validate:urls`: extract the rules into a pure function; probe with a fixture holding a duplicate canonical URL and a published doc with no slug. Layer: tooling. Phase 1
+- [ ] **S2** `validate:filters`: same shape; `buildFilterModel()` is already pure, so the seam is cheap. Layer: tooling. Phase 1
+- [ ] **S3** `validate:taxonomy`: same shape; fixture holds a document with 0 categories and one with more than 2. Layer: tooling. Phase 1
+- [ ] **S4** `validate:content`: same shape; fixture holds a missing slug, an orphaned taxonomy ref, a duplicate slug and an HTML entity in Portable Text. Layer: tooling. Phase 2
+- [ ] **S5** `validate:schema-parity`: probe the comparison with a local and a deployed manifest that differ by one field. Layer: tooling. Phase 2
+- [ ] **S6** Add one `PROBES` entry per validator in `scripts/validate-liveness-probes.js`, each with a control run on clean input and a violating run, per `gateProbe`'s contract. Update the harness header comment's probe count. Layer: tooling. Phases 1 and 2, with each validator
 
-## Scope-to-phase mapping
+## Phases
 
-Five Scope items, at the sizing gate. One phase; each validator is an independent commit.
+| Phase | What ships | Gate | Done |
+|---|---|---|---|
+| 1 | S1, S2, S3 and their `PROBES` entries (the three originally filed) | none | [ ] |
+| 2 | S4, S5 and their `PROBES` entries (found 2026-08-21) | none | [ ] |
 
-| Phase | Scope items | Ships when |
-|---|---|---|
-| **Phase 1** | all five | All three probes fail on their fixtures, and no row reads "no probe yet" |
+Merge strategy (a): one commit per validator, each merging to `main` when its probe passes.
 
 ## Non-Goals
 
-- Changing what any of the three validators *checks*. This is about provability, not coverage.
-- Creating a fixture Sanity dataset. Considered and rejected in AOP-0: it is a second dataset to
-  create, pay for and keep in sync, and a stale fixture proves nothing while looking green.
-- Touching `pnpm test:smoke` (CTL-018) — see below, it is a different problem.
+- Changing what any validator **checks**. This is about provability, not coverage.
+- A fixture Sanity dataset. Rejected in AOP-0: a second dataset to pay for and keep in sync, and a stale fixture proves nothing while looking green.
+- A second harness, a register, a coverage tally, or any published count. ST-95 removed those on purpose.
+- Wiring `validate:content` into CI or pre-commit. Whether it should run there is a separate decision; this epic only makes it provable.
+- `pnpm test:smoke` (CTL-018). It needs a full production build per run; that cost decision stays with whoever owns the smoke suite and is not part of this epic.
+- Studio schema changes. None are needed.
 
-## Technical constraints
+Scope and Non-Goals read against each other 2026-11-08: no Scope item requires anything listed above.
 
-- **Verification review is blocking** — this changes what three CI gates prove.
-- **The pure function must be the one the validator actually calls.** A probe against a
-  copy of the logic proves the copy works. The refactor only counts if the CI path and the
-  probe path run the same function.
-- **`control-register.md` is behind the Rule File Write Gate.** Row updates need an exact diff
-  approved, produced from a scratchpad copy.
+## Technical Constraints
 
-## Acceptance criteria
+- **The pure function must be the one the validator calls.** A probe against a copy of the logic proves the copy works. Show it: the validator and the probe both import the same exported function.
+- Importing a validator today runs it (top-level `createClient`, `process.exit`). The extracted rules go in a sibling module with no side effects at import; the validator keeps the fetch and the exit code.
+- Probes run offline: no Sanity client, no token. The control run for each uses a clean fixture, not live data.
+- Follow `gateProbe`'s rule that the clean run must exit 0 and the violating run non-zero, otherwise the probe is reported invalid, not passed.
 
-- [ ] Each of the three probes fails on its fixture, demonstrated by running it and recording the output
-- [ ] `pnpm validate:enforcement-liveness` reports 3 more gates live, 0 inert
-- [ ] No row in `control-register.md` reads `none — no probe yet`
-- [ ] The probed function is the same one the CI path calls — shown, not asserted
+## Acceptance Criteria
+
+- [ ] For each of the five validators, the probe fails on its broken fixture and passes on its clean one; output recorded in the issue comment
+- [ ] `pnpm validate:liveness-probes` exits 0 and lists five more gates live than before this epic (count before and after recorded, from the command's output)
+- [ ] For each validator, the function the probe feeds is the function the validator calls: `grep -n` of the import in both files, pasted
+- [ ] `pnpm validate:urls`, `validate:filters`, `validate:taxonomy`, `validate:content` and `validate:schema-parity` produce the same exit code and the same report text on live data as before the refactor (run both on `main` and on the branch, diff the output)
+- [ ] A mutation check per probe: weaken the rule in the extracted function and confirm the probe goes red, then revert
+- [ ] `pnpm lint` and `pnpm validate:style-mirror` unaffected (zero new errors)
+- [ ] Close-out review present: `node scripts/check-epic-doc.js <doc> --stage close-out` exits 0
+
+## Kill criterion
+
+Remove a probe if its validator is retired, or if the probe has failed three times for reasons other than a real regression (stale fixture). Check at the 60-day review of ST-95's harness (`docs/shipped/ST-95-liveness-probes-only.md`).
 
 ## Risks
 
-- **A probe that tests a parallel copy of the rule logic.** The whole failure class this repo
-  keeps hitting: a check that reports healthy while checking nothing. Named in the constraints
-  above because it is the likely way this goes wrong.
-
-## Also outstanding from AOP-0 — CTL-018 `pnpm test:smoke`
-
-Not in this doc's Scope; recorded so it is not lost.
-
-`playwright.config.ts` runs `pnpm --filter web build && pnpm --filter web preview` before the
-specs, so a probe that breaks a route needs a full production build on **every** harness run.
-The other 23 probes finish in seconds. **This is a cost decision, not a technical blocker:**
-accept the minutes, or state in CTL-018's Bypass cell that the probe is deliberately not run
-locally and why. Undecided as of 2026-08-09.
+- **A probe on a parallel copy of the rules.** The failure this repo keeps hitting: a check that reports healthy while checking nothing. Guarded by the import-sharing acceptance criterion above.
+- **Behaviour drift in the refactor.** Moving rule logic can change output. Guarded by the before-and-after output diff.
+- **`validate:content` is 746 lines** and the largest extraction. If its rules do not separate cleanly, split it into its own follow-up issue and ship Phase 1 and S5 first.
