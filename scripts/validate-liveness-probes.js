@@ -149,6 +149,34 @@ function gateProbe({ cmd, args, breakIt, success }) {
   }
 }
 
+/**
+ * Rule probe, for validators that judge remote Sanity data (SUG-269, #93).
+ *
+ * Those validators cannot be probed by breaking a repo file: failing them means
+ * writing bad data to the production dataset. Their judging logic is a pure
+ * function in apps/web/scripts/lib/*.cjs, which the validator itself imports.
+ * This feeds that same function a clean fixture (must report nothing: the
+ * control) and a broken one (must report a finding). Same contract as gateProbe:
+ * a failing control makes the probe invalid, not passed.
+ */
+function ruleProbe({ judge, clean, broken, fires, success }) {
+  const control = judge(clean)
+  if (fires(control)) {
+    return {
+      live: false,
+      invalid: true,
+      detail: 'control run reported a finding on the CLEAN fixture, so this probe cannot tell a live rule from a noisy one',
+    }
+  }
+  const violated = judge(broken)
+  return {
+    live: fires(violated),
+    detail: fires(violated) ? success : 'the rule reported nothing on a known-bad fixture',
+  }
+}
+
+const requireCjs = createRequire(import.meta.url)
+
 // ─── Architectural boundary probes (INC-011 / SUG-254) ───────────────────────
 //
 // One probe per enforced scope, generated from the same SCOPES map the ESLint
@@ -294,6 +322,55 @@ function completeCloseOutDoc() {
     }
   }
   return lines.join('\n')
+}
+
+// validate:urls — apps/web/scripts/lib/urls-rules.cjs
+function urlsProbes() {
+  const emptyData = {
+    pages: [], articles: [], caseStudies: [], nodes: [], releaseNotes: [], archivePages: [],
+    pagesNoSlug: [], articlesNoSlug: [], caseStudiesNoSlug: [], nodesNoSlug: [], releaseNotesNoSlug: [],
+    navItems: [],
+  }
+  const doc = (_id, slug) => ({ _id, _type: 'page', title: _id, slug })
+  const judge = (data) => requireCjs(resolve(ROOT, 'apps/web/scripts/lib/urls-rules.cjs')).judgeUrls(data)
+  const clean = { ...emptyData, pages: [doc('a', 'about'), doc('b', 'contact')] }
+  return [
+    {
+      gate: 'validate:urls (duplicate URL)',
+      why: 'two documents resolving to one canonical path must be reported as an error (exit 1)',
+      run: () =>
+        ruleProbe({
+          judge, clean,
+          broken: { ...emptyData, pages: [doc('a', 'about'), doc('b', 'about')] },
+          fires: (r) => r.errors > 0 && r.duplicates.length > 0,
+          success: 'reported the duplicate canonical URL',
+        }),
+    },
+    {
+      gate: 'validate:urls (reserved slug)',
+      why: 'a page slug that shadows an archive route must be reported as an error (exit 1)',
+      run: () =>
+        ruleProbe({
+          judge, clean,
+          broken: { ...emptyData, pages: [doc('a', 'articles')] },
+          fires: (r) => r.errors > 0 && r.reservedCollisions.length > 0,
+          success: 'reported the reserved-namespace collision',
+        }),
+    },
+    {
+      // A missing slug is a WARNING in validate-urls.js (exit 0), by design and unchanged by
+      // this epic. The probe proves the rule reports it; it cannot prove the exit code.
+      gate: 'validate:urls (missing slug)',
+      why: 'a published document with no slug must be reported (warning-level, exits 0)',
+      run: () =>
+        ruleProbe({
+          judge, clean,
+          broken: { ...emptyData, pagesNoSlug: [{ _id: 'x', _type: 'page', title: 'No slug' }] },
+          fires: (r) => r.missingSlug.length > 0,
+          success: 'reported the missing slug',
+        }),
+    },
+  ]
 }
 
 const PROBES = [
@@ -491,6 +568,10 @@ const PROBES = [
       })
     },
   },
+
+  // Sanity-backed validators (SUG-269, #93). Each judges data fetched at run time, so the
+  // probe feeds the validator's own pure rule function a fixture instead of breaking a file.
+  ...urlsProbes(),
 
   // Architectural boundary rules — one probe per enforced scope, generated
   // from SCOPES above. INC-011 / SUG-254.

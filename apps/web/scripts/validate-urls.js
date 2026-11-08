@@ -23,6 +23,7 @@ import { createClient } from '@sanity/client'
 import { readFileSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { judgeUrls, RESERVED_PAGE_SLUGS } from './lib/urls-rules.cjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -48,78 +49,6 @@ function loadEnv() {
 
 loadEnv()
 
-// ─── Route registry (inline — mirrors src/lib/routes.js) ─────────────────────
-// Duplicated here so the script has no bundler dependency.
-
-const TYPE_NAMESPACES = {
-  article: 'articles',
-  caseStudy: 'case-studies',
-  node: 'nodes',
-  glossaryTerm: 'glossary',
-  releaseNote: 'releases',
-}
-
-function getCanonicalPath({ docType, slug }) {
-  if (!slug) return null
-  const s = slug.replace(/^\/+|\/+$/g, '').trim()
-  if (!s) return null
-  if (docType === 'page') return `/${s}`
-  const prefix = TYPE_NAMESPACES[docType]
-  if (!prefix) return null
-  return `/${prefix}/${s}`
-}
-
-const ARCHIVE_PATHS = ['/articles', '/case-studies', '/knowledge-graph', '/nodes', '/releases']
-const TAXONOMY_BASE_PATHS = ['/tags', '/categories', '/projects', '/people', '/tools']
-
-// Reserved namespace slugs that page documents must never use.
-// A page slug matching any of these would shadow the canonical archive/taxonomy route.
-const RESERVED_PAGE_SLUGS = [
-  'articles',
-  'case-studies',
-  'knowledge-graph',
-  'nodes',
-  'releases',
-  'tags',
-  'categories',
-  'projects',
-  'people',
-  'tools',
-]
-
-function validateNavItemUrl(rawUrl) {
-  if (!rawUrl) return { valid: false, reason: 'url is empty/null' }
-  if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) return { valid: true }
-
-  // Normalise trailing slash: /knowledge-graph/ → /knowledge-graph
-  // (except root "/" which should stay as-is)
-  const url = rawUrl.length > 1 ? rawUrl.replace(/\/+$/, '') : rawUrl
-
-  if (url !== rawUrl) {
-    // Trailing slash detected — warn about it but still check if the normalised path is valid
-    const inner = validateNavItemUrl(url)
-    if (inner.valid) {
-      return {
-        valid: false,
-        reason: `trailing slash — canonical path is "${url}" (update in Sanity nav)`,
-      }
-    }
-  }
-
-  if (url === '/') return { valid: true }
-  if (ARCHIVE_PATHS.includes(url)) return { valid: true }
-  if (TAXONOMY_BASE_PATHS.some((b) => url === b || url.startsWith(b + '/'))) return { valid: true }
-  const namespacePrefixes = Object.values(TYPE_NAMESPACES).map((p) => `/${p}/`)
-  if (namespacePrefixes.some((prefix) => url.startsWith(prefix))) return { valid: true }
-  const segments = url.replace(/^\//, '').split('/')
-  const reserved = [
-    ...Object.values(TYPE_NAMESPACES),
-    ...ARCHIVE_PATHS.map((p) => p.replace(/^\//, '')),
-    ...TAXONOMY_BASE_PATHS.map((p) => p.replace(/^\//, '')),
-  ]
-  if (segments.length === 1 && !reserved.includes(segments[0])) return { valid: true }
-  return { valid: false, reason: `"${url}" does not match any canonical route pattern` }
-}
 
 // ─── Sanity client ────────────────────────────────────────────────────────────
 
@@ -177,41 +106,8 @@ async function run() {
   }
 
   const { pages, articles, caseStudies, nodes, releaseNotes, archivePages } = data
-  const missingSlug = [
-    ...data.pagesNoSlug,
-    ...data.articlesNoSlug,
-    ...data.caseStudiesNoSlug,
-    ...data.nodesNoSlug,
-    ...data.releaseNotesNoSlug,
-  ]
-
-  // Build a set of published archive slugs for nav cross-reference
-  const publishedArchiveSlugs = new Set(archivePages.map((a) => a.slug))
-
-  // ── A) Build canonical URL map and detect duplicates ──────────────────────
-
-  const urlMap = new Map() // canonical path → doc info
-  const duplicates = []
-  const allDocs = [
-    ...pages.map((d) => ({ ...d, docType: 'page' })),
-    ...articles.map((d) => ({ ...d, docType: 'article' })),
-    ...caseStudies.map((d) => ({ ...d, docType: 'caseStudy' })),
-    ...nodes.map((d) => ({ ...d, docType: 'node' })),
-    ...releaseNotes.map((d) => ({ ...d, docType: 'releaseNote' })),
-  ]
-
-  let totalDocs = allDocs.length
-
-  for (const doc of allDocs) {
-    const path = getCanonicalPath({ docType: doc.docType, slug: doc.slug })
-    if (!path) continue
-
-    if (urlMap.has(path)) {
-      duplicates.push({ path, docs: [urlMap.get(path), doc] })
-    } else {
-      urlMap.set(path, doc)
-    }
-  }
+  // The judging half lives in lib/urls-rules.cjs so the liveness probe runs the same function.
+  const { totalDocs, duplicates, missingSlug, reservedCollisions, navReport, errors, warnings } = judgeUrls(data)
 
   // ── B) Print URL Coverage Report ──────────────────────────────────────────
 
@@ -270,7 +166,6 @@ async function run() {
   // Page slugs must not collide with reserved URL namespace prefixes.
   // A page with slug "articles" would shadow /articles (the article archive).
 
-  const reservedCollisions = pages.filter((p) => RESERVED_PAGE_SLUGS.includes(p.slug))
 
   console.log('\n🚫  Reserved Namespace Collision Check')
   console.log('──────────────────────────────────────────────')
@@ -296,44 +191,16 @@ async function run() {
   console.log('\n🧭  Nav Resolution Report')
   console.log('──────────────────────────────────────────────')
 
-  const navWarnings = []
-  const navItems = data.navItems ?? []
-
-  if (navItems.length === 0) {
+  if (navReport.length === 0) {
     console.log('   (no navigation documents found)')
   }
 
-  for (const nav of navItems) {
-    if (!nav.items?.length) continue
+  for (const nav of navReport) {
     console.log(`\n   Nav: "${nav.title || 'untitled'}"`)
     for (const item of nav.items) {
-      const { valid, reason } = validateNavItemUrl(item.url)
-      // Extra check: if url is an archive path, verify a published archivePage doc exists for it
-      let archiveWarning = null
-      if (valid && item.url) {
-        const stripped = item.url.replace(/^\/|\/$/g, '')
-        if (ARCHIVE_PATHS.includes(`/${stripped}`) && !publishedArchiveSlugs.has(stripped)) {
-          archiveWarning = `no published archivePage doc with slug "${stripped}" — route will 404`
-        }
-      }
-      const icon = (valid && !archiveWarning) ? '✅' : '⚠️ '
-      console.log(`     ${icon}  "${item.label}" → ${item.url ?? '(no url)'}`)
-      if (!valid) navWarnings.push({ label: item.label, url: item.url, reason })
-      if (archiveWarning) navWarnings.push({ label: item.label, url: item.url, reason: archiveWarning })
-
-      for (const child of item.children ?? []) {
-        const cv = validateNavItemUrl(child.url)
-        let childArchiveWarning = null
-        if (cv.valid && child.url) {
-          const stripped = child.url.replace(/^\/|\/$/g, '')
-          if (ARCHIVE_PATHS.includes(`/${stripped}`) && !publishedArchiveSlugs.has(stripped)) {
-            childArchiveWarning = `no published archivePage doc with slug "${stripped}" — route will 404`
-          }
-        }
-        const ci = (cv.valid && !childArchiveWarning) ? '  ✅' : '  ⚠️ '
-        console.log(`       ${ci}  "${child.label}" → ${child.url ?? '(no url)'}`)
-        if (!cv.valid) navWarnings.push({ label: child.label, url: child.url, reason: cv.reason })
-        if (childArchiveWarning) navWarnings.push({ label: child.label, url: child.url, reason: childArchiveWarning })
+      console.log(`     ${item.ok ? '✅' : '⚠️ '}  "${item.label}" → ${item.url ?? '(no url)'}`)
+      for (const child of item.children) {
+        console.log(`       ${child.ok ? '  ✅' : '  ⚠️ '}  "${child.label}" → ${child.url ?? '(no url)'}`)
       }
     }
   }
@@ -342,9 +209,6 @@ async function run() {
 
   console.log('\n══════════════════════════════════════════════')
   // Reserved namespace collisions are hard errors — they would silently break routing.
-  const errors = duplicates.length + reservedCollisions.length
-  const warnings = missingSlug.length + navWarnings.length
-
   if (errors === 0 && warnings === 0) {
     console.log('✅  All checks passed — URL authority is clean.\n')
     process.exit(0)
