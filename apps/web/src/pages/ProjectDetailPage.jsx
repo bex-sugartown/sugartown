@@ -58,7 +58,7 @@ export default function ProjectDetailPage() {
 
   return (
     <main className={styles.projectPage}>
-      <SeoHead seo={seo} jsonLd={generateJsonLd(null, siteSettings)} />
+      <SeoHead seo={seo} jsonLd={generateJsonLd(project, siteSettings)} />
 
       <PageHeader
         breadcrumb={<Breadcrumb items={[{ label: 'Library', href: '/library' }, { label: 'Projects', href: '/projects' }]} />}

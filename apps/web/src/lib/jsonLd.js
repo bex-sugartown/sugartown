@@ -120,6 +120,45 @@ function buildCreativeWork(doc, base) {
   }
 }
 
+// project: same type as caseStudy. schema.org's Project type is pending and Google reads
+// CreativeWork, so the page is a CreativeWork named for the project (#83).
+function buildProject(doc, base) {
+  const slug = resolveSlug(doc.slug)
+  const path = slug ? getCanonicalPath({ docType: 'project', slug }) : null
+  return {
+    '@type': 'CreativeWork',
+    name: doc.name,
+    ...(doc.description ? { description: doc.description } : {}),
+    ...(path ? { url: `${base}${path}` } : {}),
+    publisher: { '@id': `${base}/#organization` },
+    isPartOf: { '@id': `${base}/#website` },
+  }
+}
+
+// tool: the page is a reference page about a third-party tool, not the tool's own download
+// or pricing page. SoftwareApplication as the page type invites Google's software rich result,
+// which requires offers or ratings this page does not carry. So the page is a WebPage and the
+// tool is its `about` (#83).
+function buildTool(doc, base) {
+  const slug = resolveSlug(doc.slug)
+  const path = slug ? getCanonicalPath({ docType: 'tool', slug }) : null
+  const logoUrl = doc.logo?.asset?.url
+  return {
+    '@type': 'WebPage',
+    name: doc.name,
+    ...(doc.description ? { description: doc.description } : {}),
+    ...(path ? { url: `${base}${path}` } : {}),
+    about: {
+      '@type': 'SoftwareApplication',
+      name: doc.name,
+      ...(doc.description ? { description: doc.description } : {}),
+      ...(doc.url ? { url: doc.url } : {}),
+      ...(logoUrl ? { image: logoUrl } : {}),
+    },
+    isPartOf: { '@id': `${base}/#website` },
+  }
+}
+
 function extractPlainText(blocks) {
   if (!Array.isArray(blocks)) return ''
   return blocks
@@ -212,6 +251,12 @@ export function generateJsonLd(doc, siteSettings) {
         break
       case 'person':
         pageSchema = buildPerson(doc, base)
+        break
+      case 'project':
+        pageSchema = buildProject(doc, base)
+        break
+      case 'tool':
+        pageSchema = buildTool(doc, base)
         break
       case 'page':
         pageSchema = buildPage(doc, base)

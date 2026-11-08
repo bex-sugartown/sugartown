@@ -101,7 +101,7 @@ export default function ToolDetailPage() {
 
   return (
     <main className={pageStyles.entityDetailPage}>
-      <SeoHead seo={finalSeo} jsonLd={generateJsonLd(null, siteSettings)} />
+      <SeoHead seo={finalSeo} jsonLd={generateJsonLd(tool, siteSettings)} />
 
       {/* ── Folio ─────────────────────────────────────────────────── */}
       <PageHeader

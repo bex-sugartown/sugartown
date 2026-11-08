@@ -2,9 +2,10 @@
 **Epic:** SUG-252 — Add type-specific JSON-LD for Project and Tool detail pages
 **Linear Issue:** [SUG-252](https://linear.app/sugartown/issue/SUG-252/add-type-specific-json-ld-for-project-and-tool-detail-pages)
 **Status:** Backlog
+**Visual:** no _(no rendered change; JSON-LD is in a script tag)_
 **Priority:** 🟣 Soon — post-sprint
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
-**Blocked by:** [SUG-251](https://linear.app/sugartown/issue/SUG-251/seo-meta-and-structured-data-prerendering-fix-csr-mainentity-race)
+**Blocked by:** ~~[SUG-251](https://linear.app/sugartown/issue/SUG-251/seo-meta-and-structured-data-prerendering-fix-csr-mainentity-race)~~ (shipped 2026-11-07, #82)
 ---
 
 # SUG-252 — Add type-specific JSON-LD for Project and Tool detail pages
@@ -36,30 +37,34 @@ or the client-side-rendering timing issue SUG-251 addresses.
 
 ## Scope
 
-- [ ] Decide the correct schema.org `@type` for each: `project` docs likely map to
+- [x] Decide the correct schema.org `@type` for each: `project` docs likely map to
       `CreativeWork` (matching `caseStudy`'s existing `buildCreativeWork()`) or a more
       specific type if warranted; `tool` docs likely map to `SoftwareApplication` or
       `Product` depending on how Google's guidance treats third-party tool/platform
       references — research both before writing the builder, not just default to
       `CreativeWork` for convenience — layer: research/decision
-- [ ] Add `buildProject(doc, base)` to `jsonLd.js`, sourcing `name`, `description`, `slug`
+- [x] Add `buildProject(doc, base)` to `jsonLd.js`, sourcing `name`, `description`, `slug`
       → canonical `url`, and any other fields the chosen type expects — layer: frontend/lib
-- [ ] Add `buildTool(doc, base)` to `jsonLd.js` similarly — layer: frontend/lib
-- [ ] Add `case 'project':` and `case 'tool':` to `generateJsonLd()`'s switch statement —
+- [x] Add `buildTool(doc, base)` to `jsonLd.js` similarly — layer: frontend/lib
+- [x] Add `case 'project':` and `case 'tool':` to `generateJsonLd()`'s switch statement —
       layer: frontend/lib
-- [ ] Update `ProjectDetailPage.jsx:61` to call `generateJsonLd(project, siteSettings)`
+- [x] Update `ProjectDetailPage.jsx:61` to call `generateJsonLd(project, siteSettings)`
       instead of `generateJsonLd(null, siteSettings)` — layer: frontend
-- [ ] Update `ToolDetailPage.jsx:104` to call `generateJsonLd(tool, siteSettings)` instead
+- [x] Update `ToolDetailPage.jsx:104` to call `generateJsonLd(tool, siteSettings)` instead
       of `generateJsonLd(null, siteSettings)` — layer: frontend
+
+## Phases
+
+Single phase. Every Scope item above ships in it.
 
 ## Acceptance criteria
 
-- [ ] `jsonLd.js` exports working `buildProject()`/`buildTool()` builders producing valid
+- [x] `jsonLd.js` exports working `buildProject()`/`buildTool()` builders producing valid
       schema.org JSON-LD for their chosen `@type`
-- [ ] `ProjectDetailPage.jsx` and `ToolDetailPage.jsx` pass their real document, not `null`
-- [ ] Google's Rich Results Test (or Schema Markup Validator) shows no errors on at least
+- [x] `ProjectDetailPage.jsx` and `ToolDetailPage.jsx` pass their real document, not `null`
+- [ ] Google's Rich Results Test (post-ship check below) (or Schema Markup Validator) shows no errors on at least
       one live `/projects/:slug` and one live `/tools/:slug` page after deploy
-- [ ] The site-wide `Organization`/`WebSite` graph nodes are unaffected — no regression to
+- [x] The site-wide `Organization`/`WebSite` graph nodes are unaffected — no regression to
       existing JSON-LD on any other route
 
 ## Human QA Walkthrough — example local pages
@@ -114,3 +119,35 @@ ambiguity. Sonnet executes directly, no plan-mode handoff needed.
 - **Epic template:** `docs/epic-template.md`
 - **Pattern to follow:** `apps/web/src/lib/jsonLd.js`'s existing `buildArticle()`,
   `buildPerson()`, and `buildCreativeWork()` functions
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] `buildProject()` and `buildTool()` exist in `jsonLd.js` and are wired into `generateJsonLd()`. Project is a `CreativeWork`; tool is a `WebPage` whose `about` is a `SoftwareApplication` (a reference page about a third-party tool, so not the SoftwareApplication page type, which invites a rich result that needs offers or ratings).
+- [x] Both pages pass their real document. `_type` was added to `projectDetailQuery` and `toolBySlugQuery`, since the builder switches on it.
+- [ ] Rich Results Test shows no errors on one live project and one live tool page: moved to Post-ship checks.
+- [x] Organization and WebSite nodes unaffected: the graph on `/tools/vercel` and `/projects/mini-repo` still leads with both. `pnpm test:smoke`: 33 passed.
+
+### What didn't work
+
+none
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Tool `description` is an editor note and now ships in JSON-LD | implementation | #211 |
+| Project and tool routes are not prerendered, so their JSON-LD is client-side only | implementation | #212 |
+
+### Friction line
+
+The epic doc was written before the start review existed, so Phases and Visual had to be added before work could begin.
+
+---
+
+## Post-ship checks
+
+- [ ] Rich Results Test and Schema Markup Validator report no errors on `/projects/mini-repo` and `/tools/vercel`: person: paste each URL into search.google.com/test/rich-results

@@ -1358,6 +1358,7 @@ export const personProfileQuery = `
 export const projectDetailQuery = `
   *[_type == "project" && slug.current == $slug][0] {
     _id,
+    _type,
     projectId,
     name,
     "slug": slug.current,
@@ -1481,6 +1482,7 @@ export const allToolsQuery = `
 export const toolBySlugQuery = `
   *[_type == "tool" && slug.current == $slug][0] {
     _id,
+    _type,
     name,
     "slug": slug.current,
     kind,
