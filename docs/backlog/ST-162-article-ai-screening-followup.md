@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-162: Article: AI screening follow-up to the funnel postmortem (working title)
 **Issue:** [#162](https://github.com/bex-sugartown/sugartown/issues/162)
-**Status:** On Hold (paused by Bex 2026-10-30; headline and outline approved; resume at language, narrative and drama pass)
+**Status:** In Progress (resumed 2026-11-08; final data cut to 2026-11-05 done; drafting)
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out: outline, data, draft and publish as one unit
 **Visual:** no (reuses `tableBlock` and `htmlSection`; there is no chart block, and the original post's charts are `htmlSection` embeds, corrected 2026-11-01. If a chart needs a new block, stop and open Phase 0)
@@ -64,7 +64,66 @@ Nothing is written to Sanity. The Content Write Gate still applies at Scope 5.
 
 ## Data draft (publishable figures only)
 
-**Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Oct 26** is this post's cohort: Jun 1 to Oct 30, 2026, 5.0 months, 100 applications. Use these in every chart, table and sentence. Compare on rates and per-month pace, never on totals, because the windows differ in length. Pre-flight: the original post's By the Numbers kicker reads "Jun '25-May '26" while its body and charts say Jul 2025. Confirm the true start month before "25-26" goes public; fixing the original is a Content Write Gate item.
+**Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Nov 26** is this post's cohort: Jun 1 to Nov 5, 2026, 5.2 months, 108 applications (renamed from "Jun-Oct 26" on 2026-11-08 when Bex asked for the cut to run to 11-05; every older section below that says "Jun-Oct 26" is a superseded cut).
+
+**Final cut, 2026-11-05 (run 2026-11-08; supersedes every table below).** `END = 2026-11-05` in `os/scripts/analyze.py`; `LOOPS` gained JD-0844 (Patagonia via TEKsystems: recruiter screen 10-15, hiring-manager round 1 held 2026-11-04, debrief on file). 10-30 outputs frozen in `_frozen_2026-10-30/`. `build_source_report.py` regenerated and `check_funnel_integrity.py` is clean (108 applied, 17 screened, 9 looped). Charts regenerated: `docs/drafts/ST-162-charts/index.html`. Command for every figure: `python3 os/scripts/analyze.py` in `resume-factory/os`, then the keys named in the Source column; per-month figures divide by 158 days / 30.44 = 5.19.
+
+| Figure | 10-30 cut | **11-05 cut (final)** | Source (`findings.json` key) |
+|---|---:|---:|---|
+| Captured / packaged | 854 / 115 | **871 / 123** | `funnel` |
+| Applications | 100 | **108** | `funnel.applied` (8 new: all with `Date Applied` 11-04 or 11-05) |
+| Screens / loops / offers | 17 / 8 / 0 | **17 / 9 / 0** | `funnel`; the new loop is the Patagonia hiring-manager round |
+| Applied-to-screen | 14.0% (14 of 100) | **13.0% (14 of 108)** | `screened_ids` against `applied_ids`; 3 screens have no application (JD-0033, JD-0050, JD-0393) |
+| Rejected / closed with no answer / still open | 52 / 15 / 33 | **56 / 15 / 37** | `outcomes`; 4 new rejections, one of them the Etsy referral (no screen) |
+| Cold-only to screen | 3 of 84 (3.6%) | **3 of 91 (3.3%)** | Job Alert 33 + Board 33 + Cold 23 + Untagged 2 = 91; screened Board 2, Cold 1 |
+| Warm (recruiter-first plus referral) to screen | 11 of 16 (69%) | **11 of 17 (65%)** | one new recruiter-first application (Disney via a staffing firm, 11-04), not yet screened |
+| Recruiter-first to screen | 9 of 10 | **9 of 11** | `channel["Recruiter Inbound"]` minus the 2 screens with no application |
+| Referral to screen | 2 of 6 | **2 of 6** | `channel["Referral"]` |
+| Cold-only rate, 25-26 vs Jun-Nov 26 | 6.7% vs 3.6%, p=0.52 | **6.7% vs 3.3%, p=0.34** | two-sided Fisher exact on 7 of 105 vs 3 of 91; inside chance, so "flat", never "fell" |
+
+**Per month, 25-26 against Jun-Nov 26 (final).** 25-26 is 11 months; Jun-Nov 26 is 5.19.
+
+| Measure | 25-26 total | 25-26 per month | Jun-Nov 26 total | Jun-Nov 26 per month | Change |
+|---|---:|---:|---:|---:|---:|
+| Applications | 111 | 10.1 | 108 | 20.8 | **2.1x** |
+| Cold applications | 105 | 9.5 | 91 | 17.5 | 1.8x |
+| **Cold-only screens** | 7 | **0.64** | 3 | **0.58** | **0.9x (flat)** |
+| Warm touches (inbound plus referral applications) | 16 | 1.5 | 17 | 3.3 | 2.3x |
+| Warm screens | 11 | 1.0 | 11 | 2.1 | 2.1x |
+| All recruiter screens | 19 | 1.7 | 17 | 3.3 | 1.9x |
+| Hiring-manager round or later (25-26: HM screen 9; Jun-Nov 26: loops 9) | 9 | 0.8 | 9 | 1.7 | 2.1x |
+| Offers | 1 | 0.09 | 0 | 0 | none |
+| Explicit rejections | 46 | 4.2 | 56 | 10.8 | 2.6x |
+| Closed with no answer | 70 | 6.4 | 15 | 2.9 | not comparable (R3, clock rule) |
+| JDs captured | not tracked | n/a | 871 | 168 | n/a |
+
+**By month, final (month = Date Captured; Recr = applications that reached a screen; Loop = rows in `LOOPS`; Ghost is clock-based, so Aug onward reads 0 until day 60):**
+
+| Month | Apps | Cold | Inbnd | Refrl | Recr | Loop | Denied | Ghost |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Jun '26 | 20 | 17 | 1 | 2 | 3 | 2 | 15 | 5 |
+| Jul '26 | 24 | 19 | 4 | 1 | 3 | 1 | 14 | 10 |
+| Aug '26 | 23 | 20 | 2 | 1 | 3 | 2 | 16 | 0 |
+| Sep '26 | 12 | 11 | 1 | 0 | 2 | 1 | 4 | 0 |
+| Oct '26 | 23 | 19 | 2 | 2 | 3 | 3 | 7 | 0 |
+| Nov '26 (to 11-05) | 6 | 5 | 1 | 0 | 0 | 0 | 0 | 0 |
+| **Total** | **108** | **91** | **11** | **6** | **14** | **9** | **56** | **15** |
+
+**System epochs, final (same epoch boundaries; epoch 4 now runs to 11-05):**
+
+| Epoch | Dates | Months | Captured / month | Applications / month | Apps to screen | Loops |
+|---|---|---:|---:|---:|---:|---:|
+| 0. Manual | Jul 2025 to May 2026 | 11 | not tracked | 10.1 | 19 of 111 (17.1%) | 9 HM rounds |
+| 1. Backfill | 06-01 to 06-26 | 0.85 | 20 | 17.6 | 3 of 15 | 2 |
+| 2. Tracker plus Gmail, open intake | 06-27 to 08-04 | 1.28 | 179 | 26.5 | 3 of 34 | 1 |
+| 3. Gates and P2 queue | 08-05 to 09-19 | 1.51 | 302 | 15.2 | 4 of 23 | 3 |
+| 4. Tight filters | 09-20 to 11-05 | 1.54 | 109 | 23.3 | 4 of 36 | 3 |
+
+Epochs 2 and 3 read 34 and 23 applications here against 35 and 28 in the older table below, because the 10-30 count rules (no unsent packages, no duplicate captures, no cross-references) removed rows; the older table is kept for the record only.
+
+**Weekly, final (week of Monday; applications by `Date Applied`, recruiter inbound by `Date Captured`):** 10-05: 6 / 2; 10-12: 10 / 2; 10-19: 2 / 2; 10-26: 6 / 5; 11-02 (four days): 8 / 1. The 10-26 inbound week (5) is the highest since August; count seats, not threads, before quoting it (R4).
+
+**What moved between 10-30 and 11-05:** 8 applications (6 cold, 1 recruiter-first, 1 board), 4 rejections (3 cold, 1 referral), 1 loop (Patagonia hiring-manager round 1, 11-04; still live, so the post names no company), 0 new screens, 0 offers. Data draft tables from 10-30 and earlier remain below as the audit trail. Use these in every chart, table and sentence. Compare on rates and per-month pace, never on totals, because the windows differ in length. Pre-flight: the original post's By the Numbers kicker reads "Jun '25-May '26" while its body and charts say Jul 2025. Confirm the true start month before "25-26" goes public; fixing the original is a Content Write Gate item.
 
 **Re-cut to 2026-10-30, corrected on 2026-10-30 (latest, supersedes the first 10-30 read of 107 applications).** `END = 2026-10-30`; analyze.py commits 4dbfd30 and 4e55ed8. Screens stay 17 (14 on an application, 3 with none). Loops go 7 to 8 (lululemon hiring-manager round 1, 10-29). Three rule changes since the 10-23 cut, so the 10-23 column below is not like for like and needs a footnote wherever it is quoted: (1) an application dated after END does not count; (2) a built-but-unsent package, a duplicate capture and another row's apply quoted in Notes no longer count as applications (7 rows dropped); (3) **closed with no answer is clock-based**: no rejection, not withdrawn, and at least 60 days since Date Applied at END. The 10-27 ghost sweep closed 14 rows 18 to 47 days after applying, so the first read of 36 no-answer was not real. Rejections 50 to 52. Still open 33, of which 9 reach day 60 in November and 24 in December, so 11-30 is the first cut where no-answer is meaningful for Sep and Oct applies. Source report regenerated and the integrity check is clean.
 
@@ -344,7 +403,7 @@ Comparison charts: `docs/drafts/ST-162-charts/` (local, gitignored; `index.html`
 3. **Cohort comparability:** different windows, market and role mix; scope widened to PM and web platform roles in October. Say so in the post.
 4. **Her age:** the resume strips date proxies, the site does not (28-year career in the original). Bex's call whether the post states it.
 5. **"10 of 10" was a numerator problem (found 2026-10-22):** `channel["Recruiter Inbound"]` counts screens across all rows in the channel, including two (JD-0033, JD-0050) where Bex never submitted an application. Among recruiter-first applications the rate is 9 of 11 at the 10-20 cut. The "10 of 10" form appears in the 10-12 handoffs, the ST-173 shipped doc (lines 21 and 211), two red-pen records (`docs/reviews/red-pen/2026-10-16-five-minute-call-that-was-an-application.md`, `2026-10-17-bait-and-switch-or-just-a-bug.md`) and the old outline row 2. Neither live article body states it (read from Sanity 2026-10-22). Use "11 recruiter-first roles reached a screen" or "9 of 11 recruiter-first applications", never "10 of 10" or "11 of 11".
-6. **Recruiter screen is not a client screen:** the Patagonia row's screen was with the staffing recruiter, not the end client, and the manager meeting is still pending. The first post's definition of "recruiter screen" should be applied the same way; say which in the post.
+6. **Recruiter screen is not a client screen (resolved 2026-11-08):** the Patagonia row's screen (10-15) was with the staffing recruiter, not the end client; the client hiring-manager round was held 2026-11-04 and the row is now a loop (`LOOPS["JD-0844"]`). The post counts a staffing-recruiter screen as a recruiter screen, the same way the original post did, and says so.
 7. **One screen is past the cut:** the DXP analyst screen (2026-10-21) is one day after `END`. Counted because the application predates the cut; flag it in the figures note.
 
 ## Themes for the rewrite (added 2026-11-01, Bex)
@@ -421,12 +480,12 @@ Each of these is a Theory or Reported row in the research table, not a finding a
 
 - [ ] **1d. Themes and unbacked claims (added 2026-11-01):** Bex decides, for each X-item above, research, keep as observation or cut; run the JD counts for U1, U2, U4 and X7 if archived JD text allows; open the sources for X1 and X2 if Bex chooses research (layer: editorial)
 - [ ] **1c. Two perspectives:** confirm the pipeline account (Perspective A) is accurate in Bex's words, keep the three confirmed ties T1 to T3 and the context items (reviewed 2026-10-30), and add three tracker fields (posting age at apply, applicant count at apply, ATS) so A3, the competition context and the ghost-posting test can run on new rows (layer: editorial; the tracker change belongs to resume-factory)
-- [ ] **1b. Per-month and epoch tables:** re-run both tables from `findings.json` and the tracker at the final cut date, settle which tracker changes count as big, and chart 25-26 against Jun-Oct 26 per month (layer: editorial)
-- [ ] **1. Data check:** re-run the source commands for every row in the data draft, record the command beside each figure, settle the four reconciliation items (layer: editorial)
+- [x] **1b. Per-month and epoch tables:** re-run both tables from `findings.json` and the tracker at the final cut date, settle which tracker changes count as big, and chart 25-26 against Jun-Nov 26 per month (layer: editorial). Done 2026-11-08 at the 11-05 cut; epoch boundaries kept as proposed.
+- [x] **1. Data check:** re-run the source commands for every row in the data draft, record the command beside each figure, settle the four reconciliation items (layer: editorial). Done 2026-11-08: final-cut table carries the command and key per row; reconciliation items 1, 2, 5, 6 and 7 resolved, 3 and 4 are stated in the post.
 - [ ] **2. Evidence check:** open each external link in the research brief, confirm it resolves and says what the brief claims, drop any that fail (layer: editorial)
 - [ ] **3. Discovery:** taxonomy pre-flight and related-content check per `docs/write-pipeline-prompt.md` §1 (article target: 1 to 2 categories, 3 to 6 tags, Bex Head as author, tool `claude-code` for attribution) (layer: process)
 - [ ] **4. Outline approval:** Bex approves or edits the outline above and settles the open decisions (layer: process). Outline and headline approved 2026-10-30; the four open decisions below are still open.
-- [ ] **5. Draft created in Sanity** via `create_documents` only, with `aiDisclosure` set (layer: content)
+- [x] **5. Draft created in Sanity** via `create_documents` only, with `aiDisclosure` set (layer: content). Done 2026-11-08: `drafts.c1415fdb-baf2-4561-85f0-745ba125cc31`, slug `twice-the-applications-same-number-of-cold-calls`, about 2,250 words including three `tableBlock`s and the labelled evidence table; 14 `citations[]`; related: the original post and "Bait and Switch"; `aiDisclosure` set. Bex to rework language, narrative and drama in Studio (her stated intent 2026-10-30). Not published.
 - [ ] **6. Compliance gate** passed (`docs/write-pipeline-prompt.md` §4, zero em dashes, publish gate on the final text) (layer: process)
 - [ ] **8. Two missing gates, one pipeline** (handed off from ST-173, which cut it to one paragraph): the RSVP email checked no session before the send, the testjob email checked no listing before the send; argue them as one pipeline failure, link the published ST-173 article (`/articles/bait-and-switch-or-just-a-bug`) and use its screening-call versus application stage table rather than rebuilding it (layer: editorial)
 - [ ] **7. Human review and publish decision**, cross-links to SUG-234 added once both exist (layer: process; Human-Publishes Rule applies)
@@ -444,7 +503,7 @@ Each of these is a Theory or Reported row in the research table, not a finding a
 
 - ~~Name her age, say "over 50", or leave it to the evidence.~~ **Decided 2026-11-01 (Bex): say "over 50".** Career length: first tech job 1992 (Data Processing Goddess, then accounting at Wired Magazine because she could use a computer), so 34 years at 2026, not the 28 in the original post. Reconcile before publish (Content Write Gate applies to fixing the original).
 - Publish order relative to SUG-234.
-- Publish now, or after the JD-0813 outcome and the 10-30 headline read (handoff recommends waiting; the 14 newest applications mature by about 11-02).
+- ~~Publish now, or after the JD-0813 outcome and the 10-30 headline read.~~ Resolved 2026-11-08: Bex asked for the final cut at 11-05, so the draft is written from that cut.
 - **One article or two (raised by Bex 2026-11-01, decide later).** Article 1: "I automated my pipeline, here are the numbers" (Perspective A, Theme 1, the per-month and epoch tables). Article 2: "why don't I have a job?" (Perspective B, Themes 2 to 4, the unbacked-claims list, bias credits). Pointers for the decision: the 1,600-word target is already tight with eight sections plus the new Themes section; a split needs a second issue via `/new-epic` (one epic is one issue, no sub-issues); the 2026-12-01 kill criterion would apply to each; the approved headline fits article 1 best.
 - Build the `ATS` tracker column first, so the vendor cut is a real column and not a pattern match.
 
