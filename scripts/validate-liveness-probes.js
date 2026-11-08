@@ -25,6 +25,13 @@
  * convention (no exit code, not a scripted validator), and the deleted root
  * `validate-tokens.js` (INC-004, nothing left to probe).
  *
+ * Five Sanity-backed validators (urls, filters, taxonomy, content, schema-parity) judge
+ * data fetched at run time, so they cannot be probed by breaking a repo file (SUG-269, #93).
+ * Each one's judging logic is a pure function in a `lib/*-rules.cjs` module that the
+ * validator itself imports; `ruleProbe` feeds that same function a clean and a broken
+ * fixture. Some findings are warning-level in the validator (exit 0); those probes prove
+ * the rule reports them, not the exit code.
+ *
  * Usage:
  *   pnpm validate:liveness-probes
  *
@@ -512,6 +519,45 @@ function contentProbes() {
   ]
 }
 
+// validate:schema-parity — apps/studio/scripts/lib/schema-parity-rules.cjs
+function schemaParityProbes() {
+  const rules = () => requireCjs(resolve(ROOT, 'apps/studio/scripts/lib/schema-parity-rules.cjs'))
+  const type = (name, ...fields) => ({ name, type: 'document', fields: fields.map((f) => ({ name: f, type: 'string' })) })
+  const clean = { local: [type('article', 'title', 'slug')], deployed: [type('article', 'title', 'slug')] }
+  const drift = (gate, why, broken, success) => ({
+    gate,
+    why,
+    run: () =>
+      ruleProbe({
+        judge: ({ local, deployed }) => rules().diffWorkspace(local, deployed),
+        clean, broken,
+        fires: (r) => r.drifted,
+        success,
+      }),
+  })
+  const record = (name) => ({ _id: `_.schemas.${name}`, workspace: { name }, schema: '[]' })
+  return [
+    drift('validate:schema-parity (type added locally)', 'a type that exists locally but is not deployed must be drift (exit 1)',
+      { local: [type('article', 'title', 'slug'), type('tool', 'name')], deployed: clean.deployed }, 'reported the undeployed type'),
+    drift('validate:schema-parity (type removed locally)', 'a type that is deployed but removed locally must be drift (exit 1)',
+      { local: clean.local, deployed: [type('article', 'title', 'slug'), type('tool', 'name')] }, 'reported the type pending deletion'),
+    drift('validate:schema-parity (field changed)', 'a type whose definition differs from the deployed one must be drift (exit 1)',
+      { local: [type('article', 'title', 'slug', 'excerpt')], deployed: clean.deployed }, 'reported the changed type'),
+    {
+      gate: 'validate:schema-parity (no deployed record)',
+      why: 'a workspace with no matching deployed schema record must not be matched (exit 1)',
+      run: () =>
+        ruleProbe({
+          judge: ({ workspace, records }) => rules().matchDeployedRecord(workspace, records),
+          clean: { workspace: 'default', records: [record('default')] },
+          broken: { workspace: 'default', records: [record('other'), record('another')] },
+          fires: (r) => r.record === undefined,
+          success: 'reported the unmatched workspace',
+        }),
+    },
+  ]
+}
+
 const PROBES = [
   {
     gate: 'validate:tokens',
@@ -714,6 +760,7 @@ const PROBES = [
   ...filtersProbes(),
   ...taxonomyProbes(),
   ...contentProbes(),
+  ...schemaParityProbes(),
 
   // Architectural boundary rules — one probe per enforced scope, generated
   // from SCOPES above. INC-011 / SUG-254.

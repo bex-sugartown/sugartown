@@ -32,46 +32,13 @@ import { readFileSync, existsSync, mkdtempSync, rmSync } from 'fs'
 import { resolve, dirname, join } from 'path'
 import { fileURLToPath } from 'url'
 import { tmpdir } from 'os'
+import { matchDeployedRecord, diffWorkspace } from './lib/schema-parity-rules.cjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const studioDir = resolve(__dirname, '..')
 
 console.log('\n🔍  Schema Parity Check')
 console.log('══════════════════════════════════════════════\n')
-
-// ─── Canonicalize for structural comparison: sort object keys recursively,
-// leave array order intact (field order is semantically meaningful) ─────────
-
-function canonicalize(value) {
-  if (Array.isArray(value)) {
-    return value.map(canonicalize)
-  }
-  if (value !== null && typeof value === 'object') {
-    return Object.keys(value)
-      .sort()
-      .reduce((acc, key) => {
-        acc[key] = canonicalize(value[key])
-        return acc
-      }, {})
-  }
-  return value
-}
-
-function fieldNames(type) {
-  return Array.isArray(type.fields) ? type.fields.map((f) => f.name) : null
-}
-
-function diffFieldNames(localType, deployedType) {
-  const localFields = fieldNames(localType)
-  const deployedFields = fieldNames(deployedType)
-  if (!localFields || !deployedFields) return null
-  const deployedSet = new Set(deployedFields)
-  const localSet = new Set(localFields)
-  return {
-    addedFields: localFields.filter((f) => !deployedSet.has(f)),
-    removedFields: deployedFields.filter((f) => !localSet.has(f)),
-  }
-}
 
 // ─── Step 1: extract the local schema in manifest format ───────────────────
 // (the same shape `sanity schema deploy` sends and `sanity schema list`
@@ -130,13 +97,10 @@ let hasDrift = false
 let hasUnmatchedWorkspace = false
 
 for (const { name: workspaceName, types: localTypes } of localWorkspaces) {
-  const untaggedId = `_.schemas.${workspaceName}`
-  let deployedRecord = deployedRecords.find(
-    (r) => r.workspace?.name === workspaceName && r._id === untaggedId,
-  )
+  // The judging half lives in lib/schema-parity-rules.cjs so the liveness probe runs the same code.
+  const { record: deployedRecord, usedFallback } = matchDeployedRecord(workspaceName, deployedRecords)
 
-  if (!deployedRecord && deployedRecords.length === 1) {
-    deployedRecord = deployedRecords[0]
+  if (usedFallback) {
     console.log(
       `   ⚠️  No exact match for workspace "${workspaceName}" — using the only deployed schema record found (workspace "${deployedRecord.workspace?.name}")`,
     )
@@ -162,21 +126,7 @@ for (const { name: workspaceName, types: localTypes } of localWorkspaces) {
     `   📋 Workspace "${workspaceName}": ${localTypes.length} local type(s), ${deployedTypes.length} deployed type(s) (last deployed ${deployedRecord._updatedAt || deployedRecord._createdAt})`,
   )
 
-  const localByName = new Map(localTypes.map((t) => [t.name, t]))
-  const deployedByName = new Map(deployedTypes.map((t) => [t.name, t]))
-
-  const addedLocally = [...localByName.keys()].filter((n) => !deployedByName.has(n)).sort()
-  const removedLocally = [...deployedByName.keys()].filter((n) => !localByName.has(n)).sort()
-  const commonNames = [...localByName.keys()].filter((n) => deployedByName.has(n)).sort()
-
-  const changed = []
-  for (const name of commonNames) {
-    const localCanon = JSON.stringify(canonicalize(localByName.get(name)))
-    const deployedCanon = JSON.stringify(canonicalize(deployedByName.get(name)))
-    if (localCanon !== deployedCanon) {
-      changed.push({ name, fieldDiff: diffFieldNames(localByName.get(name), deployedByName.get(name)) })
-    }
-  }
+  const { addedLocally, removedLocally, changed } = diffWorkspace(localTypes, deployedTypes)
 
   if (addedLocally.length === 0 && removedLocally.length === 0 && changed.length === 0) {
     console.log(`   ✅ "${workspaceName}": local and deployed schemas match`)
