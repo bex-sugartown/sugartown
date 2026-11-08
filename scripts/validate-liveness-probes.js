@@ -457,6 +457,61 @@ function taxonomyProbes() {
   ]
 }
 
+// validate:content — apps/web/scripts/lib/content-rules.cjs
+function contentProbes() {
+  const rules = () => requireCjs(resolve(ROOT, 'apps/web/scripts/lib/content-rules.cjs'))
+  const doc = {
+    _id: 'c1', _type: 'article', title: 'A', slug: 'a', excerpt: 'x',
+    authorRefs: ['p1'], categoryRefs: [], tagRefs: [], projectRefs: [], toolRefs: [],
+    toolCount: 1, categoryCount: 1, tagCount: 3, authorCount: 1, hasSeoTitle: true, hasSeoDescription: true,
+  }
+  const clean = {
+    content: [doc],
+    taxonomies: [{ _id: 'p1', _type: 'person', name: 'P', slug: 'p' }],
+    pages: [],
+    archivePages: [{ _id: 'ap1', title: 'Articles', slug: 'articles', contentTypes: ['article'] }],
+    portableTextDocs: [],
+    nav: [],
+    missingTitle: [],
+    missingSlug: [],
+  }
+  const probe = (gate, why, mutate, fires, success, opts) => ({
+    gate,
+    why,
+    run: () =>
+      ruleProbe({ judge: (d) => rules().judgeContent(d, opts), clean, broken: mutate(clean), fires, success }),
+  })
+  return [
+    probe('validate:content (duplicate slug)', 'two documents of one type sharing a slug must be an error (exit 1)',
+      (c) => ({ ...c, content: [doc, { ...doc, _id: 'c2' }] }),
+      (r) => r.errors > 0 && r.duplicateSlugs.length > 0, 'reported the duplicate slug'),
+    probe('validate:content (empty archive types)', 'an archivePage with an empty contentTypes array must be an error (exit 1)',
+      (c) => ({ ...c, archivePages: [{ ...c.archivePages[0], contentTypes: [] }] }),
+      (r) => r.errors > 0 && r.archiveResults.some((a) => a.kind === 'empty'), 'reported the empty contentTypes'),
+    probe('validate:content (invalid archive type)', 'an archivePage with an unknown content type must be an error (exit 1)',
+      (c) => ({ ...c, archivePages: [{ ...c.archivePages[0], contentTypes: ['bogus'] }] }),
+      (r) => r.errors > 0 && r.archiveResults.some((a) => a.kind === 'invalid'), 'reported the invalid contentType'),
+    probe('validate:content (strict: no author)', '--strict must turn a document with no author into an error (exit 1)',
+      (c) => ({ ...c, content: [{ ...doc, authorCount: 0 }] }),
+      (r) => r.errors > 0 && r.missingAuthors.length > 0, 'reported the missing author as an error', { strict: true }),
+    // Warning-level in validate-content.js (exit 0), by design and unchanged by this epic. These
+    // probes prove the rule reports the finding; they cannot prove the exit code.
+    probe('validate:content (orphaned ref)', 'a reference to a missing document must be reported (warning-level, exits 0)',
+      (c) => ({ ...c, content: [{ ...doc, authorRefs: ['ghost'] }] }),
+      (r) => r.orphans.length > 0, 'reported the orphaned reference'),
+    probe('validate:content (missing slug)', 'a document with no slug must be reported (warning-level, exits 0)',
+      (c) => ({ ...c, missingSlug: [{ _id: 'x', _type: 'article', title: 'No slug' }] }),
+      (r) => r.missingSlug.length > 0, 'reported the missing slug'),
+    probe('validate:content (HTML entity)', 'a literal HTML entity in a Portable Text span must be reported (warning-level, exits 0)',
+      (c) => ({
+        ...c,
+        portableTextDocs: [{ _id: 'c1', _type: 'article', title: 'A', slug: 'a',
+          bodyBlocks: [{ _type: 'block', children: [{ _type: 'span', text: 'Tom &amp; Jerry' }] }] }],
+      }),
+      (r) => r.entityHits.length > 0, 'reported the literal entity'),
+  ]
+}
+
 const PROBES = [
   {
     gate: 'validate:tokens',
@@ -658,6 +713,7 @@ const PROBES = [
   ...urlsProbes(),
   ...filtersProbes(),
   ...taxonomyProbes(),
+  ...contentProbes(),
 
   // Architectural boundary rules — one probe per enforced scope, generated
   // from SCOPES above. INC-011 / SUG-254.

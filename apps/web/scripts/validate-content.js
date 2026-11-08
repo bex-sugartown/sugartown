@@ -44,6 +44,7 @@ import { createClient } from '@sanity/client'
 import { readFileSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { judgeContent, findDraftOnly, MINIMUMS } from './lib/content-rules.cjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -106,7 +107,6 @@ const rawClient = createClient({
 const CONTENT_TYPES = ['article', 'caseStudy', 'node']
 const TAXONOMY_TYPES = ['category', 'tag', 'project', 'person', 'tool']
 const ALL_SLUGGED_TYPES = ['page', ...CONTENT_TYPES, ...TAXONOMY_TYPES, 'archivePage']
-const VALID_ARCHIVE_CONTENT_TYPES = ['article', 'caseStudy', 'releaseNote', 'node', 'project', 'glossaryTerm']
 
 // ─── GROQ query — fetch everything we need in one round-trip ─────────────────
 
@@ -218,39 +218,31 @@ async function run() {
     process.exit(1)
   }
 
-  let errors = 0
-  let warnings = 0
+  // The judging half lives in lib/content-rules.cjs so the liveness probe runs the same function.
+  const verdict = judgeContent(data, { strict: STRICT })
+  const {
+    navIssues, missingTitle, missingSlug, contentMissingExcerpt, orphans,
+    noArchivePages, archiveResults, duplicateSlugs, entityHits, doubleMarks,
+    taxonomyGaps, missingAuthors, seoGaps, contentDocs, errors,
+  } = verdict
+  let { warnings } = verdict
 
   // ── A) Nav item quality ───────────────────────────────────────────────────
 
   console.log('🧭  Nav Item Quality')
   console.log('──────────────────────────────────────────────')
 
-  const navDocs = data.nav ?? []
-  let navIssues = 0
-
-  for (const nav of navDocs) {
-    const allItems = [
-      ...(nav.items ?? []),
-      ...(nav.items ?? []).flatMap((i) => i.children ?? []),
-    ]
-
-    for (const item of allItems) {
-      if (!item.url) {
-        console.log(`   ⚠️   "${item.label}" — missing URL (nav: "${nav.title}")`)
-        navIssues++
-        warnings++
-      } else if (item.url.length > 1 && item.url.endsWith('/')) {
-        console.log(
-          `   ⚠️   "${item.label}" → ${item.url} — trailing slash (nav: "${nav.title}")`,
-        )
-        navIssues++
-        warnings++
-      }
+  for (const { kind, item, navTitle } of navIssues) {
+    if (kind === 'missingUrl') {
+      console.log(`   ⚠️   "${item.label}" — missing URL (nav: "${navTitle}")`)
+    } else {
+      console.log(
+        `   ⚠️   "${item.label}" → ${item.url} — trailing slash (nav: "${navTitle}")`,
+      )
     }
   }
 
-  if (navIssues === 0) {
+  if (navIssues.length === 0) {
     console.log('   ✅  All nav items have valid URLs (no trailing slashes)')
   }
   console.log()
@@ -260,15 +252,11 @@ async function run() {
   console.log('📋  Required Fields')
   console.log('──────────────────────────────────────────────')
 
-  const missingTitle = data.missingTitle ?? []
-  const missingSlug = data.missingSlug ?? []
-
   if (missingTitle.length > 0) {
     console.log(`   ⚠️   ${missingTitle.length} doc(s) missing title/name:`)
     for (const doc of missingTitle) {
       console.log(`        [${doc._type}] ${doc._id}`)
     }
-    warnings += missingTitle.length
   }
 
   if (missingSlug.length > 0) {
@@ -277,13 +265,9 @@ async function run() {
       const label = doc.title || doc.name || '(untitled)'
       console.log(`        [${doc._type}] "${label}" — ${doc._id}`)
     }
-    warnings += missingSlug.length
   }
 
   // Content docs missing excerpts — soft warning
-  const contentMissingExcerpt = (data.content ?? []).filter(
-    (d) => !d.excerpt || d.excerpt.trim() === '',
-  )
   if (contentMissingExcerpt.length > 0) {
     console.log(
       `   ℹ️   ${contentMissingExcerpt.length} content doc(s) have no excerpt (cards will show no body text):`,
@@ -308,40 +292,17 @@ async function run() {
   console.log('🔗  Taxonomy Reference Integrity')
   console.log('──────────────────────────────────────────────')
 
-  const validIds = new Set([
-    ...(data.taxonomies ?? []).map((t) => t._id),
-    ...(data.content ?? []).map((c) => c._id),
-    ...(data.pages ?? []).map((p) => p._id),
-  ])
-
-  let orphanCount = 0
-
-  for (const doc of data.content ?? []) {
-    const allRefs = [
-      ...(doc.authorRefs ?? []),
-      ...(doc.categoryRefs ?? []),
-      ...(doc.tagRefs ?? []),
-      ...(doc.projectRefs ?? []),
-      ...(doc.toolRefs ?? []),
-    ]
-
-    for (const refId of allRefs) {
-      if (!refId) continue
-      if (!validIds.has(refId)) {
-        console.log(
-          `   ⚠️   [${doc._type}] "${doc.title}" references missing doc ${refId}`,
-        )
-        orphanCount++
-        warnings++
-      }
-    }
+  for (const { doc, refId } of orphans) {
+    console.log(
+      `   ⚠️   [${doc._type}] "${doc.title}" references missing doc ${refId}`,
+    )
   }
 
-  if (orphanCount === 0) {
+  if (orphans.length === 0) {
     console.log('   ✅  No orphaned taxonomy references detected')
   } else {
     console.log(
-      `\n   ${orphanCount} orphaned ref(s) — referenced docs may be deleted or unpublished`,
+      `\n   ${orphans.length} orphaned ref(s) — referenced docs may be deleted or unpublished`,
     )
   }
   console.log()
@@ -351,30 +312,21 @@ async function run() {
   console.log('📁  Archive Page Integrity')
   console.log('──────────────────────────────────────────────')
 
-  const archivePages = data.archivePages ?? []
-
-  if (archivePages.length === 0) {
+  if (noArchivePages) {
     console.log('   ⚠️   No published archivePage docs found')
-    warnings++
   }
 
-  for (const ap of archivePages) {
-    const ct = ap.contentTypes ?? []
-    if (ct.length === 0) {
+  for (const { ap, ct, kind, invalid } of archiveResults) {
+    if (kind === 'empty') {
       console.log(
         `   ❌  archivePage "${ap.title}" (/${ap.slug}) — empty contentTypes array`,
       )
-      errors++
+    } else if (kind === 'invalid') {
+      console.log(
+        `   ❌  archivePage "${ap.title}" (/${ap.slug}) — invalid contentType(s): ${invalid.join(', ')}`,
+      )
     } else {
-      const invalid = ct.filter((t) => !VALID_ARCHIVE_CONTENT_TYPES.includes(t))
-      if (invalid.length > 0) {
-        console.log(
-          `   ❌  archivePage "${ap.title}" (/${ap.slug}) — invalid contentType(s): ${invalid.join(', ')}`,
-        )
-        errors++
-      } else {
-        console.log(`   ✅  /${ap.slug} → [${ct.join(', ')}]`)
-      }
+      console.log(`   ✅  /${ap.slug} → [${ct.join(', ')}]`)
     }
   }
   console.log()
@@ -384,44 +336,17 @@ async function run() {
   console.log('🔄  Slug Uniqueness (per type)')
   console.log('──────────────────────────────────────────────')
 
-  const allDocs = [
-    ...(data.content ?? []),
-    ...(data.taxonomies ?? []),
-    ...(data.pages ?? []),
-  ]
-
-  const slugsByType = new Map()
-  for (const doc of allDocs) {
-    const key = doc._type
-    if (!slugsByType.has(key)) slugsByType.set(key, new Map())
-    const typeMap = slugsByType.get(key)
-    const slug = doc.slug
-    if (!slug) continue
-    if (typeMap.has(slug)) {
-      typeMap.get(slug).push(doc)
-    } else {
-      typeMap.set(slug, [doc])
+  for (const { type, slug, docs } of duplicateSlugs) {
+    console.log(
+      `   ❌  [${type}] slug "${slug}" used by ${docs.length} docs:`,
+    )
+    for (const d of docs) {
+      const label = d.title || d.name || '(untitled)'
+      console.log(`        → "${label}" (${d._id})`)
     }
   }
 
-  let dupCount = 0
-  for (const [type, slugMap] of slugsByType) {
-    for (const [slug, docs] of slugMap) {
-      if (docs.length > 1) {
-        console.log(
-          `   ❌  [${type}] slug "${slug}" used by ${docs.length} docs:`,
-        )
-        for (const d of docs) {
-          const label = d.title || d.name || '(untitled)'
-          console.log(`        → "${label}" (${d._id})`)
-        }
-        dupCount++
-        errors++
-      }
-    }
-  }
-
-  if (dupCount === 0) {
+  if (duplicateSlugs.length === 0) {
     console.log('   ✅  No duplicate slugs within any type')
   }
   console.log()
@@ -431,54 +356,25 @@ async function run() {
   console.log('🔤  PortableText HTML Entity Check')
   console.log('──────────────────────────────────────────────')
 
-  // Matches numeric entities (&#8220;) and named entities (&amp; &nbsp; etc.)
-  // but NOT bare ampersands that are part of valid text
-  const ENTITY_RE = /&#\d+;|&[a-zA-Z]+;/
-
-  const portableDocs = data.portableTextDocs ?? []
-  let entityIssues = 0
-
-  for (const doc of portableDocs) {
-    const hitSpans = []
-    // nodes use `content`, articles/caseStudies use `body` — fetch both
-    const allBlocks = [...(doc.contentBlocks ?? []), ...(doc.bodyBlocks ?? [])]
-
-    for (const block of allBlocks) {
-      if (block._type !== 'block') continue
-      for (const span of block.children ?? []) {
-        if (span._type !== 'span' || typeof span.text !== 'string') continue
-        const matches = span.text.match(new RegExp(ENTITY_RE.source, 'g'))
-        if (matches) {
-          hitSpans.push({
-            preview: span.text.slice(0, 80),
-            entities: [...new Set(matches)],
-          })
-        }
-      }
+  for (const { doc, hitSpans } of entityHits) {
+    console.log(
+      `   ⚠️   [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hitSpans.length} span(s) with literal HTML entities:`,
+    )
+    const maxShow = 3
+    for (let i = 0; i < Math.min(hitSpans.length, maxShow); i++) {
+      const { preview, entities } = hitSpans[i]
+      console.log(`        Entities: ${entities.join(', ')}`)
+      console.log(`        Text: "${preview}${preview.length >= 80 ? '…' : ''}"`)
     }
-
-    if (hitSpans.length > 0) {
-      console.log(
-        `   ⚠️   [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hitSpans.length} span(s) with literal HTML entities:`,
-      )
-      const maxShow = 3
-      for (let i = 0; i < Math.min(hitSpans.length, maxShow); i++) {
-        const { preview, entities } = hitSpans[i]
-        console.log(`        Entities: ${entities.join(', ')}`)
-        console.log(`        Text: "${preview}${preview.length >= 80 ? '…' : ''}"`)
-      }
-      if (hitSpans.length > maxShow) {
-        console.log(`        … and ${hitSpans.length - maxShow} more span(s)`)
-      }
-      console.log(
-        `        Fix: apply decodePortableText() in the page component, or clean the source in Studio`,
-      )
-      entityIssues++
-      warnings++
+    if (hitSpans.length > maxShow) {
+      console.log(`        … and ${hitSpans.length - maxShow} more span(s)`)
     }
+    console.log(
+      `        Fix: apply decodePortableText() in the page component, or clean the source in Studio`,
+    )
   }
 
-  if (entityIssues === 0) {
+  if (entityHits.length === 0) {
     console.log('   ✅  No literal HTML entities found in PortableText spans')
   }
   console.log()
@@ -490,33 +386,15 @@ async function run() {
 
   // The renderer draws one anchor when a span has both marks (#143), so this is a warning:
   // the second destination is silently dropped. Fix in Studio by removing one mark.
-  let doubleMarkIssues = 0
-
-  for (const doc of portableDocs) {
-    const hits = []
-    for (const block of (doc.markBlocks ?? []).flat()) {
-      if (!block) continue // sections without content project to null
-      const typeByKey = new Map((block.defs ?? []).map((d) => [d._key, d._type]))
-      for (const span of block.spans ?? []) {
-        if (span._type !== 'span') continue
-        const types = (span.marks ?? []).map((m) => typeByKey.get(m))
-        if (types.includes('link') && types.includes('glossaryTermRef')) {
-          hits.push(span.text ?? '')
-        }
-      }
-    }
-    if (hits.length > 0) {
-      console.log(
-        `   ⚠️   [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hits.length} span(s) with both a link and a glossary term:`,
-      )
-      for (const text of hits.slice(0, 3)) console.log(`        Text: "${text.slice(0, 80)}"`)
-      console.log('        Fix: in Studio, remove either the link or the glossary term from that text')
-      doubleMarkIssues++
-      if (STRICT) { errors++ } else { warnings++ }
-    }
+  for (const { doc, hits } of doubleMarks) {
+    console.log(
+      `   ⚠️   [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hits.length} span(s) with both a link and a glossary term:`,
+    )
+    for (const text of hits.slice(0, 3)) console.log(`        Text: "${text.slice(0, 80)}"`)
+    console.log('        Fix: in Studio, remove either the link or the glossary term from that text')
   }
 
-  if (doubleMarkIssues === 0) {
+  if (doubleMarks.length === 0) {
     console.log('   ✅  No span carries both a link and a glossary term')
   }
   console.log()
@@ -551,23 +429,8 @@ async function run() {
       rawDocs = []
     }
 
-    // Separate into draft IDs and published IDs
-    const publishedIds = new Set()
-    const draftDocs = []
-
-    for (const doc of rawDocs) {
-      if (doc._id.startsWith('drafts.')) {
-        draftDocs.push(doc)
-      } else {
-        publishedIds.add(doc._id)
-      }
-    }
-
     // A draft-only doc has a drafts.* ID but no matching published ID
-    const draftOnly = draftDocs.filter((d) => {
-      const publishedId = d._id.replace(/^drafts\./, '')
-      return !publishedIds.has(publishedId)
-    })
+    const draftOnly = findDraftOnly(rawDocs)
 
     if (draftOnly.length === 0) {
       console.log('   ✅  No draft-only documents with slugs detected')
@@ -593,39 +456,15 @@ async function run() {
   console.log('📊  Minimum Taxonomy Coverage (H)')
   console.log('──────────────────────────────────────────────')
 
-  const MINIMUMS = {
-    categories: 1,
-    tags: 3,
-    tools: { article: 1, node: 1, caseStudy: 0 },
+  for (const { doc, issues } of taxonomyGaps) {
+    const prefix = STRICT ? '❌' : '⚠️  '
+    console.log(`   ${prefix} [${doc._type}] "${doc.title}" — ${issues.join(', ')}`)
   }
 
-  let taxonomyGaps = 0
-  const contentDocs = data.content ?? []
-
-  for (const doc of contentDocs) {
-    const issues = []
-    if ((doc.categoryCount ?? 0) < MINIMUMS.categories) {
-      issues.push(`categories: ${doc.categoryCount ?? 0}/${MINIMUMS.categories}`)
-    }
-    if ((doc.tagCount ?? 0) < MINIMUMS.tags) {
-      issues.push(`tags: ${doc.tagCount ?? 0}/${MINIMUMS.tags}`)
-    }
-    const toolMin = MINIMUMS.tools[doc._type] ?? 0
-    if (toolMin > 0 && (doc.toolCount ?? 0) < toolMin) {
-      issues.push(`tools: ${doc.toolCount ?? 0}/${toolMin}`)
-    }
-    if (issues.length > 0) {
-      const prefix = STRICT ? '❌' : '⚠️  '
-      console.log(`   ${prefix} [${doc._type}] "${doc.title}" — ${issues.join(', ')}`)
-      taxonomyGaps++
-      if (STRICT) { errors++ } else { warnings++ }
-    }
-  }
-
-  if (taxonomyGaps === 0) {
+  if (taxonomyGaps.length === 0) {
     console.log('   ✅  All content docs meet minimum taxonomy thresholds')
   } else {
-    console.log(`\n   ${taxonomyGaps} doc(s) below minimum taxonomy coverage`)
+    console.log(`\n   ${taxonomyGaps.length} doc(s) below minimum taxonomy coverage`)
   }
   console.log()
 
@@ -635,18 +474,12 @@ async function run() {
   console.log('👤  Author Attribution (I)')
   console.log('──────────────────────────────────────────────')
 
-  let missingAuthors = 0
-
-  for (const doc of contentDocs) {
-    if ((doc.authorCount ?? 0) < 1) {
-      const prefix = STRICT ? '❌' : '⚠️  '
-      console.log(`   ${prefix} [${doc._type}] "${doc.title}" — no authors assigned`)
-      missingAuthors++
-      if (STRICT) { errors++ } else { warnings++ }
-    }
+  for (const doc of missingAuthors) {
+    const prefix = STRICT ? '❌' : '⚠️  '
+    console.log(`   ${prefix} [${doc._type}] "${doc.title}" — no authors assigned`)
   }
 
-  if (missingAuthors === 0) {
+  if (missingAuthors.length === 0) {
     console.log('   ✅  All content docs have at least one author')
   }
   console.log()
@@ -657,21 +490,12 @@ async function run() {
   console.log('🔍  SEO Metadata Completeness (J)')
   console.log('──────────────────────────────────────────────')
 
-  let seoGaps = 0
-
-  for (const doc of contentDocs) {
-    const issues = []
-    if (!doc.hasSeoTitle) issues.push('missing seo.title')
-    if (!doc.hasSeoDescription) issues.push('missing seo.description')
-    if (issues.length > 0) {
-      const prefix = STRICT ? '❌' : '⚠️  '
-      console.log(`   ${prefix} [${doc._type}] "${doc.title}" — ${issues.join(', ')}`)
-      seoGaps++
-      if (STRICT) { errors++ } else { warnings++ }
-    }
+  for (const { doc, issues } of seoGaps) {
+    const prefix = STRICT ? '❌' : '⚠️  '
+    console.log(`   ${prefix} [${doc._type}] "${doc.title}" — ${issues.join(', ')}`)
   }
 
-  if (seoGaps === 0) {
+  if (seoGaps.length === 0) {
     console.log('   ✅  All content docs have SEO title and description')
   }
   console.log()
