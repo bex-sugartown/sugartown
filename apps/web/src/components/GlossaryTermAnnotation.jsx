@@ -98,7 +98,6 @@ export default function GlossaryTermAnnotation({ value, children }) {
           <AnchorContext.Provider value={true}>
             <Link
               to={href}
-              style={{ color: 'inherit', textDecoration: 'none' }}
               aria-expanded={shown}
               aria-controls={shown ? popoverId : undefined}
             >

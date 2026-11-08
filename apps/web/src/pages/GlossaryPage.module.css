@@ -198,6 +198,14 @@ dfn.glossaryLink {
   font-style: normal;
 }
 
+/* The inner <a> takes the wrapper's colour and dotted underline. An inline text-decoration:none
+   on it left axe seeing a link with no non-colour cue (#185); the wrapper's underline is what
+   paints, so inheriting it changes nothing visually. */
+.glossaryLink > a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
 /* Popover — rendered via createPortal at document.body with position:fixed
    so it escapes any overflow:hidden ancestor. display:block/none is controlled
    by React state (shown prop) not CSS :hover. */

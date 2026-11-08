@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Glossary links in body text now expose their dotted underline to assistive checks, so they are no longer told apart by colour alone. (#185; axe passes on case study, node and glossary in light and dark with the four allowlist rows removed, 16 passed; visual unchanged by design, not compared in a browser)
 
 - Google now gets JSON-LD in the HTML it fetches: /about carries ProfilePage with mainEntity, and article, node, case study, release, page, person, glossary and series routes are prerendered (197 snapshots, was 98). (#82; new smoke spec reads the served HTML with no client JS, smoke 33 passed; Rich Results Test is a post-ship check)
 - Next and previous titles on case study, node and glossary pages meet 4.5:1 contrast: maroon in light, lighter pink in dark. (#184; axe passes with the three allowlist rows removed, smoke 28 passed, Visual QA approved)
