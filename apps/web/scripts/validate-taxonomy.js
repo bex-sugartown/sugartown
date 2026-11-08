@@ -27,6 +27,7 @@
  */
 
 import { createClient } from '@sanity/client'
+import { judgeTaxonomy } from './lib/taxonomy-rules.cjs'
 import { readFileSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
@@ -149,13 +150,16 @@ async function run() {
     process.exit(1)
   }
 
-  const allTagIds = new Set(tagDocs.map((t) => t._id))
-  const _tagById = Object.fromEntries(tagDocs.map((t) => [t._id, t]))
+  // The judging half lives in lib/taxonomy-rules.cjs so the liveness probe runs the same function.
+  const {
+    overCategorized, uncategorized, toolErrors, toolsWithoutSlug, dangling,
+    personsWithoutSlug, personsWithoutName, projectsWithoutSlug,
+    danglingPersonRefs, danglingProjectRefs, errors, warnings,
+  } = judgeTaxonomy({ docs, toolDocs, tagDocs, personDocs, projectDocs, contentRefs })
+
 
   // ── Check A: category count > 2 ───────────────────────────────────────────
 
-  const overCategorized = docs.filter((d) => (d.categoryCount ?? 0) > 2)
-  const uncategorized = docs.filter((d) => (d.categoryCount ?? 0) === 0)
 
   console.log('🏷️  Category Checks')
   console.log('──────────────────────────────────────────────')
@@ -186,16 +190,6 @@ async function run() {
   console.log('──────────────────────────────────────────────')
   console.log(`   Total tool documents in dataset: ${toolDocs.length}`)
 
-  const allToolIds = new Set(toolDocs.map((t) => t._id))
-  const toolErrors = []
-  for (const doc of docs) {
-    const toolIds = doc.toolIds ?? []
-    for (const toolId of toolIds) {
-      if (!allToolIds.has(toolId)) {
-        toolErrors.push({ doc, toolId })
-      }
-    }
-  }
 
   if (toolErrors.length === 0) {
     console.log('   ✅  All tools[] refs point to existing tool documents')
@@ -206,7 +200,6 @@ async function run() {
     }
   }
 
-  const toolsWithoutSlug = toolDocs.filter((t) => !t.slug)
   if (toolsWithoutSlug.length === 0) {
     console.log('   ✅  All tool docs have a slug')
   } else {
@@ -226,15 +219,6 @@ async function run() {
   console.log('──────────────────────────────────────────────')
   console.log(`   Total tag documents in dataset: ${tagDocs.length}`)
 
-  const dangling = []
-  for (const doc of docs) {
-    const tagIds = doc.tagIds ?? []
-    for (const tagId of tagIds) {
-      if (!allTagIds.has(tagId)) {
-        dangling.push({ doc, tagId })
-      }
-    }
-  }
 
   if (dangling.length === 0) {
     console.log('   ✅  All tags[] refs point to existing tag documents')
@@ -252,8 +236,6 @@ async function run() {
   console.log('👤  Person Checks')
   console.log('──────────────────────────────────────────────')
 
-  const personsWithoutSlug = personDocs.filter((p) => !p.slug)
-  const personsWithoutName = personDocs.filter((p) => !p.name)
 
   if (personsWithoutSlug.length === 0) {
     console.log('   ✅  All person docs have a slug')
@@ -282,7 +264,6 @@ async function run() {
   console.log('🚀  Project Checks')
   console.log('──────────────────────────────────────────────')
 
-  const projectsWithoutSlug = projectDocs.filter((p) => !p.slug)
 
   if (projectsWithoutSlug.length === 0) {
     console.log('   ✅  All project docs have a slug')
@@ -300,18 +281,6 @@ async function run() {
   console.log('🔗  Entity Reference Checks')
   console.log('──────────────────────────────────────────────')
 
-  const allPersonIds = new Set(personDocs.map((p) => p._id))
-  const allProjectIds = new Set(projectDocs.map((p) => p._id))
-
-  const danglingPersonRefs = []
-  for (const doc of contentRefs) {
-    const authorIds = doc.authorIds ?? []
-    for (const authorId of authorIds) {
-      if (!allPersonIds.has(authorId)) {
-        danglingPersonRefs.push({ doc, authorId })
-      }
-    }
-  }
 
   if (danglingPersonRefs.length === 0) {
     console.log('   ✅  All authors[] refs point to existing person documents')
@@ -324,15 +293,6 @@ async function run() {
 
   // ── Check I: dangling projects[] project refs ──────────────────────────────
 
-  const danglingProjectRefs = []
-  for (const doc of contentRefs) {
-    const projectIds = doc.projectIds ?? []
-    for (const projectId of projectIds) {
-      if (!allProjectIds.has(projectId)) {
-        danglingProjectRefs.push({ doc, projectId })
-      }
-    }
-  }
 
   if (danglingProjectRefs.length === 0) {
     console.log('   ✅  All projects[] refs point to existing project documents')
@@ -349,17 +309,6 @@ async function run() {
 
   console.log('══════════════════════════════════════════════')
 
-  const errors = toolErrors.length + dangling.length + danglingPersonRefs.length
-  // Category issues and entity slug/name issues are warnings only — not schema errors
-  // danglingProjectRefs are also WARN level
-  const warnings =
-    overCategorized.length +
-    uncategorized.length +
-    toolsWithoutSlug.length +
-    personsWithoutSlug.length +
-    personsWithoutName.length +
-    projectsWithoutSlug.length +
-    danglingProjectRefs.length
 
   if (errors === 0 && warnings === 0) {
     console.log('✅  All taxonomy checks passed.\n')

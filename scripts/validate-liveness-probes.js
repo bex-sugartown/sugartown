@@ -417,6 +417,46 @@ function filtersProbes() {
   ]
 }
 
+// validate:taxonomy — apps/web/scripts/lib/taxonomy-rules.cjs
+function taxonomyProbes() {
+  const judge = (data) => requireCjs(resolve(ROOT, 'apps/web/scripts/lib/taxonomy-rules.cjs')).judgeTaxonomy(data)
+  const empty = { docs: [], toolDocs: [], tagDocs: [], personDocs: [], projectDocs: [], contentRefs: [] }
+  const cleanDoc = { _id: 'd1', _type: 'article', title: 'A', slug: 'a', categoryCount: 1, toolIds: ['t1'], tagIds: ['g1'] }
+  const clean = {
+    ...empty,
+    docs: [cleanDoc],
+    toolDocs: [{ _id: 't1', name: 'Tool', slug: 'tool' }],
+    tagDocs: [{ _id: 'g1', name: 'Tag', slug: 'tag' }],
+    personDocs: [{ _id: 'p1', name: 'Person', slug: 'person' }],
+    projectDocs: [{ _id: 'j1', name: 'Project', slug: 'project' }],
+    contentRefs: [{ _id: 'd1', _type: 'article', authorIds: ['p1'], projectIds: ['j1'] }],
+  }
+  const probe = (gate, why, mutate, fires, success) => ({
+    gate,
+    why,
+    run: () => ruleProbe({ judge, clean, broken: mutate(clean), fires, success }),
+  })
+  return [
+    probe('validate:taxonomy (dangling tool)', 'a tools[] ref to a missing tool doc must be an error (exit 1)',
+      (c) => ({ ...c, docs: [{ ...cleanDoc, toolIds: ['missing-tool'] }] }),
+      (r) => r.errors > 0 && r.toolErrors.length > 0, 'reported the dangling tool ref'),
+    probe('validate:taxonomy (dangling tag)', 'a tags[] ref to a missing tag doc must be an error (exit 1)',
+      (c) => ({ ...c, docs: [{ ...cleanDoc, tagIds: ['missing-tag'] }] }),
+      (r) => r.errors > 0 && r.dangling.length > 0, 'reported the dangling tag ref'),
+    probe('validate:taxonomy (dangling author)', 'an authors[] ref to a missing person doc must be an error (exit 1)',
+      (c) => ({ ...c, contentRefs: [{ _id: 'd1', _type: 'article', authorIds: ['missing-person'], projectIds: [] }] }),
+      (r) => r.errors > 0 && r.danglingPersonRefs.length > 0, 'reported the dangling author ref'),
+    // Category counts are WARNINGS in validate-taxonomy.js (exit 0), by design and unchanged by
+    // this epic. These probes prove the rule reports them; they cannot prove the exit code.
+    probe('validate:taxonomy (0 categories)', 'a document with 0 categories must be reported (warning-level, exits 0)',
+      (c) => ({ ...c, docs: [{ ...cleanDoc, categoryCount: 0 }] }),
+      (r) => r.uncategorized.length > 0, 'reported the uncategorized document'),
+    probe('validate:taxonomy (3 categories)', 'a document with more than 2 categories must be reported (warning-level, exits 0)',
+      (c) => ({ ...c, docs: [{ ...cleanDoc, categoryCount: 3 }] }),
+      (r) => r.overCategorized.length > 0, 'reported the over-categorized document'),
+  ]
+}
+
 const PROBES = [
   {
     gate: 'validate:tokens',
@@ -617,6 +657,7 @@ const PROBES = [
   // probe feeds the validator's own pure rule function a fixture instead of breaking a file.
   ...urlsProbes(),
   ...filtersProbes(),
+  ...taxonomyProbes(),
 
   // Architectural boundary rules — one probe per enforced scope, generated
   // from SCOPES above. INC-011 / SUG-254.
