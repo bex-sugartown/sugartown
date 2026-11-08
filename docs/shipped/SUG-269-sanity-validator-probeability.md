@@ -3,7 +3,7 @@
 **Issue:** [#93](https://github.com/bex-sugartown/sugartown/issues/93). The Linear original [SUG-269](https://linear.app/sugartown/issue/SUG-269/make-the-sanity-backed-validators-probeable) is retired; this ID was reused from a cancelled epic absorbed into [SUG-177](docs/backlog/SUG-177-list-component-audit-site-list-patterns.md). References to "SUG-269, cancelled the same day" in `SUG-268-governance-data-layer.md` and `SUG-177-*.md` describe that prior life, not this epic.
 **Origin:** AOP-0, 2026-08-09. Three of its six controls were structurally unprobeable; rewritten 2026-11-08 against the shipped ST-95 harness.
 **Aligned:** 2026-11-08
-**Status:** Backlog, ready to start once this rewrite is approved
+**Status:** Done 2026-11-08, committed locally; Shipped when pushed and CI is green
 **Priority:** 🟣 Soon: five CI or manual gates are trusted without proof, none newly broken
 **Merge strategy:** (a) Merge-as-you-go, one validator per commit
 **Depends on:** ST-95 ([#95](https://github.com/bex-sugartown/sugartown/issues/95)), closed 2026-10-31. Its harness, `scripts/validate-liveness-probes.js`, is reused; do not build a second one.
@@ -51,19 +51,19 @@ Each of the five validators separates **fetching** from **judging**. The judging
 
 ## Scope
 
-- [ ] **S1** `validate:urls`: extract the rules into a pure function; probe with a fixture holding a duplicate canonical URL and a published doc with no slug. Layer: tooling. Phase 1
-- [ ] **S2** `validate:filters`: same shape; `buildFilterModel()` is already pure, so the seam is cheap. Layer: tooling. Phase 1
-- [ ] **S3** `validate:taxonomy`: same shape; fixture holds a document with 0 categories and one with more than 2. Layer: tooling. Phase 1
-- [ ] **S4** `validate:content`: same shape; fixture holds a missing slug, an orphaned taxonomy ref, a duplicate slug and an HTML entity in Portable Text. Layer: tooling. Phase 2
-- [ ] **S5** `validate:schema-parity`: probe the comparison with a local and a deployed manifest that differ by one field. Layer: tooling. Phase 2
-- [ ] **S6** Add one `PROBES` entry per validator in `scripts/validate-liveness-probes.js`, each with a control run on clean input and a violating run, per `gateProbe`'s contract. Update the harness header comment's probe count. Layer: tooling. Phases 1 and 2, with each validator
+- [x] **S1** `validate:urls`: extract the rules into a pure function; probe with a fixture holding a duplicate canonical URL and a published doc with no slug. Layer: tooling. Phase 1
+- [x] **S2** `validate:filters`: same shape; `buildFilterModel()` is already pure, so the seam is cheap. Layer: tooling. Phase 1
+- [x] **S3** `validate:taxonomy`: same shape; fixture holds a document with 0 categories and one with more than 2. Layer: tooling. Phase 1
+- [x] **S4** `validate:content`: same shape; fixture holds a missing slug, an orphaned taxonomy ref, a duplicate slug and an HTML entity in Portable Text. Layer: tooling. Phase 2
+- [x] **S5** `validate:schema-parity`: probe the comparison with a local and a deployed manifest that differ by one field. Layer: tooling. Phase 2
+- [x] **S6** Add one `PROBES` entry per validator in `scripts/validate-liveness-probes.js`, each with a control run on clean input and a violating run, per `gateProbe`'s contract. Update the harness header comment's probe count. Layer: tooling. Phases 1 and 2, with each validator
 
 ## Phases
 
 | Phase | What ships | Gate | Done |
 |---|---|---|---|
-| 1 | S1, S2, S3 and their `PROBES` entries (the three originally filed) | none | [ ] |
-| 2 | S4, S5 and their `PROBES` entries (found 2026-08-21) | none | [ ] |
+| 1 | S1, S2, S3 and their `PROBES` entries (the three originally filed) | none | [x] |
+| 2 | S4, S5 and their `PROBES` entries (found 2026-08-21) | none | [x] |
 
 Merge strategy (a): one commit per validator, each merging to `main` when its probe passes.
 
@@ -87,13 +87,13 @@ Scope and Non-Goals read against each other 2026-11-08: no Scope item requires a
 
 ## Acceptance Criteria
 
-- [ ] For each of the five validators, the probe fails on its broken fixture and passes on its clean one; output recorded in the issue comment
-- [ ] `pnpm validate:liveness-probes` exits 0 and lists five more gates live than before this epic (count before and after recorded, from the command's output)
-- [ ] For each validator, the function the probe feeds is the function the validator calls: `grep -n` of the import in both files, pasted
-- [ ] `pnpm validate:urls`, `validate:filters`, `validate:taxonomy`, `validate:content` and `validate:schema-parity` produce the same exit code and the same report text on live data as before the refactor (run both on `main` and on the branch, diff the output)
-- [ ] A mutation check per probe: weaken the rule in the extracted function and confirm the probe goes red, then revert
-- [ ] `pnpm lint` and `pnpm validate:style-mirror` unaffected (zero new errors)
-- [ ] Close-out review present: `node scripts/check-epic-doc.js <doc> --stage close-out` exits 0
+- [x] For each of the five validators, the probe fails on its broken fixture and passes on its clean one; output recorded in the issue comment
+- [x] `pnpm validate:liveness-probes` exits 0 and lists five more gates live than before this epic (count before and after recorded, from the command's output)
+- [x] For each validator, the function the probe feeds is the function the validator calls: `grep -n` of the import in both files, pasted
+- [x] `pnpm validate:urls`, `validate:filters`, `validate:taxonomy`, `validate:content` and `validate:schema-parity` produce the same exit code and the same report text on live data as before the refactor (run both on `main` and on the branch, diff the output)
+- [x] A mutation check per probe: weaken the rule in the extracted function and confirm the probe goes red, then revert
+- [x] `pnpm lint` and `pnpm validate:style-mirror` unaffected (zero new errors)
+- [x] Close-out review present: `node scripts/check-epic-doc.js <doc> --stage close-out` exits 0
 
 ## Kill criterion
 
@@ -104,3 +104,35 @@ Remove a probe if its validator is retired, or if the probe has failed three tim
 - **A probe on a parallel copy of the rules.** The failure this repo keeps hitting: a check that reports healthy while checking nothing. Guarded by the import-sharing acceptance criterion above.
 - **Behaviour drift in the refactor.** Moving rule logic can change output. Guarded by the before-and-after output diff.
 - **`validate:content` is 746 lines** and the largest extraction. If its rules do not separate cleanly, split it into its own follow-up issue and ship Phase 1 and S5 first.
+
+## Close-out review
+
+### Acceptance criteria
+
+- Each probe fails on its fixture and passes on its clean one: `pnpm validate:liveness-probes` lists all 22 new probes with a green tick. Done.
+- Gate count: 17 before, 39 after, 0 inert (`node scripts/validate-liveness-probes.js`, counts from its summary line). Done.
+- Same function in validator and probe: each validator imports its rules module (`grep -n "lib/.*-rules.cjs"` on the five validators) and the probes `require` that same path. Done.
+- Same output on live data: byte-identical for urls, filters and taxonomy (also with `--no-token`), content (default, `--strict`, `--report`), and schema-parity (only a Node warning's process ID differs). Live data was clean for several error branches (duplicate slug, empty archive types, entities), so those print paths were not exercised against live data; the judge functions are exercised by the probes. Done.
+- Mutation check: for every probe, the rule was weakened and the probe went red, then the rule was restored. Done.
+- `pnpm lint`: web 0 errors, studio 0 errors with the same 16 pre-existing warnings. Done.
+
+### What didn't work
+
+- The original fixtures assumed missing slugs (urls) and 0 or more than 2 categories (taxonomy) fail the validator. They are warnings that exit 0. The probes assert the rule reports them and say so in a comment; the exit code of those cases is not proven.
+- `validate-filters.js` judges its own copy of `src/lib/filterModel.js`, which a probe cannot see past.
+- My first refactor of `validate-urls.js` dropped the Nav Resolution heading; the output diff against the baseline caught it.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| `validate:filters` judges a copy of `src/lib/filterModel.js`, so the gate can pass while the app's code is broken | implementation | #216 |
+| `validate:content` is provable but runs on no schedule (not in CI or pre-commit) | workflow-docs | #217 |
+
+### Friction line
+
+The first refactor of `validate-urls.js` dropped a heading and only the before-and-after output diff caught it; keep the baseline-diff step for any refactor of a printing script.
+
+## Post-ship checks
+
+- CI concludes `success` on the pushed commit, including the existing `validate:schema-parity`, `validate:urls`, `validate:filters` and `validate:taxonomy` steps: person: watch the `/ship` run.

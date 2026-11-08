@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The five Sanity-backed validators (urls, filters, taxonomy, content, schema-parity) can now be proven to fail on bad input: the liveness harness runs each one's own rule code against a broken fixture, 17 gates to 39. (#93; every probe turns red when its rule is weakened, validator output on live data unchanged, smoke 33 passed)
 - Two Agentic Browsing checks pass: llms.txt follows the llmstxt.org format, and the footnote zone no longer fails the accessibility-tree audit, which also drops the two deprecated-role allowlist rows. (#84; Lighthouse agentic-browsing config on the local build, llms-txt and agent-accessibility-tree 0 to 1, smoke 33 passed; deployed re-run is a post-ship check)
 - Project and tool pages now carry their own JSON-LD (a CreativeWork for each project, a WebPage about a SoftwareApplication for each tool), where before they emitted only the site-wide graph. (#83; both read back in the browser, smoke 33 passed; Rich Results Test is a post-ship check)
 - Glossary links in body text now expose their dotted underline to assistive checks, so they are no longer told apart by colour alone. (#185; axe passes on case study, node and glossary in light and dark with the four allowlist rows removed, 16 passed; visual unchanged by design, not compared in a browser)
