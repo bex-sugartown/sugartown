@@ -373,6 +373,50 @@ function urlsProbes() {
   ]
 }
 
+// validate:filters — apps/web/scripts/lib/filters-rules.cjs
+function filtersProbes() {
+  const rules = () => requireCjs(resolve(ROOT, 'apps/web/scripts/lib/filters-rules.cjs'))
+  const archive = { _id: 'ap1', title: 'Articles', slug: 'articles', contentTypes: ['article'], filterConfig: { facets: [] } }
+  return [
+    {
+      gate: 'validate:filters (null archivePage)',
+      why: 'an archive route with no archivePage document must fail the filter model (exit 1)',
+      run: () =>
+        ruleProbe({
+          judge: ({ page, items }) => rules().judgeArchive(page, items),
+          clean: { page: archive, items: [] },
+          broken: { page: null, items: [] },
+          fires: (v) => v.fails && v.modelError !== null,
+          success: 'reported the missing archivePage',
+        }),
+    },
+    {
+      gate: 'validate:filters (WP key in query)',
+      why: 'a purged WP-era key in a GROQ query string must be reported (exit 1)',
+      run: () =>
+        ruleProbe({
+          judge: (q) => rules().detectWpKeysInString(q),
+          clean: '*[_type == "tag"]{ _id, name }',
+          broken: '*[_type == "tag"]{ _id, wp_tag }',
+          fires: (found) => found.length > 0,
+          success: 'reported wp_tag in the query string',
+        }),
+    },
+    {
+      gate: 'validate:filters (WP key in model)',
+      why: 'a purged WP-era key in the filter model output must be reported (exit 1)',
+      run: () =>
+        ruleProbe({
+          judge: (model) => rules().detectWpKeys(model),
+          clean: { archive: { id: 'ap1' }, facets: [{ id: 'tag', options: [] }] },
+          broken: { archive: { id: 'ap1' }, facets: [{ id: 'tag', options: [{ gem_status: 'x' }] }] },
+          fires: (found) => found.length > 0,
+          success: 'reported gem_status in the model',
+        }),
+    },
+  ]
+}
+
 const PROBES = [
   {
     gate: 'validate:tokens',
@@ -572,6 +616,7 @@ const PROBES = [
   // Sanity-backed validators (SUG-269, #93). Each judges data fetched at run time, so the
   // probe feeds the validator's own pure rule function a fixture instead of breaking a file.
   ...urlsProbes(),
+  ...filtersProbes(),
 
   // Architectural boundary rules — one probe per enforced scope, generated
   // from SCOPES above. INC-011 / SUG-254.
