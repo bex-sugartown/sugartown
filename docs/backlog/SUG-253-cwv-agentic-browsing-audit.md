@@ -2,7 +2,7 @@
 **Epic:** SUG-253 — CWV audit & Agentic Browsing fixes (llms.txt, accessibility tree, mobile performance)
 **Linear Issue:** [SUG-253](https://linear.app/sugartown/issue/SUG-253/cwv-audit-and-agentic-browsing-fixes-llmstxt-accessibility-tree-mobile)
 **Status:** Backlog
-**Visual:** no _(Phase 1 touches a static file and an ARIA fix; re-evaluate before Phase 2 if image or script loading on shared components changes)_
+**Visual:** no _(a static file and an ARIA fix)_
 **Priority:** 🟣 Soon — post-sprint
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end of each
 ---
@@ -10,8 +10,9 @@
 # SUG-253 — CWV audit & Agentic Browsing fixes (llms.txt, accessibility tree, mobile performance)
 
 Fix the two failing checks in PageSpeed Insights' new "Agentic Browsing" category
-(llms.txt spec compliance, accessibility-tree well-formedness), and address the mobile
-Core Web Vitals gap the same report surfaces on the homepage.
+(llms.txt spec compliance, accessibility-tree well-formedness). The mobile Core Web Vitals
+work the same report surfaced was split out on 2026-11-08 into
+[#213](https://github.com/bex-sugartown/sugartown/issues/213).
 
 ## Background
 
@@ -43,9 +44,7 @@ not a fresh regression, but it has never had a dedicated remediation epic.
 After this epic: (1) `apps/web/public/llms.txt` conforms to the llms.txt spec format
 Google's Agentic Browsing check validates against, and passes that check on both form
 factors; (2) the "accessibility tree is not well-formed" failure is diagnosed with real
-detail (not guessed) and fixed; (3) the homepage's mobile CWV performance score improves
-measurably from the 65/100, 6.6s-LCP baseline via the specific opportunities this report
-names (render-blocking requests, image delivery, unused JS/CSS). This epic touches:
+detail (not guessed) and fixed. This epic touches:
 `apps/web/public/llms.txt`, whatever markup/ARIA issue is causing the accessibility-tree
 failure (surface unknown until Phase 1's live audit expansion), and homepage-specific
 performance work (render-blocking script/style loading, image optimization, JS/CSS bundle
@@ -69,23 +68,17 @@ don't exist yet.
       notes, sitemap reference, update cadence) — layer: content/static file
 - [ ] Fix the accessibility-tree well-formedness issue found in the first audit item —
       layer: frontend (scope narrows once the specific violation is known)
-- [ ] Address the report's named mobile-performance opportunities on the homepage:
-      render-blocking requests (~1,650ms estimated savings), image delivery (~63KiB),
-      reduce unused JavaScript (~156KiB), reduce unused CSS (~28KiB) — layer:
-      frontend/build
-- [ ] Re-run PageSpeed Insights (or `/update-cwv`'s Lighthouse CI) against the deployed
-      homepage post-fix and record the before/after scores for all four categories
-      (Performance, Accessibility, Agentic Browsing) plus the specific metrics (LCP, FCP,
-      CLS) — layer: verification
+- [ ] Re-run PageSpeed Insights (or Lighthouse's agentic-browsing config) against the deployed
+      homepage post-fix and record before and after for the two Agentic Browsing checks —
+      layer: verification
 
 ## Phases
 
 **Phase 1 — Agentic Browsing fixes.** Expand the accessibility-tree audit detail, fix
 llms.txt to spec, fix the accessibility-tree issue. Ships independently — merge-as-you-go.
 
-**Phase 2 — Mobile CWV performance remediation.** Address the render-blocking, image
-delivery, and unused JS/CSS opportunities named in the mobile report. Re-run
-PageSpeed/Lighthouse to confirm improvement and record the new baseline.
+**Phase 2 — moved.** Mobile CWV performance remediation is now
+[#213](https://github.com/bex-sugartown/sugartown/issues/213) (ST-213).
 
 ## Acceptance criteria
 
@@ -93,22 +86,13 @@ PageSpeed/Lighthouse to confirm improvement and record the new baseline.
       check on a re-run PageSpeed Insights report (both form factors)
 - [ ] The "accessibility tree is not well-formed" check passes on a re-run report (both
       form factors), with the root cause documented (not just "it passed now")
-- [ ] Homepage mobile Performance score improves measurably from the 65/100 baseline,
-      with LCP reduced from 6.6s — exact target set once Phase 2's specific fixes are
-      chosen, but "no measurable change" is not an acceptable close-out state
-- [ ] `/update-cwv`'s `PERF_BACKUP` constant in `CwvSnapshot.jsx` is refreshed to reflect
-      the post-fix scores, not left showing the pre-fix "poor" baseline
-- [ ] Before/after scores for both phases are recorded in the shipped doc, sourced from a
-      real re-run, not estimated
+- [ ] Before and after for the two checks are recorded in the shipped doc, from a real re-run
 
 ## Human QA Walkthrough — example local pages
 
 Not applicable in the CSS/layout-token sense for Phase 1 (llms.txt is a static file
 outside the app; the accessibility-tree fix's actual surface is unknown until audited).
-**Phase 2 does apply** if any performance fix touches image/script loading on shared
-layout components — re-visit this section once Phase 2's specific implementation is
-scoped, per `docs/epic-template.md` §Human QA Walkthrough, since homepage performance
-fixes commonly touch hero/image-loading patterns used on more than one page.
+Phase 2 moved to #213.
 
 ## Technical notes
 
@@ -128,19 +112,13 @@ fixes commonly touch hero/image-loading patterns used on more than one page.
     code. Do not guess at the ARIA/DOM issue from the category name alone.
   - Read the current llms.txt spec at the "browsable websites for AI agents" link Google's
     audit cites, and confirm the exact expected format before rewriting the file.
-  - Re-run `pnpm exec lhci autorun --config=lighthouserc.cjs` (or the `/update-cwv` skill
-    end-to-end) to get a current, calibrated mobile/desktop baseline before Phase 2 work
-    begins — the PERF_BACKUP values referenced in this doc's Background are a snapshot
-    that may already be stale by activation time.
-  - Confirm whether the CLS discrepancy noted between this report's desktop (0.148,
-    failing) and mobile (0, passing) reflects a real desktop-only layout-shift regression
-    or run-to-run variance — worth one extra re-run before treating it as a finding.
+  - The Phase 2 activation audits (Lighthouse baseline, CLS discrepancy) moved to #213.
 
 ## Model & Mode [REQUIRED]
 
 `/model sonnet` — default. Phase 1 is a scoped content-format fix (llms.txt) plus a
-diagnostic-then-fix task (accessibility tree) once the audit detail is read; Phase 2 is
-standard frontend performance work (render-blocking, image optimization, bundle trimming)
+diagnostic-then-fix task (accessibility tree) once the audit detail is read. The former Phase 2
+is standard frontend performance work, now #213 (render-blocking, image optimization, bundle trimming)
 against named, already-quantified opportunities. Neither phase involves the kind of
 open-ended architecture decision that would call for Opus + plan mode.
 
@@ -156,6 +134,8 @@ open-ended architecture decision that would call for Opus + plan mode.
 - No change to the existing `/update-cwv` skill's mechanics or `lighthouserc.cjs`'s
   monitored URL list — this epic consumes that pipeline for verification, it doesn't
   redesign it.
+
+- No mobile performance work: that is #213.
 
 ## Related
 
