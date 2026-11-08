@@ -54,19 +54,19 @@ don't exist yet.
 
 ## Scope
 
-- [ ] Expand and read the full "Accessibility tree is not well-formed" audit detail (via
+- [x] Expand and read the full "Accessibility tree is not well-formed" audit detail (via
       the PSI report UI or the PageSpeed Insights API with a valid key — the public
       unkeyed endpoint hit a 429 during epic authoring) to identify the specific
       violation(s) before proposing any fix — layer: audit
-- [ ] Fetch and read the current llms.txt spec recommendation (linked from the audit —
+- [x] Fetch and read the current llms.txt spec recommendation (linked from the audit —
       "browsable websites for AI agents") and diff `apps/web/public/llms.txt`'s existing
       prose-under-headings format against it — layer: audit
-- [ ] Rewrite `apps/web/public/llms.txt` to the compliant format (likely: H1 site name,
+- [x] Rewrite `apps/web/public/llms.txt` to the compliant format (likely: H1 site name,
       optional blockquote summary, H2 sections containing markdown link lists
       `- [Title](url): description` rather than prose paragraphs) while preserving the
       real content already documented (site structure, key topics, author info, technical
       notes, sitemap reference, update cadence) — layer: content/static file
-- [ ] Fix the accessibility-tree well-formedness issue found in the first audit item —
+- [x] Fix the accessibility-tree well-formedness issue found in the first audit item —
       layer: frontend (scope narrows once the specific violation is known)
 - [ ] Re-run PageSpeed Insights (or Lighthouse's agentic-browsing config) against the deployed
       homepage post-fix and record before and after for the two Agentic Browsing checks —
@@ -82,11 +82,10 @@ llms.txt to spec, fix the accessibility-tree issue. Ships independently — merg
 
 ## Acceptance criteria
 
-- [ ] `apps/web/public/llms.txt` passes the "llms.txt does not follow recommendations"
-      check on a re-run PageSpeed Insights report (both form factors)
-- [ ] The "accessibility tree is not well-formed" check passes on a re-run report (both
-      form factors), with the root cause documented (not just "it passed now")
-- [ ] Before and after for the two checks are recorded in the shipped doc, from a real re-run
+- [x] `apps/web/public/llms.txt` passes the "llms.txt does not follow recommendations"
+      check. Evidence: Lighthouse agentic-browsing config, `llms-txt` 0 on production, 1 on the local build, 2026-11-08. The deployed re-run is a post-ship check.
+- [x] The "accessibility tree is not well-formed" check passes, root cause documented: `<footer role="doc-endnotes">` (aria-allowed-role) then `<p role="doc-endnote">` in Citation. Evidence: `agent-accessibility-tree` 0 before, 1 after, local build, 2026-11-08. The deployed re-run is a post-ship check.
+- [ ] Before and after for the two checks on the deployed site: moved to Post-ship checks
 
 ## Human QA Walkthrough — example local pages
 
@@ -148,3 +147,34 @@ open-ended architecture decision that would call for Opus + plan mode.
   (Lighthouse CI setup, per `lighthouserc.cjs`'s own header comment)
 - **Existing tooling:** `.claude/skills/update-cwv/`, `apps/web/src/components/CwvSnapshot.jsx`,
   `lighthouserc.cjs`
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+Ticked above with evidence. The deployed re-run of both checks is in Post-ship checks.
+
+### What didn't work
+
+none
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Mobile Core Web Vitals work (this epic's former Phase 2) | implementation | #213 |
+| `ard-schema` Agentic Browsing check fails (no `/.well-known/ard.json`) | implementation | #214 |
+| #164 (deprecated Citation roles) is fixed by this epic's Citation change and its allowlist rows are gone | implementation | #164 closes once production passes axe |
+
+### Friction line
+
+My first answer to "what moves #84 to Done" required a deployed re-run, which is Shipped, not Done (CLAUDE.md §Done vs Shipped).
+
+---
+
+## Post-ship checks
+
+- [ ] `llms-txt` and `agent-accessibility-tree` both pass on the deployed homepage: run `npx lighthouse https://sugartown.io/ --config-path=<lighthouse>/core/config/agentic-browsing-config.js`, or re-run PageSpeed Insights (mobile and desktop)
+- [ ] Axe passes on production with the #164 rows removed, then close #164: person, after the deploy
