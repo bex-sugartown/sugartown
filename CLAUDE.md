@@ -153,7 +153,8 @@ epics (#98, #99) close with their own close-out commits stranded on one disk pen
 
 **`Done`** — work complete, committed locally, local smoke green (close-out step 1b). Not merged.
 Transition the issue and move the epic doc to `docs/shipped/` at this point; nothing about `Done`
-requires a push.
+requires a push. **A deployed re-run, a live-site check or a CI result is never a condition of
+`Done`: it goes to Post-ship checks.** Answer "what moves X to Done?" from this section.
 
 **`Shipped`** — on `origin/main`, deployed, **and** CI concluded `success`. Confirm before citing
 either state:
@@ -221,7 +222,7 @@ gh project item-edit --id {item_id} --project-id PVT_kwHODqg2Fc4BP7M2 \
 
 **The start review for a bare issue is a read.** Before setting `In Progress`, confirm the body states an objective, acceptance criteria, and whether it renders anything new (Visual yes or no). Ask for anything missing in one batch.
 
-Three rules make this safe:
+Four rules make this safe:
 
 1. **Set `In Progress` before the first `Edit`/`Write`.** Same reason as an epic: work in
    flight on a `Todo` issue is invisible to anyone reading the board.
@@ -233,6 +234,10 @@ Three rules make this safe:
    close-out review: what didn't work, follow-ups filed (#N) or declined, the friction line, and
    any post-ship checks, which `/ship` reads. Add the issue's line to `CHANGELOG.md`'s
    `[Unreleased]` buffer in the same step, in close-out step 7's format.
+4. **If the diff touches CSS, component JSX or stories, ask the Chromatic question before
+   setting `Done`** (close-out step 4: run now, or defer). Record a deferral in the `Done`
+   comment, since a bare issue has no shipped doc to annotate. (#185 and #84 both reached `Done`
+   without it.)
 
 Abandoning execution returns the issue to `Todo`, or `On Hold` if blocked. Never leave it at
 `In Progress`.

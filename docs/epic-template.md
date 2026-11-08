@@ -119,6 +119,11 @@ stage (SUG-246).
 >    dead reference, a step that cost time); each goes through CLAUDE.md §Instruction & Rule File
 >    Write Gate, never edited in passing. Recommended option first, with its cost.
 >
+> 6. Every acceptance criterion that can only be checked on the live site moves to
+>    `## Post-ship checks` now, with its check, not at close-out. `Done` is committed plus local
+>    smoke green (CLAUDE.md §Done vs Shipped); a live-site criterion never blocks it. (#84 asked for a
+>    deployed re-run to reach `Done`; its criteria were written before the Done/Shipped split.)
+>
 > Kill criterion: remove step 2 if, 60 days after it lands, no start review has changed an epic
 > or a rule file because of it (check `git log -S"Start audit" -- docs/backlog`).
 >
