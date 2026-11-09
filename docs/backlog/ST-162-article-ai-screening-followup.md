@@ -77,7 +77,7 @@ Nothing is written to Sanity. The Content Write Gate still applies at Scope 5.
 | Rejected / closed with no answer / still open | 52 / 15 / 33 | **56 / 15 / 37** | `outcomes`; 4 new rejections, one of them the Etsy referral (no screen) |
 | Cold-only to screen | 3 of 84 (3.6%) | **3 of 91 (3.3%)** | Job Alert 33 + Board 33 + Cold 23 + Untagged 2 = 91; screened Board 2, Cold 1 |
 | Warm (recruiter-first plus referral) to screen | 11 of 16 (69%) | **11 of 17 (65%)** | one new recruiter-first application (Disney via a staffing firm, 11-04), not yet screened |
-| Recruiter-first to screen | 9 of 10 | **9 of 11** | `channel["Recruiter Inbound"]` minus the 2 screens with no application |
+| Recruiter-first to screen | 9 of 10 | **9 of 11** | `channel["Recruiter Inbound"]` screened 12, minus the 3 screens with no application (JD-0033, JD-0050, JD-0393; all staffing-recruiter calls, all Recruiter Inbound, checked against the tracker 2026-11-09). All 3 cold screens are on applications. |
 | Referral to screen | 2 of 6 | **2 of 6** | `channel["Referral"]` |
 | Cold-only rate, 25-26 vs Jun-Nov 26 | 6.7% vs 3.6%, p=0.52 | **6.7% vs 3.3%, p=0.34** | two-sided Fisher exact on 7 of 105 vs 3 of 91; inside chance, so "flat", never "fell" |
 
