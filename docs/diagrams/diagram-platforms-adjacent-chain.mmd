@@ -1,0 +1,15 @@
+flowchart TB
+  subgraph CON["Journey 2: content, plus a new dimension"]
+    direction TB
+    D["1. CMS<br/>Content model, fields, taxonomy, publishing workflow"]
+    E["2. E-learning<br/>Same structure and metadata, plus user tracking and workflows"]
+    D -->|"the same habits, plus learners"| E
+  end
+  subgraph IMG["Journey 1: images"]
+    direction TB
+    A["1. Photoshop: design<br/>Sizes, formats, colour space, metadata"]
+    B["2. Web design: layout in code<br/>Responsive sizes, right format, compression"]
+    C["3. DAM: data<br/>Renditions, metadata schema, required fields"]
+    A -->|"a lot ported, gaps filled by study"| B
+    B -->|"the same images, at scale"| C
+  end
