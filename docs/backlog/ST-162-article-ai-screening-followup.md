@@ -64,20 +64,22 @@ Nothing is written to Sanity. The Content Write Gate still applies at Scope 5.
 
 ## Data draft (publishable figures only)
 
-**Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Nov 26** is this post's cohort: Jun 1 to Nov 5, 2026, 5.2 months, 108 applications (renamed from "Jun-Oct 26" on 2026-11-08 when Bex asked for the cut to run to 11-05; every older section below that says "Jun-Oct 26" is a superseded cut).
+**Cohort names (decided 2026-10-22; replaces "first post" and "now" as cohort labels).** **25-26** is the original post's cohort: Jul 2025 to May 2026, 11 months, 111 applications. **Jun-Nov 26** is this post's cohort: Jun 1 to Nov 5, 2026, 5.2 months, 109 applications (108 until the 2026-11-12 correction below; renamed from "Jun-Oct 26" on 2026-11-08 when Bex asked for the cut to run to 11-05; every older section below that says "Jun-Oct 26" is a superseded cut).
 
-**Final cut, 2026-11-05 (run 2026-11-08; supersedes every table below).** `END = 2026-11-05` in `os/scripts/analyze.py`; `LOOPS` gained JD-0844 (Patagonia via TEKsystems: recruiter screen 10-15, hiring-manager round 1 held 2026-11-04, debrief on file). 10-30 outputs frozen in `_frozen_2026-10-30/`. `build_source_report.py` regenerated and `check_funnel_integrity.py` is clean (108 applied, 17 screened, 9 looped). Charts regenerated: `docs/drafts/ST-162-twice-the-applications/ST-162-charts/index.html`. Command for every figure: `python3 os/scripts/analyze.py` in `resume-factory/os`, then the keys named in the Source column; per-month figures divide by 158 days / 30.44 = 5.19.
+**Final cut, 2026-11-05 (run 2026-11-08; supersedes every table below).** `END = 2026-11-05` in `os/scripts/analyze.py`; `LOOPS` gained JD-0844 (Patagonia via TEKsystems: recruiter screen 10-15, hiring-manager round 1 held 2026-11-04, debrief on file). 10-30 outputs frozen in `_frozen_2026-10-30/`. `build_source_report.py` regenerated and `check_funnel_integrity.py` is clean (108 applied, 17 screened, 9 looped).
+
+**Correction, 2026-11-12 (figures below are corrected in place; old value in brackets).** Bex asked to classify the 3 screens with no application. (1) **JD-0050 was never a screen**: its only evidence was Status `Phone Screen`, and the row's own 2026-09-01 close note says that status claimed "a conversation that never happened". Removed from `SCREENS` in `analyze.py`. (2) **JD-0033 was an application**: Bex's Apple Mail (bex@sugartown.io) shows the tailored resume emailed to the Veridian recruiter 2026-06-18 2:33 PM and his 3:21 PM reply that the hiring manager had reviewed it. Recorded as a dated Notes line on the tracker row (`Date Applied` stays blank: warm row, Charter schema col 13), which `applied()` reads. (3) **JD-0393 stays a screen with no application** (Levi's via PineQ, closed same day); excluded from rates, footnoted. Decided by Bex 2026-11-12: applications-only basis, footnote it. Re-run diff against the 11-08 `findings.json`: applied +JD-0033, screened -JD-0050, no-answer +JD-0033; nothing else moved. Charts rebuilt. Per-month figures in the per-month table are read from the rebuilt `7-per-month-comparison.html`. Charts regenerated: `docs/drafts/ST-162-twice-the-applications/ST-162-charts/index.html`. Command for every figure: `python3 os/scripts/analyze.py` in `resume-factory/os`, then the keys named in the Source column; per-month figures divide by 158 days / 30.44 = 5.19.
 
 | Figure | 10-30 cut | **11-05 cut (final)** | Source (`findings.json` key) |
 |---|---:|---:|---|
 | Captured / packaged | 854 / 115 | **871 / 123** | `funnel` |
-| Applications | 100 | **108** | `funnel.applied` (8 new: all with `Date Applied` 11-04 or 11-05) |
-| Screens / loops / offers | 17 / 8 / 0 | **17 / 9 / 0** | `funnel`; the new loop is the Patagonia hiring-manager round |
-| Applied-to-screen | 14.0% (14 of 100) | **13.0% (14 of 108)** | `screened_ids` against `applied_ids`; 3 screens have no application (JD-0033, JD-0050, JD-0393) |
-| Rejected / closed with no answer / still open | 52 / 15 / 33 | **56 / 15 / 37** | `outcomes`; 4 new rejections, one of them the Etsy referral (no screen) |
+| Applications | 100 | **109** [108] | `funnel.applied` (8 new: all with `Date Applied` 11-04 or 11-05; +JD-0033, correction 11-12) |
+| Screens / loops / offers | 17 / 8 / 0 | **16 / 9 / 0** [17 / 9 / 0] | `funnel`; the new loop is the Patagonia hiring-manager round |
+| Applied-to-screen | 14.0% (14 of 100) | **13.8% (15 of 109)** [13.0%, 14 of 108] | `screened_ids` against `applied_ids`; 1 screen has no application (JD-0393) |
+| Rejected / closed with no answer / still open | 52 / 15 / 33 | **56 / 16 / 37** [56 / 15 / 37] | `outcomes`; 4 new rejections, one of them the Etsy referral (no screen) |
 | Cold-only to screen | 3 of 84 (3.6%) | **3 of 91 (3.3%)** | Job Alert 33 + Board 33 + Cold 23 + Untagged 2 = 91; screened Board 2, Cold 1 |
-| Warm (recruiter-first plus referral) to screen | 11 of 16 (69%) | **11 of 17 (65%)** | one new recruiter-first application (Disney via a staffing firm, 11-04), not yet screened |
-| Recruiter-first to screen | 9 of 10 | **9 of 11** | `channel["Recruiter Inbound"]` screened 12, minus the 3 screens with no application (JD-0033, JD-0050, JD-0393; all staffing-recruiter calls, all Recruiter Inbound, checked against the tracker 2026-11-09). All 3 cold screens are on applications. |
+| Warm (recruiter-first plus referral) to screen | 11 of 16 (69%) | **12 of 18 (67%)** [11 of 17, 65%] | one new recruiter-first application (Disney via a staffing firm, 11-04), not yet screened |
+| Recruiter-first to screen | 9 of 10 | **10 of 12** [9 of 11] | `channel["Recruiter Inbound"]` applied 12, screened 11, of which JD-0393 has no application (correction 11-12). All 3 cold screens are on applications. |
 | Referral to screen | 2 of 6 | **2 of 6** | `channel["Referral"]` |
 | Age cues by resume version (added 2026-11-09 for "What my data cannot say") | 2013: roles from 1992, school 1988, "14+ years". 2021-22: from 2004, school 1990-91, "20 years". 2023-24: from 2012, no school year, "20+ years". Dec 2024 to Apr 2026 (every Cohort 1 variant): from 2012, no school year, no tenure line | **1 May 2026 prototype r3 onward (Cohort 2): from 2017, no school year, "15+ years"; "9+ in product" added 30 Jun** | `python3 os/scripts/resume_age_signals.py` in `resume-factory/os` (reads the Drive recovery copy under `~/Documents` and the prototype archive; .docx only). One Nov 2025 variant (vAI+Content) was cut at 2017 early; the sent versions on record for Nov 2025 are the 2012-dated ones. |
 | Listing lifetime before it died on its own (added 2026-11-09 for the "I was the bottleneck" paragraph) | n/a | **209 dead listings with dates: median 13 days from capture; 35% dead within 5 days, 54% within 14, 85% within 30** | `python3 os/scripts/listing_lifetime.py` in `resume-factory/os`; regex over Notes, so quote as "about". "The interesting ones went first" is Bex's observation, not measured. |
@@ -87,36 +89,36 @@ Nothing is written to Sanity. The Content Write Gate still applies at Scope 5.
 
 | Measure | 25-26 total | 25-26 per month | Jun-Nov 26 total | Jun-Nov 26 per month | Change |
 |---|---:|---:|---:|---:|---:|
-| Applications | 111 | 10.1 | 108 | 20.8 | **2.1x** |
+| Applications | 111 | 10.1 | 109 | 21.0 | **2.1x** |
 | Cold applications | 105 | 9.5 | 91 | 17.5 | 1.8x |
 | **Cold-only screens** | 7 | **0.64** | 3 | **0.58** | **0.9x (flat)** |
-| Warm touches (inbound plus referral applications) | 16 | 1.5 | 17 | 3.3 | 2.3x |
-| Warm screens | 11 | 1.0 | 11 | 2.1 | 2.1x |
-| All recruiter screens | 19 | 1.7 | 17 | 3.3 | 1.9x |
+| Warm touches (inbound plus referral applications) | 16 | 1.5 | 18 | 3.5 | 2.4x |
+| Warm screens | 11 | 1.0 | 12 | 2.3 | 2.3x |
+| All recruiter screens | 19 | 1.7 | 16 | 3.1 | 1.8x |
 | Hiring-manager round or later (25-26: HM screen 9; Jun-Nov 26: loops 9) | 9 | 0.8 | 9 | 1.7 | 2.1x |
 | Offers | 1 | 0.09 | 0 | 0 | none |
 | Explicit rejections | 46 | 4.2 | 56 | 10.8 | 2.6x |
-| Closed with no answer | 70 | 6.4 | 15 | 2.9 | not comparable (R3, clock rule) |
+| Closed with no answer | 70 | 6.4 | 16 | 3.1 | not comparable (R3, clock rule) |
 | JDs captured | not tracked | n/a | 871 | 168 | n/a |
 
 **By month, final (month = Date Captured; Recr = applications that reached a screen; Loop = rows in `LOOPS`; Ghost is clock-based, so Aug onward reads 0 until day 60):**
 
 | Month | Apps | Cold | Inbnd | Refrl | Recr | Loop | Denied | Ghost |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| Jun '26 | 20 | 17 | 1 | 2 | 3 | 2 | 15 | 5 |
+| Jun '26 | 21 | 17 | 2 | 2 | 4 | 2 | 15 | 6 |
 | Jul '26 | 24 | 19 | 4 | 1 | 3 | 1 | 14 | 10 |
 | Aug '26 | 23 | 20 | 2 | 1 | 3 | 2 | 16 | 0 |
 | Sep '26 | 12 | 11 | 1 | 0 | 2 | 1 | 4 | 0 |
 | Oct '26 | 23 | 19 | 2 | 2 | 3 | 3 | 7 | 0 |
 | Nov '26 (to 11-05) | 6 | 5 | 1 | 0 | 0 | 0 | 0 | 0 |
-| **Total** | **108** | **91** | **11** | **6** | **14** | **9** | **56** | **15** |
+| **Total** | **109** | **91** | **12** | **6** | **15** | **9** | **56** | **16** |
 
 **System epochs, final (same epoch boundaries; epoch 4 now runs to 11-05):**
 
 | Epoch | Dates | Months | Captured / month | Applications / month | Apps to screen | Loops |
 |---|---|---:|---:|---:|---:|---:|
 | 0. Manual | Jul 2025 to May 2026 | 11 | not tracked | 10.1 | 19 of 111 (17.1%) | 9 HM rounds |
-| 1. Backfill | 06-01 to 06-26 | 0.85 | 20 | 17.6 | 3 of 15 | 2 |
+| 1. Backfill | 06-01 to 06-26 | 0.85 | 20 | 18.7 | 4 of 16 | 2 |
 | 2. Tracker plus Gmail, open intake | 06-27 to 08-04 | 1.28 | 179 | 26.5 | 3 of 34 | 1 |
 | 3. Gates and P2 queue | 08-05 to 09-19 | 1.51 | 302 | 15.2 | 4 of 23 | 3 |
 | 4. Tight filters | 09-20 to 11-05 | 1.54 | 109 | 23.3 | 4 of 36 | 3 |
