@@ -516,6 +516,20 @@ function contentProbes() {
           bodyBlocks: [{ _type: 'block', children: [{ _type: 'span', text: 'Tom &amp; Jerry' }] }] }],
       }),
       (r) => r.entityHits.length > 0, 'reported the literal entity'),
+    probe('validate:content (typed citation)', 'a typed [N] in a Portable Text span must be reported (warning-level, exits 0)',
+      (c) => ({
+        ...c,
+        portableTextDocs: [{ _id: 'c1', _type: 'article', title: 'A', slug: 'a', citationCount: 1,
+          markBlocks: [[{ defs: [], spans: [{ _type: 'span', text: 'A claim. [1]', marks: [] }] }]] }],
+      }),
+      (r) => r.citationIssues.some((d) => d.hits.some((h) => h.kind === 'typed')), 'reported the typed citation'),
+    probe('validate:content (dangling citation)', 'a table-cell [N] with no citations[] entry must be reported (warning-level, exits 0)',
+      (c) => ({
+        ...c,
+        portableTextDocs: [{ _id: 'c1', _type: 'article', title: 'A', slug: 'a', citationCount: 1,
+          tableCells: [[['Cell. [4]']]] }],
+      }),
+      (r) => r.citationIssues.some((d) => d.hits.some((h) => h.kind === 'dangling')), 'reported the dangling citation'),
   ]
 }
 

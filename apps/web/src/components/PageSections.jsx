@@ -18,6 +18,7 @@ import ImageLightbox from './ImageLightbox'
 import { LinkAnnotation, DividerBlock } from './portableTextComponents'
 import GlossaryTermAnnotation from './GlossaryTermAnnotation'
 import { preprocessPortableText } from '../lib/portableTextStatsVars'
+import { citedText } from '../lib/citedText'
 import styles from './PageSections.module.css'
 
 /**
@@ -139,7 +140,7 @@ const portableTextComponents = {
               <thead>
                 <tr>
                   {headerRow.cells?.map((cell, i) => (
-                    <th key={i}>{cell}</th>
+                    <th key={i}>{citedText(cell)}</th>
                   ))}
                 </tr>
               </thead>
@@ -149,7 +150,7 @@ const portableTextComponents = {
                 <tr key={row._key ?? ri}>
                   {row.cells?.map((cell, ci) => (
                     // data-label: column name shown on each card cell by the responsive variant (ST-175); the first cell is the card title
-                    <td key={ci} data-label={ci > 0 ? headerRow?.cells?.[ci] || undefined : undefined}>{cell}</td>
+                    <td key={ci} data-label={ci > 0 ? headerRow?.cells?.[ci] || undefined : undefined}>{citedText(cell)}</td>
                   ))}
                 </tr>
               ))}

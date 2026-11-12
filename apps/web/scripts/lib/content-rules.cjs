@@ -6,7 +6,7 @@
  * liveness probe feeds this same function a deliberately broken fixture.
  *
  * Errors (exit 1): archivePage with empty or invalid contentTypes, duplicate
- * slugs within one type. Under `strict`, the quality checks K, H, I and J also
+ * slugs within one type. Under `strict`, the quality checks K, L, H, I and J also
  * count as errors. Everything else is a warning (exit 0).
  */
 
@@ -22,6 +22,34 @@ const MINIMUMS = {
 // Matches numeric entities (&#8220;) and named entities (&amp; &nbsp; etc.)
 // but NOT bare ampersands that are part of valid text
 const ENTITY_RE = /&#\d+;|&[a-zA-Z]+;/
+
+// What a typed citation looks like is defined once, in the renderer's parser (ST-221).
+const { splitCitations } = require('../../src/lib/citations.js')
+const typedCites = (text) => splitCitations(text).filter((p) => typeof p === 'object' && p).map((p) => p.cite)
+
+/**
+ * L) Citations (ST-221). A typed [N] in a Portable Text span renders as plain text, so it
+ * should be a citationRef mark instead (kind 'typed'). A citationRef index or a typed [N] in
+ * a table cell with no citations[] entry at that number links nowhere (kind 'dangling').
+ */
+function judgeCitations(doc) {
+  const hits = []
+  const n = doc.citationCount ?? 0
+  for (const block of (doc.markBlocks ?? []).flat()) {
+    if (!block) continue
+    for (const d of block.defs ?? []) {
+      if (d._type === 'citationRef' && !(d.index >= 1 && d.index <= n)) hits.push({ kind: 'dangling', where: 'mark', index: d.index })
+    }
+    for (const span of block.spans ?? []) {
+      if (span._type !== 'span') continue
+      for (const i of typedCites(span.text)) hits.push({ kind: 'typed', where: 'text', index: i, text: span.text ?? '' })
+    }
+  }
+  for (const cell of (doc.tableCells ?? []).flat(2)) {
+    for (const i of typedCites(cell)) if (i > n) hits.push({ kind: 'dangling', where: 'table', index: i, text: cell })
+  }
+  return hits
+}
 
 function judgeContent(data, { strict = false } = {}) {
   let errors = 0
@@ -172,6 +200,16 @@ function judgeContent(data, { strict = false } = {}) {
     }
   }
 
+  // L) Citations: typed [N] in body text, and citation numbers with no note
+  const citationIssues = []
+  for (const doc of portableDocs) {
+    const hits = judgeCitations(doc)
+    if (hits.length > 0) {
+      citationIssues.push({ doc, hits })
+      if (strict) { errors++ } else { warnings++ }
+    }
+  }
+
   // H) Minimum taxonomy coverage
   const contentDocs = data.content ?? []
   const taxonomyGaps = []
@@ -216,7 +254,7 @@ function judgeContent(data, { strict = false } = {}) {
 
   return {
     navIssues, missingTitle, missingSlug, contentMissingExcerpt, orphans,
-    noArchivePages, archiveResults, duplicateSlugs, entityHits, doubleMarks,
+    noArchivePages, archiveResults, duplicateSlugs, entityHits, doubleMarks, citationIssues,
     taxonomyGaps, missingAuthors, seoGaps, contentDocs,
     errors, warnings,
   }
@@ -239,4 +277,4 @@ function findDraftOnly(rawDocs) {
   })
 }
 
-module.exports = { judgeContent, findDraftOnly, MINIMUMS, VALID_ARCHIVE_CONTENT_TYPES }
+module.exports = { judgeContent, judgeCitations, findDraftOnly, MINIMUMS, VALID_ARCHIVE_CONTENT_TYPES }

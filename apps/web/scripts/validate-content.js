@@ -17,9 +17,11 @@
  *   I) Missing author attribution — every content doc should have ≥1 author (EPIC-0183)
  *   J) SEO metadata completeness — seo.title and seo.description (EPIC-0183)
  *   K) Spans carrying both a link and a glossary term mark — only one anchor renders (#143)
+ *   L) Citations — a typed [N] in body text (should be a citationRef mark), or a citation
+ *      number with no citations[] entry, which links nowhere (ST-221)
  *
  * Flags:
- *   --strict   Treat quality warnings (H, I, J) as errors — exits non-zero
+ *   --strict   Treat quality warnings (H, I, J, K, L) as errors — exits non-zero
  *   --report   Output taxonomy utilization summary after all checks
  *
  * Complements:
@@ -141,7 +143,13 @@ const query = `{
       ...content[_type == "block"],
       ...body[_type == "block"],
       ...sections[].content[_type == "block"]
-    ]{ "defs": markDefs[]{ _key, _type }, "spans": children[]{ _type, text, marks } }
+    ]{ "defs": markDefs[]{ _key, _type, index }, "spans": children[]{ _type, text, marks } },
+    "citationCount": count(citations),
+    "tableCells": [
+      ...content[_type == "tableBlock"],
+      ...body[_type == "tableBlock"],
+      ...sections[].content[_type == "tableBlock"]
+    ].rows[].cells
   },
   "taxonomies": *[_type in $taxonomyTypes && defined(slug.current)] {
     _id,
@@ -222,7 +230,7 @@ async function run() {
   const verdict = judgeContent(data, { strict: STRICT })
   const {
     navIssues, missingTitle, missingSlug, contentMissingExcerpt, orphans,
-    noArchivePages, archiveResults, duplicateSlugs, entityHits, doubleMarks,
+    noArchivePages, archiveResults, duplicateSlugs, entityHits, doubleMarks, citationIssues,
     taxonomyGaps, missingAuthors, seoGaps, contentDocs, errors,
   } = verdict
   let { warnings } = verdict
@@ -396,6 +404,29 @@ async function run() {
 
   if (doubleMarks.length === 0) {
     console.log('   ✅  No span carries both a link and a glossary term')
+  }
+  console.log()
+
+  // ── L) Citations ──────────────────────────────────────────────────────────
+  //    ST-221. A typed [N] in body text renders as plain text; a number with no
+  //    citations[] entry renders a pill that links nowhere.
+
+  console.log('📎  Citation Links (L)')
+  console.log('──────────────────────────────────────────────')
+
+  for (const { doc, hits } of citationIssues) {
+    const prefix = STRICT ? '❌' : '⚠️  '
+    console.log(`   ${prefix} [${doc._type}] "${doc.title}" (/${doc.slug}) — ${hits.length} citation issue(s):`)
+    for (const h of hits.slice(0, 5)) {
+      const what = h.kind === 'typed'
+        ? `typed [${h.index}] in body text; select the sentence it cites and apply the Citation Reference mark (number ${h.index}), then delete the typed [${h.index}]`
+        : `[${h.index}] in a ${h.where === 'mark' ? 'Citation Reference mark' : 'table cell'} has no matching entry in Citations`
+      console.log(`        ${what}`)
+    }
+  }
+
+  if (citationIssues.length === 0) {
+    console.log('   ✅  Every citation is linked and has a note')
   }
   console.log()
 
