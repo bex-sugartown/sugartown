@@ -318,6 +318,19 @@ Portable Text block requirements (every block needs `markDefs: []`, every span n
 via MCP — required fields" section. Read that before writing PT blocks; omitting either
 field produces content that saves and renders on the web but is uneditable in Studio.
 
+**Citations: never type `[N]` in body text.** A typed `[N]` in a Portable Text span renders
+as plain text with no link (ST-221; the ST-162 draft had six). Instead:
+
+1. Add the source to the document's `citations[]` (`citationItem`: `text`, `url`, `label`).
+   Its position in the array, counting from 1, is its number.
+2. Put a `citationRef` markDef (`index: N`) on the block and its key on the span holding the
+   sentence the source supports. The `[N]` pill renders after that span and links to note N.
+3. **In a `tableBlock` cell, type `[N]`.** Cells are plain strings and cannot carry a mark;
+   the table renderer turns a typed `[N]` into the same linked pill.
+
+`pnpm validate:content` check L flags a typed `[N]` in body text and any number with no
+`citations[]` entry, on published documents.
+
 ---
 
 ## 7. Content Write Gate composition
@@ -359,6 +372,11 @@ string plus any optional disclosure callout; case study's engagement facts, outc
 ---
 
 ## Changelog
+
+### v2026.11.12 (ST-221, citation links)
+- §6: added the citation rule: `citationRef` mark in body text, typed `[N]` in table cells
+  only, and `validate:content` check L. No skill told an author how to link a citation, and
+  the ST-162 draft had 14 unlinked `[N]` markers.
 
 ### v2026.10.13 (glossary and metadata decision rule)
 - Added §1a: cost ladder and decision rule for tag, tool, category and glossary term; glossary

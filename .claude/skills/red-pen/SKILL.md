@@ -180,7 +180,7 @@ Only after explicit row-level approval:
 - **Local files**: apply approved edits with Edit, verbatim as proposed. If a proposed edit was modified during discussion, apply the final agreed text.
 - **Sanity documents**: this is a content write, so the repo's Content Write Gate rules apply on top of this skill's gate (they compose; the Gate 1 table satisfies the before/after proposal requirement). Use `patch_documents` with exact JSON values. Never route through markdown-based tools; the review's whole premise is that the approved text lands verbatim.
 
-Portable Text mechanics for Sanity patches, all from CLAUDE.md and learned the hard way: every block needs `markDefs: []` and every span needs `marks: []` even when empty, or the block renders read-only in Studio. Re-fetch the document before patching because `_key` values do not reliably survive prior patches. One `unset` call per block when removing `markDefs`. After patching, re-fetch and confirm the change landed.
+Portable Text mechanics for Sanity patches, all from CLAUDE.md and learned the hard way: every block needs `markDefs: []` and every span needs `marks: []` even when empty, or the block renders read-only in Studio. Re-fetch the document before patching because `_key` values do not reliably survive prior patches. One `unset` call per block when removing `markDefs`. After patching, re-fetch and confirm the change landed. A typed `[N]` in body text is a finding: it should be a `citationRef` mark (`docs/write-pipeline-prompt.md` §6); in a table cell a typed `[N]` is correct.
 
 Edits apply to the draft, never auto-publish. Publishing stays a human action.
 
