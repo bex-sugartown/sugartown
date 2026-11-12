@@ -545,7 +545,12 @@ All images uploaded to Sanity must follow the naming convention in `docs/convent
 
 Before creating any new **schema object** or **shared utility** (`lib/` function, cross-cutting helper), answer these questions **in writing** (in the epic doc, commit message, or inline comment):
 
-1. **Does this pattern already exist?** — Search all 5 layers per MEMORY.md §Before You Build. If yes, extend — do not fork or duplicate.
+1. **Does this pattern already exist?** — Search all 5 layers. If one covers 80% or more of the use case, extend it by props or parameters — do not fork or duplicate.
+   - `apps/web/src/components/`: app components (MetadataCard, ContentCard, TaxonomyChips)
+   - `apps/web/src/design-system/components/`: web adapter layer (Card, Button, Chip)
+   - `packages/design-system/src/components/`: DS primitives
+   - `apps/web/src/lib/`: shared utilities (routes, queries, link resolution, filter model)
+   - `apps/studio/schemas/objects/`: reusable schema objects (link, linkItem, ctaButton)
 2. **Will this be consumed by more than one caller?** — If yes, it must live in a shared location (`lib/`, `schemas/objects/`), never inline in a page file.
 3. **Is the API composable?** — Fields/params should be named so it can be extended without forking.
 
