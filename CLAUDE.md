@@ -373,6 +373,10 @@ When the user reports a bug (white screen, crash, visual regression):
 2. **Do not commit a fix based on a guess.** Speculative patches add noise commits and can mask the real issue.
 3. If a fix commit turns out to be wrong, squash it into the original commit before merging.
 
+### Restate the goal before ad hoc work
+
+**For a request that is not an issue or epic, state the goal and what "done" looks like in one or two sentences before the first `Edit`/`Write`.** Say it in the reply and carry on; do not wait for a reply unless the goal is ambiguous, in which case ask one `AskUserQuestion`. Skip it for questions and single-command lookups. Issues and epics already have a start review (§Issue status = workflow stage), so this rule does not apply to them. (Tier 2: decide, act, report.)
+
 ### Worktree path discipline
 
 When a session is running inside a git worktree (`.claude/worktrees/<name>/`), **all `Edit` and `Write` tool calls must target the worktree path**, not the main app tree.
