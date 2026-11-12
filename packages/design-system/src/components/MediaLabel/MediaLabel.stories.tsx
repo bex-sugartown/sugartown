@@ -9,7 +9,7 @@ const SAMPLE_IMAGE = 'https://cdn.sanity.io/images/poalmzla/production/d25c51b41
  * MediaLabel renders through Media (`label`) and Card (`thumbnailLabel`). It sizes from the width of
  * the image it sits on, using container queries, so the stories below pin the image width. The
  * text here is the AI-generated label Sugartown passes (`aiLabelProps` in the web app).
- * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html
+ * Vspec: docs/drafts/ST-181-ai-image-provenance/ST-181-ai-image-provenance-compliance-gaps.vspec.html
  */
 const exampleLabel = (tool?: string) => ({
   short: 'AI',

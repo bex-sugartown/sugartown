@@ -1,7 +1,7 @@
 /*
  * MediaLabel — a label over an image (renamed from AiLabel, ST-183). Used for the SUG-178 AI label,
  * which shares its look with the ST-178 baked mark.
- * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
+ * Vspec: docs/drafts/ST-181-ai-image-provenance/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
  *
  * ST-181: the look (font, weight, case, tracking, border, dark fill, padding, fluid type) is the
  * Chip variant `badge` + tone `inverse` + size `fluid`. This file keeps only what a Chip does not

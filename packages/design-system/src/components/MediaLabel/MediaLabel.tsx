@@ -17,7 +17,7 @@ import { Chip } from '../Chip';
  * Width rules (container queries, no JS): under 96px nothing; 96 to 199px `short`; 200px and up
  * `full`; at 320px and up `detail` expands on hover, focus or tap (interactive labels only).
  *
- * Vspec: docs/drafts/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
+ * Vspec: docs/drafts/ST-181-ai-image-provenance/ST-181-ai-image-provenance-compliance-gaps.vspec.html (builds on ST-178's)
  */
 
 export interface MediaLabelProps {
