@@ -116,6 +116,8 @@ Rows 1 to 11 are Accuracy and 12 to 13 are Voice. Rows 14 to 23 are Sharpness, a
 
 2026-11-12: Gate 2 held by Bex at end of day. No rows approved or applied; all 23 stay `pending`. Draft `drafts.c1415fdb-baf2-4561-85f0-745ba125cc31` untouched by this review. Re-fetch before applying (last `_rev` seen: M5XJYBHz42rrzhJqqKEYUP).
 
+2026-11-13: out-of-band addition, not a numbered finding. Bex asked for possible reasons the portal does not answer, so the piece does not stop at "my data cannot say". Proposed and approved ("Write it as shown"). One `patch_documents` transaction with `ifRevisionId` `M5XJYBHz42rrzhJqqKEYUP` inserted section `s-why` ("Why the portal might not answer") after `s-notme`: block `y1`, tableBlock `y-tbl` (header plus six theory rows, typed citations [1] [7] [8] [9] [11] [12] [13]), block `y2`. Re-fetch (`_rev` `TiskbWAg8339xLi9CR769B`) confirmed the order and content. Sources [8] and [9] were checked at the primary abstract on 2026-11-13; a referrals theory was dropped because its paper could not be loaded. Effect on pending findings: finding 22 (a table for "It is not just me") now repeats four of these figures. Decline it, or trim that section.
+
 ## Feedback log
 
 (empty)
