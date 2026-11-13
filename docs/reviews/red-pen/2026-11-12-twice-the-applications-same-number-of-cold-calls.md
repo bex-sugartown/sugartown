@@ -120,6 +120,8 @@ Rows 1 to 11 are Accuracy and 12 to 13 are Voice. Rows 14 to 23 are Sharpness, a
 
 2026-11-13: out-of-band addition, not a numbered finding. Bex asked for a follow-up to "The plan, scored" with the next three months, drawing on her doc "Inbound Recruiter Visibility Plan" (its Bottom line and Indeed sections; four sections there were still empty). Proposed and approved ("Write it as shown"). One `patch_documents` transaction with `ifRevisionId` `TiskbWAg8339xLi9CR769B`: unset block `p3` from `s-plan`; inserted section `s-newplan` ("The new plan") after `s-plan` with block `np1`, tableBlock `np-tbl` (header plus six rows), block `np2`, and `p3` re-created with identical text as the article's last line. Re-fetch (`_rev` `TiskbWAg8339xLi9CRAFnq`) confirmed the order, `s-plan` = p1, p-tbl, p2, and `s-newplan` = np1, np-tbl (7 rows), np2, p3. No targets set: the source doc's metrics section is empty.
 
+2026-11-13: out-of-band edit, not a numbered finding. Bex asked to link "What my data cannot say" to the Gender Shades paragraph that ends "What is behind the job portals" (her age-cue edits began from that skepticism). Approved ("Write it as shown"). `set` on `sections[s-cannot].content[c1].children[c1a].text` with `ifRevisionId` `TiskbWAg8339xLi9CRAFnq`: opening "I am over 50, and I have been taking the age cues off my resume for years, one at a time." became "That skepticism is why I started editing my resume for age. I am over 50, and I have been taking the age cues off it for years, one at a time." Rest of the span unchanged, including "five weeks" (finding 5, still pending). Re-fetch (`_rev` `yJ1rDM2TtSY4dSM8JHvVHh`) confirmed the text, `markDefs: []`, `marks: []`.
+
 ## Feedback log
 
 (empty)
