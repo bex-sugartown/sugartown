@@ -112,6 +112,49 @@ Rows 1 to 11 are Accuracy and 12 to 13 are Voice. Rows 14 to 23 are Sharpness, a
 - "the interesting ones went first" (`s-machine-2`). Your observation, not measured. It reads as an observation, which is fine.
 - The 21% survey (row 22 / [14]) is not named in the prose. Name the publisher.
 
+## Delta review, 2026-11-13
+
+A short pass after three out-of-band edits: section `s-why` ("Why the portal might not answer"), section `s-newplan` ("The new plan", with `p3` moved to its end) and the bridge sentence opening `s-cannot` c1. Draft `_rev` at review: `yJ1rDM2TtSY4dSM8JHvVHh`. Findings 1 to 23 were not re-reviewed; each was re-checked only against the changed text.
+
+### Length
+
+3,097 words, up from about 2,700. The new sections add 553. (Command: GROQ `count(string::split(...))` over every section's `pt::text(content)`, table cells and callout body, on 2026-11-13; chart HTML not counted.) Length economy stays weak. Findings 25 and 28 cut the main duplication the additions created.
+
+### Scorecard changes
+
+| Structure | Was | Now | Why |
+|---|---|---|---|
+| Beat completeness | adequate | strong | The "why" beat now exists, and the bridge sentence connects Gender Shades to the age cuts. |
+| Payoff | strong | strong | Unchanged, and better supported: the ending now spends both the theories and a forward plan before the closer. |
+| Length economy | weak | weak | 3,097 words against a band that peaks near 1,600. |
+
+### New findings
+
+| # | Tier | Location | Current | Proposed | Why | Decision |
+|---|---|---|---|---|---|---|
+| 24 | Accuracy | `s-why` y-tbl row yr5, cell 2 | "Systems built on shared models and data tend to give the same people the same outcome everywhere. Measured on benchmarks, not hiring [8]" | "When many systems share training data, the same people tend to get the same outcome from all of them. For shared models the evidence is mixed. Measured on benchmarks, not hiring [8]" | The paper found shared data reliably increases homogenization, and shared models gave mixed results (abstract read 2026-11-13). The portal table's row br7 already says this correctly. | pending |
+| 25 | Sharpness | `s-changing` g2 | "…before I press Apply. And three new columns on the tracker, so the next post can say more than this one: which applicant tracking system took the application, how old the posting was when I applied, and how many applicants the portal showed. With those I can test whether stale postings and crowded postings explain the silence, and whether any one vendor's door behaves differently from the rest." | "…before I press Apply." (cut the last two sentences) | The three columns now appear in the theories table's last column and in "The new plan" row 5. This is the third telling. The plan is where they belong. | pending |
+| 26 | Sharpness | `s-why` y1 | "My data cannot say why the portal stays quiet. The research offers six candidates, and my numbers fit some better than others. Each is a theory, not a finding." | "The research offers six reasons the portal might stay quiet, and my numbers fit some better than others. Each is a theory, not a finding." | A heading two sections up already says "What my data cannot say". Open on the six. | pending |
+| 27 | Theme | `s-newplan` np1 | "…because being found is the door that opens." | "…because being found is what gets an answer." | The third "door that opens" in two sections ("the one door that opens", "a door that does not open"). The doors budget was already spent. "Answer" calls back to "The human door, briefly". Taste call. | pending |
+| 28 | Sharpness | `s-notme` n1 | The five-statistic paragraph, opening "Some of these are government data and some are press reports; I say which." | "Two more numbers set the scene. Unemployed people aged 55 to 64 had been out of work 34.9 weeks on average in September 2026, against 25.4 for everyone, per the Bureau of Labor Statistics, which attributes nothing to AI.[10] And 21% of business leaders in a 2024 Resume Builder survey said they let AI reject candidates at every stage with no human looking.[14]" Keep n2. [10] and [14] stay `citationRef` marks. | The Greenhouse, LinkedIn and Harvard figures ([11] to [13]) now sit in the theories table one section later, so n1 would say them twice in a row. This also names the 21% survey's publisher (citation 14 is Resume Builder). Supersedes 22. | pending |
+
+### Changes to findings 1 to 23
+
+| # | Change | Why |
+|---|---|---|
+| 21 | Amended: the proposed c1 must keep the bridge. New c1: "That skepticism is why I started editing my resume for age. I am over 50, and I have been taking the age cues off it for years, one at a time. I went back through every version to check, because I remembered it as one decision and it was four." The table and the closing block are unchanged. | The original proposal predates the bridge sentence and would delete it. |
+| 22 | Recommend decline. | A table in `s-notme` would repeat four figures from the theories table. Finding 28 handles that section instead. |
+| 5 | Still applies. "five weeks" is unchanged in c1. | Re-checked against the edited span. |
+| 2 | Still applies. "3.3" is unchanged in `p-tbl` pr5. | Re-checked. |
+| All others | Unaffected. | They touch text the three edits did not change. |
+
+### Notes changes
+
+- **Section order note withdrawn.** The bridge sentence makes "What is behind the job portals" lead straight into "What my data cannot say", so the current order now works better than the suggested move.
+- **Two studies appear twice.** The theories table reuses [8] and [9] from the portal table (rows br7 and br8). The framing is different (evidence, then theory), so no edit is proposed. Trim br7 and br8 later if length matters more.
+- **New unverifiable claim:** "This post is the first one" (`s-newplan` row npr3). If the earlier post already has a Medium copy, the claim is wrong. Confirm.
+- **Resolved if 28 is approved:** the unnamed 21% survey.
+
 ## Gate 2 application log
 
 2026-11-12: Gate 2 held by Bex at end of day. No rows approved or applied; all 23 stay `pending`. Draft `drafts.c1415fdb-baf2-4561-85f0-745ba125cc31` untouched by this review. Re-fetch before applying (last `_rev` seen: M5XJYBHz42rrzhJqqKEYUP).
