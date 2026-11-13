@@ -124,15 +124,19 @@ All four dev servers are defined in `.claude/launch.json`. Use `preview_start` (
 
 **Running processes** — how old is each dev server, and is it serving this checkout?
 ```bash
-for p in 5173 3333 6006 3000 4173; do
-  pid=$(lsof -nP -tiTCP:$p -sTCP:LISTEN 2>/dev/null | head -1)
-  [ -z "$pid" ] && continue
-  echo "$p pid=$pid age=$(ps -o etime= -p $pid | tr -d ' ') cwd=$(lsof -a -p $pid -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')"
+for p in 5173 5174 3333 6006 3000 4173; do
+  for pid in $(lsof -nP -tiTCP:$p -sTCP:LISTEN 2>/dev/null | sort -u); do
+    echo "$p pid=$pid age=$(ps -o etime= -p $pid | tr -d ' ') cwd=$(lsof -a -p $pid -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')"
+  done
 done
+# any Vite, Sanity, Storybook or Next process not on a port above
+ps -axo pid=,etime=,command= | grep -E 'vite\.js|sanity/bin|storybook|next-server|next dev' | grep -v grep | cut -c1-140
 ```
+- One line per process, not per port: a second process can hold the same port on IPv6 while the first holds it on IPv4 (found 2026-11-13, a 7-day-old Vite behind :5173).
 - `age` is `[[dd-]hh:]mm:ss`. A leading `dd-` means the server is more than a day old.
 - Flag any server whose age has a `dd-` part, or whose `cwd` is not under this checkout's path (`pwd`).
 - A port that answered 200 above but is not listed here is served by something this check cannot see. Say so.
+- Any process in the second list that is not one of the four servers above is an orphan (found 2026-11-13: Vite on :5174, 7 days old). List it and offer to stop it.
 - Report only. Do not kill anything. The restart offer is in Phase 3.
 
 **Sanity Studio** — are there available package updates?
@@ -358,7 +362,7 @@ On "Yes — walk me through them one at a time":
 - After each action, briefly confirm what happened
 - Do not batch actions together without asking
 
-**Stale dev servers:** for each server flagged in Running processes, offer a restart as its own action. Show the PID and age, then ask via `AskUserQuestion` ("Restart the web dev server (pid N, 7 days old)?"). On yes, stop it with `preview_stop` if `preview_list` knows it, otherwise `kill <pid>`, then start it again with `preview_start`.
+**Stale dev servers and orphans:** for each server or orphan flagged in Running processes, offer a restart as its own action. Show the PID and age, then ask via `AskUserQuestion` ("Restart the web dev server (pid N, 7 days old)?"). On yes, stop it with `preview_stop` if `preview_list` knows it, otherwise `kill <pid>`, then start it again with `preview_start`.
 
 **Hard rules for execution:**
 - Never `git push --force` under any circumstances
