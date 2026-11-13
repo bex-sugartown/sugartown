@@ -180,7 +180,7 @@ Bex chose "All but 22 and 23 (Recommended)" at the approval dialog: 26 findings 
 
 **Verification.** A script re-fetched the draft and checked each finding: 21 checks passed, and 7 and 9 failed until the repair above. Portable Text shape check: every block has `markDefs`, every span has `marks`, and every table row has `_key` and `_type: tableRow`. No problems.
 
-**Still to do outside Sanity.** `docs/drafts/ST-162-twice-the-applications/ST-162-charts/build_charts.py:164` still hard-codes "held between 14 and 26", and the permonth footnote text likely lives in the same script. A chart re-run would bring both back. That file is local and gitignored.
+**Local chart script, done.** `docs/drafts/ST-162-twice-the-applications/ST-162-charts/build_charts.py` lines 164 and 258 now carry the same approved wording, so a chart re-run will not bring the old text back. The file is local and gitignored, so it is not part of any commit.
 
 ## Feedback log
 
