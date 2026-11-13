@@ -122,6 +122,19 @@ curl -s -o /dev/null -w "%{http_code}" http://localhost:3000/
 
 All four dev servers are defined in `.claude/launch.json`. Use `preview_start` (not Bash) to start them — this ensures they are tracked and reusable across the session.
 
+**Running processes** — how old is each dev server, and is it serving this checkout?
+```bash
+for p in 5173 3333 6006 3000 4173; do
+  pid=$(lsof -nP -tiTCP:$p -sTCP:LISTEN 2>/dev/null | head -1)
+  [ -z "$pid" ] && continue
+  echo "$p pid=$pid age=$(ps -o etime= -p $pid | tr -d ' ') cwd=$(lsof -a -p $pid -d cwd -Fn 2>/dev/null | sed -n 's/^n//p')"
+done
+```
+- `age` is `[[dd-]hh:]mm:ss`. A leading `dd-` means the server is more than a day old.
+- Flag any server whose age has a `dd-` part, or whose `cwd` is not under this checkout's path (`pwd`).
+- A port that answered 200 above but is not listed here is served by something this check cannot see. Say so.
+- Report only. Do not kill anything. The restart offer is in Phase 3.
+
 **Sanity Studio** — are there available package updates?
 Check the installed `sanity` version in `apps/studio/package.json` and note it in the briefing. A full upgrade check can be done manually if needed.
 
@@ -202,6 +215,7 @@ Write a plain-English morning briefing using exactly this structure. Use plain l
 - **Sanity Studio** — running on :3333? If not, it was auto-started. Report the status.
 - **Storybook** — running on :6006? If not, it was auto-started. Report the status.
 - **Contentful POC** — running on :3000? If not, it was auto-started. Report the status.
+- **Running processes** — one line per dev server: port, age, folder. Flag any older than a day, or serving another folder, with the plain-English cost (it may be running old code).
 - **Sanity packages** — note the installed version from package.json.
 - **Vite caches** — any stale caches? If a cache is >24h old, flag it and recommend clearing before starting work.
 
@@ -343,6 +357,8 @@ On "Yes — walk me through them one at a time":
   ```
 - After each action, briefly confirm what happened
 - Do not batch actions together without asking
+
+**Stale dev servers:** for each server flagged in Running processes, offer a restart as its own action. Show the PID and age, then ask via `AskUserQuestion` ("Restart the web dev server (pid N, 7 days old)?"). On yes, stop it with `preview_stop` if `preview_list` knows it, otherwise `kill <pid>`, then start it again with `preview_start`.
 
 **Hard rules for execution:**
 - Never `git push --force` under any circumstances
