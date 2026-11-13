@@ -11,7 +11,7 @@
 > **Tier 1 gates stop and ask.** Sections below carry the label inline; the closed list and
 > the full tier model live in `docs/conventions/human-gate-conventions.md`.
 >
-> **Decisions go in a popup.** Anything left for Bex to decide, including offers to do more, goes through `AskUserQuestion`, recommended option first and marked `(Recommended)` with its cost. Never end a reply with a prose list of open decisions. Full rule: `SUGARTOWN_DEV/conventions/human-gate-conventions.md` §Open decisions and offers. Restated here because a Cowork session never loads that folder.
+> **Decisions go in a popup.** Anything left for Bex to decide, including offers to do more, goes through `AskUserQuestion`, recommended option first and marked `(Recommended)` with its cost. This includes a single yes/no question ("want me to stop it?", "say the word and I'll..."), mid-task and at the end of a reply: ask it with `AskUserQuestion`, never in prose. Never end a reply with a prose list of open decisions. Full rule: `SUGARTOWN_DEV/conventions/human-gate-conventions.md` §Open decisions and offers. Restated here because a Cowork session never loads that folder.
 >
 > **This file holds what applies to every session.** Rules that apply only when a kind of file
 > is being worked on live in `.claude/rules/` and load when such a file is read (§Path-scoped
