@@ -182,6 +182,28 @@ Bex chose "All but 22 and 23 (Recommended)" at the approval dialog: 26 findings 
 
 **Local chart script, done.** `docs/drafts/ST-162-twice-the-applications/ST-162-charts/build_charts.py` lines 164 and 258 now carry the same approved wording, so a chart re-run will not bring the old text back. The file is local and gitignored, so it is not part of any commit.
 
+### Out-of-band edit, 2026-11-13: "It is not just me" rewritten
+
+Bex asked: how is this not my funnel if I am standing in it, and does the Bureau of Labor Statistics attribute anything to AI? Its silence is not a confirmation. Sources checked at the primary source before proposing:
+
+| Source | Finding used | Limit stated in the copy |
+|---|---|---|
+| BLS Monthly Labor Review, Feb 2025 | No current unemployment attributed to AI; the CPS has no AI question | "cannot say either way" |
+| Challenger, Gray & Christmas, October 2026 report (2026-11-05) | 121,401 AI-attributed announced cuts of 617,189, Jan to Oct 2026 | Announcements; market conditions now top reason |
+| CRR Issue in Brief 26-13 (Sanzenbacher, June 2026) | 55+ in AI-exposed jobs exit more often, into unemployment; web designers and web developers top exposure | One early study, author urges caution |
+| Fortune 2026-10-30, on a Goldman Sachs note (Mei) | AI-displaced workers 35+ took about five weeks longer to return to full-time work | Displacement inferred from occupation; note not public |
+
+Cleveland Fed Economic Commentary 2026-26 left out: ages 23 to 54 only.
+
+Approved by Bex ("Write it as shown"). One `patch_documents` transaction, `ifRevisionId` `20mWqb5JxEZ7f25aDRSGGQ`:
+
+- `s-notme` n1: children replaced by one span `n1a-0` (new intro); markDefs `cite-n1-10` and `cite-n1-14` removed, since both citations moved into the table as typed `[10]` and `[14]`.
+- `n-tbl` inserted after n1: tableBlock, header row nr0 plus nr1 to nr5.
+- n2a: "None of that is my funnel. All of it is the water my funnel sits in." → "My tracker cannot measure any of that. I am standing in the middle of it: the two most AI-exposed jobs on the Boston College list are web jobs, and web is where I work."
+- `citations`: cit-15 (Challenger), cit-16 (CRR), cit-17 (Fortune) appended.
+
+Re-fetch confirmed all four changes, `markDefs: []` and `marks: []` present. New rev `20mWqb5JxEZ7f25aDRxJsk`. Not published.
+
 ## Feedback log
 
 (empty)
