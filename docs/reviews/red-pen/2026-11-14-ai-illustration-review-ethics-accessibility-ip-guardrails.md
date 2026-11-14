@@ -98,6 +98,8 @@ The skimmer gets the topic and the verdict, not a claim worth remembering.
 
 - Bex, round 2 edit: distinct voices. Decided: a cast list after the TL;DR (Chorus, ChatGPT, Claude, Bex, Gemini as "not involved"); unlabelled lines are the Chorus; bold names and italic stage directions only where one voice breaks away (10 labelled lines); Bex's lines are exact quotes only (the 2026-09-19 issue comment and the 2026-11-14 redaction instruction). A screenplay layout was declined because it would need new display code and a visual spec. 1,008 body words.
 
+- Bex, round 2 edits: (1) the AI ethics bullet becomes "AI ethics and transparency" and requires the AI-generated badge on the page and the stamp in the file, citing Principle 13; (2) the brand-name rule now covers the image itself; (3) "flagged" is defined as the AI-Generated toggle on the image in Sanity Studio, and the audit table, the fix section and gate row 5 say "toggle". A glossary term for "stamp" (the AI-generated mark baked into the image) goes through /glossy. 1,062 body words.
+
 ## Gate 2 application log
 
 **2026-11-14.** Bex: "accept all suggestions and update narrative to determining the guardrails, adding them, the audit and failure, and the fix and updates. making the node a user scold from chatgpt and claude to bex." Also: "add the new AI GENERATED stamp rules and add to check."
