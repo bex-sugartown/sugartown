@@ -1,6 +1,6 @@
 ---
 name: write-blog
-description: Draft and create an article (blog post) as a Sanity draft — Bex voice, article schema, taxonomy pre-flight, creates drafts.* document
+description: Draft an article (blog post) locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — Bex voice, article schema, taxonomy pre-flight, creates drafts.* document, exports a pre-publish review copy
 ---
 
 Base directory for this skill: ./.claude/skills/write-blog

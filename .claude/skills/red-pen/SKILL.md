@@ -21,7 +21,7 @@ These are hard boundaries, not preferences. An editor who violates them has stop
 
 ## Step 1 — Get the content
 
-Accept any of: a Sanity document ID or draft ID, a slug (with or without document type), a local file path, or pasted text. For Sanity content, fetch with `query_documents` or `get_document`. Remember the project convention: the web client uses `perspective: 'published'`, but for review you usually want the draft; fetch `drafts.<id>` explicitly when a draft exists.
+Accept any of: a Sanity document ID or draft ID, a slug (with or without document type), a local file path, or pasted text. **For a Sanity draft headed for publish, export the stage 3 review copy first and review that** (`docs/write-pipeline-prompt.md` §0b). For a piece with no Sanity draft yet, review the stage 1 local file. For Sanity content, fetch with `query_documents` or `get_document`. Remember the project convention: the web client uses `perspective: 'published'`, but for review you usually want the draft; fetch `drafts.<id>` explicitly when a draft exists.
 
 If the input is ambiguous (a slug that matches both an article and a node, say), ask before fetching. Reviewing the wrong document wastes a full pass.
 
@@ -177,7 +177,7 @@ At Gate 2, after applying approved rows, append to the same file: which rows wer
 
 Only after explicit row-level approval:
 
-- **Local files**: apply approved edits with Edit, verbatim as proposed. If a proposed edit was modified during discussion, apply the final agreed text.
+- **Local files**: apply approved edits with Edit, verbatim as proposed. If a proposed edit was modified during discussion, apply the final agreed text. **Exception: a stage 3 review copy (`*-sanity-latest.html`) is never edited.** Patch the approved edits to the Sanity draft, then re-export the copy.
 - **Sanity documents**: this is a content write, so the repo's Content Write Gate rules apply on top of this skill's gate (they compose; the Gate 1 table satisfies the before/after proposal requirement). Use `patch_documents` with exact JSON values. Never route through markdown-based tools; the review's whole premise is that the approved text lands verbatim.
 
 Portable Text mechanics for Sanity patches, all from CLAUDE.md and learned the hard way: every block needs `markDefs: []` and every span needs `marks: []` even when empty, or the block renders read-only in Studio. Re-fetch the document before patching because `_key` values do not reliably survive prior patches. One `unset` call per block when removing `markDefs`. After patching, re-fetch and confirm the change landed. A typed `[N]` in body text is a finding: it should be a `citationRef` mark (`docs/write-pipeline-prompt.md` §6); in a table cell a typed `[N]` is correct.

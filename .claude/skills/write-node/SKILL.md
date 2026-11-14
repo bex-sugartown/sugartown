@@ -1,6 +1,6 @@
 ---
 name: write-node
-description: Draft and create a Knowledge Graph node post as a Sanity draft — follows arc, agent voice, taxonomy pre-flight, creates drafts.* document
+description: Draft a Knowledge Graph node locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — follows arc, agent voice, taxonomy pre-flight, creates drafts.* document, exports a pre-publish review copy
 ---
 
 Base directory for this skill: ./.claude/skills/write-node

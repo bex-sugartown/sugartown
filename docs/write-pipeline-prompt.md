@@ -44,7 +44,9 @@ engineering work.
   that — don't invent one
 - Body: the brief or topic in one paragraph, plus a tracking checklist:
   - [ ] Discovery run (taxonomy pre-flight + related-content check)
+  - [ ] Local draft approved (path in `docs/drafts/`, §0b)
   - [ ] Draft created (Sanity draft ID)
+  - [ ] Pre-publish review copy exported (§0b stage 3)
   - [ ] Compliance gate passed
   - [ ] Human review
   - [ ] Publish decision
@@ -66,6 +68,44 @@ same piece:
   auto-cancel it.
 
 Each `write-*-prompt.md`'s own Step 0.5 points here instead of repeating this section.
+
+---
+
+## 0b. Local draft first, Sanity second
+
+**Draft every piece in `docs/drafts/` and settle everything there before any Sanity write.**
+Sanity gets the draft only after Bex approves the local file. (ST-162 went to Sanity at about
+2,250 words and then took a correction, two red-pen passes and a data re-cut as live patches.)
+
+| Stage | Where | Format | What happens there |
+|---|---|---|---|
+| 1. Local draft | `docs/drafts/{ID}-{slug}/{ID}-{slug}.md` | `.md` by default. `.html` when the piece has a diagram, chart, image, `htmlSection`, a table that needs layout, or any custom layout | All copy, in schema section order. §1 to §5 and red-pen Gate 1 run against this file. Edits go here |
+| 2. Sanity draft | `drafts.<id>` | Portable Text, per §6 | Created from the approved stage 1 file, verbatim. From here Sanity is the record: stage 1 is an archive and is not edited again |
+| 3. Pre-publish review copy | `docs/drafts/{ID}-{slug}/{ID}-{slug}-sanity-latest.html` | `.html`, always | A render of the live `drafts.<id>`, for final analysis and edits before publish |
+
+`{ID}` is the tracking issue (`ST-{n}`, §0). `{slug}` is a short kebab-case working slug, not necessarily the final Sanity slug; if a `docs/drafts/{ID}-*/` folder already exists, use it. `docs/drafts/` is gitignored: never `git add` these files.
+
+**Stage 1 file contents**, top to bottom:
+
+1. Front matter: title, slug, excerpt, `aiDisclosure`, taxonomy picks with `_id`s (§1, §1a), length budget and actual word count (§3a).
+2. Every section in the order it will sit in Sanity, each headed with its section type (`heroSection`, `textSection`, `tableBlock`, `htmlSection`, `mermaidSection`, `calloutSection`). Tables as tables. Charts and diagrams as their real HTML or Mermaid source, not a description of them.
+3. Citations as a numbered list matching the planned `citations[]` order (§6).
+4. Images: filename per `docs/conventions/image-naming-convention.md`, alt text, and the generation tool if AI-made.
+5. Open questions for Bex, if any. A stage 1 file with open questions is not ready for approval.
+
+**Stage 1 approval is the Content Write Gate for the create** (§7). Ask with `AskUserQuestion`:
+create the Sanity draft from this file, or keep editing. Then write it to Sanity without
+changing a word. Any wording change found during the create goes back to stage 1 first.
+
+**Stage 3 export.** Re-export before every pre-publish review and before telling Bex a draft is
+ready to publish. Never edit it by hand as a second copy.
+
+1. Query the live draft with `query_documents` (`drafts.<id>`, raw perspective), including `_rev`.
+2. Render it to one self-contained HTML file: `textSection` blocks as headings and paragraphs (links and `citationRef` pills shown as `[N]` links), `tableBlock` as a `<table>`, `htmlSection` html as-is, `mermaidSection` as its source in a `<pre>`, `calloutSection` as an `<aside>`, the hero as an `<h1>`. List `citations[]` at the end. Show taxonomy, `aiDisclosure` and the excerpt in a header block.
+3. Stamp the header with the document ID, `_rev`, and the fetch time. Overwrite the previous export.
+4. Findings and edits are proposed against this file (red-pen Gate 1, or a before/after table). Approved edits are patched to Sanity, never to this file, and then the file is re-exported.
+
+**A piece that already has a Sanity draft and no stage 1 file starts at stage 3.**
 
 ---
 
@@ -335,11 +375,12 @@ as plain text with no link (ST-221; the ST-162 draft had six). Instead:
 
 ## 7. Content Write Gate composition
 
-Each write-*-prompt's own taxonomy pre-flight, compliance gate, and disclosure steps
-together satisfy CLAUDE.md's Content Write Gate before/after proposal requirement for the
-draft write itself — you don't need a separate proposal table on top of a fully-run write
-skill, because the skill's own gates already surface what's being written before the tool
-call.
+Each write-*-prompt's own taxonomy pre-flight, compliance gate, and disclosure steps, run
+against the stage 1 local draft (§0b), together satisfy CLAUDE.md's Content Write Gate
+before/after proposal requirement for the draft write itself. Bex's approval of the stage 1
+file is the approval. You don't need a separate proposal table on top of a fully-run write
+skill. Edits after the Sanity draft exists are proposed against the stage 3 export and need
+their own approval.
 
 **This does not extend to publishing.** Per CLAUDE.md's Human-Publishes Rule, no approval
 gathered during drafting (taxonomy confirmation, compliance gate pass, "looks good" on the
@@ -356,6 +397,7 @@ skill's specific mechanics, which are out of scope for this doc.
 ## 8. Report-back checklist
 
 After creating any draft, report at minimum:
+- Stage 1 local draft path and stage 3 review copy path (§0b)
 - Sanity draft ID (`drafts.*`)
 - Taxonomy attached (categories, tags, tools) and any concepts with no existing match
   (flag for possible new docs)
@@ -372,6 +414,12 @@ string plus any optional disclosure callout; case study's engagement facts, outc
 ---
 
 ## Changelog
+
+### v2026.11.14 (local draft stage)
+- Added §0b: draft locally in `docs/drafts/{ID}-{slug}/` (md, or html for diagrams, images and
+  custom layout), create the Sanity draft only from the approved file, and export the live
+  Sanity draft to `{ID}-{slug}-sanity-latest.html` before publish. §0 checklist, §7 and §8
+  updated to match. Asked for by Bex 2026-11-14 after ST-162.
 
 ### v2026.11.12 (ST-221, citation links)
 - §6: added the citation rule: `citationRef` mark in body text, typed `[N]` in table cells

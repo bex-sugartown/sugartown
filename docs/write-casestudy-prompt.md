@@ -1,6 +1,6 @@
 # /write-casestudy — Case Study Skill
 
-Creates a portfolio case study as a Sanity draft (`_type: "caseStudy"`).
+Drafts a portfolio case study locally in `docs/drafts/`, then creates it as a Sanity draft (`_type: "caseStudy"`) once Bex approves the local file (`docs/write-pipeline-prompt.md` §0b).
 
 **Argument:** the engagement to write about — client, brief, or source notes. If not provided, ask before proceeding.
 
@@ -76,6 +76,8 @@ Case-study-specific target ranges:
 ---
 
 ## Step 2 — Draft the case study
+
+Write the draft in the stage 1 local file, `docs/drafts/{ID}-{slug}/{ID}-{slug}.md` (`.html` if it has outcome tiles laid out, a chart, diagram, image or custom layout), per `docs/write-pipeline-prompt.md` §0b.
 
 **Read `docs/conventions/case-study-north-star.md` before drafting.** It governs the shape:
 which layer is fixed, which is yours to decide, and how to write headings that belong to this
@@ -175,6 +177,9 @@ When this skill produces the draft, the first string is the default. The engagem
 
 ## Step 3 — Create the Sanity draft
 
+**Only after Bex approves the stage 1 local draft** (`docs/write-pipeline-prompt.md` §0b).
+Build the JSON from that file verbatim; any wording change goes back to the file first.
+
 Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
 See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
 
@@ -266,6 +271,9 @@ All array items must have a unique `_key`.
 ---
 
 ## Step 4 — Report back
+
+Export the stage 3 review copy (`docs/write-pipeline-prompt.md` §0b) right after the create, so
+the pre-publish pass starts from what Sanity actually holds.
 
 Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
 attached, related content linked, images alt text confirmed) plus, case-study-specific:

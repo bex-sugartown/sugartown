@@ -1,7 +1,7 @@
 # Skills Index
 
 **Version:** v1.1
-**Last updated:** 2026-11-02 (generated block)
+**Last updated:** 2026-11-14 (generated block)
 **Owner:** Bex Head
 
 ---
@@ -45,9 +45,9 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `sugartown-prototype-writer` | `/sugartown-prototype-writer` | `skills/` | Plan and record a prototype for Sugartown work: a time-boxed experiment that settles one risky claim from an AI PRD before the FSD is written. |
 | `switch` | `/switch` | `skills/` | Sync the Sugartown repo across machines (desktop ⇄ laptop). |
 | `update-cwv` | `/update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
-| `write-blog` | `/write-blog` | `skills/` | Draft and create an article (blog post) as a Sanity draft — Bex voice, article schema, taxonomy pre-flight, creates drafts.* document |
-| `write-casestudy` | `/write-casestudy` | `skills/` | Draft and create a portfolio case study as a Sanity draft — Bex voice ("show the receipts"), caseStudy schema, canonical section order (Challenge callout, outcome tiles, Overview, FAQ accordion with semantic="faq" for AE |
-| `write-node` | `/write-node` | `skills/` | Draft and create a Knowledge Graph node post as a Sanity draft — follows arc, agent voice, taxonomy pre-flight, creates drafts.* document |
+| `write-blog` | `/write-blog` | `skills/` | Draft an article (blog post) locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — Bex voice, article schema, taxonomy pr |
+| `write-casestudy` | `/write-casestudy` | `skills/` | Draft a portfolio case study locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — Bex voice ("show the receipts"), caseS |
+| `write-node` | `/write-node` | `skills/` | Draft a Knowledge Graph node locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — follows arc, agent voice, taxonomy pre |
 <!-- generated:claude-code-skills:end -->
 
 ### Deprecated

@@ -1,6 +1,6 @@
 # /write-node — Knowledge Graph Node Skill
 
-Creates a Knowledge Graph node post as a Sanity draft (`_type: "node"`).
+Drafts a Knowledge Graph node locally in `docs/drafts/`, then creates it as a Sanity draft (`_type: "node"`) once Bex approves the local file (`docs/write-pipeline-prompt.md` §0b).
 
 **Argument:** the topic, incident, or post-mortem to write about. If not provided, ask before proceeding.
 
@@ -48,6 +48,8 @@ If a concept has no close taxonomy match, note it — do not invent new docs.
 ---
 
 ## Step 2 — Draft the node
+
+Write the draft in the stage 1 local file, `docs/drafts/{ID}-{slug}/{ID}-{slug}.md` (`.html` if it has a chart, diagram, image or custom layout), per `docs/write-pipeline-prompt.md` §0b.
 
 Write the full node content following the style guide arc. Sections:
 
@@ -125,6 +127,9 @@ When in doubt, use the first string. Nodes are AI-narrated by design — this is
 
 ## Step 3 — Create the Sanity draft
 
+**Only after Bex approves the stage 1 local draft** (`docs/write-pipeline-prompt.md` §0b).
+Build the JSON from that file verbatim; any wording change goes back to the file first.
+
 Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
 See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
 
@@ -152,6 +157,9 @@ All array items must have a unique `_key`.
 ---
 
 ## Step 4 — Report back
+
+Export the stage 3 review copy (`docs/write-pipeline-prompt.md` §0b) right after the create, so
+the pre-publish pass starts from what Sanity actually holds.
 
 Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
 attached, related content linked, images alt text confirmed) plus, node-specific:

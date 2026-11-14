@@ -284,6 +284,7 @@ Before asking the user to test anything in their browser:
 
 - Never `git add` a file there, and never ask whether to commit drafts. The answer is no.
 - When a draft graduates to a brief or a Sanity document, copy it to the destination and leave the draft in place as a local archive.
+- Articles, nodes and case studies are drafted here before Sanity and exported back here before publish, in `docs/drafts/{ID}-{slug}/` (`docs/write-pipeline-prompt.md` §0b).
 - If `git status` shows one as "deleted", it was previously tracked — untrack it with `git rm --cached`.
 
 ### Generated stats files — dirty tree behaviour
