@@ -7,8 +7,9 @@
 <title>ST-N working draft: title</title>
 <!--
   HOW TO USE (docs/write-pipeline-prompt.md §0b)
-  1. Copy this file to docs/drafts/ST-{N}-{slug}/ST-{N}-{slug}.html. That folder is one level
-     deeper than this one, so add one ../ to each stylesheet and script path below.
+  1. Run `pnpm export:draft new ST-{N}-{slug}`: it writes docs/drafts/ST-{N}-{slug}/ST-{N}-{slug}.html
+     from this file with styles inlined and the stamp filled. By hand: copy it there and add one
+     ../ to each stylesheet and script path below.
   2. Replace every FILL marker. Keep the section markers: the sync to Sanity is built from them.
   3. Every draft and every edit round happens in this file. Sanity gets the result at the end
      of a round, for final review. Never patch Sanity mid-round.

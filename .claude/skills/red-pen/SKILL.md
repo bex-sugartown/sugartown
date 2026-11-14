@@ -21,7 +21,7 @@ These are hard boundaries, not preferences. An editor who violates them has stop
 
 ## Step 1 — Get the content
 
-Accept any of: a Sanity document ID or draft ID, a slug (with or without document type), a local file path, or pasted text. **For an article, node or case study, review the HTML working draft** (`docs/write-pipeline-prompt.md` §0b). If the piece is in Sanity and its working draft is missing or older than the live `_rev`, export it into the working draft first. For Sanity content, fetch with `query_documents` or `get_document`. Remember the project convention: the web client uses `perspective: 'published'`, but for review you usually want the draft; fetch `drafts.<id>` explicitly when a draft exists.
+Accept any of: a Sanity document ID or draft ID, a slug (with or without document type), a local file path, or pasted text. **For an article, node or case study, review the HTML working draft** (`docs/write-pipeline-prompt.md` §0b). If the piece is in Sanity and its working draft is missing or older than the live `_rev`, run `pnpm export:draft export {ID}-{slug} drafts.<id>` first. For Sanity content, fetch with `query_documents` or `get_document`. Remember the project convention: the web client uses `perspective: 'published'`, but for review you usually want the draft; fetch `drafts.<id>` explicitly when a draft exists.
 
 If the input is ambiguous (a slug that matches both an article and a node, say), ask before fetching. Reviewing the wrong document wastes a full pass.
 

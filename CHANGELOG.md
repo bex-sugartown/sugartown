@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Content working drafts now start, export and check with one command: `pnpm export:draft new | export | check`, and export refuses to overwrite unsynced local edits. (#224; 8 unit tests, 5 probes against the ST-162 draft, one stamp-filling bug found and fixed in the run)
 - A citation typed as [N] in a table cell now renders as a linked pill to its note, and `validate:content` flags a typed [N] in body text or a citation number with no note; the write skills and red-pen now say how to cite. (#221; ST-162 draft: 8 table and 6 body pills link to their notes on desktop and mobile, 9 unit tests and 2 liveness probes pass, smoke 33 passed)
 - The five Sanity-backed validators (urls, filters, taxonomy, content, schema-parity) can now be proven to fail on bad input: the liveness harness runs each one's own rule code against a broken fixture, 17 gates to 39. (#93; every probe turns red when its rule is weakened, validator output on live data unchanged, smoke 33 passed)
 - Two Agentic Browsing checks pass: llms.txt follows the llmstxt.org format, and the footnote zone no longer fails the accessibility-tree audit, which also drops the two deprecated-role allowlist rows. (#84; Lighthouse agentic-browsing config on the local build, llms-txt and agent-accessibility-tree 0 to 1, smoke 33 passed; deployed re-run is a post-ship check)

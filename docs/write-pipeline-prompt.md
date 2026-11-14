@@ -104,11 +104,18 @@ only `--st-*` tokens. Top to bottom it holds:
    generation tool if AI-made.
 6. Open questions for Bex. A working draft with open questions is not ready for approval.
 
-**Starting a round on a piece already in Sanity:** export the live document into the working
-draft first, then edit only the working draft. Before overwriting an existing working draft,
-compare its stamp `_rev` with the live `_rev`. If they differ and the working draft has
-unsynced edits, stop and ask Bex which copy wins; name both locations in the popup. Do not
-patch Sanity during a round.
+**Commands** (repo root; `pnpm test:export-draft` runs their tests):
+
+| Command | When |
+|---|---|
+| `pnpm export:draft new {ID}-{slug}` | A new piece: writes the working draft from the template, stamp filled. Refuses if the file exists |
+| `pnpm export:draft export {ID}-{slug} drafts.<id>` | Start of a round on a piece already in Sanity. Refuses if the working draft holds text that differs from Sanity, and prints the sections |
+| `pnpm export:draft check {ID}-{slug}` | After a sync. Exits 1 on any difference; on a match sets the stamp to the live `_rev` and `synced` |
+
+**Starting a round on a piece already in Sanity:** run `export`, then edit only the working
+draft. If `export` refuses, the working draft has unsynced edits or Sanity changed: stop and
+ask Bex which copy wins, naming both locations in the popup. Re-run with `--force` only after
+she decides. Do not patch Sanity during a round.
 
 **Approval and sync (stage 2):**
 
@@ -119,15 +126,13 @@ patch Sanity during a round.
    ask, as above.
 3. Write to Sanity verbatim: `create_documents` the first time, `patch_documents` keyed by
    `_key` after that, following §6.
-4. Re-export the live draft and compare its text with the working draft, section by section.
-   Any difference is a sync defect: fix it before handing over.
-5. Update the stamp with the new `_rev`, status `synced`.
+4. Run `pnpm export:draft check {ID}-{slug}`. Any difference is a sync defect: fix it before
+   handing over.
+5. A clean check sets the stamp to the new `_rev` and status `synced`.
 6. Hand over for final review in a popup that names the Studio location and the working
    draft's path.
 
-Edits found during final review go back to stage 1 and through the sync again. Until #224
-ships a command, export and compare by hand: query `drafts.<id>` with `query_documents` (raw
-perspective) and render it on the template.
+Edits found during final review go back to stage 1 and through the sync again.
 
 ---
 
@@ -459,15 +464,20 @@ the register-specific addition.
 | 0 | Read the guides the prompt's Step 0 lists, and `docs/briefs/ai-ethics-and-operations.md` (Principles 3, 11, 13) | |
 | 0.5 | Create or reuse the tracking issue, titled per the table | §0 |
 | 1 | Taxonomy pre-flight; check what the `_type` supports; categories and tags per the table; authors default to Bex Head (look up her person `_id`); link existing glossary terms with an inline `glossaryTermRef` on first mention, recommend 0 to 2 new ones, never create them | §1, §1a, §2 |
-| 2 | Draft in the HTML working draft; every later edit happens there too; run the self-checks; length band per the table | §0b, §3 |
+| 2 | Draft in the HTML working draft (`pnpm export:draft new`); every later edit happens there too; run the self-checks; length band per the table | §0b, §3 |
 | 2.5 | Blocking compliance gate before any Sanity write, then the register's own items; fix violations in the working draft; state the prompt's confirmation line | §4 |
 | 2.6 | Disclosure and attribution | §5 |
 | 3 | Only after Bex approves the working draft: build the JSON from it verbatim (a wording change goes back to the working draft first); `create_documents` with exact JSON, never an AI-rewriting or markdown tool; every array item has a unique `_key` | §0b stage 2, §6 |
-| 4 | Sync check: re-export, compare, update the stamp, hand over with the Studio location and the working draft's path in the popup. Then report the shared checklist plus the register's items | §0b stage 2 steps 4 to 6, §8 |
+| 4 | Sync check (`pnpm export:draft check`), then hand over with the Studio location and the working draft's path in the popup. Then report the shared checklist plus the register's items | §0b stage 2 steps 4 to 6, §8 |
 
 ---
 
 ## Changelog
+
+### v2026.11.14d (#224 commands)
+- §0b: `pnpm export:draft new | export | check` replace the by-hand export and compare.
+  `export` refuses to overwrite unsynced edits by comparing text, not only `_rev`. §9 steps 2
+  and 4 name the commands.
 
 ### v2026.11.14c (register table)
 - Added §9: one register table (skill, issue title, URL, length band, cut order, taxonomy
