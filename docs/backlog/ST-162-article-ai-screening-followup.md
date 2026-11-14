@@ -356,6 +356,8 @@ p-values: phase 1 vs 2, 0.67; 1 vs 3, 0.30; 1 vs 2 and 3 together, 0.18; 2 vs 3,
 | What the machine changed | "A parse-clean, role-tailored resume did not raise my cold screen rate." | True, but needs its comparison: both cohorts were parse-clean and role-tailored |
 | Twice the effort | Cohort comparison only | Consider the three-phase table: it is the accurate before and after |
 
+**Applied 2026-11-14 (Bex approved rows 1 to 5).** Patched on the draft at rev `20mWqb5JxEZ7f25aDRxJsk` and verified by re-query: `w2a` (The line I got wrong), `m2a` and `m3a` (What the machine changed), `y2a` (Why the portal might not answer), and a new block `e3` after `e2` in `s-effort-2` carrying the three-phase split. Not published. The ST-223 link sentence is still to come, once the node exists.
+
 **Accurate framing, one sentence (proposed, not copy):** I was already tailoring every application with an AI prompt and rules against making things up; the pipeline gave me six base resumes instead of one, a bank of true stories to draw on, and twice the throughput, and the cold rate did not notice any of it.
 
 **Spinoff candidate.** The four phases (one base, category variants, prompt with rules, Resume Factory) are a story of their own: how the guardrails were written, what the audits caught, and what the story bank adds. It does not fit this article's word budget. **Decided by Bex 2026-11-14: a separate node, filed as its own epic.** This article keeps one sentence and links to it.
