@@ -296,7 +296,7 @@ Before 2026-06-27 the search was manual: Evernote tags, hand sourcing, inbound a
 | Sourcing | Job boards, recruiter inbound, referrals | Gmail Inbox Engine reads alert and recruiter mail into the tracker; LinkedIn saved searches (rebuilt remote-only 10-19) | 854 JDs captured, 171 a month |
 | Triage | By eye | Hard gates (role, level, commute, federal, AI-as-product), P2 triage board with scoring (08-21), Director tier cut (10-18) | captured per month 20, 179, 302, 114 across the four epochs |
 | De-duplication | By memory | `check_duplicate.py` (09-04) | not measured |
-| Packaging | One resume, edited per role | Resume Factory: tailored resume and cover letter per role | 115 packaged |
+| Packaging | **Corrected 2026-11-14 (was "One resume, edited per role"):** category variants from Aug 2025; from 2026-03-02 one prototype resume, AI-tailored per JD under a written no-fabrication prompt (v2 to v5). See §Resume tailoring audit | Resume Factory: six family prototypes plus a master, a story bank, the same rules run as a Cowork skill, cover letter in every package | 115 packaged |
 | Apply | Manual | Manual, now with a `Date Applied` column and a 14-day follow-up clock (09-20) | 100 applications; `Date Applied` is filled on only 38 of 99 older rows |
 | Tracking and analysis | Evernote tags, a one-off analysis | Tracker, dashboard, `analyze.py`, funnel integrity check | this epic's tables |
 
@@ -305,9 +305,60 @@ What the tools changed, in numbers: intake grew about 10x, packaging reached 115
 | ID | Hypothesis about the pipeline (unverified) | Check | Data in hand? |
 |---|---|---|---|
 | A1 | Automation widened the top of the funnel and the gates, not the tools, decided what got applied to. | Captured, packaged and applied by epoch (table above); applications stayed at 18 to 27 a month while captures moved 10x. | Yes |
-| A2 | Tailored resumes did not change the cold-door yield. | Cold-only screens per month: 0.64 before tailoring, 0.60 after. Confounded by market, role mix and the Oct scope change. | Partly |
+| A2 | **Reworded 2026-11-14.** Deeper tailoring did not change the cold-door yield. Both cohorts were tailored; what changed at the pipeline was how much and from what (§Resume tailoring audit). | Cold-only screens by tailoring phase: category variants 6 of 74 (8.1%), per-JD AI tailoring under rules 1 of 31 (3.2%), Resume Factory 3 of 91 (3.3%). All inside chance. The old wording ("0.64 before tailoring, 0.60 after") was wrong: Cohort 1 was tailored. Confounded by market, role mix and the Oct scope change. | Yes (phase split run 2026-11-14) |
 | A3 | The tighter filters in Sep and Oct raised quality per application, and it is too early to see it. | Apps-to-screen by epoch: 3 of 35, 5 of 28, 4 of 22. Rows under eight weeks old have not resolved. Re-run on 11-02 and again on 11-30. | Not yet |
 | A4 | Most of Bex's time went to packaging and following up, not sourcing. | Needs hours. Add a time log, or drop the claim. | No |
+
+### Resume tailoring audit, before and after the pipeline (added 2026-11-14)
+
+**Finding: tailoring did not start with the Resume Factory.** Bex was tailoring every application from 2026-03-02, with a prototype resume and a written no-fabrication prompt, three months before Cohort 2. The original post says the same thing in chapter one ("built channel-specific variants across CMS, ECOM, DAM, and Platform, then customized each against the specific JD"). The Sanity draft and row A2 framed Cohort 1 as untailored; that framing is wrong. Raised by Bex 2026-11-14.
+
+**Tailoring phases, from file evidence** (paths under `~/Documents/GDRIVE RECOVERY/04 Resumes & Job Search/01 Resumes/` unless stated; dates are file modification dates)
+
+| Phase | Dates | Base resume | Per-JD step | Guardrails | Evidence |
+|---|---|---|---|---|---|
+| 0. One base | Dec 2024 to mid Aug 2025 | `Becky-Head-Product-Leader-2025.docx` (2024-12-21) | not evidenced in files | none written | `Resume 2025/` |
+| 1. Category variants | Aug 2025 to Feb 2026 | vDigital Product & Ops (08-14), vCMS and vDS (08-23), vECOM (11-17), vAI+Content (11-24), CMS-Design-System r1 to r4 (Nov 2025 to Mar 2026); `MASTER_RESUME`, `resume_data*.xlsx` and a `resume_generator_template` (11-26 to 12-07) | Category picked per role. Sent files are named by category, not company (`Sent_Versions/`, Nov 2025). Bex to confirm whether AI per-JD edits happened here too | none written | `Resume 2025/`, `Resume 2026/source/`, `Resume 2026/Sent_Versions/` |
+| 2. Prototype plus AI per JD, with rules | 2026-03-02 to 2026-05-31 | `Becky-Head_PROTOTYPE_Resume_2026` r1, r2 (03-09), r3 (05-05) | Prototype and JD pasted into a Claude chat. About 32 company- or role-named resumes and about 19 cover letters, against 32 Cohort 1 applications in Mar to May | `resume-tailor-prompt` v2 (03-02) to v5 (03-09): never invent skills or results, never move a stat between roles, never change titles or dates, no em dashes, no AI filler, `[ADD: metric?]` instead of an estimate, locked strength phrases, edit only the summary and the last three roles | `Resume 2026/test resume ai/` |
+| 3. Resume Factory (Cohort 2) | 2026-06-01 onward | Six family prototypes (first family r1 2026-07-10; now r20 to r40) plus a MASTER superset (r1 2026-09-23), revision-logged in `PROTOTYPE-INDEX_and_CHANGELOG.md` | `sugartown-resume-tailor` skill in Cowork, per JD, from the tracker. Cover letter in every package. 123 packages, 109 applications | Phase 2 rules carried over, plus a story bank, an older-roles reference and a new-fact intake rule | `resume-factory/data/00 PROMPT + PROTOTYPE/` |
+
+**What changed at the pipeline, and what did not**
+
+| Dimension | Phase 2 (Mar to May 2026) | Phase 3 (Resume Factory) | Changed? |
+|---|---|---|---|
+| Tailored per JD | Yes, about one resume per application | Yes, one package per application | No |
+| No-fabrication rules | Written prompt v5 | Same rules, run as a skill | No (form only) |
+| Base | One prototype | Six family prototypes plus a master | Yes |
+| Fact source | The prototype's own text | Story bank, older-roles reference, new facts added from interviews and archives (for example Sephora PIM RFP, AEM Cloud migration) | Yes, more true material to tailor from |
+| Accuracy audits | None recorded | Logged corrections that removed claims (2026-09-23 Backroads, 2026-09-23 Sephora content ops, 2026-11-05 ELC AI claims) | Yes |
+| Layout and parse rules | ATS intake work per chapter one of the original post | Page-flow rule (09-10), `City, ST` locations (09-22), one role-header standard (09-23) | Refined |
+| Cover letters | About 19 of 32 | Every package | Yes |
+| Throughput | About 10 applications a month (Mar to May: 32 in 3 months) | 21.0 a month | Yes, 2.1x |
+| Age cues | Cut to 2017 at prototype r3, 2026-05-05 | Same | No. The age-cue row above labels this "Cohort 2"; r3 is dated inside Cohort 1's last month (8 applications, 0 screens) |
+
+**Cold-only yield by tailoring phase.** Cohort 1 rows from `resume-factory/data/00 JOB SEARCH OS/Funnel Pipeline/reports/evernote_notes_enriched.csv` (`in_cohort == 1`, applied, not inbound or referral, by `created` month); Jul 2025 to Apr 2026 reproduce the published monthly table exactly, and May uses the published row (8 cold, 0 screens; the CSV holds 15 May rows, also 0 cold screens). Cohort 2 from `findings.json`. Fisher exact, two-sided, run 2026-11-14 (the same method gives 0.34 for Cohort 1 against Cohort 2, matching the figure above).
+
+| Phase | Months | Cold applications | Cold screens | Rate | Cold screens a month |
+|---|---:|---:|---:|---:|---:|
+| 0 and 1. Base, then category variants (Jul 2025 to Feb 2026) | 8 | 74 | 6 | 8.1% | 0.75 |
+| 2. Prototype plus AI per JD, with rules (Mar to May 2026) | 3 | 31 | 1 | 3.2% | 0.33 |
+| 3. Resume Factory (Jun 1 to Nov 5, 2026) | 5.19 | 91 | 3 | 3.3% | 0.58 |
+
+p-values: phase 1 vs 2, 0.67; 1 vs 3, 0.30; 1 vs 2 and 3 together, 0.18; 2 vs 3, 1.0. **None is a finding.** What the split does say: if the cold rate moved at all, it moved in March 2026, when per-JD AI tailoring started, not in June when the pipeline started. Phases 2 and 3 are the same rate. The market changed over the same months, so this is not evidence that tailoring hurt.
+
+**Corrections the article draft needs** (Sanity `drafts.c1415fdb-...`; proposals only, Content Write Gate applies)
+
+| Section | Current text | Problem |
+|---|---|---|
+| The line I got wrong | "a script that tailors a resume and cover letter to each posting (with strict ... guardrails and a story bank I wrote myself)" | Reads as if tailoring and guardrails were new. The guardrails date from March; the story bank and the scale are new |
+| What the machine changed | "The tailoring, which is the thing chapter one said would fix the cold door, shipped at scale and the cold door did not notice." | Chapter one said tailoring was already done. What shipped at scale was deeper, faster tailoring |
+| Why the portal might not answer | "tailoring is the thing I doubled" | Wrong. Applications doubled; tailoring was already near every application from March |
+| What the machine changed | "A parse-clean, role-tailored resume did not raise my cold screen rate." | True, but needs its comparison: both cohorts were parse-clean and role-tailored |
+| Twice the effort | Cohort comparison only | Consider the three-phase table: it is the accurate before and after |
+
+**Accurate framing, one sentence (proposed, not copy):** I was already tailoring every application with an AI prompt and rules against making things up; the pipeline gave me six base resumes instead of one, a bank of true stories to draw on, and twice the throughput, and the cold rate did not notice any of it.
+
+**Spinoff candidate.** The four phases (one base, category variants, prompt with rules, Resume Factory) are a story of their own: how the guardrails were written, what the audits caught, and what the story bank adds. It does not fit this article's word budget. Decision for Bex: a separate node or article, or a paragraph here.
 
 ### B. Outside influences: market, layoffs and bias
 
