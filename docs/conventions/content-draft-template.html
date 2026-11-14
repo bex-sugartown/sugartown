@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- FILL: ST-{N} working draft: {working title} -->
+<title>ST-N working draft: title</title>
+<!--
+  HOW TO USE (docs/write-pipeline-prompt.md §0b)
+  1. Copy this file to docs/drafts/ST-{N}-{slug}/ST-{N}-{slug}.html. That folder is one level
+     deeper than this one, so change both stylesheet paths below from ../../ to ../../../.
+  2. Replace every FILL marker. Keep the section markers: the sync to Sanity is built from them.
+  3. Every draft and every edit round happens in this file. Sanity gets the result at the end
+     of a round, for final review. Never patch Sanity mid-round.
+  4. No colour, font or spacing value outside a Pink Moon token (--st-*). Same framework as
+     docs/conventions/vspec-template.html: light by default, dark by the toggle.
+-->
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<style>
+/* Template-only styles. Every value is a Pink Moon token. */
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--st-font-family-ui);font-size:var(--st-font-size-md);line-height:1.6;color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
+main{max-width:760px;margin:0 auto;padding:var(--st-space-6) var(--st-space-4) var(--st-space-9)}
+h1,h2,h3{font-family:var(--st-font-family-narrative);color:var(--st-color-text-default);font-weight:var(--st-font-weight-semibold);line-height:1.2}
+h1{font-size:var(--st-font-size-2xl);margin:0 0 var(--st-space-2)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-2) 0}
+p{margin:var(--st-space-3) 0}
+a{color:var(--st-color-text-brand)}
+code{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);color:var(--st-color-text-brand)}
+table{border-collapse:collapse;width:100%;font-size:var(--st-font-size-sm);margin:var(--st-space-2) 0 var(--st-space-4);background:var(--st-color-bg-surface)}
+th,td{border:1px solid var(--st-color-border-medium);padding:var(--st-space-2);text-align:left;vertical-align:top}
+th{background:var(--st-color-bg-surface-strong);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold)}
+img{max-width:100%;height:auto;display:block}
+blockquote{margin:var(--st-space-3) 0;padding-left:var(--st-space-4);border-left:3px solid var(--st-color-border-strong);font-style:italic}
+aside{margin:var(--st-space-5) 0;padding:var(--st-space-3) var(--st-space-4);border-left:4px solid var(--st-color-brand-primary);background:var(--st-color-bg-surface)}
+
+.draftThemeToggle{position:sticky;top:var(--st-space-2);float:right;z-index:10;padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);cursor:pointer}
+.draftThemeToggle:hover{background:var(--st-color-brand-primary);color:var(--st-color-white)}
+.draftThemeToggle:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}
+.draftStamp{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);border:1px solid var(--st-color-brand-primary);background:var(--st-color-bg-surface);padding:var(--st-space-3);margin:0 0 var(--st-space-5)}
+.draftStamp th{width:11em}
+.draftSection{margin:var(--st-space-6) 0 0}
+.draftMarker{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);text-transform:uppercase;letter-spacing:.04em;border-top:1px dashed var(--st-color-border-default);padding-top:var(--st-space-2)}
+.draftCite a{text-decoration:none}
+.draftOpen{border:2px solid var(--st-color-error);padding:var(--st-space-3);margin:var(--st-space-5) 0}
+</style>
+</head>
+<body>
+<main>
+<button class="draftThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+
+<!-- Sync stamp. Update on every export and every sync. -->
+<table class="draftStamp">
+<tr><th>Working draft</th><td>Every edit happens in this file. Sanity gets the result at the end of the round (write-pipeline §0b).</td></tr>
+<tr><th>Status</th><td><!-- FILL: drafting | in review | approved | synced -->drafting</td></tr>
+<tr><th>Sanity document</th><td><!-- FILL: drafts.<id>, or "not created" --></td></tr>
+<tr><th>_rev</th><td><!-- FILL: the _rev this file was exported from or last synced to --></td></tr>
+<tr><th>Updated</th><td><!-- FILL: ISO time of the last export or sync --></td></tr>
+<tr><th>Tracking issue</th><td><!-- FILL: #N --></td></tr>
+</table>
+
+<!-- Front matter -->
+<table>
+<tr><th>Title</th><td><!-- FILL --></td></tr>
+<tr><th>Slug</th><td><!-- FILL --></td></tr>
+<tr><th>Excerpt</th><td><!-- FILL --></td></tr>
+<tr><th>aiDisclosure</th><td><!-- FILL --></td></tr>
+<tr><th>Authors</th><td><!-- FILL: name and _id --></td></tr>
+<tr><th>Categories</th><td><!-- FILL: name and _id --></td></tr>
+<tr><th>Tags</th><td><!-- FILL --></td></tr>
+<tr><th>Tools</th><td><!-- FILL --></td></tr>
+<tr><th>Related</th><td><!-- FILL --></td></tr>
+<tr><th>Length</th><td><!-- FILL: budget and current word count --></td></tr>
+</table>
+
+<!-- Sections, in Sanity order. One draftSection per Sanity section. Keep data-type and data-key. -->
+<section class="draftSection" data-type="heroSection" data-key="hero-1">
+<p class="draftMarker">heroSection · hero-1</p>
+<p class="draftMarker"><!-- FILL: eyebrow --></p>
+<h1><!-- FILL: title --></h1>
+</section>
+
+<section class="draftSection" data-type="textSection" data-key="">
+<p class="draftMarker">textSection · <!-- FILL: _key once Sanity has one --></p>
+<h2><!-- FILL: heading, or remove for an unheaded section --></h2>
+<p><!-- FILL: body. Citations as <sup class="draftCite"><a href="#cit-1">[1]</a></sup> --></p>
+</section>
+
+<!-- tableBlock: a real <table> inside a textSection's draftSection, marked "tableBlock · key".
+     htmlSection: the real HTML, as it will be stored.
+     mermaidSection: the Mermaid source in a <pre>.
+     calloutSection: an <aside> with its title. -->
+
+<section class="draftSection" data-type="citations">
+<h2>Citations</h2>
+<ol>
+<li id="cit-1"><!-- FILL: text, then <a href="url">label</a> --></li>
+</ol>
+</section>
+
+<section class="draftSection" data-type="images">
+<h2>Images</h2>
+<table>
+<tr><th>File</th><th>Alt text</th><th>Generation tool</th></tr>
+<tr><td><!-- FILL --></td><td><!-- FILL --></td><td><!-- FILL, or "not AI-made" --></td></tr>
+</table>
+</section>
+
+<div class="draftOpen">
+<strong>Open questions for Bex.</strong> A working draft with open questions is not ready for approval.
+<ul><li><!-- FILL, or delete this block when there are none --></li></ul>
+</div>
+</main>
+<script>
+(function(){
+  var root=document.documentElement, toggle=document.getElementById('themeToggle');
+  toggle.onclick=function(){
+    var dark=root.getAttribute('data-theme')!=='dark-pink-moon';
+    root.setAttribute('data-theme',dark?'dark-pink-moon':'light-pink-moon');
+    toggle.textContent=dark?'Switch to light view':'Switch to dark view';
+    toggle.setAttribute('aria-pressed',dark);
+  };
+})();
+</script>
+</body>
+</html>

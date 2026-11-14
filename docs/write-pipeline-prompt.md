@@ -44,9 +44,9 @@ engineering work.
   that — don't invent one
 - Body: the brief or topic in one paragraph, plus a tracking checklist:
   - [ ] Discovery run (taxonomy pre-flight + related-content check)
-  - [ ] Local draft approved (path in `docs/drafts/`, §0b)
-  - [ ] Draft created (Sanity draft ID)
-  - [ ] Pre-publish review copy exported (§0b stage 3)
+  - [ ] Working draft approved (path in `docs/drafts/`, §0b)
+  - [ ] Synced to Sanity and sync-checked (Sanity draft ID, §0b stage 2)
+  - [ ] Final review in Sanity
   - [ ] Compliance gate passed
   - [ ] Human review
   - [ ] Publish decision
@@ -71,41 +71,63 @@ Each `write-*-prompt.md`'s own Step 0.5 points here instead of repeating this se
 
 ---
 
-## 0b. Local draft first, Sanity second
+## 0b. Local working draft: every edit happens here
 
-**Draft every piece in `docs/drafts/` and settle everything there before any Sanity write.**
-Sanity gets the draft only after Bex approves the local file. (ST-162 went to Sanity at about
-2,250 words and then took a correction, two red-pen passes and a data re-cut as live patches.)
+**Draft and edit every piece in one local HTML working draft. Sanity receives the result only
+for final review.** This holds for a new piece and for a piece already in Sanity, draft or
+published: once a review or edit round starts, all changes are made locally and synced at the
+end of the round. (ST-162 took a correction, two red-pen passes and a data re-cut as live
+Sanity patches, with no single copy to read the whole piece from.)
 
-| Stage | Where | Format | What happens there |
-|---|---|---|---|
-| 1. Local draft | `docs/drafts/{ID}-{slug}/{ID}-{slug}.md` | `.md` by default. `.html` when the piece has a diagram, chart, image, `htmlSection`, a table that needs layout, or any custom layout | All copy, in schema section order. §1 to §5 and red-pen Gate 1 run against this file. Edits go here |
-| 2. Sanity draft | `drafts.<id>` | Portable Text, per §6 | Created from the approved stage 1 file, verbatim. From here Sanity is the record: stage 1 is an archive and is not edited again |
-| 3. Pre-publish review copy | `docs/drafts/{ID}-{slug}/{ID}-{slug}-sanity-latest.html` | `.html`, always | A render of the live `drafts.<id>`, for final analysis and edits before publish |
+| Stage | Where | What happens there |
+|---|---|---|
+| 1. Working draft | `docs/drafts/{ID}-{slug}/{ID}-{slug}.html`, started from `docs/conventions/content-draft-template.html` | All copy, all checks (§1 to §5), red-pen Gates 1 and 2, every edit Bex asks for |
+| 2. Sync | `drafts.<id>` in Sanity | The approved working draft is written to Sanity verbatim, then checked against it |
+| 3. Final review | The Sanity draft, in Studio | Bex reads it as it will publish. She publishes, or sends it back to stage 1 with what to change |
 
-`{ID}` is the tracking issue (`ST-{n}`, §0). `{slug}` is a short kebab-case working slug, not necessarily the final Sanity slug; if a `docs/drafts/{ID}-*/` folder already exists, use it. `docs/drafts/` is gitignored: never `git add` these files.
+`{ID}` is the tracking issue (`ST-{n}`, §0). `{slug}` is a short kebab-case working slug, not
+necessarily the final Sanity slug; if a `docs/drafts/{ID}-*/` folder already exists, use it.
+`docs/drafts/` is gitignored: never `git add` these files.
 
-**Stage 1 file contents**, top to bottom:
+**The working draft is HTML, on the content draft template.** Pink Moon, light by default,
+with a light/dark toggle; the same framework as `docs/conventions/vspec-template.html`. Use
+only `--st-*` tokens. Top to bottom it holds:
 
-1. Front matter: title, slug, excerpt, `aiDisclosure`, taxonomy picks with `_id`s (§1, §1a), length budget and actual word count (§3a).
-2. Every section in the order it will sit in Sanity, each headed with its section type (`heroSection`, `textSection`, `tableBlock`, `htmlSection`, `mermaidSection`, `calloutSection`). Tables as tables. Charts and diagrams as their real HTML or Mermaid source, not a description of them.
-3. Citations as a numbered list matching the planned `citations[]` order (§6).
-4. Images: filename per `docs/conventions/image-naming-convention.md`, alt text, and the generation tool if AI-made.
-5. Open questions for Bex, if any. A stage 1 file with open questions is not ready for approval.
+1. A sync stamp: Sanity document ID, the `_rev` it was exported from or last synced to, the
+   time, and a status (`drafting`, `in review`, `approved`, `synced`).
+2. Front matter: title, slug, excerpt, `aiDisclosure`, taxonomy picks with `_id`s (§1, §1a),
+   length budget and word count (§3a).
+3. Every section in Sanity order, each marked with its section type and `_key` (once it has
+   one). Tables as tables. Charts and diagrams as their real HTML or Mermaid source.
+4. Citations as a numbered list in `citations[]` order (§6).
+5. Images: filename per `docs/conventions/image-naming-convention.md`, alt text, the
+   generation tool if AI-made.
+6. Open questions for Bex. A working draft with open questions is not ready for approval.
 
-**Stage 1 approval is the Content Write Gate for the create** (§7). Ask with `AskUserQuestion`:
-create the Sanity draft from this file, or keep editing. Then write it to Sanity without
-changing a word. Any wording change found during the create goes back to stage 1 first.
+**Starting a round on a piece already in Sanity:** export the live document into the working
+draft first, then edit only the working draft. Before overwriting an existing working draft,
+compare its stamp `_rev` with the live `_rev`. If they differ and the working draft has
+unsynced edits, stop and ask Bex which copy wins; name both locations in the popup. Do not
+patch Sanity during a round.
 
-**Stage 3 export.** Re-export before every pre-publish review and before telling Bex a draft is
-ready to publish. Never edit it by hand as a second copy.
+**Approval and sync (stage 2):**
 
-1. Query the live draft with `query_documents` (`drafts.<id>`, raw perspective), including `_rev`.
-2. Render it to one self-contained HTML file: `textSection` blocks as headings and paragraphs (links and `citationRef` pills shown as `[N]` links), `tableBlock` as a `<table>`, `htmlSection` html as-is, `mermaidSection` as its source in a `<pre>`, `calloutSection` as an `<aside>`, the hero as an `<h1>`. List `citations[]` at the end. Show taxonomy, `aiDisclosure` and the excerpt in a header block.
-3. Stamp the header with the document ID, `_rev`, and the fetch time. Overwrite the previous export.
-4. Findings and edits are proposed against this file (red-pen Gate 1, or a before/after table). Approved edits are patched to Sanity, never to this file, and then the file is re-exported.
+1. Ask Bex to approve the round with `AskUserQuestion`. The question names the working
+   draft's path. Options: "Reviewed, sync it to Sanity", "Needs edits, I'll list them",
+   "Stop". This approval is the Content Write Gate for the sync (§7).
+2. Re-fetch the live `_rev`. If it differs from the stamp, someone edited in Studio: stop and
+   ask, as above.
+3. Write to Sanity verbatim: `create_documents` the first time, `patch_documents` keyed by
+   `_key` after that, following §6.
+4. Re-export the live draft and compare its text with the working draft, section by section.
+   Any difference is a sync defect: fix it before handing over.
+5. Update the stamp with the new `_rev`, status `synced`.
+6. Hand over for final review in a popup that names the Studio location and the working
+   draft's path.
 
-**A piece that already has a Sanity draft and no stage 1 file starts at stage 3.**
+Edits found during final review go back to stage 1 and through the sync again. Until #224
+ships a command, export and compare by hand: query `drafts.<id>` with `query_documents` (raw
+perspective) and render it on the template.
 
 ---
 
@@ -376,11 +398,10 @@ as plain text with no link (ST-221; the ST-162 draft had six). Instead:
 ## 7. Content Write Gate composition
 
 Each write-*-prompt's own taxonomy pre-flight, compliance gate, and disclosure steps, run
-against the stage 1 local draft (§0b), together satisfy CLAUDE.md's Content Write Gate
-before/after proposal requirement for the draft write itself. Bex's approval of the stage 1
-file is the approval. You don't need a separate proposal table on top of a fully-run write
-skill. Edits after the Sanity draft exists are proposed against the stage 3 export and need
-their own approval.
+against the working draft (§0b), together satisfy CLAUDE.md's Content Write Gate
+before/after proposal requirement. Bex's approval of the round (§0b stage 2, step 1) is the
+approval for that sync. You don't need a separate proposal table on top of it. Every later
+edit round is approved the same way, against the working draft.
 
 **This does not extend to publishing.** Per CLAUDE.md's Human-Publishes Rule, no approval
 gathered during drafting (taxonomy confirmation, compliance gate pass, "looks good" on the
@@ -397,7 +418,7 @@ skill's specific mechanics, which are out of scope for this doc.
 ## 8. Report-back checklist
 
 After creating any draft, report at minimum:
-- Stage 1 local draft path and stage 3 review copy path (§0b)
+- Working draft path, its stamp `_rev`, and the sync check result (§0b)
 - Sanity draft ID (`drafts.*`)
 - Taxonomy attached (categories, tags, tools) and any concepts with no existing match
   (flag for possible new docs)
@@ -414,6 +435,14 @@ string plus any optional disclosure callout; case study's engagement facts, outc
 ---
 
 ## Changelog
+
+### v2026.11.14b (working draft holds every edit)
+- §0b rewritten: one HTML working draft on `docs/conventions/content-draft-template.html`
+  (Pink Moon, light default, light/dark toggle) holds every draft and every edit round, also
+  for pieces already in Sanity. Sanity is synced at the end of a round, checked against the
+  working draft, and used for final review. Replaces the read-only `-sanity-latest.html`
+  review copy and the md option from v2026.11.14. §0 checklist, §7 and §8 updated. Asked for
+  by Bex 2026-11-14.
 
 ### v2026.11.14 (local draft stage)
 - Added §0b: draft locally in `docs/drafts/{ID}-{slug}/` (md, or html for diagrams, images and

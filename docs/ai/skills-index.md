@@ -45,9 +45,9 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `sugartown-prototype-writer` | `/sugartown-prototype-writer` | `skills/` | Plan and record a prototype for Sugartown work: a time-boxed experiment that settles one risky claim from an AI PRD before the FSD is written. |
 | `switch` | `/switch` | `skills/` | Sync the Sugartown repo across machines (desktop ⇄ laptop). |
 | `update-cwv` | `/update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
-| `write-blog` | `/write-blog` | `skills/` | Draft an article (blog post) locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — Bex voice, article schema, taxonomy pr |
-| `write-casestudy` | `/write-casestudy` | `skills/` | Draft a portfolio case study locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — Bex voice ("show the receipts"), caseS |
-| `write-node` | `/write-node` | `skills/` | Draft a Knowledge Graph node locally in docs/drafts/ (md, or html when it has diagrams, images or custom layout), then create it as a Sanity draft once Bex approves the local file — follows arc, agent voice, taxonomy pre |
+| `write-blog` | `/write-blog` | `skills/` | Draft an article (blog post) in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
+| `write-casestudy` | `/write-casestudy` | `skills/` | Draft a portfolio case study in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
+| `write-node` | `/write-node` | `skills/` | Draft a Knowledge Graph node in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
 <!-- generated:claude-code-skills:end -->
 
 ### Deprecated

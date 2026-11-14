@@ -116,6 +116,12 @@ instruction for those groups only, and a dismissed popup publishes nothing.
 ## Response wording standard
 
 - The question itself: one sentence wherever possible.
+- Anything ready for review carries its link where it is announced. Every sentence that says
+  a file, diff, draft or page is ready, including a mid-turn progress line, links it in that
+  same sentence (a clickable path or URL). A popup that asks for the review repeats the link
+  in the question or in the recommended option's description. Options read as outcomes:
+  "Reviewed, apply it", "Needs edits, I'll list them", "Stop". (2026-11-14: "The diff is
+  ready for review" went out with no link, and the popup asked only "Apply the diff?")
 - Mark the recommendation and say why. Put the recommended option first, labelled
   `(Recommended)`, and name its cost in the description. A recommendation without a stated
   cost is not a recommendation. Synced 2026-10-04 from the shared
