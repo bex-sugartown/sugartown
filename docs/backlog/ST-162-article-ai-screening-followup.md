@@ -364,6 +364,12 @@ What the tools changed, in numbers: intake grew about 10x, packaging reached 115
 | 2. Prototype plus AI per JD, with rules (Mar to May 2026) | 3 | 31 | 1 | 3.2% | 0.33 |
 | 3. Resume Factory (Jun 1 to Nov 5, 2026) | 5.19 | 91 | 3 | 3.3% | 0.58 |
 
+**How deep the Phase 3 tailoring goes (measured 2026-11-14).** In the 28 newest packages (JD-0800 onward, built against today's prototype revisions), a median of 30% of resume words differ from the closest prototype, with a range of 8% to 53%. That is a rewrite of the summary and the last three roles, not a keyword swap. Older packages show a median of about 50%, but part of that is prototype revisions made since, so it overstates the change. Command: a word-level `difflib` comparison of each `data/JD-*/…Resume*.docx` against every `data/00 PROMPT + PROTOTYPE/*PROTOTYPE*.docx`, keeping the closest match (session scratchpad script, not committed).
+
+**What the data cannot say about tailoring, for the article (Bex, 2026-11-14: record now, edit when 162 resumes).** Every application since 2026-03-02 was tailored, so there is no untailored control. The data cannot show whether tailoring helps on the cold door, only that deeper tailoring did not raise it. Settling it at 21 applications a month is out of reach: detecting a cold rate going from 3% to 6% at 80% power needs about 750 applications per arm. Draft edits to make when 162 resumes:
+1. In `s-why`, after "the work history I have been trimming", add one sentence saying there is no untailored group to compare against.
+2. Possibly a stronger closer for `s-changing`: "I was the bottleneck", plus deep tailoring not moving the cold door, adds up to tailoring by door. Warm doors were 18 of 109 applications (17%) and gave 12 of 15 screens and 8 of 9 hiring-manager rounds. The proposed Resume Factory rule is in resume-factory review.
+
 p-values: phase 1 vs 2, 0.67; 1 vs 3, 0.30; 1 vs 2 and 3 together, 0.18; 2 vs 3, 1.0. **None is a finding.** What the split does say: if the cold rate moved at all, it moved in March 2026, when per-JD AI tailoring started, not in June when the pipeline started. Phases 2 and 3 are the same rate. The market changed over the same months, so this is not evidence that tailoring hurt.
 
 **Corrections the article draft needs** (Sanity `drafts.c1415fdb-...`; proposals only, Content Write Gate applies)
