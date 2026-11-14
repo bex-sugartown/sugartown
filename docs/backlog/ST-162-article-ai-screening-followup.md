@@ -28,6 +28,26 @@ Plain `/model sonnet`. Editorial epic, no architectural ambiguity.
 
 **No mock and no draft exists.** Nothing is written to Sanity until Bex asks.
 
+### Workstream timeline (added 2026-11-14)
+
+This epic was filed 2026-10-12, but the work began on 2026-08-29 in resume-factory. Dates are file modification dates in `resume-factory/data/00 FUNNEL ANALYSIS 2026-08/` (FA) and `resume-factory/data/content/` (content), plus git and issue dates here.
+
+| Date | Workstream | What happened | Evidence |
+|---|---|---|---|
+| 2026-05-20 | Article series | First post published, "I Treated My Job Search Like a Data Pipeline" | Sanity `publishedAt` |
+| 2026-06-17 to 07-07 | Shrinking Job (SUG-234) | Outline, archive audit, discourse notes, two mocks | `content/drafts/shrinking-job/` |
+| 2026-06-27 | Pipeline | Tracker and Gmail mirror live (charter v1.0) | charter change log |
+| **2026-08-29 to 08-30** | **This article, first draft** | "Season Two: The Pipeline Got Faster and the Funnel Got Worse" (later "The Bar Went Up, the Rate Held Flat, and My Funnel Quietly Inverted"), "Career Engineering, Part 2", working drafts v1 to v8. `analyze.py`, `focus_yoy.py` and `comp_history.py` written; cohort frozen 08-29; five pipeline changes shipped 08-30 | FA `charts-and-findings_v1` to `v8.html`, copied to `content/reports/`; FA `_frozen_2026-08-29/` |
+| 2026-08-31 | Staging | `content/` created as the staging area with the `check_tiers.py --publish` gate; Shrinking Job evidence brief | `content/README.md`, `EVIDENCE-BRIEF_2026-08-31.md` |
+| 2026-09-29 to 10-01 | Funnel analysis | Thirty-day review of the 08-30 changes, then a handoff | FA `Review_2026-09-29_Thirty-Day.md`, `HANDOFF_2026-10-01.md` |
+| **2026-10-12** | **This article, re-scoped** | Funnel re-cut, article handoff, research brief; angle decided; ST-162 filed the same day | FA `HANDOFF_2026-10-12.md`; `content/drafts/ai-screening/`; issue #162 created 2026-10-12 |
+| 2026-10-13 to 10-17 | Teaser (ST-173) | Bait-and-switch LinkedIn post and article, shipped 10-17 | `content/drafts/linkedin-ziprecruiter/`; commit `d37be5d7` |
+| 2026-10-22 to 11-12 | This article | Re-cuts to 10-20, 10-23, 10-30, 11-05; Sanity draft 11-08; correction 11-12; red pen 11-12 and 11-13 | FA `_frozen_*`; this doc |
+
+**Where the tailoring error came from.** The 10-12 article handoff got the "then" column right ("Fixed with channel-specific, JD-tailored variants") but wrote the "now" column as "Tailoring shipped at scale". The same framing, "Tailoring per JD did not move it", is in FA `HANDOFF_2026-10-12.md` §1. A2 and the Sanity draft inherited it. Corrected 2026-11-14 (§Resume tailoring audit). The Season Two draft does not make this claim: it says "Nothing about the resume ... changed" between June and August.
+
+**The article's line "I have been writing this post for two months" holds.** It is 11 weeks from 2026-08-29 to 2026-11-14. "Since August" would be more exact.
+
 ## Objective
 
 A published article at `/articles/{slug}`, in Bex's first-person voice, with a thesis and no incident-report arc. Thesis: when a person chooses her first she gets a call almost every time; through a portal she almost never does; whatever sits behind the portal is the filter, and this post does not claim to know what it is. Layers touched: content (one Sanity `article` draft) and process (data check, compliance gate, review). No schema, GROQ, React or CSS changes.
