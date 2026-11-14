@@ -80,7 +80,7 @@ The skimmer gets the topic and the verdict, not a claim worth remembering.
 
 ## Unverifiable claims
 
-- "Reference images (historical toy box art and product photography) were used solely for context and were not reused as publishable assets." Cannot be checked from the repo or Sanity. Confirm before publish.
+- "Reference images (historical toy box art and product photography) were used solely for context and were not reused as publishable assets." Cannot be checked from the repo or Sanity. Confirm before publish. **Confirmed by Bex 2026-11-14.** Kept as written.
 - The years in the filenames (1978, 1986, 1999) are an art-direction claim, not checkable. They appear only in captions under finding 12.
 
 ## Decisions, 2026-11-14
