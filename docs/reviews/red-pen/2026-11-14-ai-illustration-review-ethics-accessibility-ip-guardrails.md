@@ -90,7 +90,7 @@ The skimmer gets the topic and the verdict, not a claim worth remembering.
 | Apply the 16 findings | Stop, let me review again. Nothing applied; all rows stay `pending` |
 | Reframe | Reframe as a failure node (Failure → Investigation → Fix → Lesson), drafted in the working draft as a second round |
 | `aiDisclosure` | `Narrated by Claude, directed by Bex Head.` |
-| Hero image | Promote image 1, the mainframe (`image-5dd197724f810653a84305de2b8d9ce5ff0bab60-1536x1024-png`) |
+| Hero image | Promote image 1, the mainframe (`image-5dd197724f810653a84305de2b8d9ce5ff0bab60-1536x1024-png`), with `imageTreatment.type: "duotone-extreme"` to abstract it from the raw image output (matches both articles that use image 3 as a hero) |
 
 ## Gate 2 application log
 
