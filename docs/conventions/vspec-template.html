@@ -7,35 +7,23 @@
 <title>ST-N vspec: short name</title>
 <!--
   HOW TO USE
-  1. Copy this file to docs/drafts/ST-{N}-{slug}.vspec.html. docs/drafts/ and docs/conventions/ sit at the same depth, so the two stylesheet paths below work from both.
+  1. Copy this file to docs/drafts/ST-{N}-{slug}.vspec.html. docs/drafts/ and docs/conventions/ sit at the same depth, so the stylesheet and script paths below work from both.
   2. Replace every FILL marker. A section that does not apply keeps its heading and says "Not applicable" with the reason.
   3. Do not add a colour, font or spacing value. Use a Pink Moon token (--st-*). To preview a component or style, link its CSS the way the site does.
   4. Rules: docs/conventions/vspec-rules.md.
 -->
 <link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
 <link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
 <style>
-/* Template-only styles. Every value is a Pink Moon token. */
-*{box-sizing:border-box}
-body{margin:0;font-family:var(--st-font-family-ui);font-size:var(--st-font-size-md);line-height:1.5;color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
-main{max-width:1000px;margin:0 auto;padding:var(--st-space-6) var(--st-space-4) var(--st-space-9)}
-h1,h2,h3{font-family:var(--st-font-family-narrative);color:var(--st-color-text-default);font-weight:var(--st-font-weight-semibold)}
-h1{font-size:var(--st-font-size-2xl);margin:0 0 var(--st-space-1)}
+/* Template-only styles. Every value is a Pink Moon token. The shared base is ../conventions/doc-base.css. */
+:root{--doc-max-width:1000px;--doc-line-height:1.5;--doc-h1-gap:var(--st-space-1);--doc-p-gap:var(--st-space-2)}
 h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
-p{margin:var(--st-space-2) 0}
-code{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);color:var(--st-color-text-brand)}
-table{border-collapse:collapse;width:100%;font-size:var(--st-font-size-sm);margin:var(--st-space-2) 0 var(--st-space-4);background:var(--st-color-bg-surface)}
-th,td{border:1px solid var(--st-color-border-medium);padding:var(--st-space-2);text-align:left;vertical-align:top}
-th{background:var(--st-color-bg-surface-strong);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold)}
-img{max-width:100%;height:auto;display:block}
 
 .vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
 .vspecPass,.vspecFail{font-weight:var(--st-font-weight-bold);padding:0 var(--st-space-2);border:2px solid var(--st-color-border-strong)}
 .vspecPass{border-color:var(--st-posture-strong)}
 .vspecFail{border-color:var(--st-color-error)}
-.vspecThemeToggle{position:sticky;top:var(--st-space-2);float:right;z-index:10;padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);cursor:pointer}
-.vspecThemeToggle:hover{background:var(--st-color-brand-primary);color:var(--st-color-white)}
-.vspecThemeToggle:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}
 .vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
 .vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
 .vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
@@ -48,7 +36,7 @@ img{max-width:100%;height:auto;display:block}
 </head>
 <body>
 <main>
-<button class="vspecThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
 <!-- FILL: epic number, name, one-line purpose -->
 <h1>ST-N · Name of the change</h1>
 <p>Issue #N. Phase 0 visual spec. Class names are the production names. Values are tokens unless marked.</p>
@@ -137,16 +125,6 @@ img{max-width:100%;height:auto;display:block}
 <li>[ ] open decisions answered</li>
 </ul>
 </main>
-<script>
-(function(){
-  var root=document.documentElement, toggle=document.getElementById('themeToggle');
-  toggle.onclick=function(){
-    var dark=root.getAttribute('data-theme')!=='dark-pink-moon';
-    root.setAttribute('data-theme',dark?'dark-pink-moon':'light-pink-moon');
-    toggle.textContent=dark?'Switch to light view':'Switch to dark view';
-    toggle.setAttribute('aria-pressed',dark);
-  };
-})();
-</script>
+<script src="../conventions/doc-theme-toggle.js"></script>
 </body>
 </html>

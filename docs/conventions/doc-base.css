@@ -1,0 +1,18 @@
+/* Shared base for local review documents: docs/conventions/vspec-template.html and
+   docs/conventions/content-draft-template.html. Every value is a Pink Moon token, except the
+   four layout variables each template sets on :root:
+   --doc-max-width, --doc-line-height, --doc-h1-gap, --doc-p-gap. */
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--st-font-family-ui);font-size:var(--st-font-size-md);line-height:var(--doc-line-height);color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
+main{max-width:var(--doc-max-width);margin:0 auto;padding:var(--st-space-6) var(--st-space-4) var(--st-space-9)}
+h1,h2,h3{font-family:var(--st-font-family-narrative);color:var(--st-color-text-default);font-weight:var(--st-font-weight-semibold)}
+h1{font-size:var(--st-font-size-2xl);margin:0 0 var(--doc-h1-gap)}
+p{margin:var(--doc-p-gap) 0}
+code{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);color:var(--st-color-text-brand)}
+table{border-collapse:collapse;width:100%;font-size:var(--st-font-size-sm);margin:var(--st-space-2) 0 var(--st-space-4);background:var(--st-color-bg-surface)}
+th,td{border:1px solid var(--st-color-border-medium);padding:var(--st-space-2);text-align:left;vertical-align:top}
+th{background:var(--st-color-bg-surface-strong);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold)}
+img{max-width:100%;height:auto;display:block}
+.docThemeToggle{position:sticky;top:var(--st-space-2);float:right;z-index:10;padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);cursor:pointer}
+.docThemeToggle:hover{background:var(--st-color-brand-primary);color:var(--st-color-white)}
+.docThemeToggle:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}

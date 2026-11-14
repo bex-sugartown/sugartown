@@ -2,6 +2,8 @@
 
 Drafts an article in a local HTML working draft, then syncs it to a Sanity draft for final review (`_type: "article"`) once Bex approves the working draft (`docs/write-pipeline-prompt.md` §0b).
 
+**Shared steps and register values:** `docs/write-pipeline-prompt.md` ("pipeline") §9, article row. Each step below adds only what is specific to this register.
+
 **Argument:** the topic, angle, or brief to write about. If not provided, ask before proceeding.
 
 ---
@@ -10,43 +12,31 @@ Drafts an article in a local HTML working draft, then syncs it to a Sanity draft
 
 Before drafting anything, read:
 - `docs/brand/brand-voice-guide.md` — full voice, anti-slop rules, first-person narrator split
-- `docs/briefs/ai-ethics-and-operations.md` — disclosure and attribution requirements (Principles 3, 11, 13)
 
 Key reminders for articles (opposite of nodes):
 - **"I" = Bex.** Articles are written in Bex's voice — PM, plain language, first person.
 - **AI gets credit for building, not narrating.** "Claude built the schema. I reviewed it." Not "I built the schema using Claude."
 - **No forensic storytelling arc.** Articles are essays, tutorials, opinion pieces, or reflections. They have a thesis, not an incident report.
-- **Anti-slop rules apply fully** — no em dashes, no decorative emoji, no AI vocabulary ("leverage", "delve into", etc.).
+- **Anti-slop rules apply fully** (`docs/write-pipeline-prompt.md` §4).
 - **Plain language first.** Bex writes the way she talks to clients — direct, specific, occasionally wry, never performed.
 
 ---
 
 ## Step 0.5 — Tracking issue
 
-Create the single tracking issue per `docs/write-pipeline-prompt.md` §0 before running
-the taxonomy pre-flight below. Title it `Article: <working title>`.
+Per pipeline §9.
 
 ---
 
 ## Step 1 — Pre-flight taxonomy
 
-Run the standard taxonomy pre-flight — see `docs/write-pipeline-prompt.md` §1 for the
-queries — and consult its §2 metadata reference field matrix for what `article` supports.
-
-Article-specific target ranges:
-- 1–2 categories
-- 3–6 tags
+Per pipeline §9. Register-specific:
 - Tools only if the article is specifically about those tools
-- Authors: Bex Head by default (look up her person _id)
 - Project: Sugartown CMS if relevant
-- Glossary terms: link existing matches with inline `glossaryTermRef` marks on the first mention
-  in the body (`docs/write-pipeline-prompt.md` §1a); recommend 0 to 2 new ones. Do not create them here.
 
 ---
 
 ## Step 2 — Draft the article
-
-Write the draft in the HTML working draft, `docs/drafts/{ID}-{slug}/{ID}-{slug}.html`, started from `docs/conventions/content-draft-template.html` (`docs/write-pipeline-prompt.md` §0b). Every later edit happens there too.
 
 Articles are flexible in structure — no fixed arc. Common shapes:
 
@@ -59,20 +49,11 @@ Structure the sections to serve the argument, not a template. Use `heroSection` 
 
 **Voice checklist:**
 - "I" is Bex throughout
-- No em dashes
-- No decorative emoji
-- No AI-isms: leverage, delve, utilize, learnings, excited to announce
+- Em dashes, emoji and banned words per `docs/write-pipeline-prompt.md` §4
 - No hedge stacking
 - No bullet-list substitutes for prose
 - Specific over general: numbers, names, examples, not adjectives
 - Anti-slop checklist from `docs/brand/brand-voice-guide.md` before finalising
-
-Run the shared write-time self-checks (`docs/write-pipeline-prompt.md` §3) before Step 2.5.
-
-**Length budget:** target band 400–1,200 for standard articles, long-form (1,200–2,500) only
-if the argument genuinely requires it (engagement peaks around 1,600 words and declines
-after). If the draft runs over budget, detail sections pay first — the thesis and the closer
-are never the cut.
 
 **Skim skeleton:** title, subheads, first sentence of each section, and the closer. It
 should carry the thesis and the argument's shape on its own.
@@ -81,15 +62,7 @@ should carry the thesis and the argument's shape on its own.
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
-Do not call `create_documents` until every item below is resolved. This is not a suggestion pass — it is a blocking checklist. Fix violations in the draft before proceeding.
-Run the shared compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary,
-filler transitions, structural tells) alongside the article-specific items below.
-
-**Em dashes (zero tolerance in articles):**
-Scan all drafted text for `—`. Replace every instance:
-- Before a clause: use a colon or restructure into two sentences.
-- Around a parenthetical: use parentheses or commas.
-- No exceptions. The em dash is the single most reliable AI-output tell.
+Per pipeline §9 and §4 (blocking). Register-specific items:
 
 **Article-specific structural tell:** more than two bullet lists in the full article →
 convert at least one to prose.
@@ -103,8 +76,7 @@ After completing this scan, state explicitly: **"Compliance gate passed — no v
 
 ## Step 2.6 — Disclosure & attribution (required)
 
-See `docs/write-pipeline-prompt.md` §5 for the shared disclosure mechanics (ethics-doc
-citation, tools-field attribution, images/alt-text rule). Article-specific mechanism:
+Article-specific mechanism:
 
 **Articles have an `aiDisclosure` schema field** (string, max. 300 characters — `apps/studio/schemas/documents/article.ts`), projected by every article query in `apps/web/src/lib/queries.js` and rendered in the page sidebar. **Set it whenever this skill drafts the copy:**
 
@@ -128,13 +100,7 @@ Fallback 3 asserts human authorship, so **a blank field on an AI-drafted article
 
 ## Step 3 — Create the Sanity draft
 
-**Only after Bex approves the working draft** (`docs/write-pipeline-prompt.md` §0b stage 2).
-Build the JSON from it verbatim; any wording change goes back to the working draft first.
-
-Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
-See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements. This subsumes
-the compliance re-scan formerly in a separate Step 2.75 — Step 2.5 already covers the full
-checklist; do not proceed here until it and Step 2.6 are resolved.
+JSON shape (how it is written: pipeline §9, step 3):
 
 ```json
 {
@@ -165,18 +131,11 @@ checklist; do not proceed here until it and Step 2.6 are resolved.
 }
 ```
 
-All array items must have a unique `_key`.
-
 ---
 
 ## Step 4 — Report back
 
-Run the sync check (`docs/write-pipeline-prompt.md` §0b stage 2, steps 4 to 6): re-export the
-live draft, compare it with the working draft, update the stamp, and hand over for final review
-with the Studio location and the working draft's path in the popup.
-
-Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
-attached, related content linked, images alt text confirmed) plus, article-specific:
-- Slug (`/articles/<slug>`)
+Shared steps per pipeline §9. Also report:
+- Slug (URL per pipeline §9)
 - `aiDisclosure` string set (or the reason it was left blank), and whether an optional
   disclosure callout was included

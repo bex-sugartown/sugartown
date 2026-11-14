@@ -8,36 +8,25 @@
 <!--
   HOW TO USE (docs/write-pipeline-prompt.md §0b)
   1. Copy this file to docs/drafts/ST-{N}-{slug}/ST-{N}-{slug}.html. That folder is one level
-     deeper than this one, so change both stylesheet paths below from ../../ to ../../../.
+     deeper than this one, so add one ../ to each stylesheet and script path below.
   2. Replace every FILL marker. Keep the section markers: the sync to Sanity is built from them.
   3. Every draft and every edit round happens in this file. Sanity gets the result at the end
      of a round, for final review. Never patch Sanity mid-round.
   4. No colour, font or spacing value outside a Pink Moon token (--st-*). Same framework as
-     docs/conventions/vspec-template.html: light by default, dark by the toggle.
+     docs/conventions/vspec-template.html (shared base: doc-base.css, doc-theme-toggle.js): light by default, dark by the toggle.
 -->
 <link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
 <link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
 <style>
-/* Template-only styles. Every value is a Pink Moon token. */
-*{box-sizing:border-box}
-body{margin:0;font-family:var(--st-font-family-ui);font-size:var(--st-font-size-md);line-height:1.6;color:var(--st-color-text-default);background:var(--st-color-bg-canvas)}
-main{max-width:760px;margin:0 auto;padding:var(--st-space-6) var(--st-space-4) var(--st-space-9)}
-h1,h2,h3{font-family:var(--st-font-family-narrative);color:var(--st-color-text-default);font-weight:var(--st-font-weight-semibold);line-height:1.2}
-h1{font-size:var(--st-font-size-2xl);margin:0 0 var(--st-space-2)}
+/* Template-only styles. Every value is a Pink Moon token. The shared base is ../conventions/doc-base.css. */
+:root{--doc-max-width:760px;--doc-line-height:1.6;--doc-h1-gap:var(--st-space-2);--doc-p-gap:var(--st-space-3)}
+h1,h2,h3{line-height:1.2}
 h2{font-size:var(--st-font-size-xl);margin:var(--st-space-2) 0}
-p{margin:var(--st-space-3) 0}
 a{color:var(--st-color-text-brand)}
-code{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);color:var(--st-color-text-brand)}
-table{border-collapse:collapse;width:100%;font-size:var(--st-font-size-sm);margin:var(--st-space-2) 0 var(--st-space-4);background:var(--st-color-bg-surface)}
-th,td{border:1px solid var(--st-color-border-medium);padding:var(--st-space-2);text-align:left;vertical-align:top}
-th{background:var(--st-color-bg-surface-strong);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold)}
-img{max-width:100%;height:auto;display:block}
 blockquote{margin:var(--st-space-3) 0;padding-left:var(--st-space-4);border-left:3px solid var(--st-color-border-strong);font-style:italic}
 aside{margin:var(--st-space-5) 0;padding:var(--st-space-3) var(--st-space-4);border-left:4px solid var(--st-color-brand-primary);background:var(--st-color-bg-surface)}
 
-.draftThemeToggle{position:sticky;top:var(--st-space-2);float:right;z-index:10;padding:var(--st-space-2) var(--st-space-4);border:1px solid var(--st-color-border-strong);border-radius:var(--st-radius-button);background:var(--st-color-bg-surface);color:var(--st-color-text-default);font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);cursor:pointer}
-.draftThemeToggle:hover{background:var(--st-color-brand-primary);color:var(--st-color-white)}
-.draftThemeToggle:focus-visible{outline:3px solid var(--st-color-focus);outline-offset:2px}
 .draftStamp{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);border:1px solid var(--st-color-brand-primary);background:var(--st-color-bg-surface);padding:var(--st-space-3);margin:0 0 var(--st-space-5)}
 .draftStamp th{width:11em}
 .draftSection{margin:var(--st-space-6) 0 0}
@@ -48,7 +37,7 @@ aside{margin:var(--st-space-5) 0;padding:var(--st-space-3) var(--st-space-4);bor
 </head>
 <body>
 <main>
-<button class="draftThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
 
 <!-- Sync stamp. Update on every export and every sync. -->
 <table class="draftStamp">
@@ -112,16 +101,6 @@ aside{margin:var(--st-space-5) 0;padding:var(--st-space-3) var(--st-space-4);bor
 <ul><li><!-- FILL, or delete this block when there are none --></li></ul>
 </div>
 </main>
-<script>
-(function(){
-  var root=document.documentElement, toggle=document.getElementById('themeToggle');
-  toggle.onclick=function(){
-    var dark=root.getAttribute('data-theme')!=='dark-pink-moon';
-    root.setAttribute('data-theme',dark?'dark-pink-moon':'light-pink-moon');
-    toggle.textContent=dark?'Switch to light view':'Switch to dark view';
-    toggle.setAttribute('aria-pressed',dark);
-  };
-})();
-</script>
+<script src="../conventions/doc-theme-toggle.js"></script>
 </body>
 </html>

@@ -2,6 +2,8 @@
 
 Drafts a portfolio case study in a local HTML working draft, then syncs it to a Sanity draft for final review (`_type: "caseStudy"`) once Bex approves the working draft (`docs/write-pipeline-prompt.md` §0b).
 
+**Shared steps and register values:** `docs/write-pipeline-prompt.md` ("pipeline") §9, caseStudy row. Each step below adds only what is specific to this register.
+
 **Argument:** the engagement to write about — client, brief, or source notes. If not provided, ask before proceeding.
 
 ---
@@ -11,7 +13,6 @@ Drafts a portfolio case study in a local HTML working draft, then syncs it to a 
 Before drafting anything, read:
 - `docs/brand/brand-voice-guide.md` — full voice, anti-slop rules, social proof guidance
 - `docs/brand/master-voice-cheatsheet.md` — the five principles, quick tone dial
-- `docs/briefs/ai-ethics-and-operations.md` — disclosure and attribution requirements (Principles 3, 11, 13)
 
 ### Case study voice — "Show the receipts"
 
@@ -22,7 +23,7 @@ Case studies are conversion surfaces. A hiring manager or prospective client rea
 - **No enterprise-deck phrasing.** "Omnichannel enablement", "unified model powering", "digital transformation journey", "best-in-class" — this is the case-study-specific slop register. It reads like the client's own pitch deck. Translate every such phrase into what actually happened: who was blocked, what shipped, what changed.
 - **Stakes, not just status.** Name what was breaking and what it was costing the business before describing the fix. The Challenge block earns the reader's attention; the outcomes pay it off.
 - **Candor is credibility.** If the deadline forced shortcuts, say so and say what the remediation plan was. If the scope grew beyond the brief, tell that story — it's usually the most interesting part.
-- **No em dashes.** Case studies get NO node exemption. Some live case study copy predates this rule — do not imitate it. (Exception as everywhere: `Title — Subtitle` in headings is fine.)
+- **Em dashes:** none, per pipeline §4. Some live case study copy predates this rule; do not imitate it.
 - **Anti-slop rules apply fully** — no decorative emoji, no AI vocabulary, no hedge stacking, no empty adjective triads.
 
 **Title pattern:** live examples set the register — "Beauty Retail: From Monolith to Microservice", "Bare Minerals: From Bottlenecks to Brilliance", "Charting a New Course for Backroads.com". Subject plus an outcome-flavoured phrase. Wit is welcome; puns must earn it. SEO pattern per the brand guide: `[platform/technology] + [outcome verb]`.
@@ -35,8 +36,7 @@ Every claim, number, date, award, and outcome must come from the user's brief, t
 
 ## Step 0.5 — Tracking issue
 
-Create the single tracking issue per `docs/write-pipeline-prompt.md` §0 before running
-the engagement-facts and taxonomy pre-flight below. Title it `Case Study: <working title>`.
+Per pipeline §9.
 
 ---
 
@@ -61,23 +61,13 @@ If the client name is confidential, redact consistently everywhere (title, body,
 
 ### Taxonomy
 
-Run the standard taxonomy pre-flight — see `docs/write-pipeline-prompt.md` §1 for the
-queries — and consult its §2 metadata reference field matrix for what `caseStudy` supports.
-
-Case-study-specific target ranges:
-- 1–2 categories (schema warns at 3+)
-- 3–6 tags
+Per pipeline §9. Register-specific:
 - Tools: what **Bex** used in the engagement (`tools` is "Bex's Tools" — practitioner tools like Storybook, Claude, dbt; client-operated platforms are tagged `kind=platform` on the tool doc)
-- Authors: Bex Head by default (look up her person _id)
 - Project: only if the engagement maps to an existing project doc
-- Glossary terms: link existing matches with inline `glossaryTermRef` marks on the first mention
-  in the body (`docs/write-pipeline-prompt.md` §1a); recommend 0 to 2 new ones. Do not create them here.
 
 ---
 
 ## Step 2 — Draft the case study
-
-Write the draft in the HTML working draft, `docs/drafts/{ID}-{slug}/{ID}-{slug}.html`, started from `docs/conventions/content-draft-template.html` (`docs/write-pipeline-prompt.md` §0b). Every later edit happens there too.
 
 **Read `docs/conventions/case-study-north-star.md` before drafting.** It governs the shape:
 which layer is fixed, which is yours to decide, and how to write headings that belong to this
@@ -99,12 +89,6 @@ the metadata rail:
 6. **accordionSection** — `heading: "Key Questions"`, **`semantic: "faq"` (required — this exact value drives the schema.org FAQPage JSON-LD; without it, no structured data is emitted)**. This is the AEO/GEO delivery mechanism and a base template concern, not an optional extra. 3–4 `accordionItem`s:
    - `title`: a question a prospective client evaluating Bex would actually ask ("What do you do when a project scope expands beyond the brief?", "How do you approach CMS vendor selection?")
    - `content`: 2–4 sentences, **third person** ("Bex ran a structured RFI…") — written for LLM extraction, grounded in this specific engagement
-
-Run the shared write-time self-checks (`docs/write-pipeline-prompt.md` §3) before Step 2.5.
-
-**Length budget:** target Overview band 500–1,200. If the draft runs over budget, mechanism
-detail pays first: stakes, receipts and candour are never the cut. Under 500 usually means a
-skeleton of fragments rather than a tight case study.
 
 **Skim skeleton:** structural, not just textual — challenge callout + outcome tiles +
 section subheads + the closing sentence. That artifact is the whole page for a
@@ -131,12 +115,7 @@ bake-off, a multi-phase timeline with different metrics per phase) — that shap
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
-Do not call `create_documents` until every item below is resolved. Fix violations in the draft first.
-Run the shared compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary,
-filler transitions, structural tells) alongside the case-study-specific items below.
-
-**Em dashes (zero tolerance — case studies have no node exemption):**
-Scan all drafted text for `—`. Replace every instance with a colon, comma, parentheses, or two sentences. Only `Title — Subtitle` heading separators may remain.
+Per pipeline §9 and §4 (blocking). Register-specific items:
 
 **Enterprise-deck phrasing — replace with what actually happened:**
 `omnichannel enablement`, `unified model powering`, `digital transformation journey`,
@@ -158,8 +137,7 @@ After completing this scan, state explicitly: **"Compliance gate passed — no v
 
 ## Step 2.6 — Disclosure & attribution (required)
 
-See `docs/write-pipeline-prompt.md` §5 for the shared disclosure mechanics (ethics-doc
-citation, tools-field attribution, images/alt-text rule). Case-study-specific mechanism:
+Case-study-specific mechanism:
 
 **`aiDisclosure` field is mandatory when this skill drafts the copy.** It renders below the byline. Use the appropriate string:
 
@@ -177,11 +155,7 @@ When this skill produces the draft, the first string is the default. The engagem
 
 ## Step 3 — Create the Sanity draft
 
-**Only after Bex approves the working draft** (`docs/write-pipeline-prompt.md` §0b stage 2).
-Build the JSON from it verbatim; any wording change goes back to the working draft first.
-
-Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
-See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
+JSON shape (how it is written: pipeline §9, step 3):
 
 ```json
 {
@@ -264,21 +238,14 @@ See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
 }
 ```
 
-All array items must have a unique `_key`.
-
 **Double-check `semantic: "faq"` is set on the accordion before writing** — it is an easy-to-miss field and its absence silently drops the FAQPage JSON-LD.
 
 ---
 
 ## Step 4 — Report back
 
-Run the sync check (`docs/write-pipeline-prompt.md` §0b stage 2, steps 4 to 6): re-export the
-live draft, compare it with the working draft, update the stamp, and hand over for final review
-with the Studio location and the working draft's path in the popup.
-
-Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
-attached, related content linked, images alt text confirmed) plus, case-study-specific:
-- Slug (`/case-studies/<slug>`)
+Shared steps per pipeline §9. Also report:
+- Slug (URL per pipeline §9)
 - `aiDisclosure` string used and why
 - Engagement facts recorded (client, employer, contractType, role, dateRange, industry, companySize, region) — flag any left blank
 - Outcome tiles with their `evidenceType` values — flag anything marked `estimated`/`qualitative` that the user might be able to firm up

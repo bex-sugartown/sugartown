@@ -2,6 +2,8 @@
 
 Drafts a Knowledge Graph node in a local HTML working draft, then syncs it to a Sanity draft for final review (`_type: "node"`) once Bex approves the working draft (`docs/write-pipeline-prompt.md` §0b).
 
+**Shared steps and register values:** `docs/write-pipeline-prompt.md` ("pipeline") §9, node row. Each step below adds only what is specific to this register.
+
 **Argument:** the topic, incident, or post-mortem to write about. If not provided, ask before proceeding.
 
 ---
@@ -11,45 +13,31 @@ Drafts a Knowledge Graph node in a local HTML working draft, then syncs it to a 
 Before drafting anything, read:
 - `docs/brand/node-style-guide.md` — arc, voice, structure, anti-pattern checklist
 - `docs/brand/brand-voice-guide.md` — anti-slop rules, first-person narrator split
-- `docs/briefs/ai-ethics-and-operations.md` — disclosure and attribution requirements (Principles 3, 11, 13)
 
 Key reminders:
 - "I" = the agent narrator. "We" = Agentic Caucus. Bex = VoPM (named, not pronoun'd).
 - Arc: Failure → Investigation → Fix → Lesson. Every section must be present.
 - TL;DR: third person, Alistair Cooke × Oscar Wilde. Wry, omniscient, urbane.
 - Write for the smart outsider: one-clause context before jargon, analogies welcome.
-- Em dashes and sarcastic emoji are allowed in nodes (node exemption from site-wide bans).
+- Em dashes and sarcastic emoji: the node exemption in `docs/write-pipeline-prompt.md` §4.
 
 ---
 
 ## Step 0.5 — Tracking issue
 
-Create the single tracking issue per `docs/write-pipeline-prompt.md` §0 before running
-the taxonomy pre-flight below. Title it `Node: <working title>`.
+Per pipeline §9.
 
 ---
 
 ## Step 1 — Pre-flight taxonomy
 
-Run the standard taxonomy pre-flight — see `docs/write-pipeline-prompt.md` §1 for the
-queries — and consult its §2 metadata reference field matrix for what `node` supports.
-
-Node-specific target ranges:
-- 1–2 categories
-- 3–6 tags
+Per pipeline §9. Register-specific:
 - 1+ tools (include Claude Code if Claude was involved)
-- Authors: Bex Head by default (look up her person _id)
 - Project: Sugartown CMS if relevant
-- Glossary terms: link existing matches with inline `glossaryTermRef` marks on the first mention
-  in the body (`docs/write-pipeline-prompt.md` §1a); recommend 0 to 2 new ones. Do not create them here.
-
-If a concept has no close taxonomy match, note it — do not invent new docs.
 
 ---
 
 ## Step 2 — Draft the node
-
-Write the draft in the HTML working draft, `docs/drafts/{ID}-{slug}/{ID}-{slug}.html`, started from `docs/conventions/content-draft-template.html` (`docs/write-pipeline-prompt.md` §0b). Every later edit happens there too.
 
 Write the full node content following the style guide arc. Sections:
 
@@ -62,12 +50,6 @@ Write the full node content following the style guide arc. Sections:
 7. **textSection** — "The Lesson"
 
 The subtitle format: *Or, How [the specific embarrassing thing that happened]*
-
-Run the shared write-time self-checks (`docs/write-pipeline-prompt.md` §3) before Step 2.5.
-
-**Length budget:** target band 600–1,800; 600–1,200 is the sweet spot for single-incident
-nodes. If the draft runs over budget, the Investigation pays first — the Failure, the
-Lesson, and the closer are never the cut.
 
 **Skim skeleton:** title, subtitle, section headings, first sentence of each section, and
 the closer. It should carry the arc (failure → investigation → fix → lesson) on its own.
@@ -82,7 +64,7 @@ Check the anti-pattern checklist from the style guide before finalising:
 - Specifics replace adjectives
 - Ending lands
 - Smart outsider test passes
-- Word count 600–1,800
+- Word count in the node band (pipeline §9)
 - Show, don't tell — narrated comparisons tabled, narrated flows diagrammed
 - Theme discipline (if a controlling metaphor is present)
 
@@ -90,13 +72,10 @@ Check the anti-pattern checklist from the style guide before finalising:
 
 ## Step 2.5 — Brand voice compliance gate (blocking — runs before any Sanity write)
 
-Do not call `create_documents` until every item below is resolved. Run the shared
-compliance gate (`docs/write-pipeline-prompt.md` §4 — banned vocabulary, filler transitions,
-structural tells) alongside the node-specific items below.
+Per pipeline §9 and §4 (blocking). Register-specific items:
 
 **Node exemptions (do not apply the article rules blindly):**
-- Em dashes (`—`) are **permitted** in nodes — they are part of the forensic narrator register.
-- Sarcastic or deadpan emoji is **permitted** — use sparingly and only when the joke earns it.
+- Em dashes and emoji follow the node row of pipeline §4's table, not the article rules.
 - The `aiDisclosure` field handles attribution; a separate callout section is not required.
 
 **Narrator voice check:**
@@ -110,8 +89,7 @@ After completing this scan, state explicitly: **"Compliance gate passed — node
 
 ## Step 2.6 — Disclosure & attribution (required)
 
-See `docs/write-pipeline-prompt.md` §5 for the shared disclosure mechanics (ethics-doc
-citation, tools-field attribution, images/alt-text rule). Node-specific mechanism:
+Node-specific mechanism:
 
 **`aiDisclosure` field is mandatory on every node.** Use the appropriate string:
 
@@ -127,11 +105,7 @@ When in doubt, use the first string. Nodes are AI-narrated by design — this is
 
 ## Step 3 — Create the Sanity draft
 
-**Only after Bex approves the working draft** (`docs/write-pipeline-prompt.md` §0b stage 2).
-Build the JSON from it verbatim; any wording change goes back to the working draft first.
-
-Use `create_documents` with precise, structured JSON (NOT any AI-rewriting/markdown-ingestion tool — no AI rewriting).
-See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
+JSON shape (how it is written: pipeline §9, step 3):
 
 ```json
 {
@@ -152,17 +126,10 @@ See `docs/write-pipeline-prompt.md` §6 for Portable Text block requirements.
 }
 ```
 
-All array items must have a unique `_key`.
-
 ---
 
 ## Step 4 — Report back
 
-Run the sync check (`docs/write-pipeline-prompt.md` §0b stage 2, steps 4 to 6): re-export the
-live draft, compare it with the working draft, update the stamp, and hand over for final review
-with the Studio location and the working draft's path in the popup.
-
-Report the shared checklist (`docs/write-pipeline-prompt.md` §8: draft ID, taxonomy
-attached, related content linked, images alt text confirmed) plus, node-specific:
-- Slug (`/knowledge-graph/<slug>`)
+Shared steps per pipeline §9. Also report:
+- Slug (URL per pipeline §9)
 - `aiDisclosure` string used and why

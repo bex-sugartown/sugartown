@@ -42,7 +42,7 @@ The template has eleven sections, in this order. A section that does not apply k
 
 ## Class names
 
-**A class in a vspec is the class that ships.** Use the semantic name you intend to use in production. If it is not settled, use a generic placeholder marked `/* TBD */`. Never name a class after a content type. Template-only classes, which never ship to the site, use the `vspec` prefix. The CSS reuse audit in `.claude/rules/css-layout.md` applies to every class in section 5.
+**A class in a vspec is the class that ships.** Use the semantic name you intend to use in production. If it is not settled, use a generic placeholder marked `/* TBD */`. Never name a class after a content type. Template-only classes, which never ship to the site, use the `vspec` prefix; the shared base in `docs/conventions/doc-base.css` uses `doc`. The CSS reuse audit in `.claude/rules/css-layout.md` applies to every class in section 5.
 
 ## Evidence per claim
 

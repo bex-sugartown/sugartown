@@ -267,9 +267,7 @@ does.
 
 State the target word count and one line of justification against the register's band
 *before* drafting. Length is a budget, not a ceiling — words past the payload are debt. Each
-register's band and "what pays first when the draft runs over" live in that file's own Step
-2 (node: 600–1,800; blog: 400–1,200, long-form 1,200–2,500 only if the argument requires it;
-case study: 500–1,200 for the Overview).
+register's band and what pays first when the draft runs over are in the §9 register table.
 
 ### 3b. Skim skeleton
 
@@ -328,6 +326,9 @@ pass — it is a blocking checklist.
 
 Exception everywhere: `Title — Subtitle` heading separators are a typographic convention,
 not a prose pattern, and are always permitted.
+
+**To remove an em dash:** before a clause, use a colon or two sentences; around a
+parenthetical, use parentheses or commas.
 
 **Register-specific additions** (case study's enterprise-deck-phrasing ban and receipts
 check; the "I" check's exact framing per register) live in each file's own compliance gate
@@ -434,7 +435,48 @@ string plus any optional disclosure callout; case study's engagement facts, outc
 
 ---
 
+## 9. Register table and shared step flow
+
+**Every write skill runs the shared steps below with its row of the register table.** Each
+`write-*-prompt.md` adds only what is specific to its register. A value that appears here is
+not repeated in a prompt.
+
+| Variable | article | node | caseStudy |
+|---|---|---|---|
+| Skill and prompt | `/write-blog`, `docs/write-blog-prompt.md` | `/write-node`, `docs/write-node-prompt.md` | `/write-casestudy`, `docs/write-casestudy-prompt.md` |
+| Tracking issue title | `Article: <working title>` | `Node: <working title>` | `Case Study: <working title>` |
+| URL | `/articles/<slug>` | `/knowledge-graph/<slug>` | `/case-studies/<slug>` |
+| Length band | 400–1,200; long-form 1,200–2,500 only if the argument needs it (engagement peaks around 1,600 and declines after) | 600–1,800; 600–1,200 for a single incident | Overview 500–1,200; under 500 usually means fragments, not a tight case study |
+| Over budget, cut first | detail sections; never the thesis or the closer | the Investigation; never the Failure, the Lesson or the closer | mechanism detail; never stakes, receipts or candour |
+| Categories / tags | 1–2 / 3–6 | 1–2 / 3–6 | 1–2 (schema warns at 3+) / 3–6 |
+| Em dashes, emoji | §4 table | §4 table | §4 table |
+
+**Shared step flow.** Every prompt keeps these step numbers; its own text under each step is
+the register-specific addition.
+
+| Step | Every register | Rules |
+|---|---|---|
+| 0 | Read the guides the prompt's Step 0 lists, and `docs/briefs/ai-ethics-and-operations.md` (Principles 3, 11, 13) | |
+| 0.5 | Create or reuse the tracking issue, titled per the table | §0 |
+| 1 | Taxonomy pre-flight; check what the `_type` supports; categories and tags per the table; authors default to Bex Head (look up her person `_id`); link existing glossary terms with an inline `glossaryTermRef` on first mention, recommend 0 to 2 new ones, never create them | §1, §1a, §2 |
+| 2 | Draft in the HTML working draft; every later edit happens there too; run the self-checks; length band per the table | §0b, §3 |
+| 2.5 | Blocking compliance gate before any Sanity write, then the register's own items; fix violations in the working draft; state the prompt's confirmation line | §4 |
+| 2.6 | Disclosure and attribution | §5 |
+| 3 | Only after Bex approves the working draft: build the JSON from it verbatim (a wording change goes back to the working draft first); `create_documents` with exact JSON, never an AI-rewriting or markdown tool; every array item has a unique `_key` | §0b stage 2, §6 |
+| 4 | Sync check: re-export, compare, update the stamp, hand over with the Studio location and the working draft's path in the popup. Then report the shared checklist plus the register's items | §0b stage 2 steps 4 to 6, §8 |
+
+---
+
 ## Changelog
+
+### v2026.11.14c (register table)
+- Added §9: one register table (skill, issue title, URL, length band, cut order, taxonomy
+  ranges) and the shared step flow. JSON shapes, eyebrows, guides and gate confirmation
+  lines stay in each prompt. The three
+  write prompts now hold only register-specific text. §3a's band list and the prompts' copies
+  of the bands, the em dash replacement guidance (moved to §4) and the repeated step text
+  were removed. No rule value changed; one stale sentence (the retired Step 2.75) was dropped.
+  From the 2026-11-14 duplication audit, findings F1 to F3.
 
 ### v2026.11.14b (working draft holds every edit)
 - §0b rewritten: one HTML working draft on `docs/conventions/content-draft-template.html`
