@@ -96,6 +96,8 @@ The skimmer gets the topic and the verdict, not a claim worth remembering.
 
 - Bex: correct image 3 by redacting the brand names in Sugartown pink (`--st-color-pink`, `#FF247D`), and never state the names in copy. Added to the working draft as a correction note after image 3's verdict (dictated, so no row needed). Findings 3, 4 and 5 revised so their proposed copy does not name the brands. The redacted copy and the Sanity swap are #225.
 
+- Bex, round 2 edit: distinct voices. Decided: a cast list after the TL;DR (Chorus, ChatGPT, Claude, Bex, Gemini as "not involved"); unlabelled lines are the Chorus; bold names and italic stage directions only where one voice breaks away (10 labelled lines); Bex's lines are exact quotes only (the 2026-09-19 issue comment and the 2026-11-14 redaction instruction). A screenplay layout was declined because it would need new display code and a visual spec. 1,008 body words.
+
 ## Gate 2 application log
 
 **2026-11-14.** Bex: "accept all suggestions and update narrative to determining the guardrails, adding them, the audit and failure, and the fix and updates. making the node a user scold from chatgpt and claude to bex." Also: "add the new AI GENERATED stamp rules and add to check."
