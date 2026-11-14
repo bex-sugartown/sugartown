@@ -68,7 +68,7 @@ Mechanical passes: no banned vocabulary, filler transitions, brand names or trip
 
 ## Unverifiable claims
 
-- The 2026-09-19 issue comment was posted from the shared `bex-sugartown` account; the words are exact. Confirm Bex wrote it.
+- The 2026-09-19 issue comment was posted from the shared `bex-sugartown` account; the words are exact. Confirm Bex wrote it. **Confirmed by Bex 2026-11-14: she wrote it.**
 - The second Bex quote is exact: the session checked it against Bex's chat message of 2026-11-14.
 - "Every file I exported carried Content Credentials" rests on the round-1 `stamp.py --detect` results (all three source files: `c2pa: true`).
 - Reference-image claim: confirmed by Bex in round 1.
