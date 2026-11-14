@@ -378,6 +378,8 @@ p-values: phase 1 vs 2, 0.67; 1 vs 3, 0.30; 1 vs 2 and 3 together, 0.18; 2 vs 3,
 
 **Applied 2026-11-14 (Bex approved rows 1 to 5).** Patched on the draft at rev `20mWqb5JxEZ7f25aDRxJsk` and verified by re-query: `w2a` (The line I got wrong), `m2a` and `m3a` (What the machine changed), `y2a` (Why the portal might not answer), and a new block `e3` after `e2` in `s-effort-2` carrying the three-phase split. Not published. The ST-223 link sentence is still to come, once the node exists.
 
+**Applied 2026-11-14, table cells (Bex approved; found by the first stage 3 export, `docs/write-pipeline-prompt.md` §0b).** At rev `20mWqb5JxEZ7f25aDVzvr1`: `m1-tbl` row `mr2` (Packaging, before and after), `y-tbl` row `yr1` (tailoring theory, what my data shows), `c-tbl` row `cr3` ("From May 2026"; May 2026 noted as 8 applications, 0 screens). Re-exported to `docs/drafts/ST-162-twice-the-applications/ST-162-twice-the-applications-sanity-latest.html` at rev `TiskbWAg8339xLi9CRtOos`; the new text is present and the old text is gone. Not published.
+
 **Accurate framing, one sentence (proposed, not copy):** I was already tailoring every application with an AI prompt and rules against making things up; the pipeline gave me six base resumes instead of one, a bank of true stories to draw on, and twice the throughput, and the cold rate did not notice any of it.
 
 **Spinoff candidate.** The four phases (one base, category variants, prompt with rules, Resume Factory) are a story of their own: how the guardrails were written, what the audits caught, and what the story bank adds. It does not fit this article's word budget. **Decided by Bex 2026-11-14: a separate node, filed as its own epic.** This article keeps one sentence and links to it.
