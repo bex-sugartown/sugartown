@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-162: Article: AI screening follow-up to the funnel postmortem (working title)
 **Issue:** [#162](https://github.com/bex-sugartown/sugartown/issues/162)
-**Status:** In Progress (resumed 2026-11-08; final data cut to 2026-11-05 done; drafting)
+**Status:** On Hold (set by Bex 2026-11-14. Where it stands: working draft at `docs/drafts/ST-162-twice-the-applications/ST-162-twice-the-applications.html`, checked clean against Sanity rev `TiskbWAg8339xLi9CRtOos`; Sanity draft not published; open item: the ST-223 link sentence. Resume with `pnpm export:draft check ST-162-twice-the-applications` before editing)
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out: outline, data, draft and publish as one unit
 **Visual:** no (reuses `tableBlock` and `htmlSection`; there is no chart block, and the original post's charts are `htmlSection` embeds, corrected 2026-11-01. If a chart needs a new block, stop and open Phase 0)
