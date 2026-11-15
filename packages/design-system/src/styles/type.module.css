@@ -1,0 +1,73 @@
+/* Type bundles — one definition per heading level and for the mono label (ST-227).
+ *
+ * Sites compose a class instead of re-typing the properties:
+ *   web app:  composes: heading2 from '@sugartown/design-system/styles/type.module.css';
+ *   DS:       composes: heading2 from '../../styles/type.module.css';
+ * A site sets only what is local to it: colour, margin, and nothing typographic.
+ * Colour is deliberately not part of a bundle (ST-227 Phase 0, decision 2).
+ *
+ * Focus rings cannot be composed into :focus-visible selectors; they use the
+ * --st-focus-ring and --st-focus-ring-offset tokens instead.
+ *
+ * After editing this file, restart the web dev server: Vite caches each
+ * composing stylesheet's copy of it, so HMR and a page reload keep old values.
+ */
+
+.headingPage {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-page-h1);
+  font-weight: var(--st-font-weight-normal);
+  line-height: var(--st-line-height-tight);
+}
+
+.heading1 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-1);
+  font-weight: var(--st-font-weight-bold);
+  line-height: var(--st-line-height-tight);
+}
+
+.heading2 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-2);
+  font-weight: var(--st-font-weight-bold);
+  line-height: var(--st-line-height-tight);
+}
+
+.heading3 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-3);
+  font-weight: var(--st-font-weight-semibold);
+  line-height: var(--st-line-height-snug);
+}
+
+.heading4 {
+  font-family: var(--st-font-family-narrative);
+  font-size: var(--st-font-heading-4);
+  font-weight: var(--st-font-weight-semibold);
+  line-height: var(--st-line-height-snug);
+}
+
+/* Phones: h1 and h2 step down one level; h3 steps to --st-font-size-xl (22.4px),
+ * so h2 > h3 > body stays ordered (ST-227 decision 5, revised 2026-11-15). */
+@media (max-width: 768px) /* --st-breakpoint-md */ {
+  .heading1 {
+    font-size: var(--st-font-heading-2);
+  }
+
+  .heading2 {
+    font-size: var(--st-font-heading-3);
+  }
+
+  .heading3 {
+    font-size: var(--st-font-size-xl);
+  }
+}
+
+.monoLabel {
+  font-family: var(--st-label-font);
+  font-size: var(--st-label-size);
+  font-weight: var(--st-label-weight);
+  letter-spacing: var(--st-label-tracking);
+  text-transform: uppercase;
+}

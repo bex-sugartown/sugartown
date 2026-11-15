@@ -17,6 +17,7 @@ import { citedText } from './citedText'
 import GlossaryTermAnnotation from '../components/GlossaryTermAnnotation'
 
 import { useState, Children } from 'react'
+import type from '@sugartown/design-system/styles/type.module.css'
 
 /**
  * Block-level heading handlers.
@@ -167,3 +168,19 @@ const portableTextComponents = {
 }
 
 export default portableTextComponents
+
+/**
+ * detailPTComponents — the shared config with heading bundle classes (ST-227).
+ * For pages that render prose inside `.detailContent` (ArticlePage, GlossaryTermPage,
+ * PersonProfilePage): that wrapper sets heading margin and colour, the class sets the type.
+ * Pages without `.detailContent` keep the default export, whose headings are unstyled here.
+ */
+export const detailPTComponents = {
+  ...portableTextComponents,
+  block: {
+    ...portableTextComponents.block,
+    h1: ({ children }) => isEmptyBlock(children) ? null : <h2 id={headingAnchor(children)} className={type.heading2}>{children}</h2>,
+    h2: ({ children }) => isEmptyBlock(children) ? null : <h2 id={headingAnchor(children)} className={type.heading2}>{children}</h2>,
+    h3: ({ children }) => isEmptyBlock(children) ? null : <h3 id={headingAnchor(children)} className={type.heading3}>{children}</h3>,
+  },
+}

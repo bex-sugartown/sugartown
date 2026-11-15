@@ -38,8 +38,8 @@ Not applicable, no content piece.
 
 - [x] **Choose the bundle mechanism** for headings and labels, under Opus plan mode, recorded in this doc with its tradeoff (§Phase 0 decisions). — layer: tokens / DS
 - [x] **Phase 0 vspec** showing every heading level, the label style and the focus ring as they will ship, in light and dark, with the drifted variants that change marked. — layer: vspec
-- [ ] **Heading bundle** per level (page-h1, h1 to h4): size, line-height, weight and family as one unit, with its responsive step, so the 8 `@media` size overrides go. — layer: tokens / DS styles
-- [ ] **Migrate the 21 heading sites** (§Site classification) to compose a bundle class, and delete the 6 `@media` size overrides the bundle replaces (the two hero-subheading steps stay). The serializer in `apps/web/src/lib/portableTextComponents.js` adds the class to bare `h2`/`h3`/`h4`. — layer: frontend CSS
+- [x] **Heading bundle** per level (page-h1, h1 to h4): size, line-height, weight and family as one unit, with its responsive step, so the 8 `@media` size overrides go. — layer: tokens / DS styles
+- [x] **Migrate the 21 heading sites** (§Site classification) to compose a bundle class, and delete the 6 `@media` size overrides the bundle replaces (the two hero-subheading steps stay). The serializer in `apps/web/src/lib/portableTextComponents.js` adds the class to bare `h2`/`h3`/`h4`. — layer: frontend CSS
 - [ ] **Migrate the 37 label sites** (§Site classification) to compose `.monoLabel`. DS `Label` is a form `<label htmlFor>` and is not used for them. Card's `700`/`0.08em` reconcile to the bundle. — layer: frontend CSS / DS
 - [ ] **One focus ring**: add `--st-focus-ring` and `--st-focus-ring-offset` to `tokens/source/tokens.json`; the 26 sites classified migrate read them; the kept variants are named in §Site classification. — layer: frontend CSS / tokens
 - [ ] **Validator checks** in `validate:tokens`: a heading size token in a block without the bundle's other properties, a raw weight or tracking beside a label size, and a focus outline that bypasses `--st-color-focus`. Each one proves it fires with a liveness probe (`pnpm validate:liveness-probes`). — layer: tooling
@@ -67,7 +67,14 @@ Planned under Opus plan mode, 2026-11-15. Vspec: `docs/drafts/ST-227-heading-lab
 | DS `Label` | Not used for label sites | It renders `<label htmlFor>` (`packages/design-system/src/components/Label/Label.tsx`) |
 | `composes` across packages | Works | Spike 2026-11-15: resolved in `vite` dev, `vite build`, the DS `esbuild` build (`esbuild-css-modules-plugin`) and `storybook build`; reverted. The DS build inlines one copy of a composed class per consuming file |
 
-**Signed off by Bex 2026-11-15** (vspec section 9): no colour in bundles; platform hub italic dropped; page eyebrow uppercase; **h1 and h2 step down at 768px, h3 does not** (changed from the drawing), so ContentBlock and PageSections h3 grow from 18px to 28px on phones. Rule-file diff (`docs/drafts/ST-227-rule-diffs.diff`) approved for Phase 4.
+**Signed off by Bex 2026-11-15** (vspec section 9): no colour in bundles; platform hub italic dropped; page eyebrow uppercase; **h1 and h2 step down at 768px, h3 steps to `--st-font-size-xl` (22.4px)** (changed from the drawing twice: first to "h3 does not step", then, after Phase 1 showed h2 and h3 both at 28px on phones, to 22.4px; Bex, 2026-11-15). ContentBlock and PageSections h3 grow from 18px to 22.4px on phones. Rule-file diff (`docs/drafts/ST-227-rule-diffs.diff`) approved for Phase 4.
+
+## Phase 1 notes (2026-11-15)
+
+- **`detailPTComponents`** is a new named export in `apps/web/src/lib/portableTextComponents.jsx`: the shared config with `heading2`/`heading3` classes, used by ArticlePage, GlossaryTermPage and PersonProfilePage. ArchivePage and SiteGraphPage keep the default export, so their headings are unchanged. `h4` in `.detailContent` gets no class, because it had no rule before and the vspec doesn't cover it.
+- **No published content uses `.detailContent` h2/h3 today** (GROQ for `style in ["h2","h3"]` in article `content`, glossary `extendedDefinition` and person `bio` returns nothing). The serializer was checked by rendering its output into the article page: `heading3` gives 28px/600/1.3 with `.detailContent`'s margin and colour.
+- **Two classified "changes" never render:** `PlatformHubPage.module.css` `.heading` and `.priorityBadge` are referenced by no JSX, and `PlatformHero` renders only as a fallback when a platform page has no Sanity hero. Their CSS is migrated anyway; deleting the dead classes is out of scope.
+- **Dev-server caveat:** Vite inlines a copy of `type.module.css` into each composing stylesheet and caches it, so an edit to it needs a dev-server restart (noted in the file header). Production CSS has one copy from the web app and one from the DS package.
 
 ## Site classification
 

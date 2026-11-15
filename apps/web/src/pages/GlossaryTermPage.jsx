@@ -8,7 +8,7 @@
 import { useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
-import sharedPTComponents from '../lib/portableTextComponents'
+import { detailPTComponents as sharedPTComponents } from '../lib/portableTextComponents'
 import { glossaryTermBySlugQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useSanityDoc } from '../lib/useSanityDoc'

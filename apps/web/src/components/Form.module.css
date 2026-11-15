@@ -29,8 +29,7 @@
 }
 
 .successHeading {
-  font-size: var(--st-font-heading-3);
-  font-weight: var(--st-font-weight-bold);
+  composes: heading3 from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-color-brand-primary);
   margin-bottom: var(--st-spacing-stack-sm);
 }

@@ -32,7 +32,7 @@ function LinkedInIcon({ size = 24, color = 'currentColor', className, ...props }
   )
 }
 import { Breadcrumb, Avatar, Chip, PageHeader } from '../design-system'
-import sharedPTComponents from '../lib/portableTextComponents'
+import { detailPTComponents as sharedPTComponents } from '../lib/portableTextComponents'
 import { personProfileQuery } from '../lib/queries'
 import { getCanonicalPath } from '../lib/routes'
 import { useEffect } from 'react'
