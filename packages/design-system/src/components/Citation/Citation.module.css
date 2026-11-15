@@ -32,8 +32,8 @@
 }
 
 .markerLink:focus-visible {
-  outline: 2px solid var(--st-color-focus);
-  outline-offset: 2px;
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
 }
 
 
@@ -89,6 +89,6 @@
 }
 
 .backLink:focus-visible {
-  outline: 2px solid var(--st-color-focus);
-  outline-offset: 2px;
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
 }

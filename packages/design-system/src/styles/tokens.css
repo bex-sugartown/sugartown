@@ -391,6 +391,7 @@
   --st-kg-chip-case-border: transparent;
   --st-kg-chip-node-border: transparent;
   --st-gray: #6b7280;
+  --st-focus-ring-offset: 2px;
   --st-cwv-good-track: rgba(43, 212, 170, 0.18);
   --st-cwv-warn-track: rgba(251, 186, 36, 0.18);
   --st-cwv-poor-track: rgba(231, 85, 150, 0.18);
@@ -666,5 +667,6 @@
   --st-graph-bg: var(--st-color-bg-canvas);
   --st-color-bg-void: var(--st-color-bg-midnight);
   --st-focus: var(--st-color-focus);
+  --st-focus-ring: 2px solid var(--st-color-focus);
   --st-breadcrumb-current-color: var(--st-color-brand-primary);
 }
