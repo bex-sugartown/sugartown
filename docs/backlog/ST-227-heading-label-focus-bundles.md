@@ -207,7 +207,7 @@ Migrate 37, keep 4, not the label bundle 3.
 - [x] `grep -rn "outline: 2px solid var(--st-color-brand-primary)" apps/web/src packages/design-system/src --include='*.css'` returns nothing.
 - [x] Each new validator check fails on a planted violation and passes after it is reverted, recorded by `pnpm validate:liveness-probes` (2026-11-15: heading bundle, label bundle and focus ring probes fire; 44 gates live, 0 inert).
 - [x] `pnpm validate:tokens`, `pnpm validate:contrast` and `pnpm test:smoke` pass (smoke 33 passed after each phase).
-- [ ] Visual QA approved against the vspec (design-reviewer comparison table), and Chromatic approved before the push.
+- [x] Visual QA approved against the vspec (Bex, 2026-11-15; comparison table `docs/drafts/ST-227-vqa.md`, design-reviewer read corrected in four rows), and Chromatic approved before the push (build 112, 30 visual changes reviewed and accepted by Bex, 2026-11-15).
 
 ## Human QA Walkthrough — example local pages
 
@@ -260,3 +260,35 @@ Check each at desktop width and at 375px, light and dark, plus keyboard focus on
 - **GitHub:** [#227](https://github.com/bex-sugartown/sugartown/issues/227); relates to #68
 - **Evidence:** `docs/reports/property-cluster-drift-audit.md` and `docs/reports/property-cluster-drift-audit.sweep.py`
 - **Epic template:** `docs/epic-template.md` — complete the Pre-Execution checklist, Component-Reuse Manifest and Files to Modify at activation time
+
+## Close-out review
+
+### Acceptance criteria
+
+Every criterion above is ticked with its evidence. One was amended: "`.h2`, `.h3` and `.h4` defined in one stylesheet" contradicted the signed-off naming table, so it now reads "every `.h2`, `.h3` and `.h4` composes a bundle".
+
+### What didn't work
+
+- **The vspec showed each changed site on its own, never h2 and h3 together at phone width.** The mobile-step decision was asked once with a wrong figure (22px for an h3 that renders at 18px), signed off as "h3 does not step", then revised to 22.4px after Phase 1 showed h2 and h3 both at 28px on phones.
+- **The classification script marked the two hero-subheading `@media` steps for deletion.** They are lead paragraphs, not headings. Caught while applying the sign-off answers, before any CSS changed.
+- **The design-reviewer's table misread four rows** (which bundle two sites compose, the platform italic, h3's phone step, row labels). Corrected in `docs/drafts/ST-227-vqa.md` before it reached Bex.
+- **The static-server preview for the vspec was blocked** after I added a `launch.json` entry for it; the edit was reverted and the vspec was rendered headlessly with Playwright instead.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Brand-pink h2 is 3.47:1 in light, below the 4.5:1 vspec rule | implementation | #231 |
+| Unused `.heading` and `.priorityBadge` in `PlatformHubPage.module.css` | implementation | #232 |
+| `tokens.md` type-bundle rule: DS import path, heading-4 exemption | workflow-docs | #233 |
+| Vspec rule: show related elements together at each breakpoint, not one site at a time | workflow-docs | declined: one occurrence so far; the friction line below records it for the three-strike rule |
+
+### Friction line
+
+The vspec drew each changed heading alone, so the phone-size relationship between h2 and h3 was only seen after implementation, and decision 5 was revised twice.
+
+## Post-ship checks
+
+- [ ] `/about` at 375px: h2 28px, h3 22.4px, both Cormorant Garamond: person: open the live page in a phone-width window.
+- [ ] `/articles` archive: Card chip-group labels (for example "Tools") render semibold, not bold: person.
+- [ ] Keyboard focus on any button shows the 2px pink ring at 2px offset, light and dark: person.
