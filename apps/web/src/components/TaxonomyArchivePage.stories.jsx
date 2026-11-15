@@ -11,7 +11,7 @@ import React from 'react'
  * Production routes: /tags, /categories, /tools, /people, /projects
  */
 import { MemoryRouter } from 'react-router-dom'
-import { Container, Breadcrumb, PageHeader } from '../design-system'
+import { Container, Breadcrumb, PageHeader, Avatar } from '../design-system'
 import AlphaFilter from './AlphaFilter'
 import styles from '../pages/TaxonomyArchivePage.module.css'
 
@@ -157,9 +157,7 @@ export const PeopleLayout = {
           {mockPeople.map((person) => (
             <li key={person._id} className={styles.item}>
               <a href={`/people/${person.slug.current}`} className={styles.itemLink}>
-                <div className={styles.itemAvatarFallback} aria-hidden="true">
-                  {person.name.charAt(0)}
-                </div>
+                <Avatar name={person.name} size="lg" />
                 <span className={styles.itemText}>
                   <span className={styles.itemLabel}>{person.name}</span>
                   {person.role && <span className={styles.itemSublabel}>{person.role}</span>}
