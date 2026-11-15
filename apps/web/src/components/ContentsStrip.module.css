@@ -29,33 +29,3 @@
     display: none;
   }
 }
-
-.chip {
-  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--st-color-border-medium);
-  padding: 4px 10px;
-  border-radius: 2px;
-  background: var(--st-color-bg-surface);
-  cursor: pointer;
-  color: var(--st-color-text-default);
-  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
-}
-
-.chip:hover {
-  border-color: var(--st-color-brand-primary);
-  color: var(--st-color-brand-primary);
-}
-
-.chip:focus-visible {
-  outline: var(--st-focus-ring);
-  outline-offset: var(--st-focus-ring-offset);
-}
-
-.chip.active {
-  background: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-  border-color: var(--st-color-brand-primary);
-}

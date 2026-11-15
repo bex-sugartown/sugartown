@@ -301,6 +301,8 @@
 }
 
 /* ── Hero stat rail ─────────────────────────────────────────────── */
+/* Kept outside DS Grid (ST-228): white-20 dividers on a dark hero image, no side frame.
+   Grid spacing="0" draws --st-color-border-wrap and has no tone for this. */
 .heroStatRail {
   display: grid;
   grid-template-columns: repeat(4, 1fr);

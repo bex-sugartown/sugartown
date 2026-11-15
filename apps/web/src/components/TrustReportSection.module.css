@@ -21,6 +21,8 @@
 
 /* ── StatCard grid (design-system-stats variant) ────── */
 
+/* Kept outside DS Grid (ST-228): Grid gives each column minmax(200px, 1fr), and 4 columns
+   need 800px against this grid's 756px at desktop, so the fourth tile would be clipped. */
 .tileGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);

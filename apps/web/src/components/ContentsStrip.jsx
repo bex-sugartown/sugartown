@@ -1,3 +1,4 @@
+import { Chip } from '../design-system'
 import styles from './ContentsStrip.module.css'
 
 /**
@@ -9,8 +10,8 @@ import styles from './ContentsStrip.module.css'
 export default function ContentsStrip({ label, open, onOpen, breakpoint = 'lg' }) {
   return (
     <div className={`${styles.strip} ${breakpoint === 'md' ? styles.bpMd : styles.bpLg}`}>
-      <button
-        className={`${styles.chip} ${open ? styles.active : ''}`}
+      <Chip
+        isActive={open}
         onClick={onOpen}
         aria-expanded={open}
         aria-label={`Open ${label}`}
@@ -21,7 +22,7 @@ export default function ContentsStrip({ label, open, onOpen, breakpoint = 'lg' }
           <line x1="3" y1="18" x2="11" y2="18" />
         </svg>
         {label}
-      </button>
+      </Chip>
     </div>
   )
 }

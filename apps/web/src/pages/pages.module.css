@@ -484,50 +484,13 @@
   }
 }
 
-/* Chip — same visual as ContentsStrip chip */
-.filterChip {
-  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: 1px solid var(--st-color-border-medium);
-  padding: 4px 10px;
-  border-radius: 2px;
-  background: var(--st-color-bg-surface);
-  cursor: pointer;
-  color: var(--st-color-text-default);
-  transition: border-color 150ms ease, color 150ms ease, background 150ms ease;
-}
-
-.filterChip:hover {
-  border-color: var(--st-color-brand-primary);
-  color: var(--st-color-brand-primary);
-}
-
-.filterChip:focus-visible {
-  outline: var(--st-focus-ring);
-  outline-offset: var(--st-focus-ring-offset);
-}
-
-/* Active: drawer open or filters applied */
-.filterChipActive {
-  background: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-  border-color: var(--st-color-brand-primary);
-}
-
-.filterChipActive:hover {
-  border-color: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-}
-
 /* Count badge — shown only when activeFilterCount > 0 */
 .filterChipBadge {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: var(--st-color-white);
-  color: var(--st-color-brand-primary);
+  background: var(--st-color-bg-canvas); /* inverts the active Chip it sits in (ST-228) */
+  color: var(--st-color-text-default);
   border-radius: 9999px;
   font-size: 0.6rem;
   font-weight: 700;

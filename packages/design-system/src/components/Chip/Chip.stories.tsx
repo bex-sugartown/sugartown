@@ -53,9 +53,28 @@ export const Tag: Story = {
 
 // ─── Selectable and coloured chips ───────────────────────────────────────────
 
-/** Selectable chip. Toggle `isActive` in the controls to see the solid reversed state. */
+/**
+ * Selectable chip: rest and selected, then a drawer trigger (ST-228) with an icon and a count as
+ * children and `aria-expanded` in place of `aria-pressed`, closed and open.
+ */
+const MenuIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
+    <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="15" y2="12" /><line x1="3" y1="18" x2="11" y2="18" />
+  </svg>
+);
 export const Selectable: Story = {
-  args: { label: 'Filter', onClick: () => {}, isActive: true },
+  render: () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-start' }}>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <Chip label="Filter" onClick={() => {}} />
+        <Chip label="Filter" onClick={() => {}} isActive />
+      </div>
+      <div style={{ display: 'flex', gap: '10px' }}>
+        <Chip onClick={() => {}} aria-expanded={false} aria-label="Open Contents"><MenuIcon />Contents</Chip>
+        <Chip onClick={() => {}} aria-expanded isActive aria-label="Open Contents"><MenuIcon />Contents</Chip>
+      </div>
+    </div>
+  ),
 };
 
 /**

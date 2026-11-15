@@ -11,7 +11,7 @@ export type ChipStatus = 'evergreen' | 'validated' | 'exploring' | 'active' | 'd
 export interface ChipProps {
   /** Text label displayed inside the chip */
   label?: string;
-  /** Child content — used by rule-dot chips (variant="badge"|"tag") */
+  /** Child content. Takes precedence over `label`. Rule-dot chips use it for their text; any chip can use it for an icon or a count beside the text (ST-228). */
   children?: React.ReactNode;
   /**
    * Rule-dot variant (SUG-88). When set, activates the neutral mono box system.
@@ -65,6 +65,11 @@ export interface ChipProps {
   className?: string;
   /** Accessible label when the visible text alone is insufficient */
   'aria-label'?: string;
+  /**
+   * For a chip that opens a drawer or menu (ST-228). When set, the button reports
+   * `aria-expanded` instead of `aria-pressed`. Only meaningful with `onClick`.
+   */
+  'aria-expanded'?: boolean;
 }
 
 export const Chip: React.FC<ChipProps> = ({
@@ -83,6 +88,7 @@ export const Chip: React.FC<ChipProps> = ({
   tone,
   className,
   'aria-label': ariaLabel,
+  'aria-expanded': ariaExpanded,
 }) => {
   const isBadge = variant === 'badge' || variant === 'status'; // 'status' is deprecated alias
   const isInteractive = Boolean(href || onClick);
@@ -133,7 +139,7 @@ export const Chip: React.FC<ChipProps> = ({
 
   const content = (isRuleDot || isDotColor)
     ? <>{dotEl}{children ?? label}</>
-    : label;
+    : (children ?? label);
 
   if (href) {
     return (
@@ -151,7 +157,8 @@ export const Chip: React.FC<ChipProps> = ({
         className={classNames}
         style={chipStyle}
         aria-label={ariaLabel}
-        aria-pressed={isActive}
+        aria-pressed={ariaExpanded === undefined ? isActive : undefined}
+        aria-expanded={ariaExpanded}
       >
         {content}
       </button>

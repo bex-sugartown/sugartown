@@ -23,13 +23,15 @@ Canonical taxonomy / filter chip primitive for the Sugartown Design System.
 | `size`       | `'sm' \| 'md'`                                    | `'md'`  | Size variant. |
 | `className`  | `string`                                          | —       | Extra class names for layout overrides. |
 | `aria-label` | `string`                                          | —       | Accessible label when visible text is insufficient. |
+| `aria-expanded` | `boolean`                                    | —       | For a chip that opens a drawer or menu. Reported in place of `aria-pressed` (ST-228). |
+| `children`   | `ReactNode`                                       | —       | Takes precedence over `label`. Use it for an icon or a count beside the text (ST-228). |
 
 ## Render modes
 
 The chip auto-selects its root element:
 
 1. **`href` provided** → `<a>` (navigation chip)
-2. **`onClick` provided** (no href) → `<button>` (filter/toggle chip, with `aria-pressed`)
+2. **`onClick` provided** (no href) → `<button>` (filter/toggle chip, with `aria-pressed`, or `aria-expanded` when that prop is set)
 3. **Neither** → `<span>` (display-only taxonomy label)
 
 Interactive chips (modes 1 + 2) get hover lift + shadow. Static chips do not.
