@@ -633,6 +633,48 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:tokens (heading bundle)',
+    why: 'a heading size token typed outside type.module.css must be rejected (ST-227)',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:tokens'],
+        success: 'rejected the hand-typed heading size',
+        breakIt: () =>
+          tempFile('apps/web/src/__liveness_probe__.css', '.probe { font-size: var(--st-font-heading-2); }\n'),
+      }),
+  },
+
+  {
+    gate: 'validate:tokens (label bundle)',
+    why: 'a label size token typed outside type.module.css must be rejected (ST-227)',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:tokens'],
+        success: 'rejected the hand-typed label size',
+        breakIt: () =>
+          tempFile('apps/web/src/__liveness_probe__.css', '.probe { font-size: var(--st-label-size); }\n'),
+      }),
+  },
+
+  {
+    gate: 'validate:tokens (focus ring)',
+    why: 'a focus outline that bypasses --st-focus-ring and --st-color-focus must be rejected (ST-227)',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:tokens'],
+        success: 'rejected the hand-typed focus ring',
+        breakIt: () =>
+          tempFile(
+            'apps/web/src/__liveness_probe__.css',
+            '.probe:focus-visible { outline: 2px solid var(--st-color-brand-primary); }\n'
+          ),
+      }),
+  },
+
+  {
     gate: 'validate:style-mirror',
     why: 'drift between the two copies of a mirrored style file must be caught (the drift risk INC-004\'s orphaned root validate-tokens.js used to leave uncovered)',
     run: () =>

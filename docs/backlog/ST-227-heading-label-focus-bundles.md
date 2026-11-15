@@ -42,8 +42,10 @@ Not applicable, no content piece.
 - [x] **Migrate the 21 heading sites** (§Site classification) to compose a bundle class, and delete the 6 `@media` size overrides the bundle replaces (the two hero-subheading steps stay). The serializer in `apps/web/src/lib/portableTextComponents.js` adds the class to bare `h2`/`h3`/`h4`. — layer: frontend CSS
 - [x] **Migrate the 37 label sites** (§Site classification) to compose `.monoLabel`. DS `Label` is a form `<label htmlFor>` and is not used for them. Card's `700`/`0.08em` reconcile to the bundle. — layer: frontend CSS / DS
 - [x] **One focus ring**: add `--st-focus-ring` and `--st-focus-ring-offset` to `tokens/source/tokens.json`; the 26 sites classified migrate read them; the kept variants are named in §Site classification. — layer: frontend CSS / tokens
-- [ ] **Validator checks** in `validate:tokens`: a heading size token in a block without the bundle's other properties, a raw weight or tracking beside a label size, and a focus outline that bypasses `--st-color-focus`. Each one proves it fires with a liveness probe (`pnpm validate:liveness-probes`). — layer: tooling
-- [ ] **Retire the prose rules the bundle replaces**, shown as a diff under the Instruction & Rule File Write Gate: the heading-token cross-check in `.claude/rules/tokens.md` and its line in `docs/epic-template.md`. — layer: docs
+- [x] **Validator checks** in `validate:tokens` (as built, stricter than first drafted): a heading or label size token (`--st-font-page-h1`, `-heading-1` to `-3`, `--st-label-size`) anywhere but `type.module.css`; a focus `outline` that reads neither `--st-focus-ring` nor `--st-color-focus`; and any `TYPE_BUNDLE_EXCEPTIONS` entry that no longer matches a site. `--st-font-heading-4` is not checked because it doubles as body size. Three liveness probes prove the first two fire. — layer: tooling
+- [x] **Retire the prose rules the bundle replaces**, shown as a diff under the Instruction & Rule File Write Gate: the heading-token cross-check in `.claude/rules/tokens.md` and its line in `docs/epic-template.md`. — layer: docs
+
+**Kill criterion (the type bundle checks in `validate:tokens`):** check on 2027-02-15. If no commit was blocked by them and the sweep shows no new hand-typed heading, label or focus ring, keep them as a cheap guard; if `TYPE_BUNDLE_EXCEPTIONS` has grown past 15 entries, the bundle no longer fits and the check is retired with a stated reason, not widened.
 
 ## Phases
 
@@ -199,12 +201,12 @@ Migrate 37, keep 4, not the label bundle 3.
 
 - [x] The mechanism decision is recorded in this doc with its tradeoff, before any CSS is written (§Phase 0 decisions).
 - [x] The vspec is signed off before any file under `apps/web/src/`, `packages/design-system/src/` or `tokens/` changes.
-- [ ] Re-running `python3 -I docs/reports/property-cluster-drift-audit.sweep.py` shows no heading site that re-declares the bundle's properties by hand, except the variants named in this doc.
-- [ ] `.h2`, `.h3` and `.h4` are defined in one stylesheet (`grep -rn "^\.h[234] " apps/web/src packages/design-system/src --include='*.css'` returns one file).
-- [ ] No label site sets `font-family: var(--st-font-family-mono)` beside `--st-label-size`, and none sets a raw weight or letter-spacing (sweep table A2).
-- [ ] `grep -rn "outline: 2px solid var(--st-color-brand-primary)" apps/web/src packages/design-system/src --include='*.css'` returns nothing.
-- [ ] Each new validator check fails on a planted violation and passes after it is reverted, recorded by `pnpm validate:liveness-probes`.
-- [ ] `pnpm validate:tokens`, `pnpm validate:contrast` and `pnpm test:smoke` pass.
+- [x] Re-running `python3 -I docs/reports/property-cluster-drift-audit.sweep.py` shows no heading site that re-declares the bundle's properties by hand, except the variants named in this doc (2026-11-15: table A1 lists only `type.module.css` and the 13 classified non-headings).
+- [x] **Amended 2026-11-15:** every `.h2`, `.h3` and `.h4` block composes a bundle (8 blocks in ContentBlock, RichText and PageSections). The original wording, "defined in one stylesheet", contradicts the signed-off naming table, which keeps them as local class names that compose the bundle so the serializers need no change.
+- [x] No label site sets `font-family: var(--st-font-family-mono)` beside `--st-label-size`, and none sets a raw weight or letter-spacing (sweep table A2 lists only the definition and the 7 kept sites).
+- [x] `grep -rn "outline: 2px solid var(--st-color-brand-primary)" apps/web/src packages/design-system/src --include='*.css'` returns nothing.
+- [x] Each new validator check fails on a planted violation and passes after it is reverted, recorded by `pnpm validate:liveness-probes` (2026-11-15: heading bundle, label bundle and focus ring probes fire; 44 gates live, 0 inert).
+- [x] `pnpm validate:tokens`, `pnpm validate:contrast` and `pnpm test:smoke` pass (smoke 33 passed after each phase).
 - [ ] Visual QA approved against the vspec (design-reviewer comparison table), and Chromatic approved before the push.
 
 ## Human QA Walkthrough — example local pages

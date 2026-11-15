@@ -15,7 +15,9 @@ Applies to any CSS file `validate:tokens` scans: `apps/web/src/` (design-system 
 
 **Verify every token name exists before writing it** — `grep "token-name" apps/web/src/design-system/styles/tokens.css`. Tokens are named by concept (`--st-font-family-narrative`), not by analogy (`--st-font-family-heading`). Pre-commit catches this, but catching it there costs a correction commit.
 
-**Verify the computed value, not just the name.** For typography or spacing, grep the resolved value in `tokens.css` and cross-check it against `/story/foundations-typography-conventions--default` in Storybook. A name can exist at the wrong tier: `--st-font-heading-2` resolves to 2.25rem (36px), not the 48px page-H1 spec. Record the resolved value. A mismatch needs a new semantic token before implementation begins.
+**Headings and mono labels compose a bundle; they do not pick tokens.** Use `composes: heading2 from '@sugartown/design-system/styles/type.module.css';` (or `headingPage`, `heading1` to `heading4`, `monoLabel`) and set only colour and margin locally. Focus rings use `outline: var(--st-focus-ring); outline-offset: var(--st-focus-ring-offset)`. `validate:tokens` fails a heading or label size token outside `type.module.css` (ST-227).
+
+**For any other typography or spacing token, verify the computed value, not just the name.** Grep the resolved value in `tokens.css` and cross-check it against `/story/foundations-typography-conventions--default` in Storybook. Record the resolved value. A mismatch needs a new semantic token before implementation begins.
 
 **No raw colour value in a component CSS file.** Every colour resolves through a `--st-*` token reference. If the token does not exist yet, add it to `tokens.css` first, in a separate commit.
 
