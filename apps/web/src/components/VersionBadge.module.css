@@ -1,0 +1,30 @@
+/* VersionBadge (ST-228): moved once from TrustReportSection.module.css and
+   PlatformHubPage.module.css, which held identical copies. Values unchanged. */
+
+.versionBadge {
+  display: inline-block;
+  font-family: var(--st-font-family-mono);
+  font-size: var(--st-font-size-xs);
+  font-weight: var(--st-font-weight-semibold);
+  letter-spacing: 0.04em;
+  padding: 0.15em 0.5em;
+  text-transform: lowercase;
+}
+
+.versionBadgeMinor {
+  background: var(--st-status-validated-bg);
+  color: var(--st-color-text-brand);      /* #152: pink-500 text was 3.24:1 on light; maroon is 5.47:1, pink on dark */
+  border: 1px solid var(--st-status-validated-border);
+}
+
+.versionBadgePatch {
+  background: var(--st-status-archived-bg);
+  color: var(--st-status-archived-fg);    /* #152: text-muted was below 4.5:1 on the grey tint in light */
+  border: 1px solid var(--st-status-archived-border);
+}
+
+.versionBadgeMajor {
+  background: var(--st-status-evergreen-bg);
+  color: var(--st-status-evergreen-fg);
+  border: 1px solid var(--st-status-evergreen-border);
+}

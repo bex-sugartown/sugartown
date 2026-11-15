@@ -67,7 +67,7 @@ exactly (duotone logic is identical); all others are thin `<Link to>` shims.
 | Button | ✅ `packages/ds/Button/` | ✅ `web/design-system/button/` | ✅ Components/Button | ✅ | ✅ `ctaButton` (object) + `ctaButtonDoc` (document) | Paired schema — changes to one must mirror the other |
 | Callout | ✅ `packages/ds/Callout/` | ✅ `web/design-system/callout/` | ✅ Components/Callout | ✅ | ✅ `calloutSection` | Web adapter adds `variant="banner"` (single-row strip, `role="status"`, no label column). Banner → synonym for Callout in audit. SUG-155. `role` / `ariaLabel` override props; light-theme banner label uses `--st-color-text-brand` for AA; banner body fills the row and stacks under the label below 640px (SUG-202). |
 | Card | ✅ `packages/ds/Card/` | ✅ `web/design-system/card/` | ✅ Components/Card | ✅ | — | Adapter adds `<Link to>`, `children` escape hatch, `colorHex` chip override. Variants: default/elevated/listing/metadata/accent. `accent` = 3px brand-primary left rule + tinted header bg. SUG-149. |
-| Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | ✅ | — | Web adapter adds `<Link to>` only — no separate story needed |
+| Chip | ✅ `packages/ds/Chip/` | ✅ `web/design-system/chip/` | ✅ Components/Chip | ✅ | — | Web adapter adds `<Link to>` only — no separate story needed. Renders `children` on every variant (an icon or a count beside the text) and takes `aria-expanded` for drawer triggers, reported in place of `aria-pressed` (ST-228). |
 | Divider | — | ✅ `web/components/portableTextComponents` (DividerBlock) | ✅ Patterns/Divider | ✅ | ✅ `dividerBlock` PT type | default + subtle variants. SUG-155. |
 | Link | — | ✅ `web/components/atoms/Link` | ✅ Patterns/Link | ✅ | ✅ `linkItem` (object) | Internal (RouterLink) / external (a + noopener) / no-url (span). Backed by linkUtils.isExternalUrl(). SUG-155. |
 | Citation | ✅ `packages/ds/Citation/` | ✅ `web/design-system/citation/` | ✅ Components/Citation | ✅ | ✅ `citationRef` PT mark | |
@@ -124,7 +124,7 @@ These components own layout and data-binding logic. They consume DS primitives a
 | RecentContentSection | `web/components/RecentContentSection.jsx` | ✅ Patterns/RecentContentSection | Sanity fetch via `useSanityDoc` | Mock infrastructure in `.storybook/stories/` |
 | Drawer | `web/components/Drawer.jsx` | ✅ Components/Drawer | — | Full-height overlay drawer. Used for mobile nav. SUG-167 (rewritten). |
 | DrawerNav | `web/components/DrawerNav.jsx` | ⚠️ no story | `navigation` document | Drawer-scoped nav list. Consumes Drawer. |
-| ContentsStrip | `web/components/ContentsStrip.jsx` | ⚠️ no story | Derived from page `sections[]` headings | In-page table of contents strip. Used above detail page body on mobile. |
+| ContentsStrip | `web/components/ContentsStrip.jsx` | ⚠️ no story | Derived from page `sections[]` headings | In-page table of contents strip. Used above detail page body on mobile. Its trigger is a DS Chip (ST-228). |
 | ConsentBanner | `web/components/ConsentBanner.jsx` | ✅ Regions/ConsentBanner | — (localStorage `st-consent`, via `lib/consent.js`) | Fixed-bottom analytics consent bar. Composes DS Callout banner (`role="region"`), ButtonGroup, Button. Reopened by Footer "Cookie settings". SUG-202. |
 | AlphaFilter | `web/components/AlphaFilter.jsx` | ✅ Patterns/AlphaFilter | — | A–Z letter bucket filter. Used in TaxonomyArchivePage (tools). |
 | FilterStrip | `web/components/FilterStrip.jsx` | ✅ Patterns/FilterStrip | — | Horizontal strip of active filter chips with clear controls. Composes FilterBar. |
@@ -132,6 +132,7 @@ These components own layout and data-binding logic. They consume DS primitives a
 | TaxonomyChips | `web/components/TaxonomyChips.jsx` | ⚠️ no story | Taxonomy refs on content documents | Row of linked Chip components for tags/categories/projects/people/tools. |
 | CwvSnapshot | `web/components/CwvSnapshot.jsx` | ⚠️ no story | `stats.json` (CI-generated) | Core Web Vitals summary strip. Reads from build-time stats pipeline. SUG-100. |
 | TrustReportSection | `web/components/TrustReportSection.jsx` | ⚠️ no story | `stats.json` (CI-generated) | Full trust metrics section: CWV, Lighthouse, uptime. Composes CwvSnapshot + ScoreRing. SUG-100. |
+| VersionBadge | `web/components/VersionBadge.jsx` | ✅ Components/VersionBadge | Release kind from `stats.json` and the changelog | Tinted mono label for a release kind (minor, major, patch). The one copy for the release tables on GovernancePage, TrustReportSection and the tables dev page. ST-228. |
 | GlossaryTermAnnotation | `web/components/GlossaryTermAnnotation.jsx` | ⚠️ no story | `glossaryTerm` documents | Inline PT mark renderer — underlines glossary terms and renders definition tooltip. |
 | PreviewBanner | `web/components/PreviewBanner.jsx` | ⚠️ no story | — | Dev-only banner shown when draft preview mode is active. |
 | SeoHead | `web/components/SeoHead.jsx` | ⚠️ no story | `seo` field on all document types | Injects `<title>`, meta description, og tags. Used by all page templates. |

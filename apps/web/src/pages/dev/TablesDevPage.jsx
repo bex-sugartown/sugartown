@@ -12,17 +12,8 @@
  */
 import { Table, TableWrap, Swatch, Chip } from '@sugartown/design-system'
 import SeoHead from '../../components/SeoHead'
+import VersionBadge from '../../components/VersionBadge'
 import styles from './TablesDevPage.module.css'
-
-// KindBadge — inline after DataTable shim deletion (SUG-126)
-function KindBadge({ kind }) {
-  const colors = { minor: '#2BD4AA', major: '#FF247D', patch: '#888' }
-  return (
-    <span style={{ fontFamily: 'monospace', fontSize: '11px', fontWeight: 700, padding: '2px 6px', background: colors[kind] ?? '#888', color: '#fff', borderRadius: 2 }}>
-      {kind}
-    </span>
-  )
-}
 
 const PRIORITY_SWATCH = {
   high:   { color: 'var(--st-pri-high)', label: 'High' },
@@ -107,7 +98,7 @@ const BACKLOG = [
 const RELEASE_COLUMNS = [
   { key: 'version', label: 'Version', width: '110px' },
   { key: 'date',    label: 'Date',    width: '110px', render: (v) => <span style={{ whiteSpace: 'nowrap' }}>{v}</span> },
-  { key: 'kind',    label: 'Kind',    width: '80px',  render: (v) => <KindBadge kind={v} /> },
+  { key: 'kind',    label: 'Kind',    width: '80px',  render: (v) => <VersionBadge kind={v} /> },
   { key: 'desc',    label: 'Description' },
 ]
 
