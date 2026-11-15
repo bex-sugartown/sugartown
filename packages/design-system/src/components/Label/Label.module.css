@@ -1,10 +1,6 @@
 .label {
+  composes: monoLabel from '../../styles/type.module.css';
   display: block;
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-color-text-default);
   cursor: pointer;
 }

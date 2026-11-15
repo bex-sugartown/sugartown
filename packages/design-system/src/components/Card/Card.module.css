@@ -131,11 +131,7 @@
 /* Inline badge — same visual as .statusBadge but not absolutely positioned.
    ST-152: the neutral chip with a pink dot, as Chip variant="badge" (see the shared rules below). */
 .folioStatus {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  composes: monoLabel from '../../styles/type.module.css';
   padding: 2px 8px;
   border-radius: 0;
   line-height: 1.6;
@@ -267,14 +263,10 @@
 
 /* ── Status badge ────────────────────────────────────────────────────────── */
 .statusBadge {
+  composes: monoLabel from '../../styles/type.module.css';
   position: absolute;
   top: var(--st-space-5);
   right: var(--st-space-5);
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
   padding: 2px 8px;
   border-radius: var(--st-radius-xs);
   line-height: 1.6;
@@ -453,11 +445,7 @@
 }
 
 .chipGroupLabel {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  composes: monoLabel from '../../styles/type.module.css';
   color: var(--st-color-text-muted);
   white-space: nowrap;
   line-height: 1;

@@ -45,11 +45,7 @@
 
 /* label / variant name */
 .label {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '../../styles/type.module.css';
   line-height: 1.3;
   color: var(--st-color-text-default);
   word-break: break-word;
@@ -106,11 +102,7 @@
 }
 
 .bannerLabel {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '../../styles/type.module.css';
   color: var(--_callout-accent);
   white-space: nowrap;
   flex-shrink: 0;

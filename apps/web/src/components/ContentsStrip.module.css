@@ -31,14 +31,10 @@
 }
 
 .chip {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   border: 1px solid var(--st-color-border-medium);
   padding: 4px 10px;
   border-radius: 2px;

@@ -9,11 +9,7 @@
 }
 
 .label {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-label-color);
   margin: 0 0 0.75rem;
   padding: 0;
@@ -61,17 +57,13 @@
 }
 
 .summary {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   list-style: none;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0.25rem 0;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-label-color);
 }
 .summary::-webkit-details-marker { display: none; }

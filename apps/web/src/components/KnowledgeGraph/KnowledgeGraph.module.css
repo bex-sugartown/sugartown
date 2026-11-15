@@ -25,15 +25,11 @@
 }
 
 .loading {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: flex;
   align-items: center;
   justify-content: center;
   height: 520px;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-label-color);
 }
 
@@ -55,14 +51,10 @@
 }
 
 .legendItem {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: flex;
   align-items: center;
   gap: var(--st-space-2);
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-kg-legend-color);
 }
 

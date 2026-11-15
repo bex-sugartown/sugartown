@@ -67,11 +67,7 @@
 }
 
 .columnHeading {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-label-color);
   margin: 0 0 var(--st-spacing-stack-xs);
 }
@@ -153,11 +149,7 @@ button.utilityLink {
 }
 
 .colophonLabel {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-label-color);
   padding-top: 2px; /* optical baseline-align with chip */
   white-space: nowrap;
