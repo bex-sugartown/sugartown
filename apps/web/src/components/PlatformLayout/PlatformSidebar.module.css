@@ -10,12 +10,8 @@
 }
 
 .sectionLabel {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: block;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-color-text-muted);
   text-decoration: none;
   margin-bottom: 0.375rem;

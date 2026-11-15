@@ -29,11 +29,7 @@
 /* ── Label ────────────────────────────────────────────────────────── */
 
 .label {
-  font-family: var(--st-font-family-mono);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   line-height: 1.2;
 }
 

@@ -16,11 +16,7 @@
 
 /* ── Shared block label ───────────────────────────────────── */
 .label {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-label-color);
   margin: 0 0 0.75rem;
   padding: 0;
@@ -99,12 +95,8 @@
   color: var(--st-color-text-muted);
 }
 .ethicsLink {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: block;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-label-color);
   text-decoration: none;
   transition: color var(--st-transition-fast);

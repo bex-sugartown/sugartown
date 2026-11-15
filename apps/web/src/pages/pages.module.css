@@ -147,10 +147,7 @@
 }
 
 .pageEyebrowText {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-label-color);
 }
 
@@ -409,12 +406,8 @@
   border-bottom: 1px solid var(--st-color-border-subtle);
 }
 .seriesPartNumber {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   flex-shrink: 0;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-color-brand-primary);
   min-width: 3.5rem;
 }
@@ -493,14 +486,10 @@
 
 /* Chip — same visual as ContentsStrip chip */
 .filterChip {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   border: 1px solid var(--st-color-border-medium);
   padding: 4px 10px;
   border-radius: 2px;
@@ -631,6 +620,7 @@
 }
 
 .graphCardRailHint {
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   display: flex;
   align-items: center;
   justify-content: center;
@@ -638,11 +628,6 @@
   padding: var(--st-space-5);
   border: 1px solid var(--st-color-rule-accent);
   background: var(--st-color-bg-surface);
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-label-color);
   text-align: center;
 }
@@ -658,11 +643,7 @@
 }
 
 .graphHubCardType {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-label-color);
 }
 
@@ -675,11 +656,7 @@
 }
 
 .graphHubCardCta {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-color-brand-primary);
   text-decoration: none;
 }

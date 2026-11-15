@@ -26,11 +26,7 @@
 }
 
 .filterTitle {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '../../styles/type.module.css';
   color: var(--st-label-color);
 }
 
@@ -75,13 +71,9 @@
 }
 
 .facetLabel {
+  composes: monoLabel from '../../styles/type.module.css';
   display: block;
   width: 100%;
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
   color: var(--st-color-text-primary);
   margin: 0;
   padding: var(--st-space-2) var(--st-space-4);

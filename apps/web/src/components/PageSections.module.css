@@ -334,11 +334,7 @@
 }
 
 .heroStatLabel {
-  font-family: var(--st-label-font);
-  font-size: var(--st-label-size);
-  font-weight: var(--st-label-weight);
-  letter-spacing: var(--st-label-tracking);
-  text-transform: uppercase;
+  composes: monoLabel from '@sugartown/design-system/styles/type.module.css';
   color: inherit;
   opacity: 0.7;
 }
