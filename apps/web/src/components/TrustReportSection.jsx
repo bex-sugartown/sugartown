@@ -18,18 +18,8 @@ import { TRUST_LINKS } from '../lib/routes'
 import Tile from '../design-system/components/tile/Tile'
 import { Table, TableWrap, SectionLabel } from '@sugartown/design-system'
 import CwvSnapshot from './CwvSnapshot'
+import VersionBadge from './VersionBadge'
 import styles from './TrustReportSection.module.css'
-
-// ── KindBadge — moved here from deleted DataTable shim ─────────────────────
-
-function KindBadge({ kind }) {
-  const cls = {
-    minor: styles.badgeMinor,
-    major: styles.badgeMajor,
-    patch: styles.badgePatch,
-  }
-  return <span className={[styles.badge, cls[kind] ?? ''].filter(Boolean).join(' ')}>{kind}</span>
-}
 
 // ── Recent Releases Report ──────────────────────────────────────────────────
 
@@ -58,7 +48,7 @@ const releaseColumns = (slugByVersion) => [
     key:    'kind',
     label:  'Kind',
     width:  '80px',
-    render: (val) => <KindBadge kind={val?.toLowerCase()} />,
+    render: (val) => <VersionBadge kind={val} />,
   },
   { key: 'descriptor', label: 'Description' },
 ]

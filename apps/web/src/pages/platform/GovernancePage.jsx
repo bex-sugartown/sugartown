@@ -6,6 +6,7 @@ import StatCard from '../../components/StatCard'
 import { Table, TableWrap, Swatch, Chip, Callout, Grid, SectionLabel } from '@sugartown/design-system'
 import { MermaidDiagram } from '../../components/PageSections'
 import CwvSnapshot from '../../components/CwvSnapshot'
+import VersionBadge from '../../components/VersionBadge'
 import { PLATFORM_ROUTES, TRUST_LINKS, getCanonicalPath } from '../../lib/routes'
 import { useSanityList } from '../../lib/useSanityDoc'
 import { releaseNoteSlugsQuery } from '../../lib/queries'
@@ -13,12 +14,6 @@ import { useReleaseNoteHref } from '../../lib/useReleaseNoteHref'
 import stats from '../../generated/stats.json'
 import styles from './PlatformHubPage.module.css'
 import pageSectionStyles from '../../components/PageSections.module.css'
-
-// ── KindBadge — inline after DataTable shim deletion ──────
-function KindBadge({ kind }) {
-  const cls = { minor: styles.badgeMinor, major: styles.badgeMajor, patch: styles.badgePatch }
-  return <span className={[styles.badge, cls[kind] ?? ''].filter(Boolean).join(' ')}>{kind}</span>
-}
 
 // ── Release table ─────────────────────────────────────────
 // Version links to the release note when one is published, else to the changelog.
@@ -39,7 +34,7 @@ const releaseColumns = (slugByVersion) => [
     },
   },
   { key: 'date',       label: 'Date',        width: '110px', render: (val) => <span style={{ whiteSpace: 'nowrap' }}>{val}</span> },
-  { key: 'kind',       label: 'Kind',        width: '80px',  render: (val) => <KindBadge kind={val?.toLowerCase()} /> },
+  { key: 'kind',       label: 'Kind',        width: '80px',  render: (val) => <VersionBadge kind={val} /> },
   { key: 'descriptor', label: 'Description' },
 ]
 
