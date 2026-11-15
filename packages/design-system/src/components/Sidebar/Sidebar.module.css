@@ -33,8 +33,8 @@
 }
 .panel[open] > .toggle::before { transform: rotate(90deg); }
 .toggle:focus-visible {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
 }
 
 /* ── Mobile: appendix style (default) ───────────────────────

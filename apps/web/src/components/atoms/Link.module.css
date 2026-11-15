@@ -9,6 +9,6 @@
 }
 
 .link:focus {
-  outline: 2px solid var(--st-color-brand-primary);
-  outline-offset: 2px;
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
 }

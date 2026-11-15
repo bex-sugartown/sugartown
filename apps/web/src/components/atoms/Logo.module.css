@@ -8,7 +8,7 @@
 }
 
 .logoLink:focus {
-  outline: 2px solid var(--st-color-brand-primary);
+  outline: var(--st-focus-ring);
   outline-offset: 4px;
 }
 
