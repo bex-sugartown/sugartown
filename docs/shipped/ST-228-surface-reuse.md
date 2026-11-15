@@ -47,13 +47,13 @@ Not applicable, no content piece.
 
 - [x] **Classify every site** in the Background table (Phase 0): swap to the DS component, extract a shared component, delete as dead, or keep with a reason. Re-run the sweep first. — layer: frontend
 - [x] **Component choice audit** (`.claude/rules/react.md` §Component choice gate) for each swap and each new shared component, in the vspec. — layer: frontend
-- [ ] **Chip:** `ContentsStrip` chips and the archive filter chips render DS `Chip`, taking Chip's look. Chip renders `children` for every variant and accepts `aria-expanded`; the Selectable story gains an icon-and-expanded case. The count badge inverts the active chip (`--st-color-bg-canvas` fill, `--st-color-text-default` text). — layer: frontend / DS
-- [ ] **Avatar:** the taxonomy archive person avatar, image and fallback, renders DS `Avatar size="lg"` (40px; was 36px). — layer: frontend
-- [ ] **Select:** delete web `Select` (component, CSS, story). Only its own story imports it. — layer: frontend
-- [ ] **Hairline grids:** `cwvGrid` renders `Grid spacing="0" columns={3} tabletColumns={3} accentTop accentColor="ink"`. `tileGrid` and `heroStatRail` are kept with reasons (Phase 0 classification). — layer: frontend
-- [ ] **Version badge:** new web component `VersionBadge` (`apps/web/src/components/`), used by `TrustReportSection.jsx` and `GovernancePage.jsx`; both class sets and both inline `KindBadge` functions go. `docs/conventions/component-registry.md` updated in the same commit. Form error: no extraction, one caller after the dead copy goes. — layer: frontend
-- [ ] **Dead code:** delete `ContactForm.module.css`, the whole `TaxonomyArchivePage` `.indexCell*` family, and the deprecated web `components/Callout.jsx` and `.module.css`, after confirming nothing references them. — layer: frontend
-- [ ] **StatCard vs Tile:** file as a separate issue (decided at Phase 0: 7 StatCard and 2 Tile importers with different props). — layer: process
+- [x] **Chip:** `ContentsStrip` chips and the archive filter chips render DS `Chip`, taking Chip's look. Chip renders `children` for every variant and accepts `aria-expanded`; the Selectable story gains an icon-and-expanded case. The count badge inverts the active chip (`--st-color-bg-canvas` fill, `--st-color-text-default` text). — layer: frontend / DS
+- [x] **Avatar:** the taxonomy archive person avatar, image and fallback, renders DS `Avatar size="lg"` (40px; was 36px). — layer: frontend
+- [x] **Select:** delete web `Select` (component, CSS, story). Only its own story imports it. — layer: frontend
+- [x] **Hairline grids:** `cwvGrid` renders `Grid spacing="0" columns={3} tabletColumns={3} accentTop accentColor="ink"`. `tileGrid` and `heroStatRail` are kept with reasons (Phase 0 classification). — layer: frontend
+- [x] **Version badge:** new web component `VersionBadge` (`apps/web/src/components/`), used by `TrustReportSection.jsx` and `GovernancePage.jsx`; both class sets and both inline `KindBadge` functions go. `docs/conventions/component-registry.md` updated in the same commit. Form error: no extraction, one caller after the dead copy goes. — layer: frontend
+- [x] **Dead code:** delete `ContactForm.module.css`, the whole `TaxonomyArchivePage` `.indexCell*` family, and the deprecated web `components/Callout.jsx` and `.module.css`, after confirming nothing references them. — layer: frontend
+- [x] **StatCard vs Tile:** file as a separate issue (decided at Phase 0: 7 StatCard and 2 Tile importers with different props). — layer: process
 
 ## Phase 0 classification
 
@@ -76,14 +76,14 @@ Done 2026-11-15; Bex signed off the vspec, class table and component choice audi
 
 ## Acceptance Criteria
 
-- [ ] Re-running `python3 -I docs/reports/property-cluster-drift-audit.sweep.py` lists no surface signature repeated between a page file and a DS component, except those kept with a reason in this doc.
-- [ ] `ContentsStrip`, the archive filter chips and the taxonomy avatar fallback render the DS component (checked in the DOM: the DS class name is on the element).
-- [ ] `cwvGrid` no longer exists and renders `Grid spacing="0"`; it still shows 3 columns above 600px. `tileGrid` and `heroStatRail` carry a comment naming their kept-with-reason.
-- [ ] The version badges come from `VersionBadge` at both call sites.
-- [ ] `ContactForm.module.css`, the `.indexCell*` classes in `TaxonomyArchivePage.module.css`, web `Select/` and web `components/Callout.*` are deleted (`git ls-files` and `grep` confirm no reference).
-- [ ] Every new or changed component has a Storybook story covering its variants, in light and dark (`.claude/rules/storybook.md`).
-- [ ] `pnpm validate:tokens`, `pnpm validate:dead-refs` and `pnpm test:smoke` pass.
-- [ ] Visual QA approved against the vspec, and Chromatic approved before the push.
+- [x] Re-running `python3 -I docs/reports/property-cluster-drift-audit.sweep.py` lists no surface signature repeated between a page file and a DS component, except those kept with a reason in this doc.
+- [x] `ContentsStrip`, the archive filter chips and the taxonomy avatar fallback render the DS component (checked in the DOM: the DS class name is on the element).
+- [x] `cwvGrid` no longer exists and renders `Grid spacing="0"`; it still shows 3 columns above 600px. `tileGrid` and `heroStatRail` carry a comment naming their kept-with-reason.
+- [x] The version badges come from `VersionBadge` at both call sites.
+- [x] `ContactForm.module.css`, the `.indexCell*` classes in `TaxonomyArchivePage.module.css`, web `Select/` and web `components/Callout.*` are deleted (`git ls-files` and `grep` confirm no reference).
+- [x] Every new or changed component has a Storybook story covering its variants, in light and dark (`.claude/rules/storybook.md`).
+- [x] `pnpm validate:tokens`, `pnpm validate:dead-refs` and `pnpm test:smoke` pass.
+- [x] Visual QA approved against the vspec, and Chromatic approved before the push.
 
 ## Human QA Walkthrough — example local pages
 
@@ -132,3 +132,46 @@ Pages captured 2026-11-15 on the local dev server.
 - **GitHub:** [#228](https://github.com/bex-sugartown/sugartown/issues/228); relates to #68 and #227
 - **Evidence:** `docs/reports/property-cluster-drift-audit.md`, sweep tables C1 and C2
 - **Epic template:** `docs/epic-template.md` — complete the Pre-Execution checklist, Component-Reuse Manifest and Files to Modify at activation time
+
+## Close-out review
+
+### Acceptance criteria
+
+Every criterion above is ticked. Evidence, 2026-11-15:
+
+- **Sweep:** `python3 -I docs/reports/property-cluster-drift-audit.sweep.py`, table C1: repeated surface signatures fell from 21 to 13. The page-to-DS repeats left are `.tileGrid` (kept, reason in its comment), web `Checkbox` against FilterBar's checkbox (out of scope: the DS has no Checkbox, recorded in the vspec), and a `background: none; border: none` reset, which is not a surface.
+- **DS class names in the DOM:** Chip classes on the contents strip and filter chips, Avatar `lg` classes at 40px on `/people`, Grid `spacing0` on the CWV grid (headless Playwright on the dev server; `docs/drafts/ST-228-vqa.md`).
+- **CWV grid:** 3, 3 and 1 columns at 1280, 768 and 375px. `.tileGrid` and `.heroStatRail` carry kept-with-reason comments.
+- **VersionBadge:** both call sites, plus a third copy on `/dev/tables` that used raw hex inline styles.
+- **Deletions:** `git ls-files` and `git grep` find none of the deleted files or classes. A story still used `.itemAvatarFallback`; fixed in db2f7370.
+- **Stories:** Chip Selectable and VersionBadge AllKinds render in light and dark (Storybook iframe, both themes).
+- **Checks:** `validate:tokens`, `--strict-colors`, `validate:dead-refs` and lint pass in the pre-commit hook; `pnpm test:smoke` 33 of 33.
+- **Gates:** Visual QA approved by Bex; Chromatic build 113 (3 changes) approved by Bex.
+
+### What didn't work
+
+- **The first vspec draft said the hero stat rail renders nowhere.** That came from probing two pages; a Sanity query (`showStatRail == true`) found `/platform` and `/ds-section-showcase`. Corrected before sign-off.
+- **The first draft kept the count badge's pink text on white,** which measured 3.10:1 in dark. Changed to canvas fill and default text (17.12 and 17.50) before sign-off.
+- **Live captures needed the header and consent banner hidden;** the first chip captures showed the header logo and the banner over the chips.
+- **The design-reviewer cited wrong lines** for the kept-with-reason comments, the filter chip and the badge colours, and quoted comment text that is not in the files. Corrected in `docs/drafts/ST-228-vqa.md`.
+- **Deleting `.itemAvatarFallback` missed a story that used it.** Found by a `git grep` at close-out, fixed in db2f7370.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Merge StatCard and the deprecated web Tile | implementation | #234 |
+| Header logo appeared over the contents strip in a 375px headless capture of `/platform/governance` | implementation | declined until reproduced in a real browser: listed as a post-ship check below |
+| Grid tone prop for the dark-hero stat rail | implementation | declined: one surface, recorded as kept with a reason |
+| Delete a class, then grep stories as well as pages | workflow-docs | declined: first occurrence; recorded in the friction line |
+
+### Friction line
+
+A vspec claim that a surface renders nowhere was based on two page probes instead of a content query, and was wrong.
+
+## Post-ship checks
+
+- [ ] `/platform/governance` at 375px: the contents strip chip reads "Platform" in normal case, turns ink when the drawer opens, and the header logo does not cover it: person.
+- [ ] `/articles` at 375px: the Filters chip shows the count badge when a filter is applied: person.
+- [ ] `/platform/governance`: release table badges unchanged: person.
+
