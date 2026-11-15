@@ -42,7 +42,17 @@
  *   fallback form is var(--st-token, var(--st-primitive)) (.claude/rules/tokens.md).
  *   Token source files are not scanned, so tokens.css composition is unaffected.
  *
- * Exits with code 1 if any unknown token references or raw fallbacks are found.
+ * Type bundle check (always on, blocking; ST-227):
+ *   1. `font-size` set to a heading or label size token (--st-font-page-h1,
+ *      --st-font-heading-1 to -3, --st-label-size) anywhere but
+ *      packages/design-system/src/styles/type.module.css. Such a site composes the
+ *      bundle class instead. --st-font-heading-4 is not checked: it doubles as the
+ *      body text size. Classified exceptions are listed in TYPE_BUNDLE_EXCEPTIONS.
+ *   2. An `outline` inside a selector containing "focus" that reads neither
+ *      var(--st-focus-ring) nor --st-color-focus, and is not `none`.
+ *
+ * Exits with code 1 if any unknown token references, raw fallbacks or type bundle
+ * violations are found.
  */
 
 import { readFileSync, readdirSync, statSync } from 'fs'
@@ -89,6 +99,100 @@ const STRICT_COLORS_EXEMPT_PATTERNS = [
   /\/theme\.css$/,
   /\.storybook\/docs-overrides\.css$/,  // Storybook UI overrides — intentional raw values
 ]
+
+// ─── Type bundle configuration (ST-227) ──────────────────────────────────────
+
+const TYPE_BUNDLE_FILE = 'packages/design-system/src/styles/type.module.css'
+const BUNDLE_SIZE_RE = /^var\(\s*--st-(font-page-h1|font-heading-[123]|label-size)\s*\)$/
+const FOCUS_OUTLINE_OK_RE = /var\(\s*--st-focus-ring\s*\)|--st-color-focus\b|^none$/
+
+/**
+ * Sites classified in docs/backlog/ST-227-heading-label-focus-bundles.md §Site
+ * classification as not a bundle. Key: "<path relative to repo root> :: <selector>".
+ */
+const TYPE_BUNDLE_EXCEPTIONS = new Map([
+  ['apps/web/src/components/Hero.module.css :: .subheading', 'hero lead paragraph, not a heading'],
+  ['apps/web/src/components/PageSections.module.css :: .heroSubheading', 'hero lead paragraph, not a heading'],
+  ['apps/web/src/components/PageSections.module.css :: .heroStatValue', 'stat numeral, not a heading'],
+  ['apps/web/src/components/StatCard.module.css :: .foot', 'mono meta line: no weight, no uppercase'],
+  ['apps/web/src/design-system/components/tile/Tile.module.css :: .meta', 'mono meta line: no weight, no uppercase'],
+  ['packages/design-system/src/components/SectionLabel/SectionLabel.module.css :: .number', 'section numeral: tighter tracking, no uppercase'],
+  ['packages/design-system/src/components/Card/Card.module.css :: .compact .eyebrow', 'compact-mode size step in a descendant selector'],
+  ['packages/design-system/src/components/Card/Card.module.css :: .compact .folioLabel', 'compact-mode size step in a descendant selector'],
+  ['packages/design-system/src/components/Card/Card.module.css :: .compact .footerCategoryLink', 'compact-mode size step in a descendant selector'],
+  ['packages/design-system/src/components/Card/Card.module.css :: .compact .date', 'compact-mode size step in a descendant selector'],
+  ['apps/web/src/components/ImageLightbox.module.css :: *', 'heavier 3px ring over images'],
+  ['apps/web/src/components/PageSections.module.css :: .carouselArrow:focus-visible, .carouselExpand:focus-visible', 'heavier 3px ring over images'],
+])
+
+/**
+ * Split a CSS file into rule blocks: { selector, line, decls: [{ prop, value, line }] }.
+ * Comments are blanked first so line numbers hold. Nested @media blocks are walked.
+ */
+function parseBlocks(filePath) {
+  const src = readFileSync(filePath, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, ' '))
+  const blocks = []
+  const stack = []
+  let buf = ''
+  let bufLine = 1
+  let line = 1
+  for (const ch of src) {
+    if (ch === '{') {
+      stack.push({ selector: buf.trim().replace(/\s+/g, ' '), line: bufLine, decls: [] })
+      buf = ''
+    } else if (ch === ';' || ch === '}') {
+      const top = stack[stack.length - 1]
+      if (top && buf.includes(':')) {
+        const i = buf.indexOf(':')
+        top.decls.push({ prop: buf.slice(0, i).trim().toLowerCase(), value: buf.slice(i + 1).trim().replace(/\s+/g, ' '), line: bufLine })
+      }
+      buf = ''
+      if (ch === '}' && stack.length) {
+        const b = stack.pop()
+        if (!b.selector.startsWith('@') && b.decls.length) blocks.push(b)
+      }
+    } else {
+      if (!buf.trim() && !/\s/.test(ch)) bufLine = line
+      buf += ch
+    }
+    if (ch === '\n') line++
+  }
+  return blocks
+}
+
+const usedTypeBundleExceptions = new Set()
+
+/** True when the block is a classified exception and it would otherwise be flagged. */
+function isTypeBundleException(rel, selector) {
+  for (const key of [`${rel} :: ${selector}`, `${rel} :: *`]) {
+    if (TYPE_BUNDLE_EXCEPTIONS.has(key)) {
+      usedTypeBundleExceptions.add(key)
+      return true
+    }
+  }
+  return false
+}
+
+/** Returns array of { lineNum, line, match } for type bundle violations in one file. */
+function findTypeBundleViolations(filePath) {
+  const rel = relative(ROOT, filePath)
+  if (rel === TYPE_BUNDLE_FILE) return []
+  const violations = []
+  for (const b of parseBlocks(filePath)) {
+    for (const d of b.decls) {
+      const sizeHit = d.prop === 'font-size' && BUNDLE_SIZE_RE.test(d.value)
+      const focusHit = d.prop === 'outline' && b.selector.includes('focus') && !FOCUS_OUTLINE_OK_RE.test(d.value)
+      if ((sizeHit || focusHit) && isTypeBundleException(rel, b.selector)) continue
+      if (sizeHit) {
+        violations.push({ lineNum: d.line, line: `${b.selector} { font-size: ${d.value} }`, match: 'compose the bundle from type.module.css' })
+      }
+      if (focusHit) {
+        violations.push({ lineNum: d.line, line: `${b.selector} { outline: ${d.value} }`, match: 'use outline: var(--st-focus-ring)' })
+      }
+    }
+  }
+  return violations
+}
 
 /** Regex to find a hardcoded color value used as a CSS property value. */
 const HARDCODED_COLOR_RE = /(?::\s*|,\s*|\(\s*)(#[0-9a-fA-F]{3,8}|rgba?\s*\([^)]+\))/
@@ -345,8 +449,42 @@ function run() {
     console.log(`\n   Fix: drop the fallback, or use var(--st-token, var(--st-primitive)). Add the primitive to tokens.json first if none exists.\n`)
   }
 
+  // 7. Type bundles (ST-227): heading and label sizes, focus outlines
+  let bundleErrorCount = 0
+  const bundleFileErrors = new Map()
+  for (const file of cssFiles) {
+    const violations = findTypeBundleViolations(file)
+    if (violations.length > 0) {
+      bundleFileErrors.set(file, violations)
+      bundleErrorCount += violations.length
+    }
+  }
+  const staleExceptions = [...TYPE_BUNDLE_EXCEPTIONS.keys()].filter((k) => !usedTypeBundleExceptions.has(k))
+  if (staleExceptions.length > 0) {
+    console.log(`❌  ${staleExceptions.length} TYPE_BUNDLE_EXCEPTIONS entr${staleExceptions.length === 1 ? 'y' : 'ies'} no longer match a site; remove ${staleExceptions.length === 1 ? 'it' : 'them'}:`)
+    for (const k of staleExceptions) console.log(`        ${k}`)
+    console.log('')
+    bundleErrorCount += staleExceptions.length
+  }
+  if (bundleFileErrors.size === 0 && staleExceptions.length === 0) {
+    console.log('✅  Heading and label sizes come from type.module.css; focus outlines read --st-focus-ring.\n')
+  } else {
+    console.log(`❌  Found ${bundleErrorCount} type bundle violation(s) in ${bundleFileErrors.size} file(s):\n`)
+    console.log('──────────────────────────────────────────────')
+    for (const [file, violations] of bundleFileErrors) {
+      console.log(`\n   📄  ${relative(ROOT, file)}`)
+      for (const { lineNum, line, match } of violations) {
+        console.log(`        Line ${lineNum}: ${match}`)
+        console.log(`        ↳  ${line}`)
+      }
+    }
+    console.log('\n──────────────────────────────────────────────')
+    console.log(`\n   Fix: composes: heading2 from '@sugartown/design-system/styles/type.module.css' (or headingPage, heading1 to heading3, monoLabel);`)
+    console.log(`   focus rings use outline: var(--st-focus-ring); outline-offset: var(--st-focus-ring-offset).\n`)
+  }
+
   // Exit with error if any checks failed
-  if (fileErrors.size > 0 || colorErrorCount > 0 || fallbackErrorCount > 0) {
+  if (fileErrors.size > 0 || colorErrorCount > 0 || fallbackErrorCount > 0 || bundleErrorCount > 0) {
     process.exit(1)
   }
   process.exit(0)
