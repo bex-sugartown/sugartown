@@ -3,6 +3,8 @@
 **GitHub Issue:** [#68](https://github.com/bex-sugartown/sugartown/issues/68) (legacy ID SUG-206; Linear retired 2026-09-05)
 **Status and priority:** on the board ([project 1](https://github.com/users/bex-sugartown/projects/1)), not copied here
 **Merge strategy:** (b) Single close-out — one long-lived branch, shipped with `/ship`
+**Aligned:** 2026-11-15
+**Visual:** no (documentation-only audit; nothing renders)
 ---
 
 # SUG-206 — Property-cluster (hypertoken) drift audit
@@ -39,6 +41,23 @@ This epic touches **documentation only**. It does not touch `tokens/source/token
 - [ ] Motion/transform sweep: identify transition/transform property clusters (e.g. hover-lift distance + duration + easing) repeated across interactive components (Button, Card, Chip, IconButton). — layer: tooling/audit
 - [ ] Write `docs/reports/property-cluster-drift-audit.md` using the same evidence-based Match/Drift/Gap method as the precedent alignment audit — every verdict cited to file:line, no domain-level assertions without instance-level backing. — layer: documentation
 - [ ] Add a report section evaluating whether `validate:tokens` (or a new script) could mechanically catch property-cluster drift going forward, independent of whether a bundling layer gets built. — layer: tooling/audit
+
+## Phases
+
+| Phase | Covers Scope items | Output | Gate |
+|---|---|---|---|
+| 1. Sweep | typography, spacing-group, surface, motion sweeps (Scope items 1 to 4) | raw instance tables, file:line per instance | none |
+| 2. Report | write the report, validator-feasibility section (Scope items 5 and 6) | `docs/reports/property-cluster-drift-audit.md` | none |
+
+Phase 2 starts in the same turn as Phase 1 ends.
+
+## Start audit
+
+- `.claude/rules/tokens.md` changed 2026-10-11 (#74): `validate:tokens` now rejects raw `var(--st-*, <value>)` fallbacks of every type and scans `apps/storybook/.storybook/` too. The epic's "could tooling catch this" item assumed the July scope. Fix: the report cites the current validator header, and the sweep adds `apps/storybook/.storybook/**/*.css`.
+- The one missing path (`docs/reports/property-cluster-drift-audit.md`) is this epic's output.
+- Skipped 45 of 47 changed rule files: content pipeline, vspec, process and gate docs, none touch CSS or tokens. Read: `.claude/rules/tokens.md`, `.claude/rules/css-layout.md` (only change since July is the ST-130 path move).
+- Hard stop items 4 to 7: no page set (4 N/A), no mechanical transform (5 N/A), every Scope item maps to a phase (6 clear), Scope and Non-Goals agree on no CSS or token change (7 clear).
+- Pre-Execution checklist: every item N/A (no component, schema, page, diagram, mechanism or removal), except "correct audit file paths", checked at the sweep.
 
 ## Acceptance criteria
 
