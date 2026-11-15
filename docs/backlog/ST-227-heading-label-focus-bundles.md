@@ -39,7 +39,7 @@ Not applicable, no content piece.
 - [x] **Choose the bundle mechanism** for headings and labels, under Opus plan mode, recorded in this doc with its tradeoff (§Phase 0 decisions). — layer: tokens / DS
 - [x] **Phase 0 vspec** showing every heading level, the label style and the focus ring as they will ship, in light and dark, with the drifted variants that change marked. — layer: vspec
 - [ ] **Heading bundle** per level (page-h1, h1 to h4): size, line-height, weight and family as one unit, with its responsive step, so the 8 `@media` size overrides go. — layer: tokens / DS styles
-- [ ] **Migrate the 21 heading sites** (§Site classification) to compose a bundle class, and delete the 8 `@media` size overrides the bundle replaces. The serializer in `apps/web/src/lib/portableTextComponents.js` adds the class to bare `h2`/`h3`/`h4`. — layer: frontend CSS
+- [ ] **Migrate the 21 heading sites** (§Site classification) to compose a bundle class, and delete the 6 `@media` size overrides the bundle replaces (the two hero-subheading steps stay). The serializer in `apps/web/src/lib/portableTextComponents.js` adds the class to bare `h2`/`h3`/`h4`. — layer: frontend CSS
 - [ ] **Migrate the 37 label sites** (§Site classification) to compose `.monoLabel`. DS `Label` is a form `<label htmlFor>` and is not used for them. Card's `700`/`0.08em` reconcile to the bundle. — layer: frontend CSS / DS
 - [ ] **One focus ring**: add `--st-focus-ring` and `--st-focus-ring-offset` to `tokens/source/tokens.json`; the 26 sites classified migrate read them; the kept variants are named in §Site classification. — layer: frontend CSS / tokens
 - [ ] **Validator checks** in `validate:tokens`: a heading size token in a block without the bundle's other properties, a raw weight or tracking beside a label size, and a focus outline that bypasses `--st-color-focus`. Each one proves it fires with a liveness probe (`pnpm validate:liveness-probes`). — layer: tooling
@@ -49,7 +49,7 @@ Not applicable, no content piece.
 
 | Phase | Covers Scope items | Ships | Gate |
 |---|---|---|---|
-| 0. Decide and spec | mechanism choice, vspec, classification of every heading, label and focus site | §Phase 0 decisions, the vspec, §Site classification | **Bex signs off the vspec, the class/token naming table and the rule-file diffs** (CLAUDE.md §Phase 0) |
+| 0. Decide and spec | mechanism choice, vspec, classification of every heading, label and focus site | §Phase 0 decisions, the vspec, §Site classification | **Bex signs off the vspec, the class/token naming table and the rule-file diffs** (CLAUDE.md §Phase 0). Signed off 2026-11-15 |
 | 1. Headings | heading bundle, 32 sites, merge the four `.h2/.h3/.h4` copies | headings read one definition per level | none |
 | 2. Labels | 44 label sites, Card and SectionLabel reconciliation | labels read one definition | none |
 | 3. Focus | one ring, 22 sites, variant decisions | focus rings read `--st-color-focus` | none |
@@ -67,11 +67,11 @@ Planned under Opus plan mode, 2026-11-15. Vspec: `docs/drafts/ST-227-heading-lab
 | DS `Label` | Not used for label sites | It renders `<label htmlFor>` (`packages/design-system/src/components/Label/Label.tsx`) |
 | `composes` across packages | Works | Spike 2026-11-15: resolved in `vite` dev, `vite build`, the DS `esbuild` build (`esbuild-css-modules-plugin`) and `storybook build`; reverted. The DS build inlines one copy of a composed class per consuming file |
 
-Open in the vspec, section 9: colour in the bundle, the platform hub italic, the page eyebrow's case, and the mobile step for every heading level.
+**Signed off by Bex 2026-11-15** (vspec section 9): no colour in bundles; platform hub italic dropped; page eyebrow uppercase; **h1 and h2 step down at 768px, h3 does not** (changed from the drawing), so ContentBlock and PageSections h3 grow from 18px to 28px on phones. Rule-file diff (`docs/drafts/ST-227-rule-diffs.diff`) approved for Phase 4.
 
 ## Site classification
 
-From `python3 -I docs/reports/property-cluster-drift-audit.sweep.py`, 2026-11-15.
+From `python3 -I docs/reports/property-cluster-drift-audit.sweep.py`, 2026-11-15, after the Phase 0 sign-off.
 
 ### Headings: 40 blocks
 
@@ -91,34 +91,34 @@ From `python3 -I docs/reports/property-cluster-drift-audit.sweep.py`, 2026-11-15
 | `web/components/TrustReportSection.module.css:14` | `.sectionHeading` | heading-2 | migrate: compose `heading2` | gains the mobile size step |
 | `web/pages/pages.module.css:221` | `.detailContent h2` | heading-2 | migrate: compose `heading2`, class added in the serializer | gains the mobile size step (article, glossary and person body h2) |
 | `web/pages/platform/PlatformHubPage.module.css:45` | `.heading` | heading-2 | migrate: compose `heading2` | weight 600 to 700, line-height 1.1 to 1.25, gains the mobile size step; italic kept locally |
-| `web/components/ContactForm.module.css:32` | `.successHeading` | heading-3 | migrate: compose `heading3` | weight 700 to 600, gains line-height 1.3 and the mobile size step |
+| `web/components/ContactForm.module.css:32` | `.successHeading` | heading-3 | migrate: compose `heading3` | weight 700 to 600, gains line-height 1.3 |
 | `web/components/ContentBlock.module.css:23` | `.h3` | heading-3 | migrate: compose `heading3` | none: same token values |
 | `web/components/ContentBlock.module.css:78` | `.h2` (@media) | heading-3 | delete: the bundle carries the 768px step | none |
-| `web/components/Form.module.css:32` | `.successHeading` | heading-3 | migrate: compose `heading3` | weight 700 to 600, gains line-height 1.3 and the mobile size step |
+| `web/components/Form.module.css:32` | `.successHeading` | heading-3 | migrate: compose `heading3` | weight 700 to 600, gains line-height 1.3 |
 | `web/components/Hero.module.css:56` | `.subheading` | heading-3 | not a heading: hero lead paragraph; stays as is | none |
 | `web/components/PageSections.module.css:295` | `.heroSubheading` | heading-3 | not a heading: hero lead paragraph; stays as is | none |
 | `web/components/PageSections.module.css:332` | `.heroStatValue` | heading-3 | not a heading: stat numeral, not a heading; stays as is | none |
 | `web/components/PageSections.module.css:396` | `.h3` | heading-3 | migrate: compose `heading3` | none: same token values |
-| `web/components/PageSections.module.css:840` | `.citedBlockHeading` | heading-3 | migrate: compose `heading3` | gains the mobile size step |
+| `web/components/PageSections.module.css:840` | `.citedBlockHeading` | heading-3 | migrate: compose `heading3` | none: same token values |
 | `web/components/PageSections.module.css:1198` | `.h2` (@media) | heading-3 | delete: the bundle carries the 768px step | none |
-| `web/components/RichText.module.css:32` | `.h3` | heading-3 | migrate: compose `heading3` | gains the mobile size step |
-| `web/pages/pages.module.css:229` | `.detailContent h3` | heading-3 | migrate: compose `heading3`, class added in the serializer | gains the mobile size step (article, glossary and person body h3) |
+| `web/components/RichText.module.css:32` | `.h3` | heading-3 | migrate: compose `heading3` | none: same token values |
+| `web/pages/pages.module.css:229` | `.detailContent h3` | heading-3 | migrate: compose `heading3`, class added in the serializer | none: same token values; h3 does not step |
 | `web/components/ContentBlock.module.css:5` | `.contentBlock` | heading-4 | not a heading: body text set at the h4 size; stays as is | none |
-| `web/components/ContentBlock.module.css:82` | `.h3` (@media) | heading-4 | delete: the bundle carries the 768px step | none |
+| `web/components/ContentBlock.module.css:82` | `.h3` (@media) | heading-4 | delete: h3 no longer steps on phones (decision 5) | h3 on phones 18px to 28px |
 | `web/components/Drawer.module.css:102` | `.navItem` | heading-4 | not a heading: drawer nav item, not a heading; stays as is | none |
-| `web/components/Hero.module.css:85` | `.subheading` (@media) | heading-4 | delete: the bundle carries the 768px step | none |
+| `web/components/Hero.module.css:85` | `.subheading` (@media) | heading-4 | not a heading: hero lead paragraph; stays as is | none |
 | `web/components/PageSections.module.css:370` | `.textContent` | heading-4 | not a heading: body text set at the h4 size; stays as is | none |
 | `web/components/PageSections.module.css:404` | `.h4` | heading-4 | migrate: compose `heading4` | line-height 1.4 to 1.3 |
 | `web/components/PageSections.module.css:848` | `.citedBlockBody` | heading-4 | not a heading: body text set at the h4 size; stays as is | none |
 | `web/components/PageSections.module.css:926` | `.ctaDescription` | heading-4 | not a heading: body text set at the h4 size; stays as is | none |
-| `web/components/PageSections.module.css:1182` | `.heroSubheading` (@media) | heading-4 | delete: the bundle carries the 768px step | none |
-| `web/components/PageSections.module.css:1202` | `.h3` (@media) | heading-4 | delete: the bundle carries the 768px step | none |
+| `web/components/PageSections.module.css:1182` | `.heroSubheading` (@media) | heading-4 | not a heading: hero lead paragraph; stays as is | none |
+| `web/components/PageSections.module.css:1202` | `.h3` (@media) | heading-4 | delete: h3 no longer steps on phones (decision 5) | h3 on phones 18px to 28px |
 | `web/components/RichText.module.css:6` | `.richText` | heading-4 | not a heading: body text set at the h4 size; stays as is | none |
 | `web/components/RichText.module.css:41` | `.h4` | heading-4 | migrate: compose `heading4` | line-height 1.4 to 1.3 |
 | `web/pages/SiteGraphPage.module.css:198` | `.railHubLabel` | heading-4 | not a heading: graph rail label, not a heading; stays as is | none |
 | `web/pages/pages.module.css:214` | `.detailContent` | heading-4 | not a heading: body text set at the h4 size; stays as is | none |
 
-Migrate 21, delete 8 (`@media` steps), not a heading 11.
+Migrate 21, delete 6 (`@media` steps), not a heading 13.
 
 ### Labels: 44 blocks
 
@@ -189,7 +189,7 @@ Migrate 37, keep 4, not the label bundle 3.
 ## Acceptance Criteria
 
 - [x] The mechanism decision is recorded in this doc with its tradeoff, before any CSS is written (§Phase 0 decisions).
-- [ ] The vspec is signed off before any file under `apps/web/src/`, `packages/design-system/src/` or `tokens/` changes.
+- [x] The vspec is signed off before any file under `apps/web/src/`, `packages/design-system/src/` or `tokens/` changes.
 - [ ] Re-running `python3 -I docs/reports/property-cluster-drift-audit.sweep.py` shows no heading site that re-declares the bundle's properties by hand, except the variants named in this doc.
 - [ ] `.h2`, `.h3` and `.h4` are defined in one stylesheet (`grep -rn "^\.h[234] " apps/web/src packages/design-system/src --include='*.css'` returns one file).
 - [ ] No label site sets `font-family: var(--st-font-family-mono)` beside `--st-label-size`, and none sets a raw weight or letter-spacing (sweep table A2).
