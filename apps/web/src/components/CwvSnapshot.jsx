@@ -15,7 +15,7 @@
  */
 import { useState } from 'react'
 import stats from '../generated/stats.json'
-import { ScoreRing, SegmentedControl } from '@sugartown/design-system'
+import { ScoreRing, SegmentedControl, Grid } from '@sugartown/design-system'
 import styles from './CwvSnapshot.module.css'
 
 // Static backup data — manual Lighthouse run 2026-05-15 (sugartown.io homepage).
@@ -179,7 +179,7 @@ export default function CwvSnapshot({ section }) {
       {/* CWV tiles — Chrome UX Report field data */}
       <div className={styles.cwvSection}>
         {cruxAvailable ? (
-          <div className={styles.cwvGrid}>
+          <Grid spacing="0" columns={3} tabletColumns={3} accentTop accentColor="ink">
             {['lcp', 'cls', 'inp'].map((key) => (
               <CwvTile
                 key={key}
@@ -189,7 +189,7 @@ export default function CwvSnapshot({ section }) {
                 isEstimated={cruxIsEstimated}
               />
             ))}
-          </div>
+          </Grid>
         ) : (
           <DataUnavailable reason="no-crux" />
         )}

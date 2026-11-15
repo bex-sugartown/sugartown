@@ -26,7 +26,7 @@ import {
 import AlphaFilter from '../components/AlphaFilter'
 import NotFoundPage from './NotFoundPage'
 import styles from './TaxonomyArchivePage.module.css'
-import { Breadcrumb, PageHeader } from '../design-system'
+import { Breadcrumb, PageHeader, Avatar } from '../design-system'
 import pageStyles from './pages.module.css'
 
 // ─── Archive config keyed by URL path segment ─────────────────────────────────
@@ -94,26 +94,11 @@ const ARCHIVE_CONFIG = {
 // ─── Person avatar helper ─────────────────────────────────────────────────────
 
 function PersonAvatar({ doc }) {
+  let src
   if (doc.image?.asset) {
-    let url = null
-    try { url = urlFor(doc.image).width(80).height(80).fit('crop').url() } catch { /* fall through */ }
-    if (url) {
-      return (
-        <img
-          src={url}
-          alt={doc.image.alt ?? doc.name}
-          className={styles.itemAvatar}
-          width={40}
-          height={40}
-        />
-      )
-    }
+    try { src = urlFor(doc.image).width(80).height(80).fit('crop').url() } catch { /* initials fallback */ }
   }
-  return (
-    <div className={styles.itemAvatarFallback} aria-hidden="true">
-      {doc.name?.charAt(0)?.toUpperCase() ?? '?'}
-    </div>
-  )
+  return <Avatar src={src} name={doc.name ?? '?'} size="lg" />
 }
 
 // ─── Single taxonomy item row ─────────────────────────────────────────────────

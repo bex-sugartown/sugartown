@@ -48,7 +48,7 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import ContentList from '../components/ContentList'
-import { FilterBar, Button, IconButton } from '../design-system'
+import { FilterBar, Button, IconButton, Chip } from '../design-system'
 import Pagination from '../components/Pagination'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
@@ -371,9 +371,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
       {/* Mobile filter strip — hidden ≥768px via CSS */}
       {hasFilterUI && (
         <div className={styles.filterStrip}>
-          <button
-            type="button"
-            className={`${styles.filterChip} ${(filterDrawerOpen || activeFilterCount > 0) ? styles.filterChipActive : ''}`}
+          <Chip
+            isActive={filterDrawerOpen || activeFilterCount > 0}
             onClick={() => setFilterDrawerOpen(true)}
             aria-expanded={filterDrawerOpen}
             aria-label={`Open ${filterDrawerLabel}`}
@@ -389,7 +388,7 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                 {activeFilterCount}
               </span>
             )}
-          </button>
+          </Chip>
         </div>
       )}
 

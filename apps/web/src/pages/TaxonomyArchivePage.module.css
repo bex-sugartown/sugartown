@@ -98,32 +98,6 @@
   display: inline-block;
 }
 
-/* ── Person avatar ───────────────────────────────────────────────── */
-.itemAvatar {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--st-radius-full);
-  object-fit: cover;
-  flex-shrink: 0;
-  border: 1px solid var(--st-color-border-default);
-}
-
-.itemAvatarFallback {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--st-radius-full);
-  background: var(--st-color-bg-subtle);
-  border: 1px solid var(--st-color-border-default);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1rem;
-  font-weight: 700;
-  color: var(--st-color-text-muted);
-  flex-shrink: 0;
-  user-select: none;
-}
-
 /* ── Text block ──────────────────────────────────────────────────── */
 .itemText {
   display: flex;
@@ -169,52 +143,6 @@
 /* ── IndexGroup: letter filter strip ────────────────────────────── */
 .indexGroup {
   margin-bottom: 2.25rem;
-}
-
-.indexCell {
-  font-family: var(--st-font-family-mono);
-  font-size: 0.6875rem;
-  font-weight: 600;
-  width: 28px;
-  height: 28px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: background 0.1s, color 0.1s;
-}
-
-.indexCellActive {
-  color: var(--st-color-text-muted);
-  border: 1px solid var(--st-color-border-default);
-  background: none;
-  cursor: pointer;
-  transition: border-color 0.1s, color 0.1s, background 0.1s;
-}
-
-.indexCellActive:hover {
-  color: var(--st-color-pink);
-  border-color: var(--st-color-pink);
-}
-
-.indexCellSelected {
-  background: var(--st-color-pink);
-  border-color: var(--st-color-pink);
-  color: var(--st-color-white);
-}
-
-.indexCellSelected:hover {
-  background: var(--st-color-maroon);
-  border-color: var(--st-color-maroon);
-  color: var(--st-color-white);
-}
-
-.indexCellInactive {
-  color: var(--st-color-border-medium);
-  border: 1px solid transparent;
-  cursor: default;
-  pointer-events: none;
 }
 
 /* ── IndexGrid: multi-column index layout ────────────────────────── */
