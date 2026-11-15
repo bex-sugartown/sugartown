@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-228 vspec: surface reuse</title>
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
+<style>
+/* Template-only styles. Every value is a Pink Moon token. The shared base is ../conventions/doc-base.css. */
+:root{--doc-max-width:1000px;--doc-line-height:1.5;--doc-h1-gap:var(--st-space-1);--doc-p-gap:var(--st-space-2)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+h3{margin:var(--st-space-6) 0 var(--st-space-2)}
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
+@media (max-width:768px){.vspecPair{grid-template-columns:1fr}}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm)}
+.vspecFrame img{max-width:100%;height:auto;display:block;margin-top:var(--st-space-2)}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecRow{display:flex;flex-wrap:wrap;gap:var(--st-space-4);align-items:center;margin-top:var(--st-space-2)}
+.vspecPass{font-weight:var(--st-font-weight-bold);padding:0 var(--st-space-2);border:2px solid var(--st-posture-strong)}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+
+/* Prototype of DS Chip as it renders today (mirrors packages/design-system/src/components/Chip/Chip.module.css .chip, .interactive, .active, neutral rule).
+   Literal values (8px gap, 28px min-height, 0.45em/0.75em padding, 1px lift) are Chip's own, copied so the prototype matches. */
+.vspecChip{display:inline-flex;align-items:center;gap:8px;min-height:28px;box-sizing:border-box;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:400;line-height:1;padding:.45em .75em;border-radius:var(--st-radius-tag);background:var(--st-chip-tag-bg);border:1px solid var(--st-chip-border);color:var(--st-chip-fg);cursor:pointer}
+.vspecChip:hover,.vspecChip.vspecHover{transform:translateY(-1px);border-color:var(--st-color-pink)}
+.vspecChip.vspecActive{background:var(--st-color-text-default);border-color:var(--st-color-text-default);color:var(--st-color-bg-canvas)}
+.vspecChip svg{flex-shrink:0}
+/* Count badge kept as a local class inside the chip (pages.module.css .filterChipBadge); it inverts the active chip: canvas fill, default text. */
+.vspecBadge{display:inline-flex;align-items:center;justify-content:center;background:var(--st-color-bg-canvas);color:var(--st-color-text-default);border-radius:9999px;font-size:.6rem;font-weight:700;min-width:16px;height:16px;padding:0 4px;line-height:1}
+
+/* Prototype of DS Avatar size="lg" (Avatar.module.css .avatar, .lg, .initials, .lg .initials). */
+.vspecAvatar{display:inline-flex;align-items:center;justify-content:center;width:var(--st-space-7);height:var(--st-space-7);border-radius:var(--st-radius-full);background:var(--st-color-bg-subtle);border:1px solid var(--st-color-border-default);overflow:hidden;flex-shrink:0}
+.vspecAvatar span{font-family:var(--st-font-family-mono);font-weight:var(--st-font-weight-semibold);font-size:var(--st-font-size-sm);color:var(--st-color-text-default);line-height:1}
+.vspecPerson{display:flex;gap:var(--st-space-3);align-items:center}
+.vspecPerson strong{display:block}
+.vspecPerson small{color:var(--st-color-text-muted)}
+
+/* Prototype of the version badge (TrustReportSection.module.css .badge*, unchanged values). */
+.versionBadge{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-semibold);letter-spacing:.04em;padding:.15em .5em;text-transform:lowercase}
+.versionBadgeMinor{background:var(--st-status-validated-bg);color:var(--st-color-text-brand);border:1px solid var(--st-status-validated-border)}
+.versionBadgePatch{background:var(--st-status-archived-bg);color:var(--st-status-archived-fg);border:1px solid var(--st-status-archived-border)}
+.versionBadgeMajor{background:var(--st-status-evergreen-bg);color:var(--st-status-evergreen-fg);border:1px solid var(--st-status-evergreen-border)}
+</style>
+</head>
+<body>
+<main>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<h1>ST-228 · Surfaces re-typed outside their DS component</h1>
+<p>Issue #228. Phase 0 visual spec. Class names are the production names. Values are tokens unless marked. Every Before is a live capture from the local dev server on 2026-11-15 (headless Playwright, <code>docs/drafts/</code> images beside this file).</p>
+<div class="vspecNote"><strong>Status:</strong> signed off by Bex 2026-11-15, approved as drawn.</div>
+
+<h2>1. Interactive prototype</h2>
+<p>The two surfaces that change look: the toggle chips (drawn as DS <code>Chip</code>) and the person avatar (drawn as DS <code>Avatar size="lg"</code>). Hover the chips. Use the toggle for dark. Everything else in this epic has no visible change, or is a deletion of CSS nothing renders (section 10).</p>
+<div class="vspecFrame" id="prototype">
+  <span class="vspecTag vspecTagAfter">AFTER</span>
+  <h3>Contents strip chip (platform and detail pages, phones)</h3>
+  <div class="vspecRow">
+    <button class="vspecChip" aria-expanded="false" aria-label="Open Platform"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="11" y2="18"/></svg>Platform</button>
+    <button class="vspecChip vspecHover" aria-hidden="true" tabindex="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="11" y2="18"/></svg>Platform</button>
+    <button class="vspecChip vspecActive" aria-hidden="true" tabindex="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="11" y2="18"/></svg>Platform</button>
+  </div>
+  <div class="vspecCaption">rest · hover · open (drawer showing)</div>
+
+  <h3>Archive filter chip (/articles and other archives, phones)</h3>
+  <div class="vspecRow">
+    <button class="vspecChip"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="11" y2="18"/></svg>Filters</button>
+    <button class="vspecChip vspecActive" aria-hidden="true" tabindex="-1"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="11" y2="18"/></svg>Filters <span class="vspecBadge" id="countBadge">2</span></button>
+  </div>
+  <div class="vspecCaption">rest · active with 2 filters applied</div>
+
+  <h3>Person avatar (/people)</h3>
+  <div class="vspecRow">
+    <div class="vspecPerson"><div class="vspecAvatar" role="img" aria-label="Becky Alice Head"><span aria-hidden="true">BH</span></div><div><strong>Becky Alice Head</strong><small>Principal Product Manager</small></div></div>
+  </div>
+  <div class="vspecCaption">initials fallback at 40px. With an image, the same 40px circle holds the photo.</div>
+</div>
+
+<h2>2. Before and after</h2>
+<h3>Toggle chips</h3>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+    <img src="ST-228-before-live-2026-11-15-contents-chip.webp" alt="Contents strip chip reading PLATFORM in uppercase mono, outlined at rest and filled hot pink with white text when open, light theme above dark">
+    <div class="vspecCaption">Captured 2026-11-15 · /platform/governance at 375px · rest, open · light then dark. Header hidden for the capture (its logo overlaps the strip).</div>
+    <img src="ST-228-before-live-2026-11-15-filter-chip.webp" alt="Archive FILTERS chip, outlined at rest and hot pink when active, in light then dark">
+    <div class="vspecCaption">Captured 2026-11-15 · /articles at 375px · rest, active · light then dark. Consent banner hidden for the capture.</div></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span>
+    <p>Section 1 prototype. What changes, all toward DS <code>Chip</code>:</p>
+    <table>
+    <tr><th>Property</th><th>Before</th><th>After (Chip)</th></tr>
+    <tr><td>Type</td><td><code>monoLabel</code>: 11px, 600, 0.1em, uppercase</td><td>12px (<code>--st-font-size-xs</code>), 400, no tracking, as written</td></tr>
+    <tr><td>Rest surface</td><td><code>--st-color-bg-surface</code>, <code>--st-color-border-medium</code></td><td><code>--st-chip-tag-bg</code>, <code>--st-chip-border</code></td></tr>
+    <tr><td>Radius</td><td>2px (raw)</td><td><code>--st-radius-tag</code> (0)</td></tr>
+    <tr><td>Hover</td><td>pink border and pink text</td><td>1px lift, pink border, text unchanged</td></tr>
+    <tr><td>Active</td><td>hot pink fill, white text</td><td>ink fill (<code>--st-color-text-default</code>), canvas text: the selected look every other chip on the site uses</td></tr>
+    <tr><td>Count badge</td><td><code>--st-color-brand-primary</code> text on white</td><td><code>--st-color-text-default</code> text on <code>--st-color-bg-canvas</code>, the inverse of the active chip (section 4)</td></tr>
+    </table></div>
+</div>
+
+<h3>Person avatar</h3>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+    <img src="ST-228-before-live-2026-11-15-people-avatar.webp" alt="People archive row: a 36px round photo avatar beside the name Becky Alice Head and the title Principal Product Manager">
+    <div class="vspecCaption">Captured 2026-11-15 · /people at 1280px. The initials fallback is not live: the one person document has an image (Sanity query <code>count(*[_type=="person" &amp;&amp; !defined(image.asset)])</code> = 0).</div></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span>
+    <p>Section 1 prototype. <code>&lt;Avatar src name size="lg"&gt;</code> replaces both the image and the fallback.</p>
+    <table>
+    <tr><th>Property</th><th>Before</th><th>After (Avatar lg)</th></tr>
+    <tr><td>Size</td><td>36px (raw)</td><td>40px (<code>--st-space-7</code>). DS sizes are 16, 32, 40 and 88px; none is 36</td></tr>
+    <tr><td>Fallback initials</td><td>first letter, 1rem, 700, muted</td><td>first and last initial, <code>--st-font-size-sm</code>, 600, default text</td></tr>
+    </table></div>
+</div>
+
+<h3>Hairline grids</h3>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+    <img src="ST-228-before-live-2026-11-15-cwvgrid-1280.webp" alt="Three Core Web Vitals tiles in one row with hairline dividers and a dark top rule">
+    <div class="vspecCaption">Captured 2026-11-15 · /platform/governance at 1280px (953px wide grid). 768px and 375px captures are beside this file.</div></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span>
+    <p><code>&lt;Grid spacing="0" columns={3} tabletColumns={3} accentTop accentColor="ink"&gt;</code>. No visible change: 3 columns above 600px, 1 at or below, the same as <code>.cwvGrid</code> today. <code>tabletColumns={3}</code> is required; Grid's default would drop to 2 columns at 900px and leave an empty grey cell under the third tile.</p></div>
+</div>
+<div class="vspecPair" style="margin-top:var(--st-space-4)">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+    <img src="ST-228-before-live-2026-11-15-tilegrid-1280.webp" alt="Four design-system stat tiles in one row with a pink top rule">
+    <div class="vspecCaption">Captured 2026-11-15 · /ds-section-showcase at 1280px: 4 columns in a 756px grid. At 768px it is 2 by 2; at 375px also 2 by 2.</div></div>
+  <div class="vspecFrame"><span class="vspecTag">KEPT (decision 3)</span>
+    <p><code>Grid</code> sets every column to <code>minmax(200px, 1fr)</code>. Four columns need 4 × 200 = 800px; the grid is 756px wide (measured, <code>boundingBox()</code> in the capture script), so Grid's <code>overflow: hidden</code> would cut 44px off the fourth tile. Recommended: keep <code>.tileGrid</code>, recorded as kept with this reason.</p></div>
+</div>
+
+<h3>Version badges</h3>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+    <img src="ST-228-before-live-2026-11-15-badges.webp" alt="Release table on the governance page with lowercase minor badges in a pink-tinted box">
+    <div class="vspecCaption">Captured 2026-11-15 · /platform/governance at 1280px.</div></div>
+  <div class="vspecFrame"><span class="vspecTag vspecTagAfter">AFTER</span>
+    <div class="vspecRow"><span class="versionBadge versionBadgeMinor">minor</span><span class="versionBadge versionBadgePatch">patch</span><span class="versionBadge versionBadgeMajor">major</span></div>
+    <p>No visible change. One <code>VersionBadge</code> component replaces two identical inline <code>KindBadge</code> functions and two identical sets of four classes.</p></div>
+</div>
+
+<h2>3. Behaviour annotations</h2>
+<p>The contents strip is a nav trigger, so its six rows are annotated. The filter chip opens a drawer; its rows are the same except where noted.</p>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>While the drawer is open (filter chip: also while any filter is applied), the chip takes Chip's <code>isActive</code> look: ink fill, canvas text. Was hot pink fill.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>None on the chip. Unchanged: links inside the drawer behave as they do today.</td></tr>
+<tr><td>Scroll-spy</td><td>None on the chip. Unchanged.</td></tr>
+<tr><td>Sticky/fixed</td><td>Unchanged: the strip stays fixed under the header (<code>ContentsStrip.module.css .strip</code>). The filter chip scrolls with the archive.</td></tr>
+<tr><td>Mobile collapse</td><td>Unchanged: the strip shows below 1024px (<code>.bpLg</code>) or 768px (<code>.bpMd</code>); the filter chip below the archive's breakpoint.</td></tr>
+<tr><td>Click side-effects</td><td>Unchanged: opens the drawer. Chip renders <code>aria-pressed</code> today when it has <code>onClick</code>; these chips need <code>aria-expanded</code> instead (section 6).</td></tr>
+</table>
+
+<h2>4. Contrast, measured</h2>
+<table>
+<tr><th>Pair</th><th>Light ratio</th><th>Dark ratio</th><th>Verdict</th></tr>
+<tr><td>Chip text at rest (<code>--st-chip-fg</code> on <code>--st-chip-tag-bg</code>)</td><td>18.75</td><td>12.08</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Chip text, active (canvas on ink)</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Count badge (<code>--st-color-text-default</code> on <code>--st-color-bg-canvas</code>)</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span></td></tr>
+<tr><td>Avatar initials on <code>--st-color-bg-subtle</code></td><td>17.12</td><td>14.64</td><td><span class="vspecPass">Pass</span></td></tr>
+</table>
+<p><strong>Command:</strong> the vspec-rules.md browser script, run headless against this file; run 2026-11-15. The first draft kept the badge's pink text on white, which measured 3.10:1 in dark; the badge colours were changed to the ones above before sign-off.</p>
+
+<h2>5. Class naming table</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.versionBadge</code>, <code>.versionBadgeMinor</code>, <code>.versionBadgePatch</code>, <code>.versionBadgeMajor</code></td><td><code>TrustReportSection.module.css</code> and <code>PlatformHubPage.module.css</code> <code>.badge*</code>, identical</td><td>Move once into <code>components/VersionBadge.module.css</code>; delete both copies. Names are the component's, not a content type's.</td></tr>
+<tr><td><code>.filterChipBadge</code></td><td>existing, <code>pages.module.css</code></td><td>Kept, now a child of DS Chip. Its two colour tokens change (section 4).</td></tr>
+<tr><td>(none other)</td><td>Chip, Avatar and Grid bring their own classes</td><td>Removed: <code>.chip</code>, <code>.chip.active</code> (ContentsStrip), <code>.filterChip</code>, <code>.filterChipActive</code> (pages), <code>.itemAvatar</code>, <code>.itemAvatarFallback</code>, <code>.cwvGrid</code></td></tr>
+</table>
+
+<h2>6. Component choice audit</h2>
+<table>
+<tr><th>Surface</th><th>Candidates</th><th>Decision</th></tr>
+<tr><td>Contents strip and filter chips</td><td>DS <code>Chip</code>: covers the surface, hover, focus ring and active state (90%). Missing: an icon or count child on a default chip (only rule-dot chips render <code>children</code>), and <code>aria-expanded</code>. DS <code>Button</code>: no selected state, no chip chassis.</td><td><strong>Extend Chip</strong> (variant-first rule): render <code>children</code> for every variant, and accept <code>aria-expanded</code>, which replaces <code>aria-pressed</code> when given. Chip story gains an icon-and-expanded case in the existing Selectable story.</td></tr>
+<tr><td>Person avatar</td><td>DS <code>Avatar</code>: same circle, border and fill; takes <code>src</code> or initials (100% at size lg).</td><td>Use as-is. Size lg. No DS change.</td></tr>
+<tr><td>CWV grid</td><td>DS <code>Grid spacing="0"</code>: same hairline and frame; <code>CwvTile</code> has no border of its own (<code>CwvSnapshot.module.css</code> has borders only on the grid and the dashed empty state), so the borderless-children rule holds.</td><td>Use as-is with <code>tabletColumns={3}</code>.</td></tr>
+<tr><td>Trust stat grid</td><td>DS <code>Grid spacing="0"</code>: 200px column minimum does not fit 4 tiles in 756px.</td><td>Keep <code>.tileGrid</code> with that reason (decision 3).</td></tr>
+<tr><td>Hero stat rail</td><td>DS <code>Grid spacing="0"</code>: frame is <code>--st-color-border-wrap</code>; the rail needs <code>--st-color-white-20</code> dividers on a dark hero image and no side frame. It renders on <code>/platform</code> and <code>/ds-section-showcase</code> (Sanity query <code>*[count(sections[showStatRail == true]) &gt; 0]</code>, 2026-11-15).</td><td>Keep, reason recorded. Fitting it into Grid needs a new Grid tone prop, a DS change beyond a surface swap.</td></tr>
+<tr><td>Version badge</td><td>DS <code>Chip variant="badge"</code>: status shown by a dot, uppercase, no tinted fill (60%). Making Chip carry a tinted status fill is a restyle of Chip.</td><td><strong>New web component <code>VersionBadge</code></strong> (<code>apps/web/src/components/</code>), maps release kind to status tokens; both callers import it (decision 4).</td></tr>
+<tr><td>Form error</td><td>DS <code>ErrorMessage</code>: field-level, 12px, no box. DS <code>Callout variant="danger"</code>: label column format, not a one-line banner.</td><td>No extraction. The second copy (<code>ContactForm.module.css</code>) is imported by nothing, so <code>Form.module.css .formError</code> has one caller after its deletion.</td></tr>
+<tr><td>StatCard vs Tile</td><td>Two components, 7 StatCard importers and 2 Tile importers, different props; Tile's DesignSystemPage use is marked "pending Meter migration".</td><td>Not in this epic: file a separate issue (scope too wide for a surface swap).</td></tr>
+<tr><td>Web Callout</td><td><code>components/Callout.jsx</code> is marked <code>@deprecated</code> and imported by nothing.</td><td>Delete with its CSS.</td></tr>
+<tr><td>Web Select</td><td><code>components/Select/</code> is imported only by its own story.</td><td>Delete component, CSS and story (decision 2 in section 9).</td></tr>
+</table>
+
+<h2>7. Token list</h2>
+<table>
+<tr><th>Role</th><th>Tokens</th></tr>
+<tr><td>Chip (from Chip.module.css, unchanged)</td><td><code>--st-chip-tag-bg</code>, <code>--st-chip-border</code>, <code>--st-chip-fg</code>, <code>--st-radius-tag</code>, <code>--st-color-pink</code>, <code>--st-color-text-default</code>, <code>--st-color-bg-canvas</code>, <code>--st-focus-ring</code></td></tr>
+<tr><td>Count badge</td><td><code>--st-color-bg-canvas</code>, <code>--st-color-text-default</code> (were <code>--st-color-white</code>, <code>--st-color-brand-primary</code>)</td></tr>
+<tr><td>Avatar lg</td><td><code>--st-space-7</code>, <code>--st-radius-full</code>, <code>--st-color-bg-subtle</code>, <code>--st-color-border-default</code>, <code>--st-font-size-sm</code>, <code>--st-font-weight-semibold</code></td></tr>
+<tr><td>Grid spacing 0</td><td><code>--st-space-0</code>, <code>--st-color-border-wrap</code>, <code>--st-color-text-default</code> (ink accent)</td></tr>
+<tr><td>Version badge (moved, unchanged)</td><td><code>--st-status-validated-*</code>, <code>--st-status-archived-*</code>, <code>--st-status-evergreen-*</code>, <code>--st-color-text-brand</code></td></tr>
+</table>
+
+<h2>8. Governance checks</h2>
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>Yes</td><td>The chips and avatar change look on live pages (section 2)</td></tr>
+<tr><td>Nav annotations (six)</td><td>Yes, contents strip</td><td>Section 3</td></tr>
+<tr><td>Interactive prototype</td><td>No trigger fires</td><td>Hover is CSS; the drawer it opens is unchanged</td></tr>
+<tr><td>CSS class reuse audit</td><td>Yes</td><td>Section 5</td></tr>
+<tr><td>Component choice audit</td><td>Yes</td><td>Section 6</td></tr>
+<tr><td>Content Write Gate</td><td>No</td><td>No Sanity writes</td></tr>
+<tr><td>Rule-file write gate</td><td>No</td><td>No rule file in scope. <code>docs/conventions/component-registry.md</code> changes for VersionBadge, Select and Callout; that file is under <code>docs/conventions/</code>, so its diff comes to Bex before the commit</td></tr>
+<tr><td>Diagram red-pen gate</td><td>No</td><td>No diagram</td></tr>
+</table>
+
+<h2>9. Decisions answered</h2>
+<ol>
+<li><strong>Toggle chips:</strong> answered 2026-11-15, as drawn: swap both to DS Chip and take Chip's look (normal-case 12px, ink when active). Alternative: keep today's uppercase pink look as one shared class, no DS swap.</li>
+<li><strong>Web Select:</strong> answered 2026-11-15, as drawn: delete it (nothing renders it). Alternative: keep it and match Input's surface.</li>
+<li><strong>Trust stat grid:</strong> answered 2026-11-15, as drawn: keep <code>.tileGrid</code> (Grid's 200px minimum clips the fourth tile). Alternative: Grid at 2 columns everywhere, which turns today's desktop row of 4 into 2 by 2.</li>
+<li><strong>Version badge home:</strong> answered 2026-11-15, as drawn: new web <code>VersionBadge</code> component. Alternative: a tinted-fill option on DS Chip.</li>
+<li><strong>StatCard vs Tile, web Callout:</strong> drawn: StatCard/Tile to a separate issue; web Callout deleted as dead. (2026-11-15, decided by the epic's "decide at Phase 0" scope line.)</li>
+<li><strong>Form error:</strong> drawn: no shared component; one caller once the dead copy is deleted. (2026-11-15)</li>
+</ol>
+
+<h2>10. Change-specific sections</h2>
+<h3>Site classification</h3>
+<table>
+<tr><th>Site</th><th>Renders</th><th>Decision</th></tr>
+<tr><td><code>ContentsStrip.module.css</code> <code>.chip</code>, <code>.chip.active</code></td><td>yes</td><td>Swap to DS Chip</td></tr>
+<tr><td><code>pages.module.css</code> <code>.filterChip</code>, <code>.filterChipActive</code></td><td>yes, ArchivePage</td><td>Swap to DS Chip</td></tr>
+<tr><td><code>TaxonomyArchivePage.module.css</code> <code>.itemAvatar</code>, <code>.itemAvatarFallback</code></td><td>yes (image only)</td><td>Swap to DS Avatar lg</td></tr>
+<tr><td><code>TaxonomyArchivePage.module.css</code> <code>.indexCell</code>, <code>.indexCellActive</code>, <code>.indexCellSelected</code>, <code>.indexCellInactive</code> and hovers</td><td><strong>no</strong>: <code>AlphaFilter.jsx</code> renders DS <code>IndexCell</code>; the page references none of them</td><td>Delete (wider than the epic's table, which named only <code>.indexCellSelected</code>)</td></tr>
+<tr><td>web <code>Select/</code></td><td><strong>no</strong>: story only</td><td>Delete (decision 2)</td></tr>
+<tr><td><code>CwvSnapshot.module.css</code> <code>.cwvGrid</code></td><td>yes</td><td>Swap to Grid spacing 0</td></tr>
+<tr><td><code>TrustReportSection.module.css</code> <code>.tileGrid</code></td><td>yes</td><td>Keep (decision 3)</td></tr>
+<tr><td><code>PageSections.module.css</code> <code>.heroStatRail</code></td><td>yes, /platform and /ds-section-showcase heroes</td><td>Keep, reason in section 6</td></tr>
+<tr><td>Version badges, two files</td><td>yes</td><td>Extract <code>VersionBadge</code></td></tr>
+<tr><td><code>Form.module.css</code> <code>.formError</code></td><td>yes</td><td>Keep, single caller</td></tr>
+<tr><td><code>ContactForm.module.css</code></td><td><strong>no</strong>: imported by nothing</td><td>Delete file</td></tr>
+<tr><td><code>StatCard.module.css</code> vs <code>Tile.module.css</code></td><td>yes</td><td>Separate issue</td></tr>
+<tr><td>web <code>components/Callout.jsx</code> and <code>.module.css</code></td><td><strong>no</strong>: deprecated, imported by nothing</td><td>Delete</td></tr>
+</table>
+<h3>Ownership with #232</h3>
+<p>#232 deletes <code>PlatformHubPage.module.css</code> <code>.heading</code> and <code>.priorityBadge</code>. This epic owns that file's <code>.badge</code>, <code>.badgeMinor</code>, <code>.badgePatch</code> and <code>.badgeMajor</code>, which GovernancePage renders. No class is owned by both.</p>
+<h3>Not in scope, noted by the sweep</h3>
+<p>Web <code>Checkbox</code> and <code>Switch</code> repeat a form-control surface, but the DS has no Checkbox or Switch to reuse, so they are not re-implementations of a DS component.</p>
+
+<h2>11. Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[x] vspec reviewed (Bex, 2026-11-15)</li>
+<li>[x] class table approved</li>
+<li>[x] component choice audit approved</li>
+<li>[x] open decisions answered: approved as drawn</li>
+</ul>
+</main>
+<script src="../conventions/doc-theme-toggle.js"></script>
+</body>
+</html>
