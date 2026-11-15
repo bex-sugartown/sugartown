@@ -40,10 +40,7 @@
 }
 
 .heading {
-  font-family: var(--st-font-family-narrative);
-  font-style: italic;
-  font-size: var(--st-font-heading-2);
-  line-height: 1.1;
+  composes: heading2 from '@sugartown/design-system/styles/type.module.css';
   color: var(--st-color-text-default);
   margin: 0 0 0.75rem;
 }

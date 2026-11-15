@@ -87,10 +87,7 @@
 }
 
 .title {
-  font-family: var(--st-font-family-narrative);
-  font-size: var(--st-font-page-h1);
-  font-weight: var(--st-font-weight-normal);
-  line-height: var(--st-line-height-tight);
+  composes: headingPage from '../../styles/type.module.css';
   color: var(--st-color-text-default);
   margin: 0;
   text-wrap: pretty;

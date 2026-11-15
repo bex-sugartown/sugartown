@@ -4,7 +4,7 @@
  */
 import { useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
-import sharedPTComponents from '../lib/portableTextComponents'
+import { detailPTComponents as sharedPTComponents } from '../lib/portableTextComponents'
 import { preprocessPortableText } from '../lib/portableTextStatsVars'
 import { decodePortableText } from '../lib/htmlUtils'
 import { markGlossaryFirstOccurrences } from '../lib/glossaryFirstOccurrence'

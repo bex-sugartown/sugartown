@@ -32,12 +32,9 @@
 }
 
 .heading {
+  composes: headingPage from '@sugartown/design-system/styles/type.module.css';
   margin: 0 0 0.75rem;
-  font-family: var(--st-font-family-narrative);
-  font-size: var(--st-font-heading-1);
-  font-weight: 400;
   color: var(--st-color-text-default);
-  line-height: 1.1;
 }
 
 .subtitle {
