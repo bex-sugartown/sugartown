@@ -35,12 +35,12 @@ This epic touches **documentation only**. It does not touch `tokens/source/token
 
 ## Scope
 
-- [ ] Full typography sweep: grep every `var(--st-font-*)` usage (heading, body, caption, family, weight, line-height, letter-spacing tokens) across all CSS in `apps/web/src/**/*.css` and `packages/design-system/src/**/*.css` — not a sample, exhaustive. Tabulate which of {family, size, weight, line-height, letter-spacing, color} accompany each usage and flag hardcoded escapes (e.g. the known `line-height: 1.3` in `ContentBlock.module.css`). — layer: tooling/audit
-- [ ] Spacing-group sweep: identify any place 2+ spacing tokens combine into a repeated shorthand pattern (padding/margin pairs, stack rhythms) that's hand-duplicated across files rather than expressed once. — layer: tooling/audit
-- [ ] Surface sweep: identify background + border + radius + shadow combinations repeated across structured-surface components (Card, MetadataCard, Callout, FilterBar) — cross-reference the dark-mode cascade and bg-through-gap patterns already named in `CLAUDE.md` to see whether those existing prose conventions are substituting for compiled infrastructure. — layer: tooling/audit
-- [ ] Motion/transform sweep: identify transition/transform property clusters (e.g. hover-lift distance + duration + easing) repeated across interactive components (Button, Card, Chip, IconButton). — layer: tooling/audit
-- [ ] Write `docs/reports/property-cluster-drift-audit.md` using the same evidence-based Match/Drift/Gap method as the precedent alignment audit — every verdict cited to file:line, no domain-level assertions without instance-level backing. — layer: documentation
-- [ ] Add a report section evaluating whether `validate:tokens` (or a new script) could mechanically catch property-cluster drift going forward, independent of whether a bundling layer gets built. — layer: tooling/audit
+- [x] Full typography sweep: grep every `var(--st-font-*)` usage (heading, body, caption, family, weight, line-height, letter-spacing tokens) across all CSS in `apps/web/src/**/*.css` and `packages/design-system/src/**/*.css` — not a sample, exhaustive. Tabulate which of {family, size, weight, line-height, letter-spacing, color} accompany each usage and flag hardcoded escapes (e.g. the known `line-height: 1.3` in `ContentBlock.module.css`). — layer: tooling/audit
+- [x] Spacing-group sweep: identify any place 2+ spacing tokens combine into a repeated shorthand pattern (padding/margin pairs, stack rhythms) that's hand-duplicated across files rather than expressed once. — layer: tooling/audit
+- [x] Surface sweep: identify background + border + radius + shadow combinations repeated across structured-surface components (Card, MetadataCard, Callout, FilterBar) — cross-reference the dark-mode cascade and bg-through-gap patterns already named in `CLAUDE.md` to see whether those existing prose conventions are substituting for compiled infrastructure. — layer: tooling/audit
+- [x] Motion/transform sweep: identify transition/transform property clusters (e.g. hover-lift distance + duration + easing) repeated across interactive components (Button, Card, Chip, IconButton). — layer: tooling/audit
+- [x] Write `docs/reports/property-cluster-drift-audit.md` using the same evidence-based Match/Drift/Gap method as the precedent alignment audit — every verdict cited to file:line, no domain-level assertions without instance-level backing. — layer: documentation
+- [x] Add a report section evaluating whether `validate:tokens` (or a new script) could mechanically catch property-cluster drift going forward, independent of whether a bundling layer gets built. — layer: tooling/audit
 
 ## Phases
 
@@ -61,10 +61,10 @@ Phase 2 starts in the same turn as Phase 1 ends.
 
 ## Acceptance criteria
 
-- [ ] `docs/reports/property-cluster-drift-audit.md` exists and covers all 4 domains (typography, spacing, surfaces, motion), each with a Match/Drift/Gap verdict and file:line citations, plus any additional domain discovered during the sweep.
-- [ ] Every hand-duplicated property-cluster instance found is individually listed with a citation — matching the evidence bar the precedent audit set, not a summary count.
-- [ ] Report ends with an explicit "build a fix epic / monitor / not worth it" recommendation per domain, sized by rough file/instance count, so a follow-on fix epic's scope decision doesn't require re-deriving this analysis.
-- [ ] No CSS, schema, token source, or generated token file is modified as part of this epic.
+- [x] `docs/reports/property-cluster-drift-audit.md` exists and covers all 4 domains (typography, spacing, surfaces, motion), each with a Match/Drift/Gap verdict and file:line citations, plus any additional domain discovered during the sweep.
+- [x] Every hand-duplicated property-cluster instance found is individually listed with a citation — matching the evidence bar the precedent audit set, not a summary count.
+- [x] Report ends with an explicit "build a fix epic / monitor / not worth it" recommendation per domain, sized by rough file/instance count, so a follow-on fix epic's scope decision doesn't require re-deriving this analysis.
+- [x] No CSS, schema, token source, or generated token file is modified as part of this epic.
 
 ## Human QA Walkthrough — example local pages
 
@@ -97,3 +97,34 @@ Not applicable — documentation/audit epic only. No CSS, layout, token, or comp
 - **GitHub:** [#68](https://github.com/bex-sugartown/sugartown/issues/68)
 - **Precedent audit:** `docs/reports/alignment-audit-hypertokens-vs-sugartown-tokens.md`
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time (Schema Enum Audit and Query Layer Checklist are likely not applicable given this epic's documentation-only scope — confirm at activation)
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] Report exists and covers typography, spacing, surfaces, motion, plus focus rings found in the sweep, each with a verdict and file:line citations: `docs/reports/property-cluster-drift-audit.md`.
+- [x] Every cluster instance is listed individually: Appendix A1, A2, B1, C1, C2, D1, D2 and E1, generated by `python3 -I docs/reports/property-cluster-drift-audit.sweep.py`. Raw single-property values are counted per file (A3, B2), not listed, because they are not clusters; the report says so.
+- [x] Report ends with a fix / monitor / not-worth-it call per domain, sized by site and file count (§Recommendations).
+- [x] No CSS, schema, token source or generated token file changed: `git show --stat 4248bd47` lists only the epic doc, the report and its sweep script.
+
+### What didn't work
+
+- An exploratory pass and the final generator used slightly different property sets for surfaces and focus rings (168 vs 162 surface blocks, 42 vs 41 focus blocks). Every count in the report was re-read from the generator output before commit, so no correction commit was needed.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Heading, label and focus-ring bundles (76 + 22 sites) | implementation | #227 |
+| Surfaces re-typed outside their DS component (about 23 sites) | implementation | #228 |
+| Raw 150ms transitions duplicate `--st-transition-fast` (51 sites) | implementation | #229 |
+| Two spacing scales and 332 raw spacing values | implementation | #230 |
+| Precedent audit cites the h3 block as h2 | workflow-docs | declined: fixed in this epic, correction note at the top of `docs/reports/alignment-audit-hypertokens-vs-sugartown-tokens.md` |
+
+### Friction line
+
+none
+
+## Post-ship checks
+
+none (documentation only; nothing renders on the live site)

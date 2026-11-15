@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- SUG-206: an audit of hand-copied style clusters across all 106 stylesheets finds heading, label, focus-ring and surface drift (spacing clean), with a fix, monitor or drop call per area and four follow-ups filed. (#68; `docs/reports/property-cluster-drift-audit.md`, evidence from its sweep script, smoke 33 passed)
 - An AI image used on two articles and the design-system showcase page no longer shows two brand names: they are redacted in Sugartown pink, and every use carries the AI-generated badge, alt text that describes the image, and stamped copies with the visible mark and IPTC metadata. (#225; five uses re-checked in Sanity, live hero, inline and share image served from the stamped copies, `stamp.py --verify` passes on the served files)
 - Content working drafts now start, export and check with one command: `pnpm export:draft new | export | check`, and export refuses to overwrite unsynced local edits. (#224; 8 unit tests, 5 probes against the ST-162 draft, one stamp-filling bug found and fixed in the run)
 - A citation typed as [N] in a table cell now renders as a linked pill to its note, and `validate:content` flags a typed [N] in body text or a citation number with no note; the write skills and red-pen now say how to cite. (#221; ST-162 draft: 8 table and 6 body pills link to their notes on desktop and mobile, 9 unit tests and 2 liveness probes pass, smoke 33 passed)
