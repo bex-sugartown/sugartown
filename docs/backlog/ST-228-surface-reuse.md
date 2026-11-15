@@ -45,31 +45,42 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] **Classify every site** in the Background table (Phase 0): swap to the DS component, extract a shared component, delete as dead, or keep with a reason. Re-run the sweep first. — layer: frontend
-- [ ] **Component choice audit** (`.claude/rules/react.md` §Component choice gate) for each swap and each new shared component, in the vspec. — layer: frontend
-- [ ] **Chip:** `ContentsStrip` chips and the archive filter chips render DS `Chip` (or document why they can't). — layer: frontend
-- [ ] **Avatar:** taxonomy archive avatar fallback renders DS `Avatar`. — layer: frontend
-- [ ] **Select:** web `Select` reads the same surface as DS `Input`, by composing it or by moving into the DS beside `Input`. — layer: frontend / DS
-- [ ] **Hairline grids:** `cwvGrid`, `tileGrid` and, if it fits, `heroStatRail` render `Grid spacing="0"`. — layer: frontend
-- [ ] **Version badge and form error:** one shared component each, used by both callers. — layer: frontend
-- [ ] **Dead CSS:** delete `ContactForm.module.css` and `TaxonomyArchivePage` `.indexCellSelected` after confirming nothing references them. — layer: frontend CSS
-- [ ] **StatCard vs Tile, web Callout vs DS Callout:** decide at Phase 0 whether they merge in this epic or file separately. — layer: frontend
+- [x] **Classify every site** in the Background table (Phase 0): swap to the DS component, extract a shared component, delete as dead, or keep with a reason. Re-run the sweep first. — layer: frontend
+- [x] **Component choice audit** (`.claude/rules/react.md` §Component choice gate) for each swap and each new shared component, in the vspec. — layer: frontend
+- [ ] **Chip:** `ContentsStrip` chips and the archive filter chips render DS `Chip`, taking Chip's look. Chip renders `children` for every variant and accepts `aria-expanded`; the Selectable story gains an icon-and-expanded case. The count badge inverts the active chip (`--st-color-bg-canvas` fill, `--st-color-text-default` text). — layer: frontend / DS
+- [ ] **Avatar:** the taxonomy archive person avatar, image and fallback, renders DS `Avatar size="lg"` (40px; was 36px). — layer: frontend
+- [ ] **Select:** delete web `Select` (component, CSS, story). Only its own story imports it. — layer: frontend
+- [ ] **Hairline grids:** `cwvGrid` renders `Grid spacing="0" columns={3} tabletColumns={3} accentTop accentColor="ink"`. `tileGrid` and `heroStatRail` are kept with reasons (Phase 0 classification). — layer: frontend
+- [ ] **Version badge:** new web component `VersionBadge` (`apps/web/src/components/`), used by `TrustReportSection.jsx` and `GovernancePage.jsx`; both class sets and both inline `KindBadge` functions go. `docs/conventions/component-registry.md` updated in the same commit. Form error: no extraction, one caller after the dead copy goes. — layer: frontend
+- [ ] **Dead code:** delete `ContactForm.module.css`, the whole `TaxonomyArchivePage` `.indexCell*` family, and the deprecated web `components/Callout.jsx` and `.module.css`, after confirming nothing references them. — layer: frontend
+- [ ] **StatCard vs Tile:** file as a separate issue (decided at Phase 0: 7 StatCard and 2 Tile importers with different props). — layer: process
+
+## Phase 0 classification
+
+Done 2026-11-15; Bex signed off the vspec, class table and component choice audit as drawn the same day. The per-site table, the component choice audit and the Before captures are in the vspec, section 10 and section 6 (`docs/drafts/ST-228-surface-reuse.vspec.html`). Corrections to the Background table above:
+
+- **IndexCell:** the whole `.indexCell*` family in `TaxonomyArchivePage.module.css` is unused, not only `.indexCellSelected`. `AlphaFilter.jsx` renders DS `IndexCell`.
+- **Select:** web `Select` is imported only by its own story. Deleted rather than re-surfaced.
+- **Hero stat rail:** renders on `/platform` and `/ds-section-showcase` (Sanity, `showStatRail == true`). Kept: its `--st-color-white-20` dividers on a dark hero need a Grid tone prop that does not exist.
+- **Trust tile grid:** kept. `Grid` sets each column to `minmax(200px, 1fr)`; 4 columns need 800px and the grid is 756px wide at 1280px, so the fourth tile would be clipped.
+- **Callout:** web `components/Callout.jsx` is `@deprecated` and imported by nothing. Deleted.
+- **Form error:** one caller once `ContactForm.module.css` is deleted, so no shared component.
 
 ## Phases
 
 | Phase | Covers Scope items | Ships | Gate |
 |---|---|---|---|
-| 0. Classify and spec | classify, component choice audit, StatCard/Tile and Callout decision | classification table in this doc, vspec | **Bex signs off the vspec, the component choice audit and any new class or component names** (CLAUDE.md §Phase 0) |
-| 1. Swap to DS components | Chip, Avatar, Select, hairline grids | live surfaces render DS components | none |
-| 2. Shared extractions and dead CSS | version badge, form error, dead CSS | one component per shared surface, dead copies gone | none |
+| 0. Classify and spec | classify, component choice audit | classification table in this doc, vspec | **Bex signs off the vspec, the component choice audit and any new class or component names** (CLAUDE.md §Phase 0) |
+| 1. Swap to DS components | Chip, Avatar, hairline grids | live surfaces render DS components | none |
+| 2. Extraction and dead code | version badge, Select, dead code, StatCard vs Tile issue | `VersionBadge`, dead copies gone, issue filed | none |
 
 ## Acceptance Criteria
 
 - [ ] Re-running `python3 -I docs/reports/property-cluster-drift-audit.sweep.py` lists no surface signature repeated between a page file and a DS component, except those kept with a reason in this doc.
 - [ ] `ContentsStrip`, the archive filter chips and the taxonomy avatar fallback render the DS component (checked in the DOM: the DS class name is on the element).
-- [ ] `cwvGrid` and `tileGrid` no longer exist; both render `Grid spacing="0"`.
-- [ ] The version badges and form error each come from one component, used at every call site.
-- [ ] `ContactForm.module.css` and `.indexCellSelected` are deleted (`git ls-files` and `grep` confirm no reference).
+- [ ] `cwvGrid` no longer exists and renders `Grid spacing="0"`; it still shows 3 columns above 600px. `tileGrid` and `heroStatRail` carry a comment naming their kept-with-reason.
+- [ ] The version badges come from `VersionBadge` at both call sites.
+- [ ] `ContactForm.module.css`, the `.indexCell*` classes in `TaxonomyArchivePage.module.css`, web `Select/` and web `components/Callout.*` are deleted (`git ls-files` and `grep` confirm no reference).
 - [ ] Every new or changed component has a Storybook story covering its variants, in light and dark (`.claude/rules/storybook.md`).
 - [ ] `pnpm validate:tokens`, `pnpm validate:dead-refs` and `pnpm test:smoke` pass.
 - [ ] Visual QA approved against the vspec, and Chromatic approved before the push.
@@ -81,7 +92,17 @@ Not applicable, no content piece.
 > incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
 > Walkthrough. Capture one real published slug per detail page-type and datestamp it.
 
-Known surfaces to include: an article with the contents strip, `/articles` (filter chips), `/people` or `/tools` (avatar fallback), the home page (trust report tile grid, CWV snapshot, hero stat rail), `/platform/governance` (version badges), and a page with a form.
+| Surface | Local URL | Width | Check |
+|---|---|---|---|
+| Contents strip chip | `/platform/governance` | 375px | rest, hover, open; `aria-expanded` toggles |
+| Archive filter chip | `/articles` | 375px | rest, active with a filter applied, count badge |
+| Person avatar | `/people` | 1280px | 40px photo circle |
+| CWV grid | `/platform/governance` | 1280, 768, 375px | 3, 3, 1 columns |
+| Version badges | `/platform/governance`, `/ds-section-showcase` | 1280px | unchanged |
+| Trust tile grid, hero stat rail (kept, regression guard) | `/ds-section-showcase`, `/platform` | 1280, 375px | unchanged |
+| Form error | Storybook Form story | n/a | unchanged |
+
+Pages captured 2026-11-15 on the local dev server.
 
 ## Technical notes
 
