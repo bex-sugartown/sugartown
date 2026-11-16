@@ -112,7 +112,7 @@ export default defineType({
       title: 'Description',
       type: 'text',
       group: 'basics',
-      description: 'What is this tool and when should it be tagged? Helps editors maintain consistent vocabulary. (max. 300 characters)',
+      description: 'Public description of the tool, written for readers. Shown on the tool page, as its search-result snippet and social preview, and in its structured data. Keep editor guidance out of it. (max. 300 characters)',
       rows: 2,
       validation: (Rule) => Rule.max(300)
     }),
