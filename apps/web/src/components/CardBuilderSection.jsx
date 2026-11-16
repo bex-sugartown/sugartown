@@ -149,7 +149,7 @@ function BuilderCard({ card, variant }) {
   const thumbnailUrl = stampedCopies(card.image)
     ? imageUrlFor(card.image, 600)
     : card.image?.asset
-      ? urlFor(card.image.asset).width(600).quality(85).url()
+      ? urlFor(card.image.asset).width(600).quality(75).url() // #213: was 85; Lighthouse flagged compression
       : undefined
 
   // Build card-local citation index map so body markers match footnote numbering

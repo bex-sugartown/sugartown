@@ -9,10 +9,13 @@
     <!-- Google Analytics loads from the app bundle only after consent: src/lib/consent.js (SUG-202) -->
     <!-- Google Fonts: authoritative <link> for Ledger Tradition (AB-001) font stack.
          Cormorant Garamond (headings/narrative), DM Sans (body/UI), IBM Plex Mono (mono labels).
-         <link rel="stylesheet"> is loaded in parallel with JS, earlier than CSS @import. -->
+         <link rel="stylesheet"> is loaded in parallel with JS, earlier than CSS @import.
+         #213: media="print" + onload keeps it from blocking first paint; text renders in the
+         fallback stack until the fonts arrive (display=swap did that already once the CSS loaded). -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=DM+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
   </head>
   <body>
     <!-- Hidden form for Netlify deploy-time detection (SPA pattern) -->

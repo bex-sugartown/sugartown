@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { lazy, Suspense, useEffect, useState } from 'react'
 import { Routes, Route, Navigate, useParams, useLocation } from 'react-router-dom'
 import { client, urlFor } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
@@ -9,36 +9,37 @@ import Footer from './components/Footer'
 import ConsentBanner from './components/ConsentBanner'
 import PreviewBanner from './components/PreviewBanner'
 
-// Pages
+// Pages — the homepage stays in the entry bundle; every other route loads its own
+// chunk on first visit, so the homepage does not download their code (#213).
 import HomePage from './pages/HomePage'
-import RootPage from './pages/RootPage'
-import ArchivePage from './pages/ArchivePage'
-import ArticlePage from './pages/ArticlePage'
-import ReleaseNotePage from './pages/ReleaseNotePage'
-import SeriesPage from './pages/SeriesPage'
-import CaseStudyPage from './pages/CaseStudyPage'
-import NodePage from './pages/NodePage'
-import TaxonomyPlaceholderPage from './pages/TaxonomyPlaceholderPage'
-import ToolDetailPage from './pages/ToolDetailPage'
-import TaxonomyArchivePage from './pages/TaxonomyArchivePage'
-import PersonProfilePage from './pages/PersonProfilePage'
-import ProjectDetailPage from './pages/ProjectDetailPage'
-import SiteGraphPage from './pages/SiteGraphPage'
-import SchemaErdPage from './pages/SchemaErdPage'
-import PlatformLayout from './components/PlatformLayout/PlatformLayout'
-import GovernancePage from './pages/platform/GovernancePage'
-import MonorepoPage from './pages/platform/MonorepoPage'
-import CmsPage from './pages/platform/CmsPage'
-import DesignSystemPage from './pages/platform/DesignSystemPage'
+const RootPage = lazy(() => import('./pages/RootPage'))
+const ArchivePage = lazy(() => import('./pages/ArchivePage'))
+const ArticlePage = lazy(() => import('./pages/ArticlePage'))
+const ReleaseNotePage = lazy(() => import('./pages/ReleaseNotePage'))
+const SeriesPage = lazy(() => import('./pages/SeriesPage'))
+const CaseStudyPage = lazy(() => import('./pages/CaseStudyPage'))
+const NodePage = lazy(() => import('./pages/NodePage'))
+const TaxonomyPlaceholderPage = lazy(() => import('./pages/TaxonomyPlaceholderPage'))
+const ToolDetailPage = lazy(() => import('./pages/ToolDetailPage'))
+const TaxonomyArchivePage = lazy(() => import('./pages/TaxonomyArchivePage'))
+const PersonProfilePage = lazy(() => import('./pages/PersonProfilePage'))
+const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'))
+const SiteGraphPage = lazy(() => import('./pages/SiteGraphPage'))
+const SchemaErdPage = lazy(() => import('./pages/SchemaErdPage'))
+const PlatformLayout = lazy(() => import('./components/PlatformLayout/PlatformLayout'))
+const GovernancePage = lazy(() => import('./pages/platform/GovernancePage'))
+const MonorepoPage = lazy(() => import('./pages/platform/MonorepoPage'))
+const CmsPage = lazy(() => import('./pages/platform/CmsPage'))
+const DesignSystemPage = lazy(() => import('./pages/platform/DesignSystemPage'))
 
-import DesignSystemRegistryPage from './pages/platform/DesignSystemRegistryPage'
-import ContentModelsPage from './pages/platform/ContentModelsPage'
-import SectionShowcasePage from './pages/platform/SectionShowcasePage'
-import SitemapPage from './pages/SitemapPage'
-import TablesDevPage from './pages/dev/TablesDevPage'
-import NotFoundPage from './pages/NotFoundPage'
-import GlossaryArchivePage from './pages/GlossaryArchivePage'
-import GlossaryTermPage from './pages/GlossaryTermPage'
+const DesignSystemRegistryPage = lazy(() => import('./pages/platform/DesignSystemRegistryPage'))
+const ContentModelsPage = lazy(() => import('./pages/platform/ContentModelsPage'))
+const SectionShowcasePage = lazy(() => import('./pages/platform/SectionShowcasePage'))
+const SitemapPage = lazy(() => import('./pages/SitemapPage'))
+const TablesDevPage = lazy(() => import('./pages/dev/TablesDevPage'))
+const NotFoundPage = lazy(() => import('./pages/NotFoundPage'))
+const GlossaryArchivePage = lazy(() => import('./pages/GlossaryArchivePage'))
+const GlossaryTermPage = lazy(() => import('./pages/GlossaryTermPage'))
 
 import './App.css'
 
@@ -98,6 +99,7 @@ function App() {
       <Header siteSettings={siteSettings} settingsLoading={settingsLoading} />
       <ScrollToTop />
 
+      <Suspense fallback={null}>
       <Routes>
         {/* ── Homepage ─────────────────────────────────────────────── */}
         <Route path="/" element={<HomePage />} />
@@ -185,6 +187,7 @@ function App() {
         {/* Catches all multi-segment paths not matched by any route above. */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
+      </Suspense>
 
       <Footer siteSettings={siteSettings} />
       <ConsentBanner />

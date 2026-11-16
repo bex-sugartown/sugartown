@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback, Children } from 'react'
+import { preload } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { urlFor } from '../lib/sanity'
 import { getLinkProps } from '../lib/linkUtils'
@@ -204,7 +205,12 @@ export function HeroSection({ section }) {
   if (hasImage) {
     const x = backgroundImage.hotspot?.x ?? 0.5
     const y = backgroundImage.hotspot?.y ?? 0.5
-    const bgUrl = `url(${imageUrlFor(backgroundImage, 1920)})`
+    // #213: phones get a 1080px image instead of 1920px, and the URL is preloaded at high
+    // priority because a CSS background is invisible to the browser's preload scanner.
+    const heroImageWidth = typeof window !== 'undefined' && window.innerWidth <= 768 ? 1080 : 1920
+    const heroImageUrl = imageUrlFor(backgroundImage, heroImageWidth)
+    preload(heroImageUrl, { as: 'image', fetchPriority: 'high' })
+    const bgUrl = `url(${heroImageUrl})`
 
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
     // CSS variable consumed by ::after pseudo-element (all hero treatments)
