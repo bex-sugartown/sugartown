@@ -20,6 +20,18 @@
 # refuses if the remote moved unexpectedly. This namespace is written only by this
 # hook; it is never a source of truth and is safe to discard.
 #
+# WHY THE FETCH IS FORCED (`+`)
+# Two machines mirror the same flat ref when both commit on one branch on one day. When the
+# other machine moved the ref to a commit this clone lacks, an unforced fetch refuses the
+# non-fast-forward update, the lease base stays stale, and every push fails "stale info"
+# (#215, 2026-11-08: three FAILs running). The forced fetch keeps the base current. Accepted
+# cost (#215 design a): the later writer replaces the earlier machine's mirror until that
+# machine commits again.
+#
+# RECOVERY
+# After a FAIL, rerun this hook in the foreground; it is the one copy of the mirror logic:
+#   ST_MIRROR_SYNC=1 sh .husky/post-commit; tail -1 .git/st-mirror.log
+#
 # WHY ONE REF PER BRANCH PER DAY
 # A single wip/<date> ref mirrored only the branch committed on last: committing on main after a
 # feature branch (or the reverse) overwrote the other branch's commits in the mirror, leaving them
@@ -61,11 +73,9 @@ LOG=".git/st-mirror.log"
 # name the reader before building the writer).
 if [ -f "$LOG" ] && grep -q '^FAIL' "$LOG" 2>/dev/null; then
   echo "⚠️   wip mirror: last push failed — $(tail -1 "$LOG")"
-  echo "    Commits may exist only on this disk. Check connectivity, or run both lines"
-  echo "    (the fetch is what gives --force-with-lease a current base — ST-106):"
-  echo "    B=wip/$(date +%Y-%m-%d)-$(git branch --show-current 2>/dev/null | tr / - || echo detached)"
-  echo "    git fetch origin \"refs/heads/\$B:refs/remotes/origin/\$B\""
-  echo "    git push --force-with-lease origin HEAD:refs/heads/\$B"
+  echo "    Commits may exist only on this disk. This commit's mirror is retrying now."
+  echo "    To retry by hand and see the result:"
+  echo "    ST_MIRROR_SYNC=1 sh .husky/post-commit; tail -1 .git/st-mirror.log"
 fi
 
 CUR=$(git branch --show-current 2>/dev/null | tr / -); [ -n "$CUR" ] || CUR=detached
@@ -78,8 +88,8 @@ SHA=$(git rev-parse --short HEAD)
 FULL=$(git rev-parse HEAD)
 
 # Backgrounded so committing stays fast. Detached from the terminal so husky does
-# not wait on it.
-(
+# not wait on it. ST_MIRROR_SYNC=1 runs it in the foreground (the recovery command above).
+mirror() (
   # Refresh the remote-tracking ref before pushing. --force-with-lease compares against it,
   # and when it is absent or stale git refuses with "stale info". That happens whenever
   # another actor (a second machine, or the stats bot) advanced this ref first, which is
@@ -89,12 +99,21 @@ FULL=$(git rev-parse HEAD)
   # exits 128. Under `sh -e` that used to kill this subshell before the push and before
   # the log line, so every day's first commit went unmirrored and unrecorded. The
   # `|| true` is what makes the miss harmless. ST-113.
-  git fetch --quiet origin "refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null || true
+  #
+  # The leading `+` lets the tracking ref follow a non-fast-forward move by another
+  # writer (#215); see WHY THE FETCH IS FORCED above.
+  git fetch --quiet origin "+refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null || true
   if git push --force-with-lease --quiet origin "$FULL:refs/heads/$BRANCH" 2>/dev/null; then
     echo "OK   $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
   else
     echo "FAIL $(date +%Y-%m-%dT%H:%M:%S) $SHA -> $BRANCH" > "$LOG"
   fi
-) >/dev/null 2>&1 &
+)
+
+if [ -n "$ST_MIRROR_SYNC" ]; then
+  mirror || true
+else
+  mirror >/dev/null 2>&1 &
+fi
 
 exit 0

@@ -67,14 +67,13 @@ cat .git/st-mirror.log 2>/dev/null || echo "no mirror log yet"
 ```
 - Line starts `OK` → the last commit reached `origin` ✅
 - Line starts `FAIL` → **commits since that timestamp may exist only on this machine.** Flag as
-  critical unfinished business, same severity as a local-only branch, and recover with **both**
-  lines — the fetch is not optional, it is what gives `--force-with-lease` a current base
-  (ST-106); the push alone reproduces the original failure:
+  critical unfinished business, same severity as a local-only branch, and recover by rerunning
+  the hook in the foreground. It holds the only copy of the mirror logic, including the forced
+  fetch that keeps `--force-with-lease` current when another machine moved the ref (#215):
   ```bash
-  B="wip/$(date +%Y-%m-%d)-$(git branch --show-current | tr / -)"
-  git fetch origin "refs/heads/${B}:refs/remotes/origin/${B}" 2>/dev/null
-  git push --force-with-lease origin "HEAD:refs/heads/${B}"
+  ST_MIRROR_SYNC=1 sh .husky/post-commit; tail -1 .git/st-mirror.log
   ```
+  The last line must start `OK`. If it reads `FAIL` again, check connectivity and report it.
 - No file → the hook has never completed a run here. Note it; do not report it as a failure.
 
 Then check remote-only branches:

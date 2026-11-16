@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The wip mirror keeps working when a second machine moved the day's wip ref: the hook force-refreshes its lease base, and recovery after a FAIL is one command that reruns the hook. (#215; two-clone probe: old hook FAIL, new hook OK)
 - Pages no longer jump while loading: the header and pre-header paint with the page instead of pushing it down a moment later, and the footer waits below the fold until content arrives. (#236; local mobile CLS on the homepage 0.21 to 0.001, /articles 0.003 to 0, loaded pages unchanged, smoke 33 passed; Chromatic deferred to ship)
 - The homepage shows its content and hero image without waiting for the Sanity query: the build writes the homepage data and a hero image preload into the page, and the app refreshes from live data after. (#235; local mobile LCP 4.75-5.17s to 2.75-2.78s, performance 66-81 to 83-84, loaded page unchanged, smoke 33 passed; Chromatic deferred to ship)
 - The homepage loads lighter on phones: other pages' code loads only when visited, fonts no longer block first paint, and the hero image is phone-sized and fetched first. (#213; local mobile Lighthouse performance 63-65 to 68-69, LCP 5.4-5.7s to 4.7-4.9s, smoke 33 passed; Chromatic deferred to ship, production PageSpeed re-run is a post-ship check)
