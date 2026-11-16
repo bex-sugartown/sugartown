@@ -209,7 +209,9 @@ export function HeroSection({ section }) {
     // #213: phones get a smaller image (sizes in lib/heroImage.js), preloaded at high priority
     // because a CSS background is invisible to the browser's preload scanner.
     const heroUrl = heroImageUrl(backgroundImage)
-    preload(heroUrl, { as: 'image', fetchPriority: 'high' })
+    // preload is React 19 only. Storybook renders this under React 18, where it is undefined
+    // and threw in 7 hero stories (Chromatic build 114).
+    if (typeof preload === 'function') preload(heroUrl, { as: 'image', fetchPriority: 'high' })
     const bgUrl = `url(${heroUrl})`
 
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
