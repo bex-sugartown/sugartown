@@ -8,7 +8,8 @@ import { useReleaseNoteHref } from '../lib/useReleaseNoteHref'
 import { PortableText } from '@portabletext/react'
 import { Button, ButtonGroup, Media, Blockquote, CodeBlock, Table, TableWrap, Callout, CitationMarker, Accordion, Grid, SectionLabel, MediaLabel } from '../design-system'
 import { getOverlayStyles, parseOverlay } from '@sugartown/design-system'
-import { imageUrlFor, aiLabelProps, aiMediaProps } from '../lib/provenance'
+import { aiLabelProps, aiMediaProps } from '../lib/provenance'
+import { heroImageUrl } from '../lib/heroImage'
 import StatCard from './StatCard'
 import stats from '../generated/stats.json'
 import { TRUST_LINKS, getCanonicalPath } from '../lib/routes'
@@ -205,12 +206,11 @@ export function HeroSection({ section }) {
   if (hasImage) {
     const x = backgroundImage.hotspot?.x ?? 0.5
     const y = backgroundImage.hotspot?.y ?? 0.5
-    // #213: phones get a 1080px image instead of 1920px, and the URL is preloaded at high
-    // priority because a CSS background is invisible to the browser's preload scanner.
-    const heroImageWidth = typeof window !== 'undefined' && window.innerWidth <= 768 ? 1080 : 1920
-    const heroImageUrl = imageUrlFor(backgroundImage, heroImageWidth)
-    preload(heroImageUrl, { as: 'image', fetchPriority: 'high' })
-    const bgUrl = `url(${heroImageUrl})`
+    // #213: phones get a smaller image (sizes in lib/heroImage.js), preloaded at high priority
+    // because a CSS background is invisible to the browser's preload scanner.
+    const heroUrl = heroImageUrl(backgroundImage)
+    preload(heroUrl, { as: 'image', fetchPriority: 'high' })
+    const bgUrl = `url(${heroUrl})`
 
     backgroundStyles.backgroundPosition = `${Math.round(x * 100)}% ${Math.round(y * 100)}%`
     // CSS variable consumed by ::after pseudo-element (all hero treatments)

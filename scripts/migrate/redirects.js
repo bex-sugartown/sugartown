@@ -19,7 +19,7 @@
  *      a per-URL redirect is generated.
  *
  *   4. SPA fallback (always last):
- *      /* /index.html 200
+ *      /* /app.html 200
  *
  * WP URL pattern mapping (from Epic 6 spec):
  *   /blog/:slug      → /articles/:slug     301
@@ -193,7 +193,7 @@ async function main() {
 
   lines.push('')
   lines.push('# ── SPA fallback — MUST be last ──────────────────────────────')
-  lines.push('/*  /index.html  200')
+  lines.push('/*  /app.html  200')
   lines.push('')
 
   // Write

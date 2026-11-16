@@ -209,7 +209,7 @@ async function main() {
   const hasPatternRedirects = redirectLines.some((l) => l.includes('/blog/') || l.includes('/gem/'))
   addResult(hasPatternRedirects, '_redirects contains WP pattern rules',
     hasPatternRedirects ? 'Pattern rules present' : 'No WP pattern rules detected')
-  const hasSpaFallback = redirectLines.some((l) => l.includes('/*') && l.includes('/index.html'))
+  const hasSpaFallback = redirectLines.some((l) => l.includes('/*') && l.includes('/app.html'))
   addResult(hasSpaFallback, 'SPA fallback (/*) present', hasSpaFallback ? 'Present' : 'MISSING')
   hasSpaFallback ? ok('SPA fallback is present') : fail('SPA fallback missing from _redirects!')
 

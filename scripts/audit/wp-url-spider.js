@@ -572,7 +572,7 @@ async function querySanity() {
     const raw = readFileSync(redirectsFilePath, 'utf8')
     fileRedirects = raw.split('\n')
       .map((l) => l.trim())
-      .filter((l) => l && !l.startsWith('#') && l !== '/*  /index.html  200')
+      .filter((l) => l && !l.startsWith('#') && l !== '/*  /app.html  200')
       .map((l) => {
         const parts = l.split(/\s+/)
         return { from: parts[0], to: parts[1], code: parseInt(parts[2], 10) }

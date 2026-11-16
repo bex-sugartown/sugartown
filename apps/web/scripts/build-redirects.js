@@ -6,7 +6,10 @@
  * apps/web/public/_redirects in Netlify format.
  *
  * Always appends the SPA catch-all fallback as the final rule:
- *   /* /index.html 200
+ *   /* /app.html 200
+ *
+ * app.html is the plain SPA shell; index.html carries the homepage's build-time data and is
+ * served only at / (build-home-snapshot.mjs, #235).
  *
  * Usage:
  *   pnpm --filter web build:redirects
@@ -19,13 +22,13 @@
  * Netlify _redirects format (one rule per line):
  *   /from-path /to-path 301
  *   /gone-path 410
- *   /* /index.html 200
+ *   /* /app.html 200
  *
  * Notes:
  *   - Only `isActive: true` redirects are included
  *   - 410 Gone rules use a single path (no destination) per Netlify format
  *   - Rules are sorted: 301 first, then 302, then 410, then alphabetical within each group
- *   - The SPA fallback (/* /index.html 200) is always last
+ *   - The SPA fallback (/* /app.html 200) is always last
  *
  * Environment variables required (reads from .env or process.env):
  *   VITE_SANITY_PROJECT_ID
@@ -208,7 +211,7 @@ async function main() {
   }
 
   // Always append SPA fallback as final rule
-  const SPA_FALLBACK = '/*  /index.html  200'
+  const SPA_FALLBACK = '/*  /app.html  200'
   lines.push('')
   lines.push('# SPA fallback — must be last')
   lines.push(SPA_FALLBACK)

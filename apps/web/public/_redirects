@@ -275,4 +275,4 @@
 /tag/youtube  /tags/youtube  301
 
 # SPA fallback — must be last
-/*  /index.html  200
+/*  /app.html  200

@@ -102,6 +102,8 @@ function statsPlugin() {
 
   return {
     name: 'sugartown:stats',
+    // #235: the SSR build for build-home-snapshot.mjs bundles no stats; skip the second collection.
+    apply: (_config, { isSsrBuild }) => !isSsrBuild,
     buildStart() {
       generate()
     },

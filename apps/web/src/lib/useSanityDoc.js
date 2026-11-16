@@ -9,18 +9,24 @@ import { isPreviewMode } from './contentState'
  * Returns { data, loading, notFound } — notFound is true when the query
  * resolved but returned null (doc doesn't exist or has no matching slug).
  */
-export function useSanityDoc(query, params) {
-  const [data, setData] = useState(undefined)
-  const [loading, setLoading] = useState(true)
+export function useSanityDoc(query, params, initialData) {
+  const [data, setData] = useState(initialData)
+  const [loading, setLoading] = useState(initialData === undefined)
   const [notFound, setNotFound] = useState(false)
 
   const paramsKey = JSON.stringify(params ?? {})
+  // #235: initialData (a build-time snapshot) is shown while the first fetch runs, and kept if
+  // that fetch fails. A later params change resets as normal.
+  const [initialKey] = useState(() => (initialData === undefined ? null : paramsKey))
 
   useEffect(() => {
     let cancelled = false
-    setLoading(true)
-    setNotFound(false)
-    setData(undefined)
+    const showingInitial = paramsKey === initialKey
+    if (!showingInitial) {
+      setLoading(true)
+      setNotFound(false)
+      setData(undefined)
+    }
 
     client
       .fetch(query, JSON.parse(paramsKey))
@@ -36,14 +42,14 @@ export function useSanityDoc(query, params) {
       .catch((err) => {
         if (cancelled) return
         console.error('[useSanityDoc] fetch error:', err)
-        setNotFound(true)
+        if (!showingInitial) setNotFound(true)
         setLoading(false)
       })
 
     return () => {
       cancelled = true
     }
-  }, [query, paramsKey])
+  }, [query, paramsKey, initialKey])
 
   return { data, loading, notFound }
 }

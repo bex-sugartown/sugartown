@@ -7,7 +7,9 @@
  *
  * Route: /
  */
+import { useState } from 'react'
 import { pageBySlugQuery } from '../lib/queries'
+import { readHomeSnapshot } from '../lib/homeSnapshot'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -17,7 +19,9 @@ import PageSections from '../components/PageSections'
 import styles from './pages.module.css'
 
 export default function HomePage() {
-  const { data: page, loading } = useSanityDoc(pageBySlugQuery, { slug: 'home' })
+  // #235: render from the build-time snapshot first; the hook refetches live data.
+  const [snapshot] = useState(readHomeSnapshot)
+  const { data: page, loading } = useSanityDoc(pageBySlugQuery, { slug: 'home' }, snapshot)
   const siteSettings = useSiteSettings()
 
   const resolvedSeo = resolveSeo(page ?? null, siteSettings)
