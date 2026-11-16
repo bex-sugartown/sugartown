@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Tool descriptions are public reader copy: the Studio field says so, and the editor-only "Tag when…" sentences on Contentful, Sanity and Vercel are removed, so they no longer reach the tool page, its search snippet or its JSON-LD. (#211; schema deployed, 3 Sanity drafts awaiting publish)
 - The wip mirror keeps working when a second machine moved the day's wip ref: the hook force-refreshes its lease base, and recovery after a FAIL is one command that reruns the hook. (#215; two-clone probe: old hook FAIL, new hook OK)
 - Pages no longer jump while loading: the header and pre-header paint with the page instead of pushing it down a moment later, and the footer waits below the fold until content arrives. (#236; local mobile CLS on the homepage 0.21 to 0.001, /articles 0.003 to 0, loaded pages unchanged, smoke 33 passed; Chromatic deferred to ship)
 - The homepage shows its content and hero image without waiting for the Sanity query: the build writes the homepage data and a hero image preload into the page, and the app refreshes from live data after. (#235; local mobile LCP 4.75-5.17s to 2.75-2.78s, performance 66-81 to 83-84, loaded page unchanged, smoke 33 passed; Chromatic deferred to ship)

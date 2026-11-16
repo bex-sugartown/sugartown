@@ -138,7 +138,8 @@ function buildProject(doc, base) {
 // tool: the page is a reference page about a third-party tool, not the tool's own download
 // or pricing page. SoftwareApplication as the page type invites Google's software rich result,
 // which requires offers or ratings this page does not carry. So the page is a WebPage and the
-// tool is its `about` (#83).
+// tool is its `about` (#83). `description` is public reader copy, not an editor note: the
+// Studio field says so, and the 3 tools that carried "Tag when…" guidance were cleaned (#211).
 function buildTool(doc, base) {
   const slug = resolveSlug(doc.slug)
   const path = slug ? getCanonicalPath({ docType: 'tool', slug }) : null
