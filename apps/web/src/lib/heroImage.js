@@ -1,7 +1,7 @@
 /**
  * heroImage — the one definition of which hero background size a viewport gets (#213, #235).
  *
- * Read by HeroSection (PageSections.jsx) at render, and by scripts/build-home-snapshot.mjs to
+ * Read by HeroSection (PageSections.jsx) at render, and by scripts/build-page-snapshots.mjs to
  * write the homepage's <link rel="preload"> tags. Both must pick the same URL or the preload is
  * wasted, so the media query and widths live here only.
  */

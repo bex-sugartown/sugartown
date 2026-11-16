@@ -291,7 +291,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     return <p className={styles.archiveEmpty}>Archive type not yet supported.</p>
   }
 
-  if (itemsLoading || rawLoading) return <p className={styles.archiveEmpty}>Loading…</p>
+  // #236: full-height placeholder keeps the footer below the fold until the items arrive
+  if (itemsLoading || rawLoading) return <div className={styles.loadingPage}>Loading…</div>
 
   // Build FilterModel from archiveDoc config + raw content items
   const filterModel = buildFilterModel(archiveDoc, rawItems ?? [])

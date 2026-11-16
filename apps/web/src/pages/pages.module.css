@@ -9,7 +9,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60vh;
+  /* #236: a full viewport keeps the footer below the fold until content arrives, so the footer
+     is not pushed down in view (layout shift). Raw vh: no viewport-height token; .app uses 100vh. */
+  min-height: 100vh;
   color: var(--st-color-text-muted);
   font-size: 1rem;
 }

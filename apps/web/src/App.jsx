@@ -4,6 +4,7 @@ import { client, urlFor } from './lib/sanity'
 import { siteSettingsQuery } from './lib/queries'
 import { SiteSettingsContext } from './lib/SiteSettingsContext'
 import { isPreviewMode } from './lib/contentState'
+import { readBuildSnapshot, SNAPSHOT_ELEMENT_IDS } from './lib/buildSnapshot'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import ConsentBanner from './components/ConsentBanner'
@@ -42,6 +43,7 @@ const GlossaryArchivePage = lazy(() => import('./pages/GlossaryArchivePage'))
 const GlossaryTermPage = lazy(() => import('./pages/GlossaryTermPage'))
 
 import './App.css'
+import pageStyles from './pages/pages.module.css'
 
 // Scroll to top on route change — BrowserRouter preserves scroll position by default,
 // which causes prev/next navigation (e.g. case study footer links) to land mid-page.
@@ -58,8 +60,11 @@ function KnowledgeGraphSlugRedirect() {
 }
 
 function App() {
-  const [siteSettings, setSiteSettings] = useState(null)
-  const [settingsLoading, setSettingsLoading] = useState(true)
+  // #236: start from the build-time snapshot so the header paints with the page instead of
+  // pushing it down when the query returns; the fetch below still replaces it with live data.
+  const [settingsSnapshot] = useState(() => readBuildSnapshot(SNAPSHOT_ELEMENT_IDS.siteSettings))
+  const [siteSettings, setSiteSettings] = useState(settingsSnapshot ?? null)
+  const [settingsLoading, setSettingsLoading] = useState(settingsSnapshot === undefined)
 
   useEffect(() => {
     client
@@ -99,7 +104,8 @@ function App() {
       <Header siteSettings={siteSettings} settingsLoading={settingsLoading} />
       <ScrollToTop />
 
-      <Suspense fallback={null}>
+      {/* #236: while a route's code loads, hold the page open so the footer stays below the fold */}
+      <Suspense fallback={<div className={pageStyles.loadingPage} />}>
       <Routes>
         {/* ── Homepage ─────────────────────────────────────────────── */}
         <Route path="/" element={<HomePage />} />

@@ -9,7 +9,7 @@
  */
 import { useState } from 'react'
 import { pageBySlugQuery } from '../lib/queries'
-import { readHomeSnapshot } from '../lib/homeSnapshot'
+import { readHomeSnapshot } from '../lib/buildSnapshot'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'

@@ -9,7 +9,7 @@
  *   /* /app.html 200
  *
  * app.html is the plain SPA shell; index.html carries the homepage's build-time data and is
- * served only at / (build-home-snapshot.mjs, #235).
+ * served only at / (build-page-snapshots.mjs, #235).
  *
  * Usage:
  *   pnpm --filter web build:redirects
