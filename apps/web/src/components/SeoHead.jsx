@@ -30,7 +30,7 @@
  */
 import { useEffect, useMemo } from 'react'
 import { urlFor } from '../lib/sanity'
-import { shareImageUrl } from '../lib/provenance'
+import { shareImageTags } from '../lib/shareImage.js'
 
 // ─── helpers ──────────────────────────────────────────────────────────────────
 
@@ -101,16 +101,24 @@ export default function SeoHead({ seo: seoProp, title: titleProp, description: d
     const ogTypeEl = setMeta('og:type', seo.openGraph?.type || 'website', 'property')
     const ogUrlEl = setMeta('og:url', seo.canonicalUrl, 'property')
 
-    // og:image — resolve Sanity image ref to URL via urlForImage
+    // og:image — shareImageTags() is shared with scripts/prerender-content.mjs (#239): a flagged
+    // image's stamped copy (ST-181), else a 1200x630 crop. setMeta updates the prerendered tags.
     let ogImageEl = null
+    let ogImageExtraEls = []
     const ogImageAsset = seo.openGraph?.image
     if (ogImageAsset) {
       try {
-        // ST-181: a flagged share image is served from its stamped copy (the CDN strips the metadata).
-        const imgUrl = shareImageUrl(ogImageAsset) ?? urlFor(ogImageAsset).width(1200).height(630).url()
-        ogImageEl = setMeta('og:image', imgUrl, 'property')
+        const share = shareImageTags(ogImageAsset, urlFor)
+        if (share) {
+          ogImageEl = setMeta('og:image', share.url, 'property')
+          ogImageExtraEls = [
+            setMeta('og:image:width', share.width && String(share.width), 'property'),
+            setMeta('og:image:height', share.height && String(share.height), 'property'),
+            setMeta('og:image:alt', share.alt, 'property'),
+          ]
+        }
       } catch {
-        // urlForImage may throw if asset ref is malformed — fail silently
+        // the URL builder may throw if the asset ref is malformed — fail silently
       }
     }
 
@@ -157,6 +165,7 @@ export default function SeoHead({ seo: seoProp, title: titleProp, description: d
       if (ogTypeEl) ogTypeEl.setAttribute('content', '')
       if (ogUrlEl) ogUrlEl.setAttribute('content', '')
       removeEl(ogImageEl)
+      ogImageExtraEls.forEach(removeEl)
       removeEl(jsonLdEl)
       if (twitterCardEl) twitterCardEl.setAttribute('content', '')
       if (twitterTitleEl) twitterTitleEl.setAttribute('content', '')

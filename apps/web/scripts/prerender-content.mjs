@@ -28,12 +28,14 @@
  */
 
 import { createClient } from '@sanity/client'
+import { createImageUrlBuilder } from '@sanity/image-url'
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
 import { generateJsonLd, generateDefinedTermJsonLd } from '../src/lib/jsonLd.js'
 import { JSONLD_PERSON_PROJECTION, JSONLD_PRIMARY_PERSON_SELECT, JSONLD_SITE_SETTINGS_QUERY } from '../src/lib/jsonLdQueries.js'
 import { getCanonicalPath, ARCHIVE_PATHS, TAXONOMY_BASE_PATHS } from '../src/lib/routes.js'
+import { SHARE_IMAGE_FIELDS, HERO_SHARE_IMAGE_PROJECTION, resolveShareImage, shareImageTags } from '../src/lib/shareImage.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DIST = resolve(__dirname, '../dist')
@@ -79,6 +81,11 @@ const client = createClient({
   perspective: 'published',
   ...(token ? { token } : {}),
 })
+
+// #239: same builder settings as src/lib/sanity.js urlFor(), which reads import.meta.env and so
+// cannot be imported here.
+const imageBuilder = createImageUrlBuilder(client)
+const urlFor = (source) => imageBuilder.image(source).auto('format')
 
 // ─── Lightweight Portable Text → HTML serialiser ─────────────────────────────
 // Produces readable text for crawlers — not a full PT renderer.
@@ -238,11 +245,25 @@ function jsonLdScript(jsonLd) {
   return `\n  <script type="application/ld+json" data-prerendered>${json}</script>`
 }
 
-function buildHtml({ title, description, canonicalUrl, ogImageUrl, bodyHtml, assets, jsonLd = null, ogType = 'article' }) {
+function shareImageMeta(share) {
+  if (!share) return ''
+  return [
+    `<meta property="og:image" content="${escAttr(share.url)}" />`,
+    share.width ? `<meta property="og:image:width" content="${share.width}" />` : '',
+    share.height ? `<meta property="og:image:height" content="${share.height}" />` : '',
+    share.alt ? `<meta property="og:image:alt" content="${escAttr(share.alt)}" />` : '',
+  ].filter(Boolean).map((tag) => `\n  ${tag}`).join('')
+}
+
+function buildHtml({ title, description, canonicalUrl, share, bodyHtml, assets, jsonLd = null, ogType = 'article' }) {
   const safeTitle = escHtml(title)
   const safeDesc  = escAttr(description || '')
   const safeUrl   = escAttr(canonicalUrl)
-  const ogImg     = ogImageUrl ? `\n  <meta property="og:image" content="${escAttr(ogImageUrl)}" />` : ''
+  const ogImg     = shareImageMeta(share)
+  // Same twitter tags SeoHead.jsx sets; X reads og:image when twitter:image is absent.
+  const twitter   = `\n  <meta name="twitter:card" content="summary_large_image" />` +
+    `\n  <meta name="twitter:title" content="${escAttr(title)}" />` +
+    `\n  <meta name="twitter:description" content="${safeDesc}" />`
 
   return `<!doctype html>
 <html lang="en">
@@ -255,7 +276,7 @@ function buildHtml({ title, description, canonicalUrl, ogImageUrl, bodyHtml, ass
   <meta property="og:type" content="${ogType}" />
   <meta property="og:title" content="${escAttr(title)}" />
   <meta property="og:description" content="${safeDesc}" />
-  <meta property="og:url" content="${safeUrl}" />${ogImg}${jsonLdScript(jsonLd)}
+  <meta property="og:url" content="${safeUrl}" />${ogImg}${twitter}${jsonLdScript(jsonLd)}
   ${assets.links}
 </head>
 <body>
@@ -298,7 +319,9 @@ const CONTENT_QUERY = (type) => `*[
   updatedAt,
   "authors": authors[]->{ name, "slug": slug.current },
   "description": coalesce(excerpt, summary, seo.description, ""),
-  sections[]
+  sections[],
+  seo { openGraph { image { ${SHARE_IMAGE_FIELDS} } } },
+  ${HERO_SHARE_IMAGE_PROJECTION}
 }`
 
 // Reserved first segments: a page doc with one of these slugs would shadow a real route.
@@ -317,6 +340,8 @@ const PAGE_QUERY = `*[
   "slug": slug.current,
   "description": coalesce(seo.description, ""),
   sections[],
+  seo { openGraph { image { ${SHARE_IMAGE_FIELDS} } } },
+  ${HERO_SHARE_IMAGE_PROJECTION},
   "primaryPerson": ${JSONLD_PRIMARY_PERSON_SELECT}
 }`
 
@@ -331,6 +356,9 @@ const GLOSSARY_QUERY = `*[
 const SERIES_QUERY = `*[
   _type == "series" && defined(slug.current) && !(_id in path("drafts.**"))
 ]{ _type, title, "slug": slug.current, description }`
+
+// #239: the site-wide fallback share image, with the fields resolveShareImage() reads.
+const SITE_SHARE_IMAGE_QUERY = `*[_type == "siteSettings"][0]{ defaultOgImage { ${SHARE_IMAGE_FIELDS} } }`
 
 function plainTextOf(blocks) {
   return (blocks || [])
@@ -354,7 +382,7 @@ async function run() {
   console.log('[prerender] Fetching published content from Sanity...')
   const assets = getViteAssets()
 
-  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, siteSettings] =
+  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, siteSettings, siteShare] =
     await Promise.all([
       client.fetch(CONTENT_QUERY('article')),
       client.fetch(CONTENT_QUERY('node')),
@@ -365,6 +393,7 @@ async function run() {
       client.fetch(GLOSSARY_QUERY),
       client.fetch(SERIES_QUERY),
       client.fetch(JSONLD_SITE_SETTINGS_QUERY),
+      client.fetch(SITE_SHARE_IMAGE_QUERY),
     ])
 
   // siteUrl on the siteSettings doc wins in generateJsonLd; fall back to the build's SITE_URL.
@@ -431,13 +460,17 @@ async function run() {
 
   console.log(`[prerender] Writing ${routes.length} route snapshots...`)
   let written = 0
+  let withImage = 0
 
   for (const { doc, path, title, description, bodyHtml, jsonLd, ogType } of routes) {
     if (!doc.slug) continue
+    const share = shareImageTags(resolveShareImage(doc, siteShare), urlFor)
+    if (share) withImage++
     const html = buildHtml({
       title,
       description,
       canonicalUrl: `${SITE_URL}${path}`,
+      share,
       bodyHtml,
       assets,
       jsonLd,
@@ -447,7 +480,7 @@ async function run() {
     written++
   }
 
-  console.log(`[prerender] Done — ${written} routes written to dist/`)
+  console.log(`[prerender] Done — ${written} routes written to dist/ (${withImage} with og:image)`)
   console.log(`[prerender]   articles:     ${articles.length}`)
   console.log(`[prerender]   nodes:        ${nodes.length}`)
   console.log(`[prerender]   case-studies: ${caseStudies.length}`)

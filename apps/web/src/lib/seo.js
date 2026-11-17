@@ -39,12 +39,12 @@
  *   doc.seo.noFollow      — robots: nofollow
  *   doc.seo.openGraph.title
  *   doc.seo.openGraph.description
- *   doc.seo.openGraph.image  { asset, alt }
+ *   doc.seo.openGraph.image  { asset, alt }, else doc.heroShareImage, else siteSettings.defaultOgImage (#239)
  *   doc.seo.openGraph.type   — 'website' | 'article' | 'profile'
  */
 
 import { getCanonicalPath } from './routes'
-import { AI_PROVENANCE_PROJECTION } from './provenance'
+import { SHARE_IMAGE_FIELDS, HERO_SHARE_IMAGE_PROJECTION, resolveShareImage } from './shareImage.js'
 
 // ─── GROQ fragments ───────────────────────────────────────────────────────────
 
@@ -53,6 +53,8 @@ import { AI_PROVENANCE_PROJECTION } from './provenance'
  *
  * Drop into any GROQ projection targeting a document with a `seo` field of
  * type `seoMetadata`. Includes the new `autoGenerate` field (v0.12.0).
+ * Also projects `heroShareImage`, the share-image fallback (#239), so it must sit at
+ * document level, where `sections` is a field.
  *
  * Usage:
  *   import { SEO_FRAGMENT } from '../lib/seo'
@@ -75,16 +77,11 @@ export const SEO_FRAGMENT = `
     openGraph {
       title,
       description,
-      image {
-        asset->,
-        alt,
-        aiGenerated,
-        aiTool,
-        ${AI_PROVENANCE_PROJECTION}
-      },
+      image { ${SHARE_IMAGE_FIELDS} },
       type
     }
-  }
+  },
+  ${HERO_SHARE_IMAGE_PROJECTION}
 `.trim()
 
 /**
@@ -97,13 +94,7 @@ export const SITE_SEO_FRAGMENT = `
   siteTitle,
   defaultMetaTitle,
   defaultMetaDescription,
-  defaultOgImage {
-    asset->,
-    alt,
-    aiGenerated,
-    aiTool,
-    ${AI_PROVENANCE_PROJECTION}
-  }
+  defaultOgImage { ${SHARE_IMAGE_FIELDS} }
 `.trim()
 
 // ─── Portable Text extractor ──────────────────────────────────────────────────
@@ -291,7 +282,7 @@ export function resolveSeo(doc, siteSettings) {
   // ── Open Graph ─────────────────────────────────────────────────────────────
   const ogTitle = docSeo?.openGraph?.title || title
   const ogDescription = docSeo?.openGraph?.description || description
-  const ogImage = docSeo?.openGraph?.image || site.defaultOgImage || null
+  const ogImage = resolveShareImage(doc, site)
   const ogType = docSeo?.openGraph?.type || 'website'
 
   return {
