@@ -215,7 +215,15 @@ export default defineType({
       options: {
         hotspot: true
       },
-      fields: [...aiImageFields]
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alt Text',
+          type: 'string',
+          description: 'Describe the image for accessibility'
+        }),
+        ...aiImageFields
+      ]
     })
   ],
   preview: {
