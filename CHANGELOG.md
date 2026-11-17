@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Link previews on LinkedIn and other sites now show an image: every prerendered page carries og:image (its share image, else its hero, else the site default, cropped to 1200x630), and AI-flagged share images serve their stamped copy; the site default share image gains an alt text field. (#239; 198 of 198 snapshots carry og:image, smoke 36 passed, 7 stamped copies verified; Chromatic deferred to ship, LinkedIn Post Inspector is a post-ship check)
 - Tool descriptions are public reader copy: the Studio field says so, and the editor-only "Tag when…" sentences on Contentful, Sanity and Vercel are removed, so they no longer reach the tool page, its search snippet or its JSON-LD. (#211; schema deployed, 3 Sanity drafts awaiting publish)
 - The wip mirror keeps working when a second machine moved the day's wip ref: the hook force-refreshes its lease base, and recovery after a FAIL is one command that reruns the hook. (#215; two-clone probe: old hook FAIL, new hook OK)
 - Pages no longer jump while loading: the header and pre-header paint with the page instead of pushing it down a moment later, and the footer waits below the fold until content arrives. (#236; local mobile CLS on the homepage 0.21 to 0.001, /articles 0.003 to 0, loaded pages unchanged, smoke 33 passed; Chromatic deferred to ship)
