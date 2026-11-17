@@ -36,6 +36,34 @@ for (const [label, archive, pattern, type] of [
   })
 }
 
+// #239: LinkedIn reads og:image from the HTML and runs no JS, so the share image must be in the file.
+function metaContent(html: string, property: string): string[] {
+  return [...html.matchAll(new RegExp(`<meta property="${property}" content="([^"]*)"`, 'g'))].map((m) => m[1])
+}
+
+for (const [label, archive, pattern] of [
+  ['article', '/articles', /^\/articles\/[^/]+$/],
+  ['node', '/nodes', /^\/nodes\/[^/]+$/],
+] as const) {
+  test(`first ${label} serves one absolute og:image in the HTML`, async ({ page, request }) => {
+    const path = await discoverFirstDetail(page, archive, pattern)
+    const response = await request.get(path)
+    expect(response.status()).toBe(200)
+    const html = await response.text()
+    const images = metaContent(html, 'og:image')
+    expect(images, 'exactly one og:image').toHaveLength(1)
+    expect(images[0]).toMatch(/^https:\/\/\S+$/)
+    expect(html).toContain('<meta name="twitter:card" content="summary_large_image" />')
+  })
+}
+
+test('/about serves og:image in the HTML, without client JS', async ({ request }) => {
+  const response = await request.get('/about')
+  const images = metaContent(await response.text(), 'og:image')
+  expect(images).toHaveLength(1)
+  expect(images[0]).toMatch(/^https:\/\//)
+})
+
 test('the client keeps one JSON-LD block after React loads', async ({ page }) => {
   await page.goto('/about')
   await page.getByRole('heading', { level: 1 }).first().waitFor()
