@@ -154,6 +154,7 @@ Notes to the writer, decided by Bex 2026-11-17:
 - Later on 2026-11-19, at Bex's direction (Sanity rev `ZjOHrs99VPsiZuws41i4ZA`, check matched all 15 sections):
   - Retitled "I Automated the Pipeline", subtitle "It filled the funnel with cold leads and ate my calendar". Slug changed before publish to `i-automated-the-pipeline`.
   - Restructured to the series format: By the Numbers card (Cohort 2: 109 applications, 15 recruiter screens, 9 hiring-manager rounds, 3 cold screens), § 01 Cold vs. warm callout (the definitions moved from s-effort), The Challenges accordion (CH.01 to CH.04, the four former chapter sections), then the tables and charts as a data run. Only "The chart shows what that cost." was cut; a word count confirmed nothing else was lost.
+- Publish-day claims, confirmed by Bex 2026-11-19: the live interview process (re-check on publish day; the company stays unnamed); every role since 2019 through recruiter outreach (the first post asserts it too); a debrief after every interview and a post mortem for every job description at its close; the October 2 re-rank; "last spring". Still open for 2026-12-01: the roadmap statuses, including the LinkedIn title row, and the found-via ✓ row (backfilled on 3 rows).
 
 ## Feedback log
 
