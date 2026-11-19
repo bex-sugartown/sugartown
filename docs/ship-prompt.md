@@ -66,7 +66,7 @@ done
 **Then enumerate everything currently `Done` on the board — not just today's commits:**
 
 ```bash
-gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+gh project item-list 1 --owner bex-sugartown --limit 1000 --format json \
   | jq -r '.items[] | select(.status=="Done") | "\(.content.number) \(.id) \(.title)"'
 ```
 
@@ -317,7 +317,7 @@ After delivering the briefing, propose actions in this order:
        | jq -r '.[] | select(.milestone == null) | .number' > /tmp/release-candidates
 
      # confirm each is actually Shipped on the board, not Canceled or closed for another reason
-     gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+     gh project item-list 1 --owner bex-sugartown --limit 1000 --format json \
        | jq -r '.items[] | select(.status=="Shipped") | .content.number' > /tmp/release-shipped
      comm -12 <(sort /tmp/release-candidates) <(sort /tmp/release-shipped) > /tmp/release-final
      ```

@@ -93,7 +93,7 @@ gh project item-add 1 --owner bex-sugartown --url {issue url}
 `item-add` prints nothing useful, so read the new item's ID back before setting its priority:
 
 ```bash
-gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+gh project item-list 1 --owner bex-sugartown --limit 1000 --format json \
   | python3 -c "import json,sys; [print(i['id'], i['content'].get('title','')) for i in json.load(sys.stdin)['items']]"
 ```
 

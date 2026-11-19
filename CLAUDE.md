@@ -213,7 +213,7 @@ before the automation existed keeps whatever `Status` it already had, and is cor
 
 ```bash
 # item id for issue {n}
-gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+gh project item-list 1 --owner bex-sugartown --limit 1000 --format json \
   | jq -r '.items[] | select(.content.number=={n}) | .id'
 # In Progress (option ids via: gh project field-list 1 --owner bex-sugartown)
 gh project item-edit --id {item_id} --project-id PVT_kwHODqg2Fc4BP7M2 \

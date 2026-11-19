@@ -157,7 +157,7 @@ is enough:
 
 ```bash
 for i in 1 2 3 4 5 6 7 8; do
-  ITEM=$(gh project item-list 1 --owner bex-sugartown --limit 200 --format json \
+  ITEM=$(gh project item-list 1 --owner bex-sugartown --limit 1000 --format json \
     | jq -r ".items[] | select(.content.number=={n}) | .id")
   [ -n "$ITEM" ] && break
 done
