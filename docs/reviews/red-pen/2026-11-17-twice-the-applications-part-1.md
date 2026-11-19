@@ -151,6 +151,9 @@ Notes to the writer, decided by Bex 2026-11-17:
   - The status column in the "Now what? Being found" table shows ✓ instead of "Done".
   - Bex's Studio edits: the s-found-2 heading, the next-post line, and the closer "Reader, I'm not alone."
   - The article is now part 2 of the Career Engineering series. Citations are emptied in Part 1; all 17 belong to #241.
+- Later on 2026-11-19, at Bex's direction (Sanity rev `ZjOHrs99VPsiZuws41i4ZA`, check matched all 15 sections):
+  - Retitled "I Automated the Pipeline", subtitle "It filled the funnel with cold leads and ate my calendar". Slug changed before publish to `i-automated-the-pipeline`.
+  - Restructured to the series format: By the Numbers card (Cohort 2: 109 applications, 15 recruiter screens, 9 hiring-manager rounds, 3 cold screens), § 01 Cold vs. warm callout (the definitions moved from s-effort), The Challenges accordion (CH.01 to CH.04, the four former chapter sections), then the tables and charts as a data run. Only "The chart shows what that cost." was cut; a word count confirmed nothing else was lost.
 
 ## Feedback log
 
