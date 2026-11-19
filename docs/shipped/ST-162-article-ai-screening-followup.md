@@ -565,17 +565,17 @@ Each of these is a Theory or Reported row in the research table, not a finding a
 
 ## Scope
 
-- [ ] **1d. Themes and unbacked claims (added 2026-11-01):** Bex decides, for each X-item above, research, keep as observation or cut; run the JD counts for U1, U2, U4 and X7 if archived JD text allows; open the sources for X1 and X2 if Bex chooses research (layer: editorial)
-- [ ] **1c. Two perspectives:** confirm the pipeline account (Perspective A) is accurate in Bex's words, keep the three confirmed ties T1 to T3 and the context items (reviewed 2026-10-30), and add three tracker fields (posting age at apply, applicant count at apply, ATS) so A3, the competition context and the ghost-posting test can run on new rows (layer: editorial; the tracker change belongs to resume-factory)
+- [x] **1d. Themes and unbacked claims (added 2026-11-01):** Bex decides, for each X-item above, research, keep as observation or cut; run the JD counts for U1, U2, U4 and X7 if archived JD text allows; open the sources for X1 and X2 if Bex chooses research (layer: editorial) Resolved by the 2026-11-17 split: Themes 2 to 4 and the unbacked claims moved to #241.
+- [x] **1c. Two perspectives:** confirm the pipeline account (Perspective A) is accurate in Bex's words, keep the three confirmed ties T1 to T3 and the context items (reviewed 2026-10-30), and add three tracker fields (posting age at apply, applicant count at apply, ATS) so A3, the competition context and the ghost-posting test can run on new rows (layer: editorial; the tracker change belongs to resume-factory) Resolved at the 2026-11-17 split: the pipeline account is Perspective A in this post; the tracker fields for the portal tests moved to #242 ("Test the portal theories" row).
 - [x] **1b. Per-month and epoch tables:** re-run both tables from `findings.json` and the tracker at the final cut date, settle which tracker changes count as big, and chart 25-26 against Jun-Nov 26 per month (layer: editorial). Done 2026-11-08 at the 11-05 cut; epoch boundaries kept as proposed.
 - [x] **1. Data check:** re-run the source commands for every row in the data draft, record the command beside each figure, settle the four reconciliation items (layer: editorial). Done 2026-11-08: final-cut table carries the command and key per row; reconciliation items 1, 2, 5, 6 and 7 resolved, 3 and 4 are stated in the post.
-- [ ] **2. Evidence check:** open each external link in the research brief, confirm it resolves and says what the brief claims, drop any that fail (layer: editorial)
-- [ ] **3. Discovery:** taxonomy pre-flight and related-content check per `docs/write-pipeline-prompt.md` §1 (article target: 1 to 2 categories, 3 to 6 tags, Bex Head as author, tool `claude-code` for attribution) (layer: process)
-- [ ] **4. Outline approval:** Bex approves or edits the outline above and settles the open decisions (layer: process). Outline and headline approved 2026-10-30; the four open decisions below are still open.
+- [x] **2. Evidence check:** open each external link in the research brief, confirm it resolves and says what the brief claims, drop any that fail (layer: editorial) Moved to #241 at the split: this post carries no external claims; every citation went to #241, whose outline requires a primary-source check per row.
+- [x] **3. Discovery:** taxonomy pre-flight and related-content check per `docs/write-pipeline-prompt.md` §1 (article target: 1 to 2 categories, 3 to 6 tags, Bex Head as author, tool `claude-code` for attribution) (layer: process) Done: 2 categories, 5 tags, Bex Head as author, tools Claude and Claude Code, related set.
+- [x] **4. Outline approval:** Bex approves or edits the outline above and settles the open decisions (layer: process). Outline and headline approved 2026-10-30; the four open decisions below are still open. Split and outline approved 2026-11-17.
 - [x] **5. Draft created in Sanity** via `create_documents` only, with `aiDisclosure` set (layer: content). Done 2026-11-08: `drafts.c1415fdb-baf2-4561-85f0-745ba125cc31`, slug `twice-the-applications-same-number-of-cold-calls`, about 2,250 words including three `tableBlock`s and the labelled evidence table; 14 `citations[]`; related: the original post and "Bait and Switch"; `aiDisclosure` set. Bex to rework language, narrative and drama in Studio (her stated intent 2026-10-30). Not published.
-- [ ] **6. Compliance gate** passed (`docs/write-pipeline-prompt.md` §4, zero em dashes, publish gate on the final text) (layer: process)
-- [ ] **8. Two missing gates, one pipeline** (handed off from ST-173, which cut it to one paragraph): the RSVP email checked no session before the send, the testjob email checked no listing before the send; argue them as one pipeline failure, link the published ST-173 article (`/articles/bait-and-switch-or-just-a-bug`) and use its screening-call versus application stage table rather than rebuilding it (layer: editorial)
-- [ ] **7. Human review and publish decision**, cross-links to SUG-234 added once both exist (layer: process; Human-Publishes Rule applies)
+- [x] **6. Compliance gate** passed (`docs/write-pipeline-prompt.md` §4, zero em dashes, publish gate on the final text) (layer: process) Done 2026-11-19: 0 em dashes, publish gate clean (Close-out review).
+- [ ] **8. Two missing gates, one pipeline** (handed off from ST-173, which cut it to one paragraph): the RSVP email checked no session before the send, the testjob email checked no listing before the send; argue them as one pipeline failure, link the published ST-173 article (`/articles/bait-and-switch-or-just-a-bug`) and use its screening-call versus application stage table rather than rebuilding it (layer: editorial) Declined at close-out: the post links the ST-173 article instead.
+- [x] **7. Human review and publish decision**, cross-links to SUG-234 added once both exist (layer: process; Human-Publishes Rule applies) Published by Bex 2026-11-19; SUG-234 cross-link is in #76's scope.
 
 ## Phases
 
@@ -617,3 +617,46 @@ Each of these is a Theory or Reported row in the research table, not a finding a
 ## Kill criterion
 
 If the post is not drafted by 2026-12-01, close it as declined and keep the handoffs; the data goes stale after the 10-30 and 11-02 reads.
+
+## Close-out review
+
+Closed 2026-11-19. The epic split into three posts on 2026-11-17 (`docs/drafts/ST-162-twice-the-applications/ST-162-split-and-conclusions.md`, local). This epic shipped the first of them, published 2026-11-19 by Bex as "I Automated the Pipeline" (`/articles/i-automated-the-pipeline`, Sanity `c1415fdb-baf2-4561-85f0-745ba125cc31`), part 2 of the Career Engineering series. The other two are #241 and #242. Red pen and every later edit: `docs/reviews/red-pen/2026-11-17-twice-the-applications-part-1.md`.
+
+### Acceptance criteria
+
+- [x] Every figure traces to a command or file. Red pen accuracy pass 2026-11-17; `build_charts.py` asserts the Cohort 1 screen total (S1 = 18); Bex confirmed the five unverifiable claims 2026-11-19 (review record).
+- [ ] External claims labelled. Moved to #241 with every citation; this post makes no external claims.
+- [ ] What the data cannot show. Moved to #241 (its "What my data cannot say" chapter). This post states the cohort differences in Notes on the numbers.
+- [x] `python3 checks/check_tiers.py --publish` on the published text (title, excerpt, sections, chart text), run 2026-11-19 in `resume-factory/os`: "publish gate: clean", exit 0. No iTutorGroup figure in this post.
+- [x] No company names, row IDs, recruiter or firm names, rates or comp. Same publish gate run; the live interview process stays unnamed.
+- [x] Zero em dashes: `grep -o '—'` on the published text returns 0. `aiDisclosure` set.
+- [x] Drafted as `drafts.*` with taxonomy (5 tags, 2 categories, 2 tools); Bex published it herself 2026-11-19. The one follow-up publish (image, alt, date) ran on her standalone instruction.
+- [x] `node scripts/check-epic-doc.js --stage close-out` exits 0. `pnpm test:smoke`: 36 passed, 2026-11-19.
+
+### What didn't work
+
+- The live Sanity draft was patched through several rounds before the working-draft rule existed, so the 2026-11-17 split had no single copy to read the piece from. Fixed by `docs/write-pipeline-prompt.md` §0b; the final rounds ran there.
+- Three Studio edits landed between syncs (2026-11-19). The revision guard stopped the session's writes each time, and Bex's edits were kept, but each cost a stop and a compare.
+- Publish dates show a day early in US time zones (#238): the page read "November 18" until `publishedAt` was moved to noon UTC.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Part 3 of the series: what is behind the portal | implementation | #241 |
+| Part 4 of the series: being found | implementation | #242 |
+| Series document shows its parts read-only | implementation | #243 |
+| Internal links can pick series and taxonomy pages | implementation | #244 |
+| Dates one day early west of UTC | implementation | #238 (existing); this post uses a noon-UTC workaround |
+| Scope 8, two missing gates as one pipeline | workflow-docs | declined: the "Two doors" chapter links the ST-173 article instead of re-arguing it |
+| Cross-link with SUG-234 | workflow-docs | SUG-234's own scope (#76, "Cross-link with the follow-up") |
+
+### Friction line
+
+Studio edits landed between syncs three times, and each one stopped a session write for a compare.
+
+## Post-ship checks
+
+- [ ] Link preview for `/articles/i-automated-the-pipeline` shows the hero image after the next deploy (#239's prerendered og:image): person: paste the URL into LinkedIn's Post Inspector.
+- [ ] Publish-day items still open in the working draft's panel: the LinkedIn title row shows ✓ once the change lands; the found-via ✓ row covers every recruiter-first contact. person: Bex.
+
