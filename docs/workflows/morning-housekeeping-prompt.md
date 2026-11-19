@@ -144,11 +144,12 @@ Check the installed `sanity` version in `apps/studio/package.json` and note it i
 **Oldest `Done` item, not yet `Shipped`** (SUG-100 S4/G16 — the signal that replaced "does `Done`
 empty every morning", which stopped being true at a 1–14 day ship interval):
 ```bash
-gh api graphql -f query='
-{
+gh api graphql --paginate --slurp -f query='
+query($endCursor: String) {
   user(login: "bex-sugartown") {
     projectV2(number: 1) {
-      items(first: 100) {
+      items(first: 100, after: $endCursor) {
+        pageInfo { hasNextPage endCursor }
         nodes {
           fieldValueByName(name: "Status") {
             ... on ProjectV2ItemFieldSingleSelectValue { name updatedAt }
@@ -161,7 +162,8 @@ gh api graphql -f query='
 }' | python3 -c "
 import json, sys
 from datetime import datetime, timezone
-nodes = json.load(sys.stdin)['data']['user']['projectV2']['items']['nodes']
+pages = json.load(sys.stdin)
+nodes = [n for p in pages for n in p['data']['user']['projectV2']['items']['nodes']]
 done = [n for n in nodes if (n.get('fieldValueByName') or {}).get('name') == 'Done']
 if not done:
     print('none — nothing waiting to ship')
@@ -294,7 +296,7 @@ If an action requires a judgment call (e.g. "should I delete this branch?"), ask
 
 Check project 1 for the Sugartown repo:
 ```bash
-gh project item-list 1 --owner bex-sugartown --limit 200 --format json
+gh project item-list 1 --owner bex-sugartown --limit 1000 --format json
 ```
 - **In Progress issues** — list any issues currently in progress (should match the branch you're on)
 - **High-priority Todo/Backlog items** — list the top 3 highest-priority issues not yet started
