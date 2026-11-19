@@ -137,7 +137,20 @@ Notes to the writer, decided by Bex 2026-11-17:
 - Note 2, March paragraph: removed from Part 1, and its text was moved to #241 (Part 2).
 - Note 3, age signals: "age cues trimmed" cut from the roadmap row, and the 28 to 34-year career correction cut from Notes on the numbers and moved to #241.
 - Note 7, excerpt: "Then I built a pipeline" became "Then I specced a pipeline".
-- Notes 4, 5, 6, 8 and 9 are still open.
+- Notes 4, 5, 6, 8 and 9 were applied 2026-11-18, the final review round. Bex asked for the draft to reflect every red-pen recommendation.
+  - Note 4: one sentence in Notes on the numbers. The door counts (105 cold, 12 recruiter outreach, 4 referral) add up to 121 against 111 applications.
+  - Note 5: `build_charts.py` uses an `S1 = 18` constant and asserts that the monthly table's Recr column sums to it. Charts regenerated.
+  - Note 6: the pace chart (html-pace) is cut.
+  - Note 8 and the unverifiable claims: listed in the draft's Before publish panel, to confirm on publish day.
+  - Note 9: s-effort now opens "Per month, I sent twice as many applications and got no more cold screens." s-machine now opens "The machine changed how much reached me, not what came back."
+  - Not from the red pen: the "AI Ethics" tag moved to Part 2 (#241).
+- Synced to Sanity 2026-11-19 (`drafts.c1415fdb-baf2-4561-85f0-745ba125cc31`, rev `VyVzgonK237PKVDeRoQXQS`). `pnpm export:draft check` matched all 18 sections. Edits after the red pen, at Bex's direction, are not red-pen rows:
+  - s-effort-2: the Fisher test sentence became plain English ("essentially the same bracket (p=0.34)"), and the paragraph closes "What grew, grew because I submitted more applications, period."
+  - s-effort: cold and warm screens are defined separately.
+  - "Machine" became "the pipeline" or Resume Factory, defined once in s-wrong. "The machines that read them" (ATS) stays. So note 9's s-machine opener now reads "The pipeline changed…".
+  - The status column in the "Now what? Being found" table shows ✓ instead of "Done".
+  - Bex's Studio edits: the s-found-2 heading, the next-post line, and the closer "Reader, I'm not alone."
+  - The article is now part 2 of the Career Engineering series. Citations are emptied in Part 1; all 17 belong to #241.
 
 ## Feedback log
 
