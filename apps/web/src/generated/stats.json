@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-18T15:09:23.950Z",
+  "generatedAt": "2026-11-19T15:19:48.915Z",
   "release": {
     "current": {
       "version": "0.40.0",
@@ -83,13 +83,13 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-11-18T15:07:35.619Z",
+    "generatedAt": "2026-11-19T15:17:24.163Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "desktop": {
           "url": "https://sugartown.io/",
-          "lcp": 988,
+          "lcp": 936,
           "cls": 0.003,
           "inp": null,
           "performance": 99,
@@ -98,7 +98,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 988,
+        "lcp": 936,
         "cls": 0.003,
         "inp": null,
         "performance": 99,
@@ -108,7 +108,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 988,
+          "lcp": 936,
           "cls": 0.003,
           "inp": null,
           "performance": 99,
@@ -122,7 +122,7 @@
         "url": "https://sugartown.io/articles",
         "desktop": {
           "url": "https://sugartown.io/articles",
-          "lcp": 971,
+          "lcp": 901,
           "cls": 0.001,
           "inp": null,
           "performance": 99,
@@ -131,7 +131,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 971,
+        "lcp": 901,
         "cls": 0.001,
         "inp": null,
         "performance": 99,
@@ -141,7 +141,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 971,
+          "lcp": 901,
           "cls": 0.001,
           "inp": null,
           "performance": 99,
@@ -155,7 +155,7 @@
         "url": "https://sugartown.io/case-studies",
         "desktop": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 950,
+          "lcp": 880,
           "cls": 0.001,
           "inp": null,
           "performance": 99,
@@ -164,7 +164,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 950,
+        "lcp": 880,
         "cls": 0.001,
         "inp": null,
         "performance": 99,
@@ -174,7 +174,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 950,
+          "lcp": 880,
           "cls": 0.001,
           "inp": null,
           "performance": 99,
@@ -188,7 +188,7 @@
         "url": "https://sugartown.io/knowledge-graph",
         "desktop": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1018,
+          "lcp": 994,
           "cls": 0.016,
           "inp": null,
           "performance": 99,
@@ -197,7 +197,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1018,
+        "lcp": 994,
         "cls": 0.016,
         "inp": null,
         "performance": 99,
@@ -207,7 +207,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 1018,
+          "lcp": 994,
           "cls": 0.016,
           "inp": null,
           "performance": 99,
@@ -221,7 +221,7 @@
         "url": "https://sugartown.io/platform",
         "desktop": {
           "url": "https://sugartown.io/platform",
-          "lcp": 984,
+          "lcp": 910,
           "cls": 0.315,
           "inp": null,
           "performance": 83,
@@ -230,7 +230,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 984,
+        "lcp": 910,
         "cls": 0.315,
         "inp": null,
         "performance": 83,
@@ -240,7 +240,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 984,
+          "lcp": 910,
           "cls": 0.315,
           "inp": null,
           "performance": 83,
@@ -254,29 +254,29 @@
         "url": "https://sugartown.io/about",
         "desktop": {
           "url": "https://sugartown.io/about",
-          "lcp": 1037,
-          "cls": 0.001,
+          "lcp": 940,
+          "cls": 0.089,
           "inp": null,
-          "performance": 98,
+          "performance": 97,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 1037,
-        "cls": 0.001,
+        "lcp": 940,
+        "cls": 0.089,
         "inp": null,
-        "performance": 98,
+        "performance": 97,
         "accessibility": 95,
         "bestPractices": 100,
         "seo": 100,
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 1037,
-          "cls": 0.001,
+          "lcp": 940,
+          "cls": 0.089,
           "inp": null,
-          "performance": 98,
+          "performance": 97,
           "accessibility": 95,
           "bestPractices": 100,
           "seo": 100,
@@ -287,7 +287,7 @@
         "url": "https://sugartown.io/articles/test-preview-post",
         "desktop": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 296,
+          "lcp": 268,
           "cls": 0.042,
           "inp": null,
           "performance": 100,
@@ -296,7 +296,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 296,
+        "lcp": 268,
         "cls": 0.042,
         "inp": null,
         "performance": 100,
@@ -306,7 +306,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/articles/test-preview-post",
-          "lcp": 296,
+          "lcp": 268,
           "cls": 0.042,
           "inp": null,
           "performance": 100,
@@ -320,7 +320,7 @@
         "url": "https://sugartown.io/nodes/test-node",
         "desktop": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 269,
+          "lcp": 282,
           "cls": 0.042,
           "inp": null,
           "performance": 100,
@@ -329,7 +329,7 @@
           "seo": 100,
           "rating": "good"
         },
-        "lcp": 269,
+        "lcp": 282,
         "cls": 0.042,
         "inp": null,
         "performance": 100,
@@ -339,7 +339,7 @@
         "rating": "good",
         "mobile": {
           "url": "https://sugartown.io/nodes/test-node",
-          "lcp": 269,
+          "lcp": 282,
           "cls": 0.042,
           "inp": null,
           "performance": 100,
@@ -352,36 +352,36 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-11-18T15:07:35.844Z",
+    "fetchedAt": "2026-11-19T15:17:24.348Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-11-18T15:09:20.135Z",
+    "fetchedAt": "2026-11-19T15:19:45.139Z",
     "vulnerabilities": {
-      "total": 385,
+      "total": 382,
       "critical": 9,
-      "high": 155,
+      "high": 151,
       "moderate": 184,
-      "low": 37,
+      "low": 38,
       "info": 0
     }
   },
   "github": {
-    "fetchedAt": "2026-11-18T15:09:21.048Z",
+    "fetchedAt": "2026-11-19T15:19:46.006Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
-    "openIssues": 109,
+    "openIssues": 110,
     "contributors": 3,
-    "lastCommit": "2026-11-17T15:35:45Z"
+    "lastCommit": "2026-11-18T15:09:24Z"
   },
   "sanity": {
-    "fetchedAt": "2026-11-18T15:09:21.470Z",
+    "fetchedAt": "2026-11-19T15:19:46.347Z",
     "counts": {
-      "article": 17,
+      "article": 18,
       "node": 52,
       "caseStudy": 8,
       "page": 11,
@@ -393,7 +393,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-11-18T15:09:21.612Z",
+    "generatedAt": "2026-11-19T15:19:46.502Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -851,6 +851,13 @@
         "size": "small"
       },
       {
+        "id": "tag:ats",
+        "type": "tag",
+        "label": "ATS",
+        "href": "/tags/ats",
+        "size": "small"
+      },
+      {
         "id": "tag:api",
         "type": "tag",
         "label": "API",
@@ -862,13 +869,6 @@
         "type": "tag",
         "label": "Retrospective",
         "href": "/tags/retrospective",
-        "size": "small"
-      },
-      {
-        "id": "tag:ats",
-        "type": "tag",
-        "label": "ATS",
-        "href": "/tags/ats",
         "size": "small"
       },
       {
@@ -1633,6 +1633,38 @@
           {
             "slug": "content-modeling",
             "label": "Content Modeling"
+          }
+        ]
+      },
+      {
+        "id": "item:article:i-automated-the-pipeline",
+        "_id": "c1415fdb-baf2-4561-85f0-745ba125cc31",
+        "type": "item",
+        "docType": "article",
+        "slug": "i-automated-the-pipeline",
+        "label": "I Automated the Pipeline",
+        "href": "/articles/i-automated-the-pipeline",
+        "size": "small",
+        "tags": [
+          {
+            "slug": "post-mortem",
+            "label": "Post Mortem"
+          },
+          {
+            "slug": "ats",
+            "label": "ATS"
+          },
+          {
+            "slug": "data-science",
+            "label": "data science"
+          },
+          {
+            "slug": "process-insight",
+            "label": "process insight"
+          },
+          {
+            "slug": "resume-as-code",
+            "label": "resume-as-code"
           }
         ]
       },
@@ -3248,6 +3280,21 @@
         "kind": "membership"
       },
       {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "project:resume-factory",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "category:career-engineering",
+        "kind": "membership"
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "category:ai",
+        "kind": "membership"
+      },
+      {
         "source": "item:article:sanity-table-authoring-ux",
         "target": "project:sugartown-cms",
         "kind": "membership"
@@ -4158,6 +4205,12 @@
       },
       {
         "source": "item:article:bait-and-switch-or-just-a-bug",
+        "target": "item:article:i-automated-the-pipeline",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:bait-and-switch-or-just-a-bug",
         "target": "item:article:job-search-funnel-data-postmortem",
         "kind": "sharedTag",
         "weight": 2
@@ -4393,6 +4446,24 @@
       {
         "source": "item:node:sanity-custom-table-input",
         "target": "item:node:market-scan-top-headless-cms-platforms-2025",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "item:article:job-search-funnel-data-postmortem",
+        "kind": "sharedTag",
+        "weight": 5
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "item:node:post-mortems-as-system-upgrades",
+        "kind": "sharedTag",
+        "weight": 2
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "item:node:the-epic-that-executed-itself",
         "kind": "sharedTag",
         "weight": 2
       },
@@ -5275,6 +5346,31 @@
         "kind": "tag-membership"
       },
       {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "tag:post-mortem",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "tag:ats",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "tag:data-science",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "tag:process-insight",
+        "kind": "tag-membership"
+      },
+      {
+        "source": "item:article:i-automated-the-pipeline",
+        "target": "tag:resume-as-code",
+        "kind": "tag-membership"
+      },
+      {
         "source": "item:article:sanity-table-authoring-ux",
         "target": "tag:table",
         "kind": "tag-membership"
@@ -6142,18 +6238,8 @@
     ]
   },
   "githubRoadmap": {
-    "fetchedAt": "2026-11-18T15:09:23.949Z",
-    "inProgress": [
-      {
-        "identifier": "#162",
-        "title": "Article: AI screening follow-up to the funnel postmortem (working title)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/162",
-        "updatedAt": "2026-11-17T16:18:01Z",
-        "priority": "Medium",
-        "status": "In Progress",
-        "projects": []
-      }
-    ],
+    "fetchedAt": "2026-11-19T15:19:48.913Z",
+    "inProgress": [],
     "backlog": [
       {
         "identifier": "#222",
@@ -6214,6 +6300,15 @@
         "title": "SUG-161 — Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest",
         "url": "https://github.com/bex-sugartown/sugartown/issues/50",
         "updatedAt": "2026-10-12T14:01:22Z",
+        "priority": "High",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#241",
+        "title": "Article: What is behind the portal (Career Engineering part 3)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/241",
+        "updatedAt": "2026-11-19T13:43:23Z",
         "priority": "High",
         "status": "Todo",
         "projects": []
@@ -7092,25 +7187,43 @@
         "projects": []
       },
       {
-        "identifier": "#241",
-        "title": "Article: What is behind the portal (ST-162 part 2)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/241",
-        "updatedAt": "2026-11-17T18:46:33Z",
+        "identifier": "#242",
+        "title": "Article: Being found, the recruiter visibility plan (Career Engineering part 4)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/242",
+        "updatedAt": "2026-11-19T13:43:25Z",
         "priority": "No priority",
         "status": "Backlog",
         "projects": []
       },
       {
-        "identifier": "#242",
-        "title": "Article: Being found, the recruiter visibility plan (ST-162 part 3)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/242",
-        "updatedAt": "2026-11-17T16:17:50Z",
-        "priority": "No priority",
+        "identifier": "#243",
+        "title": "Series document shows its parts read-only, set from the article side only",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/243",
+        "updatedAt": "2026-11-19T12:20:59Z",
+        "priority": "Low",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#244",
+        "title": "Internal links can pick series and taxonomy pages",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/244",
+        "updatedAt": "2026-11-19T12:30:42Z",
+        "priority": "Low",
         "status": "Backlog",
         "projects": []
       }
     ],
     "completed": [
+      {
+        "identifier": "#162",
+        "title": "Article: I Automated the Pipeline (Career Engineering part 2)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/162",
+        "updatedAt": "2026-11-19T14:09:20Z",
+        "priority": "Medium",
+        "status": "Done",
+        "projects": []
+      },
       {
         "identifier": "#239",
         "title": "og:image missing from prerendered pages, so LinkedIn previews show no image",
@@ -7278,15 +7391,6 @@
         "title": "ContentNav next and previous titles fail text contrast on case study, node and glossary pages (3.23:1)",
         "url": "https://github.com/bex-sugartown/sugartown/issues/184",
         "updatedAt": "2026-11-07T16:59:08Z",
-        "priority": "High",
-        "status": "Shipped",
-        "projects": []
-      },
-      {
-        "identifier": "#187",
-        "title": "Muted grey text (#888888) fails contrast in the dark theme: article filter counts and node sidebar series label",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/187",
-        "updatedAt": "2026-11-07T16:45:47Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
