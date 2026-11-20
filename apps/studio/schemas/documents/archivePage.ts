@@ -44,7 +44,6 @@ import {summaryPortableText} from '../objects/portableTextConfig'
  *     },
  *     enableFrontendFilters,
  *     frontendFilters,
- *     listStyle,
  *     sortBy,
  *     itemsPerPage,
  *     showPagination,
@@ -123,6 +122,7 @@ export default defineType({
   groups: [
     {name: 'content', title: 'Content', default: true},
     {name: 'filtering', title: 'Filtering'},
+    {name: 'display', title: 'Display'},
     {name: 'seo', title: 'SEO'},
     {name: 'deferred', title: 'Advanced (coming soon)'}
   ],
@@ -186,10 +186,10 @@ export default defineType({
     // Hero Section — DEFERRED: not yet wired in web app
     defineField({
       name: 'hero',
-      title: 'Hero Section (coming soon)',
+      title: 'Hero Section',
       type: 'object',
-      description: 'Coming soon — optional hero banner at the top of the archive page. Not yet wired up in the web app.',
-      group: 'deferred',
+      description: 'Optional. Heading and subheading replace the archive title and description at the top of the page (#210).',
+      group: 'content',
       fields: [
         defineField({
           name: 'heading',
@@ -220,9 +220,9 @@ export default defineType({
         }),
         defineField({
           name: 'content',
-          title: 'Additional Content',
+          title: 'Additional Content (coming soon)',
           type: 'array',
-          description: 'Rich text content below hero heading',
+          description: 'Not yet shown on the site (#37).',
           of: [
             defineArrayMember({type: 'block'}),
             defineArrayMember({
@@ -385,7 +385,7 @@ export default defineType({
       title: 'Filter Configuration',
       type: 'object',
       description: 'Configure which taxonomy facets appear in the filter sidebar, their order, and selection behaviour',
-      group: 'deferred',
+      group: 'filtering',
       fields: [
         defineField({
           name: 'facets',
@@ -494,19 +494,19 @@ export default defineType({
     // Frontend Filter Sidebar Toggle — DEFERRED: not yet wired in web app
     defineField({
       name: 'enableFrontendFilters',
-      title: 'Enable Frontend Filters',
+      title: 'Enable Frontend Filters (legacy)',
       type: 'boolean',
-      description: 'Coming soon — show filter sidebar for website visitors',
+      description: 'Legacy, not used. Filter Configuration in the Filtering tab controls the filter sidebar.',
       group: 'deferred',
       initialValue: true
     }),
 
-    // Frontend Filter Sidebar Configuration — DEFERRED: not yet wired in web app
+    // Frontend Filter Sidebar Configuration — LEGACY: superseded by filterConfig, never read (#210)
     defineField({
       name: 'frontendFilters',
-      title: 'Frontend Filter Options',
+      title: 'Frontend Filter Options (legacy)',
       type: 'object',
-      description: 'Coming soon — configure which filters visitors can use on the website',
+      description: 'Legacy, not used. Filter Configuration in the Filtering tab controls the filter sidebar.',
       group: 'deferred',
       hidden: ({parent}) => !parent?.enableFrontendFilters,
       fields: [
@@ -553,34 +553,33 @@ export default defineType({
     }),
 
     // ════════════════════════════════════════════════════════════════════════
-    // DEFERRED: Display — Layout style, card options, sort order, pagination
-    // (none of these fields are wired in the web app yet)
+    // DISPLAY GROUP — default layout and card options (wired, #210)
     // ════════════════════════════════════════════════════════════════════════
 
-    // Display Style — DEFERRED: not yet wired in web app (always renders grid)
+    // Display Style — read by ArchivePage.jsx as the default layout
     defineField({
       name: 'displayStyle',
       title: 'Display Style',
       type: 'string',
-      description: 'Coming soon — Grid: cards with image on top. List: cards with image on left.',
-      group: 'deferred',
+      description: 'The layout a visitor sees first. Visitors can switch with the grid/list toggle, and their choice is kept for the session.',
+      group: 'display',
       options: {
         list: [
-          {title: 'Grid (image on top)', value: 'grid'},
-          {title: 'List (image on left)', value: 'list'},
+          {title: 'Grid (cards with images)', value: 'grid'},
+          {title: 'List (text rows, no images)', value: 'list'},
         ],
         layout: 'radio'
       },
       initialValue: 'grid'
     }),
 
-    // Card Options — DEFERRED: not yet wired in web app
+    // Card Options — showExcerpt and showHeroImage are read by ArchivePage.jsx (grid only)
     defineField({
       name: 'cardOptions',
       title: 'Card Options',
       type: 'object',
-      description: 'Coming soon — control what appears on each card in the archive listing',
-      group: 'deferred',
+      description: 'Grid layout only. Controls what each card shows.',
+      group: 'display',
       fields: [
         defineField({
           name: 'showExcerpt',
@@ -598,9 +597,9 @@ export default defineType({
         }),
         defineField({
           name: 'compact',
-          title: 'Compact',
+          title: 'Compact (coming soon)',
           type: 'boolean',
-          description: 'Use compact density — tighter padding and smaller type',
+          description: 'Not yet wired in the web app (#37).',
           initialValue: false,
         }),
         defineField({
@@ -621,30 +620,12 @@ export default defineType({
         }),
         defineField({
           name: 'defaultImage',
-          title: 'Default Card Image',
+          title: 'Default Card Image (coming soon)',
           type: 'image',
-          description: 'Fallback image used when a content item has no hero image. Does not override per-item images.',
+          description: 'Not yet wired in the web app (#37): meant as the fallback when a content item has no image of its own.',
           options: {hotspot: true},
         }),
       ],
-    }),
-
-    // Legacy field — kept for backward compat with existing data
-    // TODO: Migrate existing archivePage docs from listStyle → displayStyle + cardOptions
-    defineField({
-      name: 'listStyle',
-      title: 'List Display Style (Legacy)',
-      type: 'string',
-      group: 'deferred',
-      hidden: true,
-      options: {
-        list: [
-          {title: 'Text Only', value: 'text-only'},
-          {title: 'Card with Image', value: 'card-with-image'},
-          {title: 'Card with Image + Excerpt', value: 'card-with-image-excerpt'}
-        ],
-        layout: 'radio'
-      },
     }),
 
     defineField({
