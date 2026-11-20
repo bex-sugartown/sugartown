@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Project and tool pages are prerendered, so search engines get their structured data in the first HTML response instead of after the app loads; thin tool pages carry their noindex in that HTML too. (#212; 7 projects and 63 tools, 47 noindex, snapshot JSON-LD identical to the client's, smoke 41 passed; Chromatic deferred to ship)
 - The archive filter gate now checks the filter code the site actually runs, not a hand-kept copy that had already drifted, and a new probe fails if a copy comes back. (#216; liveness probes 45 live, planted copy goes inert; the gate's copied queries are #245)
 - /about passes its accessibility checks: the active nav item is maroon instead of low-contrast pink, the bio intro is a paragraph rather than a stray heading, and inline and gallery images open full size from a real ⤢ button instead of a figure posing as one. /about is now in the axe smoke routes. (#165; local axe light and dark clean, smoke 38 passed; Chromatic deferred to ship, production Lighthouse re-run is a post-ship check)
 - ST-100's overdue kill-criterion check is recorded: the Done/Shipped split stays and the check is retired, since all 94 issues shipped since 2026-08-19 passed through Done first. (#222; 30 /ship runs, 63 of 94 waited an hour or more in Done)
