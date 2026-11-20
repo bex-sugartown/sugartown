@@ -1,9 +1,11 @@
 ---
 **Epic:** SUG-161 — Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest
-**Linear Issue:** [SUG-161](https://linear.app/sugartown/issue/SUG-161/storybook-testing-infrastructure-interaction-tests-a11y-ci-gate-vitest)
+**Issue:** [#50](https://github.com/bex-sugartown/sugartown/issues/50)
+**Aligned:** 2026-11-20
+**Visual:** no
 **Status:** Backlog
 **Priority:** 🟢 Next
-**Merge strategy:** (a) Merge-as-you-go — one commit per phase, one mini-release at end
+**Merge strategy:** (a) Merge-as-you-go — one commit per phase; ships with `/ship`
 ---
 
 # SUG-161 — Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest
@@ -12,7 +14,7 @@ Add interaction tests (.play() functions), automate a11y violation gating in CI,
 
 ## Background
 
-The Storybook setup is mature: 87 stories across all 37 DS components, Chromatic VRT running in CI on every push to main, `addon-a11y` installed, custom viewports configured, and a full docs template system (SUG-158). What the Guide's testing checklist identifies as missing is entirely in the interactive/automated testing layer: no `.play()` interaction tests exist anywhere in the codebase, the a11y addon runs only in the browser panel (not as a CI gate), and there is no Vitest integration for unit-level coverage reporting. The visual and documentation layers are done; the behavioural testing layer is not.
+The Storybook setup is mature: 390 stories (measured 2026-11-20 from `index.json`; 87 when this was written), Chromatic VRT running in CI on every push to main, `addon-a11y` installed, custom viewports configured, and a full docs template system (SUG-158). What the Guide's testing checklist identifies as missing is entirely in the interactive/automated testing layer: no `.play()` interaction tests exist anywhere in the codebase, the a11y addon runs only in the browser panel (not as a CI gate), and there is no Vitest integration for unit-level coverage reporting. The visual and documentation layers are done; the behavioural testing layer is not.
 
 ## Objective
 
@@ -36,7 +38,15 @@ After this epic, Storybook stories can assert interactive behaviour (click → s
 Install `@storybook/test` + `@storybook/test-runner`. Write `.play()` functions for the target components. Add `storybook:test` CI step. Ships as its own mini-release.
 
 ### Phase 2 — a11y CI gate (merge-as-you-go)
-Wire `addon-a11y` into the test-runner. Define rule severity config. Add to CI. Ships as its own mini-release.
+Install `@storybook/addon-vitest` (not the test-runner, see Start audit). Set `parameters.a11y.test: 'error'` and `options.runOnly` to the page gate's tags in `preview.ts`. Run every story in `light-pink-moon` and `dark-pink-moon`. Add a CI job. Ships with `/ship`.
+
+**Baseline, measured 2026-11-20** (axe-core via Playwright on `localhost:6006`, all 390 stories, tags `wcag2a wcag2aa wcag21aa wcag22aa`):
+
+| Rule | Light | Dark | Handling (Bex, 2026-11-20) |
+|---|---|---|---|
+| color-contrast | 106 stories | 60 stories | 51 story groups get `a11y.test: 'todo'` at component level, each naming the contrast-backlog issue; burn down there |
+| label | 6 | 6 | story-only (bare Input and Textarea with no label); fixed here with `aria-label` in the stories |
+| target-size | 1 | 1 | carousel dots, a real component issue; own issue, `todo` until fixed |
 
 ### Phase 3 — Vitest coverage (merge-as-you-go)
 Install `@storybook/addon-vitest`. Configure workspace. Pipe coverage to CI summary. Ships as its own mini-release.
@@ -51,12 +61,22 @@ Install `@storybook/addon-vitest`. Configure workspace. Pipe coverage to CI summ
 
 ## Technical notes
 
-- **Current Storybook version:** 10.3.4 — verify `@storybook/test` and `@storybook/test-runner` compatibility with v10 before Phase 1 install. Storybook 9+ ships `@storybook/test` as a first-party package; v10 should be compatible.
-- **test-runner vs addon-vitest:** `@storybook/test-runner` uses Playwright to run stories in a headless browser — necessary for DOM interaction tests. `@storybook/addon-vitest` runs stories in jsdom via Vitest — faster but no real DOM. Phase 1–2 use test-runner (real DOM for .play() and a11y); Phase 3 adds addon-vitest for coverage.
+- **Current Storybook version:** 10.5.7 (`apps/storybook/package.json`, 2026-11-20).
+- **test-runner vs addon-vitest:** superseded, see Start audit. `@storybook/addon-vitest` runs stories in real Chromium (Vitest browser mode, Playwright), and Storybook's docs say the test runner "has been superseded by the Vitest addon". All three phases use the Vitest addon.
 - **a11y severity config:** The test-runner can read `addon-a11y` config from story parameters. Define a shared `a11yConfig` in `apps/storybook/.storybook/preview.ts` with `rules` set to downgrade noisy rules (e.g. `color-contrast` for stories that deliberately use brand accent on brand bg) to `warn`. Only genuine structural violations (`role` misuse, missing `aria-*`, keyboard traps) should be `error`.
 - **CI job placement:** Add a new `storybook-tests` job to `ci.yml` that runs after the main lint/build job (to avoid redundant installs). The Chromatic job already handles visual regression; the new job handles behavioural + a11y.
 - **Activation audit:** Before Phase 1, read `.github/workflows/ci.yml` in full to understand the current job structure and pnpm cache setup, then model the new job to match.
 - **Model & Mode:** `/model opus` — Opus plans (Pre-Execution Gate → Files to Modify), Sonnet executes after plan-mode exit.
+
+## Start audit
+
+2026-11-20, start review for Phase 2. `check-epic-doc.js --drift` listed 48 changed rule files; read: `.claude/rules/storybook.md`, `docs/epic-template.md`, `docs/conventions/chromatic-conventions.md`. Skipped as not touching a test gate: the other 45 (content, CSS, process and skill files).
+
+- Missing `**Visual:**` line (the checker's one hard gap). Fix: `**Visual:** no`, a test gate renders nothing.
+- Tooling premise changed. The epic chose `@storybook/test-runner` and described addon-vitest as jsdom-only. Storybook 10.6 docs: the test runner "has been superseded by the Vitest addon", which runs in real Chromium. Fix: Phase 2 uses addon-vitest (Bex).
+- Stale facts: Storybook 10.5.7 not 10.3.4; 390 stories not 87; `/mini-release` retired 2026-08-19 for `/ship`; Linear link replaced by #50. Fixed in place.
+- Baseline not in the doc. Fix: measured and recorded under Phase 2 with Bex's handling.
+- `storybook.md` §Storybook coverage requirement asks that stories are checked on both themes. Fix: the gate runs both (Bex).
 
 ## Model & Mode [REQUIRED]
 
@@ -66,7 +86,7 @@ Install `@storybook/addon-vitest`. Configure workspace. Pipe coverage to CI summ
 
 - No changes to DS component logic or visual output — `.play()` tests assert behaviour, not appearance
 - No new story files for currently-uncovered components — coverage is complete; this epic adds test depth, not breadth
-- No Storybook upgrade (remains on v10.3.4 for this epic)
+- No Storybook upgrade (remains on v10.5.x for this epic)
 - No removal of Chromatic — it remains the visual regression gate; this epic adds the behavioural layer alongside it
 - SUG-152 (usage docs) is unrelated and stays on hold
 
