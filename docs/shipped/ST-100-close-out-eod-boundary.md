@@ -543,6 +543,27 @@ or twenty, and a criterion phrased in days would be judged on a sample of two. R
 five invocations** before the check is meaningful; if 30 days pass with fewer, extend to the fifth
 run and record why.
 
+## Kill-criterion verdict, 2026-11-20
+
+**Verdict (Bex): keep the split. Neither kill condition fired.** The check date was about
+2026-09-18 and the verdict ran two months late (#222). The five-invocation floor was met many
+times over.
+
+| Measure | Result | Command |
+|---|---|---|
+| Pushes to `main` since 2026-08-19 | 37 (1 failed, 2026-09-24) | `gh run list --workflow CI --branch main --event push --created '>=2026-08-19'` |
+| `/ship` runs that set `Shipped` | 30, counted as distinct `Shipped` timestamps | project 1 GraphQL, Status `updatedAt` on `Shipped` items |
+| Issues `Shipped` since 2026-08-19 | 94 | same query, joined with issue `closedAt` |
+| Reached `Shipped` without passing through `Done` | **0** of 94 (none shipped at or before close) | same |
+| Sat in `Done` 1 hour or more before `Shipped` | 63 of 94; longest 201.5 h (#176) | same |
+| `Done` and `Shipped` in the same sitting (under 1 hour) | 31 of 94 | same |
+
+Method limit: GitHub keeps no history for the Status field, so time of entry to `Done` is the
+issue's `closedAt` (the `Item closed` workflow sets `Done` on close). The 1-hour line is a reading
+aid, not part of the criterion.
+
+**Decisions:** the split stays, and this kill criterion is retired with no further check date (Bex).
+
 ---
 
 ## Model & Mode [REQUIRED]
