@@ -13,6 +13,7 @@ import { aiMediaProps } from './provenance'
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
 import ImageLightbox from '../components/ImageLightbox'
 import { urlFor } from './sanity'
+import sectionStyles from '../components/PageSections.module.css'
 import { citedText } from './citedText'
 import GlossaryTermAnnotation from '../components/GlossaryTermAnnotation'
 
@@ -60,12 +61,8 @@ function SharedInlineImage({ value }) {
   return (
     <>
       <figure
-        style={{ margin: '1.5rem 0', cursor: 'zoom-in' }}
+        style={{ margin: '1.5rem 0', cursor: 'zoom-in', position: 'relative' }}
         onClick={() => setLightboxOpen(true)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightboxOpen(true) } }}
-        aria-label={`View full size: ${value.alt || 'image'}`}
       >
         <Media
           src={imgSrc}
@@ -73,6 +70,12 @@ function SharedInlineImage({ value }) {
           overlay={value.overlay}
           {...aiMediaProps(value)}
         />
+        <button
+          type="button"
+          className={sectionStyles.imageExpand}
+          aria-label="Expand image"
+          onClick={(e) => { e.stopPropagation(); setLightboxOpen(true) }}
+        >⤢</button>
         {value.caption && (
           <figcaption style={{ fontSize: '0.85rem', color: 'var(--st-color-text-muted, #555)', marginTop: '0.5rem', textAlign: 'center', fontStyle: 'italic' }}>
             {value.caption}

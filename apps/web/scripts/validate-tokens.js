@@ -122,7 +122,7 @@ const TYPE_BUNDLE_EXCEPTIONS = new Map([
   ['packages/design-system/src/components/Card/Card.module.css :: .compact .footerCategoryLink', 'compact-mode size step in a descendant selector'],
   ['packages/design-system/src/components/Card/Card.module.css :: .compact .date', 'compact-mode size step in a descendant selector'],
   ['apps/web/src/components/ImageLightbox.module.css :: *', 'heavier 3px ring over images'],
-  ['apps/web/src/components/PageSections.module.css :: .carouselArrow:focus-visible, .carouselExpand:focus-visible', 'heavier 3px ring over images'],
+  ['apps/web/src/components/PageSections.module.css :: .carouselArrow:focus-visible, .imageExpand:focus-visible', 'heavier 3px ring over images'],
 ])
 
 /**

@@ -12,7 +12,7 @@
 }
 
 .navItem.active {
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-text-brand); /* #165: pink on the header surface was 3.23:1; the underline below carries the pink */
 }
 
 .navItem.active::after {

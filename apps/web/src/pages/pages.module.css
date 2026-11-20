@@ -171,6 +171,7 @@
 
 .inlineImage {
   margin: 1.5rem 0;
+  position: relative; /* positioning context for the expand button (#165) */
 }
 
 .inlineImageClickable {

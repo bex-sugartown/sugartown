@@ -29,6 +29,7 @@ import DraftBadge from '../components/DraftBadge'
 import PageSidebar, { hasSidebarContent } from '../components/PageSidebar'
 import NotFoundPage from './NotFoundPage'
 import styles from './pages.module.css'
+import sectionStyles from '../components/PageSections.module.css'
 
 function ArticleInlineImage({ value }) {
   const [lightboxOpen, setLightboxOpen] = useState(false)
@@ -41,10 +42,6 @@ function ArticleInlineImage({ value }) {
       <figure
         className={`${styles.inlineImage} ${styles.inlineImageClickable}`}
         onClick={() => setLightboxOpen(true)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightboxOpen(true) } }}
-        aria-label={`View full size: ${value.alt || 'image'}`}
       >
         <Media
           src={imgSrc}
@@ -53,6 +50,12 @@ function ArticleInlineImage({ value }) {
           {...aiMediaProps(value)}
           className={styles.inlineImageImg}
         />
+        <button
+          type="button"
+          className={sectionStyles.imageExpand}
+          aria-label="Expand image"
+          onClick={(e) => { e.stopPropagation(); setLightboxOpen(true) }}
+        >⤢</button>
         {value.caption && (
           <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
         )}

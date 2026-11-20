@@ -491,6 +491,7 @@
 /* Inline richImage in Portable Text */
 .inlineImage {
   margin: var(--st-spacing-stack-lg) 0;
+  position: relative; /* positioning context for the expand button (#165) */
 }
 
 .inlineImageClickable {
@@ -577,7 +578,7 @@
 /* ── Carousel arrows ─────────────────────────────────────────────── */
 /* Sit on the image, so dark fill + white ring in both themes (ST-201: was 50% scrim, invisible on dark art) */
 .carouselArrow,
-.carouselExpand {
+.imageExpand {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -599,12 +600,12 @@
 }
 
 .carouselArrow:hover,
-.carouselExpand:hover {
+.imageExpand:hover {
   background: var(--st-color-pink);
 }
 
 .carouselArrow:focus-visible,
-.carouselExpand:focus-visible {
+.imageExpand:focus-visible {
   outline: 3px solid var(--st-color-pink);
   outline-offset: 3px;
 }
@@ -612,9 +613,10 @@
 .carouselPrev { left: 0.5rem; }
 .carouselNext { right: 0.5rem; }
 
-/* Expand button (ST-205): top right of the active slide; same circle as the arrows. It is the visible
-   cue and the keyboard route; a click anywhere on the active slide opens the lightbox too. */
-.carouselExpand {
+/* Expand button (ST-205): top right of the active slide, inline image or gallery image (#165); same
+   circle as the arrows. It is the visible cue and the keyboard route; a click anywhere on the image
+   opens the lightbox too, so the figure itself carries no button role. */
+.imageExpand {
   top: 0.5rem;
   right: 0.5rem;
   transform: none;
@@ -660,7 +662,7 @@
   cursor: zoom-in;
 }
 
-.carouselSlide[data-active="false"] .carouselExpand {
+.carouselSlide[data-active="false"] .imageExpand {
   display: none;
 }
 
