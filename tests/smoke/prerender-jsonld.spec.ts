@@ -28,6 +28,9 @@ for (const [label, archive, pattern, type] of [
   ['article', '/articles', /^\/articles\/[^/]+$/, 'Article'],
   ['node', '/nodes', /^\/nodes\/[^/]+$/, 'Article'],
   ['glossary term', '/glossary', /^\/glossary\/[^/]+$/, 'DefinedTerm'],
+  // #212: project and tool routes, same JSON-LD as ProjectDetailPage and ToolDetailPage send.
+  ['project', '/projects', /^\/projects\/[^/]+$/, 'CreativeWork'],
+  ['tool', '/tools', /^\/tools\/[^/]+$/, 'WebPage'],
 ] as const) {
   test(`first ${label} serves ${type} JSON-LD in the HTML`, async ({ page, request }) => {
     const path = await discoverFirstDetail(page, archive, pattern)
@@ -56,6 +59,19 @@ for (const [label, archive, pattern] of [
     expect(html).toContain('<meta name="twitter:card" content="summary_large_image" />')
   })
 }
+
+// #212: a thin tool page is noindex on the client (MIN_INDEXABLE_ITEMS); its snapshot must agree,
+// or the HTML Google fetches and the page it renders give different answers.
+test('first tool snapshot carries the same robots verdict as the rendered page', async ({ page, request }) => {
+  const path = await discoverFirstDetail(page, '/tools', /^\/tools\/[^/]+$/)
+  const html = await (await request.get(path)).text()
+  const snapshotNoindex = /<meta name="robots" content="noindex, follow" \/>/.test(html)
+  await page.goto(path)
+  await page.getByRole('heading', { level: 1 }).first().waitFor()
+  await page.waitForLoadState('networkidle')
+  const rendered = await page.locator('meta[name="robots"]').getAttribute('content')
+  expect(snapshotNoindex, `snapshot noindex vs rendered robots "${rendered}" on ${path}`).toBe(rendered === 'noindex, follow')
+})
 
 test('/about serves og:image in the HTML, without client JS', async ({ request }) => {
   const response = await request.get('/about')
