@@ -42,7 +42,7 @@
 
 import { readFileSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'fs'
 import { resolve, dirname } from 'path'
-import { fileURLToPath } from 'url'
+import { fileURLToPath, pathToFileURL } from 'url'
 import { spawnSync } from 'child_process'
 import { createRequire } from 'module'
 import { requiredSections, requiredSubsections } from './check-epic-doc.js'
@@ -380,9 +380,20 @@ function urlsProbes() {
   ]
 }
 
-// validate:filters — apps/web/scripts/lib/filters-rules.cjs
+// validate:filters — apps/web/scripts/lib/filters-rules.js
+// An ES module since #216: it imports the app's own src/lib/filterModel.js, so it is
+// loaded with import(), not requireCjs. A load failure is held and thrown inside each
+// probe's run, so it is reported as a failing probe rather than crashing the runner.
+const loadModule = (path) => import(pathToFileURL(resolve(ROOT, path)).href).catch((err) => ({ __loadError: err }))
+const filtersRulesModule = await loadModule('apps/web/scripts/lib/filters-rules.js')
+const appFilterModelModule = await loadModule('apps/web/src/lib/filterModel.js')
+const loaded = (mod) => {
+  if (mod.__loadError) throw mod.__loadError
+  return mod
+}
+
 function filtersProbes() {
-  const rules = () => requireCjs(resolve(ROOT, 'apps/web/scripts/lib/filters-rules.cjs'))
+  const rules = () => loaded(filtersRulesModule)
   const archive = { _id: 'ap1', title: 'Articles', slug: 'articles', contentTypes: ['article'], filterConfig: { facets: [] } }
   return [
     {
@@ -420,6 +431,21 @@ function filtersProbes() {
           fires: (found) => found.length > 0,
           success: 'reported gem_status in the model',
         }),
+    },
+    {
+      gate: "validate:filters (judges the app's model)",
+      why: 'the gate must build filter models with src/lib/filterModel.js, not a copy of it (#216)',
+      // An identity check, not a clean/broken fixture pair: the property is that the
+      // gate's builder IS the app's function. A copy, however faithful, reports inert.
+      run: () => {
+        const same = rules().buildFilterModel === loaded(appFilterModelModule).buildFilterModel
+        return {
+          live: same,
+          detail: same
+            ? "builds models with the app's own buildFilterModel"
+            : 'filters-rules.js no longer re-exports buildFilterModel from src/lib/filterModel.js, so the gate judges a copy',
+        }
+      },
     },
   ]
 }
