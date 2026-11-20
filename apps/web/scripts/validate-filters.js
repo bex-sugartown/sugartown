@@ -24,7 +24,7 @@
  *   --no-token           (force an anonymous run)
  */
 
-import { detectWpKeysInString, judgeArchive } from './lib/filters-rules.cjs'
+import { detectWpKeysInString, judgeArchive } from './lib/filters-rules.js'
 import { createClient } from '@sanity/client'
 import { readFileSync } from 'fs'
 import { resolve, dirname } from 'path'
@@ -211,7 +211,7 @@ async function run() {
 
     console.log(`   Content items: ${contentItems.length} doc(s) found`)
 
-    // The judging half lives in lib/filters-rules.cjs so the liveness probe runs the same function.
+    // The judging half lives in lib/filters-rules.js so the liveness probe runs the same function.
     const verdict = judgeArchive(archivePage, contentItems)
     model = verdict.model
 
