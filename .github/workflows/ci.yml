@@ -133,6 +133,36 @@ jobs:
         env:
           CI: true
 
+  storybook-a11y:
+    # #50 (SUG-161 Phase 2): every Storybook story runs in real Chromium in both Pink Moon
+    # themes, and an axe violation (tags from tests/smoke/helpers/axe-tags.ts) fails the job.
+    # Known failures are marked a11y.test 'todo' in their stories file, naming #246 or #247.
+    name: Storybook a11y
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 9.1.0
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install Chromium for Vitest browser mode
+        run: pnpm --filter storybook exec playwright install --with-deps chromium
+
+      - name: Storybook a11y gate
+        run: pnpm --filter storybook test:a11y
+
   chromatic:
     name: Chromatic VRT
     runs-on: ubuntu-latest

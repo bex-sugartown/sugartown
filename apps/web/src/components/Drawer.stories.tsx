@@ -57,6 +57,8 @@ const meta: Meta<typeof Drawer> = {
     children: { table: { disable: true }, description: "Panel body content — caller's responsibility" },
   },
   parameters: {
+    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    a11y: { test: 'todo' },
     chromatic: { disableSnapshot: false },
     layout: 'padded',
     docs: { story: { inline: false, height: '620px' } },

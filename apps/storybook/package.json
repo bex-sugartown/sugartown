@@ -8,7 +8,8 @@
     "chromatic": "sh scripts/chromatic.sh",
     "lint": "eslint .storybook --ext .ts,.tsx",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf storybook-static .turbo"
+    "clean": "rm -rf storybook-static .turbo",
+    "test:a11y": "vitest run"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.0",
@@ -21,15 +22,19 @@
   "devDependencies": {
     "@storybook/addon-a11y": "^10.5.7",
     "@storybook/addon-docs": "^10.5.7",
+    "@storybook/addon-vitest": "~10.5.7",
     "@storybook/react-vite": "^10.5.7",
     "@sugartown/eslint-config": "workspace:*",
     "@sugartown/tsconfig": "workspace:*",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
+    "@vitest/browser": "~3.2.4",
     "chromatic": "^16.2.0",
     "eslint": "^8.56.0",
+    "playwright": "~1.62.0",
     "storybook": "^10.5.7",
     "typescript": "^5.3.3",
-    "vite": "^5.0.11"
+    "vite": "^5.0.11",
+    "vitest": "~3.2.4"
   }
 }

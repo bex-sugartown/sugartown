@@ -6,7 +6,8 @@ const meta: Meta<typeof PageSections> = {
   title: 'Patterns/ImageGallery',
   component: PageSections,
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
-  parameters: { chromatic: { disableSnapshot: false } },
+  // #247: known target-size failure, reported by the a11y gate (#50) without failing it. Remove when #247 is fixed.
+  parameters: { a11y: { test: 'todo' }, chromatic: { disableSnapshot: false } },
 };
 
 export default meta;

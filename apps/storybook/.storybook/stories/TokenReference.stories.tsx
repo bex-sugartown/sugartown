@@ -77,7 +77,8 @@ function TokenReferencePage() {
 const meta: Meta = {
   title: 'Foundations/Token Reference',
   component: TokenReferencePage,
-  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
+  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  parameters: { a11y: { test: 'todo' }, layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

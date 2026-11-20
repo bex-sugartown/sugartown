@@ -13,7 +13,8 @@ const meta: Meta<typeof Grid> = {
   title: 'Foundations/Layout/Grid',
   component: Grid,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
   args: {
     spacing: 'lg',
     columns: 3,

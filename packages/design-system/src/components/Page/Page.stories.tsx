@@ -5,7 +5,8 @@ import { Page } from './Page';
 const meta: Meta<typeof Page> = {
   title: 'Foundations/Layout/Page',
   component: Page,
-  parameters: { layout: 'fullscreen' },
+  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  parameters: { a11y: { test: 'todo' }, layout: 'fullscreen' },
 };
 export default meta;
 type Story = StoryObj<typeof Page>;

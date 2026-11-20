@@ -25,6 +25,14 @@ import '@sugartown/design-system/styles.css';
 // Override Storybook's hardcoded-white Docs canvas boxes to respect data-theme
 import './docs-overrides.css';
 
+// The axe tags the page-level gate checks; one shared list (#50).
+import { AXE_TAGS } from '../../../tests/smoke/helpers/axe-tags';
+
+// The a11y gate (#50) runs every story once per theme: .storybook/vitest.setup.ts sets
+// this global per Vitest project. Unset in normal Storybook and Chromatic runs.
+const DEFAULT_THEME: string =
+  (globalThis as { __STORYBOOK_A11Y_THEME__?: string }).__STORYBOOK_A11Y_THEME__ ?? 'light-pink-moon'
+
 /** Canvas background colour for each theme token. */
 const THEME_BG: Record<string, string> = {
   'dark-pink-moon':             '#0D1226',
@@ -38,7 +46,7 @@ const THEME_BG: Record<string, string> = {
  * always matches the selected theme (no separate backgrounds toolbar needed).
  */
 const withTheme: Decorator = (StoryFn, context) => {
-  const theme = (context.globals.theme as string) ?? 'light-pink-moon'
+  const theme = (context.globals.theme as string) ?? DEFAULT_THEME
   document.documentElement.setAttribute('data-theme', theme)
   document.body.style.backgroundColor = THEME_BG[theme] ?? '#0D1226'
   return createElement(StoryFn)
@@ -63,7 +71,7 @@ const preview: Preview = {
     theme: {
       name: 'Theme',
       description: 'Global theme for all components',
-      defaultValue: 'light-pink-moon',
+      defaultValue: DEFAULT_THEME,
       toolbar: {
         icon: 'circlehollow',
         items: [
@@ -119,6 +127,12 @@ const preview: Preview = {
     // theme toolbar selection. The addon overlay would otherwise sit on top
     // and show a hardcoded white regardless of the chosen theme.
     backgrounds: { disable: true },
+    // #50: axe violations fail the Vitest run (pnpm --filter storybook test:a11y) and CI.
+    // A stories file can set a11y.test to 'todo' for a known failure; each names its issue.
+    a11y: {
+      test: 'error',
+      options: { runOnly: AXE_TAGS },
+    },
   },
 };
 

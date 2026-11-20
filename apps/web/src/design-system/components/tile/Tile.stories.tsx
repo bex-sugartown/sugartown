@@ -17,7 +17,8 @@ const meta: Meta<typeof Tile> = {
   title: 'Legacy/Tile',
   component: Tile,
   tags: ['autodocs'],
-  parameters: { layout: 'padded' },
+  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
   decorators: [
     (Story) => <MemoryRouter><Story /></MemoryRouter>,
   ],
