@@ -35,11 +35,17 @@ These fields exist in the Sanity Studio `archivePage` document type but are **no
 
 ---
 
+> **Updated 2026-11-20 by #210.** An audit of every `archivePage` field (table on #210) found three of
+> the eight sections below already wired: `filterConfig` (5), `displayStyle` (7), and
+> `cardOptions.showExcerpt` / `.showHeroImage` (part of 8). They left this epic's scope and moved out of
+> the "Advanced (coming soon)" tab. `hero.heading` and `.subheading` are wired too, so only the hero
+> background image (1) and `hero.content` remain. Section 6 is legacy, superseded by `filterConfig`.
+
 ## 1. Hero Background Image
 
 **Field:** `hero.backgroundImage`
 
-Full-bleed background image for the archive hero section. Uploaded in Studio but not rendered by any archive page template on the web side.
+Full-bleed background image for the archive hero section. Uploaded in Studio but not rendered by any archive page template on the web side. `hero.content` (rich text under the heading) is also unread. `hero.heading` and `.subheading` are wired (#210).
 
 ## 2. Promoted Items
 
@@ -59,29 +65,40 @@ Editor-side pre-filtering by taxonomy references to scope which content appears 
 
 Constrains the archive to a time window. Not consumed by the web app's query layer.
 
-## 5. Filter Configuration (Facets)
+## 5. Filter Configuration (Facets) — out of scope, wired
 
 **Field:** `filterConfig` (object: `facets[]`)
 
-Stage 4 facet config — which facets appear, display order, single/multi selection mode, default selected slugs. Partially wired via `buildFilterModel()` but the full settings object is not respected end-to-end.
+Read by `buildFilterModel()` (`apps/web/src/lib/filterModel.js`) and moved to the Filtering tab by #210. Whether every setting (for example `defaultSelectedSlugs`) is honoured end to end was not checked; file a bug if one is not.
 
-## 6. Frontend Filter Controls
+## 6. Frontend Filter Controls — legacy
 
-**Field:** `frontendFilters` (object: per-filter boolean toggles)
+**Field:** `frontendFilters` (object: per-filter boolean toggles), with `enableFrontendFilters`
+
+Superseded by `filterConfig` and labelled legacy in Studio by #210. The remaining decision is removal, with an unset on the archives that hold values.
 
 Per-toggle visibility for content type, category, tag, project, date, and search filters. Toggles exist in Studio but the web app doesn't read them to conditionally show/hide filter UI.
 
-## 7. Display Style
+## 7. Display Style — out of scope, wired
 
 **Field:** `displayStyle` (`'grid'` | `'list'`)
 
-Lets editors choose between card grid and list layout. The web app always renders the grid layout regardless of this setting.
+Read by `ArchivePage.jsx` as the default layout and moved to the Display tab by #210. `/releases` uses `list`.
 
 ## 8. Card Options
 
 **Field:** `cardOptions` (object: `showExcerpt`, `showHeroImage`, `compact`, `defaultImage`)
 
-Controls for excerpt visibility, hero image visibility, compact card mode, and a fallback default image. None of these are read by the web app's `ContentCard` or archive page templates.
+`showExcerpt` and `showHeroImage` are wired (grid layout only) and in the Display tab since #210. Still in scope:
+
+- `compact`: not fetched, not read.
+- `defaultImage`: inert. `archivePageBySlugQuery` asks for `cardOptions.imageOverride`, which the schema does not have, and `ContentCard` puts `imageOverride` ahead of an item's hero image, the opposite of the Studio description ("fallback when a content item has no image"). Wiring it means fixing both the field name and the order.
+
+## 9. Sort, page size, pagination
+
+**Fields:** `sortBy`, `itemsPerPage`, `showPagination`
+
+The first two are fetched by `archivePageBySlugQuery` and never read; `showPagination` is not fetched. The archive sorts and paginates on fixed rules.
 
 ---
 
