@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The archive filter gate now checks the filter code the site actually runs, not a hand-kept copy that had already drifted, and a new probe fails if a copy comes back. (#216; liveness probes 45 live, planted copy goes inert; the gate's copied queries are #245)
 - /about passes its accessibility checks: the active nav item is maroon instead of low-contrast pink, the bio intro is a paragraph rather than a stray heading, and inline and gallery images open full size from a real ⤢ button instead of a figure posing as one. /about is now in the axe smoke routes. (#165; local axe light and dark clean, smoke 38 passed; Chromatic deferred to ship, production Lighthouse re-run is a post-ship check)
 - ST-100's overdue kill-criterion check is recorded: the Done/Shipped split stays and the check is retired, since all 94 issues shipped since 2026-08-19 passed through Done first. (#222; 30 /ship runs, 63 of 94 waited an hour or more in Done)
 - ST-162: "I Automated the Pipeline" is published, part 2 of the Career Engineering series: twice the applications, the same cold screens, and the case for being found; the follow-up posts are #241 and #242. (#162; red pen 20 of 20 rows applied, publish gate clean, 0 em dashes, sync check matched all 16 sections)
