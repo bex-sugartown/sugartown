@@ -4,9 +4,9 @@ import { writeFileSync, mkdirSync } from 'node:fs'
 import { dirname } from 'node:path'
 import { AXE_ALLOWLIST, type AxeAllowEntry, type Theme } from './axe-allowlist'
 
-// The same tag list the Storybook a11y gate (#50) reuses. Automated rules
-// catch a minority of WCAG criteria; a pass here is not a conformance claim (#153).
-export const AXE_TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa']
+// The tag list lives in axe-tags.ts, shared with the Storybook a11y gate (#50).
+import { AXE_TAGS } from './axe-tags'
+export { AXE_TAGS }
 
 // Set AXE_BASELINE=<path> to record violations as JSON and never fail.
 // Used once in Phase 1 to measure the baseline before the gate goes live.

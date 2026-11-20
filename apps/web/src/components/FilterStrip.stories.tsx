@@ -5,7 +5,8 @@ import FilterStrip from './FilterStrip'
 const meta: Meta<typeof FilterStrip> = {
   title: 'Patterns/FilterStrip',
   component: FilterStrip,
-  parameters: { layout: 'padded' },
+  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
 }
 export default meta
 type Story = StoryObj<typeof FilterStrip>

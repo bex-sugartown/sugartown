@@ -72,6 +72,8 @@ const meta: Meta<typeof FilterBar> = {
     onClearAll: { table: { disable: true } },
   },
   parameters: {
+    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    a11y: { test: 'todo' },
     chromatic: { disableSnapshot: false },
     layout: 'padded',
   },

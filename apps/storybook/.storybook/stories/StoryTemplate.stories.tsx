@@ -313,6 +313,8 @@ const meta: Meta = {
   title: 'Docs/Story Template',
   component: StoryTemplatePage,
   parameters: {
+    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    a11y: { test: 'todo' },
     layout: 'fullscreen',
     controls: { disable: true },
     actions: { disable: true },

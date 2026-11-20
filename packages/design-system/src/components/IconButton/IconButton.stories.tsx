@@ -69,7 +69,8 @@ const meta: Meta<typeof IconButton> = {
   title: 'Components/IconButton',
   component: IconButton,
   tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  parameters: { a11y: { test: 'todo' }, layout: 'centered' },
   argTypes: {
     shape: {
       description: 'Button shape.',

@@ -26,7 +26,7 @@ After this epic, Storybook stories can assert interactive behaviour (click → s
 - [ ] Write `.play()` interaction tests for the ~10 most interactive components: Button, FilterBar, SegmentedControl, Drawer, Accordion, Chip, Input, Field, HelperText, Form — layer: Storybook stories
 - [ ] Smoke-test all `.play()` stories via `pnpm storybook:test` locally before CI wiring — layer: Storybook tooling
 - [ ] Add test-runner step to `.github/workflows/ci.yml` so `.play()` failures block merge — layer: CI
-- [ ] Wire `addon-a11y` into the test-runner via `--stories-match` or `--config` so axe violations become CI failures; define which rules are `error` vs `warn` — layer: Storybook tooling + CI
+- [x] Wire `addon-a11y` into a runner so axe violations become CI failures; define which rules are `error` vs `warn` — layer: Storybook tooling + CI. **Done 2026-11-20 (Phase 2):** Vitest addon, `a11y.test: 'error'` project-wide, known failures `'todo'` naming #246 / #247, both themes, CI job `storybook-a11y`.
 - [ ] Install `@storybook/addon-vitest`; configure Vitest workspace to include story files — layer: Storybook tooling
 - [ ] Pipe Vitest coverage report to CI summary (GitHub Actions `$GITHUB_STEP_SUMMARY`) — layer: CI
 
@@ -37,7 +37,7 @@ After this epic, Storybook stories can assert interactive behaviour (click → s
 ### Phase 1 — Interaction tests (merge-as-you-go)
 Install `@storybook/test` + `@storybook/test-runner`. Write `.play()` functions for the target components. Add `storybook:test` CI step. Ships as its own mini-release.
 
-### Phase 2 — a11y CI gate (merge-as-you-go)
+### Phase 2 — a11y CI gate (merge-as-you-go) — done 2026-11-20
 Install `@storybook/addon-vitest` (not the test-runner, see Start audit). Set `parameters.a11y.test: 'error'` and `options.runOnly` to the page gate's tags in `preview.ts`. Run every story in `light-pink-moon` and `dark-pink-moon`. Add a CI job. Ships with `/ship`.
 
 **Baseline, measured 2026-11-20** (axe-core via Playwright on `localhost:6006`, all 390 stories, tags `wcag2a wcag2aa wcag21aa wcag22aa`):

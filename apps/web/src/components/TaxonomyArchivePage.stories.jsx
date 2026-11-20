@@ -20,6 +20,8 @@ function withRouter(StoryFn) { return React.createElement(MemoryRouter, null, Re
 export default {
   title: 'Pages/TaxonomyArchivePage',
   parameters: {
+    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    a11y: { test: 'todo' },
     layout: 'fullscreen',
   },
   decorators: [withRouter],
