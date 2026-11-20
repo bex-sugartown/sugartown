@@ -43,10 +43,6 @@ function InlineImage({ value }) {
       <figure
         className={`${styles.inlineImage} ${styles.inlineImageClickable}`}
         onClick={() => setLightboxOpen(true)}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setLightboxOpen(true) } }}
-        aria-label={`View full size: ${value.alt || 'image'}`}
       >
         <Media
           src={imgSrc}
@@ -57,6 +53,12 @@ function InlineImage({ value }) {
           width={width}
           height={height}
         />
+        <button
+          type="button"
+          className={styles.imageExpand}
+          aria-label="Expand image"
+          onClick={(e) => { e.stopPropagation(); setLightboxOpen(true) }}
+        >⤢</button>
         {value.caption && (
           <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
         )}
@@ -430,12 +432,15 @@ function GalleryImage({ image, index, onLightbox, treatment, layout, inCarousel 
     <figure
       className={`${styles.galleryItem} ${styles.galleryLightbox}`}
       onClick={() => onLightbox(index)}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onLightbox(index) } }}
     >
       {mediaEl}
       {captionOverlay}
+      <button
+        type="button"
+        className={styles.imageExpand}
+        aria-label="Expand image"
+        onClick={(e) => { e.stopPropagation(); onLightbox(index) }}
+      >⤢</button>
     </figure>
   )
 }
@@ -560,7 +565,7 @@ function ImageGallerySection({ section }) {
                     inCarousel
                   />
                   {image.asset && (
-                    <button type="button" className={styles.carouselExpand} aria-label="Expand image">⤢</button>
+                    <button type="button" className={styles.imageExpand} aria-label="Expand image">⤢</button>
                   )}
                 </div>
               ))}
