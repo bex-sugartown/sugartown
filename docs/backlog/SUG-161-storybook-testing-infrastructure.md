@@ -3,7 +3,7 @@
 **Issue:** [#50](https://github.com/bex-sugartown/sugartown/issues/50)
 **Aligned:** 2026-11-20
 **Visual:** no
-**Status:** Backlog
+**Status:** On Hold — Phase 2 done 2026-11-20; Phases 1 and 3 wait (see #50)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase; ships with `/ship`
 ---
