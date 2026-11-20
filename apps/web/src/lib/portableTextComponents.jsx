@@ -8,6 +8,7 @@
  * Page-specific type handlers (e.g. richImage in ArticlePage) can be merged
  * via spread: { ...portableTextComponents, types: { ...portableTextComponents.types, richImage: … } }
  */
+import { Maximize2 } from 'lucide-react'
 import { CodeBlock, Table, TableWrap, CitationMarker, Media } from '../design-system'
 import { aiMediaProps } from './provenance'
 import { LinkAnnotation, DividerBlock } from '../components/portableTextComponents'
@@ -75,7 +76,7 @@ function SharedInlineImage({ value }) {
           className={sectionStyles.imageExpand}
           aria-label="Expand image"
           onClick={(e) => { e.stopPropagation(); setLightboxOpen(true) }}
-        >⤢</button>
+        ><Maximize2 size={20} aria-hidden="true" /></button>
         {value.caption && (
           <figcaption style={{ fontSize: '0.85rem', color: 'var(--st-color-text-muted, #555)', marginTop: '0.5rem', textAlign: 'center', fontStyle: 'italic' }}>
             {value.caption}

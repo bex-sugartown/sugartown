@@ -2,6 +2,7 @@
  * ArticlePage — renders a single Sanity `article` document.
  * Route: /articles/:slug
  */
+import { Maximize2 } from 'lucide-react'
 import { useParams } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { detailPTComponents as sharedPTComponents } from '../lib/portableTextComponents'
@@ -55,7 +56,7 @@ function ArticleInlineImage({ value }) {
           className={sectionStyles.imageExpand}
           aria-label="Expand image"
           onClick={(e) => { e.stopPropagation(); setLightboxOpen(true) }}
-        >⤢</button>
+        ><Maximize2 size={20} aria-hidden="true" /></button>
         {value.caption && (
           <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
         )}

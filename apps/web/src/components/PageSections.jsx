@@ -1,3 +1,4 @@
+import { Maximize2 } from 'lucide-react'
 import { useState, useRef, useEffect, useCallback, Children } from 'react'
 import { preload } from 'react-dom'
 import { Link } from 'react-router-dom'
@@ -58,7 +59,7 @@ function InlineImage({ value }) {
           className={styles.imageExpand}
           aria-label="Expand image"
           onClick={(e) => { e.stopPropagation(); setLightboxOpen(true) }}
-        >⤢</button>
+        ><Maximize2 size={20} aria-hidden="true" /></button>
         {value.caption && (
           <figcaption className={styles.inlineImageCaption}>{value.caption}</figcaption>
         )}
@@ -440,7 +441,7 @@ function GalleryImage({ image, index, onLightbox, treatment, layout, inCarousel 
         className={styles.imageExpand}
         aria-label="Expand image"
         onClick={(e) => { e.stopPropagation(); onLightbox(index) }}
-      >⤢</button>
+      ><Maximize2 size={20} aria-hidden="true" /></button>
     </figure>
   )
 }
@@ -565,7 +566,7 @@ function ImageGallerySection({ section }) {
                     inCarousel
                   />
                   {image.asset && (
-                    <button type="button" className={styles.imageExpand} aria-label="Expand image">⤢</button>
+                    <button type="button" className={styles.imageExpand} aria-label="Expand image"><Maximize2 size={20} aria-hidden="true" /></button>
                   )}
                 </div>
               ))}
