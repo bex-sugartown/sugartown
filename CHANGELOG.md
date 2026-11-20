@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- ST-100's overdue kill-criterion check is recorded: the Done/Shipped split stays and the check is retired, since all 94 issues shipped since 2026-08-19 passed through Done first. (#222; 30 /ship runs, 63 of 94 waited an hour or more in Done)
 - ST-162: "I Automated the Pipeline" is published, part 2 of the Career Engineering series: twice the applications, the same cold screens, and the case for being found; the follow-up posts are #241 and #242. (#162; red pen 20 of 20 rows applied, publish gate clean, 0 em dashes, sync check matched all 16 sections)
 - Link previews on LinkedIn and other sites now show an image: every prerendered page carries og:image (its share image, else its hero, else the site default, cropped to 1200x630), and AI-flagged share images serve their stamped copy; the site default share image gains an alt text field. (#239; 198 of 198 snapshots carry og:image, smoke 36 passed, 7 stamped copies verified; Chromatic deferred to ship, LinkedIn Post Inspector is a post-ship check)
 - Tool descriptions are public reader copy: the Studio field says so, and the editor-only "Tag when…" sentences on Contentful, Sanity and Vercel are removed, so they no longer reach the tool page, its search snippet or its JSON-LD. (#211; schema deployed, 3 Sanity drafts awaiting publish)
