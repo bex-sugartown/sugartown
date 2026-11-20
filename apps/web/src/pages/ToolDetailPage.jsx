@@ -20,10 +20,10 @@ import DraftBadge from '../components/DraftBadge'
 import NotFoundPage from './NotFoundPage'
 import pageStyles from './pages.module.css'
 import styles from './ToolDetailPage.module.css'
+import { MIN_INDEXABLE_ITEMS } from '../lib/indexability'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const MIN_INDEXABLE_ITEMS = 3
 
 // ─── Display label maps ───────────────────────────────────────────────────────
 

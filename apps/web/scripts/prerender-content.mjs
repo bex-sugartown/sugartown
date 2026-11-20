@@ -3,7 +3,7 @@
  * prerender-content.mjs — SUG-183
  *
  * Generates static HTML snapshots for article, node, case-study and release-note routes,
- * plus page, person, glossary-term and series routes (#82).
+ * plus page, person, glossary-term and series routes (#82), and project and tool routes (#212).
  * Runs after `vite build` so bots and importers (Medium, Googlebot, social
  * card scrapers) receive real content instead of the empty SPA shell.
  *
@@ -36,6 +36,7 @@ import { generateJsonLd, generateDefinedTermJsonLd } from '../src/lib/jsonLd.js'
 import { JSONLD_PERSON_PROJECTION, JSONLD_PRIMARY_PERSON_SELECT, JSONLD_SITE_SETTINGS_QUERY } from '../src/lib/jsonLdQueries.js'
 import { getCanonicalPath, ARCHIVE_PATHS, TAXONOMY_BASE_PATHS } from '../src/lib/routes.js'
 import { SHARE_IMAGE_FIELDS, HERO_SHARE_IMAGE_PROJECTION, resolveShareImage, shareImageTags } from '../src/lib/shareImage.js'
+import { MIN_INDEXABLE_ITEMS } from '../src/lib/indexability.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const DIST = resolve(__dirname, '../dist')
@@ -255,7 +256,7 @@ function shareImageMeta(share) {
   ].filter(Boolean).map((tag) => `\n  ${tag}`).join('')
 }
 
-function buildHtml({ title, description, canonicalUrl, share, bodyHtml, assets, jsonLd = null, ogType = 'article' }) {
+function buildHtml({ title, description, canonicalUrl, share, bodyHtml, assets, jsonLd = null, ogType = 'article', robots = null }) {
   const safeTitle = escHtml(title)
   const safeDesc  = escAttr(description || '')
   const safeUrl   = escAttr(canonicalUrl)
@@ -271,7 +272,7 @@ function buildHtml({ title, description, canonicalUrl, share, bodyHtml, assets, 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>${safeTitle} — Sugartown</title>
-  <meta name="description" content="${safeDesc}" />
+  <meta name="description" content="${safeDesc}" />${robots ? `\n  <meta name="robots" content="${escAttr(robots)}" />` : ''}
   <link rel="canonical" href="${safeUrl}" />
   <meta property="og:type" content="${ogType}" />
   <meta property="og:title" content="${escAttr(title)}" />
@@ -357,6 +358,24 @@ const SERIES_QUERY = `*[
   _type == "series" && defined(slug.current) && !(_id in path("drafts.**"))
 ]{ _type, title, "slug": slug.current, description }`
 
+// #212: the fields generateJsonLd's buildProject and buildTool read, plus what the pages'
+// SEO builders use for title and description (ProjectDetailPage buildProjectSeo, ToolDetailPage
+// buildToolSeo). itemCount mirrors ToolDetailPage's totalItems for the noindex rule.
+const PROJECT_QUERY = `*[
+  _type == "project" && defined(slug.current) && !(_id in path("drafts.**"))
+]{
+  _id, _type, name, "slug": slug.current, description,
+  seo { metaTitle, metaDescription, openGraph { image { ${SHARE_IMAGE_FIELDS} } } }
+}`
+
+const TOOL_QUERY = `*[
+  _type == "tool" && defined(slug.current) && !(_id in path("drafts.**"))
+]{
+  _id, _type, name, "slug": slug.current, description, url,
+  "logo": logo { asset->{ _id, url }, alt },
+  "itemCount": count(*[_type in ["article", "node", "caseStudy"] && references(^._id)])
+}`
+
 // #239: the site-wide fallback share image, with the fields resolveShareImage() reads.
 const SITE_SHARE_IMAGE_QUERY = `*[_type == "siteSettings"][0]{ defaultOgImage { ${SHARE_IMAGE_FIELDS} } }`
 
@@ -382,7 +401,7 @@ async function run() {
   console.log('[prerender] Fetching published content from Sanity...')
   const assets = getViteAssets()
 
-  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, siteSettings, siteShare] =
+  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, projects, tools, siteSettings, siteShare] =
     await Promise.all([
       client.fetch(CONTENT_QUERY('article')),
       client.fetch(CONTENT_QUERY('node')),
@@ -392,6 +411,8 @@ async function run() {
       client.fetch(PERSON_QUERY),
       client.fetch(GLOSSARY_QUERY),
       client.fetch(SERIES_QUERY),
+      client.fetch(PROJECT_QUERY),
+      client.fetch(TOOL_QUERY),
       client.fetch(JSONLD_SITE_SETTINGS_QUERY),
       client.fetch(SITE_SHARE_IMAGE_QUERY),
     ])
@@ -456,13 +477,35 @@ async function run() {
     ogType: 'website',
   }))
 
-  const routes = [...contentRoutes, ...pageRoutes, ...personRoutes, ...termRoutes, ...seriesRoutes]
+  // #212: the same title, description and JSON-LD as ProjectDetailPage and ToolDetailPage.
+  const projectRoutes = projects.map(doc => ({
+    doc,
+    path: getCanonicalPath({ docType: 'project', slug: doc.slug }),
+    title: doc.seo?.metaTitle || doc.name || '',
+    description: doc.seo?.metaDescription ?? doc.description ?? '',
+    bodyHtml: [`<h1>${escHtml(doc.name)}</h1>`, doc.description ? `<p>${escHtml(doc.description)}</p>` : ''].filter(Boolean).join('\n'),
+    jsonLd: generateJsonLd(doc, site),
+    ogType: 'website',
+  }))
+
+  const toolRoutes = tools.map(doc => ({
+    doc,
+    path: getCanonicalPath({ docType: 'tool', slug: doc.slug }),
+    title: doc.name || '',
+    description: doc.description || '',
+    bodyHtml: [`<h1>${escHtml(doc.name)}</h1>`, doc.description ? `<p>${escHtml(doc.description)}</p>` : ''].filter(Boolean).join('\n'),
+    jsonLd: generateJsonLd(doc, site),
+    ogType: 'website',
+    robots: (doc.itemCount ?? 0) < MIN_INDEXABLE_ITEMS ? 'noindex, follow' : null,
+  }))
+
+  const routes = [...contentRoutes, ...pageRoutes, ...personRoutes, ...termRoutes, ...seriesRoutes, ...projectRoutes, ...toolRoutes]
 
   console.log(`[prerender] Writing ${routes.length} route snapshots...`)
   let written = 0
   let withImage = 0
 
-  for (const { doc, path, title, description, bodyHtml, jsonLd, ogType } of routes) {
+  for (const { doc, path, title, description, bodyHtml, jsonLd, ogType, robots } of routes) {
     if (!doc.slug) continue
     const share = shareImageTags(resolveShareImage(doc, siteShare), urlFor)
     if (share) withImage++
@@ -475,6 +518,7 @@ async function run() {
       assets,
       jsonLd,
       ogType,
+      robots,
     })
     writeRouteHtml(path, html)
     written++
@@ -489,6 +533,8 @@ async function run() {
   console.log(`[prerender]   people:       ${people.length}`)
   console.log(`[prerender]   glossary:     ${terms.length}`)
   console.log(`[prerender]   series:       ${seriesAll.length}`)
+  console.log(`[prerender]   projects:     ${projects.length}`)
+  console.log(`[prerender]   tools:        ${tools.length} (${toolRoutes.filter(r => r.robots).length} noindex, under ${MIN_INDEXABLE_ITEMS} items)`)
 }
 
 run().catch(err => {

@@ -48,11 +48,11 @@ import Pagination from '../components/Pagination'
 import NotFoundPage from './NotFoundPage'
 import { Breadcrumb, PageHeader, Chip, SectionLabel } from '../design-system'
 import pageStyles from './pages.module.css'
+import { MIN_INDEXABLE_ITEMS } from '../lib/indexability'
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const PAGE_SIZE = 12
-const MIN_INDEXABLE_ITEMS = 3
 
 // Maps URL path segment → taxonomy config
 const TAXONOMY_CONFIG = {
