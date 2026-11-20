@@ -1177,7 +1177,6 @@ export const archivePageBySlugQuery = `
     description,
     contentTypes,
     displayStyle,
-    listStyle,
     sortBy,
     itemsPerPage,
     hero {
