@@ -25,6 +25,10 @@
       "dependsOn": ["^build"],
       "outputs": ["storybook-static/**"]
     },
+    "test:a11y": {
+      "dependsOn": ["^build"],
+      "cache": false
+    },
     "clean": {
       "cache": false
     }

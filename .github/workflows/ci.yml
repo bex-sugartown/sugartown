@@ -160,8 +160,11 @@ jobs:
       - name: Install Chromium for Vitest browser mode
         run: pnpm --filter storybook exec playwright install --with-deps chromium
 
+      # Through Turbo, not pnpm directly: the stories import @sugartown/design-system, whose
+      # entry is its built dist/, and the Turbo task builds it first (as storybook:build does).
+      # A fresh CI checkout has no dist/, so the direct form failed all 194 files to load.
       - name: Storybook a11y gate
-        run: pnpm --filter storybook test:a11y
+        run: pnpm turbo run test:a11y --filter=storybook
 
   chromatic:
     name: Chromatic VRT
