@@ -48,6 +48,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - 186 legacy WordPress redirects that pointed at pages that do not exist now point at real pages or the tag and article archives. (#249; 245 redirects audited, 0 dead after, /blog/blog and /tag/ceramics verified in a browser after the rebuild)
 - Homepage tile labels and the 404 "Back to home" link are maroon instead of hot pink, so they meet the contrast minimum (3.46:1 and 3.23:1 before, 5.47:1 after). (#172; axe passes on 18 of 18 route and theme runs with the two allowlist entries removed; Chromatic deferred to ship)
 - The Case filter chip on the knowledge graph uses the neutral chip look in dark Pink Moon instead of off-white text on a pink fill (3.24:1 before). (#170; contrast validator passes with the allowlist entry removed; not checked in a browser, Chromatic deferred to ship)
+- Chip and toggle interaction states are audited across the design system and the knowledge-graph filter strip: no component has a pressed state, and hover, selected and focus differ on every surface. (#250; seven surfaces, both themes, rendered probe plus stylesheet read; the design epic is the follow-up)
 
 ---
 
