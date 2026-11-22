@@ -59,7 +59,7 @@
   display: inline-block;
   font-size: 0.9375rem;
   font-weight: 600;
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-text-brand);
   text-decoration: none;
 }
 

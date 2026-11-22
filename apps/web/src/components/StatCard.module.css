@@ -30,7 +30,7 @@
 }
 
 .labelInk   { color: var(--st-tile-label-color, var(--st-stat-tile-label-color)); }
-.labelBrand { color: var(--st-color-brand-primary); }
+.labelBrand { color: var(--st-color-text-brand); }
 
 /* ── Value ─────────────────────────────────────────────────────────── */
 

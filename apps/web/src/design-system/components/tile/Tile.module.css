@@ -36,7 +36,7 @@
 /* labelColor="ink" — neutral muted (metric field name) */
 .labelInk  { color: var(--st-tile-label-color, var(--st-stat-tile-label-color)); }
 /* labelColor="brand" — brand pink (content type badge) */
-.labelBrand { color: var(--st-color-brand-primary); }
+.labelBrand { color: var(--st-color-text-brand); }
 
 /* ── Primary value / title ────────────────────────────────────────── */
 
