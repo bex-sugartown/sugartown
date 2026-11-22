@@ -17,13 +17,15 @@
 
   background: var(--st-icon-button-bg);
   color: var(--st-color-text-muted);
-  border: 1px solid var(--st-index-cell-inactive-color);
+  border: 1px solid var(--st-chip-border);
 
   cursor: pointer;
   transition:
     color 150ms ease,
     border-color 150ms ease,
-    background-color 150ms ease;
+    background-color 150ms ease,
+    transform 200ms ease,
+    box-shadow 200ms ease;
 }
 
 .square { border-radius: var(--st-radius-xs); }
@@ -33,6 +35,41 @@
   color: var(--st-color-brand-primary);
   border-color: var(--st-color-brand-primary);
   background-color: var(--st-icon-button-bg);
+  transform: translateY(-1px);
+  box-shadow: var(--st-state-hover-glow);
+}
+
+/* No motion on hover for visitors who ask for less */
+@media (prefers-reduced-motion: reduce) {
+  .iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
+    transform: none;
+  }
+}
+
+/* Selected (ST-251): solid fill like Tag and Badge. Stays in place on hover. */
+.iconButton.iconButtonActive {
+  background-color: var(--st-color-text-default);
+  border-color: var(--st-color-text-default);
+  color: var(--st-color-bg-canvas);
+}
+
+.iconButton.iconButtonActive:hover:not(:disabled):not([aria-disabled="true"]) {
+  background-color: var(--st-color-text-default);
+  border-color: var(--st-color-pink);
+  color: var(--st-color-bg-canvas);
+  transform: none;
+}
+
+/* Pressed (ST-251): pink border plus the pressed shade, label in text-default */
+.iconButton:active:not(:disabled):not([aria-disabled="true"]) {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-pink);
+  transform: none;
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+
+.iconButton.iconButtonActive:active:not(:disabled):not([aria-disabled="true"]) {
+  color: var(--st-color-bg-canvas);
 }
 
 .iconButton:focus-visible {

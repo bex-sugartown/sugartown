@@ -392,6 +392,8 @@
   --st-kg-chip-node-border: transparent;
   --st-gray: #6b7280;
   --st-focus-ring-offset: 2px;
+  --st-state-pressed-shade: color-mix(in srgb, var(--st-color-text-default) 12%, transparent); /** ST-251 pressed state: drawn as an inset shadow over a toggle or button, so the shade never changes the label colour */
+  --st-state-hover-glow: 0 2px 5px color-mix(in srgb, var(--st-color-pink) 15%, transparent); /** ST-251 hover state: soft pink glow shared by Tag, Badge, IconButton and SegmentedControl */
   --st-cwv-good-track: rgba(43, 212, 170, 0.18);
   --st-cwv-warn-track: rgba(251, 186, 36, 0.18);
   --st-cwv-poor-track: rgba(231, 85, 150, 0.18);

@@ -3,7 +3,13 @@
  *   "pill"  — connected pill track, text labels (CWV mobile/desktop toggle)
  *   "icon"  — spaced individual icon buttons (archive grid/list/graph toggle)
  *
- * Both variants share the same active signal: --st-color-brand-primary outline + text.
+ * Both variants follow the ST-251 state contract, shared with Tag, Badge and IconButton:
+ *   rest     own 1px --st-chip-border, muted label
+ *   hover    pink border and --st-state-hover-glow (icon variant also lifts 1px; the pill does not,
+ *            so its joined bar stays aligned)
+ *   selected solid --st-color-text-default fill, --st-color-bg-canvas label; stays in place on hover
+ *   pressed  pink border plus --st-state-pressed-shade, label in text-default
+ *   focus    --st-focus-ring
  * Tokens: --st-segmented-* (tokens.css) with light-theme overrides in theme.pink-moon.css
  */
 
@@ -15,9 +21,6 @@
   gap: 0;
   padding: 0;
   background: transparent;
-  border: 1px solid var(--st-segmented-border);
-  border-radius: var(--st-radius-xs);
-  overflow: hidden;
 }
 
 .pillSegment {
@@ -26,39 +29,58 @@
   justify-content: center;
   gap: var(--st-space-1);
   padding: var(--st-space-1) var(--st-space-3);
-  border: none;
-  border-right: 1px solid var(--st-segmented-border);
-  border-radius: 0;
+  border: 1px solid var(--st-chip-border);
+  border-radius: var(--st-radius-xs);
   background: transparent;
-  color: var(--st-segmented-fg);
+  color: var(--st-color-text-muted);
   font-family: var(--st-font-family-mono);
   font-size: var(--st-font-size-xs);
   font-weight: 500;
   line-height: 1;
   cursor: pointer;
-  transition: color 0.12s, box-shadow 0.12s;
+  transition: color 0.12s, border-color 0.15s, box-shadow 0.2s ease;
   white-space: nowrap;
   position: relative;
 }
 
-.pillSegment:last-child {
-  border-right: none;
+/* Segments overlap by 1px so the group reads as one bar */
+.pillSegment + .pillSegment {
+  margin-left: -1px;
 }
 
 .pillSegment:hover {
-  color: var(--st-segmented-active-fg);
+  border-color: var(--st-color-brand-primary);
+  box-shadow: var(--st-state-hover-glow);
+  z-index: 1;
 }
 
-/* Active: pink inset outline + pink text, no fill — same signal as iconBtnActive */
-.pillActive {
-  color: var(--st-segmented-active-fg);
-  box-shadow: inset 0 0 0 1px var(--st-segmented-active-fg);
+/* Selected: solid fill, same as Tag and Badge. Stays in place on hover. */
+.pillSegment.pillActive {
+  background: var(--st-color-text-default);
+  border-color: var(--st-color-text-default);
+  color: var(--st-color-bg-canvas);
   z-index: 1;
+}
+
+.pillSegment.pillActive:hover {
+  border-color: var(--st-color-pink);
+}
+
+.pillSegment:active {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-pink);
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+  z-index: 2;
+}
+
+.pillSegment.pillActive:active {
+  color: var(--st-color-bg-canvas);
 }
 
 .pillSegment:focus-visible {
   outline: var(--st-focus-ring);
   outline-offset: var(--st-focus-ring-offset);
+  z-index: 3;
 }
 
 /* ── Icon variant ────────────────────────────────────── */
@@ -75,22 +97,48 @@
   width: 32px;
   height: 32px;
   padding: 0;
-  border: 1px solid var(--st-color-border-subtle);
+  border: 1px solid var(--st-chip-border);
   border-radius: var(--st-radius-xs);
   background: transparent;
   color: var(--st-color-text-muted);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color 0.15s, border-color 0.15s, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .iconBtn:hover {
-  color: var(--st-color-text-default);
-  border-color: var(--st-color-border-medium);
+  color: var(--st-color-brand-primary);
+  border-color: var(--st-color-brand-primary);
+  transform: translateY(-1px);
+  box-shadow: var(--st-state-hover-glow);
 }
 
-.iconBtnActive {
-  color: var(--st-segmented-active-fg);
-  border-color: var(--st-segmented-active-fg);
+/* No motion on hover for visitors who ask for less */
+@media (prefers-reduced-motion: reduce) {
+  .iconBtn:hover {
+    transform: none;
+  }
+}
+
+.iconBtn.iconBtnActive {
+  background: var(--st-color-text-default);
+  border-color: var(--st-color-text-default);
+  color: var(--st-color-bg-canvas);
+}
+
+.iconBtn.iconBtnActive:hover {
+  border-color: var(--st-color-pink);
+  transform: none;
+}
+
+.iconBtn:active {
+  color: var(--st-color-text-default);
+  border-color: var(--st-color-pink);
+  transform: none;
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+
+.iconBtn.iconBtnActive:active {
+  color: var(--st-color-bg-canvas);
 }
 
 .iconBtn:focus-visible {

@@ -63,6 +63,12 @@
   background-color: var(--st-color-pink-700);   /* 6.90:1 */
 }
 
+/* Pressed (ST-251): hover fill plus the pressed shade, drawn as an inset shadow so the label colour is untouched */
+.primary:active:not(:disabled):not([aria-disabled="true"]) {
+  background-color: var(--st-color-pink-700);
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+
 /* ── Secondary — lime fill ───────────────────────────── */
 
 .secondary {
@@ -72,6 +78,11 @@
 
 .secondary:hover:not(:disabled):not([aria-disabled="true"]) {
   background-color: var(--st-color-lime-500);
+}
+
+.secondary:active:not(:disabled):not([aria-disabled="true"]) {
+  background-color: var(--st-color-lime-500);
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
 }
 
 /* ── Tertiary — ghost, theme-aware signal ────────────── */
@@ -87,4 +98,10 @@
 .tertiary:hover:not(:disabled):not([aria-disabled="true"]) {
   border-color: var(--st-color-border-medium);
   color: var(--st-color-text-muted);
+}
+
+.tertiary:active:not(:disabled):not([aria-disabled="true"]) {
+  border-color: var(--st-color-border-medium);
+  color: var(--st-color-text-muted);
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
 }
