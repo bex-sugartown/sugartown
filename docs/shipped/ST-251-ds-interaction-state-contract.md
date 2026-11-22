@@ -1,11 +1,11 @@
 ---
 **Epic:** ST-251 — DS interaction state contract for chips, toggles and buttons
 **Issue:** [#251](https://github.com/bex-sugartown/sugartown/issues/251)
-**Status:** Todo
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
-**Vspec:** `docs/drafts/ST-251-ds-interaction-state-contract/ST-251-ds-interaction-state-contract.vspec.html`
+**Vspec:** `docs/shipped/ST-251-ds-interaction-state-contract.vspec.html`
 ---
 
 # ST-251 — DS interaction state contract for chips, toggles and buttons
@@ -36,7 +36,7 @@ Not applicable, no content piece.
 - [x] All five states on each of Tag, Badge, Badge — Color Dot, Button (selected not applicable, it is not a toggle), IconButton and SegmentedControl: pressed (`:active`) on all six, selected on IconButton — layer: DS component
 - [x] SegmentedControl icon variant (grid, list, graph toggle) and IconButton: all five states, and the rest border moves to `--st-chip-border` (measured 1.07:1 to 1.19:1 today, 3:1 needed), and `ArchivePage.jsx` and `SiteGraphPage.jsx` use it in place of three hand-built `IconButton`s plus `layoutToggleBtnActive` — layer: DS component and frontend
 - [x] FilterStrip renders DS Chip with the colour variant and uses `--st-focus-ring`; its own hover, selected and focus CSS is removed — layer: frontend
-- [ ] Storybook: one story per component showing all five states in both themes; axe gate stays green — layer: Storybook
+- [x] Storybook (declined: hover, pressed and focus cannot show in a static story without a new addon; Bex chose the smoke spec, see Close-out review): one story per component showing all five states in both themes; axe gate stays green — layer: Storybook
 
 ## Phases
 
@@ -90,3 +90,47 @@ Not applicable, no content piece.
 - **Follow-on:** [#252](https://github.com/bex-sugartown/sugartown/issues/252) extends the contract to the other interactive components
 - **Audit:** [#250](https://github.com/bex-sugartown/sugartown/issues/250); also #170, #150
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+<!-- Chromatic: pending. CSS changed in Chip, Button, IconButton, SegmentedControl and FilterStrip; deferred to /ship by Bex, 2026-11-22. Expect diffs on those components and the archive toolbar. -->
+
+### Acceptance criteria
+
+- [x] Vspec exists, five states in both themes, Bex marked Phase 0 complete before any code: `docs/shipped/ST-251-ds-interaction-state-contract.vspec.html`, approved 2026-11-22.
+- [x] Rendered probe shows a change for hover, pressed and focus-visible on Tag, Badge, Badge — Color Dot, Button, IconButton and SegmentedControl, and for selected on all but Button, both themes: `tests/smoke/interaction-states.spec.ts` (Chip link, Button, IconButton, selected pill; 6 of 6 repeat runs) plus a one-off probe of the icon variant and IconButton `selected` (selected+hover keeps its glow, no lift).
+- [x] Same token names for hover and focus-visible across Chip, FilterStrip chips and SegmentedControl: FilterStrip now renders DS Chip, `git grep "st-kg-chip" -- . ':!docs'` finds nothing.
+- [x] FilterStrip focus outline computes to the DS ring (`outlineStyle: solid` in the smoke spec path, Chip focus).
+- [x] `git grep layoutToggle -- apps/web/src` finds nothing; `/knowledge-graph` and `/articles` render the DS icon variant through `ViewToggle` (probe: Grid and List are links, Graph a pressed button on the graph page; clicking List on /articles moves the selection and sets `data-layout="list"`).
+- [x] `a11y.spec.ts` passes in light and dark, `validate:contrast`, `validate:style-mirror`, `validate:tokens` pass, no new allowlist entry. Full smoke `pnpm test:smoke`: 49 passed.
+- [ ] Storybook a11y gate for new state stories: not applicable, no new state stories (declined, below).
+- [ ] Chromatic: deferred to /ship (Post-ship checks).
+
+### What didn't work
+
+- The design reviewer reported three blocker drifts (selected+hover glow missing on IconButton and both SegmentedControl variants) from a static CSS read. A real hover showed the glow present on all three: the base hover rule's shadow cascades into the selected-hover rule. No change made.
+- Two early probes ran against stale code because the web dev server reads the built `packages/design-system/dist`, so the first run looked like a failing implementation. Filed as #254.
+- Contrast: a pressed shade measured 3.11:1 on dark pink text, so IconButton and SegmentedControl first got a ring instead, then adopted the solid-fill selected look so pink text left them entirely (this also removed the dark pill text failure tracked in #171 from these surfaces).
+- The first smoke spec failed intermittently: the pressed state was read mid-transition and a mouse release on the element fired its click. Fixed by polling and releasing off the element.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Extend the contract to Accordion, Breadcrumb, List, Card links, Citation, FilterBar, IndexCell, Sidebar, Input, Textarea, MediaLabel | implementation | #252 |
+| Glossary category chips show no selected state | implementation | #253 |
+| Document that the web dev server serves the built DS package | workflow-docs | #254 |
+| Storybook state stories for hover, pressed and focus (needs storybook-addon-pseudo-states) | implementation | declined by Bex 2026-11-22: the smoke spec covers it and no new dependency |
+| Design reviewer should confirm a Drift with a computed style, not a static read | workflow-docs | declined: one false positive, and the reviewer brief already asks for evidence; revisit if it repeats |
+
+### Friction line
+
+The web dev server serves the built design-system package, so a probe run before rebuilding it read old CSS as a failed implementation.
+
+---
+
+## Post-ship checks
+
+- [ ] Chromatic: approve the diffs on Chip, Button, IconButton, SegmentedControl, FilterStrip and the archive toolbar: person: review at /ship before the push.
+- [ ] Hover, pressed and focus on `/knowledge-graph` and `/articles` in light and dark: person: open both pages and try the filter strip and the view toggle.
+- [ ] `pnpm exec playwright test tests/smoke/interaction-states.spec.ts` passes in CI after the push: `gh run watch`.

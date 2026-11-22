@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-251 vspec: interaction state contract</title>
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
+<style>
+/* Template-only styles. Every value is a Pink Moon token. The shared base is ../conventions/doc-base.css. */
+:root{--doc-max-width:1100px;--doc-line-height:1.5;--doc-h1-gap:var(--st-space-1);--doc-p-gap:var(--st-space-2)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+h3{font-size:var(--st-font-size-lg);margin:var(--st-space-5) 0 var(--st-space-2)}
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+.vspecPass,.vspecFail{font-weight:var(--st-font-weight-bold);padding:0 var(--st-space-2);border:2px solid var(--st-color-border-strong)}
+.vspecPass{border-color:var(--st-posture-strong)}
+.vspecFail{border-color:var(--st-color-error)}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
+@media (max-width:768px){.vspecPair{grid-template-columns:1fr}}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm);overflow-x:auto}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+
+/* ── Proposed state token (section 7). Defined here so the prototype can show it; it is a token reference, not a new colour. ── */
+:root{--st-state-pressed-shade:color-mix(in srgb,var(--st-color-text-default) 12%,transparent)}
+
+/* ── Prototype matrix layout (vspec-only, prefix vspec) ── */
+.vspecMatrix{display:grid;grid-template-columns:minmax(140px,180px) repeat(var(--vspecCols,5),minmax(110px,1fr));gap:var(--st-space-2);align-items:center}
+.vspecControls{display:flex;gap:var(--st-space-3);align-items:center;flex-wrap:wrap;margin-bottom:var(--st-space-3)}
+.vspecControls label{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);text-transform:uppercase}
+.vspecControls select{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);padding:var(--st-space-1) var(--st-space-3);background:var(--st-color-bg-surface);color:var(--st-color-text-default);border:1px solid var(--st-color-border-strong)}
+.vspecControls select:focus-visible{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+.vspecHead{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);text-transform:uppercase;color:var(--st-color-text-muted)}
+.vspecRowLabel{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-default)}
+.vspecCell{display:flex;gap:var(--st-space-2);align-items:center;flex-wrap:wrap;padding:var(--st-space-2);min-height:48px}
+.vspecNa{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted)}
+
+/* ═══ Production class names below. State rules mirror the CSS the epic will ship. A [data-state] attribute forces a state for display; production uses the pseudo-class. ═══ */
+
+/* Chip (extends packages/design-system/src/components/Chip) */
+.chip{display:inline-flex;align-items:center;gap:8px;min-height:28px;box-sizing:border-box;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);line-height:1;padding:.45em .75em;border-radius:var(--st-radius-tag);background:var(--st-chip-tag-bg);border:1px solid var(--st-chip-border);color:var(--st-chip-fg);cursor:pointer;text-decoration:none;transition:transform .2s ease,box-shadow .2s ease,background .2s ease,border-color .2s ease}
+.chip:hover,.chip[data-state="hover"]{transform:translateY(-1px);border-color:var(--st-color-pink);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent)}
+@media (prefers-reduced-motion:reduce){.chip:hover,.chip[data-state="hover"],.iconButton:hover,.iconButton[data-state="hover"],.iconBtn:hover,.iconBtn[data-state="hover"]{transform:none}}
+.chip:active,.chip[data-state="pressed"]{transform:none;border-color:var(--st-color-pink);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.chip:focus-visible,.chip[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+.chip.active{background:var(--st-color-text-default);border-color:var(--st-color-text-default);color:var(--st-color-bg-canvas)}
+.chip.active:hover,.chip.active[data-state="hover"]{transform:none;border-color:var(--st-color-pink)}
+.chip.active:active,.chip.active[data-state="pressed"]{box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+/* Storybook chassis (Chip.module.css): .ruleDot is the rule-dot surface, .variantTag is a tag, .variantStatus is a badge */
+.chip.ruleDot{background:var(--st-chip-bg);gap:5px}
+.chip.variantTag{font-weight:400;text-transform:none;letter-spacing:0;background:var(--st-chip-tag-bg)}
+.chip.variantStatus{font-weight:700;text-transform:uppercase;letter-spacing:.06em}
+.chip.ruleDot.active{background:var(--st-color-text-default)}
+.dot{display:inline-block;width:var(--st-chip-dot-size);height:var(--st-chip-dot-size);border-radius:50%;flex-shrink:0;background:var(--chip-dot,currentColor)}
+
+/* Button (primary) */
+.button{display:inline-flex;align-items:center;justify-content:center;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;padding:10px 18px;border:1px solid transparent;cursor:pointer;transition:background-color .15s ease}
+.button.primary{background:var(--st-color-pink-600);color:var(--st-color-white)}
+.button.primary:hover,.button.primary[data-state="hover"]{background:var(--st-color-pink-700)}
+.button.primary:active,.button.primary[data-state="pressed"]{background:var(--st-color-pink-700);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.button:focus-visible,.button[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* IconButton (extends .iconButton; .iconButtonActive is new) */
+.iconButton{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;background:var(--st-icon-button-bg);color:var(--st-color-text-muted);border:1px solid var(--st-chip-border);border-radius:var(--st-radius-xs);cursor:pointer;transition:color .15s ease,border-color .15s ease,transform .2s ease,box-shadow .2s ease}
+.iconButton:hover,.iconButton[data-state="hover"]{color:var(--st-color-brand-primary);border-color:var(--st-color-brand-primary);transform:translateY(-1px);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent)}
+.iconButton.iconButtonActive{background:var(--st-color-text-default);color:var(--st-color-bg-canvas);border-color:var(--st-color-text-default)}
+.iconButton.iconButtonActive:hover,.iconButton.iconButtonActive[data-state="hover"]{transform:none;border-color:var(--st-color-pink);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent)}
+.iconButton:active,.iconButton[data-state="pressed"]{color:var(--st-color-text-default);border-color:var(--st-color-pink);transform:none;box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.iconButton.iconButtonActive:active,.iconButton.iconButtonActive[data-state="pressed"]{color:var(--st-color-bg-canvas)}
+.iconButton:focus-visible,.iconButton[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* SegmentedControl pill segment. Follows Tag and Badge for selected (solid text-default fill, canvas label) and pressed (pink border plus the 12% shade, label in text-default). Own 1px chip border at rest, pink border on hover (text unchanged, as Tag), DS focus ring. Segments overlap by 1px so the group reads as one bar. */
+.pillGroup{display:inline-flex}
+.pillSegment{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);padding:6px 12px;background:transparent;border:1px solid var(--st-chip-border);border-radius:var(--st-radius-xs);color:var(--st-color-text-muted);cursor:pointer;position:relative;transition:color .15s,border-color .15s,box-shadow .2s ease}
+.pillSegment + .pillSegment{margin-left:-1px}
+.pillSegment:hover,.pillSegment[data-state="hover"]{border-color:var(--st-color-brand-primary);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent);z-index:1}
+.pillSegment.pillActive{background:var(--st-color-text-default);color:var(--st-color-bg-canvas);border-color:var(--st-color-text-default);z-index:1}
+.pillSegment.pillActive:hover,.pillSegment.pillActive[data-state="hover"]{border-color:var(--st-color-pink);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent)}
+.pillSegment:active,.pillSegment[data-state="pressed"]{color:var(--st-color-text-default);border-color:var(--st-color-pink);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade);z-index:2}
+.pillSegment.pillActive:active,.pillSegment.pillActive[data-state="pressed"]{color:var(--st-color-bg-canvas)}
+.pillSegment:focus-visible,.pillSegment[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset);z-index:3}
+
+/* SegmentedControl icon variant (existing .iconGroup, .iconBtn, .iconBtnActive). Hover matches IconButton (pink); selected and pressed follow Tag and Badge. */
+.iconGroup{display:flex;gap:var(--st-space-1)}
+.iconBtn{display:flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;border:1px solid var(--st-chip-border);border-radius:var(--st-radius-xs);background:transparent;color:var(--st-color-text-muted);cursor:pointer;transition:color .15s,border-color .15s,transform .2s ease,box-shadow .2s ease}
+.iconBtn:hover,.iconBtn[data-state="hover"]{color:var(--st-color-brand-primary);border-color:var(--st-color-brand-primary);transform:translateY(-1px);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent)}
+.iconBtn.iconBtnActive{background:var(--st-color-text-default);color:var(--st-color-bg-canvas);border-color:var(--st-color-text-default)}
+.iconBtn.iconBtnActive:hover,.iconBtn.iconBtnActive[data-state="hover"]{transform:none;border-color:var(--st-color-pink);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent)}
+.iconBtn:active,.iconBtn[data-state="pressed"]{color:var(--st-color-text-default);border-color:var(--st-color-pink);transform:none;box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.iconBtn.iconBtnActive:active,.iconBtn.iconBtnActive[data-state="pressed"]{color:var(--st-color-bg-canvas)}
+.iconBtn:focus-visible,.iconBtn[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* FilterStrip, rebuilt from Chip (section 6) */
+.strip{display:flex;align-items:center;gap:var(--st-space-2);border:1px solid var(--st-color-border-medium);background:var(--st-color-bg-surface);padding:6px 12px;flex-wrap:wrap}
+.stripLabel{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--st-color-text-muted);padding-right:12px;border-right:1px solid var(--st-color-border-medium)}
+.stripCount{margin-left:auto;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted)}
+</style>
+</head>
+<body>
+<main>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<h1>ST-251 · DS interaction state contract</h1>
+<p>Issue #251, from the audit in #250. Phase 0 visual spec. Class names are the production names. Values are tokens unless marked.</p>
+<div class="vspecNote"><strong>Status:</strong> approved as drawn by Bex, 2026-11-22. Nothing in <code>apps/web/src/</code> or <code>packages/design-system/src/</code> changes until the Phase 0 boxes are ticked. Open decisions are in section 9.</div>
+
+<h2>1. Interactive prototype</h2>
+<p>The Behaviour dropdown shows all five states or one at a time. The matrix forces each state so it can be seen without hovering. The row at the end uses the real browser states: hover, press and Tab to try them. Use the toggle above for dark.</p>
+<div class="vspecFrame" id="prototype">
+  <div class="vspecControls"><label for="stateSelect">Behaviour</label>
+    <select id="stateSelect"><option value="all">All states</option><option value="rest">Rest</option><option value="hover">Hover</option><option value="selected">Selected</option><option value="pressed">Pressed</option><option value="focus">Focus</option></select>
+    <span class="vspecCaption" id="stateNote">Showing all five states.</span></div>
+  <div class="vspecMatrix" id="matrix" role="table" aria-label="State matrix"></div>
+  <h3>Live row (real hover, press and keyboard focus)</h3>
+  <div class="vspecCell" id="live"></div>
+  <h3>FilterStrip rebuilt from Badge and Badge — Color Dot</h3>
+  <div class="strip" role="group" aria-label="Show" id="stripDemo">
+    <span class="stripLabel" aria-hidden="true">Show</span>
+    <button type="button" class="chip ruleDot variantStatus active" aria-pressed="true" data-strip>All</button>
+    <button type="button" class="chip ruleDot variantStatus" aria-pressed="false" data-strip style="--chip-dot:var(--st-kg-node-article)"><span class="dot" aria-hidden="true"></span>Articles</button>
+    <button type="button" class="chip ruleDot variantStatus" aria-pressed="false" data-strip style="--chip-dot:var(--st-kg-node-case)"><span class="dot" aria-hidden="true"></span>Case studies</button>
+    <button type="button" class="chip ruleDot variantStatus" aria-pressed="false" data-strip style="--chip-dot:var(--st-kg-node-node)"><span class="dot" aria-hidden="true"></span>Nodes</button>
+    <span class="stripCount" aria-live="polite" id="stripCount">18 items visible</span>
+  </div>
+</div>
+
+<h2>2. Before and after</h2>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> Light
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-251-before-live-2026-11-22-light.webp" alt="Live sugartown.io chip, button, icon button, segmented control and filter strip chips at rest, hover, pressed and focus, in light"><figcaption class="vspecCaption">Captured 2026-11-22 · sugartown.io (/ , /articles, /platform/governance, /knowledge-graph). Pressed looks the same as hover on every row. The focus column is the element Tab reached, which is not always the element in the other columns.</figcaption></figure></div>
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> Dark
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-251-before-live-2026-11-22-dark.webp" alt="The same surfaces in dark"><figcaption class="vspecCaption">Captured 2026-11-22 · same pages. The filter strip focus is the browser default outline; the DS rows use the DS ring.</figcaption></figure></div>
+</div>
+<div class="vspecPair" style="margin-top:var(--st-space-4)">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> View toggle, light
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-251-before-live-toggle-2026-11-22-light.webp" alt="Live knowledge-graph view toggle: grid view button at rest, hover, pressed and focus, and the selected graph button"><figcaption class="vspecCaption">Captured 2026-11-22 · sugartown.io/knowledge-graph. Three IconButtons with a page class marking the active one; pressed looks the same as hover.</figcaption></figure></div>
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> View toggle, dark
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-251-before-live-toggle-2026-11-22-dark.webp" alt="The same toggle in dark"><figcaption class="vspecCaption">Captured 2026-11-22 · same page.</figcaption></figure></div>
+</div>
+<div class="vspecFrame" style="margin-top:var(--st-space-4)"><span class="vspecTag vspecTagAfter">AFTER</span>
+  <p style="margin-top:var(--st-space-2)">Section 1: five states per surface, one hover signal for chips and toggles, one pressed signal, one selected signal, one focus ring, light and dark.</p><div class="vspecCaption">Source: section 1</div></div>
+
+<h2>3. Behaviour annotations</h2>
+<p>Applies to the FilterStrip, the one tab-bar-like surface in scope.</p>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>Selected chip is a solid text-default fill with canvas-coloured label (the DS Chip <code>.active</code> look, both themes). The coloured dot stays and carries the type. Today the selected fill is the type colour in dark and a neutral in light.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>None. A click sets a filter; the URL does not change (same as today).</td></tr>
+<tr><td>Scroll-spy</td><td>None.</td></tr>
+<tr><td>Sticky/fixed</td><td>None; the strip scrolls with the page (same as today).</td></tr>
+<tr><td>Mobile collapse</td><td>Chips wrap onto more lines below the strip width; no collapse (same as today, <code>flex-wrap</code>).</td></tr>
+<tr><td>Click side-effects</td><td>Filters the graph and list, updates the count text (<code>aria-live="polite"</code>). No scroll, no panel (same as today).</td></tr>
+</table>
+
+<h2>4. Contrast, measured</h2>
+<p>Measured on this vspec, served locally, 2026-11-22. Text needs 4.5:1, non-text 3:1.</p>
+<table>
+<tr><th>Pair</th><th>Light ratio</th><th>Dark ratio</th><th>Verdict</th></tr>
+<tr><td>Tag rest label</td><td>18.75</td><td>12.08</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Tag rest border</td><td>3.44</td><td>5.09</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Hover border (pink)</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Selected label (Tag)</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Selected label (Badge — Color Dot)</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Pressed label, Tag (with shade)</td><td>14.51</td><td>8.44</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Focus ring on canvas</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Badge rest label</td><td>18.35</td><td>12.52</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Type dot, Case, on Badge — Color Dot</td><td>3.28</td><td>4.70</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Button primary label, rest</td><td>4.80</td><td>4.80</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Button primary label, pressed (with shade)</td><td>8.13</td><td>6.00</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>IconButton rest border</td><td>3.44</td><td>5.09</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IconButton rest icon</td><td>5.01</td><td>6.06</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IconButton selected border</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IconButton selected icon</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IconButton pressed border</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Icon rest icon</td><td>5.01</td><td>6.28</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Icon rest border</td><td>3.44</td><td>5.09</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Icon selected border</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Icon selected icon</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Icon hover border</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Icon pressed border</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Pill rest border</td><td>3.44</td><td>5.09</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Pill rest text</td><td>5.01</td><td>6.28</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>SegmentedControl — Pill hover text</td><td>5.01</td><td>6.28</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>SegmentedControl — Pill hover border</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Pill selected text</td><td>17.12</td><td>17.50</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>SegmentedControl — Pill selected border</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>SegmentedControl — Pill pressed text</td><td>14.21</td><td>10.61</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>SegmentedControl — Pill pressed border</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+</table>
+<p><strong>Command:</strong> the browser script in <code>docs/conventions/vspec-rules.md</code> (composites every ancestor background over white), run with Playwright against <code>python3 -m http.server</code> served from the repo root, pairs listed above. <code>pnpm validate:contrast</code> does not check pairs a vspec composes itself.</p>
+
+<h2>5. Class naming table</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.chip</code>, <code>.interactive</code>, <code>.active</code>, <code>.ruleDot</code>, <code>.variantTag</code>, <code>.variantStatus</code></td><td>Chip.module.css, same names (Storybook: Tag, Badge, Badge — Color Dot)</td><td>Existing. Add <code>:active</code> (pressed) rules only.</td></tr>
+<tr><td><code>.button</code>, <code>.primary</code>, <code>.secondary</code>, <code>.tertiary</code></td><td>Button.module.css</td><td>Existing. Add <code>:active</code> rules only.</td></tr>
+<tr><td><code>.iconButton</code></td><td>IconButton.module.css</td><td>Existing. Add <code>:active</code> rule.</td></tr>
+<tr><td><code>.iconButtonActive</code></td><td>SegmentedControl <code>.iconBtnActive</code> (same colour and border rule)</td><td>New class on IconButton, same values; no new pattern.</td></tr>
+<tr><td><code>.iconGroup</code>, <code>.iconBtn</code>, <code>.iconBtnActive</code></td><td>SegmentedControl.module.css, same names</td><td>Existing. Hover moves to pink to match IconButton; add <code>:active</code>. The page classes <code>.layoutToggleGroup</code> and <code>.layoutToggleBtnActive</code> in pages.module.css are deleted.</td></tr>
+<tr><td><code>.pillSegment</code>, <code>.pillActive</code></td><td>SegmentedControl.module.css; <code>.iconBtn</code> for the state set</td><td>Existing. Segment gets its own 1px chip border and pink hover, selected and pressed like the icon variant; add <code>:active</code>. The group's outer border is removed.</td></tr>
+<tr><td><code>.strip</code>, <code>.stripLabel</code>, <code>.stripCount</code></td><td>FilterStrip.module.css <code>.strip</code>, <code>.label</code>, <code>.count</code></td><td>Existing layout kept (renamed <code>.label</code> and <code>.count</code> only if the audit asks). <code>.chip</code>, <code>.chipActive</code> and <code>.dot</code> are deleted from FilterStrip.module.css.</td></tr>
+</table>
+<p>No class is named after a content type. Vspec-only classes use the <code>vspec</code> prefix.</p>
+
+<h2>6. Component choice audit</h2>
+<table>
+<tr><th>Surface</th><th>What exists</th><th>Extend or replace</th><th>Why</th></tr>
+<tr><td>Chip (Tag, Badge, Badge — Color Dot)</td><td><code>packages/design-system/src/components/Chip</code>: hover, focus-visible, <code>.active</code>, <code>dotColor</code>, rule-dot chassis</td><td>Extend</td><td>Already has selected and a dot colour. Missing only pressed. No new component.</td></tr>
+<tr><td>View toggle (ArchivePage, SiteGraphPage)</td><td>Three <code>IconButton</code>s plus page class <code>layoutToggleBtnActive</code>; <code>git grep 'variant="icon"' apps/web/src</code> finds no use of the DS icon variant built for exactly this</td><td>Replace with SegmentedControl icon variant</td><td>Removes a second hand-built selected state. Grid and List navigate to archive routes, so see decision 9.</td></tr>
+<tr><td>Button, IconButton, SegmentedControl (pill)</td><td>DS components with hover and focus-visible</td><td>Extend</td><td>Add <code>:active</code>; IconButton gains a selected class.</td></tr>
+<tr><td>FilterStrip</td><td><code>apps/web/src/components/FilterStrip.jsx</code>, own chip, own states</td><td>Replace its chip with DS Chip</td><td>Chip gives hover, selected, focus and the dot; FilterStrip keeps only layout. The filter chips are Badge and Badge — Color Dot (uppercase bold, rule-dot chassis), the same look as the Storybook Badge stories. Each filter's dot passes <code>dotColor="var(--st-kg-node-…)"</code> to Chip, which already injects it as <code>--chip-dot</code>.</td></tr>
+</table>
+
+<h2>7. Token list</h2>
+<table>
+<tr><th>Role</th><th>Tokens</th></tr>
+<tr><td>Chip rest</td><td><code>--st-chip-tag-bg</code>, <code>--st-chip-border</code>, <code>--st-chip-fg</code></td></tr>
+<tr><td>Hover edge</td><td><code>--st-color-pink</code> (all toggles), <code>--st-color-brand-primary</code> (IconButton and SegmentedControl icon, text), <code>--st-segmented-active-fg</code> (pill text), <code>--st-color-pink-700</code> (Button primary)</td></tr>
+<tr><td>Selected</td><td><code>--st-color-text-default</code> (fill), <code>--st-color-bg-canvas</code> (label or icon); <code>--st-segmented-active-fg</code> stays for hover text</td></tr>
+<tr><td>Pressed (new)</td><td><code>--st-state-pressed-shade</code>: text-default at 12% over the element, drawn as an inset shadow; to be added to <code>tokens/source/tokens.json</code> as a <code>color-mix</code> of existing tokens. Name is open (decision 5).</td></tr>
+<tr><td>Focus</td><td><code>--st-focus-ring</code>, <code>--st-focus-ring-offset</code></td></tr>
+<tr><td>Type dot</td><td><code>--st-kg-node-article</code>, <code>--st-kg-node-case</code>, <code>--st-kg-node-node</code>, <code>--st-chip-dot-size</code></td></tr>
+<tr><td>Rest border, IconButton and SegmentedControl icon</td><td><code>--st-chip-border</code> in place of <code>--st-color-border-subtle</code> and <code>--st-index-cell-inactive-color</code>, which measured 1.07:1 to 1.19:1</td></tr>
+<tr><td>Retired by decision 2</td><td><code>--st-kg-chip-*-bg/fg/border</code> (the per-type selected fills); remove with FilterStrip's own chip.</td></tr>
+</table>
+
+<h2>8. Governance checks</h2>
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>Yes: new pressed look; FilterStrip selected fill changes in dark</td><td>This vspec; Before images dated 2026-11-22</td></tr>
+<tr><td>Nav annotations (six)</td><td>Yes, FilterStrip</td><td>Section 3</td></tr>
+<tr><td>Interactive prototype</td><td>Yes: filtering and toggle state</td><td>Section 1, vanilla JS</td></tr>
+<tr><td>CSS class reuse audit</td><td>Yes</td><td>Section 5; one new class, no new patterns</td></tr>
+<tr><td>Component choice audit</td><td>Yes</td><td>Section 6; no new component</td></tr>
+<tr><td>Content Write Gate</td><td>No</td><td>No Sanity writes</td></tr>
+<tr><td>Rule-file write gate</td><td>No</td><td>No rule file changes</td></tr>
+<tr><td>Diagram red-pen gate</td><td>No</td><td>No diagram</td></tr>
+</table>
+
+<h2>9. Decisions answered</h2>
+<p>An approval of this vspec as drawn takes the recommended answer for every open decision.</p>
+<ol>
+<li><strong>Hover:</strong> pink border and soft glow on every toggle. Tag, Badge, Badge — Color Dot, IconButton and the icon variant also lift 1px (no lift under reduced motion). The pill gets glow but no lift, so its joined bar stays aligned. Button keeps its darker fill. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Selected on hover:</strong> a selected toggle stays at rest on hover (no lift); pink border and glow only, on every toggle. This changes selected Tag and Badge, which lift today. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Selected fill:</strong> solid text-default for every selected toggle in both themes (Tag, Badge, Badge — Color Dot, IconButton, SegmentedControl icon and pill), with the type colour carried by the dot. Today IconButton and SegmentedControl use a pink outline, and the dark filter strip uses type-coloured fills. <em>Answered as drawn, 2026-11-22, including the filter strip (the teal Articles fill goes).</em> Cost: the view toggle loses its pink selected signal; it also removes the dark pill selected-text failure (#171).</li>
+<li><strong>Pressed:</strong> the hover look with the lift removed, plus the 12% shade, on every toggle and on Button. Label stays text-default so the shade never lands under pink text. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Focus:</strong> <code>--st-focus-ring</code> on every surface, including FilterStrip. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Pressed token name:</strong> <code>--st-state-pressed-shade</code>. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Button selected:</strong> not applicable. A Button is not a toggle; toggles use Tag, Badge, IconButton or SegmentedControl. Alternative: add a selected look for <code>aria-pressed</code> buttons. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Other interactive components:</strong> Accordion, Breadcrumb, List, Card links, Citation, FilterBar options, IndexCell, Sidebar, Input, Textarea, MediaLabel get the same contract in <a href="https://github.com/bex-sugartown/sugartown/issues/252">#252</a>, after this epic. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>View toggle semantics:</strong> Grid and List navigate to archive routes and Graph is the current page, so a radio group is the wrong role. Recommended: the icon variant accepts <code>href</code> per item, renders links in a <code>nav</code> with <code>aria-current="page"</code> on the active one, and keeps radio semantics only when no item has an <code>href</code>. Cost: a small API addition on SegmentedControl. <em>Answered as drawn, 2026-11-22.</em></li>
+<li><strong>Audit gaps (not confirmed on 2026-11-22):</strong> dark Chip keyboard focus, a rendered selected Chip, rendered focus on IconButton, FilterBar and SegmentedControl. The matrix here assumes the CSS reads are right; Phase 1 re-checks them in a rendered probe before merge. <em>Answered 2026-11-22: Phase 1 re-checks them in a rendered probe before merge.</em></li>
+</ol>
+
+<h2>10. Change-specific sections</h2>
+<h3>State matrix by component</h3>
+<table>
+<tr><th>Component</th><th>Rest</th><th>Hover</th><th>Selected</th><th>Pressed</th><th>Focus-visible</th></tr>
+<tr><td>Tag, Badge, Badge — Color Dot</td><td>rule-dot chassis</td><td>pink border, soft glow, 1px lift</td><td>text-default fill; hover keeps it in place (pink border and glow only)</td><td>hover look, no lift, shade</td><td>DS ring</td></tr>
+<tr><td>Button primary</td><td>pink-600 fill</td><td>pink-700 fill</td><td>not a toggle</td><td>pink-700 plus shade</td><td>DS ring</td></tr>
+<tr><td>IconButton</td><td>muted icon, chip border (was <code>--st-index-cell-inactive-color</code>)</td><td>pink icon and border, 1px lift and glow</td><td>solid text-default fill, canvas icon (new); hover keeps it in place</td><td>pink border plus the 12% shade</td><td>DS ring</td></tr>
+<tr><td>SegmentedControl — Icon</td><td>muted icon, chip border (was subtle, 1.07:1)</td><td>pink icon and border, 1px lift and glow (was neutral)</td><td>solid text-default fill, canvas icon (was pink outline); hover keeps it in place</td><td>pink border plus the 12% shade</td><td>DS ring</td></tr>
+<tr><td>SegmentedControl — Pill</td><td>muted text, chip border (was no segment border)</td><td>pink border and glow, no lift, text unchanged (was pink text only)</td><td>solid text-default fill, canvas label (was pink outline); hover keeps it in place</td><td>pink border plus the 12% shade</td><td>DS ring</td></tr>
+<tr><td>FilterStrip chip</td><td>Badge — Color Dot (rule-dot chassis, uppercase bold, type dot)</td><td>as Chip</td><td>as Chip</td><td>as Chip</td><td>DS ring (was browser default)</td></tr>
+</table>
+
+<h2>11. Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[x] vspec reviewed (2026-11-22)</li>
+<li>[x] class table approved (2026-11-22)</li>
+<li>[x] component choice audit approved (2026-11-22)</li>
+<li>[x] open decisions answered (approved as drawn, 2026-11-22; every open decision takes the answer drawn)</li>
+</ul>
+</main>
+<script src="../conventions/doc-theme-toggle.js"></script>
+<script>
+(function(){
+  var states=['rest','hover','selected','pressed','focus'];
+  var rows=[
+    {k:'chip',label:'Tag',make:function(s){return '<button type="button" class="chip ruleDot variantTag'+(s==='selected'?' active':'')+'" data-state="'+dstate(s)+'" aria-pressed="'+(s==='selected')+'">customer journey</button>'}},
+    {k:'badge',label:'Badge',make:function(s){return '<button type="button" class="chip ruleDot variantStatus'+(s==='selected'?' active':'')+'" data-state="'+dstate(s)+'" aria-pressed="'+(s==='selected')+'">In review</button>'}},
+    {k:'badgedot',label:'Badge \u2014 Color Dot',make:function(s){return '<button type="button" class="chip ruleDot variantStatus'+(s==='selected'?' active':'')+'" data-state="'+dstate(s)+'" aria-pressed="'+(s==='selected')+'" style="--chip-dot:var(--st-kg-node-case)"><span class="dot" aria-hidden="true"></span>Case studies</button>'}},
+    {k:'button',label:'Button primary',make:function(s){return s==='selected'?'<span class="vspecNa">not a toggle</span>':'<button type="button" class="button primary" data-state="'+dstate(s)+'">Contact</button>'}},
+    {k:'icon',label:'IconButton',make:function(s){return '<button type="button" class="iconButton'+(s==='selected'?' iconButtonActive':'')+'" data-state="'+dstate(s)+'" aria-label="Grid view" aria-pressed="'+(s==='selected')+'">▦</button>'}},
+    {k:'iconseg',label:'SegmentedControl \u2014 Icon',make:function(s){return '<span class="iconGroup" role="radiogroup" aria-label="View"><button type="button" role="radio" class="iconBtn'+(s==='selected'?' iconBtnActive':'')+'" aria-checked="'+(s==='selected')+'" aria-label="Graph view" data-state="'+dstate(s)+'">\u25A6</button></span>'}},
+    {k:'seg',label:'SegmentedControl \u2014 Pill',make:function(s){return '<span class="pillGroup" role="radiogroup" aria-label="View"><button type="button" role="radio" class="pillSegment'+(s==='selected'?' pillActive':'')+'" aria-checked="'+(s==='selected')+'" data-state="'+dstate(s)+'">Mobile</button></span>'}}
+  ];
+  function dstate(s){return s==='rest'||s==='selected'?'':s}
+  var m=document.getElementById('matrix'),sel=document.getElementById('stateSelect');
+  var notes={all:'Showing all five states.',rest:'Rest: default look, no interaction.',hover:'Hover: pointer over the element.',selected:'Selected: on, pressed-in or current (aria-pressed, aria-checked).',pressed:'Pressed: while the pointer button is down.',focus:'Focus: keyboard focus-visible ring.'};
+  function render(){
+    var pick=sel.value, shown=pick==='all'?states:[pick];
+    m.style.setProperty('--vspecCols',shown.length);
+    var h='<div></div>';
+    shown.forEach(function(s){h+='<div class="vspecHead" role="columnheader">'+s+'</div>'});
+    rows.forEach(function(r){
+      h+='<div class="vspecRowLabel" role="rowheader">'+r.label+'</div>';
+      shown.forEach(function(s){h+='<div class="vspecCell" data-cell="'+r.k+'-'+s+'">'+r.make(s)+'</div>'});
+    });
+    m.innerHTML=h; document.getElementById('stateNote').textContent=notes[pick];
+  }
+  sel.addEventListener('change',render); render();
+  var live=document.getElementById('live');
+  live.innerHTML=[rows[0].make('rest'),rows[2].make('rest'),rows[3].make('rest'),rows[4].make('rest'),rows[5].make('rest'),rows[6].make('rest')].join(' ').replace(/ data-state=""/g,'');
+  // FilterStrip behaviour: one selected chip at a time, count follows the choice.
+  var counts={'All':'18 items visible','Articles':'8 articles visible','Case studies':'5 case studies visible','Nodes':'52 nodes visible'};
+  var strip=document.getElementById('stripDemo');
+  strip.addEventListener('click',function(e){
+    var b=e.target.closest('[data-strip]'); if(!b) return;
+    strip.querySelectorAll('[data-strip]').forEach(function(x){x.classList.remove('active');x.setAttribute('aria-pressed','false')});
+    b.classList.add('active'); b.setAttribute('aria-pressed','true');
+    document.getElementById('stripCount').textContent=counts[b.textContent.trim()];
+  });
+})();
+</script>
+</body>
+</html>
