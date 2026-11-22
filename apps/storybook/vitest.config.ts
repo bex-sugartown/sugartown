@@ -15,6 +15,21 @@ const THEMES = ['light-pink-moon', 'dark-pink-moon'];
 
 export default defineConfig({
   test: {
+    // #50 Phase 3: `pnpm test:coverage` adds this. Which component source files the story
+    // renders and play functions execute; scripts/coverage-summary.mjs groups it per component.
+    coverage: {
+      provider: 'v8',
+      // The component sources sit outside this app, so coverage needs allowExternal and
+      // absolute globs; relative '../' globs matched nothing (measured 2026-11-22).
+      allowExternal: true,
+      include: [
+        path.resolve(dirname, '../../packages/design-system/src/components/**/*.{ts,tsx}'),
+        path.resolve(dirname, '../web/src/components/**/*.{js,jsx,ts,tsx}'),
+      ],
+      exclude: ['**/*.stories.*', '**/*.d.ts', '**/index.ts'],
+      reporter: ['json-summary'],
+      reportsDirectory: 'coverage',
+    },
     projects: THEMES.map((theme) => ({
       extends: true,
       plugins: [storybookTest({ configDir: path.join(dirname, '.storybook') })],

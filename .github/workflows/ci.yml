@@ -165,8 +165,11 @@ jobs:
       # Through Turbo, not pnpm directly: the stories import @sugartown/design-system, whose
       # entry is its built dist/, and the Turbo task builds it first (as storybook:build does).
       # A fresh CI checkout has no dist/, so the direct form failed all 194 files to load.
-      - name: Storybook a11y gate
-        run: pnpm turbo run test:a11y --filter=storybook
+      # One run is the gate and the coverage source (#50 Phase 3): a failing story, play
+      # function or axe violation fails it, and scripts/coverage-summary.mjs writes the
+      # per-component table to the job summary.
+      - name: Storybook a11y gate and coverage
+        run: pnpm turbo run test:coverage --filter=storybook
 
   chromatic:
     name: Chromatic VRT
