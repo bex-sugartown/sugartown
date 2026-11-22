@@ -5,8 +5,10 @@
  *   square — 4px radius (default). Matches SegmentedControl `.iconBtn` token contract.
  *   circle — full radius.
  *
- * Hover / active: brand-pink border + icon.
- * Rest: `--st-index-cell-inactive-color` border, `--st-color-text-muted` icon.
+ * Rest: `--st-chip-border` border, `--st-color-text-muted` icon.
+ * Hover: brand-pink border and icon, 1px lift and `--st-state-hover-glow`.
+ * Selected (`selected` prop, ST-251): solid `--st-color-text-default` fill, `aria-pressed`; stays in place on hover.
+ * Pressed: pink border plus `--st-state-pressed-shade`. Hover, pressed and focus need a pointer or keyboard; the smoke spec `tests/smoke/interaction-states.spec.ts` checks them.
  * Always requires `aria-label` — no visible text.
  *
  * Ported to the package SUG-224 Phase 3 (2026-07-23) — pure mirror
@@ -155,6 +157,7 @@ export const AllStates: Story = {
     <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
       <IconButton aria-label="Square rest"><ExternalLink size={16} aria-hidden="true" /></IconButton>
       <IconButton shape="circle" aria-label="Circle rest"><Sun size={18} aria-hidden="true" /></IconButton>
+      <IconButton aria-label="Selected" selected><ExternalLink size={16} aria-hidden="true" /></IconButton>
       <IconButton aria-label="Disabled" disabled><X size={16} aria-hidden="true" /></IconButton>
     </div>
   ),
@@ -170,6 +173,13 @@ export const Snapshot: Story = {
         <div style={{ display: 'flex', gap: '8px' }}>
           <IconButton aria-label="Square"><ExternalLink size={16} /></IconButton>
           <IconButton shape="circle" aria-label="Circle"><Sun size={18} /></IconButton>
+        </div>
+      </div>
+      <div>
+        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: '#888' }}>Selected</div>
+        <div style={{ display: 'flex', gap: '8px' }}>
+          <IconButton aria-label="Selected square" selected><ExternalLink size={16} /></IconButton>
+          <IconButton shape="circle" aria-label="Selected circle" selected><Sun size={18} /></IconButton>
         </div>
       </div>
       <div>
