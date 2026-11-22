@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- ST-95's liveness-probe kill-criterion verdict is recorded: the probes caught nothing a human would not have, they stay for now, next check 2026-12-30, and #96 and #97 are cancelled. (#134; verdict in `docs/shipped/ST-95-liveness-probes-only.md`, ran 11 days late)
 - Every Storybook story is now checked for accessibility in both Pink Moon themes on every CI run, and a new violation fails the build; known contrast and target-size failures are listed rather than hidden. (#50 Phase 2; 780 of 780 pass, a planted violation fails, 49 known failures tracked in #246, carousel dots in #247; Chromatic deferred to ship)
 - Archive page settings in Studio say what they do: the hero text, filter configuration, display style and card options that already worked moved out of the "coming soon" tab into Content, Filtering and a new Display tab; dead legacy fields are labelled or removed. /releases opens as a list. (#210; audit table on the issue, schema deployed, smoke 41 passed)
 - Project and tool pages are prerendered, so search engines get their structured data in the first HTML response instead of after the app loads; thin tool pages carry their noindex in that HTML too. (#212; 7 projects and 63 tools, 47 noindex, snapshot JSON-LD identical to the client's, smoke 41 passed; Chromatic deferred to ship)
