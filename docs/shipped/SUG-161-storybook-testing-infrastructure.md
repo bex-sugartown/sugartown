@@ -3,7 +3,7 @@
 **Issue:** [#50](https://github.com/bex-sugartown/sugartown/issues/50)
 **Aligned:** 2026-11-20
 **Visual:** no
-**Status:** In Progress — Phase 2 done 2026-11-20; off hold 2026-11-22 (Bex) for Phases 1 and 3
+**Status:** Done — Phase 2 2026-11-20; Phases 1 and 3 2026-11-22 (off hold, Bex)
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase; ships with `/ship`
 ---
@@ -28,7 +28,7 @@ After this epic, Storybook stories can assert interactive behaviour (click → s
 - [x] `.play()` failures block merge — layer: CI. The Phase 2 job `Storybook a11y` already runs every story's play function, so no new job; its comment now says so
 - [x] Wire `addon-a11y` into a runner so axe violations become CI failures; define which rules are `error` vs `warn` — layer: Storybook tooling + CI. **Done 2026-11-20 (Phase 2):** Vitest addon, `a11y.test: 'error'` project-wide, known failures `'todo'` naming #246 / #247, both themes, CI job `storybook-a11y`.
 - [x] ~~Install `@storybook/addon-vitest`; configure Vitest workspace~~ Done in Phase 2 — layer: Storybook tooling
-- [ ] Pipe Vitest coverage report to CI summary (GitHub Actions `$GITHUB_STEP_SUMMARY`) — layer: CI
+- [x] Pipe Vitest coverage report to CI summary (GitHub Actions `$GITHUB_STEP_SUMMARY`) — layer: CI. **Done 2026-11-22 (Phase 3):** `test:coverage`, `apps/storybook/scripts/coverage-summary.mjs`; 82 components, 84% lines
 
 ## Phases
 
@@ -48,16 +48,16 @@ Install `@storybook/addon-vitest` (not the test-runner, see Start audit). Set `p
 | label | 6 | 6 | story-only (bare Input and Textarea with no label); fixed here with `aria-label` in the stories |
 | target-size | 1 | 1 | carousel dots, a real component issue; own issue, `todo` until fixed |
 
-### Phase 3 — Vitest coverage (merge-as-you-go)
+### Phase 3 — Vitest coverage (merge-as-you-go) — done 2026-11-22
 The addon is installed (Phase 2). Add coverage to the existing Vitest run and write it to the CI job summary. Ships with `/ship`.
 
 ## Acceptance criteria
 
-- [ ] `pnpm --filter storybook storybook:test` runs all `.play()` stories and exits 0 locally
-- [ ] The CI "Lint · Typecheck · Validate · Build" job (or a new sibling job) runs the test-runner and fails if any `.play()` assertion throws
-- [ ] A PR that introduces an a11y `error`-level violation fails the CI run with a clear log message identifying the story and rule
-- [ ] `@storybook/addon-vitest` reports per-component coverage in the CI job summary (even if coverage is partial in Phase 3)
-- [ ] No regressions to existing Chromatic VRT runs (Chromatic job passes after each phase merge)
+- [x] `pnpm --filter storybook test:a11y` runs all `.play()` stories and exits 0 locally: 194 files, 780 of 780 (the script is `test:a11y`, not `storybook:test`; the test-runner was not used)
+- [x] The CI job `Storybook a11y` (sibling job, Phase 2) fails if any `.play()` assertion throws. Local proof: a planted Accordion single-expand bug failed `Accordion Default` in both themes, then reverted
+- [x] A new a11y `error`-level violation fails the run naming the story and rule: Phase 2 planted-image test (issue #50 comment, 2026-11-20)
+- [x] Per-component coverage reaches the CI job summary: `pnpm turbo run test:coverage --filter=storybook` from a deleted design-system `dist/` wrote a 90-line table to `GITHUB_STEP_SUMMARY`; the first real CI run is a post-ship check
+- [ ] Chromatic: deferred to /ship (Post-ship checks). Play functions add no snapshots
 
 ## Technical notes
 
@@ -95,3 +95,41 @@ The addon is installed (Phase 2). Add coverage to the existing Vitest run and wr
 - **Linear:** [SUG-161](https://linear.app/sugartown/issue/SUG-161/storybook-testing-infrastructure-interaction-tests-a11y-ci-gate-vitest)
 - **Related:** [SUG-158](https://linear.app/sugartown/issue/SUG-158) (Storybook docs template system — shipped), [SUG-152](https://linear.app/sugartown/issue/SUG-152) (usage docs — on hold, orthogonal)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+<!-- Chromatic: pending. Stories changed (play functions only, no visual change); deferred to /ship by Bex, 2026-11-22. Expect no new diffs from this epic. -->
+
+### Acceptance criteria
+
+- [x] `.play()` stories run and exit 0 locally: 780 of 780, `pnpm --filter storybook test:a11y`.
+- [x] A broken interaction fails CI: planted Accordion bug failed in both themes, then reverted (CI job `Storybook a11y`, same run).
+- [x] An a11y `error` violation fails with story and rule: Phase 2 planted-image test.
+- [x] Per-component coverage in the job summary: written locally through Turbo from a deleted `dist/`; first CI run is a post-ship check.
+- [ ] Chromatic: deferred to /ship (Post-ship checks).
+
+### What didn't work
+
+- Stories in `packages/design-system` and `apps/web` resolved their own copy of `storybook` (React 19 peer set), separate from the Storybook app's (React 18). `userEvent.click` then threw "Illegal invocation". Fixed by adding `storybook` to the Vite `dedupe` list in `apps/storybook/.storybook/main.ts`.
+- The first FilterBar play matched two checkboxes named "Strategy" (the category and the project "Brand Strategy"). Fixed by anchoring the names.
+- Coverage returned zero files until the config used absolute globs and `allowExternal`: the component sources sit outside `apps/storybook`.
+- The epic named `@storybook/test-runner` for Phases 1 and 3. Phase 2 had already replaced it with the Vitest addon, so those Scope lines were rewritten, not executed.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| CI job and script are still named `Storybook a11y` and `test:a11y` although they now run play functions and coverage | workflow-docs | declined: renaming a required check can break branch protection; the comment in `ci.yml` says what it runs |
+| No coverage threshold; coverage is reported, not gated | implementation | declined: Phase 3 asked for a report ("even if partial"); a floor needs a baseline over several runs first |
+| Play functions for the other interactive components (Tabs-style and form controls not in the ten) | implementation | declined: the epic scoped ten; #252 touches those components' states and can add plays there |
+
+### Friction line
+
+Stories in two packages each installed their own Storybook, so play functions threw until the copies were deduped.
+
+---
+
+## Post-ship checks
+
+- [ ] CI run after the push: the `Storybook a11y gate and coverage` step passes and the job summary shows the coverage table: `gh run watch`, then open the run's Summary tab.
+- [ ] Chromatic: no new diffs from this epic's stories; approve the #251, #172 and #170 diffs at /ship: person: review before the push.
