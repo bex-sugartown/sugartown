@@ -12,6 +12,7 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { MemoryRouter } from 'react-router-dom';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import Drawer from './Drawer';
 import DrawerNav from './DrawerNav';
 import ThemeToggle from './ThemeToggle';
@@ -103,9 +104,22 @@ export const NavDrawerOpen: Story = {
 };
 
 /** Nav Drawer — closed. Overlay and panel hidden; only the trigger button is visible. */
+// #50 Phase 1: the trigger opens the dialog and moves focus into it; Escape closes it and hands focus back.
 export const NavDrawerClosed: Story = {
   name: 'Nav Drawer — closed',
   decorators: [withFrame()],
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Open menu' });
+    await userEvent.click(trigger);
+
+    const dialog = canvas.getByRole('dialog', { name: 'Menu' });
+    await expect(dialog).toHaveAttribute('aria-modal', 'true');
+    await waitFor(() => expect(canvas.getByRole('button', { name: 'Close' })).toHaveFocus());
+
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(canvas.getByRole('button', { name: 'Open menu' })).toBeVisible());
+  },
   render: () => <NavDrawerStory open={false} />,
 };
 

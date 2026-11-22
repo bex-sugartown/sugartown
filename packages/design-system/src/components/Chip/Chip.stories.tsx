@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { Chip } from './Chip';
 import { ChipGuidelinesPage } from '@sugartown/storybook-docs';
 
@@ -64,11 +65,31 @@ const MenuIcon = () => (
     <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="15" y2="12" /><line x1="3" y1="18" x2="11" y2="18" />
   </svg>
 );
+const onChipClick = fn();
+// #50 Phase 1: the rest chip is a button that fires onClick from mouse and keyboard; the selected
+// chip reports aria-pressed; the drawer trigger reports aria-expanded.
 export const Selectable: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const [rest, selected] = canvas.getAllByRole('button', { name: 'Filter' });
+    await expect(rest).toHaveAttribute('aria-pressed', 'false');
+    await expect(selected).toHaveAttribute('aria-pressed', 'true');
+
+    onChipClick.mockClear();
+    await userEvent.click(rest);
+    await expect(onChipClick).toHaveBeenCalledTimes(1);
+    rest.focus();
+    await userEvent.keyboard('{Enter}');
+    await expect(onChipClick).toHaveBeenCalledTimes(2);
+
+    const [closed, open] = canvas.getAllByRole('button', { name: 'Open Contents' });
+    await expect(closed).toHaveAttribute('aria-expanded', 'false');
+    await expect(open).toHaveAttribute('aria-expanded', 'true');
+  },
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', alignItems: 'flex-start' }}>
       <div style={{ display: 'flex', gap: '10px' }}>
-        <Chip label="Filter" onClick={() => {}} />
+        <Chip label="Filter" onClick={onChipClick} />
         <Chip label="Filter" onClick={() => {}} isActive />
       </div>
       <div style={{ display: 'flex', gap: '10px' }}>

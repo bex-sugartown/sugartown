@@ -1,5 +1,6 @@
 import type React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from 'storybook/test';
 import { Input } from './Input';
 
 // Input has no label of its own: in use it sits inside Field, which supplies one. A bare
@@ -27,8 +28,14 @@ const meta: Meta<typeof Input> = {
 export default meta;
 type Story = StoryObj<typeof Input>;
 
+// #50 Phase 1: typing reaches the control; a disabled control accepts nothing; hasError sets aria-invalid.
 export const Default: Story = {
   args: { id: 'name', placeholder: 'Enter your name' },
+  play: async ({ canvasElement }) => {
+    const input = within(canvasElement).getByPlaceholderText('Enter your name');
+    await userEvent.type(input, 'Bex');
+    await expect(input).toHaveValue('Bex');
+  },
 };
 
 export const WithValue: Story = {
@@ -37,8 +44,17 @@ export const WithValue: Story = {
 
 export const ErrorState: Story = {
   args: { id: 'email', type: 'email', hasError: true, defaultValue: 'not-an-email' },
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByDisplayValue('not-an-email')).toHaveAttribute('aria-invalid', 'true');
+  },
 };
 
 export const Disabled: Story = {
   args: { id: 'name', disabled: true, defaultValue: 'Cannot edit this' },
+  play: async ({ canvasElement }) => {
+    const input = within(canvasElement).getByDisplayValue('Cannot edit this');
+    await expect(input).toBeDisabled();
+    await userEvent.type(input, 'x');
+    await expect(input).toHaveValue('Cannot edit this');
+  },
 };

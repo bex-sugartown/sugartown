@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from 'storybook/test';
 import { FilterBar } from './FilterBar';
 import type { FilterModel } from './FilterBar';
 
@@ -117,7 +118,32 @@ function FilterBarStory() {
 // ─── Stories ──────────────────────────────────────────────────────────────────
 
 /** Fully populated filter model — two Category options checked to show multi-select on one facet. */
-export const Default: Story = { render: () => <FilterBarStory /> };
+// #50 Phase 1: a facet is multi-select, unchecking removes one value, and Clear all empties every facet.
+export const Default: Story = {
+  render: () => <FilterBarStory />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const engineering = canvas.getByRole('checkbox', { name: /^Engineering/ });
+    const strategy = canvas.getByRole('checkbox', { name: /^Strategy/ });
+    const research = canvas.getByRole('checkbox', { name: /^Research/ });
+
+    await expect(engineering).toBeChecked();
+    await expect(strategy).toBeChecked();
+    await expect(research).not.toBeChecked();
+
+    await userEvent.click(research);
+    await expect(research).toBeChecked();
+    await expect(engineering).toBeChecked();
+
+    await userEvent.click(engineering);
+    await expect(engineering).not.toBeChecked();
+
+    await userEvent.click(canvas.getByRole('button', { name: 'Clear all filters' }));
+    for (const box of canvas.getAllByRole('checkbox')) {
+      await expect(box).not.toBeChecked();
+    }
+  },
+};
 
 /**
  * In Drawer — simulates the mobile archive drawer context (SUG-173).

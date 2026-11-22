@@ -1,6 +1,7 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { ArrowRight, Check, X, ExternalLink, Plus } from 'lucide-react';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { Button } from './Button';
 
 const ICON_SIZE = 14;
@@ -66,8 +67,19 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
+// #50 Phase 1: mouse click, then keyboard activation (Enter and Space) each call onClick once.
 export const Primary: Story = {
-  args: { children: 'Primary Button', variant: 'primary' },
+  args: { children: 'Primary Button', variant: 'primary', onClick: fn() },
+  play: async ({ canvasElement, args }) => {
+    const button = within(canvasElement).getByRole('button', { name: 'Primary Button' });
+    await userEvent.click(button);
+    await expect(args.onClick).toHaveBeenCalledTimes(1);
+    button.focus();
+    await userEvent.keyboard('{Enter}');
+    await expect(args.onClick).toHaveBeenCalledTimes(2);
+    await userEvent.keyboard(' ');
+    await expect(args.onClick).toHaveBeenCalledTimes(3);
+  },
 };
 
 export const Secondary: Story = {
@@ -99,6 +111,12 @@ export const AsExternalLink: Story = {
     variant: 'primary',
     href: 'https://sugartown.io',
     iconAfter: <ExternalLink size={ICON_SIZE} aria-hidden />,
+  },
+  play: async ({ canvasElement }) => {
+    const link = within(canvasElement).getByRole('link', { name: /Visit sugartown\.io/ });
+    await expect(link).toHaveAttribute('href', 'https://sugartown.io');
+    await expect(link).toHaveAttribute('target', '_blank');
+    await expect(link).toHaveAttribute('rel', expect.stringContaining('noopener'));
   },
   parameters: {
     docs: {

@@ -10,6 +10,7 @@
 
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from 'storybook/test';
 import { Accordion } from './Accordion';
 
 const meta: Meta<typeof Accordion> = {
@@ -71,15 +72,41 @@ const CS_QUESTIONS = [
 ];
 
 /** Default — ink top rule, hairline dividers, left-aligned labels. */
+// #50 Phase 1: a trigger toggles its panel; single-expand mode closes the others; Space and Enter toggle.
 export const Default: Story = {
   name: 'Default',
   args: { items: CS_QUESTIONS },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const first = canvas.getByRole('button', { name: /core challenge/ });
+    const second = canvas.getByRole('button', { name: /taxonomy system/ });
+
+    await expect(first).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(first);
+    await expect(first).toHaveAttribute('aria-expanded', 'true');
+    await expect(canvas.getByRole('region', { name: /core challenge/ })).toBeVisible();
+
+    await userEvent.click(second);
+    await expect(second).toHaveAttribute('aria-expanded', 'true');
+    await expect(first).toHaveAttribute('aria-expanded', 'false');
+
+    second.focus();
+    await userEvent.keyboard('{Enter}');
+    await expect(second).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.keyboard(' ');
+    await expect(second).toHaveAttribute('aria-expanded', 'true');
+  },
 };
 
 /** Numbered — Q.NN pink mono prefix, Cormorant question text. */
 export const Numbered: Story = {
   name: 'Numbered',
   args: { items: CS_QUESTIONS, numbered: true },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByText('Q.01')).toBeInTheDocument();
+    await expect(canvas.getByText('Q.03')).toBeInTheDocument();
+  },
 };
 
 /**
@@ -91,4 +118,7 @@ export const Numbered: Story = {
 export const EmptyItems: Story = {
   name: 'Empty / undefined items',
   args: { items: undefined },
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).queryAllByRole('button')).toHaveLength(0);
+  },
 };

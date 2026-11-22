@@ -3,7 +3,7 @@
 **Issue:** [#50](https://github.com/bex-sugartown/sugartown/issues/50)
 **Aligned:** 2026-11-20
 **Visual:** no
-**Status:** On Hold — Phase 2 done 2026-11-20; Phases 1 and 3 wait (see #50)
+**Status:** In Progress — Phase 2 done 2026-11-20; off hold 2026-11-22 (Bex) for Phases 1 and 3
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase; ships with `/ship`
 ---
@@ -22,20 +22,20 @@ After this epic, Storybook stories can assert interactive behaviour (click → s
 
 ## Scope
 
-- [ ] Install `@storybook/test` and `@storybook/test-runner`; configure test-runner in `apps/storybook/` — layer: Storybook tooling
-- [ ] Write `.play()` interaction tests for the ~10 most interactive components: Button, FilterBar, SegmentedControl, Drawer, Accordion, Chip, Input, Field, HelperText, Form — layer: Storybook stories
-- [ ] Smoke-test all `.play()` stories via `pnpm storybook:test` locally before CI wiring — layer: Storybook tooling
-- [ ] Add test-runner step to `.github/workflows/ci.yml` so `.play()` failures block merge — layer: CI
+- [x] ~~Install `@storybook/test` and `@storybook/test-runner`~~ Superseded 2026-11-22 (Bex): `.play()` tests run in the Phase 2 Vitest addon. `storybook/test` is a devDependency of `packages/design-system` and `apps/web`, and `main.ts` dedupes `storybook` so every story shares the app's one copy — layer: Storybook tooling
+- [x] Write `.play()` interaction tests for the ~10 most interactive components: Button, FilterBar, SegmentedControl, Drawer, Accordion, Chip, Input, Field, HelperText, Form — layer: Storybook stories. **Done 2026-11-22 (Phase 1):** 17 play functions across 10 components, on existing stories (no new snapshots)
+- [x] Run all `.play()` stories locally with `pnpm --filter storybook test:a11y` before CI wiring — layer: Storybook tooling. 780 of 780 pass
+- [x] `.play()` failures block merge — layer: CI. The Phase 2 job `Storybook a11y` already runs every story's play function, so no new job; its comment now says so
 - [x] Wire `addon-a11y` into a runner so axe violations become CI failures; define which rules are `error` vs `warn` — layer: Storybook tooling + CI. **Done 2026-11-20 (Phase 2):** Vitest addon, `a11y.test: 'error'` project-wide, known failures `'todo'` naming #246 / #247, both themes, CI job `storybook-a11y`.
-- [ ] Install `@storybook/addon-vitest`; configure Vitest workspace to include story files — layer: Storybook tooling
+- [x] ~~Install `@storybook/addon-vitest`; configure Vitest workspace~~ Done in Phase 2 — layer: Storybook tooling
 - [ ] Pipe Vitest coverage report to CI summary (GitHub Actions `$GITHUB_STEP_SUMMARY`) — layer: CI
 
 ## Phases
 
 > **Rescoped 2026-10-12.** Priority raised to High for the a11y gate only. Phase 2 below runs first; Phases 1 and 3 stay Later and are not started with it. Page-level axe lives in ST-159 (#159); use the same axe rule tags there and here (`wcag2a`, `wcag2aa`, `wcag21aa`, `wcag22aa`).
 
-### Phase 1 — Interaction tests (merge-as-you-go)
-Install `@storybook/test` + `@storybook/test-runner`. Write `.play()` functions for the target components. Add `storybook:test` CI step. Ships as its own mini-release.
+### Phase 1 — Interaction tests (merge-as-you-go) — done 2026-11-22
+Write `.play()` functions for the target components in the Phase 2 Vitest addon; no test-runner. Ships with `/ship`.
 
 ### Phase 2 — a11y CI gate (merge-as-you-go) — done 2026-11-20
 Install `@storybook/addon-vitest` (not the test-runner, see Start audit). Set `parameters.a11y.test: 'error'` and `options.runOnly` to the page gate's tags in `preview.ts`. Run every story in `light-pink-moon` and `dark-pink-moon`. Add a CI job. Ships with `/ship`.
@@ -49,7 +49,7 @@ Install `@storybook/addon-vitest` (not the test-runner, see Start audit). Set `p
 | target-size | 1 | 1 | carousel dots, a real component issue; own issue, `todo` until fixed |
 
 ### Phase 3 — Vitest coverage (merge-as-you-go)
-Install `@storybook/addon-vitest`. Configure workspace. Pipe coverage to CI summary. Ships as its own mini-release.
+The addon is installed (Phase 2). Add coverage to the existing Vitest run and write it to the CI job summary. Ships with `/ship`.
 
 ## Acceptance criteria
 

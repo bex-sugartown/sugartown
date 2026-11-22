@@ -137,6 +137,8 @@ jobs:
     # #50 (SUG-161 Phase 2): every Storybook story runs in real Chromium in both Pink Moon
     # themes, and an axe violation (tags from tests/smoke/helpers/axe-tags.ts) fails the job.
     # Known failures are marked a11y.test 'todo' in their stories file, naming #246 or #247.
+    # The same run executes every story's .play() function (#50 Phase 1), so a failing
+    # interaction assertion fails this job too.
     name: Storybook a11y
     runs-on: ubuntu-latest
     steps:

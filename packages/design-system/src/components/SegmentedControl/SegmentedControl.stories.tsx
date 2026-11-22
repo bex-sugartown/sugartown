@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from 'storybook/test';
 import { SegmentedControl } from './SegmentedControl';
 
 const meta: Meta<typeof Controlled> = {
@@ -40,9 +41,33 @@ export const PillMobileDesktop: Story = {
   ),
 };
 
+// #50 Phase 1: click selects, arrow keys move selection and wrap, roving tabindex follows it.
 export const PillThreeOptions: Story = {
   name: 'Pill — Three options',
   args: { 'aria-label': 'Time range', defaultValue: '28d' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const group = canvas.getByRole('radiogroup', { name: 'Time range' });
+    const d7 = within(group).getByRole('radio', { name: '7d' });
+    const d28 = within(group).getByRole('radio', { name: '28d' });
+    const d90 = within(group).getByRole('radio', { name: '90d' });
+
+    await expect(d28).toHaveAttribute('aria-checked', 'true');
+    await expect(d28).toHaveAttribute('tabindex', '0');
+    await expect(d7).toHaveAttribute('tabindex', '-1');
+
+    await userEvent.click(d90);
+    await expect(d90).toHaveAttribute('aria-checked', 'true');
+    await expect(d28).toHaveAttribute('aria-checked', 'false');
+
+    // ArrowRight wraps from the last option to the first.
+    d90.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    await expect(d7).toHaveAttribute('aria-checked', 'true');
+    // ArrowLeft wraps back.
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(d90).toHaveAttribute('aria-checked', 'true');
+  },
   render: (args) => (
     <Controlled
       {...args}
@@ -106,6 +131,16 @@ export const IconGridList: Story = {
 export const IconThreeOptions: Story = {
   name: 'Icon — Grid / List / Graph',
   args: { 'aria-label': 'View', defaultValue: 'grid' },
+  play: async ({ canvasElement }) => {
+    const group = within(canvasElement).getByRole('radiogroup', { name: 'View' });
+    const grid = within(group).getByRole('radio', { name: 'Grid view' });
+    const graph = within(group).getByRole('radio', { name: 'Graph view' });
+
+    await expect(grid).toHaveAttribute('aria-checked', 'true');
+    await userEvent.click(graph);
+    await expect(graph).toHaveAttribute('aria-checked', 'true');
+    await expect(grid).toHaveAttribute('aria-checked', 'false');
+  },
   render: (args) => (
     <Controlled
       {...args}

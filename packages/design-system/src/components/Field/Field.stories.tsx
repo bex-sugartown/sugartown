@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
+import { expect, userEvent, within } from 'storybook/test';
 import { Field } from './Field';
 import { Input } from '../Input/Input';
 import { Textarea } from '../Textarea/Textarea';
@@ -30,7 +31,15 @@ export const Required: Story = {
   ),
 };
 
+// #50 Phase 1: the label names the control, and helper and error text are announced through aria-describedby.
 export const WithHelper: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByLabelText('Email address');
+    await userEvent.click(canvas.getByText('Email address'));
+    await expect(input).toHaveFocus();
+    await expect(input).toHaveAccessibleDescription('We will never share your email.');
+  },
   render: () => (
     <Field label="Email address" htmlFor="email" helperText="We will never share your email.">
       <Input id="email" type="email" placeholder="bex@sugartown.io" />
@@ -39,6 +48,11 @@ export const WithHelper: Story = {
 };
 
 export const WithError: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('alert')).toHaveTextContent('Please enter a valid email address.');
+    await expect(canvas.getByLabelText('Email address')).toHaveAttribute('aria-invalid', 'true');
+  },
   render: () => (
     <Field label="Email address" htmlFor="email" errorMessage="Please enter a valid email address.">
       <Input id="email" type="email" defaultValue="not-valid" />
@@ -47,6 +61,11 @@ export const WithError: Story = {
 };
 
 export const WithHelperAndError: Story = {
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByLabelText('Email address')).toHaveAccessibleDescription(
+      'We will never share your email. Please enter a valid email address.',
+    );
+  },
   render: () => (
     <Field
       label="Email address"

@@ -51,6 +51,10 @@ const config: StorybookConfig = {
       'react/jsx-runtime',
       'react/jsx-dev-runtime',
       'react-router-dom',
+      // #50 Phase 1: stories import `storybook/test` from the design-system and web packages,
+      // which install their own copy (React 19 peer set). A second copy breaks play functions
+      // ("Illegal invocation"), so every import resolves to this app's one copy.
+      'storybook',
     ];
     viteConfig.resolve.alias = {
       ...((viteConfig.resolve.alias as Record<string, string>) || {}),
