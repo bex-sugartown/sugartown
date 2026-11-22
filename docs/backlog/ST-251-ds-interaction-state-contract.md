@@ -5,7 +5,7 @@
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
-**Vspec:** `docs/drafts/ST-251-ds-interaction-state-contract.vspec.html`
+**Vspec:** `docs/drafts/ST-251-ds-interaction-state-contract/ST-251-ds-interaction-state-contract.vspec.html`
 ---
 
 # ST-251 — DS interaction state contract for chips, toggles and buttons
