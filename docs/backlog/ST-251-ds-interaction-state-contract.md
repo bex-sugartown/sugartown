@@ -30,10 +30,10 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] Vspec: all five states in light and dark, per chip colour, for Chip, Button, IconButton, SegmentedControl and FilterStrip — layer: vspec (Phase 0)
+- [ ] Vspec: all five states in light and dark, per chip colour, for Tag, Badge, Badge — Color Dot (the Chip variants named in Storybook), Button, IconButton, SegmentedControl and FilterStrip, with a State dropdown (Rest, Hover, Selected, Pressed, Focus) to show one state at a time or all — layer: vspec (Phase 0)
 - [ ] State tokens: one named set for hover, selected, pressed and focus-visible, light and dark, mirrored across both `theme.pink-moon.css` copies — layer: tokens
 - [ ] DS Chip: pressed state, and a colour variant driven by `--chip-bg/fg/border/dot` — layer: DS component
-- [ ] Pressed (`:active`) on Button, IconButton and SegmentedControl, and a selected state on IconButton — layer: DS component
+- [ ] All five states on each of Tag, Badge, Badge — Color Dot, Button (selected not applicable, it is not a toggle), IconButton and SegmentedControl: pressed (`:active`) on all six, selected on IconButton — layer: DS component
 - [ ] FilterStrip renders DS Chip with the colour variant and uses `--st-focus-ring`; its own hover, selected and focus CSS is removed — layer: frontend
 - [ ] Storybook: one story per component showing all five states in both themes; axe gate stays green — layer: Storybook
 
@@ -48,7 +48,7 @@ Not applicable, no content piece.
 ## Acceptance Criteria
 
 - [ ] Vspec exists at the path above, shows five states in both themes per chip colour, and Bex has marked Phase 0 complete before any code is written
-- [ ] Rendered probe (headless Chromium) shows a computed-style change for pressed on Chip, Button, IconButton and SegmentedControl in both themes; today every surface shows none
+- [ ] Rendered probe (headless Chromium) shows a computed-style change for hover, pressed and focus-visible on each of Tag, Badge, Badge — Color Dot, Button, IconButton and SegmentedControl, and for selected on every one but Button, in both themes; today every surface shows none for pressed
 - [ ] DS Chip, FilterStrip chips and SegmentedControl use the same token names for hover and focus-visible; `git grep` finds no state colour literals in FilterStrip.module.css
 - [ ] FilterStrip focus outline computes to the `--st-focus-ring` style, not `auto`
 - [ ] `pnpm exec playwright test tests/smoke/a11y.spec.ts` passes in light and dark, `pnpm validate:contrast`, `pnpm validate:style-mirror` and `pnpm validate:tokens` pass, and no new allowlist entry is added
@@ -77,12 +77,14 @@ Not applicable, no content piece.
 ## Non-Goals
 
 - Redesigning the visual look of any component beyond adding the missing states; resting appearance stays as shipped.
-- Changing FilterBar checkbox options, ButtonGroup, or non-interactive Chips.
+- Other interactive components (Accordion, Breadcrumb, List, Card links, Citation, FilterBar options, IndexCell, Sidebar, Input, Textarea, MediaLabel): tracked in [#252](https://github.com/bex-sugartown/sugartown/issues/252), blocked on this epic.
+- Changing ButtonGroup or non-interactive Chips.
 - New chip colours or new component variants other than the colour variant on DS Chip.
 - Sanity schema, GROQ, content or routing changes.
 
 ## Related
 
 - **GitHub:** [#251](https://github.com/bex-sugartown/sugartown/issues/251)
+- **Follow-on:** [#252](https://github.com/bex-sugartown/sugartown/issues/252) extends the contract to the other interactive components
 - **Audit:** [#250](https://github.com/bex-sugartown/sugartown/issues/250); also #170, #150
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
