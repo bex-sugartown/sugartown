@@ -34,6 +34,7 @@ Not applicable, no content piece.
 - [ ] State tokens: one named set for hover, selected, pressed and focus-visible, light and dark, mirrored across both `theme.pink-moon.css` copies — layer: tokens
 - [ ] DS Chip: pressed state, and a colour variant driven by `--chip-bg/fg/border/dot` — layer: DS component
 - [ ] All five states on each of Tag, Badge, Badge — Color Dot, Button (selected not applicable, it is not a toggle), IconButton and SegmentedControl: pressed (`:active`) on all six, selected on IconButton — layer: DS component
+- [ ] SegmentedControl icon variant (grid, list, graph toggle) and IconButton: all five states, and the rest border moves to `--st-chip-border` (measured 1.07:1 to 1.19:1 today, 3:1 needed), and `ArchivePage.jsx` and `SiteGraphPage.jsx` use it in place of three hand-built `IconButton`s plus `layoutToggleBtnActive` — layer: DS component and frontend
 - [ ] FilterStrip renders DS Chip with the colour variant and uses `--st-focus-ring`; its own hover, selected and focus CSS is removed — layer: frontend
 - [ ] Storybook: one story per component showing all five states in both themes; axe gate stays green — layer: Storybook
 
@@ -43,13 +44,14 @@ Not applicable, no content piece.
 |---|---|---|---|
 | 0 | Vspec signed off, unconfirmed audit items checked | vspec | Bex signs off the vspec |
 | 1 | State tokens and DS components (Chip, Button, IconButton, SegmentedControl) | tokens, DS Chip, pressed and IconButton selected | none |
-| 2 | FilterStrip as a Chip consumer, stories, QA | FilterStrip, Storybook | none |
+| 2 | FilterStrip as a Chip consumer, view toggle on SegmentedControl icon variant, stories, QA | FilterStrip, SegmentedControl icon variant, Storybook | none |
 
 ## Acceptance Criteria
 
 - [ ] Vspec exists at the path above, shows five states in both themes per chip colour, and Bex has marked Phase 0 complete before any code is written
 - [ ] Rendered probe (headless Chromium) shows a computed-style change for hover, pressed and focus-visible on each of Tag, Badge, Badge — Color Dot, Button, IconButton and SegmentedControl, and for selected on every one but Button, in both themes; today every surface shows none for pressed
 - [ ] DS Chip, FilterStrip chips and SegmentedControl use the same token names for hover and focus-visible; `git grep` finds no state colour literals in FilterStrip.module.css
+- [ ] `git grep layoutToggleBtnActive layoutToggleGroup apps/web/src` finds nothing outside stories removed with them; the toggle on `/knowledge-graph` and the archive pages renders the DS SegmentedControl icon variant
 - [ ] FilterStrip focus outline computes to the `--st-focus-ring` style, not `auto`
 - [ ] `pnpm exec playwright test tests/smoke/a11y.spec.ts` passes in light and dark, `pnpm validate:contrast`, `pnpm validate:style-mirror` and `pnpm validate:tokens` pass, and no new allowlist entry is added
 - [ ] Storybook a11y CI gate passes for every new state story in both themes
