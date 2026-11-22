@@ -1,7 +1,2 @@
 [
-  {"themes": ["light-pink-moon", "light-shop"], "fg": "--st-status-draft-fg", "bg": "--st-status-draft-bg", "date": "2026-10-13", "issue": "#169"},
-  {"themes": ["light-pink-moon", "light-shop"], "fg": "--st-status-designing-fg", "bg": "--st-status-designing-bg", "date": "2026-10-13", "issue": "#169"},
-  {"themes": ["light-pink-moon", "light-shop"], "fg": "--st-status-testing-fg", "bg": "--st-status-testing-bg", "date": "2026-10-13", "issue": "#169"},
-  {"themes": ["dark-pink-moon", "dark-shop"], "fg": "--st-status-exploring-fg", "bg": "--st-status-exploring-bg", "date": "2026-10-13", "issue": "#169"},
-  {"themes": ["dark-pink-moon", "dark-shop"], "fg": "--st-status-validated-fg", "bg": "--st-status-validated-bg", "date": "2026-10-13", "issue": "#169"}
 ]
