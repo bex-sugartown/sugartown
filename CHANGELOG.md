@@ -49,6 +49,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - Homepage tile labels and the 404 "Back to home" link are maroon instead of hot pink, so they meet the contrast minimum (3.46:1 and 3.23:1 before, 5.47:1 after). (#172; axe passes on 18 of 18 route and theme runs with the two allowlist entries removed; Chromatic deferred to ship)
 - The Case filter chip on the knowledge graph uses the neutral chip look in dark Pink Moon instead of off-white text on a pink fill (3.24:1 before). (#170; contrast validator passes with the allowlist entry removed; not checked in a browser, Chromatic deferred to ship)
 - Chip and toggle interaction states are audited across the design system and the knowledge-graph filter strip: no component has a pressed state, and hover, selected and focus differ on every surface. (#250; seven surfaces, both themes, rendered probe plus stylesheet read; the design epic is the follow-up)
+- Tags, badges, buttons, icon buttons and segmented controls share one set of interaction states: a pressed look on all of them, a soft hover glow, a solid selected fill that stays put on hover, and the design-system focus ring. The knowledge-graph filter strip and the grid, list and graph view toggle now use the design-system components instead of their own copies. (#251; 49 smoke tests pass, hover, pressed and focus checked in both themes; Chromatic deferred to ship)
 
 ---
 
