@@ -46,6 +46,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - A span carrying both a link and a glossary term renders one anchor instead of a link inside a link, and `validate:content` flags such spans. (#143; no nested-anchor error on /articles/the-agentic-caucus, smoke 28 passed)
 - The Netlify build hook URL is out of the public repo: redacted from two Linear exports, the leaked hook deleted and replaced, and the Sanity redirect webhook repointed. (#240; old hook returns 404, git grep finds no hook URL, a redirect publish triggered a build)
 - 186 legacy WordPress redirects that pointed at pages that do not exist now point at real pages or the tag and article archives. (#249; 245 redirects audited, 0 dead after, /blog/blog and /tag/ceramics verified in a browser after the rebuild)
+- Homepage tile labels and the 404 "Back to home" link are maroon instead of hot pink, so they meet the contrast minimum (3.46:1 and 3.23:1 before, 5.47:1 after). (#172; axe passes on 18 of 18 route and theme runs with the two allowlist entries removed; Chromatic deferred to ship)
 
 ---
 
