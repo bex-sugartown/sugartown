@@ -108,7 +108,7 @@ export const Chip: React.FC<ChipProps> = ({
     isDotColor && styles.ruleDot,
     isDotColor && styles.dotColor,
     isInteractive && styles.interactive,
-    isActive && !isDotColor && styles.active,
+    isActive && styles.active,
     (((!isRuleDot && !isDotColor) || tagWithColor) && (color || colorHex)) && styles.tinted,
     size === 'sm' && styles.sm,
     size === 'fluid' && styles.sizeFluid,

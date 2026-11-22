@@ -16,6 +16,7 @@
 import { MemoryRouter } from 'react-router-dom'
 import { Container, FilterBar, Breadcrumb, PageHeader } from '../design-system'
 import ContentCard from './ContentCard'
+import ViewToggle from './ViewToggle'
 import ContentList from './ContentList'
 import Pagination from './Pagination'
 import { mockArticles, mockNodes, mockCaseStudies, allMockItems } from './__fixtures__/mockContentCards'
@@ -102,31 +103,7 @@ function ArchiveShell({
       <Container size="archive">
         <div className={pageStyles.archiveSection}>
           <div className={pageStyles.archiveToolbar}>
-            <div className={pageStyles.layoutToggleGroup}>
-              <button
-                type="button"
-                className={`${pageStyles.layoutToggleBtn} ${layout === 'grid' ? pageStyles.layoutToggleBtnActive : ''}`}
-                aria-label="Grid view"
-                aria-pressed={layout === 'grid'}
-              >
-                <GridIcon />
-              </button>
-              <button
-                type="button"
-                className={`${pageStyles.layoutToggleBtn} ${layout === 'list' ? pageStyles.layoutToggleBtnActive : ''}`}
-                aria-label="List view"
-                aria-pressed={layout === 'list'}
-              >
-                <ListIcon />
-              </button>
-              <button
-                type="button"
-                className={pageStyles.layoutToggleBtn}
-                aria-label="View in knowledge graph"
-              >
-                <GraphIcon />
-              </button>
-            </div>
+            <ViewToggle value={layout} onChange={() => {}} graphHref="/knowledge-graph" graphLabel="View in knowledge graph" />
             <span className={pageStyles.archiveToolbarKicker}>{kicker}</span>
           </div>
 

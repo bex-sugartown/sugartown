@@ -344,16 +344,6 @@
   background: var(--st-color-bg-surface);
 }
 
-.layoutToggleGroup {
-  display: flex;
-  gap: var(--st-space-1);
-}
-
-.layoutToggleBtnActive {
-  color: var(--st-color-brand-primary) !important;
-  border-color: var(--st-color-brand-primary) !important;
-}
-
 /* PortableText description fallback — used when archivePage hero.subheading
    is a PortableText array and cannot be passed to PageHeader's description prop */
 .archiveDescription {

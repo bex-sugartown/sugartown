@@ -15,17 +15,14 @@ const GRAPH_FILTERS = [
   { key: 'all', label: 'All' },
   {
     key: 'article', label: 'Articles',
-    chipTokens: { bg: '--st-kg-chip-article-bg', fg: '--st-kg-chip-article-fg', border: '--st-kg-chip-article-border' },
     dotToken: '--st-kg-node-article',
   },
   {
     key: 'caseStudy', label: 'Case Studies',
-    chipTokens: { bg: '--st-kg-chip-case-bg', fg: '--st-kg-chip-case-fg', border: '--st-kg-chip-case-border' },
     dotToken: '--st-kg-node-case',
   },
   {
     key: 'node', label: 'Nodes',
-    chipTokens: { bg: '--st-kg-chip-node-bg', fg: '--st-kg-chip-node-fg', border: '--st-kg-chip-node-border' },
     dotToken: '--st-kg-node-node',
   },
 ]

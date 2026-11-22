@@ -1,7 +1,7 @@
 export { Media } from '@sugartown/design-system'
 export { MediaLabel } from '@sugartown/design-system'
 export { Button } from '@sugartown/design-system'
-export { IconButton } from '@sugartown/design-system'
+export { IconButton, SegmentedControl } from '@sugartown/design-system'
 export { Card } from '@sugartown/design-system'
 export { Chip } from '@sugartown/design-system'
 export { Table, TableWrap } from '@sugartown/design-system'

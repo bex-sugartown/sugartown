@@ -7,7 +7,7 @@
  * below the page header content.
  */
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react'
-import { useSearchParams, useNavigate, Link } from 'react-router-dom'
+import { useSearchParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { client } from '../lib/sanity'
 import { allSiteItemsQuery, archivePageBySlugQuery } from '../lib/queries'
@@ -20,7 +20,8 @@ import ContentCard from '../components/ContentCard'
 import FilterStrip from '../components/FilterStrip'
 import portableTextComponents from '../lib/portableTextComponents'
 import statsJson from '../generated/stats.json'
-import { Breadcrumb, PageHeader, IconButton } from '../design-system'
+import { Breadcrumb, PageHeader } from '../design-system'
+import ViewToggle from '../components/ViewToggle'
 import styles from './SiteGraphPage.module.css'
 import pageStyles from './pages.module.css'
 
@@ -28,17 +29,14 @@ const FILTER_TYPES = [
   { key: 'all',       label: 'All' },
   {
     key: 'article',   label: 'Articles',
-    chipTokens: { bg: '--st-kg-chip-article-bg', fg: '--st-kg-chip-article-fg', border: '--st-kg-chip-article-border' },
     dotToken: '--st-kg-node-article',
   },
   {
     key: 'caseStudy', label: 'Case Studies',
-    chipTokens: { bg: '--st-kg-chip-case-bg', fg: '--st-kg-chip-case-fg', border: '--st-kg-chip-case-border' },
     dotToken: '--st-kg-node-case',
   },
   {
     key: 'node',      label: 'Nodes',
-    chipTokens: { bg: '--st-kg-chip-node-bg', fg: '--st-kg-chip-node-fg', border: '--st-kg-chip-node-border' },
     dotToken: '--st-kg-node-node',
   },
 ]
@@ -99,7 +97,6 @@ function filterGraph(siteGraph, typeFilter) {
 }
 
 export default function SiteGraphPage() {
-  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const [typeFilter, setTypeFilter]     = useState(() => {
     const p = searchParams.get('type')
@@ -212,42 +209,10 @@ export default function SiteGraphPage() {
       <div className={styles.graphSection}>
       <div className={pageStyles.archiveToolbar}>
         <div className={pageStyles.archiveToolbarLeft}>
-          <div className={pageStyles.layoutToggleGroup}>
-            {(() => {
-              const archiveHref = typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : typeFilter === 'article' ? '/articles' : '/library'
-              return (<>
-                <IconButton aria-label="Grid view" onClick={() => navigate(archiveHref)}>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
-                    <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
-                    <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
-                    <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
-                  </svg>
-                </IconButton>
-                <IconButton aria-label="List view" onClick={() => navigate(archiveHref)}>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                    <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
-                    <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
-                    <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
-                  </svg>
-                </IconButton>
-              </>)
-            })()}
-            <IconButton aria-label="Graph view" aria-pressed={true} className={pageStyles.layoutToggleBtnActive}>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
-                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-              </svg>
-            </IconButton>
-          </div>
+          {(() => {
+            const archiveHref = typeFilter === 'caseStudy' ? '/case-studies' : typeFilter === 'node' ? '/nodes' : typeFilter === 'article' ? '/articles' : '/library'
+            return <ViewToggle value="graph" onChange={() => {}} gridHref={archiveHref} listHref={archiveHref} />
+          })()}
           <span className={pageStyles.archiveToolbarDivider} aria-hidden="true" />
           <FilterStrip
             filters={FILTER_TYPES}

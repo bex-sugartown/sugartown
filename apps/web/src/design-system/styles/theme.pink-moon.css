@@ -200,18 +200,6 @@
   --st-graph-edge-lateral:    var(--st-color-white-15); /* SUG-140: quiet lateral edge on dark */
 
   /* ── FilterStrip chip color system — light overrides (SUG-105) ─ */
-  --st-kg-chip-all-bg:          var(--st-color-ink);
-  --st-kg-chip-all-fg:          var(--st-color-neutral-100);
-  --st-kg-chip-all-border:      transparent;
-  --st-kg-chip-article-bg:      var(--st-chip-tag-bg);          /* ST-150: neutral chip chassis */
-  --st-kg-chip-article-fg:      var(--st-chip-fg);
-  --st-kg-chip-article-border:  var(--st-chip-border);
-  --st-kg-chip-case-bg:         var(--st-chip-tag-bg);
-  --st-kg-chip-case-fg:         var(--st-chip-fg);
-  --st-kg-chip-case-border:     var(--st-chip-border);
-  --st-kg-chip-node-bg:         var(--st-color-ink);
-  --st-kg-chip-node-fg:         var(--st-color-neutral-100);
-  --st-kg-chip-node-border:     transparent;
 
   /* Button ghost tertiary — light theme: signal is maroon (ST-150; pink text fails on light), dark theme keeps base lime */
   --st-button-tertiary-border:  var(--st-color-text-brand);
@@ -274,10 +262,6 @@
   --st-chip-fg:             var(--st-color-softgrey-200);
   --st-chip-border:         var(--st-color-slate-450);       /* SUG-164: 4.91:1 on midnight-700, 5.86:1 on the dark card surround; rule-accent was 1.6:1 */
   /* ST-150: featured rubric chip and status dots use the base tokens (neutral chip, pink dot) */
-  /* #170: KG Case chip takes the neutral chip chassis in dark too; the base pink fill was 3.24:1 with off-white text */
-  --st-kg-chip-case-bg:     var(--st-chip-tag-bg);
-  --st-kg-chip-case-fg:     var(--st-chip-fg);
-  --st-kg-chip-case-border: var(--st-chip-border);
 
   /* MetadataCard V2 Inverted Well — dark overrides (SUG-88) */
   --st-metadata-label-bg:  var(--st-color-midnight-900);

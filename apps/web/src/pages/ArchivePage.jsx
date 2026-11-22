@@ -40,7 +40,7 @@
  */
 import { useState, useCallback, useMemo } from 'react'
 import Drawer from '../components/Drawer'
-import { Link, useSearchParams, useNavigate } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useSanityDoc, useSanityList, useDraftIds } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -48,7 +48,8 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import ContentList from '../components/ContentList'
-import { FilterBar, Button, IconButton, Chip } from '../design-system'
+import { FilterBar, Button, Chip } from '../design-system'
+import ViewToggle from '../components/ViewToggle'
 import Pagination from '../components/Pagination'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
@@ -162,7 +163,6 @@ const CONTENT_TYPE_TO_DOC_TYPE = {
 // ─── ArchiveListing — fetches, filters, paginates, and renders items ──────────
 
 function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
-  const navigate = useNavigate()
   const contentTypes = archiveDoc?.contentTypes ?? []
   const isMultiType = contentTypes.length > 1
 
@@ -318,54 +318,14 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
   return (
     <div className={styles.archiveSection}>
       <div className={styles.archiveToolbar}>
-        <div className={styles.layoutToggleGroup}>
-          <IconButton
-            aria-label="Grid view"
-            aria-pressed={!isGraphView && layout === 'grid'}
-            className={!isGraphView && layout === 'grid' ? styles.layoutToggleBtnActive : ''}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('grid') }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="1" y="1" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="9" y="1" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="1" y="9" width="6" height="6" rx="1" fill="currentColor" />
-              <rect x="9" y="9" width="6" height="6" rx="1" fill="currentColor" />
-            </svg>
-          </IconButton>
-          <IconButton
-            aria-label="List view"
-            aria-pressed={!isGraphView && layout === 'list'}
-            className={!isGraphView && layout === 'list' ? styles.layoutToggleBtnActive : ''}
-            onClick={() => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange('list') }}
-          >
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <rect x="1" y="2" width="14" height="2.5" rx="1" fill="currentColor" />
-              <rect x="1" y="6.75" width="14" height="2.5" rx="1" fill="currentColor" />
-              <rect x="1" y="11.5" width="14" height="2.5" rx="1" fill="currentColor" />
-            </svg>
-          </IconButton>
-          {/* Release notes carry no taxonomy to connect, and the graph excludes them (stats/graph.js). */}
-          {contentType !== 'releaseNote' && (
-            <IconButton
-              aria-label="View in knowledge graph"
-              className={isGraphView ? styles.layoutToggleBtnActive : ''}
-              onClick={() => navigate(graphCtaHref)}
-            >
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <line x1="8" y1="8" x2="2.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="3.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="2.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="8" y1="8" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="1" strokeOpacity="0.7"/>
-                <line x1="2.5" y1="3.5" x2="13.5" y2="12.5" stroke="currentColor" strokeWidth="0.75" strokeOpacity="0.35"/>
-                <circle cx="8" cy="8" r="2.5" fill="currentColor"/>
-                <circle cx="2.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="3.5" r="1.5" fill="currentColor"/>
-                <circle cx="2.5" cy="12.5" r="1.5" fill="currentColor"/>
-                <circle cx="13.5" cy="12.5" r="1.5" fill="currentColor"/>
-              </svg>
-            </IconButton>
-          )}
-        </div>
+        {/* Release notes carry no taxonomy to connect, and the graph excludes them (stats/graph.js). */}
+        <ViewToggle
+          value={isGraphView ? 'graph' : layout}
+          onChange={(next) => { if (isGraphView) { setView('grid'); setSelectedGraphNode(null) }; handleLayoutChange(next) }}
+          showGraph={contentType !== 'releaseNote'}
+          graphHref={graphCtaHref}
+          graphLabel="View in knowledge graph"
+        />
         <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
       </div>
 

@@ -29,55 +29,6 @@
   flex: 1;
 }
 
-.chip {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-family: var(--st-font-family-mono);
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  padding: 4px 10px;
-  border: 1px solid var(--st-color-border-default);
-  background: transparent;
-  color: var(--st-color-text-muted);
-  cursor: pointer;
-  border-radius: 0;
-  transition: color 80ms, background 80ms, border-color 80ms;
-}
-
-.chip:hover {
-  color: var(--st-color-text-primary);
-  border-color: var(--st-color-border-medium);
-}
-
-/* Colored dot prefix */
-.dot {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--chip-dot, var(--st-color-text-muted));
-  flex-shrink: 0;
-}
-
-/* Active: use 3-value chip token set when provided, else ink fill */
-.chipActive {
-  background: var(--chip-bg, var(--st-color-ink));
-  color: var(--chip-fg, var(--st-color-neutral-100));
-  border-color: var(--chip-border, transparent);
-}
-
-.chipActive:hover {
-  color: var(--chip-fg, var(--st-color-neutral-100));
-}
-
-/* Dot on active chip uses the dot token (already set via --chip-dot) */
-.chipActive .dot {
-  background: var(--chip-dot, var(--chip-fg, var(--st-color-neutral-100)));
-}
-
 /* Count kicker — right-aligned, muted mono */
 .count {
   font-family: var(--st-font-family-mono);

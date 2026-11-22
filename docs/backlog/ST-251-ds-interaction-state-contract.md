@@ -30,12 +30,12 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] Vspec: all five states in light and dark, per chip colour, for Tag, Badge, Badge — Color Dot (the Chip variants named in Storybook), Button, IconButton, SegmentedControl and FilterStrip, with a State dropdown (Rest, Hover, Selected, Pressed, Focus) to show one state at a time or all — layer: vspec (Phase 0)
-- [ ] State tokens: one named set for hover, selected, pressed and focus-visible, light and dark, mirrored across both `theme.pink-moon.css` copies — layer: tokens
-- [ ] DS Chip: pressed state, and a colour variant driven by `--chip-bg/fg/border/dot` — layer: DS component
-- [ ] All five states on each of Tag, Badge, Badge — Color Dot, Button (selected not applicable, it is not a toggle), IconButton and SegmentedControl: pressed (`:active`) on all six, selected on IconButton — layer: DS component
-- [ ] SegmentedControl icon variant (grid, list, graph toggle) and IconButton: all five states, and the rest border moves to `--st-chip-border` (measured 1.07:1 to 1.19:1 today, 3:1 needed), and `ArchivePage.jsx` and `SiteGraphPage.jsx` use it in place of three hand-built `IconButton`s plus `layoutToggleBtnActive` — layer: DS component and frontend
-- [ ] FilterStrip renders DS Chip with the colour variant and uses `--st-focus-ring`; its own hover, selected and focus CSS is removed — layer: frontend
+- [x] Vspec: all five states in light and dark, per chip colour, for Tag, Badge, Badge — Color Dot (the Chip variants named in Storybook), Button, IconButton, SegmentedControl and FilterStrip, with a State dropdown (Rest, Hover, Selected, Pressed, Focus) to show one state at a time or all — layer: vspec (Phase 0)
+- [x] State tokens: one named set for hover, selected, pressed and focus-visible, light and dark, mirrored across both `theme.pink-moon.css` copies — layer: tokens
+- [x] DS Chip: pressed state, and a colour variant driven by `--chip-bg/fg/border/dot` — layer: DS component
+- [x] All five states on each of Tag, Badge, Badge — Color Dot, Button (selected not applicable, it is not a toggle), IconButton and SegmentedControl: pressed (`:active`) on all six, selected on IconButton — layer: DS component
+- [x] SegmentedControl icon variant (grid, list, graph toggle) and IconButton: all five states, and the rest border moves to `--st-chip-border` (measured 1.07:1 to 1.19:1 today, 3:1 needed), and `ArchivePage.jsx` and `SiteGraphPage.jsx` use it in place of three hand-built `IconButton`s plus `layoutToggleBtnActive` — layer: DS component and frontend
+- [x] FilterStrip renders DS Chip with the colour variant and uses `--st-focus-ring`; its own hover, selected and focus CSS is removed — layer: frontend
 - [ ] Storybook: one story per component showing all five states in both themes; axe gate stays green — layer: Storybook
 
 ## Phases

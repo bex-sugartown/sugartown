@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import styles from './SegmentedControl.module.css';
+import { Link } from '../../link/Link';
 
 export interface SegmentOption {
   /** Text label — required for "pill" variant, optional for "icon" variant */
@@ -9,6 +10,12 @@ export interface SegmentOption {
   value: string;
   /** Accessible label when icon has no visible text */
   ariaLabel?: string;
+  /**
+   * Destination. When any option has an href the group is a set of views, not a radio group:
+   * options with an href render as links (aria-current="page" when active), the rest as buttons
+   * (aria-pressed), and arrow-key selection is off (ST-251).
+   */
+  href?: string;
 }
 
 export interface SegmentedControlProps {
@@ -33,6 +40,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   'aria-label': ariaLabel = 'View options',
   className,
 }) => {
+  const hasLinks = options.some((o) => o.href);
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
       const idx = options.findIndex((o) => o.value === value);
@@ -56,10 +64,10 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
 
   return (
     <div
-      role="radiogroup"
+      role={hasLinks ? 'group' : 'radiogroup'}
       aria-label={ariaLabel}
       className={groupClass}
-      onKeyDown={handleKeyDown}
+      onKeyDown={hasLinks ? undefined : handleKeyDown}
     >
       {options.map((opt) => {
         const isActive = opt.value === value;
@@ -70,19 +78,39 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
           .filter(Boolean)
           .join(' ');
 
+        const content = (
+          <>
+            {opt.icon}
+            {opt.label && <span>{opt.label}</span>}
+          </>
+        );
+
+        if (opt.href) {
+          return (
+            <Link
+              key={opt.value}
+              href={opt.href}
+              className={btnClass}
+              aria-label={opt.ariaLabel ?? opt.label}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {content}
+            </Link>
+          );
+        }
+
         return (
           <button
             key={opt.value}
             type="button"
-            role="radio"
-            aria-checked={isActive}
+            {...(hasLinks
+              ? { 'aria-pressed': isActive }
+              : { role: 'radio', 'aria-checked': isActive, tabIndex: isActive ? 0 : -1 })}
             aria-label={opt.ariaLabel ?? opt.label}
-            tabIndex={isActive ? 0 : -1}
             className={btnClass}
             onClick={() => onChange(opt.value)}
           >
-            {opt.icon}
-            {opt.label && <span>{opt.label}</span>}
+            {content}
           </button>
         );
       })}
