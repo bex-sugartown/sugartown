@@ -56,7 +56,7 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 ## Technical notes
 
 - **Content Write Gate fires** for the homepage title and the five descriptions. Show a before/after table first. The Human-Publishes Rule applies: the agent stops at the draft.
-- **Activation audits:** read `apps/web/src/App.jsx` and diff every route against the prerender output list; read `prerender-content.mjs` `run()` and `buildHtml()` (it already writes og:image, twitter tags and JSON-LD, #239 and #82); read `apps/web/public/_redirects` and `scripts/build-redirects.js`. Check how `pageBySlug` and `RootPage` (`/:slug`) resolve, since `/about` and `/contact` are root pages.
+- **Activation audits:** read `apps/web/src/App.jsx` and diff every route against the prerender output list; read `prerender-content.mjs` `run()` and `buildHtml()` (it already writes og:image, twitter tags and JSON-LD, #239 and #82); read `apps/web/public/_redirects` and `apps/web/scripts/build-redirects.js`. Check how `pageBySlug` and `RootPage` (`/:slug`) resolve, since `/about` and `/contact` are root pages.
 - **Decision for Phase 2, in the epic:** prerender-all-then-404, or an Edge Function. Netlify note in `netlify.toml`: `_redirects` is processed before `netlify.toml`, and an Edge Function runs before both. Pick one and say why, per the plan's E1.2 row.
 - **Upstream:** #255 (host decision). **Downstream:** #257, #258.
 - **Do not break the SPA** for tags, categories and `/platform/*`: they are not prerendered today and a blanket 404 would kill them. The Phase 1 list prevents it.
