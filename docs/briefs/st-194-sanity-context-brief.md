@@ -83,9 +83,12 @@ flowchart LR
 | `packages/mcp-server` is repo governance, local stdio | `packages/mcp-server/README.md` | measured |
 | `apps/web` ships `llms.txt` | `apps/web/public/llms.txt` | enforced-by-code |
 | Context endpoint, KB, harness | This brief | roadmap |
-| Studio must be deployed for dataset mode | Sanity Context docs, 2026-11-23 | unverified, test in Phase 1 |
+| Studio must be deployed for dataset mode | Sanity Context docs, 2026-11-23; Studio deployed per `get_project_studios`, 2026-11-23 | measured (requirement from docs, deployment checked) |
 
-**Two repo facts to resolve before Phase 1.** `apps/studio/sanity.cli.ts` sets `dataset: 'test'`, while `docs/ai/repo-map.md` says the dataset is `production`. The endpoint must point at the dataset the site reads. Also, nothing in the repo confirms the Studio is deployed to a Sanity-hosted URL, which dataset mode requires.
+**Two repo facts, checked 2026-11-23 with the Sanity MCP (`list_datasets`, `get_project_studios` on project `poalmzla`).**
+
+- **Dataset:** the project has one dataset, `production` (public ACL). `apps/studio/sanity.cli.ts` sets `dataset: 'test'`, which does not exist, so that CLI default is stale. `docs/ai/repo-map.md` is correct. The Context endpoint points at `production`.
+- **Studio:** one deployed Studio exists, created 2026-01-24, at `https://www.sanity.io/@oOTVj6BWp/studio/e6ilkt0prx5bbk4vqvsq165y/default`. Dataset mode's deployed-Studio requirement is met. Not yet checked: the deployed Studio's version (v5.1 or later is required; local is 5.25) and whether its schema is current. Redeploy before Phase 1 if in doubt, because Context reads the schema from the deployed Studio.
 
 ## 4. Benefits
 
@@ -121,7 +124,7 @@ Verify before citing (`CLAUDE.md` §Verify before citing). Each row is a claim f
 
 | # | Claim | Check | Phase |
 |---|---|---|---|
-| C1 | Dataset mode needs a deployed Studio v5.1 or later | Create the endpoint, read `context mcp status` | 1 |
+| C1 | Dataset mode needs a deployed Studio v5.1 or later | A Studio is deployed (checked 2026-11-23). Still to check: its version and schema currency, via `context mcp status` after creating the endpoint | 1 |
 | C2 | Read-only: no tool can write | List the endpoint's tools and confirm none mutate | 1 |
 | C3 | A GROQ filter restricts what the agent can see | Filter to `article` only, ask about a `node`, expect "not covered" | 1 |
 | C4 | Draft documents are not served | Plant one draft-only canary, ask for it | 1 |
@@ -164,7 +167,7 @@ This brief does not decide: a public answer surface (ST-195, ST-196), a model pr
 
 | # | Question | Needed by |
 |---|---|---|
-| 1 | Is the Studio deployed to a Sanity-hosted URL, and which dataset does the site read: `test` or `production`? | Phase 1 |
+| 1 | ~~Is the Studio deployed, and which dataset: `test` or `production`?~~ Answered 2026-11-23: deployed, dataset is `production`. Remaining: is the deployed Studio's schema current, and should the stale `dataset: 'test'` in `sanity.cli.ts` be fixed (separate tooling issue)? | Phase 1 |
 | 2 | Is a Sanity organization token with Context Viewer permission acceptable to create for the test? | Phase 1 |
 | 3 | May the private evaluation corpus be uploaded to a Sanity-hosted Knowledge Base at all? | Phase 3 |
 | 4 | Is one month of the $299 tier acceptable if Phase 3 needs more than one KB? | Phase 3 |
