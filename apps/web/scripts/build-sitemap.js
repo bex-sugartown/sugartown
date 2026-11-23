@@ -23,6 +23,7 @@ import { createClient } from '@sanity/client'
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'fs'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { MIN_INDEXABLE_ITEMS } from '../src/lib/indexability.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -117,7 +118,6 @@ const PRIORITY_MAP = {
 const STATIC_ROUTES = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },
   { path: '/sitemap', priority: '0.3', changefreq: 'weekly' },
-  { path: '/platform/schema', priority: '0.2', changefreq: 'monthly' },
 ]
 
 // ─── GROQ query ─────────────────────────────────────────────────────────────
@@ -134,6 +134,8 @@ const sitemapQuery = `
     "slug": slug.current,
     _updatedAt,
     "noIndex": coalesce(seo.noIndex, false),
+    "itemCount": count(*[_type in ["article", "node", "caseStudy"] && defined(slug.current) && !(_id in path("drafts.**")) && references(^._id)]),
+    "termCount": count(*[_type == "glossaryTerm" && !(_id in path("drafts.**")) && references(^._id)]),
     "canonicalUrl": seo.canonicalUrl
   }
 `
@@ -228,9 +230,15 @@ async function main() {
   console.log(`   Found ${docs.length} published document(s) with slugs`)
 
   // Filter out noIndex documents and build URL entries
-  const indexable = docs.filter(d => !d.noIndex)
+  // #257: a tag, tool or category the site itself serves with noindex (fewer than MIN_INDEXABLE_ITEMS
+  // items) stays out of the sitemap, the same rule as TaxonomyDetailPage and ToolDetailPage.
+  const isThinTaxonomy = (d) =>
+    (d._type === 'tag' || d._type === 'tool') ? d.itemCount < MIN_INDEXABLE_ITEMS
+    : d._type === 'category' ? d.itemCount + d.termCount < MIN_INDEXABLE_ITEMS
+    : false
+  const indexable = docs.filter(d => !d.noIndex && !isThinTaxonomy(d))
   const excluded = docs.length - indexable.length
-  console.log(`   ${indexable.length} indexable, ${excluded} excluded (noIndex)\n`)
+  console.log(`   ${indexable.length} indexable, ${excluded} excluded (noIndex or under ${MIN_INDEXABLE_ITEMS} items)\n`)
 
   // Collect all URLs — deduplicate by path
   const seen = new Set()

@@ -73,6 +73,23 @@ test('first tool snapshot carries the same robots verdict as the rendered page',
   expect(snapshotNoindex, `snapshot noindex vs rendered robots "${rendered}" on ${path}`).toBe(rendered === 'noindex, follow')
 })
 
+// #257: tag pages are prerendered. A thin tag is noindex on the client (MIN_INDEXABLE_ITEMS) and its
+// snapshot must say the same; the first tag listed has the most items, so it must be indexable and carry links.
+test('first tag snapshot carries content and an indexable verdict', async ({ page, request }) => {
+  const path = await discoverFirstDetail(page, '/tags', /^\/tags\/[^/]+$/)
+  const response = await request.get(path)
+  expect(response.status()).toBe(200)
+  const html = await response.text()
+  expect(html).toMatch(/<h1>[^<]+<\/h1>/)
+  expect(html).toMatch(/<link rel="canonical" href="https:\/\/[^"]+"/)
+  const snapshotNoindex = /<meta name="robots" content="noindex, follow" \/>/.test(html)
+  await page.goto(path)
+  await page.getByRole('heading', { level: 1 }).first().waitFor()
+  await page.waitForLoadState('networkidle')
+  const rendered = await page.locator('meta[name="robots"]').getAttribute('content')
+  expect(snapshotNoindex, `snapshot noindex vs rendered robots "${rendered}" on ${path}`).toBe(rendered === 'noindex, follow')
+})
+
 test('/about serves og:image in the HTML, without client JS', async ({ request }) => {
   const response = await request.get('/about')
   const images = metaContent(await response.text(), 'og:image')

@@ -376,6 +376,16 @@ const TOOL_QUERY = `*[
   "itemCount": count(*[_type in ["article", "node", "caseStudy"] && references(^._id)])
 }`
 
+// #257: tag pages. Real content in the HTML for tags with MIN_INDEXABLE_ITEMS or more items;
+// thinner tags are written with noindex, the same verdict TaxonomyDetailPage gives on the client.
+const TAG_QUERY = `*[
+  _type == "tag" && defined(slug.current) && !(_id in path("drafts.**"))
+]{
+  _id, _type, name, "slug": slug.current, description,
+  "items": *[_type in ["article", "node", "caseStudy"] && defined(slug.current) && references(^._id)]
+    | order(coalesce(publishedAt, _createdAt) desc){ _type, title, "slug": slug.current }
+}`
+
 // #239: the site-wide fallback share image, with the fields resolveShareImage() reads.
 const SITE_SHARE_IMAGE_QUERY = `*[_type == "siteSettings"][0]{ defaultOgImage { ${SHARE_IMAGE_FIELDS} } }`
 
@@ -401,7 +411,7 @@ async function run() {
   console.log('[prerender] Fetching published content from Sanity...')
   const assets = getViteAssets()
 
-  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, projects, tools, siteSettings, siteShare] =
+  const [articles, nodes, caseStudies, releaseNotes, pagesAll, people, terms, seriesAll, projects, tools, siteSettings, siteShare, tags] =
     await Promise.all([
       client.fetch(CONTENT_QUERY('article')),
       client.fetch(CONTENT_QUERY('node')),
@@ -415,6 +425,7 @@ async function run() {
       client.fetch(TOOL_QUERY),
       client.fetch(JSONLD_SITE_SETTINGS_QUERY),
       client.fetch(SITE_SHARE_IMAGE_QUERY),
+      client.fetch(TAG_QUERY),
     ])
 
   // siteUrl on the siteSettings doc wins in generateJsonLd; fall back to the build's SITE_URL.
@@ -499,7 +510,25 @@ async function run() {
     robots: (doc.itemCount ?? 0) < MIN_INDEXABLE_ITEMS ? 'noindex, follow' : null,
   }))
 
-  const routes = [...contentRoutes, ...pageRoutes, ...personRoutes, ...termRoutes, ...seriesRoutes, ...projectRoutes, ...toolRoutes]
+  const tagRoutes = tags.map(doc => {
+    const description = doc.description || `Articles, nodes and case studies tagged ${doc.name}.`
+    const links = (doc.items || []).map(item => {
+      const href = getCanonicalPath({ docType: item._type, slug: item.slug })
+      return `<li><a href="${escAttr(href)}">${escHtml(item.title)}</a></li>`
+    })
+    return {
+      doc,
+      path: getCanonicalPath({ docType: 'tag', slug: doc.slug }),
+      title: doc.name || '',
+      description,
+      bodyHtml: [`<h1>${escHtml(doc.name)}</h1>`, `<p>${escHtml(description)}</p>`, links.length ? `<ul>\n${links.join('\n')}\n</ul>` : ''].filter(Boolean).join('\n'),
+      jsonLd: null,
+      ogType: 'website',
+      robots: (doc.items?.length ?? 0) < MIN_INDEXABLE_ITEMS ? 'noindex, follow' : null,
+    }
+  })
+
+  const routes = [...contentRoutes, ...pageRoutes, ...personRoutes, ...termRoutes, ...seriesRoutes, ...projectRoutes, ...toolRoutes, ...tagRoutes]
 
   console.log(`[prerender] Writing ${routes.length} route snapshots...`)
   let written = 0
@@ -534,6 +563,7 @@ async function run() {
   console.log(`[prerender]   glossary:     ${terms.length}`)
   console.log(`[prerender]   series:       ${seriesAll.length}`)
   console.log(`[prerender]   projects:     ${projects.length}`)
+  console.log(`[prerender]   tags:         ${tags.length} (${tagRoutes.filter(r => r.robots).length} noindex, under ${MIN_INDEXABLE_ITEMS} items)`)
   console.log(`[prerender]   tools:        ${tools.length} (${toolRoutes.filter(r => r.robots).length} noindex, under ${MIN_INDEXABLE_ITEMS} items)`)
 }
 
