@@ -52,6 +52,32 @@ Not applicable, no content piece.
 - [ ] Accordion open state styled; `styles.itemOpen` and `styles.accordionNumbered` resolved and removed from the dead-reference list — layer: DS component
 - [ ] Storybook: state stories for the components above, both themes. #251 declined static state stories (no addon for hover and pressed); confirm the approach with Bex at Phase 0 — layer: Storybook
 
+## Rendered audit (Phase 0, 2026-11-23)
+
+Headless Chromium against the local dev server, DS package rebuilt first (#254). Each row compares computed colour, background, border, box-shadow, transform, outline and text-decoration against rest. Hover and focus-visible are real events where the element could be hovered, and forced pseudo-states (CDP) where an overlapping element blocked the pointer. "Pressed" is compared with hover: no component CSS has an `:active` rule, so pressed matches hover everywhere. Light and dark gave the same result except where noted. Probe scripts were run from the session scratchpad and are not committed.
+
+| Component (page probed) | Hover | Pressed | Focus-visible | Selected or open | Notes |
+|---|---|---|---|---|---|
+| Accordion trigger (`/articles/pink-moon-and-ledger`) | light: none, dark: change | none | change | none: `aria-expanded` flips, no trigger or item style changes | open state confirmed unstyled in both themes |
+| Breadcrumb link (`/tools/aem`) | change | none | change | n/a | focus ring is rendered although `Breadcrumb.module.css` has 0 `:focus` rules, so it comes from a global rule; the issue's "no focus-visible" is true of the component's own CSS only |
+| List rowLink (`/tools/aem-assets`) | change | none | change | n/a | same: focus ring rendered with 0 `:focus` rules in `List.module.css` |
+| Card titleLink (`/articles`) | change | none | change | n/a | |
+| Citation marker and backLink (`/articles/pink-moon-and-ledger`) | change | none | change | n/a | |
+| FilterBar clear-all | change | none | change | n/a | |
+| FilterBar option label and checkbox | none on the label or checkbox | none | change on the checkbox | checked styled in CSS (`.optionCheckbox:checked`), not probed | CSS hover targets the child `.optionName`, which this probe did not read |
+| IndexCell (`/glossary`) | change | none | change | not probed | |
+| MediaLabel (`/about`) | none | none | change | n/a | CSS hover only reveals `.detail` inside a media query |
+| Input, Textarea (`/contact`) | none | none | change | n/a | mouse-down moves focus, so a "pressed" change on these is the focus style, not a pressed state |
+| Sidebar toggle (`/about`, 375px) | not probed | not probed | not probed | not probed | the `summary` toggle is `display: flex` inside an `aside` that computes `display: none` at 375px on `/about`; needs a page where the mobile toggle is visible |
+| Field | n/a | n/a | n/a | n/a | wrapper with no interactive element of its own; nothing to add |
+
+Findings that change the scope:
+
+- Pressed is missing on all eleven interactive rows. That is the one gap that is the same everywhere.
+- Hover is missing on Accordion (light), FilterBar option, MediaLabel, Input and Textarea.
+- Focus-visible renders on every component probed, so the "no focus-visible" gaps on Breadcrumb and List are not user-visible. Scope item 4 narrows to hover on Input and Textarea, hover on Sidebar and the Accordion light-theme hover. The Phase 0 vspec decides whether Breadcrumb and List should own their ring instead of inheriting one.
+- The Sidebar mobile toggle and `SidebarNav` still need a probe on the right page before the vspec.
+
 ## Phases
 
 | Phase | Ships | Scope items | Gate |
