@@ -17,7 +17,7 @@ Settle whether a content-delivery LLM needs retrieval infrastructure, using a sm
 
 ## Objective
 
-After this epic there is a findings record that answers Open Decision 2 with evidence: which of plain-text context, a client-side index, Sanity embeddings, or hosted search meets the grounding bar, at what cost. The epic touches tooling and a findings document only. It changes no Sanity schema, GROQ query or React component, and publishes nothing.
+After this epic there is a findings record that answers Open Decision 2 with evidence: which of plain-text context, a client-side index, Sanity embeddings, hosted search, or Sanity Context (hosted, read-only MCP retrieval) meets the grounding bar, at what cost. The epic touches tooling and a findings document only. It changes no Sanity schema, GROQ query or React component, and publishes nothing.
 
 ## Metadata plan
 
@@ -28,6 +28,7 @@ Not applicable, no content piece.
 - [ ] Use the `sugartown-prototype-writer` skill to write a time-boxed prototype brief naming the one claim under test — layer: tooling
 - [ ] Build a fixed test set: 30 questions, 10 out-of-scope questions, 3 restricted-tier canaries — layer: tooling
 - [ ] Run each candidate retrieval method against the set and record grounding, "not covered" behaviour and cost — layer: tooling
+- [ ] Run Sanity Context as a candidate in phases per `docs/briefs/st-194-sanity-context-brief.md`: Phases 1 and 2 on public Sugartown content only; Phase 3 (private corpus) only after Bex approves third-party data handling — layer: tooling
 - [ ] Write the findings record and update Open Decision 2 in the PRD — layer: docs
 
 ## Phases
@@ -42,6 +43,7 @@ Single phase.
 - [ ] The model never scores or recommends; a check confirms it
 - [ ] Findings record states the recommended method and the cost of each rejected one
 - [ ] No client name or confidential detail appears in any file committed to this repo
+- [ ] Sanity Context's run records the plan tier used, chunk count and per-run cost, and states whether the private corpus was ever uploaded to it
 
 ## Human QA Walkthrough — example local pages
 
@@ -52,7 +54,8 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **Content Write Gate:** does not fire; nothing is written to Sanity.
 - **Schema changes:** none.
 - **Upstream dependencies:** none blocking. Informs #195 and #196.
-- **Confidentiality:** corpus and results stay in the private project's repo. Only a generic findings summary comes back here.
+- **Sanity Context brief:** `docs/briefs/st-194-sanity-context-brief.md` holds the architecture diagram, benefits, risks, claims to verify and phase plan. Added 2026-11-23.
+- **Confidentiality:** corpus and results stay in the private project's repo. Sanity Context is a third-party host, so the private corpus does not go to it without Bex's explicit approval (brief risk R1). Only a generic findings summary comes back here.
 - **Activation audit:** read the PRD §3 prototype rules, and the private project's rules file for its confidentiality tiers, before building.
 
 ## Model & Mode [REQUIRED]

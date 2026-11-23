@@ -19,6 +19,7 @@ Files that map to a live `project` doc are prefixed with that project's ID: `PRO
 | [ia-brief.md](ia-brief.md) | Information architecture — routing, navigation, content types, archive setup, phase gates | N/A — site-wide constraint, not a single project | Locked (2026-02-26) |
 | [ai-ethics-and-operations.md](ai-ethics-and-operations.md) | AI ethics policy — 12 operating principles, accountability, transparency, bias, attribution | N/A — policy, not a project | Active (review June 2026) |
 | [PROJ-005-monorepo-prd.md](PROJ-005-monorepo-prd.md) | Monorepo consolidation — MACH alignment, CMS portability, pnpm/Turbo architecture | **PROJ-005** (Mini-repo) | Complete (implemented) |
+| [st-194-sanity-context-brief.md](st-194-sanity-context-brief.md) | ST-194 prototype input: Sanity Context as a retrieval candidate, architecture diagram, benefits, risks, phased test plan | N/A — prototype input to ST-194, not a project | Draft (2026-11-23) |
 | [platform-evolution-prd.md](platform-evolution-prd.md) | Platform-wide evolution strategy — spans multiple projects (references PROJ-005 directly) | N/A — umbrella strategy doc, not a single project | Active |
 | [PROJ-002-resume-factory-prd.md](PROJ-002-resume-factory-prd.md) | Resume Factory v3 — Sanity + React migration from Python/CSV, slot/variant data model, PDF/MD/HTML export | **PROJ-002** (The Resume Factory) | Not started |
 | [sugartown-mcp-prd.md](sugartown-mcp-prd.md) | Sugartown MCP Server | Gap — no matching `project` doc exists yet | Draft |
