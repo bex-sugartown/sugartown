@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-258 — Inbound Visibility E1.7: JSON-LD schema cleanup
 **Issue:** [#258](https://github.com/bex-sugartown/sugartown/issues/258)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** no
@@ -72,3 +72,39 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **GitHub:** [#258](https://github.com/bex-sugartown/sugartown/issues/258). Blocked on #256.
 - **Shipped context:** #82, #212 (prerender JSON-LD), #239
 - **Epic template:** `docs/epic-template.md`
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] `/about` Person: no `mailto:` in `sameAs` (3 https URLs), `alternateName` is Bex and Becky Head: built HTML checked, and `tests/smoke/prerender-jsonld.spec.ts` (new test passes).
+- [x] Article JSON-LD `image` is a fully qualified URL: built article HTML and a new smoke test. It reuses the og:image resolver (`resolveShareImage`, stamped copy first), through `seoShareImageUrl` in the browser and `imageUrlOf` in the prerender.
+- [ ] Schema.org validator reports no errors on `/about` and one article: post-ship check (validator.schema.org reads the live URL).
+- [x] `/services` type: it was typed ProfilePage by `PROFILE_PAGE_SLUGS`; now a WebPage (smoke test).
+- [x] Content Write Gate: proposal approved, written to a draft, then published on Bex's separate instruction (`person-bex`: website link to the bare host, expertise plus Design Systems and Governance).
+- [x] `pnpm test:smoke`: 60 passed. Deploy preview checked before production: done at ship.
+
+### What didn't work
+
+The plan said `name` should be Becky Head. The page shows Becky Alice Head, and structured data has to match visible text, so `name` stays and Becky Head went into `alternateName`. No correction commit.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| `knowsAbout` has no CMS or DAM topic: no category exists for them | implementation | declined: adding one is a site-wide taxonomy decision, not a JSON-LD fix |
+| Chromatic pass for the four page files touched | workflow-docs | deferred to ship (see below) |
+
+<!-- Chromatic: pending -->
+
+### Friction line
+
+none
+
+## Post-ship checks
+
+- After deploy and a rebuild: open validator.schema.org, choose Fetch URL, and check `https://sugartown.io/about` and one article for zero errors.
+- Chromatic is deferred to the ship step: the diff touches `ArticlePage`, `NodePage`, `ReleaseNotePage` and `CaseStudyPage` JSX with no visual change.
+- Log the deploy date in the Inbound Visibility report Change log (plan rule 4).
