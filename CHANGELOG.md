@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Tag pages with three or more posts now carry their content in the HTML, the 28 thinner tags are marked noindex and left out of the sitemap, and two old roadmap URLs redirect to their current pages. (#257; 36 of 64 tags indexable, sitemap 194 URLs with no noindex or redirect entries, smoke 57 passed, Search Console resubmit after deploy)
 - The homepage and the six archive pages now carry their title, description and canonical in the HTML itself, and unknown URLs return a real 404 instead of 200. (#256; smoke 56 passed, 404 check after deploy, homepage title and four page descriptions are drafts awaiting publish)
 - The old `/home` URL now redirects to the homepage, so the homepage answers on one URL; `www` and `http` already redirected to sugartown.io. (#255; smoke 49 passed, live check after deploy)
 - ST-95's liveness-probe kill-criterion verdict is recorded: the probes caught nothing a human would not have, they stay for now, next check 2026-12-30, and #96 and #97 are cancelled. (#134; verdict in `docs/shipped/ST-95-liveness-probes-only.md`, ran 11 days late)

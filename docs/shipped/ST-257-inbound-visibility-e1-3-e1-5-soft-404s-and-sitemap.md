@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-257 — Inbound Visibility E1.3 + E1.5: soft 404 rule and a clean sitemap
 **Issue:** [#257](https://github.com/bex-sugartown/sugartown/issues/257)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** no
@@ -79,3 +79,56 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 
 - **GitHub:** [#257](https://github.com/bex-sugartown/sugartown/issues/257). Blocked on #256.
 - **Epic template:** `docs/epic-template.md`
+
+---
+
+## Decisions (Bex, 2026-11-23)
+
+Measured with Sanity queries on 2026-11-23: 64 tags, 36 with 3 or more posts, 28 with fewer (4 with none).
+
+| Class (Search Console count) | Decision | Mechanism |
+|---|---|---|
+| 19 `/tags/` soft 404s | D3: keep 3+ posts (36 tags) with real prerendered content; noindex the other 28 and drop them from the sitemap | `TAG_QUERY` and tag routes in `prerender-content.mjs`; `isThinTaxonomy` in `build-sitemap.js` |
+| 5 `/nodes/` URLs (4 pages, one trailing-slash duplicate) | Live nodes. Keep. The trailing-slash form already 301s to the bare path | none |
+| `/series/release-notes` | Not a series in Sanity (5 series exist, none is release-notes). Retire: returns 404 once #256's edge function is live | none (#256) |
+| `/knowledge-graph-roadmap/` | 301 to `/nodes/knowledge-graph-roadmap` | `STRUCTURAL_REDIRECTS` in `build-redirects.js` |
+| `/sugartown-platform-roadmap/` | 301 to `/platform` | `STRUCTURAL_REDIRECTS` in `build-redirects.js` |
+
+The 19 individual tag URLs were not in the files this epic was written from, so the per-URL list is not recorded: the rule covers all tags by post count.
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] Every one of the 27 URLs has a decision: by class, table above.
+- [ ] Retired URLs return 404 or 410: `/series/release-notes` is 404 only once #256's edge function runs on Netlify. Post-ship check.
+- [x] Sitemap lists only indexable URLs: built `dist/sitemap.xml` has 194 URLs; 36 tag URLs; no URL carries a robots noindex tag and none is a redirect source (script check, 2026-11-23). `/platform/schema` (a redirect) removed from the static list.
+- [x] The sitemap lists the two unindexed articles: `core-web-vitals-dont-belong-to-frontend` and `site-that-built-itself` each appear once.
+- [ ] Search Console shows `/sitemap.xml` resubmitted and no `/sitemap` entry: Bex, after deploy. Steps in Post-ship checks.
+- [ ] Netlify deploy preview checked before production: done at ship.
+
+`pnpm test:smoke`: 57 passed (new: first tag snapshot has content, canonical, and the same robots verdict as the rendered page).
+
+### What didn't work
+
+The first sitemap count showed 39 tag URLs, not 36: the item count included draft documents that reference a tag. Fixed by excluding drafts in the count (`!(_id in path("drafts.**"))`).
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Taxonomy index pages (/tags, /categories, /projects, /people, /tools) and /glossary ship shell metadata | implementation | declined: they set no SEO of their own; not a soft 404 source |
+| Per-URL list of the 19 soft-404 tags was never saved | workflow-docs | declined: the rule is by post count, so the list is not needed to act |
+
+### Friction line
+
+The soft 404 list in the plan named classes and counts but not the URLs, so the decision table is by class, and the draft-document count bug only showed because the tag total was compared against the post-count total.
+
+## Post-ship checks
+
+- After deploy: `curl -sI https://sugartown.io/series/release-notes` returns 404, and `curl -sI https://sugartown.io/knowledge-graph-roadmap/` returns 301 to `/nodes/knowledge-graph-roadmap`.
+- After deploy: `grep -c "<loc>" ` on `https://sugartown.io/sitemap.xml` is about 195, and a thin tag such as `/tags/ats` has `noindex, follow` in its HTML.
+- Bex, Search Console: open each of the two articles in URL Inspection and request indexing (`/articles/core-web-vitals-dont-belong-to-frontend`, `/articles/site-that-built-itself`).
+- Bex, Search Console: Sitemaps, resubmit `sitemap.xml`, and remove the `sitemap` entry that shows 1 error (it is the site's HTML page, not an XML file).
+- One week after deploy: read the Pages report for soft 404 and not-indexed counts. Do not click Validate Fix until #255, #256 and this epic are live (plan step E1.8).
+- Log the deploy date in the Inbound Visibility report Change log (plan rule 4).
