@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-255 — Inbound Visibility E1.1: one canonical host
 **Issue:** [#255](https://github.com/bex-sugartown/sugartown/issues/255)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** no
@@ -70,3 +70,37 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **GitHub:** [#255](https://github.com/bex-sugartown/sugartown/issues/255)
 - **Shipped context:** #127 (prerender trailing-slash canonical), #239 (og:image, E1.6, done)
 - **Epic template:** `docs/epic-template.md`
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] `www` 301 to the bare host: already true before this epic (`curl -sI https://www.sugartown.io/` returned 301 to `https://sugartown.io/`, 2026-11-23). No change made.
+- [x] `/home` 301 to `/`: rule added to `STRUCTURAL_REDIRECTS` in `apps/web/scripts/build-redirects.js` (1c3f3afc); the generator run locally wrote `/home  /  301`. Live check moves to Post-ship checks.
+- [ ] Canonical on the homepage, one article and one node: the article is correct (bare host). The homepage raw HTML has no canonical tag because it ships as an empty shell. Moved to #256 (prerender of `/`).
+- [ ] URL Inspection shows the bare host as canonical for all three homepage URLs: post-ship check.
+- [ ] Deploy preview checked before production: done at ship.
+
+`pnpm test:smoke`: 49 passed (2026-11-23).
+
+### What didn't work
+
+Scope assumed a host redirect was missing. A curl probe found it already live, so Scope shrank to the `/home` rule.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Homepage raw HTML has no canonical tag | implementation | #256 (already in its scope) |
+
+### Friction line
+
+none
+
+## Post-ship checks
+
+- After deploy: `curl -sI https://sugartown.io/home` returns 301 with `location: /`.
+- One week after deploy: Search Console URL Inspection on `www.sugartown.io/`, `sugartown.io/` and `/home` names the bare host as canonical.
+- Log the deploy date in the Inbound Visibility report Change log (plan rule 4).

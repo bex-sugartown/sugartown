@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The old `/home` URL now redirects to the homepage, so the homepage answers on one URL; `www` and `http` already redirected to sugartown.io. (#255; smoke 49 passed, live check after deploy)
 - ST-95's liveness-probe kill-criterion verdict is recorded: the probes caught nothing a human would not have, they stay for now, next check 2026-12-30, and #96 and #97 are cancelled. (#134; verdict in `docs/shipped/ST-95-liveness-probes-only.md`, ran 11 days late)
 - Every Storybook story is now checked for accessibility in both Pink Moon themes on every CI run, and a new violation fails the build; known contrast and target-size failures are listed rather than hidden. (#50 Phase 2; 780 of 780 pass, a planted violation fails, 49 known failures tracked in #246, carousel dots in #247; Chromatic deferred to ship)
 - CI on main is green again after the new Storybook accessibility job failed on a fresh checkout: it now builds the design system first, like the Storybook build does. (#248; run 45012058570 passed all three jobs)
