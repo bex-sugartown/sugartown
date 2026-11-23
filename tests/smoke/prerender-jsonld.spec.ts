@@ -24,6 +24,30 @@ test('/about serves ProfilePage with mainEntity in the HTML, without client JS',
   expect(graph.some((n) => n['@id'] === mainEntity['@id'] && n['@type'] === 'Person')).toBe(true)
 })
 
+// #258: sameAs lists profile URLs only, the person has alternate names, /services is not a profile page.
+test('/about Person has http(s) sameAs only and alternateName', async ({ request }) => {
+  const graph = await jsonLdIn(await request.get('/about'))
+  const person = graph.find((n) => n['@type'] === 'Person')
+  expect(person, 'Person node').toBeTruthy()
+  const sameAs = person!.sameAs as string[]
+  expect(sameAs.length).toBeGreaterThan(0)
+  for (const url of sameAs) expect(url).toMatch(/^https?:\/\/\S+$/)
+  expect(person!.alternateName as string[]).toEqual(expect.arrayContaining(['Bex', 'Becky Head']))
+})
+
+test('/services is a WebPage, not a ProfilePage', async ({ request }) => {
+  const graph = await jsonLdIn(await request.get('/services'))
+  expect(graph.some((n) => n['@type'] === 'ProfilePage')).toBe(false)
+  expect(graph.some((n) => n['@type'] === 'WebPage')).toBe(true)
+})
+
+test('first article JSON-LD carries an absolute image', async ({ page, request }) => {
+  const path = await discoverFirstDetail(page, '/articles', /^\/articles\/[^/]+$/)
+  const graph = await jsonLdIn(await request.get(path))
+  const article = graph.find((n) => n['@type'] === 'Article')
+  expect(article!.image as string).toMatch(/^https:\/\/\S+$/)
+})
+
 for (const [label, archive, pattern, type] of [
   ['article', '/articles', /^\/articles\/[^/]+$/, 'Article'],
   ['node', '/nodes', /^\/nodes\/[^/]+$/, 'Article'],

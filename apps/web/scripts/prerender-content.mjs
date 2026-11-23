@@ -432,6 +432,9 @@ async function run() {
   const site = { ...siteSettings, siteUrl: siteSettings?.siteUrl || SITE_URL }
   const pages = pagesAll.filter(d => !RESERVED_PAGE_SLUGS.has(d.slug))
 
+  // #258: the same share image as og:image, as `image` on Article and CreativeWork JSON-LD.
+  const imageUrlOf = (doc) => shareImageTags(resolveShareImage(doc, siteShare), urlFor)?.url ?? null
+
   const contentRoutes = [
     ...articles, ...nodes, ...caseStudies, ...releaseNotes,
   ].map(doc => ({
@@ -440,7 +443,7 @@ async function run() {
     title: doc.title || '',
     description: doc.description || '',
     bodyHtml: sectionsToHtml(doc.sections),
-    jsonLd: generateJsonLd(doc, site),
+    jsonLd: generateJsonLd(doc, site, { imageUrl: imageUrlOf(doc) }),
     ogType: 'article',
   }))
 

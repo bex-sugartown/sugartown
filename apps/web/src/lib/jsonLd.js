@@ -62,13 +62,14 @@ function buildAuthorRef(person, base) {
   }
 }
 
-function buildArticle(doc, base) {
+function buildArticle(doc, base, imageUrl) {
   const slug = resolveSlug(doc.slug)
   const path = slug ? getCanonicalPath({ docType: doc._type, slug }) : null
   const authors = (doc.authors || []).map(a => buildAuthorRef(a, base))
   return {
     '@type': 'Article',
     headline: doc.title,
+    ...(imageUrl ? { image: imageUrl } : {}),
     ...(doc.excerpt ? { description: doc.excerpt } : {}),
     ...(path ? { url: `${base}${path}` } : {}),
     ...(doc.publishedAt ? { datePublished: doc.publishedAt } : {}),
@@ -80,16 +81,34 @@ function buildArticle(doc, base) {
   }
 }
 
+/**
+ * Other names the person is found under: the short name (Bex) and first name plus surname when the
+ * full name has a middle name (Becky Alice Head gives Becky Head). `name` stays the name the page
+ * shows, so structured data matches the visible text.
+ */
+export function personAlternateNames(doc) {
+  const full = (doc.name || '').trim()
+  const parts = full.split(/\s+/).filter(Boolean)
+  const firstLast = parts.length > 2 ? `${parts[0]} ${parts[parts.length - 1]}` : null
+  return [...new Set([doc.shortName, firstLast].map(v => (v || '').trim()).filter(v => v && v !== full))]
+}
+
 function buildPerson(doc, base) {
   const slug = resolveSlug(doc.slug)
   const path = slug ? getCanonicalPath({ docType: 'person', slug }) : null
-  const sameAs = (doc.socialLinks || []).map(l => l.url).filter(Boolean)
+  // #258: sameAs holds profile URLs only. A mailto: or a bare address is not a profile, and Sanity
+  // values can carry stray whitespace.
+  const sameAs = [...new Set((doc.socialLinks || [])
+    .map(l => (l.url || '').trim())
+    .filter(u => /^https?:\/\//i.test(u)))]
+  const alternateName = personAlternateNames(doc)
   const imageUrl = doc.image?.asset?.url ?? null
   const id = path ? `${base}${path}/#person` : undefined
   return {
     '@type': 'Person',
     ...(id ? { '@id': id } : {}),
     name: doc.name,
+    ...(alternateName.length ? { alternateName } : {}),
     ...(doc.headline ? { description: doc.headline } : {}),
     ...(doc.titles?.[0] ? { jobTitle: doc.titles[0] } : {}),
     ...(path ? { url: `${base}${path}` } : {}),
@@ -100,15 +119,17 @@ function buildPerson(doc, base) {
   }
 }
 
-const PROFILE_PAGE_SLUGS = new Set(['about', 'services'])
+// #258: /services is a WebPage. Only /about is a profile page, because its mainEntity is the person.
+const PROFILE_PAGE_SLUGS = new Set(['about'])
 
-function buildCreativeWork(doc, base) {
+function buildCreativeWork(doc, base, imageUrl) {
   const slug = resolveSlug(doc.slug)
   const path = slug ? getCanonicalPath({ docType: doc._type, slug }) : null
   const authors = (doc.authors || []).map(a => buildAuthorRef(a, base))
   return {
     '@type': 'CreativeWork',
     name: doc.title,
+    ...(imageUrl ? { image: imageUrl } : {}),
     ...(doc.excerpt ? { description: doc.excerpt } : {}),
     ...(path ? { url: `${base}${path}` } : {}),
     ...(doc.publishedAt ? { datePublished: doc.publishedAt } : {}),
@@ -231,8 +252,9 @@ export function generateDefinedTermJsonLd(term, siteSettings) {
  * Returns a single JSON-LD object with @context and @graph.
  * Pass directly as the jsonLd prop on SeoHead.
  * Pass doc=null for pages without a specific content document.
+ * `imageUrl` (optional): the page's share image URL, added as `image` on Article and CreativeWork (#258).
  */
-export function generateJsonLd(doc, siteSettings) {
+export function generateJsonLd(doc, siteSettings, { imageUrl = null } = {}) {
   const base = siteBase(siteSettings)
   const graph = [
     buildOrganization(siteSettings, base),
@@ -245,10 +267,10 @@ export function generateJsonLd(doc, siteSettings) {
       case 'article':
       case 'releaseNote':
       case 'node':
-        pageSchema = buildArticle(doc, base)
+        pageSchema = buildArticle(doc, base, imageUrl)
         break
       case 'caseStudy':
-        pageSchema = buildCreativeWork(doc, base)
+        pageSchema = buildCreativeWork(doc, base, imageUrl)
         break
       case 'person':
         pageSchema = buildPerson(doc, base)

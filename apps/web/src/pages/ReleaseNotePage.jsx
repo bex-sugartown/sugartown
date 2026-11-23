@@ -13,6 +13,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
+import { seoShareImageUrl } from '../lib/shareImageUrl'
 import { extractLeadHero } from '../lib/heroUtils'
 import { setPreviewDoc } from '../lib/previewDoc'
 import { CitationNote, CitationZone } from '../design-system'
@@ -46,7 +47,7 @@ export default function ReleaseNotePage() {
 
   return (
     <main>
-      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(note, siteSettings)} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(note, siteSettings, { imageUrl: seoShareImageUrl(seo) })} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: note.publishedAt }} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 

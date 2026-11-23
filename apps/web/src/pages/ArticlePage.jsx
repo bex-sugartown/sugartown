@@ -16,6 +16,7 @@ import { resolveSeo } from '../lib/seo'
 import { urlFor } from '../lib/sanity'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
+import { seoShareImageUrl } from '../lib/shareImageUrl'
 import { extractLeadHero } from '../lib/heroUtils'
 import { useState, useEffect } from 'react'
 import { setPreviewDoc } from '../lib/previewDoc'
@@ -103,7 +104,7 @@ export default function ArticlePage() {
 
   return (
     <main>
-      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(post, siteSettings)} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(post, siteSettings, { imageUrl: seoShareImageUrl(seo) })} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: post.publishedAt, updatedAt: post.updatedAt, status: post.status, readingTime: post.readingTime }} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 

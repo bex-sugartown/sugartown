@@ -7,6 +7,7 @@
 export const JSONLD_PERSON_PROJECTION = `
   _id,
   name,
+  shortName,
   "slug": slug.current,
   titles,
   headline,

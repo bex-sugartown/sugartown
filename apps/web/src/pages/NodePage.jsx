@@ -11,6 +11,7 @@ import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
 import { getArchivePath } from '../lib/routes'
 import { generateJsonLd } from '../lib/jsonLd'
+import { seoShareImageUrl } from '../lib/shareImageUrl'
 import { extractLeadHero } from '../lib/heroUtils'
 import { CitationNote, CitationZone } from '../design-system'
 import SeoHead from '../components/SeoHead'
@@ -45,7 +46,7 @@ export default function NodePage() {
 
   return (
     <main>
-      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(node, siteSettings)} />
+      <SeoHead seo={seo} heroImageUrl={heroImageUrl} jsonLd={generateJsonLd(node, siteSettings, { imageUrl: seoShareImageUrl(seo) })} />
       {leadHero && <PageSections sections={[leadHero]} docMeta={{ date: node.publishedAt, updatedAt: node.updatedAt, status: node.status, readingTime: node.readingTime }} />}
       <div className={styles.detailPage} data-has-margin={showMargin || undefined}>
 
