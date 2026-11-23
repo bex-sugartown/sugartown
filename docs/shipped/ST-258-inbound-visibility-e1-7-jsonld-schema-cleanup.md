@@ -95,7 +95,8 @@ The plan said `name` should be Becky Head. The page shows Becky Alice Head, and 
 | Follow-up | Kind | Where it went |
 |---|---|---|
 | `knowsAbout` has no CMS or DAM topic: no category exists for them | implementation | declined: adding one is a site-wide taxonomy decision, not a JSON-LD fix |
-| Chromatic pass for the four page files touched | workflow-docs | deferred to ship (see below) |
+
+Chromatic is deferred to ship, not a follow-up.
 
 <!-- Chromatic: pending -->
 
