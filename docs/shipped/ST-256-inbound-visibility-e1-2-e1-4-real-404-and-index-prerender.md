@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-256 — Inbound Visibility E1.2 + E1.4: real 404 and prerendered home and index routes
 **Issue:** [#256](https://github.com/bex-sugartown/sugartown/issues/256)
-**Status:** Backlog
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** no
@@ -79,3 +79,39 @@ Not applicable — no shared CSS, token, or multi-page component changes.
 - **GitHub:** [#256](https://github.com/bex-sugartown/sugartown/issues/256). Blocked on #255.
 - **Shipped context:** #239 (og:image, E1.6), #82 and #212 (prerender JSON-LD), SUG-251
 - **Epic template:** `docs/epic-template.md`
+
+---
+
+## Close-out review
+
+### Acceptance criteria
+
+- [x] Title, description, canonical and H1 in raw HTML on `/` and the six archive pages: built output checked with grep and `tests/smoke/prerender-index-routes.spec.ts` (7 passed). `/about`, `/cv-resume`, `/contact` and the case study were already prerendered as page and case-study routes. Their descriptions are drafts, see below.
+- [ ] `curl -sI https://sugartown.io/zz-not-a-page` returns 404: post-ship check. The edge function logic has 7 unit tests (`node --test apps/web/netlify/edge-functions/lib/routeStatus.test.mjs`), but the function itself only runs on Netlify.
+- [ ] 200 for `/tags`, `/categories`, `/articles`, `/platform/cms`, `/sitemap`: post-ship check.
+- [x] Valid-route list covers every `App.jsx` route: `build-route-manifest.mjs` reads the routes from `App.jsx` and fails the build on a `/<prefix>/:slug` route it cannot classify. Built manifest: 27 static routes, 11 root pages, 11 slug prefixes.
+- [x] Descriptions proposal approved before any patch (Content Write Gate, 2026-11-23); written to drafts only for `home`, `about`, `cv-resume`, `contact`. **Not published.** Live result moves to Post-ship checks.
+- [x] `pnpm test:smoke`: 56 passed. Deploy preview checked before production: done at ship.
+
+### What didn't work
+
+Scope listed the case study description as work. It already builds from its excerpt in auto mode, so no change was needed. The homepage title problem was not a missing title: `seo.autoGenerate` was on for every page, so the typed SEO title was ignored.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| The `about` page SEO title is ignored (autoGenerate on), and is 78 chars with an em dash | implementation | declined: not in scope, `about` ranks below the homepage and its description is fixed here |
+| Taxonomy index pages (/tags, /categories, /projects, /people, /tools) and /glossary still ship the shell metadata | implementation | declined here: they set no SEO of their own; decided with the tag rule in #257 |
+| Homepage hero in `<noscript>` only, to avoid CLS while #213 watches it | implementation | none needed: recorded in the script header |
+
+### Friction line
+
+none
+
+## Post-ship checks
+
+- Netlify deploy preview: confirm the edge function ran. `curl -sI <preview>/zz-not-a-page` returns 404 and `curl -sI <preview>/tags` returns 200. If the function did not run, the directory location (`apps/web/netlify/edge-functions`, relative to the Netlify base) is the first thing to check.
+- Check `_redirects` rules still 301 through the function, for example `/tag/figma`.
+- After Bex publishes the four drafts and the site is redeployed: `curl -s https://sugartown.io/ | grep "<title>"` shows the new title, and `/about`, `/cv-resume`, `/contact` carry their new descriptions.
+- Log the deploy date in the Inbound Visibility report Change log (plan rule 4).
