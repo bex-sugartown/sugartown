@@ -64,3 +64,60 @@ for (const theme of ['light', 'dark'] as Theme[]) {
     })
   }
 }
+
+// ST-252: the same contract for links, rows, disclosures and cards. Pressed is the inset shade on
+// rows, cards and toggles ('shade') or a heavier underline on text links ('underline'). Each
+// surface also draws the DS focus ring. Not covered here: the citation marker and back-link and the
+// FilterBar option (no hoverable target on the pages tried), Sidebar and SidebarNav (not visible on any page tried);
+// those were checked with forced pseudo-states in the rendered probe.
+type Pressed = 'shade' | 'underline'
+type Surface252 = { name: string; path: string; selector: string; box?: string; pressed: Pressed }
+
+const A = '/articles/pink-moon-and-ledger'
+const SURFACES_252: Surface252[] = [
+  { name: 'Accordion trigger', path: A, selector: 'button[class*="Accordion-module__trigger"]', pressed: 'shade' },
+  { name: 'Breadcrumb link', path: '/tools/aem', selector: 'a[class*="Breadcrumb-module__link"]', pressed: 'underline' },
+  { name: 'List row', path: '/tools/aem-assets', selector: 'a[class*="List-module__rowLink"]', pressed: 'shade' },
+  { name: 'Card', path: '/articles', selector: 'a[class*="Card-module__titleLink"]', box: '[class*="Card-module__card"]', pressed: 'shade' },
+  { name: 'IndexCell', path: '/glossary', selector: '[class*="IndexCell-module__cell"]', pressed: 'shade' },
+]
+
+const snap = (el: Locator) =>
+  el.evaluate((e) => {
+    const c = getComputedStyle(e)
+    return { boxShadow: c.boxShadow, thickness: c.textDecorationThickness, bg: c.backgroundColor }
+  })
+
+for (const theme of ['light', 'dark'] as Theme[]) {
+  for (const s of SURFACES_252) {
+    test(`states (${theme}): ${s.name} shows pressed and a focus ring`, async ({ page }) => {
+      await applyTheme(page, theme)
+      await page.goto(s.path)
+      await page.waitForLoadState('networkidle')
+      await assertTheme(page, theme)
+      const el = page.locator(s.selector).locator('visible=true').first()
+      const box = s.box ? el.locator(`xpath=ancestor::*[contains(@class,"${s.box.slice(s.box.indexOf('"') + 1, -2)}")][1]`) : el
+      await el.evaluate((e) => e.scrollIntoView({ block: 'center', behavior: 'instant' }))
+      await page.waitForTimeout(400) // smooth-scroll and sticky header settle before the pointer lands
+      // Press on the interactive element itself: the card's body is not the link.
+      const bb = await (s.box ? el : box).boundingBox()
+      if (!bb) throw new Error('no box for ' + s.name)
+      await el.hover({ position: { x: Math.min(bb.width / 2, 40), y: bb.height / 2 } }) // actionability scrolls inner containers
+      await page.waitForTimeout(300) // hover transitions settle
+      const hover = await snap(box)
+      await page.mouse.down()
+      if (s.pressed === 'shade') await expect.poll(async () => (await snap(box)).boxShadow, { message: 'pressed shade' }).toMatch(/inset/)
+      if (s.pressed === 'underline') await expect.poll(async () => (await snap(el)).thickness, { message: 'pressed underline' }).not.toBe(hover.thickness)
+      // Release away from the element: a click would navigate or toggle.
+      await page.mouse.move(0, 0)
+      await page.mouse.up()
+
+      const target = el
+      await page.keyboard.press('Tab') // keyboard modality, so :focus-visible applies to the focus below
+      await target.focus()
+      // Card draws its ring on the title link's ::after, which covers the card.
+      const outline = await target.evaluate((e, pseudo) => getComputedStyle(e, pseudo).outlineStyle, s.name === 'Card' ? '::after' : null)
+      expect(outline, 'DS focus ring').toBe('solid')
+    })
+  }
+}
