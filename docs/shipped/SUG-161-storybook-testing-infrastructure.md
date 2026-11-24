@@ -98,7 +98,7 @@ The addon is installed (Phase 2). Add coverage to the existing Vitest run and wr
 
 ## Close-out review
 
-<!-- Chromatic: pending. Stories changed (play functions only, no visual change); deferred to /ship by Bex, 2026-11-22. Expect no new diffs from this epic. -->
+<!-- Chromatic: done. Build 119 accepted by Bex, 2026-11-24 (deferred from 2026-11-22). -->
 
 ### Acceptance criteria
 

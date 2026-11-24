@@ -93,7 +93,7 @@ Not applicable, no content piece.
 
 ## Close-out review
 
-<!-- Chromatic: pending. CSS changed in Chip, Button, IconButton, SegmentedControl and FilterStrip; deferred to /ship by Bex, 2026-11-22. Expect diffs on those components and the archive toolbar. -->
+<!-- Chromatic: done. Build 119 accepted by Bex, 2026-11-24 (deferred from 2026-11-22). -->
 
 ### Acceptance criteria
 
