@@ -53,9 +53,9 @@ and stick to it:
 - **(a) Merge-as-you-go** — each phase merges to `main` on completion.
 - **(b) Single close-out** — all phases accumulate on one feature branch, merging once.
 
-**Do not mix.** Merging Phase 1 and 1b while leaving 1c on a side branch is what stranded SUG-63 Phase 1c for days. At `/ship`, any branch ahead of `main` belonging to an (a)-strategy epic is resolved — merged, held with a stated reason, or abandoned — before it runs. (Renamed from `/eod`, 2026-08-19.)
+**Do not mix.** Merging Phase 1 and 1b while leaving 1c on a side branch is what stranded SUG-63 Phase 1c for days. At `/st-ship`, any branch ahead of `main` belonging to an (a)-strategy epic is resolved — merged, held with a stated reason, or abandoned — before it runs. (Renamed from `/eod`, 2026-08-19.)
 
-**Never run `/ship --release` on a feature branch before merging.** Two epics mid-flight on separate branches each compute "next version" from a stale `package.json`, producing numbers that collide or silently mis-resolve at merge. A same-value bump on both sides resolves without conflict and is still wrong. Merge to `main` first. (Renamed from `/mini-release`, 2026-08-19 — the concern is identical: `package.json` is still a shared counter.)
+**Never run `/st-ship --release` on a feature branch before merging.** Two epics mid-flight on separate branches each compute "next version" from a stale `package.json`, producing numbers that collide or silently mis-resolve at merge. A same-value bump on both sides resolves without conflict and is still wrong. Merge to `main` first. (Renamed from `/mini-release`, 2026-08-19 — the concern is identical: `package.json` is still a shared counter.)
 
 ### Incomplete epic doc hard stop
 

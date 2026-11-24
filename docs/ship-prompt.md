@@ -283,7 +283,7 @@ After delivering the briefing, propose actions in this order:
      accumulating for the next release, whenever that runs.
    - **Do not push `/release`'s commit or tag.** Both end local by design
      (`docs/workflows/release-assistant-prompt.md`, Gate 5 / STEP 3D) and ship with the next
-     `/ship`. Report them as unpushed in Phase 4; that is a complete `--release` run.
+     `/st-ship`. Report them as unpushed in Phase 4; that is a complete `--release` run.
 
 8. **Publish pending release** (milestone + GitHub Release) — only if step 5 concluded `success`
    - This step is independent of whether `--release` was passed *this* run — it reacts to a
@@ -348,7 +348,7 @@ After delivering the briefing, propose actions in this order:
      exists on the remote (checked above), so this attaches the release to it rather than
      creating a new one.
      On "Skip": report the milestone as closed and the release as unpublished. The next
-     `/ship` finds the same tag and offers it again; choose Skip again to leave it.
+     `/st-ship` finds the same tag and offers it again; choose Skip again to leave it.
    - Report milestone state, assigned issue numbers, and release publish state in Phase 4.
 
 9. **Release completeness check** — always, after steps 1 to 8 (#191)
@@ -356,9 +356,9 @@ After delivering the briefing, propose actions in this order:
      notes file, tag on origin, GitHub Release, closed milestone, published Sanity `releaseNote`.
    - Exit 0: print the line `Release completeness: complete`.
    - Exit 1: print every unmet step, and the Phase 4 heading becomes "Ship incomplete: N steps
-     outstanding". Clear a step by completing it or running `/ship` again. After a `--release`
+     outstanding". Clear a step by completing it or running `/st-ship` again. After a `--release`
      run the tag, GitHub Release, milestone and Sanity steps are unmet by design until the next
-     `/ship`: list them as outstanding, do not treat them as a failure.
+     `/st-ship`: list them as outstanding, do not treat them as a failure.
    - Exit 2: the check could not run (GitHub, git or Sanity unreachable). Say so. Never report
      exit 2 as complete.
 
@@ -387,7 +387,7 @@ Netlify deploy: [triggered / not needed]
 CI run: [run ID] — [success / failure (failing step) / still running at close]
 Issues shipped (Done → Shipped): [list, or "none — CI did not conclude success" / "none — nothing was Done"]
 Post-ship checks: [passed: list / owed to Bex: list per issue / failed, kept at Done: list / none]
-Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /ship / --release passed but CI blocked it]
+Release: [--release not passed / version vX.Y.0 cut — commit + tag local, ship with next /st-ship / --release passed but CI blocked it]
 Release completeness (step 9): [complete / N steps outstanding: list / not checked, exit 2]
 Cloud refs (step 6b): [deletable, not deleted: list / kept, not in main: list / none]
 Release publish (step 8): [no unpublished release tag / milestone vX.Y.0 — N issues assigned, GitHub Release published / milestone done, release skipped]
@@ -412,11 +412,11 @@ close-out steps had two commands between them before this; SUG-100 §A10 has the
 - `/morning` — open the day, check status, DO NOT push
 - Work session — commit freely; a `post-commit` hook mirrors every commit to `origin` for free,
   so disk safety no longer depends on remembering to push (SUG-100 S13)
-- `/ship` — whenever you want to ship, not on a schedule — push, verify, transition `Done` →
+- `/st-ship` — whenever you want to ship, not on a schedule — push, verify, transition `Done` →
   `Shipped`
-- `/ship --release` — the same, then cut a version covering everything since the last one;
-  the version commit and its tag stay local and ride the next `/ship`, so a ship is always one
+- `/st-ship --release` — the same, then cut a version covering everything since the last one;
+  the version commit and its tag stay local and ride the next `/st-ship`, so a ship is always one
   deploy
-- The `/ship` after that one is the run whose push actually lands the release commit and tag on
+- The `/st-ship` after that one is the run whose push actually lands the release commit and tag on
   origin — that is the run whose step 8 creates the milestone and offers to publish the GitHub
   Release (issue #107)

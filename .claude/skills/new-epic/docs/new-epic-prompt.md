@@ -151,7 +151,7 @@ The merge strategy label convention (from CLAUDE.md):
 - `(a)` → `(a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end`
 - `(b)` → `(b) Single close-out — one long-lived branch, one CHANGELOG line at the end`
 
-(Neither strategy determines when a version is cut. That happens separately at `/ship --release`,
+(Neither strategy determines when a version is cut. That happens separately at `/st-ship --release`,
 decoupled from merge strategy — SUG-100 S9, `/mini-release` retired 2026-08-19.)
 
 ```markdown

@@ -193,7 +193,7 @@ The template has a mandatory close-out sequence. Do not modify it. It must appea
 
 1. `git status` must show nothing staged or unstaged
 2. Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` section — not a version
-   bump; that happens separately at `/ship --release`, whenever it next runs, covering everything
+   bump; that happens separately at `/st-ship --release`, whenever it next runs, covering everything
    accumulated since the last release (SUG-100 S9, `/mini-release` retired 2026-08-19)
 3. Start next epic only after the CHANGELOG line and the `Done` transition are confirmed
 

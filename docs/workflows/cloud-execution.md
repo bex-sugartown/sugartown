@@ -21,7 +21,7 @@ labelled. Stop and comment.
 | `docs/drafts/` (gitignored) | If the issue needs a draft, stop and comment |
 | Sanity writes | Never write. Propose under the Content Write Gate in an issue comment |
 | A browser | No visual verification. Visual work is out of scope (§Scope) |
-| Pushing any branch but the session's own | Push only the session branch. `main` is `/ship`'s job |
+| Pushing any branch but the session's own | Push only the session branch. `main` is `/st-ship`'s job |
 | The GitHub project board (the GraphQL API is blocked) | Do not set `Status`. §Before starting says who does |
 | The `gh` CLI (not installed) | Use the GitHub MCP tools to read issues and post comments |
 
@@ -120,7 +120,7 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
    - a last line for Bex: `**Your next step:** in a local session, say "hand back {n}".`
 4. **Add the `handback-ready` label** with the GitHub MCP tool. It is how the local side finds
    the run (`/morning` lists it, `/handback` reads it). If adding it fails, say so in the comment.
-5. **Leave the issue open, at `In Progress`.** Never close it. (`/ship` sweeps every `Done`
+5. **Leave the issue open, at `In Progress`.** Never close it. (`/st-ship` sweeps every `Done`
    issue into `Shipped`, and cloud work is still on a branch.)
 
 If the comment fails, put the same content in the final session message and say that it failed.
@@ -141,7 +141,7 @@ review of the branch first (#144):
 4. Run `pnpm test:smoke` and the issue's own commands.
 5. Close the issue with the evidence comment CLAUDE.md §Issue status requires, and remove the
    `handback-ready` label.
-6. `/ship` deletes the `claude/*` session branch and its `wip/<date>-<session branch>` mirror
+6. `/st-ship` deletes the `claude/*` session branch and its `wip/<date>-<session branch>` mirror
    once `main` carrying the merge is pushed and CI is green. Never delete a `wip/<date>-main`
    branch: it is the Mac's mirror of `main`.
 

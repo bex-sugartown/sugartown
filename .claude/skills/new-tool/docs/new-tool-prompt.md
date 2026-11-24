@@ -223,7 +223,7 @@ check that all eight sections are answered. If any is missing, or contains `TODO
 
 **Close-out for a tool** is the evidence comment on the issue when it goes to `Done` (CLAUDE.md
 §Issue status, rule 3): what changed, what verified it, what didn't work, follow-ups filed (#N) or
-declined with a reason, the friction line, and any post-ship checks for `/ship` to read.
+declined with a reason, the friction line, and any post-ship checks for `/st-ship` to read.
 
 **Section 1 is the hard one.** If the reader cannot be named, the answer is not to build it and
 find a reader later. It is to close the issue.

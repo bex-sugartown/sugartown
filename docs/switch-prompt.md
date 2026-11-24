@@ -2,15 +2,15 @@
 
 **Version:** v1 (2026-06-12)
 **Run with:** Claude Code (project context required)
-**When to use:** When moving between machines (desktop ⇄ laptop) — either arriving at a machine to pick up work, or handing off before you've run `/ship`.
+**When to use:** When moving between machines (desktop ⇄ laptop) — either arriving at a machine to pick up work, or handing off before you've run `/st-ship`.
 
 ---
 
 ## What this prompt does
 
-Keeps the same Sugartown repo in sync across two machines. It is the mirror of `/ship`:
+Keeps the same Sugartown repo in sync across two machines. It is the mirror of `/st-ship`:
 
-- `/ship` **closes** a machine — pushes accumulated commits to `origin/main` (one Netlify deploy).
+- `/st-ship` **closes** a machine — pushes accumulated commits to `origin/main` (one Netlify deploy).
 - `/switch` **opens** the machine you're returning to, or hands off the one you're leaving mid-day.
 
 It reads first, then executes with confirmation at each step. It never force-pushes, never discards uncommitted work, and stops cold on divergence rather than guessing.
@@ -19,11 +19,11 @@ It reads first, then executes with confirmation at each step. It never force-pus
 
 ## The one rule that governs everything
 
-**Only what was pushed can be pulled.** A commit that lives only on the other machine — because that machine never ran `/ship` (or `/switch out`) — cannot be reached from here. There is no machine-to-machine link; the only shared point is `origin` on GitHub.
+**Only what was pushed can be pulled.** A commit that lives only on the other machine — because that machine never ran `/st-ship` (or `/switch out`) — cannot be reached from here. There is no machine-to-machine link; the only shared point is `origin` on GitHub.
 
 So the safe handoff order is always:
 
-1. On the machine you're **leaving** — push (via `/ship`, or `/switch out` before you're ready to ship).
+1. On the machine you're **leaving** — push (via `/st-ship`, or `/switch out` before you're ready to ship).
 2. On the machine you're **arriving at** — pull (via `/switch`, default mode).
 
 If you skip step 1, step 2 has nothing new to pull, and that work is stranded until you get back to the machine that holds it.
@@ -35,7 +35,7 @@ If you skip step 1, step 2 has nothing new to pull, and that work is stranded un
 | You type | Mode | What it does |
 |----------|------|--------------|
 | `/switch` or `/switch in` | **ARRIVE** (default) | Fetch from origin, check for danger, then fast-forward your local `main` to whatever the other machine pushed. |
-| `/switch out` or `/switch leave` | **LEAVE** | Push current work to a free `handoff/*` branch (no Netlify deploy) so the other machine can pick it up before you've run `/ship`. |
+| `/switch out` or `/switch leave` | **LEAVE** | Push current work to a free `handoff/*` branch (no Netlify deploy) so the other machine can pick it up before you've run `/st-ship`. |
 
 If the user types `/switch` with no argument, assume **ARRIVE** mode.
 
@@ -87,7 +87,7 @@ Write a short, plain-English briefing. Assume the user is not reading git output
 
 **Handoff branches:** [list any `origin/handoff/*` branches with their newest commit date, or "none"]
 
-**Sanity check for the user (plain English):** "This pulls only what the other machine pushed. The newest thing on origin is from [date]. If you did work on the other machine after that and didn't run `/ship` or `/switch out` there, it isn't here yet — go back and push it first."
+**Sanity check for the user (plain English):** "This pulls only what the other machine pushed. The newest thing on origin is from [date]. If you did work on the other machine after that and didn't run `/st-ship` or `/switch out` there, it isn't here yet — go back and push it first."
 
 Then classify the situation into exactly one of these and state which it is:
 
@@ -97,7 +97,7 @@ Then classify the situation into exactly one of these and state which it is:
 | ✅ **Already current** | local clean, N=0, M=0 | Nothing to do |
 | ⚠️ **Uncommitted local changes** | working tree dirty | No — stash or commit first, then pull |
 | 🚨 **Divergence** | M>0 **and** N>0 (both machines committed to `main`) | No — STOP, ask the user |
-| 🟡 **Local-only ahead** | M>0, N=0 | No pull needed; flag that these commits were never pushed (last session here skipped `/ship`) |
+| 🟡 **Local-only ahead** | M>0, N=0 | No pull needed; flag that these commits were never pushed (last session here skipped `/st-ship`) |
 | 🟢 **Handoff branch present** | an `origin/handoff/*` branch is ahead of `main` | Offer to merge it in (see Phase 3) |
 
 ---
@@ -147,7 +147,7 @@ After pulling, report what arrived in plain English: `git diff --stat HEAD@{1} H
 - If conflicts appear during rebase/merge, resolve them with the user one file at a time; never abandon a conflicted state (per CLAUDE.md — no unresolved merge left at session end).
 
 **🟡 Local-only ahead (commits here never pushed):**
-- No pull needed. Flag it: "This machine has [M] commits that never reached origin — the last session here didn't run `/ship`." Recommend running `/ship`, or just noting it.
+- No pull needed. Flag it: "This machine has [M] commits that never reached origin — the last session here didn't run `/st-ship`." Recommend running `/st-ship`, or just noting it.
 
 **🟢 Handoff branch present:**
 - This is how a mid-day handoff is picked up. To bring a `handoff/*` branch's commits onto your local `main`:
@@ -252,11 +252,11 @@ State plainly:
    Netlify deploy: none (feature branch)
 
    On the other machine: run /switch — it'll find this branch and merge it onto main.
-   Remember: this is a parking branch, not a release. Real shipping still happens via /ship → main.
+   Remember: this is a parking branch, not a release. Real shipping still happens via /st-ship → main.
    ```
 
 **Hard rules for LEAVE:**
-- Never push to `main` in this mode — the whole point is to avoid the deploy. Pushing `main` is `/ship`'s job.
+- Never push to `main` in this mode — the whole point is to avoid the deploy. Pushing `main` is `/st-ship`'s job.
 - Never `git push --force`.
 - A `handoff/*` branch is temporary scaffolding, not shipped work. It is deleted once the other machine consumes it (Phase 3 of ARRIVE). Don't let handoff branches accumulate — flag any older than a few days during `/morning` or `/switch`.
 
@@ -264,9 +264,9 @@ State plainly:
 
 ## Why this exists
 
-The push-once-at-`/ship` model (one Netlify deploy per ship, whenever that runs — the observed interval is 1–14 days, not daily) is great for credits but means a machine's work is invisible to its sibling until that push happens. `/switch` closes that gap from both sides:
+The push-once-at-`/st-ship` model (one Netlify deploy per ship, whenever that runs — the observed interval is 1–14 days, not daily) is great for credits but means a machine's work is invisible to its sibling until that push happens. `/switch` closes that gap from both sides:
 
-- **Handoff:** `/ship` on machine A → `/switch` on machine B. Clean fast-forward.
+- **Handoff:** `/st-ship` on machine A → `/switch` on machine B. Clean fast-forward.
 - **Mid-day handoff:** `/switch out` on machine A pushes a free `handoff/*` branch → `/switch` on machine B merges it. No credits spent, no work stranded.
 
 **The full cross-machine loop:**
@@ -274,4 +274,4 @@ The push-once-at-`/ship` model (one Netlify deploy per ship, whenever that runs 
 - `/morning` — check health, start the day
 - Work — commit freely, never push
 - `/switch out` *(only if moving machines before you've shipped)* — park WIP on a free branch
-- `/ship` — push to `main` once, deploy
+- `/st-ship` — push to `main` once, deploy

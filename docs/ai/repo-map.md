@@ -54,7 +54,7 @@ path below exists; re-check with `ls` before adding one.
 | `docs/backlog/`, `docs/shipped/` | epic docs, in flight and done |
 | `docs/briefs/` | PRDs and briefs |
 | `docs/conventions/` | the fuller Sugartown conventions the shared `conventions/` files were generalised from |
-| `docs/workflows/`, `docs/ship-prompt.md` | the prompts behind `/morning`, `/ship`, `/release` |
+| `docs/workflows/`, `docs/ship-prompt.md` | the prompts behind `/morning`, `/st-ship`, `/release` |
 | `docs/ai/` | skills index, agentic-caucus, this map |
 | `docs/drafts/` | local only, gitignored |
 | `docs/conventions/project-artifacts.md` | where each project artifact lives, and how to export a project |

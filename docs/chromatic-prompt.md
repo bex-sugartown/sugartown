@@ -21,7 +21,7 @@ This is the VRT gate that lives between code changes and `origin/main`. It is ad
 - `--exit-zero-on-changes` is always passed. Visual changes are human-reviewed, not auto-failed.
 - The skill never approves baselines on the human's behalf. It reports diffs and waits.
 - If Chromatic is not configured or errors (missing token, network failure), the skill reports the error and exits — it does not silently skip.
-- The skill does not push to `origin/main`. That is `/ship`'s responsibility.
+- The skill does not push to `origin/main`. That is `/st-ship`'s responsibility.
 
 ---
 
@@ -109,7 +109,7 @@ Then ask via `AskUserQuestion`:
 Question: "New story baselines accepted in Chromatic?"
 Options:
   - "Approved — baselines accepted"
-  - "Skip — defer to /ship"
+  - "Skip — defer to /st-ship"
 ```
 
 **Case C — N visual changes (regressions or intentional diffs):**
@@ -123,7 +123,7 @@ Then ask via `AskUserQuestion`:
 Question: "All {N} visual changes reviewed in Chromatic?"
 Options:
   - "Approved — all changes reviewed"
-  - "Skip — defer to /ship"
+  - "Skip — defer to /st-ship"
 ```
 
 **Case D — Errors:**
@@ -144,7 +144,7 @@ After human replies (or if Case A with no action required), record the outcome:
 ━━━ CHROMATIC STATUS ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
   Result:   {✅ No changes | ✅ Approved | ⏸ Deferred | ❌ Error}
   Build:    #{N} — {url}
-  Action:   {No action required | Baselines accepted | Changes approved | Deferred to /ship | Build error — see above}
+  Action:   {No action required | Baselines accepted | Changes approved | Deferred to /st-ship | Build error — see above}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 

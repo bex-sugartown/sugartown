@@ -34,7 +34,7 @@ table of Pass, Warn and Block rows.
    |---|---|
    | `pnpm lint`, `pnpm typecheck`, `pnpm test:smoke`, the issue's own commands | `apps/studio/schemas/`: `pnpm validate:schema-parity`. Drift means a schema deploy, which is the close-out's step 2, done from this committed `main` |
    | | `scripts/validate-liveness-probes.js` or any ESLint config: `pnpm validate:liveness-probes` |
-   | | `*.stories.*`, CSS or component JSX: note that `/ship` runs Chromatic |
+   | | `*.stories.*`, CSS or component JSX: note that `/st-ship` runs Chromatic |
 
 4. Revert build outputs (`apps/web/public/_redirects`, `apps/web/src/data/content-models.json`).
 5. Any failure: stop, show it, and ask whether to fix locally or send it back.
@@ -52,7 +52,7 @@ table of Pass, Warn and Block rows.
 1. Comment the evidence: what merged, each check with its result, follow-ups, friction line,
    post-ship checks.
 2. `gh issue close {n}`, then `gh issue edit {n} --remove-label handback-ready`.
-3. Do not delete the cloud branch. `/ship` deletes cloud refs once they are in `origin/main`.
+3. Do not delete the cloud branch. `/st-ship` deletes cloud refs once they are in `origin/main`.
 
 ## Step 6: procedure notes
 
@@ -73,7 +73,7 @@ she must read or decide goes in a turn of its own, never beside an `AskUserQuest
 
 End with a next-step note, in the session and as the last line of the Step 5 evidence comment:
 
-> **Your next step:** run `/ship` when you want this live. It pushes the work, deletes the cloud
+> **Your next step:** run `/st-ship` when you want this live. It pushes the work, deletes the cloud
 > branch, and moves #{n} to Shipped. Nothing else is waiting on you for #{n}.
 
 If a question from Step 2 or Step 6 is still open, the note names that instead.

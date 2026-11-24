@@ -20,7 +20,7 @@
 > - STEP 3B Tone: points to `docs/brand/brand-voice-guide.md`'s Governance / ops docs register for style, applied going forward only — no rewrite of existing `docs/release-notes/` files.
 
 > **v4 → v5 changes (issue #107):**
-> - New STEP 3D: after the Gate 5 commit, create an annotated tag `vX.(Y+1).0` pointing at it. The tag stays local, exactly like the commit, and ships with whatever `/ship` pushes next.
+> - New STEP 3D: after the Gate 5 commit, create an annotated tag `vX.(Y+1).0` pointing at it. The tag stays local, exactly like the commit, and ships with whatever `/st-ship` pushes next.
 > - Milestone creation and the GitHub Release are **not** done here — `gh release create`'s own help text says a tag must be pushed to GitHub before a release can be built from it, and `/release`'s commit is local-only by design. Both now live in `docs/ship-prompt.md` PHASE 3 step 8, which runs once the release commit and tag actually reach origin.
 > - RELEASE COMPLETION CHECKLIST gained a tag line.
 > - New Enforcement Rule: `/release` must not attempt to create a milestone or GitHub Release itself.
@@ -465,20 +465,20 @@ git tag -a vX.(Y+1).0 -m "Release vX.(Y+1).0"
 ```
 
 No separate gate — tagging the commit that was just approved is the same action, not a new one.
-The tag is annotated so `/ship` PHASE 3 step 3's `git push --follow-tags` picks it up automatically
+The tag is annotated so `/st-ship` PHASE 3 step 3's `git push --follow-tags` picks it up automatically
 alongside the commit it points at.
 
 **Stop at the commit and tag. Do not push either, and do not ask whether to.** They stay
-local and ship with whatever `/ship` runs next, like any other close-out commit — pushing here
-buys a second Netlify deploy for work the `/ship` that just ran already deployed (measured
+local and ship with whatever `/st-ship` runs next, like any other close-out commit — pushing here
+buys a second Netlify deploy for work the `/st-ship` that just ran already deployed (measured
 2026-08-21, both billed; ST-103).
 
 This is the end of `/release`'s own writes. The verify-before-release ordering is unchanged:
-`/release` still runs only after `/ship` Phase 3 step 5 confirms CI succeeded.
+`/release` still runs only after `/st-ship` Phase 3 step 5 confirms CI succeeded.
 
 **Milestone assignment and the GitHub Release are not done here.** `gh release create --help`
 is explicit: a tag has to exist on GitHub before a release can be built from it, and this
-commit and tag are local-only until a future `/ship` pushes them. Both happen in
+commit and tag are local-only until a future `/st-ship` pushes them. Both happen in
 `docs/ship-prompt.md` PHASE 3 step 8, triggered once the push actually lands them on origin.
 
 ### STEP 3E — Create the Sanity Draft
@@ -549,9 +549,9 @@ Artifacts:
   ✅  CHANGELOG.md — [X.(Y+1).0] entry written, [Unreleased] reset
   ✅  RELEASE_NOTES.md — updated to vX.(Y+1).0
   ✅  docs/release-notes/RELEASE_NOTES_vX.(Y+1).0.md — archived
-  ✅  Committed: [commit hash] — local, ships with the next `/ship`
-  ✅  Tagged: vX.(Y+1).0 — local, ships with the next `/ship`
-       (milestone + GitHub Release happen later, in `/ship` PHASE 3 step 8)
+  ✅  Committed: [commit hash] — local, ships with the next `/st-ship`
+  ✅  Tagged: vX.(Y+1).0 — local, ships with the next `/st-ship`
+       (milestone + GitHub Release happen later, in `/st-ship` PHASE 3 step 8)
   ✅  Sanity draft: releaseNote vX.(Y+1).0 created, unpublished. Open Studio > Release Note > Publish.
 
 Version bumps confirmed:
@@ -560,7 +560,7 @@ Version bumps confirmed:
 
 Release completeness (`pnpm check:release`):
   [paste its output. Outstanding steps are expected here: the tag, GitHub Release, milestone
-   and published Sanity note finish in the next `/ship`.]
+   and published Sanity note finish in the next `/st-ship`.]
 
 Validators run:
   [paste final validator output here or note "not run"]
@@ -587,7 +587,7 @@ Fail if:
 - AI writes to disk before human approval at the relevant gate.
 - `/release` publishes the Sanity `releaseNote`, or writes it by any tool that rewrites content. It creates a draft and stops.
 - `/release` attempts to create a GitHub milestone or GitHub Release itself. It cannot — the tag
-  it just created is local — and must not try. That work belongs to `/ship` PHASE 3 step 8.
+  it just created is local — and must not try. That work belongs to `/st-ship` PHASE 3 step 8.
 
 If failure, output:
 
@@ -621,17 +621,17 @@ Ledger always precedes narrative.
 - Do NOT use date-only versions in the CHANGELOG header.
 - The Release Notes file header uses `vX.Y.Z` (with `v` prefix).
 - Increment guidance:
-  - `MINOR`: `/ship --release` — always `X.(Y+1).0`, aggregates all [Unreleased] changes into a single CHANGELOG entry with release notes. **There is no separate PATCH tier** — a per-epic patch bump was `/mini-release`'s job; retired 2026-08-19, SUG-100 S9. CHANGELOG lines accumulate in `[Unreleased]` until a release cuts them; nothing is versioned between releases.
+  - `MINOR`: `/st-ship --release` — always `X.(Y+1).0`, aggregates all [Unreleased] changes into a single CHANGELOG entry with release notes. **There is no separate PATCH tier** — a per-epic patch bump was `/mini-release`'s job; retired 2026-08-19, SUG-100 S9. CHANGELOG lines accumulate in `[Unreleased]` until a release cuts them; nothing is versioned between releases.
   - `MAJOR`: breaking schema changes, URL namespace changes, removed public APIs
 - When uncertain, ask the human before generating.
 
 ### Release model
 
-**One tier, 2026-08-19 — `/mini-release`'s PATCH tier retired under SUG-100 S9.** `/ship --release`
+**One tier, 2026-08-19 — `/mini-release`'s PATCH tier retired under SUG-100 S9.** `/st-ship --release`
 invokes this flow unchanged; it does not reimplement it.
 
 | Command | Version bump | CHANGELOG | Release notes |
 |---------|-------------|-----------|---------------|
-| `/release` (via `/ship --release`) | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
+| `/release` (via `/st-ship --release`) | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
 
 **[Unreleased] is the accumulation buffer.** Mini-releases do not touch CHANGELOG.md. The `[Unreleased]` section is maintained by the AI as changes ship (via epic close-out and backlog cleanup steps). When `/release` runs, it reads [Unreleased] as its primary signal, promotes the content to a MINOR entry, and resets [Unreleased] to an empty block.

@@ -70,19 +70,19 @@ Steps 1, 1b, 5c, 7, 8 and 9 always run. **The other steps from 2 to 6b fire only
 step whose trigger did not fire is recorded as N/A with the reason, never silently skipped.
 
 1. **Commit** all epic changes with a scoped message (`feat(...)`, `refactor(...)`, etc.)
-1b. **Route smoke tests, local half** — `pnpm test:smoke` passes locally before the epic reaches `Done`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks the epic from closing (SUG-240). If CI is known-red for reasons outside the epic, say so and name the tracking issue. **The CI-conclusion half moves to the ship step** — watching the pushed commit's CI run to a `success` conclusion, not stopping at "the deploy responded". That step is `/ship` Phase 3 step 5 (SUG-100 S1, consolidated 2026-08-19 — Phase 3b).
+1b. **Route smoke tests, local half** — `pnpm test:smoke` passes locally before the epic reaches `Done`. Five Playwright specs prove the app renders end-to-end, not just builds: homepage, one archive, one detail, one taxonomy route, a 404. A red suite blocks the epic from closing (SUG-240). If CI is known-red for reasons outside the epic, say so and name the tracking issue. **The CI-conclusion half moves to the ship step** — watching the pushed commit's CI run to a `success` conclusion, not stopping at "the deploy responded". That step is `/st-ship` Phase 3 step 5 (SUG-100 S1, consolidated 2026-08-19 — Phase 3b).
 2. **Deploy schema** (if epic touched `apps/studio/schemas/`) — run `npx sanity schema deploy` from `apps/studio/`. Schema changes are not live until deployed. MCP tools, the Content Lake API, and embedded Studios all validate against the deployed schema, not local code. Skipping this step causes silent write failures.
 3. **Visual QA gate (Tier 1 — stop and ask)** — wait for the literal text **"Visual QA approved"** before proceeding. The `docs/shipped/` move is blocked until it arrives. If the epic has a vspec, produce the vspec-to-build comparison table (typography, spacing, colours, layout, each flagged Match / Drift / Missing) via the design-reviewer subagent (`.claude/agents/design-reviewer.md`, `docs/conventions/vqa-workflow.md`), which runs in a fresh context with no view of the session that wrote the code. **With no vspec, and only if every visual element was verified in-browser during implementation, cite that evidence per element instead of building a table** — rows all reading "Match", assembled afterwards from checks already run, give false confidence that a fresh review happened. The gate still fires and still blocks whenever a vspec exists or *any* element went unverified at implementation time; list those elements rather than padding the table with the ones that were. **If the epic shipped a detail, archive, or entity page**, open a sibling page of the same kind (e.g. new entity page vs `/tools/vercel`) and compare shell, folio, section labels, grids, chips. Unjustified structural divergence is a Drift row.
-4. **Chromatic (Tier 1 — stop and ask)** — a push to `origin/main` touching CSS, component JSX, or Storybook stories needs one human-approved Chromatic VRT pass before it lands. Run it now, at close-out, or defer to the ship step — either is fine. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."** This is the one place the run-now-or-defer rule is defined; `/ship` executes it and may still
+4. **Chromatic (Tier 1 — stop and ask)** — a push to `origin/main` touching CSS, component JSX, or Storybook stories needs one human-approved Chromatic VRT pass before it lands. Run it now, at close-out, or defer to the ship step — either is fine. If deferred, annotate the shipped doc with `<!-- Chromatic: pending -->` and a note. Deferral is a checklist deferral only — it does not unblock the shipped/ move. **"Defer Chromatic" is not the same as "epic is closed."** This is the one place the run-now-or-defer rule is defined; `/st-ship` executes it and may still
 note its own edge cases (a misconfigured or failing Chromatic install is advisory there, not
 blocking) — but the defer decision itself is not restated (SUG-100 S3). `/mini-release` retired
-2026-08-19, absorbed into `/ship` (SUG-100 S9, S16).
+2026-08-19, absorbed into `/st-ship` (SUG-100 S9, S16).
 5. **Data pipeline gap check** — if the epic extended a build-time data pipeline (stats, CrUX, LHCI, etc.) and real data has not yet flowed through CI, document the gap in the shipped doc: what env var or cron is needed, what the expected data shape looks like, and what the current `stats.json` state represents (real vs seeded). Close-out is permitted but the gap must be explicit and visible.
 5b. **Verify handoffs landed.** If close-out defers work to another epic, open that epic's doc and confirm each deferred item is in its **Scope** — not mentioned in prose, not assumed to be "that epic's axis". Add it if missing. (SUG-230 deferred three items to SUG-231; none reached its Scope.)
 5c. **Close-out review.** Write `## Close-out review` and `## Post-ship checks` into the epic doc (`docs/epic-template.md`), then run `node scripts/check-epic-doc.js <doc> --stage close-out`. A non-zero exit blocks step 6. Every follow-up, to the implementation or to the workflow and docs, is filed as an issue or declined with a reason. Each follow-up, and each bug the work found or depends on, is also set **Relates to** the epic's issue (issue sidebar, Relationships): that is how exports and release notes find them (`docs/conventions/project-artifacts.md` §Related issues). The friction line lives here.
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
-7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. **One line, not a release-note draft.** `<SUG-N>: <what changed>, in plain outcome terms. <evidence in one trailing parenthetical, if any>.` If it needs more than one line, that belongs in the epic doc — link it, don't paste the close-out review here. (Drift observed 2026-08-08 onward: epics began writing full Keep-a-Changelog-formatted entries straight into the buffer, and nothing downstream compresses them.) The version bump is not this step's job: it happens at the ship step — `/ship --release`, which invokes `/release` rather than
+7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. **One line, not a release-note draft.** `<SUG-N>: <what changed>, in plain outcome terms. <evidence in one trailing parenthetical, if any>.` If it needs more than one line, that belongs in the epic doc — link it, don't paste the close-out review here. (Drift observed 2026-08-08 onward: epics began writing full Keep-a-Changelog-formatted entries straight into the buffer, and nothing downstream compresses them.) The version bump is not this step's job: it happens at the ship step — `/st-ship --release`, which invokes `/release` rather than
 reimplementing it (SUG-100 S9, consolidated 2026-08-19). The ship step operates on **everything currently `Done`**, not just this epic — the observed interval between ship events is 1–14 days, so scoping any step to "today's work" silently drops what accumulated on the days nobody ran it (SUG-100 S14). A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed, whether or not a version has been cut yet.
 8. **Update the tracker** — transition the epic's issue to **Done** with `gh issue close {n}` (§Issue status = workflow stage).
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
@@ -164,7 +164,7 @@ git branch --contains <commit-sha> | grep -qE '^(\*|\s)+ main$' && echo "on main
 
 Set `Shipped` **after** closing the issue, never before: the `Item closed` project workflow sets
 `Status: Done` on close, so setting `Shipped` first is silently overwritten (SUG-100 G2, proven
-live on #98, 2026-08-18 — set, persisted, reverted). `/ship` performs this transition automatically (SUG-100 Phase 3b, 2026-08-19), gated on the
+live on #98, 2026-08-18 — set, persisted, reverted). `/st-ship` performs this transition automatically (SUG-100 Phase 3b, 2026-08-19), gated on the
 pushed commit's CI run concluding `success` — a red run leaves everything `Done`, no un-`Done`.
 Full procedure: `docs/ship-prompt.md` PHASE 3 step 6.
 
@@ -202,11 +202,11 @@ executed, committed and evidenced, still reading `Todo`.
 |---|---|---|
 | Execution accepted | Issue read, first action planned, before the first `Edit`/`Write` | `In Progress` |
 | Work committed, local checks green | Committed, and whatever verifies it has passed | `Done` |
-| Live and verified | `/ship` pushes it and CI concludes `success` | `Shipped` |
+| Live and verified | `/st-ship` pushes it and CI concludes `success` | `Shipped` |
 
 Set `In Progress` by editing the project item's `Status`. Set `Done` with `gh issue close {n}`
 and let the `Item closed` workflow stamp the status — do not set the field by hand, for the
-same ordering reason as §Done vs Shipped. `/ship` step 6 handles `Shipped`.
+same ordering reason as §Done vs Shipped. `/st-ship` step 6 handles `Shipped`.
 
 **`Item closed` is forward-looking only.** It does not close pre-existing drift: an issue closed
 before the automation existed keeps whatever `Status` it already had, and is corrected by hand.
@@ -226,13 +226,13 @@ Four rules make this safe:
 
 1. **Set `In Progress` before the first `Edit`/`Write`.** Same reason as an epic: work in
    flight on a `Todo` issue is invisible to anyone reading the board.
-2. **Do not set `Done` until the work is committed.** `/ship` step 6 sweeps *everything*
+2. **Do not set `Done` until the work is committed.** `/st-ship` step 6 sweeps *everything*
    currently `Done` into `Shipped` on a green CI run, so a `Done` issue whose work is
    uncommitted gets marked shipped by the next ship regardless of what it contains.
 3. **Comment the evidence on the issue when setting `Done`** — what changed, and what verified
    it. `Done` with no evidence is a status nobody can check. The same comment carries the
    close-out review: what didn't work, follow-ups filed (#N) or declined, the friction line, and
-   any post-ship checks, which `/ship` reads. Add the issue's line to `CHANGELOG.md`'s
+   any post-ship checks, which `/st-ship` reads. Add the issue's line to `CHANGELOG.md`'s
    `[Unreleased]` buffer in the same step, in close-out step 7's format.
 4. **If the diff touches CSS, component JSX or stories, ask the Chromatic question before
    setting `Done`** (close-out step 4: run now, or defer). Record a deferral in the `Done`

@@ -1,7 +1,7 @@
 # Skills Index
 
 **Version:** v1.1
-**Last updated:** 2026-11-14 (generated block)
+**Last updated:** 2026-11-24 (generated block)
 **Owner:** Bex Head
 
 ---
@@ -36,7 +36,7 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `red-pen` | `/red-pen` | `skills/` | Editorial review of Sugartown content (articles, nodes, case studies, glossary terms, page copy) against the brand voice guides, with accuracy checking, sharpness recommendations, and a two-gate approval flow before any  |
 | `release` | `/release` | `commands/` | Thin command. Prompt: `docs/workflows/release-assistant-prompt.md` |
 | `restart` | `/restart` | `skills/` | Check which Sugartown dev servers are running and restart any that are down. |
-| `ship` | `/ship` | `commands/` | Thin command. Prompt: `docs/ship-prompt.md` |
+| `st-ship` | `/st-ship` | `commands/` | Thin command. Prompt: `docs/ship-prompt.md` |
 | `sugartown-epic-writer` | `/sugartown-epic-writer` | `skills/` | Write a Claude Code epic execution prompt for Sugartown monorepo implementation work. |
 | `sugartown-fsd-writer` | `/sugartown-fsd-writer` | `skills/` | Write a Functional Specification Document (FSD) for Sugartown work: the design layer that says how the system will implement the requirements in an AI PRD. |
 | `sugartown-prd-ai-writer` | `/sugartown-prd-ai-writer` | `skills/` | Write the AI-facing requirements document for Sugartown work: a PRD in agent-executable form, sitting between the human PRD (sugartown-prd-writer) and the epic (sugartown-epic-writer). |

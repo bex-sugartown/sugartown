@@ -11,7 +11,7 @@
  *
  *   pnpm docs:skills-index          rewrite the generated block and the "Last updated" line
  *   pnpm docs:skills-index --check  exit 1 if the file on disk differs from what would be
- *                                   generated (for a session, /ship, or CI to call)
+ *                                   generated (for a session, /st-ship, or CI to call)
  *
  * Reader: docs/ai/README.md links the index. Kill criterion: retire this script if that
  * link goes. SKILLS_INDEX=<path> overrides the target, for tests against a copy.

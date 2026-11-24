@@ -177,7 +177,7 @@ else:
 - `updatedAt` on the Status field value is the last time that field changed — for an item sitting
   in `Done`, that is the moment it entered `Done`, unless something else touched Status since
   (rare; Done → Shipped is the only expected exit). One number, unambiguous: it should rise across
-  a gap and reset to near-zero right after `/ship` runs. If it is rising for more than ~14 days,
+  a gap and reset to near-zero right after `/st-ship` runs. If it is rising for more than ~14 days,
   the observed ship interval, something is stuck rather than just waiting its turn.
 
 **Vite caches** — are any stale?
@@ -330,9 +330,9 @@ Check how many commits are ahead of origin:
 git rev-list --count origin/main..main 2>/dev/null || echo 0
 ```
 
-If commits are ahead, note them but **do not push**. Pushing triggers a Netlify deploy (costs credits). Pushes should be batched and done via `/ship`, whenever that next runs — not on a daily schedule.
+If commits are ahead, note them but **do not push**. Pushing triggers a Netlify deploy (costs credits). Pushes should be batched and done via `/st-ship`, whenever that next runs — not on a daily schedule.
 
-If the tree has unpushed commits from a previous session, flag it as unfinished business — the previous session didn't run `/ship`.
+If the tree has unpushed commits from a previous session, flag it as unfinished business — the previous session didn't run `/st-ship`.
 
 ---
 

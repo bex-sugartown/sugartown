@@ -741,7 +741,7 @@ State how re-running the script produces no change:
 
 ## Post-ship checks [REQUIRED at close-out]
 
-> Checks that can only run on the live site. `/ship` reads this list after deploy
+> Checks that can only run on the live site. `/st-ship` reads this list after deploy
 > (`docs/ship-prompt.md` step 5b): it runs what it can, lists person-only checks as owed, and a
 > check that runs and fails keeps the issue at Done. `none` is valid.
 
