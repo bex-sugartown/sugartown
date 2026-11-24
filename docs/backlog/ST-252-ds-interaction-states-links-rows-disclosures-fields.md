@@ -45,8 +45,8 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] Rendered audit of the components in the table, light and dark: computed styles for rest, hover, mouse-down, focus-visible and selected or open. Settles the Phase 0 unknowns above — layer: audit
-- [ ] Vspec: each component's five states in light and dark, built from the #251 matrix, with the State dropdown prototype from #251 — layer: vspec (Phase 0)
+- [x] Rendered audit of the components in the table, light and dark: computed styles for rest, hover, mouse-down, focus-visible and selected or open. Settles the Phase 0 unknowns above — layer: audit
+- [x] Vspec: each component's five states in light and dark, built from the #251 matrix, with the State dropdown prototype from #251 — layer: vspec (Phase 0)
 - [ ] Pressed state on Card, Citation, FilterBar options and clear-all, IndexCell, MediaLabel, from `--st-state-pressed-shade` — layer: DS component
 - [ ] Focus-visible on Breadcrumb links and List rows; hover on Input and Textarea; Sidebar and SidebarNav hover — layer: DS component and web-only component
 - [ ] Accordion open state styled; `styles.itemOpen` and `styles.accordionNumbered` resolved and removed from the dead-reference list — layer: DS component
@@ -82,13 +82,13 @@ Findings that change the scope:
 
 | Phase | Ships | Scope items | Gate |
 |---|---|---|---|
-| 0 | Rendered audit, vspec signed off | audit, vspec | Bex signs off the vspec |
+| 0 | Rendered audit, vspec signed off (approved as drawn 2026-11-24) | audit, vspec | Bex signs off the vspec |
 | 1 | Pressed, focus-visible and hover gaps on the DS components | pressed, focus-visible, hover | none |
 | 2 | Accordion open state, Sidebar, stories, QA | Accordion, Sidebar, Storybook | none |
 
 ## Acceptance Criteria
 
-- [ ] Vspec exists at the path above, shows five states in both themes per component, and Bex has marked Phase 0 complete before any code is written
+- [x] Vspec exists at the path above, shows five states in both themes per component, and Bex has marked Phase 0 complete before any code is written
 - [ ] Rendered probe shows a computed-style change for pressed, hover and focus-visible on every component in the table, both themes; today none shows one for pressed
 - [ ] Accordion open state is styled; `pnpm validate:dead-refs` no longer lists `Accordion.tsx styles.accordionNumbered` or `Accordion.tsx styles.itemOpen`
 - [ ] `pnpm validate:contrast` and `pnpm exec playwright test tests/smoke/a11y.spec.ts` pass in light and dark, with no new allowlist entry
