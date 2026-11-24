@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The footnote zone no longer uses the deprecated `doc-endnote` and `doc-endnotes` roles: it is a labelled section and the back-links keep the footnote relationship for screen readers, so axe stops reporting the deprecation. (#164; fixed in 1246d982 under #84, smoke axe spec 18 of 18 pass in both themes, allowlist entry already removed)
 - The Studio's command-line default now points at the `production` dataset instead of one that does not exist, so CLI queries and migrations run against real content. (#259; read-only CLI query returned a document from production, no `dataset: 'test'` left in `apps/studio`)
 - The structured data on About and article pages is cleaned up: the email address is out of the profile links, the person has alternate names (Bex, Becky Head), articles and case studies carry an image, and /services is no longer typed as a profile page. (#258; smoke 60 passed, validator check after deploy, Chromatic deferred to ship)
 - Tag pages with three or more posts now carry their content in the HTML, the 28 thinner tags are marked noindex and left out of the sitemap, and two old roadmap URLs redirect to their current pages. (#257; 36 of 64 tags indexable, sitemap 194 URLs with no noindex or redirect entries, smoke 57 passed, Search Console resubmit after deploy)
