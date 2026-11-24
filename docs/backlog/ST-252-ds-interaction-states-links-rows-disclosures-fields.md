@@ -78,6 +78,21 @@ Findings that change the scope:
 - Focus-visible renders on every component probed, so the "no focus-visible" gaps on Breadcrumb and List are not user-visible. Scope item 4 narrows to hover on Input and Textarea, hover on Sidebar and the Accordion light-theme hover. The Phase 0 vspec decides whether Breadcrumb and List should own their ring instead of inheriting one.
 - The Sidebar mobile toggle and `SidebarNav` still need a probe on the right page before the vspec.
 
+## Phase 1 and 2 status (2026-11-24)
+
+Phase 1 is committed locally (2ba1cc1e, f2e9e654). Evidence per row:
+
+| Check | Result | Command or source |
+|---|---|---|
+| Pressed, hover, focus change a computed style, both themes | 11 DS components confirmed; Sidebar toggle, SidebarNav and PageSidebar links not rendered on any page tried | rendered probe with forced pseudo-states, session scratchpad `after252.cjs` |
+| Smoke coverage | 18 tests pass (Accordion, Breadcrumb, List, Card, IndexCell, four #251 surfaces, light and dark) | `pnpm exec playwright test tests/smoke/interaction-states.spec.ts` |
+| Not in the smoke spec | Citation marker and back-link, FilterBar option (no hoverable target on the pages tried); Sidebar and SidebarNav (not visible) | checked with forced pseudo-states only |
+| axe, both themes | 18 pass | `pnpm exec playwright test tests/smoke/a11y.spec.ts` |
+| Contrast, token, mirror, dead-refs | pass; dead list now 2 entries (Container bleed, Sidebar `.sidebar`) | `pnpm validate:contrast`, `validate:tokens:strict`, `validate:style-mirror`, `validate:dead-refs` |
+| Vspec-to-build table | 0 Drift, 0 Blocker at code level; rendered checks (shade on dark, ring thickness) not done by the reviewer | design-reviewer subagent, read of 2ba1cc1e |
+
+Sidebar toggle: the vspec drew it, but `Sidebar-module__toggle` has zero visible instances on /about, /platform/governance and the article page at 375, 768 and 1280px. Its CSS is committed and validated; its rendered state is unverified.
+
 ## Phases
 
 | Phase | Ships | Scope items | Gate |
