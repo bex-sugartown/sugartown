@@ -93,6 +93,11 @@ jobs:
           # secret (named SANITY_SCHEMA_PARITY) is mapped to that name here.
           SANITY_AUTH_TOKEN: ${{ secrets.SANITY_SCHEMA_PARITY }}
 
+      # Before the probes: validate:vspec-contrast launches Chromium, and its probe control run
+      # failed on CI with no browser installed (run 45437236840, #263).
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+
       # ST-95 — proves each gate below actually fires against a deliberate
       # violation, rather than merely being wired. validate:tokens,
       # validate:tokens:strict, validate:style-mirror, validate:dead-refs and
@@ -124,9 +129,6 @@ jobs:
           # keep in sync.
           CONTENTFUL_SPACE_ID: ${{ secrets.CONTENTFUL_SPACE_ID }}
           CONTENTFUL_ACCESS_TOKEN: ${{ secrets.CONTENTFUL_ACCESS_TOKEN }}
-
-      - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
 
       - name: Route smoke tests
         run: pnpm test:smoke
