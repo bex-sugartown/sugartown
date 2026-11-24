@@ -31,9 +31,13 @@
   align-items: center;
 }
 
+.mediaLabel:hover {
+  box-shadow: 0 0 0 1px var(--st-color-pink); /* ST-252: pink edge on hover; not a control, so no pressed state */
+}
+
 .mediaLabel:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 2px var(--st-color-accent);
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
 }
 
 /* Frame for surfaces where the image is a CSS background (hero): a full-size layer that carries

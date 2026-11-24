@@ -59,7 +59,7 @@ export function Accordion({
     });
   };
 
-  const classNames = [styles.accordion, numbered ? styles.accordionNumbered : '', className].filter(Boolean).join(' ');
+  const classNames = [styles.accordion, className].filter(Boolean).join(' ');
 
   // Empty/absent collections render nothing rather than throwing on items.map.
   // Deliberately below the hooks — an early return above useState/useId would

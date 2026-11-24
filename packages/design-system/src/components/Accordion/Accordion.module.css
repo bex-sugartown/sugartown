@@ -37,8 +37,23 @@
   transition: color 0.2s ease;
 }
 
-.trigger:hover {
+.trigger:hover .triggerLabel {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.trigger:hover .chevron {
   color: var(--st-color-brand-primary);
+}
+
+.trigger:active {
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+
+.trigger:active .triggerLabel {
+  color: var(--st-color-text-default);
 }
 
 .trigger:focus-visible {
@@ -121,3 +136,7 @@
   line-height: 1;
 }
 
+/* Open state (ST-252): pink bottom rule; the pink rotated chevron is .chevronOpen. Two classes so it outranks the light-theme .item rule. */
+.item.itemOpen {
+  border-bottom-color: var(--st-color-pink);
+}

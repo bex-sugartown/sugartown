@@ -23,6 +23,21 @@
 
 .link:hover {
   color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.link:active {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.link:focus-visible {
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
 }
 
 .sep {

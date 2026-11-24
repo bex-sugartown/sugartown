@@ -49,19 +49,14 @@ const ROOTS = [
 //   SIZE_CLASS) is a change to a mirrored pair for zero behavioural gain.
 //
 // ── Genuine burn-down (found by this check on first run, 2026-07-22) ─────────
-//   Accordion `.accordionNumbered` / `.itemOpen` — the `numbered` variant's
-//   wrapper class and the item open-state class are undefined in BOTH copies.
-//   The variant still partly renders via `.triggerNumbered`/`.qNumber`, and the
-//   open state via `.panelOpen`/`.chevronOpen`, so this is a partial no-op
-//   rather than a visible break. Resolving it means either writing the missing
-//   rules or deleting the references — a visual decision, not a cleanup.
+//   Accordion `.accordionNumbered` / `.itemOpen` — resolved by ST-252 (2026-11-24):
+//   `.itemOpen` is now defined (pink bottom rule); the `.accordionNumbered`
+//   reference was removed, since `.triggerNumbered` carries the numbered layout.
 //   Sidebar `.sidebar` — the stylesheet defines `.panel`/`.sideLeft`/`.sideRight`
 //   and never `.sidebar`. Promoted to the package (SUG-224 Phase 5) unchanged —
 //   a visual decision, not this move's concern.
 const KNOWN_DEAD = new Set([
   'Container.tsx styles.bleed',   // by design — see above
-  'Accordion.tsx styles.accordionNumbered',
-  'Accordion.tsx styles.itemOpen',
   'Sidebar.tsx styles.sidebar',
 ])
 

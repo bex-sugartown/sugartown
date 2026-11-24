@@ -19,6 +19,10 @@
   color: var(--st-color-text-muted);
 }
 
+.textarea:hover {
+  border-color: var(--st-color-border-strong);
+}
+
 .textarea:focus {
   border-color: var(--st-color-focus);
   box-shadow: 0 0 0 2px var(--st-color-bg-elevated);

@@ -31,6 +31,12 @@
   opacity: 0.85;
 }
 
+.markerLink:active {
+  opacity: 1;
+  background-color: var(--st-color-text-default);
+  color: var(--st-color-bg-canvas);
+}
+
 .markerLink:focus-visible {
   outline: var(--st-focus-ring);
   outline-offset: var(--st-focus-ring-offset);
@@ -86,6 +92,12 @@
 
 .backLink:hover {
   text-decoration: underline;
+}
+
+.backLink:active {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
 }
 
 .backLink:focus-visible {

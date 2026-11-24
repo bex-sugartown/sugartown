@@ -34,6 +34,15 @@
 }
 .navLink:hover {
   color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.navLink:active {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
 }
 .navLinkActive {
   color: var(--st-color-text-default);
@@ -73,6 +82,16 @@
   color: var(--st-color-text-muted);
 }
 .collapsible[open] > .summary::before { transform: rotate(90deg); }
+.summary:hover {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.summary:hover::before { color: var(--st-color-brand-primary); }
+.summary:active {
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+.collapsible[open] > .summary::before { color: var(--st-color-pink); }
 .summary:focus-visible {
   outline: var(--st-focus-ring);
   outline-offset: var(--st-focus-ring-offset);

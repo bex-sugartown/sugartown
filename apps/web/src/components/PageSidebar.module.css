@@ -53,7 +53,23 @@
   line-height: 1.4;
   transition: color var(--st-transition-fast);
 }
-.relatedLink:hover { color: var(--st-color-brand-primary); }
+.relatedLink:hover {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-color: var(--st-color-pink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.relatedLink:active {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.relatedLink:focus-visible {
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
+}
 
 /* ── Series ──────────────────────────────────────────────── */
 .seriesBlock {
@@ -77,7 +93,13 @@
   font-weight: 500;
 }
 .seriesLink:hover,
-.seriesLink:hover strong { color: var(--st-color-brand-primary); }
+.seriesLink:hover strong { color: var(--st-color-text-default); }
+.seriesLink:hover strong { text-decoration: underline; text-decoration-color: var(--st-color-pink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+.seriesLink:active strong { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.seriesLink:focus-visible {
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
+}
 .seriesPart {
   display: block;
   font-family: var(--st-label-font);
@@ -101,4 +123,20 @@
   text-decoration: none;
   transition: color var(--st-transition-fast);
 }
-.ethicsLink:hover { color: var(--st-color-brand-primary); }
+.ethicsLink:hover {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-color: var(--st-color-pink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.ethicsLink:active {
+  color: var(--st-color-text-default);
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+.ethicsLink:focus-visible {
+  outline: var(--st-focus-ring);
+  outline-offset: var(--st-focus-ring-offset);
+}

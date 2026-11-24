@@ -158,7 +158,8 @@
   background-position: 140px 0, calc(100% - 114px) 0;
 }
 .rowLink:hover .rowTitle {
-  color: var(--st-color-pink);
+  color: var(--st-color-ink); /* ST-252: pink on the lime wash was 3.42:1; the pink moves to the underline */
+  text-decoration-color: var(--st-color-pink);
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
@@ -232,4 +233,23 @@
     font-size: 19px;
     line-height: 1.22;
   }
+}
+
+/* Pressed (ST-252): hover wash plus the #251 shade, title stays ink. */
+.rowLink:active {
+  background-color: var(--st-color-lime-100);
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+.rowLink:active .rowTitle {
+  color: var(--st-color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--st-color-pink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+/* Focus (ST-252): the module owns its ring; negative offset keeps it inside the row. */
+.rowLink:focus-visible {
+  outline: var(--st-focus-ring);
+  outline-offset: calc(var(--st-focus-ring-offset) * -1);
 }

@@ -679,3 +679,10 @@
 /* Status token overrides for light/light-pink-moon themes are handled via
    --st-status-* token overrides in theme.light.css and theme.pink-moon.css.
    The token approach means no per-selector overrides are needed here. */
+
+/* Pressed (ST-252): hover look without the lift, pink border and the #251 shade. The title link's ::after covers the card, so :active reaches the card through :has(). */
+.card:has(.titleLink:active) {
+  transform: none;
+  border-color: var(--st-color-pink);
+  box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
+}
