@@ -627,27 +627,41 @@
 .carouselDots {
   display: flex;
   justify-content: center;
-  gap: 0.5rem;
   margin-top: var(--st-spacing-stack-md);
 }
 
-/* Ring uses text-secondary: theme-aware, visible on the dark and the light page surface (ST-201) */
+/* The button is the 24px target (WCAG 2.5.8, #247); the 10px ring is drawn by ::before.
+   Ring uses text-secondary: theme-aware, visible on the dark and the light page surface (ST-201) */
 .carouselDot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  border: 2px solid var(--st-color-text-secondary);
+  position: relative;
+  width: 24px;
+  height: 24px;
+  border: 0;
   background: transparent;
   cursor: pointer;
   padding: 0;
+}
+
+.carouselDot::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  box-sizing: border-box;
+  border-radius: 50%;
+  border: 2px solid var(--st-color-text-secondary);
+  background: transparent;
   transition: background 0.2s, transform 0.2s;
 }
 
-.carouselDot:hover {
+.carouselDot:hover::before {
   background: var(--st-color-text-secondary);
 }
 
-.carouselDotActive {
+.carouselDotActive::before {
   background: var(--st-color-pink);
   border-color: var(--st-color-pink);
   transform: scale(1.25);
