@@ -84,7 +84,7 @@ versions are the planning/drafting layer for the same capability.
 
 ## Workflow Prompts — Release Pipeline
 
-A prompt file in `docs/workflows/`, invoked by the `/release` command and by `/ship --release`.
+A prompt file in `docs/workflows/`, invoked by the `/release` command and by `/st-ship --release`.
 Can also be pasted into Claude Code directly at the start of a release session.
 
 | Prompt | File | What it does |
