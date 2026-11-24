@@ -2,7 +2,7 @@
 
 .strip {
   position: fixed;
-  top: var(--st-header-height);
+  top: var(--st-header-height); /* fallback; ContentsStrip.jsx sets the real value from the header's bottom edge (#266) */
   left: 0;
   right: 0;
   z-index: 90;

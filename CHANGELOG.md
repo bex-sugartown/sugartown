@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The Contents button on article and platform pages no longer hides behind the header at the top of the page below the desktop width; it sits directly under the header at every scroll position. (#266; measured at 548px: the chip is the element at the strip's centre at scroll 0 and after scrolling, smoke test added; Chromatic not needed, position only)
 - The state check for design-system components now runs on every commit, and a vspec's colour pairs are measured in both themes on the canvas, not the prototype frame, when its sidecar is committed. (#263; 47 gates proven live, 0 inert, ST-252's 42 pairs pass)
 - The Sidebar toggle and the SidebarNav collapsible summary are confirmed unused in the app, while the SidebarNav links and PageSidebar related and ethics links show hover, pressed and focus in both themes. (#261; rendered probe in both themes, removal filed as #265)
 - Links, rows, accordions and form fields now show a pressed state, hover is added where it was missing (Accordion in light, form fields), and the open accordion item gets a pink rule; three hover colours that failed contrast now underline in pink instead. (#252; axe smoke 18 of 18 and interaction smoke 18 of 18 in both themes, Chromatic deferred to ship)
