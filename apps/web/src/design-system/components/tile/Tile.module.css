@@ -25,6 +25,16 @@
   background: var(--st-tile-bg-hover, var(--st-color-bg-subtle));
   box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
 }
+/* Pressed (#264): the hover look plus the #251 shade, drawn over the top rule. */
+.linked:active {
+  background: var(--st-tile-bg-hover, var(--st-color-bg-subtle));
+  box-shadow: inset 0 2px 0 var(--st-color-brand-primary), inset 0 0 0 100px var(--st-state-pressed-shade);
+}
+/* Focus (#264): the DS ring, inside the tile so a zero-gap grid does not clip it. */
+.linked:focus-visible {
+  outline: var(--st-focus-ring);
+  outline-offset: calc(var(--st-focus-ring-offset) * -1);
+}
 
 /* ── Label ────────────────────────────────────────────────────────── */
 
