@@ -169,7 +169,7 @@ Sidebar toggle: the vspec drew it, but `Sidebar-module__toggle` has zero visible
 
 | Follow-up | Kind | Where it went |
 |---|---|---|
-| Citation back-link resting colour 4.45:1 in dark | implementation | [#260](https://github.com/bex-sugartown/sugartown/issues/260) |
+| Citation back-link resting colour 4.45:1 in dark | implementation | [#260](https://github.com/bex-sugartown/sugartown/issues/260), closed invalid 2026-11-24: 5.13:1 on the live page; 4.45 was the vspec prototype frame |
 | Render and verify Sidebar toggle, SidebarNav and PageSidebar link states; decide whether the toggle is dead | implementation | [#261](https://github.com/bex-sugartown/sugartown/issues/261) |
 | `validate:contrast` does not check pairs a component composes at hover or pressed | workflow-docs | declined: the vspec contrast script covers this at Phase 0 and a new validator needs its own issue |
 | Storybook cannot show hover, pressed or focus | implementation | declined: smoke spec chosen, see above |

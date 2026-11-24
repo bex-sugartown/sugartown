@@ -44,6 +44,13 @@ pnpm --filter web validate:css-names || exit 1
 # with a reason in apps/web/scripts/state-allowlist.json. ST-252 post-mortem.
 pnpm --filter web validate:states || exit 1
 
+# Vspec contrast — measures the pairs a staged vspec's sidecar (ST-N-slug.contrast.json) declares, in both
+# themes, on the canvas rather than the prototype frame. Runs only when a sidecar is staged. #263.
+SIDECARS=$(git diff --cached --name-only --diff-filter=AM | grep '\.contrast\.json$' || true)
+if [ -n "$SIDECARS" ]; then
+  node apps/web/scripts/validate-vspec-contrast.js $SIDECARS || exit 1
+fi
+
 # ESLint — zero errors required (warnings are allowed), across every package
 # that has a `lint` script (seven since SUG-257 added apps/studio).
 #

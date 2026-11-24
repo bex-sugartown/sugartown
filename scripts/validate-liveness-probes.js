@@ -667,6 +667,27 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:vspec-contrast',
+    why: 'a vspec pair under its minimum (a grey label at about 2.5:1) must be rejected (#263)',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:vspec-contrast'],
+        success: 'rejected the low-contrast pair',
+        breakIt: () => {
+          tempFile(
+            'docs/drafts/__liveness_probe__.vspec.html',
+            '<!doctype html><html data-theme="light-pink-moon"><head><link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css"><link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css"></head><body><div data-cell="probe"><span style="color:#999999">low</span></div></body></html>\n'
+          )
+          tempFile(
+            'docs/drafts/__liveness_probe__.contrast.json',
+            JSON.stringify({ vspec: '__liveness_probe__.vspec.html', pairs: [{ name: 'grey label', cell: 'probe', sub: 'span', prop: 'color', min: 4.5 }] })
+          )
+        },
+      }),
+  },
+
+  {
     gate: 'validate:tokens (raw fallback)',
     why: 'a non-colour raw fallback such as var(--st-space-4, 1rem) must be rejected',
     run: () =>

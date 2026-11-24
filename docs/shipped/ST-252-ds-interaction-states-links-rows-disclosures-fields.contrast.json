@@ -1,0 +1,343 @@
+{
+  "vspec": "ST-252-ds-interaction-states-links-rows-disclosures-fields.vspec.html",
+  "pairs": [
+    {
+      "name": "Accordion label, rest",
+      "cell": "accordion-rest",
+      "sub": ".triggerLabel",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Accordion label, hover",
+      "cell": "accordion-hover",
+      "sub": ".triggerLabel",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Accordion chevron, hover",
+      "cell": "accordion-hover",
+      "sub": ".chevron",
+      "prop": "color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Accordion label, pressed (with shade)",
+      "cell": "accordion-pressed",
+      "sub": ".triggerLabel",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "Accordion open rule",
+      "cell": "accordion-open",
+      "sub": ".item",
+      "prop": "border-bottom-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Breadcrumb link, rest",
+      "cell": "breadcrumb-rest",
+      "sub": ".link",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Breadcrumb link, hover",
+      "cell": "breadcrumb-hover",
+      "sub": ".link",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Breadcrumb link, pressed",
+      "cell": "breadcrumb-pressed",
+      "sub": ".link",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "List title, hover (on lime wash)",
+      "cell": "list-hover",
+      "sub": ".rowTitle",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "List title, pressed (wash plus shade)",
+      "cell": "list-pressed",
+      "sub": ".rowTitle",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "List date, hover",
+      "cell": "list-hover",
+      "sub": ".rowDate",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Card title, rest",
+      "cell": "card-rest",
+      "sub": ".titleLink",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Card title, pressed (with shade)",
+      "cell": "card-pressed",
+      "sub": ".titleLink",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "Card pressed border",
+      "cell": "card-pressed",
+      "sub": ".card",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Citation back-link, rest",
+      "cell": "citation-rest",
+      "sub": ".backLink",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Citation back-link, pressed",
+      "cell": "citation-pressed",
+      "sub": ".backLink",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Citation marker, pressed (with shade)",
+      "cell": "citation-pressed",
+      "sub": ".markerLink",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "FilterBar name, rest",
+      "cell": "option-rest",
+      "sub": ".optionName",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "FilterBar name, hover",
+      "cell": "option-hover",
+      "sub": ".optionName",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "FilterBar name, pressed (with shade)",
+      "cell": "option-pressed",
+      "sub": ".optionName",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "FilterBar box border, hover",
+      "cell": "option-hover",
+      "sub": ".optionCheckbox",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Clear-all label, rest",
+      "cell": "clear-rest",
+      "sub": ".clearAllButton",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Clear-all label, pressed (with shade)",
+      "cell": "clear-pressed",
+      "sub": ".clearAllButton",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "Clear-all border, rest",
+      "cell": "clear-rest",
+      "sub": ".clearAllButton",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "IndexCell label, rest",
+      "cell": "index-rest",
+      "sub": ".cell",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "IndexCell border, rest",
+      "cell": "index-rest",
+      "sub": ".cell",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "IndexCell label, hover",
+      "cell": "index-hover",
+      "sub": ".cell",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "IndexCell border, hover",
+      "cell": "index-hover",
+      "sub": ".cell",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "IndexCell label, selected",
+      "cell": "index-open",
+      "sub": ".cell",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "IndexCell label, pressed (with shade)",
+      "cell": "index-pressed",
+      "sub": ".cell",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "MediaLabel label, hover",
+      "cell": "media-hover",
+      "sub": ".mediaLabel",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "MediaLabel border, hover",
+      "cell": "media-hover",
+      "sub": ".mediaLabel",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Input text, rest",
+      "cell": "input-rest",
+      "sub": ".input",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Input border, hover",
+      "cell": "input-hover",
+      "sub": ".input",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Textarea border, hover",
+      "cell": "textarea-hover",
+      "sub": ".textarea",
+      "prop": "border-top-color",
+      "shade": false,
+      "min": 3
+    },
+    {
+      "name": "Sidebar toggle label, rest",
+      "cell": "sidebar-rest",
+      "sub": ".toggle",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Sidebar toggle label, hover",
+      "cell": "sidebar-hover",
+      "sub": ".toggle",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "Sidebar toggle arrow, hover",
+      "cell": "sidebar-hover",
+      "sub": ".toggle",
+      "prop": "color",
+      "shade": false,
+      "min": 3,
+      "pseudo": "::before"
+    },
+    {
+      "name": "Sidebar toggle label, pressed (with shade)",
+      "cell": "sidebar-pressed",
+      "sub": ".toggle",
+      "prop": "color",
+      "shade": true,
+      "min": 4.5
+    },
+    {
+      "name": "Sidebar open arrow",
+      "cell": "sidebar-open",
+      "sub": ".toggle",
+      "prop": "color",
+      "shade": false,
+      "min": 3,
+      "pseudo": "::before"
+    },
+    {
+      "name": "PageSidebar link, hover",
+      "cell": "sidebarlink-hover",
+      "sub": ".relatedLink",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    },
+    {
+      "name": "PageSidebar link, pressed",
+      "cell": "sidebarlink-pressed",
+      "sub": ".relatedLink",
+      "prop": "color",
+      "shade": false,
+      "min": 4.5
+    }
+  ]
+}

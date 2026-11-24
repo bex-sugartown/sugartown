@@ -22,6 +22,7 @@
     "validate:style-mirror": "node scripts/validate-style-mirror.js",
     "validate:dead-refs": "node scripts/validate-dead-refs.js",
     "validate:taxonomy": "node scripts/validate-taxonomy.js",
+    "validate:vspec-contrast": "node scripts/validate-vspec-contrast.js",
     "validate:states": "node scripts/validate-states.js",
     "validate:css-names": "node scripts/validate-css-names.js",
     "migrate:seo-fields": "node scripts/migrate-seo-fields.js",
