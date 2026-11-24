@@ -11,60 +11,96 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
-- Buttons, chips, rows, cards, accordion triggers and index cells now show hover and pressed in Windows high-contrast (forced-colours) mode with a system-colour outline, where pressed used to look the same as hover; the linked Tile gets pressed and focus states too. (#262, #264; forced-colours smoke spec 6 of 6, state and axe specs 36 of 36, Chromatic deferred to ship)
-- The Contents button on article and platform pages no longer hides behind the header at the top of the page below the desktop width; it sits directly under the header at every scroll position. (#266; measured at 548px: the chip is the element at the strip's centre at scroll 0 and after scrolling, smoke test added; Chromatic not needed, position only)
-- The state check for design-system components now runs on every commit, and a vspec's colour pairs are measured in both themes on the canvas, not the prototype frame, when its sidecar is committed. (#263; 47 gates proven live, 0 inert, ST-252's 42 pairs pass)
-- The Sidebar toggle and the SidebarNav collapsible summary are confirmed unused in the app, while the SidebarNav links and PageSidebar related and ethics links show hover, pressed and focus in both themes. (#261; rendered probe in both themes, removal filed as #265)
-- Links, rows, accordions and form fields now show a pressed state, hover is added where it was missing (Accordion in light, form fields), and the open accordion item gets a pink rule; three hover colours that failed contrast now underline in pink instead. (#252; axe smoke 18 of 18 and interaction smoke 18 of 18 in both themes, Chromatic deferred to ship)
-- Carousel slide dots are now 24px tap targets, meeting the WCAG 2.2 minimum, with the same 10px ring drawn inside; the dots sit 6px further apart. (#247; Storybook accessibility 780 of 780 pass with the ImageGallery exemption removed, axe smoke 18 of 18 in both themes; Chromatic pending)
-- The footnote zone no longer uses the deprecated `doc-endnote` and `doc-endnotes` roles: it is a labelled section and the back-links keep the footnote relationship for screen readers, so axe stops reporting the deprecation. (#164; fixed in 1246d982 under #84, smoke axe spec 18 of 18 pass in both themes, allowlist entry already removed)
-- The Studio's command-line default now points at the `production` dataset instead of one that does not exist, so CLI queries and migrations run against real content. (#259; read-only CLI query returned a document from production, no `dataset: 'test'` left in `apps/studio`)
-- The structured data on About and article pages is cleaned up: the email address is out of the profile links, the person has alternate names (Bex, Becky Head), articles and case studies carry an image, and /services is no longer typed as a profile page. (#258; smoke 60 passed, validator check after deploy, Chromatic deferred to ship)
-- Tag pages with three or more posts now carry their content in the HTML, the 28 thinner tags are marked noindex and left out of the sitemap, and two old roadmap URLs redirect to their current pages. (#257; 36 of 64 tags indexable, sitemap 194 URLs with no noindex or redirect entries, smoke 57 passed, Search Console resubmit after deploy)
-- The homepage and the six archive pages now carry their title, description and canonical in the HTML itself, and unknown URLs return a real 404 instead of 200. (#256; smoke 56 passed, 404 check after deploy, homepage title and four page descriptions are drafts awaiting publish)
-- The old `/home` URL now redirects to the homepage, so the homepage answers on one URL; `www` and `http` already redirected to sugartown.io. (#255; smoke 49 passed, live check after deploy)
-- ST-95's liveness-probe kill-criterion verdict is recorded: the probes caught nothing a human would not have, they stay for now, next check 2026-12-30, and #96 and #97 are cancelled. (#134; verdict in `docs/shipped/ST-95-liveness-probes-only.md`, ran 11 days late)
-- Every Storybook story is now checked for accessibility in both Pink Moon themes on every CI run, and a new violation fails the build; known contrast and target-size failures are listed rather than hidden. (#50 Phase 2; 780 of 780 pass, a planted violation fails, 49 known failures tracked in #246, carousel dots in #247; Chromatic deferred to ship)
-- CI on main is green again after the new Storybook accessibility job failed on a fresh checkout: it now builds the design system first, like the Storybook build does. (#248; run 45012058570 passed all three jobs)
-- The five status colour pairs that failed text contrast are gone: nothing on screen read them, so the draft, designing, testing and exploring status tokens and the unused validated text colour were removed instead of recoloured, and their allowlist entries with them. (#169; contrast validator 126 pairs, 0 below threshold, 0 allowlisted; 654 tokens to 641; Chromatic deferred to ship)
-- Storybook now tests behaviour as well as accessibility: 17 interaction tests on 10 components (buttons, chips, accordion, filter bar, drawer, forms and more) run in both themes, and each CI run adds a per-component coverage table to the job summary. (#50 Phases 1 and 3; 780 of 780 pass, a planted accordion bug fails its test, 82 components at 84% line coverage; Chromatic deferred to ship, first CI summary is a post-ship check)
-- Archive page settings in Studio say what they do: the hero text, filter configuration, display style and card options that already worked moved out of the "coming soon" tab into Content, Filtering and a new Display tab; dead legacy fields are labelled or removed. /releases opens as a list. (#210; audit table on the issue, schema deployed, smoke 41 passed)
-- Project and tool pages are prerendered, so search engines get their structured data in the first HTML response instead of after the app loads; thin tool pages carry their noindex in that HTML too. (#212; 7 projects and 63 tools, 47 noindex, snapshot JSON-LD identical to the client's, smoke 41 passed; Chromatic deferred to ship)
-- The archive filter gate now checks the filter code the site actually runs, not a hand-kept copy that had already drifted, and a new probe fails if a copy comes back. (#216; liveness probes 45 live, planted copy goes inert; the gate's copied queries are #245)
-- /about passes its accessibility checks: the active nav item is maroon instead of low-contrast pink, the bio intro is a paragraph rather than a stray heading, and inline and gallery images open full size from a real ⤢ button instead of a figure posing as one. /about is now in the axe smoke routes. (#165; local axe light and dark clean, smoke 38 passed; Chromatic deferred to ship, production Lighthouse re-run is a post-ship check)
-- ST-100's overdue kill-criterion check is recorded: the Done/Shipped split stays and the check is retired, since all 94 issues shipped since 2026-08-19 passed through Done first. (#222; 30 /ship runs, 63 of 94 waited an hour or more in Done)
-- ST-162: "I Automated the Pipeline" is published, part 2 of the Career Engineering series: twice the applications, the same cold screens, and the case for being found; the follow-up posts are #241 and #242. (#162; red pen 20 of 20 rows applied, publish gate clean, 0 em dashes, sync check matched all 16 sections)
-- Link previews on LinkedIn and other sites now show an image: every prerendered page carries og:image (its share image, else its hero, else the site default, cropped to 1200x630), and AI-flagged share images serve their stamped copy; the site default share image gains an alt text field. (#239; 198 of 198 snapshots carry og:image, smoke 36 passed, 7 stamped copies verified; Chromatic deferred to ship, LinkedIn Post Inspector is a post-ship check)
-- Tool descriptions are public reader copy: the Studio field says so, and the editor-only "Tag when…" sentences on Contentful, Sanity and Vercel are removed, so they no longer reach the tool page, its search snippet or its JSON-LD. (#211; schema deployed, 3 Sanity drafts awaiting publish)
-- The wip mirror keeps working when a second machine moved the day's wip ref: the hook force-refreshes its lease base, and recovery after a FAIL is one command that reruns the hook. (#215; two-clone probe: old hook FAIL, new hook OK)
-- Pages no longer jump while loading: the header and pre-header paint with the page instead of pushing it down a moment later, and the footer waits below the fold until content arrives. (#236; local mobile CLS on the homepage 0.21 to 0.001, /articles 0.003 to 0, loaded pages unchanged, smoke 33 passed; Chromatic deferred to ship)
-- The homepage shows its content and hero image without waiting for the Sanity query: the build writes the homepage data and a hero image preload into the page, and the app refreshes from live data after. (#235; local mobile LCP 4.75-5.17s to 2.75-2.78s, performance 66-81 to 83-84, loaded page unchanged, smoke 33 passed; Chromatic deferred to ship)
-- The homepage loads lighter on phones: other pages' code loads only when visited, fonts no longer block first paint, and the hero image is phone-sized and fetched first. (#213; local mobile Lighthouse performance 63-65 to 68-69, LCP 5.4-5.7s to 4.7-4.9s, smoke 33 passed; Chromatic deferred to ship, production PageSpeed re-run is a post-ship check)
-- ST-228: the contents-strip and archive filter chips, the people avatar, the Core Web Vitals grid and the release badges now render shared components instead of page copies; the chips take the standard chip look (normal case, ink when open), and dead Select, Callout and contact-form styles are gone. (#228; Chromatic build 113 approved, smoke 33 passed, repeated surface signatures 21 to 13)
-- ST-227: headings, mono labels and focus rings each have one definition: sites compose `type.module.css` or read `--st-focus-ring`, and `validate:tokens` fails a hand-typed copy. On phones h3 now drops to 22.4px instead of 18px; Card status labels render semibold. (#227; 21 heading, 37 label and 26 focus sites migrated, 3 liveness probes fire, Chromatic build 112 approved, smoke 33 passed)
-- SUG-206: an audit of hand-copied style clusters across all 106 stylesheets finds heading, label, focus-ring and surface drift (spacing clean), with a fix, monitor or drop call per area and four follow-ups filed. (#68; `docs/reports/property-cluster-drift-audit.md`, evidence from its sweep script, smoke 33 passed)
-- An AI image used on two articles and the design-system showcase page no longer shows two brand names: they are redacted in Sugartown pink, and every use carries the AI-generated badge, alt text that describes the image, and stamped copies with the visible mark and IPTC metadata. (#225; five uses re-checked in Sanity, live hero, inline and share image served from the stamped copies, `stamp.py --verify` passes on the served files)
-- Content working drafts now start, export and check with one command: `pnpm export:draft new | export | check`, and export refuses to overwrite unsynced local edits. (#224; 8 unit tests, 5 probes against the ST-162 draft, one stamp-filling bug found and fixed in the run)
-- A citation typed as [N] in a table cell now renders as a linked pill to its note, and `validate:content` flags a typed [N] in body text or a citation number with no note; the write skills and red-pen now say how to cite. (#221; ST-162 draft: 8 table and 6 body pills link to their notes on desktop and mobile, 9 unit tests and 2 liveness probes pass, smoke 33 passed)
-- The five Sanity-backed validators (urls, filters, taxonomy, content, schema-parity) can now be proven to fail on bad input: the liveness harness runs each one's own rule code against a broken fixture, 17 gates to 39. (#93; every probe turns red when its rule is weakened, validator output on live data unchanged, smoke 33 passed)
-- Two Agentic Browsing checks pass: llms.txt follows the llmstxt.org format, and the footnote zone no longer fails the accessibility-tree audit, which also drops the two deprecated-role allowlist rows. (#84; Lighthouse agentic-browsing config on the local build, llms-txt and agent-accessibility-tree 0 to 1, smoke 33 passed; deployed re-run is a post-ship check)
-- Project and tool pages now carry their own JSON-LD (a CreativeWork for each project, a WebPage about a SoftwareApplication for each tool), where before they emitted only the site-wide graph. (#83; both read back in the browser, smoke 33 passed; Rich Results Test is a post-ship check)
-- Glossary links in body text now expose their dotted underline to assistive checks, so they are no longer told apart by colour alone. (#185; axe passes on case study, node and glossary in light and dark with the four allowlist rows removed, 16 passed; visual unchanged by design, not compared in a browser)
 
-- Google now gets JSON-LD in the HTML it fetches: /about carries ProfilePage with mainEntity, and article, node, case study, release, page, person, glossary and series routes are prerendered (197 snapshots, was 98). (#82; new smoke spec reads the served HTML with no client JS, smoke 33 passed; Rich Results Test is a post-ship check)
-- Next and previous titles on case study, node and glossary pages meet 4.5:1 contrast: maroon in light, lighter pink in dark. (#184; axe passes with the three allowlist rows removed, smoke 28 passed, Visual QA approved)
-- Muted label text in the dark theme (article filter counts, node sidebar series label) meets 4.5:1 contrast, about 7:1 now. (#187; dark axe passes on /articles and /nodes with the allowlist rows removed, smoke 28 passed, Visual QA approved)
-- Dark-theme brand text meets 4.5:1 contrast (pink-400, 5.2:1, was 4.45:1), and the unused legacy light theme is removed. (#171; `pnpm validate:contrast` passes, Visual QA approved)
-- Studio schema comments for tags point at the live tag list and the write pipeline rule instead of a doc that never existed. (#174; `grep -rn taxonomy/controlled apps` finds no schema hits)
-- ST-202: vspecs start from one template with a light and dark toggle, ten fixed sections and a change-specific slot, plus a rules doc; epic Phases now carry a Gate so the next phase starts on its own. (local `pnpm test:smoke`: 28 passed)
-- The design-reviewer and the vspec instructions find ST- vspecs as well as SUG- ones, so an ST- epic's vspec is no longer skipped. (#209; reviewer run on ST-202 cited its vspec)
-- A span carrying both a link and a glossary term renders one anchor instead of a link inside a link, and `validate:content` flags such spans. (#143; no nested-anchor error on /articles/the-agentic-caucus, smoke 28 passed)
-- The Netlify build hook URL is out of the public repo: redacted from two Linear exports, the leaked hook deleted and replaced, and the Sanity redirect webhook repointed. (#240; old hook returns 404, git grep finds no hook URL, a redirect publish triggered a build)
-- 186 legacy WordPress redirects that pointed at pages that do not exist now point at real pages or the tag and article archives. (#249; 245 redirects audited, 0 dead after, /blog/blog and /tag/ceramics verified in a browser after the rebuild)
-- Homepage tile labels and the 404 "Back to home" link are maroon instead of hot pink, so they meet the contrast minimum (3.46:1 and 3.23:1 before, 5.47:1 after). (#172; axe passes on 18 of 18 route and theme runs with the two allowlist entries removed; Chromatic deferred to ship)
-- The Case filter chip on the knowledge graph uses the neutral chip look in dark Pink Moon instead of off-white text on a pink fill (3.24:1 before). (#170; contrast validator passes with the allowlist entry removed; not checked in a browser, Chromatic deferred to ship)
-- Chip and toggle interaction states are audited across the design system and the knowledge-graph filter strip: no component has a pressed state, and hover, selected and focus differ on every surface. (#250; seven surfaces, both themes, rendered probe plus stylesheet read; the design epic is the follow-up)
-- Tags, badges, buttons, icon buttons and segmented controls share one set of interaction states: a pressed look on all of them, a soft hover glow, a solid selected fill that stays put on hover, and the design-system focus ring. The knowledge-graph filter strip and the grid, list and graph view toggle now use the design-system components instead of their own copies. (#251; 49 smoke tests pass, hover, pressed and focus checked in both themes; Chromatic deferred to ship)
+---
+
+## [0.41.0] — 2026-11-24
+
+Interaction states across the design system, inbound-visibility work (prerendered structured data, real 404, redirects), contrast and accessibility fixes, Storybook accessibility and interaction testing, and CI and validator hardening. Aggregates everything since v0.40.0.
+
+### apps/web
+
+#### Added
+- Pressed state on links, rows, accordions and form fields; hover added where it was missing (Accordion in light, form fields); the open accordion item gets a pink rule. (#252)
+- Tags, badges, buttons, icon buttons and segmented controls share one interaction set: pressed look, soft hover glow, solid selected fill that holds on hover, and the design-system focus ring. (#251)
+- Hover and pressed show as a system-colour outline in forced-colours mode; the linked Tile gets pressed and focus states. (#262, #264)
+- /about carries ProfilePage with `mainEntity`; article, node, case study, release, page, person, glossary and series routes are prerendered (197 snapshots, was 98). (#82)
+- Project and tool pages carry their own JSON-LD and are prerendered, with thin tool pages noindexed in the HTML. (#83, #212)
+- Every prerendered page carries og:image (share image, else hero, else site default, cropped to 1200x630); AI-flagged share images serve their stamped copy. (#239)
+- Homepage and the six archive pages carry title, description and canonical in the HTML. (#256)
+- Tag pages with three or more posts carry their content in the HTML. (#257)
+- A citation typed as [N] in a table cell renders as a linked pill to its note. (#221)
+
+#### Changed
+- Three hover colours that failed contrast now underline in pink. (#252)
+- The knowledge-graph filter strip and the grid, list and graph view toggle use design-system components instead of their own copies. (#251)
+- Contents-strip and archive filter chips, people avatar, Core Web Vitals grid and release badges render shared components; chips take the standard chip look (normal case, ink when open). (#228)
+- Headings, mono labels and focus rings each have one definition; on phones h3 is 22.4px, was 18px; Card status labels render semibold. (#227)
+- Homepage tile labels and the 404 "Back to home" link are maroon, not hot pink (3.46:1 and 3.23:1 before, 5.47:1 after). (#172)
+- Dark-theme brand text is pink-400 (5.2:1, was 4.45:1); the unused legacy light theme is removed. (#171)
+- Muted dark-theme label text meets 4.5:1 (about 7:1 now). (#187)
+- Next and previous titles meet 4.5:1: maroon in light, lighter pink in dark. (#184)
+- The Case filter chip on the knowledge graph uses the neutral chip look in dark Pink Moon. (#170)
+- Glossary links expose their dotted underline to assistive checks. (#185)
+- /about: active nav item is maroon, bio intro is a paragraph, inline and gallery images open from a real button; /about is in the axe smoke routes. (#165)
+- Carousel slide dots are 24px tap targets with the 10px ring drawn inside; dots sit 6px further apart. (#247)
+- The footnote zone is a labelled section; the deprecated `doc-endnote` and `doc-endnotes` roles are gone. (#164, #84)
+- Headers and pre-header paint with the page, and the footer waits below the fold until content arrives (mobile CLS on the homepage 0.21 to 0.001). (#236)
+- The homepage shows content and hero image without waiting for the Sanity query (mobile LCP 4.75-5.17s to 2.75-2.78s). (#235)
+- The homepage loads lighter on phones: route code loads on visit, fonts no longer block first paint, hero image is phone-sized and fetched first. (#213)
+- A span carrying both a link and a glossary term renders one anchor. (#143)
+- Contents button sits directly under the header at every scroll position below desktop width. (#266)
+- /home redirects to the homepage. (#255)
+- Unknown URLs return a real 404 instead of 200. (#256)
+- Tag pages under three posts are noindex and out of the sitemap; two old roadmap URLs redirect. (#257)
+- Structured data on About and article pages: email removed from profile links, alternate names added, image on articles and case studies, /services no longer typed as a profile page. (#258)
+- 186 legacy WordPress redirects now point at real pages or the tag and article archives. (#249)
+- llms.txt follows the llmstxt.org format and the footnote zone passes the accessibility-tree audit. (#84)
+- An AI image on two articles and the showcase page is redacted in Sugartown pink; every use carries the AI badge, descriptive alt text and stamped copies. (#225)
+
+#### Removed
+- Five status colour pairs that failed contrast: the draft, designing, testing and exploring status tokens and one unused text colour (654 tokens to 641). (#169)
+
+### apps/studio
+
+#### Changed
+- Archive page settings moved out of the "coming soon" tab into Content, Filtering and a new Display tab; dead legacy fields labelled or removed; /releases opens as a list. (#210)
+- The tool description field says it is public reader copy; editor-only "Tag when…" sentences removed from Contentful, Sanity and Vercel. (#211)
+- Tag schema comments point at the live tag list and the write pipeline rule. (#174)
+
+#### Fixed
+- The CLI default dataset is `production` instead of one that does not exist. (#259)
+
+### packages/design-system
+
+#### Added
+- Pressed, hover and open states for links, rows, disclosures and fields; forced-colours outlines; Tile pressed and focus states. (#252, #262, #264)
+
+### apps/storybook
+
+#### Added
+- Every story is checked for accessibility in both Pink Moon themes on each CI run; known failures are listed (49, tracked in #246). (#50 Phase 2)
+- 17 interaction tests on 10 components and a per-component coverage table in each CI job summary. (#50 Phases 1 and 3)
+
+#### Fixed
+- The Storybook accessibility job builds the design system first, so CI on main is green on a fresh checkout. (#248)
+
+### Tooling and process
+
+- `validate:states` runs on every commit; `validate:vspec-contrast` measures a vspec's colour pairs in both themes. (#263)
+- CI installs Playwright browsers before the liveness probes, so the `validate:vspec-contrast` probe runs. (CI run 45437236840)
+- Liveness probes grow from 17 to 39 gates, covering the five Sanity-backed validators. (#93)
+- The archive filter gate checks the filter code the site runs, and a probe fails if a copy returns. (#216)
+- `validate:content` flags nested anchors, a typed [N] in body text and a citation number with no note; `validate:tokens` fails a hand-typed heading, label or focus-ring copy. (#143, #221, #227)
+- The wip mirror hook recovers after a second machine moves the day's ref. (#215)
+- `pnpm export:draft new | export | check` for content working drafts. (#224)
+- The Netlify build hook URL is out of the public repo; the leaked hook is deleted and replaced. (#240)
+- Vspecs start from one template with a light and dark toggle; epic Phases carry a Gate (ST-202). The design-reviewer finds ST- vspecs. (#209)
+- Audits and verdicts recorded: style-cluster drift (#68), chip and toggle states (#250), sidebar states (#261), ST-95 and ST-100 kill criteria (#134, #222).
+
+### Content
+
+- "I Automated the Pipeline" (Career Engineering part 2) published. (#162)
 
 ---
 
