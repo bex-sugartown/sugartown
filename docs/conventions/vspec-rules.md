@@ -76,6 +76,8 @@ Run the script in the browser console on the served vspec (serve the repo root w
 })()
 ```
 
+**Declare the pairs in a sidecar and let the script measure them.** Write `ST-{N}-{slug}.contrast.json` beside the vspec (fields are in the header of `apps/web/scripts/validate-vspec-contrast.js`) and run `pnpm --filter web validate:vspec-contrast`. It composes backgrounds from the element up to the prototype frame, over the theme canvas, because the frame's own wash is not on the live page (ST-252: a hand measurement on the frame gave 4.45:1 for a link that is 5.13:1 live). It runs on commit when a sidecar is staged.
+
 A text pair under 4.5:1 is fixed before sign-off, not noted. (ST-202: pass and fail words in the signal colours measured 3.54 and 3.20 in light; the words moved to default text colour and the signal colour to a border.)
 
 ## Decisions answered

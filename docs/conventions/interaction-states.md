@@ -33,6 +33,6 @@
 
 1. **A new interactive component takes the row for its type.** A state left out needs an entry in `state-allowlist.json` with a reason.
 2. **Pressed on text is not a shade.** A shade under text is invisible; use text-default and a heavier underline.
-3. **Hover text is never brand-primary on the canvas.** It measures 3.47:1 in light and 4.45:1 in dark, under the 4.5:1 minimum. Use text-default or ink and put the pink on an underline or border.
-4. **Measure a pair a vspec composes.** `pnpm validate:contrast` checks token pairs only; the script in `docs/conventions/vspec-rules.md` covers the rest.
+3. **Hover text is never brand-primary on the light canvas.** Pink-500 on the light canvas measures under the 4.5:1 minimum (3.2:1; 3.47:1 on white). In dark it passes (5.13:1 on the canvas), so the rule is for light and for any pink-on-wash pair (List title on lime, 3.42:1). Use text-default or ink and put the pink on an underline or border.
+4. **Measure a pair a vspec composes.** `pnpm validate:contrast` checks token pairs only. List the vspec's pairs in `ST-N-slug.contrast.json` beside it and run `pnpm --filter web validate:vspec-contrast`; it measures on the canvas, not the prototype frame, and runs on commit when a sidecar is staged.
 5. **Probe the rendered page before drawing the vspec.** `node tests/probes/state-probe.cjs` reports which states change a computed style, in both themes.
