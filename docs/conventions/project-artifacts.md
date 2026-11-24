@@ -58,7 +58,14 @@ An issue belongs to a project if it is set **Relates to** one of the project's i
 gh api graphql -f query='{ repository(owner:"bex-sugartown", name:"sugartown") { issue(number: N) { relatesTo(first: 50) { nodes { number title state } } } } }'
 ```
 
-The rule: when work finds a bug, depends on one, or spawns a follow-up, set that issue **Relates to** the project's issue at that moment (issue sidebar, Relationships). The relationship shows on both issues. Use **Blocked by** only for a dependency that blocks the work.
+The rule: when work finds a bug, depends on one, or spawns a follow-up, set that issue **Relates to** the project's issue at that moment (issue sidebar, Relationships, or the command below). The relationship shows on both issues. Use **Blocked by** only for a dependency that blocks the work.
+
+To set it from the command line, replace `F` with the follow-up's number and `E` with the project's issue number (confirmed 2026-11-24, five issues set and read back):
+
+```bash
+id() { gh api graphql -f query='query($n:Int!){repository(owner:"bex-sugartown",name:"sugartown"){issue(number:$n){id}}}' -F n=$1 --jq .data.repository.issue.id; }
+gh api graphql -f query='mutation($a:ID!,$b:ID!){addRelatesTo(input:{issueId:$a,relatedIssueId:$b}){clientMutationId}}' -f a=$(id F) -f b=$(id E)
+```
 
 ### Other relationship types (not used yet)
 
