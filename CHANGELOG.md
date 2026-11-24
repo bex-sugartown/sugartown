@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Links, rows, accordions and form fields now show a pressed state, hover is added where it was missing (Accordion in light, form fields), and the open accordion item gets a pink rule; three hover colours that failed contrast now underline in pink instead. (#252; axe smoke 18 of 18 and interaction smoke 18 of 18 in both themes, Chromatic deferred to ship)
 - Carousel slide dots are now 24px tap targets, meeting the WCAG 2.2 minimum, with the same 10px ring drawn inside; the dots sit 6px further apart. (#247; Storybook accessibility 780 of 780 pass with the ImageGallery exemption removed, axe smoke 18 of 18 in both themes; Chromatic pending)
 - The footnote zone no longer uses the deprecated `doc-endnote` and `doc-endnotes` roles: it is a labelled section and the back-links keep the footnote relationship for screen readers, so axe stops reporting the deprecation. (#164; fixed in 1246d982 under #84, smoke axe spec 18 of 18 pass in both themes, allowlist entry already removed)
 - The Studio's command-line default now points at the `production` dataset instead of one that does not exist, so CLI queries and migrations run against real content. (#259; read-only CLI query returned a document from production, no `dataset: 'test'` left in `apps/studio`)

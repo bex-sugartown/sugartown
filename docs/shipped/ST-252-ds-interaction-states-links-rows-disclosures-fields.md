@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-252 — Extend the interaction state contract to links, rows, disclosures and form fields
 **Issue:** [#252](https://github.com/bex-sugartown/sugartown/issues/252)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at end
 **Visual:** yes
@@ -47,10 +47,10 @@ Not applicable, no content piece.
 
 - [x] Rendered audit of the components in the table, light and dark: computed styles for rest, hover, mouse-down, focus-visible and selected or open. Settles the Phase 0 unknowns above — layer: audit
 - [x] Vspec: each component's five states in light and dark, built from the #251 matrix, with the State dropdown prototype from #251 — layer: vspec (Phase 0)
-- [ ] Pressed state on Card, Citation, FilterBar options and clear-all, IndexCell, MediaLabel, from `--st-state-pressed-shade` — layer: DS component
-- [ ] Focus-visible on Breadcrumb links and List rows; hover on Input and Textarea; Sidebar and SidebarNav hover — layer: DS component and web-only component
-- [ ] Accordion open state styled; `styles.itemOpen` and `styles.accordionNumbered` resolved and removed from the dead-reference list — layer: DS component
-- [ ] Storybook: state stories for the components above, both themes. #251 declined static state stories (no addon for hover and pressed); confirm the approach with Bex at Phase 0 — layer: Storybook
+- [x] Pressed state on Card, Citation, FilterBar options and clear-all, IndexCell, MediaLabel, from `--st-state-pressed-shade` — layer: DS component
+- [x] Focus-visible on Breadcrumb links and List rows; hover on Input and Textarea; Sidebar and SidebarNav hover — layer: DS component and web-only component
+- [x] Accordion open state styled; `styles.itemOpen` and `styles.accordionNumbered` resolved and removed from the dead-reference list — layer: DS component
+- [x] Storybook: state stories for the components above, both themes. #251 declined static state stories (no addon for hover and pressed); confirm the approach with Bex at Phase 0 — layer: Storybook (declined 2026-11-24, smoke spec instead; see Close-out review)
 
 ## Rendered audit (Phase 0, 2026-11-23)
 
@@ -104,11 +104,11 @@ Sidebar toggle: the vspec drew it, but `Sidebar-module__toggle` has zero visible
 ## Acceptance Criteria
 
 - [x] Vspec exists at the path above, shows five states in both themes per component, and Bex has marked Phase 0 complete before any code is written
-- [ ] Rendered probe shows a computed-style change for pressed, hover and focus-visible on every component in the table, both themes; today none shows one for pressed
-- [ ] Accordion open state is styled; `pnpm validate:dead-refs` no longer lists `Accordion.tsx styles.accordionNumbered` or `Accordion.tsx styles.itemOpen`
-- [ ] `pnpm validate:contrast` and `pnpm exec playwright test tests/smoke/a11y.spec.ts` pass in light and dark, with no new allowlist entry
-- [ ] `pnpm validate:style-mirror` and `pnpm validate:tokens` pass
-- [ ] Chromatic pass approved by Bex for all phases' diffs
+- [x] Rendered probe shows a computed-style change for pressed, hover and focus-visible on every component in the table, both themes; today none shows one for pressed (met for 11 of 14; Sidebar toggle, SidebarNav and PageSidebar links not rendered anywhere, filed as #261)
+- [x] Accordion open state is styled; `pnpm validate:dead-refs` no longer lists `Accordion.tsx styles.accordionNumbered` or `Accordion.tsx styles.itemOpen`
+- [x] `pnpm validate:contrast` and `pnpm exec playwright test tests/smoke/a11y.spec.ts` pass in light and dark, with no new allowlist entry
+- [x] `pnpm validate:style-mirror` and `pnpm validate:tokens` pass
+- [ ] Chromatic pass approved by Bex for all phases' diffs (deferred to ship)
 
 ## Human QA Walkthrough — example local pages
 
@@ -145,3 +145,40 @@ Sidebar toggle: the vspec drew it, but `Sidebar-module__toggle` has zero visible
 - **Depends on (closed):** [#251](https://github.com/bex-sugartown/sugartown/issues/251)
 - **Audit:** [#250](https://github.com/bex-sugartown/sugartown/issues/250); also #171, #254
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+### Acceptance criteria
+
+- Vspec exists and Bex marked Phase 0 complete before any code: met, approved as drawn 2026-11-24.
+- Pressed, hover and focus-visible change a computed style on every component, both themes: met for the 11 DS components by the rendered probe and 6 surfaces in `tests/smoke/interaction-states.spec.ts` (18 tests pass). Not met by rendered evidence for Sidebar toggle, SidebarNav and PageSidebar links, which render nowhere on the pages tried; filed as #261.
+- Accordion open state styled, both dead references gone: met; `pnpm validate:dead-refs` lists two entries (Container bleed, Sidebar `.sidebar`).
+- `pnpm validate:contrast` and the axe smoke pass in both themes, no new allowlist entry: met; the allowlist is still empty.
+- `validate:style-mirror` and `validate:tokens` pass: met.
+- Chromatic pass approved by Bex: deferred to the ship step. <!-- Chromatic: pending -->
+- Visual QA: "Visual QA approved" from Bex, 2026-11-24; design-reviewer found 0 Drift at code level.
+- Storybook state stories: declined, same reason as #251 (no hover, pressed or focus in a static story without forced-state selectors in 14 stylesheets or a new addon). Bex chose the smoke spec, 2026-11-24.
+
+### What didn't work
+
+- The vspec decision on Storybook assumed forced-state stories were possible; #251's declined reason was not re-read first, so the decision had to be reopened at Phase 2.
+- The first Before-image capture missed FilterBar option and IndexCell (selectors found nothing), and the spec harness needed three fixes (focus sequence, scroll settling, press target) before the new smoke tests were stable.
+- Three existing hover looks measured under 4.5:1 and changed from pink text to a pink underline; this was found by measuring the vspec's own pairs, not by `validate:contrast`.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Citation back-link resting colour 4.45:1 in dark | implementation | [#260](https://github.com/bex-sugartown/sugartown/issues/260) |
+| Render and verify Sidebar toggle, SidebarNav and PageSidebar link states; decide whether the toggle is dead | implementation | [#261](https://github.com/bex-sugartown/sugartown/issues/261) |
+| `validate:contrast` does not check pairs a component composes at hover or pressed | workflow-docs | declined: the vspec contrast script covers this at Phase 0 and a new validator needs its own issue |
+| Storybook cannot show hover, pressed or focus | implementation | declined: smoke spec chosen, see above |
+
+### Friction line
+
+The vspec's Storybook decision was drawn without re-reading #251's declined reason, so Phase 2 reopened it.
+
+## Post-ship checks
+
+- Chromatic pass: person: approve the VRT diff at ship; component CSS changed, no stories changed.
+- Live hover and pressed on Accordion (light), List row and IndexCell on sugartown.io: person: hover and press each once in light and dark.

@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-252 vspec: interaction states, links, rows, disclosures, fields</title>
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
+<style>
+/* Template-only styles. Every value is a Pink Moon token. The shared base is ../conventions/doc-base.css. */
+:root{--doc-max-width:1180px;--doc-line-height:1.5;--doc-h1-gap:var(--st-space-1);--doc-p-gap:var(--st-space-2)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+h3{font-size:var(--st-font-size-lg);margin:var(--st-space-5) 0 var(--st-space-2)}
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+.vspecPass,.vspecFail{font-weight:var(--st-font-weight-bold);padding:0 var(--st-space-2);border:2px solid var(--st-color-border-strong)}
+.vspecPass{border-color:var(--st-posture-strong)}
+.vspecFail{border-color:var(--st-color-error)}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
+@media (max-width:768px){.vspecPair{grid-template-columns:1fr}}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm);overflow-x:auto}
+.vspecFrame img{max-width:100%;height:auto}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+
+/* ── Prototype matrix layout (vspec-only, prefix vspec) ── */
+.vspecMatrix{display:grid;grid-template-columns:minmax(150px,190px) repeat(var(--vspecCols,5),minmax(120px,1fr));gap:var(--st-space-2);align-items:center}
+.vspecControls{display:flex;gap:var(--st-space-3);align-items:center;flex-wrap:wrap;margin-bottom:var(--st-space-3)}
+.vspecControls label{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);text-transform:uppercase}
+.vspecControls select{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);padding:var(--st-space-1) var(--st-space-3);background:var(--st-color-bg-surface);color:var(--st-color-text-default);border:1px solid var(--st-color-border-strong)}
+.vspecControls select:focus-visible{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+.vspecHead{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);text-transform:uppercase;color:var(--st-color-text-muted)}
+.vspecRowLabel{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-default)}
+.vspecCell{display:flex;gap:var(--st-space-2);align-items:center;flex-wrap:wrap;padding:var(--st-space-2);min-height:56px;min-width:0}
+.vspecNa{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted)}
+.vspecCell > *{max-width:100%}
+
+/* ═══ Production class names below, each under a vspec scope so same-named classes from different modules do not collide.
+   A [data-state] attribute forces a state for display; production uses the pseudo-class. Pressed is the #251 shade. ═══ */
+
+/* Accordion (Accordion.module.css: .item, .trigger, .triggerLabel, .chevron, .chevronOpen; .itemOpen is new) */
+.vspecAccordion .item{border-bottom:1px solid var(--st-color-rule-accent);width:100%}
+.vspecAccordion .trigger{display:flex;align-items:center;justify-content:space-between;gap:var(--st-space-4);width:100%;padding:var(--st-space-3) 0;background:none;border:none;cursor:pointer;text-align:left;color:var(--st-color-text-primary);font-family:inherit;transition:color .2s ease}
+.vspecAccordion .triggerLabel{font-family:var(--st-font-family-narrative);font-size:1.125rem}
+.vspecAccordion .chevron{flex-shrink:0;transition:transform .2s ease;color:var(--st-color-text-secondary)}
+.vspecAccordion .chevronOpen{transform:rotate(180deg);color:var(--st-color-pink)}
+.vspecAccordion .itemOpen{border-bottom-color:var(--st-color-pink)}
+/* hover: the label recolour already in the CSS is outranked by the light-theme .trigger rule; the fix moves hover to the label itself */
+.vspecAccordion .trigger:hover .triggerLabel,.vspecAccordion .trigger[data-state="hover"] .triggerLabel{color:var(--st-color-text-default);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.vspecAccordion .trigger:hover .chevron,.vspecAccordion .trigger[data-state="hover"] .chevron{color:var(--st-color-brand-primary)}
+.vspecAccordion .trigger:active,.vspecAccordion .trigger[data-state="pressed"]{box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecAccordion .trigger:active .triggerLabel,.vspecAccordion .trigger[data-state="pressed"] .triggerLabel{color:var(--st-color-text-default)}
+.vspecAccordion .trigger:focus-visible,.vspecAccordion .trigger[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* Breadcrumb (Breadcrumb.module.css: .link) */
+.vspecBreadcrumb .link{font-family:var(--st-font-family-mono);font-size:var(--st-breadcrumb-font-size);letter-spacing:var(--st-breadcrumb-letter-spacing);text-transform:uppercase;color:var(--st-breadcrumb-link-color);text-decoration:none;white-space:nowrap}
+.vspecBreadcrumb .link:hover,.vspecBreadcrumb .link[data-state="hover"]{color:var(--st-color-text-default);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.vspecBreadcrumb .link:active,.vspecBreadcrumb .link[data-state="pressed"]{color:var(--st-color-text-default);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
+.vspecBreadcrumb .link:focus-visible,.vspecBreadcrumb .link[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* List row (List.module.css: .rowLink, .rowTitle, .rowTag, .rowDate) */
+.vspecList .rowLink{display:flex;align-items:baseline;gap:var(--st-space-3);width:100%;padding:var(--st-space-2) var(--st-space-2);color:var(--st-color-text-primary);text-decoration:none;box-sizing:border-box}
+.vspecList .rowTitle{font-size:1rem;font-weight:600;transition:color 120ms ease}
+.vspecList .rowDate{margin-left:auto;font-family:var(--st-font-family-mono);font-size:11px;color:var(--st-color-text-muted);white-space:nowrap}
+.vspecList .rowLink:hover,.vspecList .rowLink[data-state="hover"]{background-color:var(--st-color-lime-100)}
+.vspecList .rowLink:hover .rowTitle,.vspecList .rowLink[data-state="hover"] .rowTitle{color:var(--st-color-ink);text-decoration:underline;text-decoration-color:var(--st-color-pink);text-decoration-thickness:1px;text-underline-offset:3px}
+[data-theme="dark-pink-moon"] .vspecList .rowLink:hover .rowDate,[data-theme="dark-pink-moon"] .vspecList .rowLink[data-state="hover"] .rowDate{color:var(--st-color-ink)}
+.vspecList .rowLink:active,.vspecList .rowLink[data-state="pressed"]{background-color:var(--st-color-lime-100);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecList .rowLink:active .rowTitle,.vspecList .rowLink[data-state="pressed"] .rowTitle{color:var(--st-color-ink);text-decoration:underline;text-decoration-color:var(--st-color-pink);text-decoration-thickness:1px;text-underline-offset:3px}
+.vspecList .rowLink:focus-visible,.vspecList .rowLink[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:calc(var(--st-focus-ring-offset) * -1)}
+
+/* Card (Card.module.css: .card, .titleLink; the whole card is the click target through the title link) */
+.vspecCard .card{position:relative;width:100%;box-sizing:border-box;padding:var(--st-space-3);background:var(--st-card-bg);border:1px solid var(--st-card-border);transition:box-shadow .2s ease,transform .2s ease,border-color .2s ease}
+.vspecCard .titleLink{font-weight:600;color:var(--st-color-text-primary);text-decoration:none}
+.vspecCard .card:hover,.vspecCard .card[data-state="hover"]{border-color:var(--st-card-hover-border,var(--st-color-border-default));box-shadow:var(--st-card-hover-shadow);transform:translateY(var(--st-card-hover-translate-y))}
+.vspecCard .card:hover .titleLink,.vspecCard .card[data-state="hover"] .titleLink{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.vspecCard .card:active,.vspecCard .card[data-state="pressed"]{transform:none;border-color:var(--st-color-pink);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecCard .card:active .titleLink,.vspecCard .card[data-state="pressed"] .titleLink{text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px}
+.vspecCard .card[data-state="focus"],.vspecCard .card:has(.titleLink:focus-visible){outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+@media (prefers-reduced-motion:reduce){.vspecCard .card:hover,.vspecCard .card[data-state="hover"]{transform:none}}
+
+/* Citation (Citation.module.css: .markerLink, .backLink) */
+.vspecCitation .markerLink{display:inline-block;background-color:var(--st-citation-marker-bg);color:var(--st-citation-marker-color);font-family:var(--st-citation-font);font-size:var(--st-citation-size);font-weight:var(--st-font-weight-bold);line-height:1;padding:2px 4px;text-decoration:none;transition:opacity .15s ease}
+.vspecCitation .backLink{color:var(--st-color-link-default);text-decoration:none;margin-left:.5em}
+.vspecCitation .markerLink:hover,.vspecCitation .markerLink[data-state="hover"]{opacity:.85}
+.vspecCitation .backLink:hover,.vspecCitation .backLink[data-state="hover"]{text-decoration:underline}
+.vspecCitation .markerLink:active,.vspecCitation .markerLink[data-state="pressed"]{opacity:1;background-color:var(--st-color-text-default);color:var(--st-color-bg-canvas)}
+.vspecCitation .backLink:active,.vspecCitation .backLink[data-state="pressed"]{color:var(--st-color-text-default);text-decoration:underline;text-decoration-thickness:2px}
+.vspecCitation .markerLink:focus-visible,.vspecCitation .markerLink[data-state="focus"],.vspecCitation .backLink:focus-visible,.vspecCitation .backLink[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* FilterBar option (FilterBar.module.css: .optionLabel, .optionCheckbox, .optionName) and .clearAllButton */
+.vspecFilterBar .optionLabel{display:flex;align-items:center;gap:.375rem;cursor:pointer;color:var(--st-color-text-default);line-height:1.4;width:100%;padding:var(--st-space-1) var(--st-space-2);box-sizing:border-box}
+.vspecFilterBar .optionCheckbox{appearance:none;flex-shrink:0;width:1rem;height:1rem;margin:0;border:1px solid var(--st-color-rule-accent);background:transparent;border-radius:0;cursor:pointer}
+.vspecFilterBar .optionCheckbox:checked{background:var(--st-color-brand-primary);border-color:var(--st-color-brand-primary)}
+.vspecFilterBar .optionLabel:hover .optionName,.vspecFilterBar .optionLabel[data-state="hover"] .optionName{color:var(--st-color-text-default);text-decoration:underline;text-decoration-color:var(--st-color-pink);text-decoration-thickness:1px;text-underline-offset:3px}
+.vspecFilterBar .optionLabel:hover .optionCheckbox,.vspecFilterBar .optionLabel[data-state="hover"] .optionCheckbox{border-color:var(--st-color-brand-primary)}
+.vspecFilterBar .optionLabel:active,.vspecFilterBar .optionLabel[data-state="pressed"]{box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecFilterBar .optionLabel:active .optionName,.vspecFilterBar .optionLabel[data-state="pressed"] .optionName{color:var(--st-color-text-default)}
+.vspecFilterBar .optionLabel:active .optionCheckbox,.vspecFilterBar .optionLabel[data-state="pressed"] .optionCheckbox{border-color:var(--st-color-pink)}
+.vspecFilterBar .optionLabel[data-state="focus"] .optionCheckbox,.vspecFilterBar .optionCheckbox:focus-visible{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+.vspecFilterBar .clearAllButton{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);padding:var(--st-space-1) var(--st-space-3);background:transparent;color:var(--st-color-text-muted);border:1px solid var(--st-chip-border);cursor:pointer;transition:color .15s ease,border-color .15s ease}
+.vspecFilterBar .clearAllButton:hover,.vspecFilterBar .clearAllButton[data-state="hover"]{color:var(--st-color-text-default);border-color:var(--st-color-text-default)}
+.vspecFilterBar .clearAllButton:active,.vspecFilterBar .clearAllButton[data-state="pressed"]{color:var(--st-color-text-default);border-color:var(--st-color-pink);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecFilterBar .clearAllButton:focus-visible,.vspecFilterBar .clearAllButton[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* IndexCell (IndexCell.module.css: .cell, .active, .selected) */
+.vspecIndexCell .cell{width:var(--st-index-cell-size);height:var(--st-index-cell-size);display:inline-flex;align-items:center;justify-content:center;font-family:var(--st-font-family-mono);font-size:var(--st-index-cell-font-size);font-weight:var(--st-index-cell-weight);text-transform:uppercase;text-decoration:none;line-height:1;cursor:pointer;transition:background .1s,color .1s,border-color .1s}
+.vspecIndexCell .active{border:1px solid var(--st-chip-border);background:transparent;color:var(--st-color-text-muted)}
+.vspecIndexCell .active:hover,.vspecIndexCell .active[data-state="hover"]{border-color:var(--st-color-pink);color:var(--st-color-text-default)}
+.vspecIndexCell .selected{border:1px solid var(--st-color-text-default);background:var(--st-color-text-default);color:var(--st-color-bg-canvas)}
+.vspecIndexCell .selected:hover,.vspecIndexCell .selected[data-state="hover"]{border-color:var(--st-color-pink)}
+.vspecIndexCell .cell:active,.vspecIndexCell .cell[data-state="pressed"]{border-color:var(--st-color-pink);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecIndexCell .active:active,.vspecIndexCell .active[data-state="pressed"]{color:var(--st-color-text-default)}
+.vspecIndexCell .cell:focus-visible,.vspecIndexCell .cell[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* MediaLabel (MediaLabel.module.css: .mediaLabel). Not a control: it reveals detail on hover or focus. */
+.vspecMediaLabel .mediaLabel{display:inline-flex;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);padding:var(--st-space-1) var(--st-space-2);background:var(--st-chip-tag-bg);border:1px solid var(--st-chip-border);color:var(--st-chip-fg);cursor:default}
+.vspecMediaLabel .detail{display:none;margin-left:var(--st-space-2)}
+.vspecMediaLabel .mediaLabel:hover,.vspecMediaLabel .mediaLabel[data-state="hover"]{border-color:var(--st-color-pink)}
+.vspecMediaLabel .mediaLabel:hover .detail,.vspecMediaLabel .mediaLabel[data-state="hover"] .detail,.vspecMediaLabel .mediaLabel[data-state="focus"] .detail,.vspecMediaLabel .mediaLabel:focus-visible .detail{display:inline}
+.vspecMediaLabel .mediaLabel:focus-visible,.vspecMediaLabel .mediaLabel[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* Input, Textarea (Input.module.css, Textarea.module.css: .input, .textarea, .error) */
+.vspecField .input,.vspecField .textarea{display:block;width:100%;box-sizing:border-box;padding-inline:var(--st-space-3);padding-block:var(--st-space-2);font-family:var(--st-font-family-ui);font-size:var(--st-font-size-sm);color:var(--st-color-text-default);background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-default);border-radius:0;outline:none;appearance:none;transition:border-color .15s ease,box-shadow .15s ease}
+.vspecField .input:hover,.vspecField .input[data-state="hover"],.vspecField .textarea:hover,.vspecField .textarea[data-state="hover"]{border-color:var(--st-color-border-strong)}
+.vspecField .input:focus,.vspecField .input[data-state="focus"],.vspecField .textarea:focus,.vspecField .textarea[data-state="focus"]{border-color:var(--st-color-focus);box-shadow:0 0 0 2px var(--st-color-bg-elevated)}
+
+/* Sidebar toggle (Sidebar.module.css: .toggle on a details summary) */
+.vspecSidebar .toggle{background:none;border:0;list-style:none;cursor:pointer;display:flex;align-items:center;gap:.5rem;padding:.375rem .5rem;font-family:var(--st-label-font);font-size:.7rem;font-weight:var(--st-label-weight);letter-spacing:var(--st-label-tracking);text-transform:uppercase;color:var(--st-color-text-default);width:100%;box-sizing:border-box}
+.vspecSidebar .toggle::before{content:'\25B8';transition:transform .15s ease;color:var(--st-color-text-muted)}
+.vspecSidebar .toggle[data-open="true"]::before{transform:rotate(90deg);color:var(--st-color-pink)}
+.vspecSidebar .toggle:hover,.vspecSidebar .toggle[data-state="hover"]{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+.vspecSidebar .toggle:hover::before,.vspecSidebar .toggle[data-state="hover"]::before{color:var(--st-color-brand-primary)}
+.vspecSidebar .toggle:active,.vspecSidebar .toggle[data-state="pressed"]{color:var(--st-color-text-default);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecSidebar .toggle:focus-visible,.vspecSidebar .toggle[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+.vspecSidebar .relatedLink{color:var(--st-color-text-default);text-decoration:none;font-size:.8125rem;transition:color var(--st-transition-fast)}
+.vspecSidebar .relatedLink:hover,.vspecSidebar .relatedLink[data-state="hover"]{color:var(--st-color-text-default);text-decoration:underline;text-decoration-color:var(--st-color-pink);text-underline-offset:3px;text-decoration-thickness:1px}
+.vspecSidebar .relatedLink:active,.vspecSidebar .relatedLink[data-state="pressed"]{color:var(--st-color-text-default);text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:2px}
+.vspecSidebar .relatedLink:focus-visible,.vspecSidebar .relatedLink[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+</style>
+</head>
+<body>
+<main>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<h1>ST-252 · Interaction states for links, rows, disclosures and fields</h1>
+<p>Issue #252, from the audit in #250 and the contract in #251. Phase 0 visual spec. Class names are the production names, scoped here under a <code>vspec</code> wrapper so same-named classes from different components do not collide. Values are tokens unless marked.</p>
+<div class="vspecNote"><strong>Status:</strong> approved as drawn by Bex, 2026-11-24. Nothing in <code>apps/web/src/</code> or <code>packages/design-system/src/</code> changes until the Phase 0 boxes are ticked. Open decisions are in section 9. Sidebar and SidebarNav are drawn from the CSS and are not yet rendered-probed (decision 8).</div>
+
+<h2>1. Interactive prototype</h2>
+<p>The Behaviour dropdown shows all five states or one at a time. The matrix forces each state so it can be seen without hovering. The live row uses real browser states: hover, press and Tab to try them, and click the accordion trigger and the sidebar toggle. Use the toggle above for dark. Rows with no open state show "not a toggle".</p>
+<div class="vspecFrame" id="prototype">
+  <div class="vspecControls"><label for="stateSelect">Behaviour</label>
+    <select id="stateSelect"><option value="all">All states</option><option value="rest">Rest</option><option value="hover">Hover</option><option value="open">Selected or open</option><option value="pressed">Pressed</option><option value="focus">Focus</option></select>
+    <span class="vspecCaption" id="stateNote">Showing all five states.</span></div>
+  <div class="vspecMatrix" id="matrix" role="table" aria-label="State matrix"></div>
+  <h3>Live row (real hover, press and keyboard focus)</h3>
+  <div class="vspecCell" id="live" style="align-items:flex-start"></div>
+</div>
+
+<h2>2. Before and after</h2>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> Light
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-252-before-live-2026-11-24-light.webp" alt="Live sugartown.io Accordion trigger, Breadcrumb link, List row, Card title link, Citation marker, FilterBar option, IndexCell, MediaLabel, Input and Textarea at rest, hover and focus, in light"><figcaption class="vspecCaption">Captured 2026-11-24 · local build of the live site (/articles/pink-moon-and-ledger, /tools/aem, /tools/aem-assets, /articles, /about, /contact). Hover, pressed and focus are forced pseudo-states. Pressed matches hover on every row. FilterBar option, IndexCell and the Sidebar toggle are not in the image: the capture did not find them, so their live state is the rendered audit in the epic doc, not a picture.</figcaption></figure></div>
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> Dark
+    <figure style="margin:var(--st-space-2) 0 0"><img src="ST-252-before-live-2026-11-24-dark.webp" alt="The same components in dark"><figcaption class="vspecCaption">Captured 2026-11-24 · same pages and states.</figcaption></figure></div>
+</div>
+<div class="vspecFrame" style="margin-top:var(--st-space-4)"><span class="vspecTag vspecTagAfter">AFTER</span>
+  <p style="margin-top:var(--st-space-2)">Section 1: a pressed state on every interactive row, hover where it is missing, an open state on Accordion and Sidebar, one focus ring, light and dark.</p><div class="vspecCaption">Source: section 1</div></div>
+
+<h2>3. Behaviour annotations</h2>
+<p>Applies to the Sidebar toggle and PageSidebar (the anchor-bearing surfaces in scope). The Accordion trigger and the Breadcrumb are listed too, since each changes what a click does visually.</p>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>Sidebar toggle open: the arrow turns pink and rotates 90 degrees (the rotation exists; the pink is new). Accordion open: the item's bottom rule turns pink and the chevron stays pink and rotated (the chevron exists). Breadcrumb: the last crumb is the current page and is not a link, so it has no states.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>None added. Accordion and Sidebar toggles change visibility only; the URL does not change (same as today).</td></tr>
+<tr><td>Scroll-spy</td><td>None. PageSidebar related and series links navigate away; there is no in-page active item.</td></tr>
+<tr><td>Sticky/fixed</td><td>Unchanged. Sidebar panel stays sticky on desktop as today; this epic changes states only.</td></tr>
+<tr><td>Mobile collapse</td><td>Unchanged. The Sidebar collapses to the disclosure toggle below its breakpoint; the toggle gets hover, pressed and open styling. On touch there is no hover, so pressed is the visible feedback.</td></tr>
+<tr><td>Click side-effects</td><td>Unchanged. Accordion and Sidebar toggle open or close their panel; links navigate. Pressed shows only while the pointer button is down.</td></tr>
+</table>
+
+<h2>4. Contrast, measured</h2>
+<p>Measured on this vspec, 2026-11-24, with transitions switched off so no value is read mid-fade. Text needs 4.5:1, non-text 3:1. "With shade" composites <code>--st-state-pressed-shade</code> (text-default at 12%) over the background. The three hover looks that failed in the live build are redrawn as passing here (decision 10).</p>
+<table>
+<tr><th>Pair</th><th>Light ratio</th><th>Dark ratio</th><th>Verdict</th></tr>
+<tr><td>Accordion label, rest</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Accordion label, hover</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Accordion chevron, hover</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Accordion label, pressed (with shade)</td><td>14.21</td><td>10.61</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Accordion open rule</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Breadcrumb link, rest</td><td>5.01</td><td>6.28</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Breadcrumb link, hover</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Breadcrumb link, pressed</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>List title, hover (on lime wash)</td><td>18.09</td><td>18.09</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>List title, pressed (wash plus shade)</td><td>14.01</td><td>18.08</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>List date, hover</td><td>4.94</td><td>18.09</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Card title, rest</td><td>19.16</td><td>12.76</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Card title, pressed (with shade)</td><td>14.81</td><td>8.85</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Card pressed border</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Citation back-link, rest (existing, out of scope)</td><td>5.87</td><td>4.45</td><td><span class="vspecFail">Fail</span> (4.5:1)</td></tr>
+<tr><td>Citation back-link, pressed</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Citation marker, pressed (with shade)</td><td>17.12</td><td>17.5</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>FilterBar name, rest</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>FilterBar name, hover</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>FilterBar name, pressed (with shade)</td><td>14.21</td><td>10.61</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>FilterBar box border, hover</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Clear-all label, rest</td><td>5.01</td><td>6.28</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Clear-all label, pressed (with shade)</td><td>14.21</td><td>10.61</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Clear-all border, rest</td><td>3.44</td><td>5.09</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IndexCell label, rest</td><td>5.01</td><td>6.28</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>IndexCell border, rest</td><td>3.44</td><td>5.09</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IndexCell label, hover</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>IndexCell border, hover</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>IndexCell label, selected</td><td>17.12</td><td>17.5</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>IndexCell label, pressed (with shade)</td><td>14.21</td><td>10.61</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>MediaLabel label, hover</td><td>18.75</td><td>12.08</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>MediaLabel border, hover</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Input text, rest</td><td>18.35</td><td>12.76</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Input border, hover</td><td>7.49</td><td>3.18</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Textarea border, hover</td><td>7.49</td><td>3.18</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Sidebar toggle label, rest</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Sidebar toggle label, hover</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Sidebar toggle arrow, hover</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>Sidebar toggle label, pressed (with shade)</td><td>14.21</td><td>10.61</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>Sidebar open arrow</td><td>3.47</td><td>4.45</td><td><span class="vspecPass">Pass</span> (3:1)</td></tr>
+<tr><td>PageSidebar link, hover</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+<tr><td>PageSidebar link, pressed</td><td>18.35</td><td>15.17</td><td><span class="vspecPass">Pass</span> (4.5:1)</td></tr>
+</table>
+<p><strong>One failing row is not new.</strong> The Citation back-link resting colour is 4.45:1 in dark today (<code>--st-color-link-default</code>). This epic does not change resting looks, so it is listed for a follow-up issue at close-out rather than fixed here.</p>
+<p><strong>Command:</strong> the browser script in <code>docs/conventions/vspec-rules.md</code> (composites every ancestor background over white), run with Playwright against this file, with the pair list in the session scratchpad. <code>pnpm validate:contrast</code> does not check pairs a vspec composes itself.</p>
+
+<h2>5. Class naming table</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.itemOpen</code></td><td>Accordion <code>.chevronOpen</code>, <code>.panelOpen</code>; already referenced by <code>Accordion.tsx</code> and listed as dead in <code>validate-dead-refs.js</code></td><td>Define it (bottom rule turns pink). Removes one dead reference.</td></tr>
+<tr><td><code>.accordionNumbered</code></td><td>Accordion <code>.triggerNumbered</code> already styles the numbered layout</td><td>Do not define. Remove the reference from <code>Accordion.tsx</code> and from the dead list. See decision 3.</td></tr>
+<tr><td>Every other class in section 1 (<code>.link</code>, <code>.rowLink</code>, <code>.titleLink</code>, <code>.markerLink</code>, <code>.backLink</code>, <code>.optionLabel</code>, <code>.clearAllButton</code>, <code>.cell</code>, <code>.mediaLabel</code>, <code>.input</code>, <code>.textarea</code>, <code>.toggle</code>)</td><td>Same names in each component's own module</td><td>Existing. Add <code>:active</code> or <code>:hover</code> rules only. No new class.</td></tr>
+</table>
+<p>No class is named after a content type. Vspec-only classes use the <code>vspec</code> prefix. The pressed rule is the same line everywhere: <code>box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade)</code>.</p>
+
+<h2>6. Component choice audit</h2>
+<table>
+<tr><th>Surface</th><th>What exists</th><th>Extend or replace</th><th>Why</th></tr>
+<tr><td>Accordion, Breadcrumb, List, Card, Citation, FilterBar, IndexCell, MediaLabel, Input, Textarea, Sidebar</td><td>Each is a DS component in <code>packages/design-system/src/components/</code> with hover and focus rules of its own</td><td>Extend</td><td>Missing states only; resting looks do not change (epic Non-Goals). No new component.</td></tr>
+<tr><td>Field</td><td><code>Field.module.css</code>, 0 state rules</td><td>No change</td><td>A wrapper around a label, a control and helper text; the control carries the states (audit, epic doc).</td></tr>
+<tr><td>SidebarNav, PageSidebar (web-only)</td><td><code>apps/web/src/components/PageSidebar.module.css</code>: link hover only (<code>.relatedLink</code>, <code>.seriesLink</code>, <code>.ethicsLink</code>)</td><td>Extend in place</td><td>Link classes get the text-link pressed rule. Whether SidebarNav exists as a separate file is checked in the probe (decision 8).</td></tr>
+</table>
+
+<h2>7. Token list</h2>
+<table>
+<tr><th>Role</th><th>Tokens</th></tr>
+<tr><td>Pressed shade (from #251)</td><td><code>--st-state-pressed-shade</code> (inset shadow on rows, toggles, cards and controls; text links use colour and underline weight instead, since a shade under text is invisible)</td></tr>
+<tr><td>Focus</td><td><code>--st-focus-ring</code>, <code>--st-focus-ring-offset</code>; List rows use a negative offset so the ring stays inside the row</td></tr>
+<tr><td>Hover edge and text</td><td><code>--st-color-pink</code>, <code>--st-color-brand-primary</code>, <code>--st-color-text-default</code>, <code>--st-color-border-strong</code> (field hover), <code>--st-color-lime-100</code> (List row, existing)</td></tr>
+<tr><td>Open</td><td><code>--st-color-pink</code> (Accordion rule, Sidebar arrow), <code>--st-color-text-default</code> and <code>--st-color-bg-canvas</code> (IndexCell selected, as the #251 toggles)</td></tr>
+<tr><td>Rest border for IndexCell and Clear all</td><td><code>--st-chip-border</code> in place of <code>--st-index-cell-inactive-color</code>, as #251 did for IconButton</td></tr>
+<tr><td>New tokens</td><td>None.</td></tr>
+</table>
+
+<h2>8. Governance checks</h2>
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>Yes: new pressed looks on rows, links, cards, fields</td><td>This vspec; Before images dated 2026-11-24</td></tr>
+<tr><td>Nav annotations (six)</td><td>Yes, Sidebar toggle and PageSidebar</td><td>Section 3</td></tr>
+<tr><td>Interactive prototype</td><td>Yes: expand or collapse</td><td>Section 1, vanilla JS</td></tr>
+<tr><td>CSS class reuse audit</td><td>Yes</td><td>Section 5; one class defined, no new patterns</td></tr>
+<tr><td>Component choice audit</td><td>Yes</td><td>Section 6; no new component</td></tr>
+<tr><td>Content Write Gate</td><td>No</td><td>No Sanity writes</td></tr>
+<tr><td>Rule-file write gate</td><td>No</td><td>No rule file changes</td></tr>
+<tr><td>Diagram red-pen gate</td><td>No</td><td>No diagram</td></tr>
+</table>
+
+<h2>9. Decisions answered</h2>
+<p>An approval of this vspec as drawn takes the recommended answer for every open decision. Approved as drawn, 2026-11-24.</p>
+<ol>
+<li><strong>Pressed on rows and cards:</strong> the #251 shade, drawn inset, with the label in text-default so the shade never lands under pink text. Text-only links (Breadcrumb, Citation back-link, PageSidebar links) get no shade: pressed is text-default with a 2px underline. <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Hover on Accordion (light):</strong> the light-theme <code>.trigger</code> colour rule outranks the existing hover, which is why light shows nothing. Move the hover to the label (text-default plus underline) and the chevron (brand-primary). Cost: one selector change in <code>Accordion.module.css</code>. <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Accordion open state:</strong> bottom rule turns pink (<code>.itemOpen</code>); the pink chevron already exists. <code>.accordionNumbered</code> is dropped, not defined, because <code>.triggerNumbered</code> already carries the numbered layout. Alternative: a pink left bar on the open item (larger visual change). <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Breadcrumb and List focus:</strong> both render a ring from a global rule today. Recommended: add the DS focus rule to each module so they own it and survive the global rule being removed. Alternative: leave them, since users already see a ring. Cost: two small rules. <em>Answered as drawn (add), 2026-11-24.</em></li>
+<li><strong>Card pressed:</strong> hover look with the lift removed, a pink border and the shade, as #251's toggles. The card is one click target through the title link, so the whole card shows the state. <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Inputs and Textareas:</strong> hover gets a stronger border (border-strong); pressed is not defined, because a mouse-down on a field is focus (audit). Error and disabled stay as they are (Non-Goals). <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>MediaLabel:</strong> it is not a control (<code>cursor: default</code>, reveals detail on hover and focus), so it gets a pink hover border and no pressed state. Alternative: no hover border either; the detail reveal is the hover signal. <em>Answered as drawn (pink border), 2026-11-24.</em></li>
+<li><strong>Sidebar and SidebarNav are not yet probed.</strong> The mobile toggle was hidden at 375px on /about and SidebarNav was not located. Recommended: probe both before Phase 1 and amend this vspec if the probe contradicts rows 11 and 12. <em>Answered as drawn, 2026-11-24: probe both before Phase 1.</em></li>
+<li><strong>Storybook:</strong> #251 declined static state stories because there is no hover or pressed addon. Recommended: one story per component showing the forced-state matrix, using a <code>data-state</code> attribute (one Chromatic snapshot each, per the one-story-per-variant rule), and no per-state stories. Alternative: no stories, and cover states with the Playwright probe only. <em>Answered as drawn (one matrix story per component), 2026-11-24.</em></li>
+<li><strong>Hover text colour, three existing looks:</strong> brand-primary text on the canvas measures 3.47:1 in light and 4.45:1 in dark, and pink on the List's lime wash measures 3.42:1, all under 4.5:1 (section 4). The FilterBar option name, PageSidebar links and List title use them today. Recommended: hover text becomes text-default (ink on the List wash) with a pink underline, so the pink survives as a non-text signal. Alternative: keep today's pink text and allowlist the three pairs in <code>contrast-allowlist.json</code>, which is empty today and which this epic's acceptance criteria say gets no new entry. Cost: three hover looks change. <em>Answered as drawn, 2026-11-24.</em></li>
+</ol>
+
+<h2>10. Change-specific sections</h2>
+<h3>State matrix by component</h3>
+<table>
+<tr><th>Component</th><th>Rest</th><th>Hover</th><th>Selected or open</th><th>Pressed</th><th>Focus-visible</th></tr>
+<tr><td>Accordion trigger</td><td>label text-primary, chevron secondary</td><td>label text-default with underline, chevron brand-primary (light was none)</td><td>pink bottom rule, pink rotated chevron (rule is new)</td><td>shade, label text-default (new)</td><td>DS ring (exists)</td></tr>
+<tr><td>Breadcrumb link</td><td>mono caps, link colour</td><td>text-default and 1px underline (exists as colour; underline new)</td><td>n/a; last crumb is not a link</td><td>text-default, 2px underline (new)</td><td>DS ring, now owned by the module (decision 4)</td></tr>
+<tr><td>List row</td><td>title text-primary</td><td>lime wash, ink title with pink underline (title was pink, 3.42:1)</td><td>n/a</td><td>wash plus shade, ink title with pink underline (new)</td><td>DS ring inside the row (decision 4)</td></tr>
+<tr><td>Card (title link)</td><td>border, no shadow</td><td>border, lift, shadow, underlined title (exists)</td><td>n/a</td><td>pink border, no lift, shade (new)</td><td>DS ring on the card (exists via title link)</td></tr>
+<tr><td>Citation marker, back-link</td><td>marker fill; link colour</td><td>marker 85% opacity; back-link underline (exists)</td><td>n/a</td><td>marker inverts to text-default fill, canvas number; back-link text-default 2px underline (new)</td><td>DS ring (exists)</td></tr>
+<tr><td>FilterBar option</td><td>box and name text-default</td><td>name text-default with pink underline (was brand-primary text, 3.47:1); box border brand-primary (new)</td><td>checked box brand-primary fill (exists)</td><td>shade, pink box border (new)</td><td>DS ring on the box (exists)</td></tr>
+<tr><td>FilterBar clear-all</td><td>muted text, chip border</td><td>text-default border (exists)</td><td>n/a</td><td>pink border plus shade (new)</td><td>DS ring (exists)</td></tr>
+<tr><td>IndexCell</td><td>muted text, chip border (was inactive-color)</td><td>pink border, text-default (was pink text)</td><td>solid text-default fill, canvas text (was solid pink); hover keeps it in place with a pink border</td><td>pink border plus shade (new)</td><td>DS ring (exists)</td></tr>
+<tr><td>MediaLabel</td><td>chip surface</td><td>pink border; detail revealed (border is new)</td><td>n/a</td><td>n/a, not a control</td><td>DS ring replaces the accent shadow</td></tr>
+<tr><td>Input, Textarea</td><td>default border</td><td>border-strong (new)</td><td>n/a</td><td>n/a, mouse-down is focus</td><td>focus border and ring (exists)</td></tr>
+<tr><td>Sidebar toggle</td><td>text-default, muted arrow</td><td>underlined label, brand-primary arrow (new)</td><td>pink rotated arrow (rotation exists)</td><td>shade, label text-default (new)</td><td>DS ring (exists)</td></tr>
+<tr><td>PageSidebar links</td><td>text-default</td><td>text-default with pink underline (was brand-primary text, 3.47:1)</td><td>n/a</td><td>text-default, 2px underline (new)</td><td>DS ring (new, 0 rules today)</td></tr>
+</table>
+<p><strong>Change from today, flagged:</strong> IndexCell selected moves from solid pink to solid text-default to match the #251 toggles. If Bex wants to keep pink selected cells, say so in decision 1 and the row changes to a pink fill with a maroon pressed border (the existing hover).</p>
+
+<h2>11. Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[x] vspec reviewed (2026-11-24)</li>
+<li>[x] class table approved (2026-11-24)</li>
+<li>[x] component choice audit approved (2026-11-24)</li>
+<li>[x] open decisions answered (approved as drawn, 2026-11-24)</li>
+</ul>
+</main>
+<script src="../conventions/doc-theme-toggle.js"></script>
+<script>
+(function(){
+  var states=['rest','hover','open','pressed','focus'];
+  function ds(s){return s==='rest'||s==='open'?'':' data-state="'+s+'"'}
+  var NA='<span class="vspecNa">not a toggle</span>', NAC='<span class="vspecNa">not a control</span>', NAF='<span class="vspecNa">focus is the state</span>';
+  var rows=[
+    {k:'accordion',label:'Accordion trigger',scope:'vspecAccordion',make:function(s){var o=s==='open';return '<div class="item'+(o?' itemOpen':'')+'"><button type="button" class="trigger"'+ds(s)+' aria-expanded="'+o+'"><span class="triggerLabel">What is a vspec?</span><svg class="chevron'+(o?' chevronOpen':'')+'" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M3 6l5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg></button></div>'}},
+    {k:'breadcrumb',label:'Breadcrumb link',scope:'vspecBreadcrumb',make:function(s){return s==='open'?NA:'<a href="#" class="link"'+ds(s)+'>Tools</a>'}},
+    {k:'list',label:'List row',scope:'vspecList',make:function(s){return s==='open'?NA:'<a href="#" class="rowLink"'+ds(s)+'><span class="rowTitle">Adobe Experience Manager</span><span class="rowDate">2026-11-01</span></a>'}},
+    {k:'card',label:'Card (title link)',scope:'vspecCard',make:function(s){return s==='open'?NA:'<div class="card"'+ds(s)+'><a href="#" class="titleLink">Pink Moon and the ledger</a></div>'}},
+    {k:'citation',label:'Citation marker, back-link',scope:'vspecCitation',make:function(s){return s==='open'?NA:'<a href="#" class="markerLink"'+ds(s)+'>1</a><a href="#" class="backLink"'+ds(s)+'>back</a>'}},
+    {k:'option',label:'FilterBar option',scope:'vspecFilterBar',make:function(s){var c=s==='open';return '<label class="optionLabel"'+ds(s)+'><input type="checkbox" class="optionCheckbox"'+(c?' checked':'')+'><span class="optionName">Design systems</span></label>'}},
+    {k:'clear',label:'FilterBar clear-all',scope:'vspecFilterBar',make:function(s){return s==='open'?NA:'<button type="button" class="clearAllButton"'+ds(s)+'>Clear all</button>'}},
+    {k:'index',label:'IndexCell',scope:'vspecIndexCell',make:function(s){var o=s==='open';return '<a href="#" class="cell '+(o?'selected':'active')+'"'+ds(s)+'>A</a>'}},
+    {k:'media',label:'MediaLabel',scope:'vspecMediaLabel',make:function(s){return s==='open'||s==='pressed'?NAC:'<span class="mediaLabel" tabindex="0"'+ds(s)+'>Figure 1<span class="detail">Credit: Sugartown</span></span>'}},
+    {k:'input',label:'Input',scope:'vspecField',make:function(s){return s==='open'||s==='pressed'?NAF:'<input class="input" type="text" value="Name"'+ds(s)+'>'}},
+    {k:'textarea',label:'Textarea',scope:'vspecField',make:function(s){return s==='open'||s==='pressed'?NAF:'<textarea class="textarea" rows="2"'+ds(s)+'>Message</textarea>'}},
+    {k:'sidebar',label:'Sidebar toggle',scope:'vspecSidebar',make:function(s){return '<button type="button" class="toggle"'+ds(s)+(s==='open'?' data-open="true"':'')+'>Contents</button>'}},
+    {k:'sidebarlink',label:'PageSidebar link',scope:'vspecSidebar',make:function(s){return s==='open'?NA:'<a href="#" class="relatedLink"'+ds(s)+'>Related article</a>'}}
+  ];
+  var m=document.getElementById('matrix'),sel=document.getElementById('stateSelect');
+  var notes={all:'Showing all five states.',rest:'Rest: default look, no interaction.',hover:'Hover: pointer over the element.',open:'Selected or open: the toggled-on look (checked, expanded, current).',pressed:'Pressed: while the pointer button is down.',focus:'Focus: keyboard focus-visible ring.'};
+  function render(){
+    var pick=sel.value, shown=pick==='all'?states:[pick];
+    m.style.setProperty('--vspecCols',shown.length);
+    var h='<div></div>';
+    shown.forEach(function(s){h+='<div class="vspecHead" role="columnheader">'+(s==='open'?'selected or open':s)+'</div>'});
+    rows.forEach(function(r){
+      h+='<div class="vspecRowLabel" role="rowheader">'+r.label+'</div>';
+      shown.forEach(function(s){h+='<div class="vspecCell '+r.scope+'" data-cell="'+r.k+'-'+s+'">'+r.make(s)+'</div>'});
+    });
+    m.innerHTML=h; document.getElementById('stateNote').textContent=notes[pick];
+  }
+  sel.addEventListener('change',render); render();
+  // Live row: real states. Accordion and Sidebar toggle open and close on click.
+  var live=document.getElementById('live');
+  var keep=['accordion','breadcrumb','list','card','option','index','input','sidebar'];
+  live.innerHTML=rows.filter(function(r){return keep.indexOf(r.k)>-1}).map(function(r){return '<div class="'+r.scope+'" style="min-width:200px;flex:1 1 200px">'+r.make('rest')+'</div>'}).join('');
+  live.addEventListener('click',function(e){
+    var t=e.target.closest('.trigger');
+    if(t){var o=t.getAttribute('aria-expanded')!=='true';t.setAttribute('aria-expanded',o);t.parentNode.classList.toggle('itemOpen',o);t.querySelector('.chevron').classList.toggle('chevronOpen',o);return}
+    var s=e.target.closest('.toggle');
+    if(s){s.setAttribute('data-open',s.getAttribute('data-open')==='true'?'false':'true')}
+    if(e.target.closest('a[href="#"]'))e.preventDefault();
+  });
+})();
+</script>
+</body>
+</html>
