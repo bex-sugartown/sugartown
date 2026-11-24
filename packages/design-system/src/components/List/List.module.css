@@ -253,3 +253,20 @@
   outline: var(--st-focus-ring);
   outline-offset: calc(var(--st-focus-ring-offset) * -1);
 }
+
+/* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
+   some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
+@media (forced-colors: active) {
+  .rowLink:hover {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+  .rowLink:active {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+  .rowLink:focus-visible {
+    outline: var(--st-focus-ring);
+    outline-offset: var(--st-focus-ring-offset);
+  }
+}

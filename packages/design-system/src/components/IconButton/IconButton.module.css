@@ -83,3 +83,20 @@
   cursor: not-allowed;
   pointer-events: none;
 }
+
+/* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
+   some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
+@media (forced-colors: active) {
+  .iconButton:hover:not(:disabled) {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+  .iconButton:active:not(:disabled) {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+  .iconButton:focus-visible {
+    outline: var(--st-focus-ring);
+    outline-offset: var(--st-focus-ring-offset);
+  }
+}

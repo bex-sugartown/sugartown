@@ -686,3 +686,20 @@
   border-color: var(--st-color-pink);
   box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
 }
+
+/* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
+   some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
+@media (forced-colors: active) {
+  .card:has(.titleLink):hover {
+    outline: 1px solid Highlight;
+    outline-offset: -1px;
+  }
+  .card:has(.titleLink:active) {
+    outline: 3px solid Highlight;
+    outline-offset: -3px;
+  }
+  .card:has(.titleLink:focus-visible) {
+    outline: var(--st-focus-ring);
+    outline-offset: var(--st-focus-ring-offset);
+  }
+}

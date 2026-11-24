@@ -11,6 +11,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- Buttons, chips, rows, cards, accordion triggers and index cells now show hover and pressed in Windows high-contrast (forced-colours) mode with a system-colour outline, where pressed used to look the same as hover; the linked Tile gets pressed and focus states too. (#262, #264; forced-colours smoke spec 6 of 6, state and axe specs 36 of 36, Chromatic deferred to ship)
 - The Contents button on article and platform pages no longer hides behind the header at the top of the page below the desktop width; it sits directly under the header at every scroll position. (#266; measured at 548px: the chip is the element at the strip's centre at scroll 0 and after scrolling, smoke test added; Chromatic not needed, position only)
 - The state check for design-system components now runs on every commit, and a vspec's colour pairs are measured in both themes on the canvas, not the prototype frame, when its sidecar is committed. (#263; 47 gates proven live, 0 inert, ST-252's 42 pairs pass)
 - The Sidebar toggle and the SidebarNav collapsible summary are confirmed unused in the app, while the SidebarNav links and PageSidebar related and ethics links show hover, pressed and focus in both themes. (#261; rendered probe in both themes, removal filed as #265)

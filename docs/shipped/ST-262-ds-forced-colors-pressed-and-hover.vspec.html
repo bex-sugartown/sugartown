@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ST-262 vspec: forced-colors pressed and hover</title>
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
+<style>
+/* Template-only styles. Every value is a Pink Moon token. The shared base is ../conventions/doc-base.css. */
+:root{--doc-max-width:1100px;--doc-line-height:1.5;--doc-h1-gap:var(--st-space-1);--doc-p-gap:var(--st-space-2)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm);overflow-x:auto}
+.vspecFrame img{max-width:100%;height:auto}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+.vspecMatrix{display:grid;grid-template-columns:minmax(130px,170px) repeat(4,minmax(110px,1fr));gap:var(--st-space-2);align-items:center}
+.vspecControls{display:flex;gap:var(--st-space-3);align-items:center;flex-wrap:wrap;margin-bottom:var(--st-space-3)}
+.vspecControls label{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);text-transform:uppercase}
+.vspecControls select{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-sm);padding:var(--st-space-1) var(--st-space-3);background:var(--st-color-bg-surface);color:var(--st-color-text-default);border:1px solid var(--st-color-border-strong)}
+.vspecHead{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);text-transform:uppercase;color:var(--st-color-text-muted)}
+.vspecRowLabel{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs)}
+.vspecCell{padding:var(--st-space-2);min-height:56px;display:flex;align-items:center}
+
+/* ═══ Surfaces, as they ship today (normal mode). Class names are the production names, scoped by a vspec wrapper. ═══ */
+.vspecRow .rowLink{display:flex;gap:var(--st-space-3);width:100%;padding:var(--st-space-2);color:var(--st-color-text-primary);text-decoration:none;box-sizing:border-box}
+.vspecRow .rowLink[data-state="hover"],.vspecRow .rowLink[data-state="pressed"]{background-color:var(--st-color-lime-100)}
+.vspecRow .rowLink[data-state="hover"] .rowTitle,.vspecRow .rowLink[data-state="pressed"] .rowTitle{color:var(--st-color-ink);text-decoration:underline;text-decoration-color:var(--st-color-pink)}
+.vspecRow .rowLink[data-state="pressed"]{box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecAcc .trigger{display:flex;justify-content:space-between;width:100%;padding:var(--st-space-3) 0;background:none;border:0;border-bottom:1px solid var(--st-color-rule-accent);color:var(--st-color-text-primary);font:inherit}
+.vspecAcc .trigger[data-state="hover"] .triggerLabel,.vspecAcc .trigger[data-state="pressed"] .triggerLabel{color:var(--st-color-text-default);text-decoration:underline}
+.vspecAcc .trigger[data-state="pressed"]{box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecCellC .cell{width:var(--st-index-cell-size);height:var(--st-index-cell-size);display:inline-flex;align-items:center;justify-content:center;font-family:var(--st-font-family-mono);border:1px solid var(--st-chip-border);color:var(--st-color-text-muted);text-decoration:none}
+.vspecCellC .cell[data-state="hover"]{border-color:var(--st-color-pink);color:var(--st-color-text-default)}
+.vspecCellC .cell[data-state="pressed"]{border-color:var(--st-color-pink);color:var(--st-color-text-default);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecBtn .button{display:inline-flex;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:700;text-transform:uppercase;padding:10px 18px;border:1px solid transparent;background:var(--st-color-pink-600);color:var(--st-color-white)}
+.vspecBtn .button[data-state="hover"]{background:var(--st-color-pink-700)}
+.vspecBtn .button[data-state="pressed"]{background:var(--st-color-pink-700);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+.vspecChip .chip{display:inline-flex;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);padding:.45em .75em;border:1px solid var(--st-chip-border);background:var(--st-chip-tag-bg);color:var(--st-chip-fg);text-decoration:none}
+.vspecChip .chip[data-state="hover"]{border-color:var(--st-color-pink);box-shadow:0 2px 5px color-mix(in srgb,var(--st-color-pink) 15%,transparent);transform:translateY(-1px)}
+.vspecChip .chip[data-state="pressed"]{border-color:var(--st-color-pink);box-shadow:inset 0 0 0 100px var(--st-state-pressed-shade)}
+[data-state="focus"]{outline:var(--st-focus-ring);outline-offset:var(--st-focus-ring-offset)}
+
+/* ═══ Forced-colours approximation (a toggle on the prototype). Real forced colours is checked with Playwright forcedColors: 'active'
+   after the build; this class only imitates what the browser does to these surfaces (box-shadow removed, colours replaced by system colours). ═══ */
+.vspecForced .vspecCell{background:Canvas;color:CanvasText}
+.vspecForced .vspecCell *{box-shadow:none!important;background-color:Canvas!important;color:CanvasText!important;border-color:ButtonText!important;transform:none!important}
+.vspecForced .vspecCell .button,.vspecForced .vspecCell .chip{border:1px solid ButtonText!important}
+
+/* Proposed rules, mirroring the @media (forced-colors: active) blocks the epic would ship. */
+.vspecProposed.vspecForced [data-state="hover"]{outline:1px solid Highlight!important;outline-offset:-1px}
+.vspecProposed.vspecForced [data-state="pressed"]{outline:3px solid Highlight!important;outline-offset:-3px}
+.vspecProposed.vspecForced [data-state="focus"]{outline:2px solid Highlight!important;outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<h1>ST-262 · Pressed and hover in forced-colours mode</h1>
+<p>Issue #262. Phase 0 visual spec. Class names are the production names, scoped under a <code>vspec</code> wrapper. Values are tokens unless a system colour is named.</p>
+<div class="vspecNote"><strong>Status:</strong> approved as drawn by Bex, 2026-11-24. Nothing in <code>packages/design-system/src/</code> or <code>apps/web/src/</code> changes until the Phase 0 boxes are ticked. Open decisions are in section 9. The forced-colours prototype is an approximation; the real check is Playwright <code>forcedColors: 'active'</code> after the build.</div>
+
+<h2>1. Interactive prototype</h2>
+<p>Choose a mode. <strong>Normal</strong> is today's look. <strong>Forced colours, today</strong> imitates the browser stripping shadows and colours: pressed is the same as hover, and Button, Chip and IndexCell hover is the same as rest. <strong>Forced colours, proposed</strong> adds the rules below.</p>
+<div class="vspecFrame" id="prototype">
+  <div class="vspecControls"><label for="mode">Mode</label>
+    <select id="mode"><option value="normal">Normal</option><option value="today">Forced colours, today</option><option value="proposed">Forced colours, proposed</option></select>
+    <span class="vspecCaption" id="modeNote"></span></div>
+  <div class="vspecMatrix" id="matrix" role="table" aria-label="State matrix"></div>
+</div>
+
+<h2>2. Before and after</h2>
+<div class="vspecFrame"><span class="vspecTag">BEFORE</span>
+  <figure style="margin:var(--st-space-2) 0 0"><img src="ST-262-before-live-2026-11-24-forced-colors.webp" alt="Live List row, Accordion trigger, IndexCell, Button and Chip in forced-colors mode at rest, hover and pressed; pressed matches hover and Button, IndexCell and Chip hover match rest"><figcaption class="vspecCaption">Captured 2026-11-24 · local build, Playwright <code>forcedColors: 'active'</code>, hover and pressed forced with CDP. Pressed is identical to hover on all five; Button, IndexCell and Chip hover is identical to rest.</figcaption></figure></div>
+<div class="vspecFrame" style="margin-top:var(--st-space-4)"><span class="vspecTag vspecTagAfter">AFTER</span>
+  <p style="margin-top:var(--st-space-2)">Section 1, mode "Forced colours, proposed": hover is a 1px system-colour outline, pressed a 3px one, focus unchanged.</p><div class="vspecCaption">Source: section 1</div></div>
+
+<h2>3. Behaviour annotations</h2>
+<p>Not applicable: no sidebar, nav rail, tab bar or anchor-bearing surface changes. The rules change how existing states render in forced-colours mode only; behaviour and DOM are unchanged.</p>
+
+<h2>4. Contrast, measured</h2>
+<p>Not applicable in the usual sense: forced-colours mode replaces every colour with a system colour chosen by the user, so the site does not control the ratio. The proposed rules use only <code>Highlight</code>, which the browser guarantees against <code>Canvas</code>. Verified after the build by the Playwright run in section 8; no ratio is claimed here.</p>
+
+<h2>5. Class naming table</h2>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td>none</td><td>The rules are <code>@media (forced-colors: active)</code> blocks that reuse each component's existing classes (<code>.rowLink</code>, <code>.trigger</code>, <code>.cell</code>, <code>.button</code>, <code>.chip</code>, <code>.iconButton</code>, <code>.pillSegment</code>, <code>.card</code>, <code>.optionLabel</code>, <code>.clearAllButton</code>, <code>.linked</code>)</td><td>No new class.</td></tr>
+</table>
+
+<h2>6. Component choice audit</h2>
+<p>No new component. Each affected component's stylesheet gets one media block. A shared mixin was checked and rejected: CSS modules in this repo have no shared at-rule include, and a global rule cannot target hashed classes.</p>
+
+<h2>7. Token list</h2>
+<table>
+<tr><th>Role</th><th>Value</th></tr>
+<tr><td>Hover, pressed and focus outline in forced colours</td><td>The system colour <code>Highlight</code>. Not a token: <code>validate:tokens</code> scans for <code>--st-*</code> references and a system-colour keyword is neither a token nor a raw colour value; <code>validate:tokens:strict</code> is checked at implementation.</td></tr>
+<tr><td>Widths</td><td>1px hover, 3px pressed, focus keeps <code>--st-focus-ring</code> (2px) and <code>--st-focus-ring-offset</code></td></tr>
+<tr><td>New tokens</td><td>None.</td></tr>
+</table>
+
+<h2>8. Governance checks</h2>
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>Yes: new look, in forced-colours mode only</td><td>This vspec; Before image dated 2026-11-24</td></tr>
+<tr><td>Nav annotations (six)</td><td>No</td><td>Section 3</td></tr>
+<tr><td>Interactive prototype</td><td>Yes: state and mode switching</td><td>Section 1, vanilla JS</td></tr>
+<tr><td>CSS class reuse audit</td><td>Yes</td><td>Section 5; no new class</td></tr>
+<tr><td>Component choice audit</td><td>Yes</td><td>Section 6</td></tr>
+<tr><td>Rendered check</td><td>Yes</td><td>A Playwright spec with <code>forcedColors: 'active'</code> asserts pressed differs from hover and hover differs from rest, on the surfaces in section 1</td></tr>
+<tr><td>Content Write Gate, rule-file write gate, diagram red-pen gate</td><td>No</td><td>No Sanity writes, no rule files, no diagram</td></tr>
+</table>
+
+<h2>9. Decisions answered</h2>
+<p>An approval of this vspec as drawn takes the recommended answer for every open decision.</p>
+<ol>
+<li><strong>Scope:</strong> forced colours only. The touch half of #262 (hover rules behind <code>(hover: hover)</code>, 0 guards today) changes about 20 stylesheets by a different mechanism and a different risk, so it moves to its own issue. <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Look:</strong> hover is a 1px <code>Highlight</code> outline inside the box, pressed a 3px one, focus unchanged. Boxes (rows, cards, buttons, chips, cells, toggles, tiles) get them; text links keep their underline, which forced colours does not remove. <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Surfaces:</strong> every surface that draws pressed with the shade or hover with a shadow or fill: List row, Accordion trigger, IndexCell, Card, FilterBar option and clear-all, Tile, Chip, Button, IconButton, SegmentedControl, Sidebar toggle. <em>Answered as drawn, 2026-11-24.</em></li>
+<li><strong>Check:</strong> add the Playwright forced-colours spec to the smoke suite so a new shaded surface without a forced-colours rule fails. <em>Answered as drawn, 2026-11-24.</em></li>
+</ol>
+
+<h2>10. Change-specific sections</h2>
+<p>Not applicable.</p>
+
+<h2>11. Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[x] vspec reviewed (2026-11-24)</li>
+<li>[x] class table approved (2026-11-24)</li>
+<li>[x] component choice audit approved (2026-11-24)</li>
+<li>[x] open decisions answered (approved as drawn, 2026-11-24)</li>
+</ul>
+</main>
+<script src="../conventions/doc-theme-toggle.js"></script>
+<script>
+(function(){
+  var states=['rest','hover','pressed','focus'];
+  function ds(s){return s==='rest'?'':' data-state="'+s+'"'}
+  var rows=[
+    {label:'List row',scope:'vspecRow',make:function(s){return '<a href="#" class="rowLink"'+ds(s)+'><span class="rowTitle">Adobe Experience Manager</span></a>'}},
+    {label:'Accordion trigger',scope:'vspecAcc',make:function(s){return '<button type="button" class="trigger"'+ds(s)+'><span class="triggerLabel">What is a vspec?</span><span>⌄</span></button>'}},
+    {label:'IndexCell',scope:'vspecCellC',make:function(s){return '<a href="#" class="cell"'+ds(s)+'>A</a>'}},
+    {label:'Button primary',scope:'vspecBtn',make:function(s){return '<button type="button" class="button"'+ds(s)+'>Contact</button>'}},
+    {label:'Chip link',scope:'vspecChip',make:function(s){return '<a href="#" class="chip"'+ds(s)+'>customer journey</a>'}}
+  ];
+  var m=document.getElementById('matrix'),sel=document.getElementById('mode'),proto=document.getElementById('prototype');
+  var notes={normal:'Normal: today, light or dark with the toggle above.',today:'Approximation of today in forced colours: shadows gone, system colours. Pressed equals hover; Button, IndexCell and Chip hover equal rest.',proposed:'Proposed: hover 1px, pressed 3px, focus 2px, all Highlight.'};
+  function render(){
+    proto.classList.toggle('vspecForced',sel.value!=='normal');
+    proto.classList.toggle('vspecProposed',sel.value==='proposed');
+    var h='<div></div>';states.forEach(function(s){h+='<div class="vspecHead" role="columnheader">'+s+'</div>'});
+    rows.forEach(function(r){h+='<div class="vspecRowLabel" role="rowheader">'+r.label+'</div>';states.forEach(function(s){h+='<div class="vspecCell '+r.scope+'">'+r.make(s)+'</div>'})});
+    m.innerHTML=h;document.getElementById('modeNote').textContent=notes[sel.value];
+  }
+  sel.addEventListener('change',render);render();
+})();
+</script>
+</body>
+</html>
