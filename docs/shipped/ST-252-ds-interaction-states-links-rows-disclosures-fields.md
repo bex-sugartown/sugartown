@@ -108,7 +108,7 @@ Sidebar toggle: the vspec drew it, but `Sidebar-module__toggle` has zero visible
 - [x] Accordion open state is styled; `pnpm validate:dead-refs` no longer lists `Accordion.tsx styles.accordionNumbered` or `Accordion.tsx styles.itemOpen`
 - [x] `pnpm validate:contrast` and `pnpm exec playwright test tests/smoke/a11y.spec.ts` pass in light and dark, with no new allowlist entry
 - [x] `pnpm validate:style-mirror` and `pnpm validate:tokens` pass
-- [ ] Chromatic pass approved by Bex for all phases' diffs (deferred to ship)
+- [x] Chromatic pass approved by Bex for all phases' diffs (build 119, accepted 2026-11-24)
 
 ## Human QA Walkthrough — example local pages
 
@@ -155,7 +155,7 @@ Sidebar toggle: the vspec drew it, but `Sidebar-module__toggle` has zero visible
 - Accordion open state styled, both dead references gone: met; `pnpm validate:dead-refs` lists two entries (Container bleed, Sidebar `.sidebar`).
 - `pnpm validate:contrast` and the axe smoke pass in both themes, no new allowlist entry: met; the allowlist is still empty.
 - `validate:style-mirror` and `validate:tokens` pass: met.
-- Chromatic pass approved by Bex: deferred to the ship step. <!-- Chromatic: pending -->
+- Chromatic pass approved by Bex: build 119, 30 changes accepted 2026-11-24.
 - Visual QA: "Visual QA approved" from Bex, 2026-11-24; design-reviewer found 0 Drift at code level.
 - Storybook state stories: declined, same reason as #251 (no hover, pressed or focus in a static story without forced-state selectors in 14 stylesheets or a new addon). Bex chose the smoke spec, 2026-11-24.
 
@@ -180,5 +180,5 @@ The vspec's Storybook decision was drawn without re-reading #251's declined reas
 
 ## Post-ship checks
 
-- Chromatic pass: person: approve the VRT diff at ship; component CSS changed, no stories changed.
+- Chromatic pass: done, build 119 accepted by Bex 2026-11-24.
 - Live hover and pressed on Accordion (light), List row and IndexCell on sugartown.io: person: hover and press each once in light and dark.
