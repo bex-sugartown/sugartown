@@ -123,6 +123,9 @@ stage (SUG-246).
 >    `## Post-ship checks` now, with its check, not at close-out. `Done` is committed plus local
 >    smoke green (CLAUDE.md §Done vs Shipped); a live-site criterion never blocks it. (#84 asked for a
 >    deployed re-run to reach `Done`; its criteria were written before the Done/Shipped split.)
+> 7. Every earlier declined or deferred item this Scope touches is listed with the reason it was
+>    declined (a closed epic's Close-out review table, a Non-Goals line). Ask only if the reason no
+>    longer holds. (ST-252's Storybook decision was drawn without this and reopened at Phase 2.)
 >
 > Kill criterion: remove step 2 if, 60 days after it lands, no start review has changed an epic
 > or a rule file because of it (check `git log -S"Start audit" -- docs/backlog`).
@@ -268,6 +271,10 @@ stage (SUG-246).
 >   implementation phases begin. A layout diagram in the epic doc is NOT a substitute.
 > - No code in `apps/web/src/` or `apps/studio/schemas/` may be written until the vspec
 >   file exists on disk and Phase 0 checkboxes are marked complete by the human.
+> - **If the vspec draws interactive states**, run `node tests/probes/state-probe.cjs` and
+>   `pnpm --filter web validate:states` first, and draw the rows from what they report, using
+>   `docs/conventions/interaction-states.md` for the closed state list. The probe precedes the
+>   vspec; drawing rows from a CSS read first is how ST-252 found six wrong rows after sign-off.
 > - If the backlog spec changes mid-epic (before Phase 0 sign-off), update the vspec
 >   in the same response as the spec change. Backlog doc and vspec must stay in sync.
 > - Phase 0 sign-off is a **human gate**. Agent presents the vspec, then asks via
