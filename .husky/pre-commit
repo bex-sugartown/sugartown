@@ -39,6 +39,11 @@ pnpm --filter web validate:dead-refs || exit 1
 # silently unenforced (no hook, no CI job) until SUG-239 wired it up here.
 pnpm --filter web validate:css-names || exit 1
 
+# Interaction-state coverage — every DS component with a hover rule has pressed, every clickable
+# one has focus, every one with a disabled prop has a disabled rule. Known gaps are allowlisted
+# with a reason in apps/web/scripts/state-allowlist.json. ST-252 post-mortem.
+pnpm --filter web validate:states || exit 1
+
 # ESLint — zero errors required (warnings are allowed), across every package
 # that has a `lint` script (seven since SUG-257 added apps/studio).
 #

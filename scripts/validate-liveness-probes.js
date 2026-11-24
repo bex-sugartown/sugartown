@@ -646,6 +646,27 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:states',
+    why: 'a clickable component with a hover rule and no pressed or focus rule must be rejected (ST-252 post-mortem)',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:states'],
+        success: 'rejected the component with hover only',
+        breakIt: () => {
+          tempFile(
+            'packages/design-system/src/components/LivenessProbe/LivenessProbe.module.css',
+            '.probe:hover { color: red; }\n'
+          )
+          tempFile(
+            'packages/design-system/src/components/LivenessProbe/LivenessProbe.tsx',
+            'export const LivenessProbe = () => <button>probe</button>\n'
+          )
+        },
+      }),
+  },
+
+  {
     gate: 'validate:tokens (raw fallback)',
     why: 'a non-colour raw fallback such as var(--st-space-4, 1rem) must be rejected',
     run: () =>

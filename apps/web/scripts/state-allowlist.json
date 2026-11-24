@@ -1,0 +1,10 @@
+[
+  { "component": "IndexCell", "state": "disabled", "reason": "the inactive cell is .inactive (pointer-events none, muted), not a disabled attribute" },
+  { "component": "Input", "state": "pressed (:active)", "reason": "ST-252 vspec decision 6: a mouse-down on a field is focus" },
+  { "component": "Textarea", "state": "pressed (:active)", "reason": "ST-252 vspec decision 6: a mouse-down on a field is focus" },
+  { "component": "MediaLabel", "state": "pressed (:active)", "reason": "ST-252 vspec decision 7: not a control, reveals detail" },
+  { "component": "Media", "state": "pressed (:active)", "reason": "hover effect on a non-interactive image (greyscale, scale)" },
+  { "component": "Table", "state": "pressed (:active)", "reason": "row hover on a data table; rows are not controls" },
+  { "component": "tile", "state": "pressed (:active)", "reason": "real gap: a linked Tile, missed by #250 and #252. Needs its own vspec" },
+  { "component": "tile", "state": "focus (:focus-visible or :focus)", "reason": "real gap: a linked Tile, missed by #250 and #252. Needs its own vspec" }
+]
