@@ -11,6 +11,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 > `repos/sugartown-cms`. Live site remains WordPress throughout all pre-monorepo eras.
 
 ## [Unreleased]
+- The state check for design-system components now runs on every commit, and a vspec's colour pairs are measured in both themes on the canvas, not the prototype frame, when its sidecar is committed. (#263; 47 gates proven live, 0 inert, ST-252's 42 pairs pass)
+- The Sidebar toggle and the SidebarNav collapsible summary are confirmed unused in the app, while the SidebarNav links and PageSidebar related and ethics links show hover, pressed and focus in both themes. (#261; rendered probe in both themes, removal filed as #265)
 - Links, rows, accordions and form fields now show a pressed state, hover is added where it was missing (Accordion in light, form fields), and the open accordion item gets a pink rule; three hover colours that failed contrast now underline in pink instead. (#252; axe smoke 18 of 18 and interaction smoke 18 of 18 in both themes, Chromatic deferred to ship)
 - Carousel slide dots are now 24px tap targets, meeting the WCAG 2.2 minimum, with the same 10px ring drawn inside; the dots sit 6px further apart. (#247; Storybook accessibility 780 of 780 pass with the ImageGallery exemption removed, axe smoke 18 of 18 in both themes; Chromatic pending)
 - The footnote zone no longer uses the deprecated `doc-endnote` and `doc-endnotes` roles: it is a labelled section and the back-links keep the footnote relationship for screen readers, so axe stops reporting the deprecation. (#164; fixed in 1246d982 under #84, smoke axe spec 18 of 18 pass in both themes, allowlist entry already removed)
