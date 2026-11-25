@@ -39,7 +39,7 @@ function WelcomePage() {
 
       <hr style={{ border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '2rem 0' }} />
 
-      <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>
+      <p style={{ color: 'var(--st-color-text-secondary)', fontSize: '0.85rem' }}>
         Built with React 19, Vite 7, and Storybook 10.
       </p>
     </div>
@@ -50,8 +50,6 @@ const meta: Meta = {
   title: 'Docs/Welcome',
   component: WelcomePage,
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-    a11y: { test: 'todo' },
     layout: 'padded',
     controls: { disable: true },
     actions: { disable: true },

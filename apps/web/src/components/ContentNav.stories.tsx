@@ -80,7 +80,7 @@ const NEXT: NavItemData = { title: 'The Great iCloud Divorce: A Tale of Two AIs'
 const meta: Meta = {
   title: 'Patterns/ContentNav',
   tags: ['autodocs'],
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
   parameters: { a11y: { test: 'todo' }, chromatic: { disableSnapshot: false }, layout: 'padded' },
 };
 

@@ -71,8 +71,7 @@ const meta: Meta<typeof IconButton> = {
   title: 'Components/IconButton',
   component: IconButton,
   tags: ['autodocs'],
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'centered' },
+  parameters: { layout: 'centered' },
   argTypes: {
     shape: {
       description: 'Button shape.',
@@ -169,28 +168,28 @@ export const Snapshot: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem' }}>
       <div>
-        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: '#888' }}>Shapes</div>
+        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: 'var(--st-color-text-secondary)' }}>Shapes</div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <IconButton aria-label="Square"><ExternalLink size={16} /></IconButton>
           <IconButton shape="circle" aria-label="Circle"><Sun size={18} /></IconButton>
         </div>
       </div>
       <div>
-        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: '#888' }}>Selected</div>
+        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: 'var(--st-color-text-secondary)' }}>Selected</div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <IconButton aria-label="Selected square" selected><ExternalLink size={16} /></IconButton>
           <IconButton shape="circle" aria-label="Selected circle" selected><Sun size={18} /></IconButton>
         </div>
       </div>
       <div>
-        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: '#888' }}>Disabled</div>
+        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: 'var(--st-color-text-secondary)' }}>Disabled</div>
         <div style={{ display: 'flex', gap: '8px' }}>
           <IconButton aria-label="Disabled square" disabled><X size={16} /></IconButton>
           <IconButton shape="circle" aria-label="Disabled circle" disabled><Moon size={18} /></IconButton>
         </div>
       </div>
       <div>
-        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: '#888' }}>Non-Lucide</div>
+        <div style={{ marginBottom: '6px', fontFamily: 'var(--st-font-family-mono)', fontSize: '10px', color: 'var(--st-color-text-secondary)' }}>Non-Lucide</div>
         <div style={{ display: 'flex', gap: '4px' }}>
           <IconButton aria-label="Grid"><GridIcon /></IconButton>
           <IconButton aria-label="List"><ListIcon /></IconButton>

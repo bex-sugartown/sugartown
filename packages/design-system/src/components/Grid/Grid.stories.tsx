@@ -13,8 +13,7 @@ const meta: Meta<typeof Grid> = {
   title: 'Foundations/Layout/Grid',
   component: Grid,
   tags: ['autodocs'],
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
+  parameters: { layout: 'padded' },
   args: {
     spacing: 'lg',
     columns: 3,
@@ -51,7 +50,7 @@ const Tile = ({ label }: { label: string }) => (
     padding: '2rem 1.25rem',
     fontFamily: 'var(--st-font-family-mono)',
     fontSize: '0.7rem',
-    color: 'var(--st-color-text-muted)',
+    color: 'var(--st-color-text-primary)',
     textAlign: 'center' as const,
   }}>
     {label}

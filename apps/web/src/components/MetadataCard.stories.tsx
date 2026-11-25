@@ -134,8 +134,6 @@ const meta: Meta<typeof MetadataCard> = {
     draftBadge: { table: { disable: true } },
   },
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-    a11y: { test: 'todo' },
     layout: 'padded',
   },
 };
@@ -354,7 +352,7 @@ export const Snapshot: Story = {
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', maxWidth: '640px' }}>
         {/* Node — full */}
         <div>
-          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Node (full)</h4>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Node (full)</h4>
           <MetadataCard
             authors={[PERSON_BEX]}
             contentType="Node"
@@ -370,7 +368,7 @@ export const Snapshot: Story = {
         </div>
         {/* Case Study — with client */}
         <div>
-          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Case Study (client + role)</h4>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Case Study (client + role)</h4>
           <MetadataCard
             authors={[PERSON_BEX]}
             contentType="Case Study"
@@ -384,7 +382,7 @@ export const Snapshot: Story = {
         </div>
         {/* Article — minimal */}
         <div>
-          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Article (minimal)</h4>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Article (minimal)</h4>
           <MetadataCard
             authors={[PERSON_BEX]}
             contentType="Article"
@@ -396,7 +394,7 @@ export const Snapshot: Story = {
         </div>
         {/* Project — with KPIs */}
         <div>
-          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Project (KPIs)</h4>
+          <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Project (KPIs)</h4>
           <MetadataCard
             projectId="PROJ-002"
             status="in-progress"

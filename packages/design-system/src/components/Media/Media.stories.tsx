@@ -26,8 +26,6 @@ const meta: Meta<typeof Media> = {
   component: Media,
   tags: ['autodocs'],
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-    a11y: { test: 'todo' },
     layout: 'padded',
   },
   args: {
@@ -113,17 +111,17 @@ export const AspectRatios: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>1/1 — square</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--st-color-text-secondary)' }}>1/1 — square</p>
         <div style={{ maxWidth: '320px' }}>
           <Media src={SAMPLE_IMAGE} alt="Square 1:1" aspectRatio="1/1" />
         </div>
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>16/9 — content width</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--st-color-text-secondary)' }}>16/9 — content width</p>
         <Media src={SAMPLE_IMAGE} alt="Content-width 16:9" aspectRatio="16/9" />
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>21/9 — full bleed / hero (0 radius, 0 margin)</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--st-color-text-secondary)' }}>21/9 — full bleed / hero (0 radius, 0 margin)</p>
         <Media
           src={SAMPLE_IMAGE}
           alt="Full-width 21:9 hero"
@@ -154,7 +152,7 @@ export const Overlays: Story = {
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '1.5rem' }}>
       {OVERLAY_SAMPLES.map(({ label, overlay }) => (
         <div key={label}>
-          <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>{label}</p>
+          <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--st-color-text-secondary)' }}>{label}</p>
           <Media
             src={SAMPLE_IMAGE}
             alt={label}
@@ -181,11 +179,11 @@ export const WithHotspot: Story = {
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1.5rem' }}>
       <div>
-        <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>No hotspot (centered)</p>
+        <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--st-color-text-secondary)' }}>No hotspot (centered)</p>
         <Media src={SAMPLE_IMAGE} alt="Centered crop" aspectRatio="1/1" />
       </div>
       <div>
-        <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: '#888' }}>hotspot={'{'}x: 0.2, y: 0.1{'}'}</p>
+        <p style={{ margin: '0 0 0.375rem', fontSize: '0.75rem', fontFamily: 'monospace', color: 'var(--st-color-text-secondary)' }}>hotspot={'{'}x: 0.2, y: 0.1{'}'}</p>
         <Media src={SAMPLE_IMAGE} alt="Hotspot-cropped" aspectRatio="1/1" hotspot={{ x: 0.2, y: 0.1 }} />
       </div>
     </div>

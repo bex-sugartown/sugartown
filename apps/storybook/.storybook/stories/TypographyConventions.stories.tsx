@@ -115,24 +115,24 @@ function TypographyConventionsPage() {
       <h2 style={s.h2}>Do / Don&rsquo;t</h2>
       <div style={s.pairRow}>
         <div style={s.doBox}>
-          <p style={{ ...s.label, color: '#16a34a' }}>Do</p>
+          <p style={{ ...s.label, color: 'var(--st-color-text-primary)' }}>Do</p>
           <p style={italic}>Agentic Caucus Nodes</p>
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic on archive mastheads — they are named, curated spaces.</p>
         </div>
         <div style={s.dontBox}>
-          <p style={{ ...s.label, color: '#dc2626' }}>Don&rsquo;t</p>
+          <p style={{ ...s.label, color: 'var(--st-color-text-primary)' }}>Don&rsquo;t</p>
           <p style={italic}>Vercel</p>
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic on tool folios — tools are catalogue entries, not voices.</p>
         </div>
       </div>
       <div style={s.pairRow}>
         <div style={s.doBox}>
-          <p style={{ ...s.label, color: '#16a34a' }}>Do</p>
+          <p style={{ ...s.label, color: 'var(--st-color-text-primary)' }}>Do</p>
           <p style={roman}>The Epic That Executed Itself</p>
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Roman in Hero — large roman at weight 600 reads as a proclamation.</p>
         </div>
         <div style={s.dontBox}>
-          <p style={{ ...s.label, color: '#dc2626' }}>Don&rsquo;t</p>
+          <p style={{ ...s.label, color: 'var(--st-color-text-primary)' }}>Don&rsquo;t</p>
           <p style={italic}>The Epic That Executed Itself</p>
           <p style={{ fontSize: '0.875rem', margin: '0.5rem 0 0' }}>Italic in Hero — lighter, less commanding at hero scale.</p>
         </div>
@@ -162,8 +162,7 @@ function TypographyConventionsPage() {
 const meta: Meta = {
   title: 'Foundations/Typography Conventions',
   component: TypographyConventionsPage,
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

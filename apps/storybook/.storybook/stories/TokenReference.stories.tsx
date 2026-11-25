@@ -8,7 +8,7 @@ const s = {
   hr: { border: 'none', borderTop: '1px solid rgba(255,255,255,0.1)', margin: '2rem 0' } as React.CSSProperties,
   th: { textAlign: 'left' as const, padding: '0.5rem 1rem', borderBottom: '1px solid rgba(255,255,255,0.15)', fontWeight: 600 },
   td: { padding: '0.5rem 1rem' },
-  code: { background: 'rgba(255,255,255,0.08)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85rem', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
+  code: { color: 'var(--st-color-text-primary)', background: 'rgba(255,255,255,0.08)', padding: '0.15rem 0.4rem', borderRadius: '3px', fontSize: '0.85rem', fontFamily: 'var(--st-font-family-mono)' } as React.CSSProperties,
   swatch: (bg: string) => ({ display: 'inline-block', width: 16, height: 16, borderRadius: 3, background: bg, marginRight: 8, verticalAlign: 'middle' } as React.CSSProperties),
 };
 
@@ -69,7 +69,7 @@ function TokenReferencePage() {
       </table>
 
       <hr style={s.hr} />
-      <p style={{ opacity: 0.5, fontSize: '0.85rem' }}>Token files must stay in sync: <code style={s.code}>apps/web/src/design-system/styles/tokens.css</code> and <code style={s.code}>packages/design-system/src/styles/tokens.css</code>.</p>
+      <p style={{ color: 'var(--st-color-text-secondary)', fontSize: '0.85rem' }}>Token files must stay in sync: <code style={s.code}>apps/web/src/design-system/styles/tokens.css</code> and <code style={s.code}>packages/design-system/src/styles/tokens.css</code>.</p>
     </div>
   );
 }
@@ -77,8 +77,7 @@ function TokenReferencePage() {
 const meta: Meta = {
   title: 'Foundations/Token Reference',
   component: TokenReferencePage,
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
+  parameters: { layout: 'padded', controls: { disable: true }, actions: { disable: true }, chromatic: { disableSnapshot: true } },
 };
 export default meta;
 type Story = StoryObj;

@@ -21,8 +21,6 @@ const meta: Meta<typeof Button> = {
   title: 'Components/Button',
   component: Button,
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-    a11y: { test: 'todo' },
     docs: {
       description: {
         component:
@@ -172,7 +170,7 @@ export const Snapshot: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', padding: '1rem' }}>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>Variants</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)', fontFamily: 'monospace' }}>Variants</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
@@ -180,7 +178,7 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>Disabled</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)', fontFamily: 'monospace' }}>Disabled</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <Button variant="primary" disabled>Primary</Button>
           <Button variant="secondary" disabled>Secondary</Button>
@@ -188,7 +186,7 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>Sizes</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)', fontFamily: 'monospace' }}>Sizes</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <Button variant="secondary" size="sm">Small</Button>
           <Button variant="secondary" size="md">Medium</Button>
@@ -196,7 +194,7 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>Icons</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)', fontFamily: 'monospace' }}>Icons</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <Button variant="primary" iconBefore={<ArrowRight size={ICON_SIZE} aria-hidden />}>Start</Button>
           <Button variant="primary" iconAfter={<ArrowRight size={ICON_SIZE} aria-hidden />}>End</Button>
@@ -206,7 +204,7 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888', fontFamily: 'monospace' }}>As link (href)</p>
+        <p style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)', fontFamily: 'monospace' }}>As link (href)</p>
         <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', alignItems: 'center' }}>
           <Button variant="primary" href="https://sugartown.io" iconAfter={<ExternalLink size={ICON_SIZE} aria-hidden />}>External</Button>
           <Button variant="secondary" href="/articles">Internal (no provider → &lt;a&gt;)</Button>

@@ -55,7 +55,7 @@ function StoryTemplatePage() {
         padding: '52px 56px 120px',
         maxWidth: 920,
         fontFamily: 'var(--st-font-family-ui)',
-        color: 'var(--st-color-ink)',
+        color: 'var(--st-color-text-primary)',
         background: 'var(--st-color-neutral-100)',
         minHeight: '100vh',
       }}
@@ -67,12 +67,12 @@ function StoryTemplatePage() {
           fontFamily: 'var(--st-font-family-narrative)',
           fontSize: '2.5rem',
           fontWeight: 600,
-          color: 'var(--st-color-ink)',
+          color: 'var(--st-color-text-primary)',
           marginBottom: 8,
         }}>
           Story Template
         </h1>
-        <p style={{ fontSize: '0.9375rem', color: 'var(--st-color-neutral-500)', maxWidth: '62ch', lineHeight: 1.6 }}>
+        <p style={{ fontSize: '0.9375rem', color: 'var(--st-color-text-secondary)', maxWidth: '62ch', lineHeight: 1.6 }}>
           The 14-section structure for every component story in the Sugartown DS.
           Sections 02–05 are generated automatically by Storybook autodocs.
           Sections 01 and 06–14 are written in a <code style={s.code}>Guidelines</code> story export.
@@ -120,7 +120,7 @@ function StoryTemplatePage() {
               ] as [string, string, 'must'|'should', boolean, boolean][]).map(([section, desc, priority, pm, sb]) => (
                 <tr key={section}>
                   <td style={s.td}>{section}</td>
-                  <td style={{ ...s.td, color: 'var(--st-color-neutral-500)' }}>{desc}</td>
+                  <td style={{ ...s.td, color: 'var(--st-color-text-secondary)' }}>{desc}</td>
                   <td style={s.td}>
                     <span style={{
                       fontFamily: 'var(--st-font-family-mono)',
@@ -129,8 +129,8 @@ function StoryTemplatePage() {
                       letterSpacing: '0.08em',
                       textTransform: 'uppercase' as const,
                       padding: '2px 7px',
-                      border: `1px solid ${priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-400)'}`,
-                      color: priority === 'must' ? 'var(--st-color-ink)' : 'var(--st-color-neutral-500)',
+                      border: `1px solid ${priority === 'must' ? 'var(--st-color-text-primary)' : 'var(--st-color-neutral-400)'}`,
+                      color: priority === 'must' ? 'var(--st-color-text-primary)' : 'var(--st-color-text-secondary)',
                     }}>
                       {priority === 'must' ? 'Must Have' : 'Should Have'}
                     </span>
@@ -313,7 +313,7 @@ const meta: Meta = {
   title: 'Docs/Story Template',
   component: StoryTemplatePage,
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
     a11y: { test: 'todo' },
     layout: 'fullscreen',
     controls: { disable: true },

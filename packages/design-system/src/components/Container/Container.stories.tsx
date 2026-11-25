@@ -5,7 +5,7 @@ import { Container } from './Container';
 const meta: Meta<typeof Container> = {
   title: 'Foundations/Layout/Container',
   component: Container,
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
   parameters: { a11y: { test: 'todo' }, layout: 'fullscreen' },
 };
 export default meta;

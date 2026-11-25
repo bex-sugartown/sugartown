@@ -32,7 +32,7 @@ import Breadcrumb from '../components/Breadcrumb';
 const meta: Meta = {
   title: 'Foundations/Link Seam',
   tags: ['autodocs'],
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
   parameters: { a11y: { test: 'todo' }, layout: 'padded' },
 };
 

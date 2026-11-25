@@ -58,7 +58,7 @@ const meta: Meta<typeof Drawer> = {
     children: { table: { disable: true }, description: "Panel body content — caller's responsibility" },
   },
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
     a11y: { test: 'todo' },
     chromatic: { disableSnapshot: false },
     layout: 'padded',
@@ -188,7 +188,7 @@ function FilterDrawerStory() {
           <button
             type="button"
             onClick={() => { setActiveFilters({}); setOpen(false); }}
-            style={{ flex: 1, padding: '8px 12px', border: '1px solid #aaa', background: 'transparent', cursor: 'pointer', fontSize: '0.8125rem', color: '#666' }}
+            style={{ flex: 1, padding: '8px 12px', border: '1px solid #aaa', background: 'transparent', cursor: 'pointer', fontSize: '0.8125rem', color: 'var(--st-color-text-secondary)' }}
           >
             Clear all
           </button>

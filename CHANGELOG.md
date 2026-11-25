@@ -13,6 +13,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 ## [Unreleased]
 
 - SUG-177: footer, ledger and list dividers now follow three line tiers, so footer separators and rules that were invisible on the page canvas (Person profile, page eyebrow, content nav) show; glossary term pages gain an AI Attribution row. (smoke 77 passed, tokens and contrast validators pass)
+- #246: Storybook docs pages and 10 story files now pass the colour-contrast gate in both themes; 15 of 49 `todo` entries retired, the remaining 34 (production colour tokens) moved to #270. (a11y gate 780 of 780 pass)
 
 ---
 

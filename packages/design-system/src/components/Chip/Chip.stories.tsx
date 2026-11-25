@@ -9,7 +9,7 @@ const meta: Meta<typeof Chip> = {
   component: Chip,
   tags: ['autodocs'],
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
     a11y: { test: 'todo' },
     layout: 'centered',
   },
@@ -112,7 +112,7 @@ export const FluidInverse: Story = {
       {[480, 320, 160, 96].map((w) => (
         <div key={w} style={{ width: w, containerType: 'inline-size', padding: 12, background: 'var(--st-color-softgrey-200)' }}>
           <Chip variant="badge" tone="inverse" size="fluid" label={w < 200 ? 'AI' : 'AI-generated'} />
-          <small style={{ display: 'block', marginTop: 8, fontFamily: 'var(--st-font-family-mono)', fontSize: 11 }}>{w} px frame</small>
+          <small style={{ display: 'block', marginTop: 8, fontFamily: 'var(--st-font-family-mono)', fontSize: 11, color: 'var(--st-color-ink)' }}>{w} px frame</small>
         </div>
       ))}
     </div>
@@ -170,14 +170,14 @@ export const Snapshot: Story = {
   render: () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', maxWidth: '720px' }}>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Sizes</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Sizes</h4>
         <div style={{ display: 'flex', gap: '8px', alignItems: 'baseline' }}>
           <Chip label="Small" href="#" size="sm" variant="tag" />
           <Chip label="Medium (default)" href="#" size="md" variant="tag" />
         </div>
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — tag</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Rule-dot — tag</h4>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           <Chip label="Design Systems" variant="tag" featured />
           <Chip label="performance" variant="tag" />
@@ -185,7 +185,7 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Rule-dot — badge</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Rule-dot — badge</h4>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           <Chip label="Evergreen"   variant="badge" status="evergreen" />
           <Chip label="Validated"   variant="badge" status="validated" />
@@ -196,7 +196,7 @@ export const Snapshot: Story = {
         </div>
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>dotColor — project chips</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>dotColor — project chips</h4>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
           <Chip label="Pink Moon"     dotColor="#ff247d" />
           <Chip label="Mini-repo"     dotColor="#2bd4aa" />

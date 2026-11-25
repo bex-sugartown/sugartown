@@ -83,7 +83,7 @@ const meta: Meta<typeof Card> = {
   component: Card,
   tags: ['autodocs'],
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
     a11y: { test: 'todo' },
     layout: 'padded',
   },
@@ -270,7 +270,7 @@ export const WithBodyAndFooterChildren: Story = {
       </div>
     ),
     footerChildren: (
-      <div style={{ fontSize: '0.75rem', color: '#888' }}>
+      <div style={{ fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>
         [1] Custom citation content renders here, alongside the standard footer fields.
       </div>
     ),
@@ -340,15 +340,15 @@ export const Snapshot: Story = {
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', maxWidth: '1100px' }}>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Node (full)</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Node (full)</h4>
         <Card {...NODE_FULL} />
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Case Study (full)</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Case Study (full)</h4>
         <Card {...CASE_STUDY_FULL} />
       </div>
       <div>
-        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: '#888' }}>Article (minimal)</h4>
+        <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.75rem', color: 'var(--st-color-text-secondary)' }}>Article (minimal)</h4>
         <Card {...ARTICLE_MINIMAL} />
       </div>
     </div>

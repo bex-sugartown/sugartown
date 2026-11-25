@@ -20,7 +20,7 @@ export default {
   title: 'Pages/GlossaryArchivePage',
   tags: ['autodocs'],
   parameters: {
-    // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
+    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
     a11y: { test: 'todo' },
     layout: 'fullscreen',
   },

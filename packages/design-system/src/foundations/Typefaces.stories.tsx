@@ -11,8 +11,7 @@ import type { Meta } from '@storybook/react';
 
 const meta: Meta = {
   title: 'Foundations/Typefaces',
-  // #246: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #246 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
+  parameters: { layout: 'padded' },
 };
 
 export default meta;
@@ -27,7 +26,7 @@ const Label = ({ children }: { children: React.ReactNode }) => (
       fontWeight: 700,
       letterSpacing: '0.1em',
       textTransform: 'uppercase',
-      color: '#aaa',
+      color: 'var(--st-color-text-secondary)',
       marginBottom: '0.25rem',
     }}
   >
@@ -42,7 +41,7 @@ const TokenTag = ({ children }: { children: React.ReactNode }) => (
       fontSize: '0.68rem',
       background: 'rgba(255, 36, 125, 0.07)',
       border: '1px solid rgba(255, 36, 125, 0.2)',
-      color: '#b91c68',
+      color: 'var(--st-color-text-brand)',
       borderRadius: '4px',
       padding: '0.1em 0.45em',
     }}
@@ -72,7 +71,7 @@ export const FontFamilies = {
         <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '2rem', fontWeight: 700, lineHeight: 1.15, margin: '0 0 0.25rem' }}>
           Building a token-driven<br />design system.
         </p>
-        <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.2rem', fontWeight: 400, fontStyle: 'italic', color: '#555', margin: 0 }}>
+        <p style={{ fontFamily: '"Cormorant Garamond", serif', fontSize: '1.2rem', fontWeight: 400, fontStyle: 'italic', color: 'var(--st-color-text-secondary)', margin: 0 }}>
           Editorial headings, card titles, featured pull-quotes.
         </p>
       </div>
@@ -89,7 +88,7 @@ export const FontFamilies = {
         <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '1.75rem', fontWeight: 600, lineHeight: 1.2, margin: '0 0 0.25rem' }}>
           Product & Platform Strategy
         </p>
-        <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '1rem', fontWeight: 400, color: '#555', lineHeight: 1.6, margin: 0 }}>
+        <p style={{ fontFamily: '"DM Sans", sans-serif', fontSize: '1rem', fontWeight: 400, color: 'var(--st-color-text-secondary)', lineHeight: 1.6, margin: 0 }}>
           Body copy, archive card titles, navigation, buttons, form labels.<br />
           Weights: 400 · 500 · 600 · 700
         </p>
@@ -104,10 +103,10 @@ export const FontFamilies = {
           <TokenTag>--st-font-family-mono</TokenTag>
           <TokenTag>--st-font-mono</TokenTag>
         </div>
-        <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '1rem', lineHeight: 1.6, color: '#b91c68', margin: '0 0 0.25rem' }}>
+        <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '1rem', lineHeight: 1.6, color: 'var(--st-color-text-brand)', margin: '0 0 0.25rem' }}>
           IBM Plex Mono, monospace
         </p>
-        <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.85rem', color: '#555', margin: 0 }}>
+        <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.85rem', color: 'var(--st-color-text-secondary)', margin: 0 }}>
           Eyebrows · status chips · taxonomy chips · meta labels · code · filter titles
         </p>
       </div>
@@ -131,7 +130,7 @@ export const TypeScale = {
   name: 'Type Scale',
   render: () => (
     <div style={{ maxWidth: '680px' }}>
-      <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.7rem', color: '#aaa', marginBottom: '2rem' }}>
+      <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.7rem', color: 'var(--st-color-text-secondary)', marginBottom: '2rem' }}>
         Showing DM Sans for all steps — apply <code>--st-font-narrative</code> for editorial contexts.
       </p>
 
@@ -148,13 +147,13 @@ export const TypeScale = {
           }}
         >
           <div style={{ minWidth: '200px', flexShrink: 0 }}>
-            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.65rem', color: '#b91c68', fontWeight: 700 }}>
+            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.65rem', color: 'var(--st-color-text-brand)', fontWeight: 700 }}>
               {token}
             </div>
-            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.6rem', color: '#aaa', marginTop: '2px' }}>
+            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.6rem', color: 'var(--st-color-text-secondary)', marginTop: '2px' }}>
               {value}
               {semantic && (
-                <span style={{ color: '#ccc', marginLeft: '6px' }}>· {semantic}</span>
+                <span style={{ color: 'var(--st-color-text-secondary)', marginLeft: '6px' }}>· {semantic}</span>
               )}
             </div>
           </div>
@@ -164,7 +163,7 @@ export const TypeScale = {
               fontSize: value,
               fontWeight: 600,
               lineHeight: 1.2,
-              color: '#111',
+              color: 'var(--st-color-text-primary)',
               flex: 1,
               overflow: 'hidden',
               whiteSpace: 'nowrap',
@@ -205,10 +204,10 @@ export const FontWeights = {
           }}
         >
           <div style={{ minWidth: '180px', flexShrink: 0 }}>
-            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.65rem', color: '#b91c68', fontWeight: 700 }}>
+            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.65rem', color: 'var(--st-color-text-brand)', fontWeight: 700 }}>
               {token}
             </div>
-            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.6rem', color: '#aaa', marginTop: '2px' }}>
+            <div style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.6rem', color: 'var(--st-color-text-secondary)', marginTop: '2px' }}>
               {value}
             </div>
           </div>
@@ -217,7 +216,7 @@ export const FontWeights = {
               fontFamily: '"DM Sans", sans-serif',
               fontSize: '1.25rem',
               fontWeight: value,
-              color: '#111',
+              color: 'var(--st-color-text-primary)',
             }}
           >
             {label} — {label} weight
@@ -242,7 +241,7 @@ export const LineHeights = {
         <div key={token} style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'flex', gap: '8px', alignItems: 'center', marginBottom: '0.5rem' }}>
             <TokenTag>{token}</TokenTag>
-            <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.68rem', color: '#aaa' }}>
+            <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '0.68rem', color: 'var(--st-color-text-secondary)' }}>
               {value} — {note}
             </span>
           </div>
@@ -251,10 +250,10 @@ export const LineHeights = {
               fontFamily: '"DM Sans", sans-serif',
               fontSize: '1rem',
               lineHeight: value,
-              color: '#333',
+              color: 'var(--st-color-text-primary)',
               margin: 0,
               padding: '0.75rem 1rem',
-              background: '#fafafa',
+              background: 'var(--st-color-bg-surface)',
               border: '1px solid #efefef',
               borderRadius: '6px',
             }}
