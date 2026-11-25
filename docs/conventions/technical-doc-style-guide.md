@@ -99,7 +99,7 @@ Each type has a fixed purpose and a fixed set of required sections. Pick the typ
 
 | Type | Answers | Required sections | Lifecycle |
 |---|---|---|---|
-| **PRD** | What are we building, for whom, and how will we know it worked? | The 13 in `.claude/skills/sugartown-prd-writer/SKILL.md` §PRD Section Order | Draft → Active → Superseded |
+| **PRD** | What are we building, for whom, and how will we know it worked? | The 13 in `.claude/skills/st-prd-writer/SKILL.md` §PRD Section Order | Draft → Active → Superseded |
 | **Architecture doc** | How is this shaped and what constrains it? | Context, Structure, Data flow, Boundaries, Trade-offs accepted | Active → Superseded |
 | **ADR** | Why did we choose this? | Context, Options considered, Decision, Consequences, Reversibility | Proposed → Accepted → Superseded |
 | **Runbook** | How do I do this safely, again? | Prerequisites, Steps, Verification, Failure modes, Rollback | Active → Deprecated |
@@ -649,7 +649,7 @@ Note that most of § 15 is machine-checkable, which makes it the cheapest sectio
 ### v1.1 — 2026-08-07
 
 - § 0 authority became a table, adding the row for `instruction-writing-style.md`: it owns how a sentence in a followed doc is written, this guide owns which sections exist.
-- § 2's PRD row now points at `sugartown-prd-writer`'s 13 sections instead of naming a conflicting 6.
+- § 2's PRD row now points at `st-prd-writer`'s 13 sections instead of naming a conflicting 6.
 - § 3 front matter matches the shape four convention docs already use: `vN.N`, ISO dates, `Related` with `[[wikilink]] (path)`.
 - § 5 decision blocks gain a `Decided` line. A block with no `Decided` line is open, whatever was agreed in conversation.
 - § 7 stopped defining terms and now names the doc that owns each. `featuredImage` is the one rule with no owner elsewhere and stays until it has one.

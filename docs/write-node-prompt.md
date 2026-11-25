@@ -1,4 +1,4 @@
-# /write-node — Knowledge Graph Node Skill
+# /st-write-node — Knowledge Graph Node Skill
 
 Drafts a Knowledge Graph node in a local HTML working draft, then syncs it to a Sanity draft for final review (`_type: "node"`) once Bex approves the working draft (`docs/write-pipeline-prompt.md` §0b).
 

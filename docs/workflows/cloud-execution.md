@@ -31,7 +31,7 @@ started from a `wip/` branch it does nothing (#142).
 
 ## Starting branch
 
-`/cloud-launch <n>` picks the branch, fills the launch prompt from
+`/st-cloud-launch <n>` picks the branch, fills the launch prompt from
 `docs/workflows/cloud-task-template.md` and walks Bex through the new-session screen (#144).
 
 | Situation | Start from | Session pushes to |
@@ -119,7 +119,7 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
      unfollowable this run. `None` is a valid answer; a missing section is not.
    - a last line for Bex: `**Your next step:** in a local session, say "hand back {n}".`
 4. **Add the `handback-ready` label** with the GitHub MCP tool. It is how the local side finds
-   the run (`/st-morning` lists it, `/handback` reads it). If adding it fails, say so in the comment.
+   the run (`/st-morning` lists it, `/st-handback` reads it). If adding it fails, say so in the comment.
 5. **Leave the issue open, at `In Progress`.** Never close it. (`/st-ship` sweeps every `Done`
    issue into `Shipped`, and cloud work is still on a branch.)
 
@@ -132,7 +132,7 @@ after its hand-back and re-created branches cloud cannot delete, 2026-09-25.)
 
 ## Hand-back
 
-A local session finishes a cloud issue with `/handback <n>`, which runs these steps and a
+A local session finishes a cloud issue with `/st-handback <n>`, which runs these steps and a
 review of the branch first (#144):
 
 1. Fetch the branch and read the diff.

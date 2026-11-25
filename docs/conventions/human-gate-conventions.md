@@ -45,7 +45,7 @@ Validators, pre-commit hooks, CI steps. No human in the loop by design.
 | Instruction & Rule File Write Gate | `CLAUDE.md` §Instruction & Rule File Write Gate |
 | Technical diagram red-pen gate | `CLAUDE.md` §Technical diagram red-pen gate |
 | Visual QA approval | `CLAUDE.md` close-out step 3, §When a vspec exists |
-| Chromatic approval | `CLAUDE.md` close-out step 4, `/chromatic` |
+| Chromatic approval | `CLAUDE.md` close-out step 4, `/st-chromatic` |
 | Push to `origin` | `/st-ship` |
 | Destructive git — `reset --hard`, branch delete, force push | `/st-ship`, `/st-morning` |
 | Production data mutation | ad hoc — no owning section; see Known gaps |
@@ -80,7 +80,7 @@ high-blast-radius actions (push, publish, merge, delete), always include an expl
 
 ### 2. Row-level multi-select batch gate
 Approve or reject individual items from a list — `/st-glossy`'s batch term approval,
-`/red-pen`'s "apply 1,3,5."
+`/st-red-pen`'s "apply 1,3,5."
 
 **Mechanism:** `AskUserQuestion` with `multiSelect: true`, one option per item, labeled with
 enough context to identify it without scrolling back (id + short summary).
@@ -96,7 +96,7 @@ Genuinely free text — `becky-boop`'s "which article is this for?", PRD-writer'
 questions. No conversion needed. One sentence, no compound asks.
 
 ### 4. Structured multi-field intake
-A form mixing enumerated and free-text fields — `/new-epic`'s Step 0 (priority and merge
+A form mixing enumerated and free-text fields — `/st-new-epic`'s Step 0 (priority and merge
 strategy enumerated; name and description free text).
 
 **Mechanism:** hybrid — `AskUserQuestion` for the enumerated fields, free text handled

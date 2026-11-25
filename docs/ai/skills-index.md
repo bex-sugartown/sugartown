@@ -23,31 +23,31 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 <!-- generated:claude-code-skills:start -->
 | Skill | Trigger | Where | What it does |
 |---|---|---|---|
-| `alignment-audit` | `/alignment-audit` | `skills/` | Run a systematic, evidence-based audit comparing something you have (a codebase, a team's workflow, a product, an org's process) against an external standard (a course curriculum, a framework, a spec, a policy, best-prac |
-| `becky-boop` | `/becky-boop` | `skills/` | Generate a self-contained Becky B00p hero banner prompt for any AI image generator — contextualised to the article, node, or post currently being worked on, or to text passed after the slash command. |
-| `chromatic` | `/chromatic` | `skills/` | Run Chromatic VRT, report visual diffs, gate on human approval, record status |
-| `cloud-launch` | `/cloud-launch` | `skills/` | Prepare a cloud session for an issue labelled cloud (start review, In Progress, starting branch, the filled launch prompt), then walk Bex through starting it with AskUserQuestion. |
-| `handback` | `/handback` | `skills/` | Finish a cloud run locally: review the cloud branch with the cloud-handback-reviewer agent, merge it, run the checks the diff needs, close out, close the issue, and triage the run's procedure notes. |
-| `new-epic` | `/new-epic` | `skills/` | Create a new Sugartown epic — GitHub issue + backlog stub + commit |
-| `new-tool` | `/new-tool` | `skills/` | File a new Sugartown tool — validator, gate, hook, script, generator, command or skill. |
-| `post-mortem` | `/post-mortem` | `commands/` | Thin command. Prompt: `docs/post-mortem-prompt.md` |
-| `red-pen` | `/red-pen` | `skills/` | Editorial review of Sugartown content (articles, nodes, case studies, glossary terms, page copy) against the brand voice guides, with accuracy checking, sharpness recommendations, and a two-gate approval flow before any  |
-| `release` | `/release` | `commands/` | Thin command. Prompt: `docs/workflows/release-assistant-prompt.md` |
-| `restart` | `/restart` | `skills/` | Check which Sugartown dev servers are running and restart any that are down. |
+| `st-alignment-audit` | `/st-alignment-audit` | `skills/` | Run a systematic, evidence-based audit comparing something you have (a codebase, a team's workflow, a product, an org's process) against an external standard (a course curriculum, a framework, a spec, a policy, best-prac |
+| `st-becky-boop` | `/st-becky-boop` | `skills/` | Generate a self-contained Becky B00p hero banner prompt for any AI image generator — contextualised to the article, node, or post currently being worked on, or to text passed after the slash command. |
+| `st-chromatic` | `/st-chromatic` | `skills/` | Run Chromatic VRT, report visual diffs, gate on human approval, record status |
+| `st-cloud-launch` | `/st-cloud-launch` | `skills/` | Prepare a cloud session for an issue labelled cloud (start review, In Progress, starting branch, the filled launch prompt), then walk Bex through starting it with AskUserQuestion. |
+| `st-epic-writer` | `/st-epic-writer` | `skills/` | Write a Claude Code epic execution prompt for Sugartown monorepo implementation work. |
+| `st-fsd-writer` | `/st-fsd-writer` | `skills/` | Write a Functional Specification Document (FSD) for Sugartown work: the design layer that says how the system will implement the requirements in an AI PRD. |
 | `st-glossy` | `/st-glossy` | `skills/` | Research, draft, and publish Sugartown glossaryTerm(s) to /glossary. |
+| `st-handback` | `/st-handback` | `skills/` | Finish a cloud run locally: review the cloud branch with the cloud-handback-reviewer agent, merge it, run the checks the diff needs, close out, close the issue, and triage the run's procedure notes. |
 | `st-morning` | `/st-morning` | `skills/` | Run the Sugartown morning housekeeping check — git health, service status, branch briefing and recommended actions |
+| `st-new-epic` | `/st-new-epic` | `skills/` | Create a new Sugartown epic — GitHub issue + backlog stub + commit |
+| `st-new-tool` | `/st-new-tool` | `skills/` | File a new Sugartown tool — validator, gate, hook, script, generator, command or skill. |
+| `st-post-mortem` | `/st-post-mortem` | `commands/` | Thin command. Prompt: `docs/post-mortem-prompt.md` |
+| `st-prd-ai-writer` | `/st-prd-ai-writer` | `skills/` | Write the AI-facing requirements document for Sugartown work: a PRD in agent-executable form, sitting between the human PRD (st-prd-writer) and the epic (st-epic-writer). |
+| `st-prd-writer` | `/st-prd-writer` | `skills/` | Write a human-facing Product Requirements Document for CMS/headless architecture, design system governance, or ecommerce/platform implementation work. |
+| `st-project-export` | `/st-project-export` | `skills/` | Package one Sugartown project's documents into a share folder with a README, by choice. |
+| `st-prototype-writer` | `/st-prototype-writer` | `skills/` | Plan and record a prototype for Sugartown work: a time-boxed experiment that settles one risky claim from an AI PRD before the FSD is written. |
+| `st-red-pen` | `/st-red-pen` | `skills/` | Editorial review of Sugartown content (articles, nodes, case studies, glossary terms, page copy) against the brand voice guides, with accuracy checking, sharpness recommendations, and a two-gate approval flow before any  |
+| `st-release` | `/st-release` | `commands/` | Thin command. Prompt: `docs/workflows/release-assistant-prompt.md` |
+| `st-restart` | `/st-restart` | `skills/` | Check which Sugartown dev servers are running and restart any that are down. |
 | `st-ship` | `/st-ship` | `commands/` | Thin command. Prompt: `docs/ship-prompt.md` |
 | `st-switch` | `/st-switch` | `skills/` | Sync the Sugartown repo across machines (desktop ⇄ laptop). |
-| `sugartown-epic-writer` | `/sugartown-epic-writer` | `skills/` | Write a Claude Code epic execution prompt for Sugartown monorepo implementation work. |
-| `sugartown-fsd-writer` | `/sugartown-fsd-writer` | `skills/` | Write a Functional Specification Document (FSD) for Sugartown work: the design layer that says how the system will implement the requirements in an AI PRD. |
-| `sugartown-prd-ai-writer` | `/sugartown-prd-ai-writer` | `skills/` | Write the AI-facing requirements document for Sugartown work: a PRD in agent-executable form, sitting between the human PRD (sugartown-prd-writer) and the epic (sugartown-epic-writer). |
-| `sugartown-prd-writer` | `/sugartown-prd-writer` | `skills/` | Write a human-facing Product Requirements Document for CMS/headless architecture, design system governance, or ecommerce/platform implementation work. |
-| `sugartown-project-export` | `/sugartown-project-export` | `skills/` | Package one Sugartown project's documents into a share folder with a README, by choice. |
-| `sugartown-prototype-writer` | `/sugartown-prototype-writer` | `skills/` | Plan and record a prototype for Sugartown work: a time-boxed experiment that settles one risky claim from an AI PRD before the FSD is written. |
-| `update-cwv` | `/update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
-| `write-blog` | `/write-blog` | `skills/` | Draft an article (blog post) in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
-| `write-casestudy` | `/write-casestudy` | `skills/` | Draft a portfolio case study in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
-| `write-node` | `/write-node` | `skills/` | Draft a Knowledge Graph node in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
+| `st-update-cwv` | `/st-update-cwv` | `skills/` | Run Lighthouse CI against production, update PERF_BACKUP in CwvSnapshot.jsx, show diff summary, offer to commit |
+| `st-write-blog` | `/st-write-blog` | `skills/` | Draft an article (blog post) in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
+| `st-write-casestudy` | `/st-write-casestudy` | `skills/` | Draft a portfolio case study in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
+| `st-write-node` | `/st-write-node` | `skills/` | Draft a Knowledge Graph node in a local HTML working draft in docs/drafts/ (Pink Moon, light/dark toggle) where every draft and edit round happens, then sync it to a Sanity draft for final review once Bex approves the ro |
 <!-- generated:claude-code-skills:end -->
 
 ### Deprecated
@@ -84,7 +84,7 @@ versions are the planning/drafting layer for the same capability.
 
 ## Workflow Prompts — Release Pipeline
 
-A prompt file in `docs/workflows/`, invoked by the `/release` command and by `/st-ship --release`.
+A prompt file in `docs/workflows/`, invoked by the `/st-release` command and by `/st-ship --release`.
 Can also be pasted into Claude Code directly at the start of a release session.
 
 | Prompt | File | What it does |

@@ -1,4 +1,4 @@
-# /write-blog — Article (Blog Post) Skill
+# /st-write-blog — Article (Blog Post) Skill
 
 Drafts an article in a local HTML working draft, then syncs it to a Sanity draft for final review (`_type: "article"`) once Bex approves the working draft (`docs/write-pipeline-prompt.md` §0b).
 

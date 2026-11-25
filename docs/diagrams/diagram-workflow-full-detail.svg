@@ -246,7 +246,7 @@
 
   <rect x="690" y="1635" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
   <text x="800" y="1663" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">RETROSPECTIVE</text>
-  <text x="800" y="1681" font-size="8" text-anchor="middle" fill="#ff247d">/post-mortem exists, no trigger</text>
+  <text x="800" y="1681" font-size="8" text-anchor="middle" fill="#ff247d">/st-post-mortem exists, no trigger</text>
 
   <rect x="950" y="1635" width="220" height="64" fill="#ffffff" stroke="#ff247d" stroke-width="1.5"/>
   <text x="1060" y="1663" font-size="11" font-weight="bold" text-anchor="middle" fill="#0d1226">RE-PRIORITIZE</text>

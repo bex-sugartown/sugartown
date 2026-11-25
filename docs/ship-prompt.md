@@ -17,11 +17,11 @@
 >   permission classifier refuses remote branch deletion.
 
 > **v2 → v3 changes (issue #107):**
-> - Step 3's push now uses `--follow-tags`, so an annotated release tag `/release` created rides
+> - Step 3's push now uses `--follow-tags`, so an annotated release tag `/st-release` created rides
 >   along with the commit it points at, with no separate push step.
 > - New PHASE 3 step 8: once a release commit just landed on origin and CI succeeded, create the
 >   GitHub milestone, assign issues shipped since the previous tag, and gate on publishing the
->   GitHub Release. This is where milestone/release work happens — not in `/release` itself, which
+>   GitHub Release. This is where milestone/release work happens — not in `/st-release` itself, which
 >   ends at a local, unpushed commit and tag.
 > - PHASE 4 closing status gained a Release publish line.
 
@@ -36,7 +36,7 @@ a schedule.
 
 Takes everything currently `Done` — one epic or two weeks of them — and pushes it live: one
 Netlify deploy, CI verified to a conclusion, every shipped issue transitioned from `Done` to
-`Shipped` on the board. With `--release`, also cuts a version by invoking `/release` afterward.
+`Shipped` on the board. With `--release`, also cuts a version by invoking `/st-release` afterward.
 
 It reads first, then executes with confirmation at each step. Nothing here is on a clock;
 everything here operates on the full accumulated backlog of `Done` work, never just "today's".
@@ -180,7 +180,7 @@ After delivering the briefing, propose actions in this order:
 3. **Push to origin** (single push for all accumulated commits)
    - Show: "This will push N commits to origin/main, triggering 1 Netlify deploy"
    - List the commits that will be pushed. If any is a `docs: release vX.Y.0` commit from a prior
-     `/release` run, say so explicitly — its annotated tag rides along with this push too.
+     `/st-release` run, say so explicitly — its annotated tag rides along with this push too.
    - Ask via `AskUserQuestion`:
      ```
      Question: "Push N commits to origin/main? This triggers 1 Netlify deploy."
@@ -190,7 +190,7 @@ After delivering the briefing, propose actions in this order:
      ```
    - Push with `git push --follow-tags` rather than a bare `git push`. `--follow-tags` sends any
      annotated tag that points at a commit being pushed and nothing else — it will not push a
-     stray local tag unrelated to this push. This is what carries a `/release`-created tag
+     stray local tag unrelated to this push. This is what carries a `/st-release`-created tag
      (`docs/workflows/release-assistant-prompt.md` STEP 3D) to GitHub; there is no separate tag
      push step.
 
@@ -270,7 +270,7 @@ After delivering the briefing, propose actions in this order:
      `https://github.com/bex-sugartown/sugartown/branches` and clicks the bin icon beside each
      deletable branch.
 
-7. **`--release`, if passed** — invoke `/release`, do not reimplement it
+7. **`--release`, if passed** — invoke `/st-release`, do not reimplement it
    - Only if **both** are true: this run was invoked with the `--release` flag (see
      `.claude/commands/ship.md`), **and** step 5's CI run concluded `success`. A red CI run skips
      this step exactly as it skips step 6 — do not cut a release on code CI hasn't verified. Report
@@ -281,13 +281,13 @@ After delivering the briefing, propose actions in this order:
      (SUG-100 S9, acceptance criterion: proven by cutting a release after 2+ epics accumulate).
    - Without `--release`: skip this step. Code is live; no version is cut. `[Unreleased]` keeps
      accumulating for the next release, whenever that runs.
-   - **Do not push `/release`'s commit or tag.** Both end local by design
+   - **Do not push `/st-release`'s commit or tag.** Both end local by design
      (`docs/workflows/release-assistant-prompt.md`, Gate 5 / STEP 3D) and ship with the next
      `/st-ship`. Report them as unpushed in Phase 4; that is a complete `--release` run.
 
 8. **Publish pending release** (milestone + GitHub Release) — only if step 5 concluded `success`
    - This step is independent of whether `--release` was passed *this* run — it reacts to a
-     release commit reaching origin, which may have been created by an earlier `/release` run and
+     release commit reaching origin, which may have been created by an earlier `/st-release` run and
      only now gets pushed as part of today's accumulated commits.
    - Find a release tag with no GitHub Release: the newest `v*.0` tag **on origin**
      (`git ls-remote --tags --refs origin 'v*.0' | sed 's#.*refs/tags/##' | sort -V | tail -1`),

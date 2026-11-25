@@ -52,7 +52,7 @@ stage (SUG-246).
 **Visual:** yes | no _(yes if this epic renders anything a user has not signed off on, CLAUDE.md §Phase 0 visual spec gate; then name the vspec path, `docs/drafts/{ID}-{slug}.vspec.html`)_
 ## EPIC NAME:
 
-> **Required sections are the headings below marked exactly `[REQUIRED]`.** `node scripts/check-epic-doc.js <doc>` reads them from this file and fails a doc that is missing one, leaves one empty or `TODO`, or has no Visual line. Sections marked `[REQUIRED if …]` apply when their condition does. `/new-epic` writes the required set.
+> **Required sections are the headings below marked exactly `[REQUIRED]`.** `node scripts/check-epic-doc.js <doc>` reads them from this file and fails a doc that is missing one, leaves one empty or `TODO`, or has no Visual line. Sections marked `[REQUIRED if …]` apply when their condition does. `/st-new-epic` writes the required set.
 
 ---
 
@@ -130,7 +130,7 @@ stage (SUG-246).
 > Kill criterion: remove step 2 if, 60 days after it lands, no start review has changed an epic
 > or a rule file because of it (check `git log -S"Start audit" -- docs/backlog`).
 >
-> Then set the issue to In Progress. A `/new-tool` issue runs its eight-section check in place of
+> Then set the issue to In Progress. A `/st-new-tool` issue runs its eight-section check in place of
 > step 1; a bare issue runs a read (CLAUDE.md §Issue status = workflow stage).
 >
 > Tick every item before execution begins. If an item cannot be answered, resolve it
@@ -587,7 +587,7 @@ State how re-running the script produces no change:
 
   | Finding | Destination | Artifact |
   |---|---|---|
-  | e.g. `/release` skips the header cap | new epic | SUG-265 + stub |
+  | e.g. `/st-release` skips the header cap | new epic | SUG-265 + stub |
   | e.g. ScoreRing dep array | new epic | SUG-266 + stub |
   | e.g. epic-template full restyle | decided against | recorded in this doc |
 

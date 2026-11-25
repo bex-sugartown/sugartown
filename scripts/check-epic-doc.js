@@ -23,7 +23,7 @@
  *
  * Session-invoked, not a commit or CI gate. Start stage: the start review
  * (`docs/epic-template.md` §Pre-Execution Completeness Gate, run by
- * `.claude/rules/epics.md` and `/new-epic`). Close-out stage: CLAUDE.md §Epic
+ * `.claude/rules/epics.md` and `/st-new-epic`). Close-out stage: CLAUDE.md §Epic
  * close-out sequence step 5c, before the move to `docs/shipped/`. Probed by
  * `scripts/validate-liveness-probes.js`.
  *
@@ -192,9 +192,9 @@ export const RULE_PATHSPECS = [
   '.claude/rules',
   'docs/conventions',
   'docs/epic-template.md',
-  '.claude/skills/new-epic',
-  '.claude/skills/new-tool',
-  '.claude/skills/sugartown-epic-writer',
+  '.claude/skills/st-new-epic',
+  '.claude/skills/st-new-tool',
+  '.claude/skills/st-epic-writer',
 ]
 const ALIGNED_LINE = /^\*\*Aligned:\*\*\s*(\d{4}-\d{2}-\d{2})/im
 

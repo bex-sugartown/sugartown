@@ -54,10 +54,10 @@ Paste into Claude Code at session start:
 Two systems. Full inventory: `docs/ai/skills-index.md`.
 
 Frequently used:
-- `/new-epic` — create a GitHub issue + backlog stub
-- `/new-tool` — file a validator, gate, hook or script; issue only, no backlog doc
-- `/write-blog` — draft an article locally, then as a Sanity draft
-- `/write-node` — draft a Knowledge Graph node locally, then as a Sanity draft
+- `/st-new-epic` — create a GitHub issue + backlog stub
+- `/st-new-tool` — file a validator, gate, hook or script; issue only, no backlog doc
+- `/st-write-blog` — draft an article locally, then as a Sanity draft
+- `/st-write-node` — draft a Knowledge Graph node locally, then as a Sanity draft
 - `/st-glossy` — add a glossary term to sugartown.io
 - `/st-morning` — morning housekeeping (git health, branch map, board status)
 

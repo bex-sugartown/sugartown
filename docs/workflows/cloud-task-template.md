@@ -1,6 +1,6 @@
 # Cloud task template
 
-**The launch prompt for a cloud session.** `/cloud-launch <n>` fills it; nobody writes a launch
+**The launch prompt for a cloud session.** `/st-cloud-launch <n>` fills it; nobody writes a launch
 prompt by hand (#144). Every rule a cloud session needs lives in `cloud-execution.md`; this
 template only names the issue, the branch, the checks and the guards that apply.
 
@@ -33,7 +33,7 @@ handback-ready label. Do not close the issue.
 
 ## Guard blocks
 
-Add a block when its trigger fires. `/cloud-launch` checks each trigger against the issue body
+Add a block when its trigger fires. `/st-cloud-launch` checks each trigger against the issue body
 and the linked backlog doc.
 
 | Trigger | Block |

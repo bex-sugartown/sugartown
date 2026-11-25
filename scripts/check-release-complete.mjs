@@ -136,7 +136,7 @@ async function gather(version) {
       return true
     } catch (e) {
       const text = `${e.stderr ?? ''}${e.stdout ?? ''}`
-      if (/release not found|not found/i.test(text)) return false
+      if (/st-release not found|not found/i.test(text)) return false
       throw e
     }
   })

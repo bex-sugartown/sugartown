@@ -82,7 +82,7 @@ blocking) — but the defer decision itself is not restated (SUG-100 S3). `/mini
 5c. **Close-out review.** Write `## Close-out review` and `## Post-ship checks` into the epic doc (`docs/epic-template.md`), then run `node scripts/check-epic-doc.js <doc> --stage close-out`. A non-zero exit blocks step 6. Every follow-up, to the implementation or to the workflow and docs, is filed as an issue or declined with a reason. Each follow-up, and each bug the work found or depends on, is also set **Relates to** the epic's issue (issue sidebar, Relationships): that is how exports and release notes find them (`docs/conventions/project-artifacts.md` §Related issues). The friction line lives here.
 6. **Move epic doc** from `docs/backlog/` to `docs/shipped/` — commit: `docs: ship SUG-{N} {name}`. **If this move follows an edit to the doc in the same turn** (e.g. adding a close-out summary before moving it), run `git diff --cached --stat` (or `git show --stat HEAD` right after committing) to confirm the file actually carries the expected content change, not just a rename with 0 insertions/deletions. `git mv` does not guarantee a prior unstaged edit rides along silently — verify, don't assume.
 6b. **Preserve the vspec** — copy the approved vspec from `docs/drafts/` to `docs/shipped/SUG-{N}-{slug}.vspec.html`. Commit with the step 6 doc move. Skip only if the epic had no vspec.
-7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. **One line, not a release-note draft.** `<SUG-N>: <what changed>, in plain outcome terms. <evidence in one trailing parenthetical, if any>.` If it needs more than one line, that belongs in the epic doc — link it, don't paste the close-out review here. (Drift observed 2026-08-08 onward: epics began writing full Keep-a-Changelog-formatted entries straight into the buffer, and nothing downstream compresses them.) The version bump is not this step's job: it happens at the ship step — `/st-ship --release`, which invokes `/release` rather than
+7. **CHANGELOG line now, version bump at ship — they are separate obligations and happen at different times.** Add the epic's one-line summary to `CHANGELOG.md`'s `[Unreleased]` buffer at `Done`, every time, regardless of how long until the next ship. **One line, not a release-note draft.** `<SUG-N>: <what changed>, in plain outcome terms. <evidence in one trailing parenthetical, if any>.` If it needs more than one line, that belongs in the epic doc — link it, don't paste the close-out review here. (Drift observed 2026-08-08 onward: epics began writing full Keep-a-Changelog-formatted entries straight into the buffer, and nothing downstream compresses them.) The version bump is not this step's job: it happens at the ship step — `/st-ship --release`, which invokes `/st-release` rather than
 reimplementing it (SUG-100 S9, consolidated 2026-08-19). The ship step operates on **everything currently `Done`**, not just this epic — the observed interval between ship events is 1–14 days, so scoping any step to "today's work" silently drops what accumulated on the days nobody ran it (SUG-100 S14). A close-out doc saying "Done" with no `[Unreleased]` line is incompletely closed, whether or not a version has been cut yet.
 8. **Update the tracker** — transition the epic's issue to **Done** with `gh issue close {n}` (§Issue status = workflow stage).
 9. **Clean tree** — confirm `git status` is clean before starting the next epic
@@ -175,7 +175,7 @@ maintained field:
 
 | Sugartown stage | Trigger | Status |
 |---|---|---|
-| Epic created | `/new-epic` Step 1 | `Backlog` |
+| Epic created | `/st-new-epic` Step 1 | `Backlog` |
 | Prioritized for pickup | `Priority` set to `Urgent` or `High`, at creation or later | `Todo` |
 | Implementation begins | Pre-Execution Completeness Gate passes (`docs/epic-template.md`) | `In Progress` |
 | Paused for any reason | Set by the human | `On Hold` |
@@ -186,14 +186,14 @@ maintained field:
 both mean ready to pick up, so an issue carrying either belongs at `Todo`, whether it was
 created that way or promoted later. `Medium` and `Low` sit at `Backlog`. A `High` issue at
 `Backlog` is a contradiction between two fields, and whichever one a reader trusts, the board
-has misled them. `/new-epic` and `/new-tool` both set this at creation.
+has misled them. `/st-new-epic` and `/st-new-tool` both set this at creation.
 
 **Set `In Progress` before the first `Edit`/`Write` call of an epic, not after.** The trigger is
 the Pre-Execution Completeness Gate coming clean (`docs/epic-template.md`). An epic whose work
 has started while its issue still reads `Todo` is invisible to anyone looking at the board.
 
 **A non-epic issue executed directly — "execute {n}" — follows the same statuses without an
-epic doc.** Bugs, gaps and chores filed as bare issues have no `/new-epic` step and no
+epic doc.** Bugs, gaps and chores filed as bare issues have no `/st-new-epic` step and no
 Pre-Execution Completeness Gate, so none of the triggers above fire and the issue sits at
 `Todo` while the work happens and finishes. #106 did exactly that on 2026-09-01: filed,
 executed, committed and evidenced, still reading `Todo`.
@@ -259,7 +259,7 @@ the word is `issue`.
 `docs/backlog/sugartown-backlog-priorities.md` was retired 2026-08-05.
 `/platform/governance` renders priority data from `stats.githubRoadmap`.
 
-Full mechanics: `.claude/skills/new-epic/docs/new-epic-prompt.md` and `docs/epic-template.md`
+Full mechanics: `.claude/skills/st-new-epic/docs/new-epic-prompt.md` and `docs/epic-template.md`
 §Epic Lifecycle.
 
 ### Merge conflict cleanup
@@ -425,7 +425,7 @@ The agent drafts. The agent proposes. The agent patches Sanity documents once a 
 
 **The only way the agent publishes something is an explicit, standalone instruction to do so** — "publish that," "make it live," "go ahead and publish" — given as its own instruction, not inferred from approval of the content itself. Absent that explicit instruction, every skill and every session stops at the draft and tells the human what's ready and where to find it — typically: open it in Studio and click Publish.
 
-This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/st-glossy`, `/write-blog`, `/write-node`, `/write-casestudy`, `/red-pen`) stops at this same line.
+This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/st-glossy`, `/st-write-blog`, `/st-write-node`, `/st-write-casestudy`, `/st-red-pen`) stops at this same line.
 
 **Response mechanism:** a negative/absence gate per `docs/conventions/human-gate-conventions.md` — no prompt shown; block on the absence of a standalone publish instruction, message kept to one sentence.
 

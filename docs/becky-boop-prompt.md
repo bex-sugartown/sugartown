@@ -1,7 +1,7 @@
 # PROMPT — Becky B00p Hero Banner Generator
 **Version:** v1.0 (2026-05-23)
 **Run with:** Claude Code (project context required)
-**Invoked via:** `/becky-boop [optional: content description or article context]`
+**Invoked via:** `/st-becky-boop [optional: content description or article context]`
 
 ---
 
@@ -60,7 +60,7 @@ from written description only."
 
 ## Step 1 — Determine context
 
-**If text was passed after `/becky-boop`:** use that as the article/scene context. Treat it
+**If text was passed after `/st-becky-boop`:** use that as the article/scene context. Treat it
 as the article summary, key visual moment, or tone descriptor.
 
 **If no text was passed:** infer context from the current session. Check what article, node,

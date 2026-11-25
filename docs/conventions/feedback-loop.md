@@ -64,7 +64,7 @@ answer — most epics should say it.
 
 **The three-strike rule:** when the *same* friction — by plain-language similarity, a
 human judgment call, **not a string match** — appears in three shipped docs' friction
-lines, run `/post-mortem` against that pattern. Output lands in
+lines, run `/st-post-mortem` against that pattern. Output lands in
 `docs/reviews/post-mortem/{date}-{slug}.md`, the same home the skill already uses (one
 entry exists as of this writing: `2026-07-19-chromatic-footer-version-freeze.md`).
 
@@ -77,7 +77,7 @@ plainly, so a future session doesn't try to mechanize what's meant to stay a hum
 
 **What counts as a strike:** read the last several shipped docs' friction lines at
 close-out time (or periodically) and ask: does this line describe the same underlying
-problem as two others already on record? If yes, that's three — fire `/post-mortem`. This
+problem as two others already on record? If yes, that's three — fire `/st-post-mortem`. This
 is a spot-check a human or an agent session performs, not a script.
 
 **Friction-line fatigue is a known risk.** If every shipped doc's line becomes a rote
@@ -93,6 +93,6 @@ honestly, not as a rubber stamp.
   Neither loop instruments anything new.
 - **Automating the post-mortem itself.** The three-strike trigger is mechanical (a human
   spot-check, not a script) — the retrospective analysis is human-directed work using the
-  existing `/post-mortem` skill.
+  existing `/st-post-mortem` skill.
 - **A second retrospective output location.** `docs/reviews/post-mortem/` already works.
   Neither loop relocates it.

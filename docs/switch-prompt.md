@@ -190,10 +190,10 @@ You're in sync. Run /st-morning next to check service health and start the day.
 Then ask via `AskUserQuestion`:
 
 ```
-Question: "Want me to run /st-morning now to check dev servers and git health, or /restart to bring them up?"
+Question: "Want me to run /st-morning now to check dev servers and git health, or /st-restart to bring them up?"
 Options:
   - "Run /st-morning"
-  - "Run /restart"
+  - "Run /st-restart"
   - "Neither — I'll do it myself"
 ```
 

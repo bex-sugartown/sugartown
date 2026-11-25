@@ -10,7 +10,7 @@
 > - STEP 3B: every Release Note ends with an `## Issues in this release` list built from the issue and epic IDs in the approved CHANGELOG entry, and "Not in this release" items cite the open issue that owns them. Before this, only 15 of 32 notes carried any issue number, and v0.35.0 to v0.37.0 carried none.
 
 > **v6 → v7 changes (2026-10-11):**
-> - New STEP 3E: after the tag, create the release's `releaseNote` document in Sanity as a draft, from the Release Notes just approved at Gate 4. Closes the gap left by #147, which made release notes a Sanity type but left nothing in `/release` that creates one. Draft only; publishing stays with the human.
+> - New STEP 3E: after the tag, create the release's `releaseNote` document in Sanity as a draft, from the Release Notes just approved at Gate 4. Closes the gap left by #147, which made release notes a Sanity type but left nothing in `/st-release` that creates one. Draft only; publishing stays with the human.
 > - No new gate: the text written is the text approved at Gate 4.
 > - RELEASE COMPLETION CHECKLIST and Enforcement Rules updated to match.
 
@@ -21,12 +21,12 @@
 
 > **v4 → v5 changes (issue #107):**
 > - New STEP 3D: after the Gate 5 commit, create an annotated tag `vX.(Y+1).0` pointing at it. The tag stays local, exactly like the commit, and ships with whatever `/st-ship` pushes next.
-> - Milestone creation and the GitHub Release are **not** done here — `gh release create`'s own help text says a tag must be pushed to GitHub before a release can be built from it, and `/release`'s commit is local-only by design. Both now live in `docs/ship-prompt.md` PHASE 3 step 8, which runs once the release commit and tag actually reach origin.
+> - Milestone creation and the GitHub Release are **not** done here — `gh release create`'s own help text says a tag must be pushed to GitHub before a release can be built from it, and `/st-release`'s commit is local-only by design. Both now live in `docs/ship-prompt.md` PHASE 3 step 8, which runs once the release commit and tag actually reach origin.
 > - RELEASE COMPLETION CHECKLIST gained a tag line.
-> - New Enforcement Rule: `/release` must not attempt to create a milestone or GitHub Release itself.
+> - New Enforcement Rule: `/st-release` must not attempt to create a milestone or GitHub Release itself.
 
 > **v3 → v4 changes:**
-> - Clarified two-tier release model: `/release` always produces a MINOR bump (X.(Y+1).0). Patch numbers are owned by mini-releases only. Full releases never target a patch version.
+> - Clarified two-tier release model: `/st-release` always produces a MINOR bump (X.(Y+1).0). Patch numbers are owned by mini-releases only. Full releases never target a patch version.
 > - Step 0: [Unreleased] section of CHANGELOG.md is now the primary signal source — it accumulates changes from mini-releases. Git log is the verification layer.
 > - Step 3A: Removed the obsolete "aggregates" patch-stub note. Patch stubs are not written. [Unreleased] is the accumulation; the MINOR entry replaces it.
 > - Step 3C: Clarified that the version bump in a full release is always to `X.(Y+1).0`, never to an arbitrary patch.
@@ -69,7 +69,7 @@ clicks/selects a labeled option, not a typed word.
 - Gate 3 (Step 3A): "Write it — save to CHANGELOG.md" / "Needs edits"
 - Gate 4 (Step 3B): "Write it — save Release Notes" / "Needs edits"
 - Gate 5 (Step 3C): "Commit it — create the release commit" / "Stop — let me review again"
-  — the last gate; `/release` has no push gate.
+  — the last gate; `/st-release` has no push gate.
 
 ---
 
@@ -473,8 +473,8 @@ local and ship with whatever `/st-ship` runs next, like any other close-out comm
 buys a second Netlify deploy for work the `/st-ship` that just ran already deployed (measured
 2026-08-21, both billed; ST-103).
 
-This is the end of `/release`'s own writes. The verify-before-release ordering is unchanged:
-`/release` still runs only after `/st-ship` Phase 3 step 5 confirms CI succeeded.
+This is the end of `/st-release`'s own writes. The verify-before-release ordering is unchanged:
+`/st-release` still runs only after `/st-ship` Phase 3 step 5 confirms CI succeeded.
 
 **Milestone assignment and the GitHub Release are not done here.** `gh release create --help`
 is explicit: a tag has to exist on GitHub before a release can be built from it, and this
@@ -484,7 +484,7 @@ commit and tag are local-only until a future `/st-ship` pushes them. Both happen
 ### STEP 3E — Create the Sanity Draft
 
 After the tag, create the release's `releaseNote` document in Sanity as a **draft**. This is
-the last write `/release` makes. No separate gate: the text written is the Release Notes
+the last write `/st-release` makes. No separate gate: the text written is the Release Notes
 approved at Gate 4, and the document stays a draft until a human publishes it.
 
 Use `create_documents` (project `poalmzla`, dataset `production`) with a `drafts.` ID. Do not
@@ -532,7 +532,7 @@ completed. Sources:
 - Tech debt, TODOs, or partial implementations noted in commit messages or epic close-out docs
 - Validator warnings or errors that represent actionable future work
 
-Route each finding by size. Anything needing its own container gets `/new-epic`; anything
+Route each finding by size. Anything needing its own container gets `/st-new-epic`; anything
 smaller gets a Scope line or a new phase on the nearest owning doc. Priority is proposed, not
 set — the queue stays the human's.
 
@@ -585,8 +585,8 @@ Fail if:
 - Empty surfaces are included in CHANGELOG (e.g. `### apps/storybook` with no bullets).
 - The full release version is a patch number (e.g. `[0.23.27]`) — full releases must always be MINOR (`[0.24.0]`).
 - AI writes to disk before human approval at the relevant gate.
-- `/release` publishes the Sanity `releaseNote`, or writes it by any tool that rewrites content. It creates a draft and stops.
-- `/release` attempts to create a GitHub milestone or GitHub Release itself. It cannot — the tag
+- `/st-release` publishes the Sanity `releaseNote`, or writes it by any tool that rewrites content. It creates a draft and stops.
+- `/st-release` attempts to create a GitHub milestone or GitHub Release itself. It cannot — the tag
   it just created is local — and must not try. That work belongs to `/st-ship` PHASE 3 step 8.
 
 If failure, output:
@@ -632,6 +632,6 @@ invokes this flow unchanged; it does not reimplement it.
 
 | Command | Version bump | CHANGELOG | Release notes |
 |---------|-------------|-----------|---------------|
-| `/release` (via `/st-ship --release`) | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
+| `/st-release` (via `/st-ship --release`) | MINOR (X.(Y+1).0) | Promotes `[Unreleased]` → `[X.(Y+1).0]`, resets `[Unreleased]` | Yes — derived from CHANGELOG |
 
-**[Unreleased] is the accumulation buffer.** Mini-releases do not touch CHANGELOG.md. The `[Unreleased]` section is maintained by the AI as changes ship (via epic close-out and backlog cleanup steps). When `/release` runs, it reads [Unreleased] as its primary signal, promotes the content to a MINOR entry, and resets [Unreleased] to an empty block.
+**[Unreleased] is the accumulation buffer.** Mini-releases do not touch CHANGELOG.md. The `[Unreleased]` section is maintained by the AI as changes ship (via epic close-out and backlog cleanup steps). When `/st-release` runs, it reads [Unreleased] as its primary signal, promotes the content to a MINOR entry, and resets [Unreleased] to an empty block.

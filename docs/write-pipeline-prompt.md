@@ -1,7 +1,7 @@
 # Write Pipeline — Shared Write-Time Rules
 
-Canonical home for every **register-agnostic** rule used by `/write-node`, `/write-blog`,
-`/write-casestudy`, and `/st-glossy`. Each of those skills references this doc instead of
+Canonical home for every **register-agnostic** rule used by `/st-write-node`, `/st-write-blog`,
+`/st-write-casestudy`, and `/st-glossy`. Each of those skills references this doc instead of
 repeating these rules — this is the SUG-210 fix for the failure mode where a rule (e.g. the
 2026-07-15 show-don't-tell update) gets patched into two or three files and missed on the
 fourth.
@@ -448,7 +448,7 @@ not repeated in a prompt.
 
 | Variable | article | node | caseStudy |
 |---|---|---|---|
-| Skill and prompt | `/write-blog`, `docs/write-blog-prompt.md` | `/write-node`, `docs/write-node-prompt.md` | `/write-casestudy`, `docs/write-casestudy-prompt.md` |
+| Skill and prompt | `/st-write-blog`, `docs/write-blog-prompt.md` | `/st-write-node`, `docs/write-node-prompt.md` | `/st-write-casestudy`, `docs/write-casestudy-prompt.md` |
 | Tracking issue title | `Article: <working title>` | `Node: <working title>` | `Case Study: <working title>` |
 | URL | `/articles/<slug>` | `/knowledge-graph/<slug>` | `/case-studies/<slug>` |
 | Length band | 400–1,200; long-form 1,200–2,500 only if the argument needs it (engagement peaks around 1,600 and declines after) | 600–1,800; 600–1,200 for a single incident | Overview 500–1,200; under 500 usually means fragments, not a tight case study |

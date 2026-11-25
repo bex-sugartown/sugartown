@@ -1,4 +1,4 @@
-# /write-casestudy — Case Study Skill
+# /st-write-casestudy — Case Study Skill
 
 Drafts a portfolio case study in a local HTML working draft, then syncs it to a Sanity draft for final review (`_type: "caseStudy"`) once Bex approves the working draft (`docs/write-pipeline-prompt.md` §0b).
 

@@ -1,6 +1,6 @@
 ---
 name: cloud-handback-reviewer
-description: Reviews a cloud session's branch against docs/workflows/cloud-execution.md before a local hand-back merges it. Called by /handback. Read-only: it reports Pass, Warn and Block rows, never edits, never merges.
+description: Reviews a cloud session's branch against docs/workflows/cloud-execution.md before a local hand-back merges it. Called by /st-handback. Read-only: it reports Pass, Warn and Block rows, never edits, never merges.
 model: claude-haiku-4-5-20251001
 tools: Read, Grep, Glob, Bash
 ---
@@ -45,4 +45,4 @@ One table and nothing else before it:
 |---|---|---|---|
 
 `Result` is Pass, Warn or Block. `Evidence` names the file, commit or quoted line. Close with
-one line: `Blocks: N. Warns: N.` Do not recommend merging or not merging; `/handback` decides.
+one line: `Blocks: N. Warns: N.` Do not recommend merging or not merging; `/st-handback` decides.

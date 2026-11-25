@@ -3,8 +3,8 @@ paths:
   - "docs/backlog/**"
   - "docs/shipped/**"
   - "docs/epic-template.md"
-  - ".claude/skills/new-epic/**"
-  - ".claude/skills/new-tool/**"
+  - ".claude/skills/st-new-epic/**"
+  - ".claude/skills/st-new-tool/**"
 ---
 # Epic authoring and execution
 
@@ -15,7 +15,7 @@ Loads when a session reads an epic doc, the template, or the epic-filing skills.
 When creating a new epic in `docs/backlog/`:
 
 1. **Create the GitHub issue first** — its number is the epic's ID
-   (`.claude/skills/new-epic/docs/new-epic-prompt.md` has the `gh issue create` mechanics)
+   (`.claude/skills/st-new-epic/docs/new-epic-prompt.md` has the `gh issue create` mechanics)
 2. **Name the file** `docs/backlog/ST-{github issue number}-{descriptive-name}.md`
 3. **Link the issue** in the file header (`**GitHub Issue:** [#{n}](url)`)
 4. **Prioritize on the board** — set `Priority` on the project item
@@ -27,9 +27,9 @@ When creating a new epic in `docs/backlog/`:
 `docs/shipped/` holds shipped epics; `docs/backlog/` holds unscheduled and in-flight ones. Legacy `EPIC-NNNN` files in `docs/shipped/` stay as-is.
 
 **Tools do not take this path.** A validator, gate, hook, script, generator or command is filed
-with `/new-tool`: a GitHub issue and no backlog doc, because the issue body is the spec. That
+with `/st-new-tool`: a GitHub issue and no backlog doc, because the issue body is the spec. That
 skill carries its own activation gate, since §Incomplete epic doc hard stop reads a backlog file
-and a tool has none. Use `/new-epic` when the work changes what a user sees, `/new-tool` when it
+and a tool has none. Use `/st-new-epic` when the work changes what a user sees, `/st-new-tool` when it
 changes what the repo does to itself.
 
 **Two ID eras, and they overlap.** `SUG-5`–`SUG-284` are IDs from Linear (retired 2026-09-05,
@@ -43,7 +43,7 @@ derive an `ST-` number — GitHub assigns it.** Full rationale:
 
 **Phases are execution units, not work items.** One epic is one issue, one backlog
 doc, one ship, however many phases. Phases get checkboxes in the parent doc. A phase
-that outgrows the epic's Objective splits out via `/new-epic`.
+that outgrows the epic's Objective splits out via `/st-new-epic`.
 
 **Phases advance on their own.** The rule is in `docs/epic-template.md` §Phases: the next phase starts in the same turn unless the Phases table names a Gate.
 

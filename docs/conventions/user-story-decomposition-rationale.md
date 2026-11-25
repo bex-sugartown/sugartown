@@ -61,15 +61,15 @@ it crosses the gate. Its 3 phases are not why.
 | 2 | Convert `/st-morning`'s 3 gates | 1 | 1 |
 | 3 | Convert `/eod`'s 4 gates | 1 | 1 |
 | 4 | Convert `/st-switch`'s 6 gates | 2 | 1 |
-| 5 | Convert `/new-epic`'s Step 0 intake + 2 gates | 2 | 1 |
+| 5 | Convert `/st-new-epic`'s Step 0 intake + 2 gates | 2 | 1 |
 | 6 | Convert `/st-glossy`'s 2 gates | 2 | 1 |
-| 7 | Convert `/chromatic`'s 2 gates | 2 | 1 |
+| 7 | Convert `/st-chromatic`'s 2 gates | 2 | 1 |
 | 8 | Convert `epic-template.md`'s Phase 0 + Visual QA gates | 2 | 1 |
-| 9 | Convert `/update-cwv`'s 2 gates | 3 | 1 |
+| 9 | Convert `/st-update-cwv`'s 2 gates | 3 | 1 |
 | 10 | Gate the two ungated writers | 3 | 2 |
 
 Eleven Scope items produced ten work units across three phases. The mapping is not
-one-to-one: items 10 and 11 merge because `sugartown-prd-writer` and `sugartown-epic-writer`
+one-to-one: items 10 and 11 merge because `st-prd-writer` and `st-epic-writer`
 are a single design task, a new gate designed from scratch, where the other nine translate
 an existing gate. Splitting them would have cut one piece of work in half.
 

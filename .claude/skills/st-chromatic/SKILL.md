@@ -1,0 +1,8 @@
+---
+name: st-chromatic
+description: Run Chromatic VRT, report visual diffs, gate on human approval, record status
+---
+
+Base directory for this skill: ./.claude/skills/st-chromatic
+
+Read and follow all instructions in `docs/chromatic-prompt.md` (repo root, not under this skill's own base directory).
