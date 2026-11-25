@@ -359,8 +359,10 @@ disclosure laws).
   default. A blank field on an AI-drafted article therefore renders a false human-authorship
   claim — see `write-blog-prompt.md` Step 2.6, which also covers the optional end-of-article
   `calloutSection` supplement.
-- Glossary terms don't currently carry a disclosure mechanism in this doc's scope — see
-  `docs/glossy-prompt.md` if that changes.
+- Glossary terms carry a static disclosure. Every term page renders an `AI Attribution` row in
+  its metadata ledger (`GlossaryTermPage.jsx`, SUG-177): "Drafted with Claude, edited and
+  approved by Becky Alice Head." There is no per-term field, so a term not drafted with Claude
+  needs a field added first.
 
 **Tools field as attribution:** always include the AI tool(s) used as taxonomy refs (e.g.
 `tool-claude-code`). This is the machine-readable attribution record, distinct from
