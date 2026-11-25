@@ -30,17 +30,17 @@ After this epic, every site list surface that maps cleanly to the DS List/ListIt
 
 ## Scope
 
-- [ ] **Audit all raw `<ul>`/`<ol>` list surfaces** — read each file, map class name → visual pattern → List API fit (migrate / extend / keep raw), document in this epic doc — layer: frontend (read-only)
-- [ ] **Migrate `refList`/`refRow` (GlossaryTermPage)** — Used In + Related Content back-ref rows (Chip + Link) to DS List/ListItem — layer: frontend
-- [ ] **Migrate `sourcesList` (GlossaryTermPage)** — citation source list (text + optional `<a>`) to DS List/ListItem — layer: frontend
-- [ ] **Assess `seriesPartList` (SeriesPage)** — numbered `<ol>` episode list; migrate if `<List ordered>` prop exists or extend the primitive first — layer: frontend
-- [ ] **Assess `rolesList` (PersonProfilePage)** — work history items; migrate if inline variant covers it — layer: frontend
-- [ ] **Assess `socialLinks` (PersonProfilePage)** — icon + text link list; likely stays raw (specialised layout) — document rationale — layer: frontend (decision)
-- [ ] **Assess `linkList` (SitemapPage)** — grouped URL lists; migrate if link-list variant is added to DS List — layer: frontend
-- [ ] **Assess `enumList` (ContentModelsPage)** — monospace schema enum display; likely stays raw (code context) — document rationale — layer: frontend (decision)
-- [ ] **Storybook stories — expanded use cases** — add stories covering: ledger row (Chip + Link), source citation, numbered episode, link list; update existing List story if new props are added — layer: Storybook
-- [ ] **AI Attribution item (GlossaryTermPage)** — add an "AI Attribution" entry to the term page metadata; mechanism (static default derived from the /glossy workflow vs. a `glossaryTerm` field + GROQ projection) decided at activation against the site convention in `PageSidebar.jsx` (commit 9daa3a12) and `write-pipeline-prompt.md` §5 — layer: frontend (+ schema/query only if the field mechanism is chosen)
-- [ ] **Migrate the metadata ledger (GlossaryTermPage)** — `DescriptionList items columns={2} ledger` → DS List, per the audit's API-fit table; the Storybook `Components/List` story is the canonical usage reference; extend the primitive first if the label/value ledger fit requires it — layer: frontend + Storybook
+- [x] **Audit all raw `<ul>`/`<ol>` list surfaces** — read each file, map class name → visual pattern → List API fit (migrate / extend / keep raw), document in this epic doc — layer: frontend (read-only)
+- [x] **Migrate `refList`/`refRow` (GlossaryTermPage)** — Used In + Related Content back-ref rows (Chip + Link) to DS List/ListItem — layer: frontend
+- [x] **Migrate `sourcesList` (GlossaryTermPage)** — citation source list (text + optional `<a>`) to DS List/ListItem — layer: frontend
+- [x] **Assess `seriesPartList` (SeriesPage)** — numbered `<ol>` episode list; migrate if `<List ordered>` prop exists or extend the primitive first — layer: frontend
+- [x] **Assess `rolesList` (PersonProfilePage)** — work history items; migrate if inline variant covers it — layer: frontend
+- [x] **Assess `socialLinks` (PersonProfilePage)** — icon + text link list; likely stays raw (specialised layout) — document rationale — layer: frontend (decision)
+- [x] **Assess `linkList` (SitemapPage)** — grouped URL lists; migrate if link-list variant is added to DS List — layer: frontend
+- [x] **Assess `enumList` (ContentModelsPage)** — monospace schema enum display; likely stays raw (code context) — document rationale — layer: frontend (decision)
+- [x] **Storybook stories — expanded use cases** — add stories covering: ledger row (Chip + Link), source citation, numbered episode, link list; update existing List story if new props are added — layer: Storybook
+- [x] **AI Attribution item (GlossaryTermPage)** — add an "AI Attribution" entry to the term page metadata; mechanism (static default derived from the /glossy workflow vs. a `glossaryTerm` field + GROQ projection) decided at activation against the site convention in `PageSidebar.jsx` (commit 9daa3a12) and `write-pipeline-prompt.md` §5 — layer: frontend (+ schema/query only if the field mechanism is chosen)
+- [x] **Migrate the metadata ledger (GlossaryTermPage)** — `DescriptionList items columns={2} ledger` → DS List, per the audit's API-fit table; the Storybook `Components/List` story is the canonical usage reference; extend the primitive first if the label/value ledger fit requires it — layer: frontend + Storybook
 - [ ] **Document the glossary disclosure mechanism** — update `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 (glossary bullet) once the AI Attribution item ships; both are rule-defining files, so the Instruction & Rule File Write Gate fires at execution — layer: docs
 
 **Phase 2 — ledger-line audit (added 2026-11-25):**
@@ -76,7 +76,7 @@ Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape intern
 - [ ] `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 no longer claim glossary terms lack a disclosure mechanism (gated edit, approved diff)
 - [ ] GlossaryTermPage metadata ledger renders via DS List, or carries a written keep/extend rationale in the audit table
 - [ ] Phase 2: the inventory table lists every ledger line in `Footer.module.css` and every `--st-dl-ledger-border` and `--st-color-border-*` consumer found by `grep -rn "ledger\|st-color-border" apps/web/src packages/design-system/src`, each with token, resolved colour (light and dark) and owning component
-- [~] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
+- [x] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
 - [x] Phase 2: vspec signed off by Bex before any CSS or token change (approved as drawn 2026-11-25)
 - [ ] Phase 2: footer separators reach the contrast the vspec states for the footer tier, measured against the footer background (`--st-color-bg-canvas`, #F2F2F3 light) in light and dark. Today's `--st-color-border-default` (#E4E4E5) is about 1.1:1 on #F2F2F3. The footer rules are decorative, so WCAG 1.4.11's 3:1 does not bind; the vspec picks the target. `pnpm validate:contrast` passes with no new allowlist entries
 - [ ] Phase 2: `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm tokens:build` produce no diff or errors; Chromatic build approved or deferral annotated; "Visual QA approved" received
@@ -136,7 +136,24 @@ Read 2026-11-25. Fit is judged against the current `List` API (register rows: gu
 | `enumList` | `ContentModelsPage.jsx` | `<code>` value + title | Code context | Keep raw |
 | Glossary metadata ledger | `GlossaryTermPage.jsx:227` | `DescriptionList columns={2} ledger` | Label/value pairs, two columns; `List` is single-column rows | Keep as `DescriptionList`; it is the DS label/value primitive, and Phase 2 aligns its lines |
 
-Every "extend" and "keep" needs the Phase 2 line hierarchy first: the register's dotted `--st-color-border-medium` rule, `SitemapPage`'s solid `--st-color-border-default` rule and `seriesPartItem`'s `--st-color-border-subtle` rule are three different line styles for the same job. Migrating before the hierarchy is set would pick one by accident.
+### Final Phase 1 decisions (2026-11-25, after the Phase 2 tiers shipped)
+
+No surface migrates. The `List` register is a fixed shape: a 138px gutter tag, a title, a 96px date column, a 2px header rule and two vertical fences. Each candidate either loses content or does not fit that shape, and the Non-Goals bar new `List` props for a single consumer.
+
+| Surface | Decision | Rationale |
+|---|---|---|
+| `refList`/`refRow` | Keep raw | Sits in a narrow ledger cell; the 138px tag column and fences do not fit. Its Chip carries the type label |
+| `sourcesList` | Keep raw | No tag; external links open in a new tab |
+| `seriesPartList` | Keep raw | The per-part type label (Article, Node) has no slot in a register row, and merging it into the tag truncates |
+| `rolesList` | Keep raw | Plain strings, no link, no date |
+| `socialLinks` | Keep raw | Icon layout |
+| `linkList` (Sitemap) | Keep raw | The `noindex` badge has no slot |
+| `enumList` | Keep raw | Code context |
+| Glossary metadata ledger | Keep as `DescriptionList` | Two-column label/value; `List` is single-column. Its lines now use the Phase 2 tiers |
+
+Phase 2 already aligned the line tiers of Sitemap and Series rows with `List`, so the three no longer draw three different line styles. A `List` variant with a link-only row, a tag-less row and a badge slot would unlock the Sitemap, Series and sources migrations; that is a separate epic.
+
+Every "extend" and "keep" needed the Phase 2 line hierarchy first: the register's dotted `--st-color-border-medium` rule, `SitemapPage`'s solid `--st-color-border-default` rule and `seriesPartItem`'s `--st-color-border-subtle` rule are three different line styles for the same job. Migrating before the hierarchy is set would pick one by accident.
 
 ## Phase 2 inventory (first pass)
 
@@ -181,7 +198,24 @@ Still to do in Phase 2: read each file's selector and width, assign tiers, and r
 - `--st-color-border-wrap` is left alone. Its dark value is deliberately `border-default` (theme comment, tile dividers), and changing it moves every table and tile wrap in dark, which the vspec did not draw.
 - `DescriptionList` ledger had no top edge before. It gets a Tier 1 top edge, drawn in the vspec, and its first row gained top padding to match.
 
-**Not yet assigned a tier** (about 90 of 115 declarations, mostly component borders and page rules): Sitemap header and section-heading underlines (`SitemapPage.module.css` lines 20, 65), `PersonProfilePage`, `GlossaryPage`, `PageSections`, `PageSidebar`, `SiteGraphPage`, `FilterBar`, `Sidebar`, `Accordion`, `Table`, `Card`. The `List` row hover repaint and `FilterBar` rules were not re-read. These follow the same hierarchy in a later pass.
+**Remaining declarations, assigned 2026-11-25.** Command for the list: the grep in the inventory section, plus `border-left`/`border-right` (the first pass missed those: 16 more declarations). Tiers apply to dividers. Control and component outlines (Input, Textarea, Checkbox, Radio, Switch, Button, Avatar, chips, badges, popovers, Card outer border, hover colours) are not ledger lines and keep `border-default`, `border-medium` or `border-strong`.
+
+| Rule | Was | Now |
+|---|---|---|
+| `.pageEyebrow` bottom (`pages.module.css`) | `border-subtle`, invisible on canvas in light | Tier 2 |
+| `.detailExcerpt` bottom | `border-default` | Tier 1 |
+| Sitemap `.header` bottom | `border-default` | Tier 1 |
+| Sitemap `.groupHeading` bottom | `border-default` | Tier 2 |
+| Glossary index `.termDd` bottom | `border-default` | Tier 2 |
+| `ContentNav` `.nav` top | `border-subtle`, invisible | Tier 2 |
+| `TrustReportSection` `.reportFooter` top | `border-subtle`, invisible | Tier 2 |
+| DS `Sidebar` side rules (4 declarations) | `border-subtle`, invisible | Tier 2 |
+| Person profile folio bottom | `border-subtle`, invisible | Tier 1 |
+| Person profile roles, roles rows, expertise | `border-subtle`, invisible | Tier 2 |
+| `FilterBar`, `Accordion`, `Card` zones, `Callout`, `Table` caption, `MetadataCard`, `SiteGraphPage`, `TablesDevPage` | `rule-accent` | Tier 2, unchanged |
+| Rules inside white surfaces (`ContentsStrip`, `Drawer`, `StatCard` foot, `PageSidebar` related, `SchemaERD` sidebar, `filterDrawerFooter`, `Table` stacked cells) | `border-subtle` | Tier 3, unchanged |
+
+**How the invisible rules were found:** a Playwright pass over 28 pages in light mode listing every element whose border colour is #F2F2F3 on a #F2F2F3 background. It found `pageEyebrow`, `ContentNav`, `reportFooter`, the DS Sidebar side rule and four Person profile rules. After the change the same check finds none on `/people/bex`, an article, `/about` and `/sitemap`. Not covered: pages whose slug the sitemap did not surface, and dark mode, where the Tier 3 wash on a translucent surface is faint by design.
 
 **Verified 2026-11-25:** `validate:tokens`, `validate:tokens --strict-colors`, `validate:style-mirror`, `validate:contrast` and `validate:css-names` pass. Computed colours match the vspec in both themes (footer, glossary ledger, articles list view). Chromatic and Visual QA are still open.
 
