@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en" data-theme="light-pink-moon">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SUG-177 vspec: ledger line hierarchy</title>
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/tokens.css">
+<link rel="stylesheet" href="../../apps/web/src/design-system/styles/theme.pink-moon.css">
+<link rel="stylesheet" href="../conventions/doc-base.css">
+<style>
+:root{--doc-max-width:1000px;--doc-line-height:1.5;--doc-h1-gap:var(--st-space-1);--doc-p-gap:var(--st-space-2)}
+h2{font-size:var(--st-font-size-xl);margin:var(--st-space-8) 0 var(--st-space-2);padding-top:var(--st-space-5);border-top:1px solid var(--st-color-rule-accent)}
+.vspecNote{background:var(--st-color-bg-surface);border:1px solid var(--st-color-border-strong);padding:var(--st-space-3) var(--st-space-4);margin:var(--st-space-4) 0;font-size:var(--st-font-size-sm)}
+.vspecTag{display:inline-block;font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);font-weight:var(--st-font-weight-bold);padding:var(--st-space-half) var(--st-space-2);border:1px solid var(--st-color-border-strong);color:var(--st-color-text-default);background:var(--st-color-bg-surface-strong)}
+.vspecTagAfter{border-color:var(--st-color-brand-primary);color:var(--st-color-text-brand)}
+.vspecPair{display:grid;grid-template-columns:1fr 1fr;gap:var(--st-space-4)}
+@media (max-width:768px){.vspecPair{grid-template-columns:1fr}}
+.vspecFrame{border:1px solid var(--st-color-border-default);background:var(--st-color-bg-surface);padding:var(--st-space-3);font-size:var(--st-font-size-sm)}
+.vspecCaption{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);color:var(--st-color-text-muted);margin-top:var(--st-space-2)}
+.vspecChecklist{list-style:none;padding:0;margin:var(--st-space-2) 0}
+.vspecChecklist li{padding:var(--st-space-1) 0}
+
+/* Prototype-only: the proposed tier tokens. At implementation they become real tokens in tokens/source/tokens.json. */
+:root{--proto-rule-section:var(--st-color-neutral-400);--proto-rule-row:var(--st-color-rule-accent);--proto-rule-hair:var(--st-color-border-subtle)}
+:root[data-theme="dark-pink-moon"]{--proto-rule-section:var(--st-color-border-medium)}
+.protoCanvas{background:var(--st-color-bg-canvas);padding:var(--st-space-4);border:1px solid var(--st-color-border-default)}
+.protoLabel{font-family:var(--st-font-family-mono);font-size:var(--st-font-size-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--st-color-text-muted)}
+.protoFooter{border-top:1px solid var(--proto-rule-section)}
+.protoZone{padding:var(--st-space-3) 0;border-bottom:1px solid var(--proto-rule-section)}
+.protoLinks{display:flex;gap:var(--st-space-4);padding:var(--st-space-3) 0;border-bottom:1px solid var(--proto-rule-row)}
+.protoMeta{padding:var(--st-space-3) 0}
+.protoCopy{padding:var(--st-space-3) 0;border-top:1px solid var(--proto-rule-row)}
+.protoDl{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--proto-rule-section)}
+.protoDl div{padding:var(--st-space-3) 0;border-bottom:1px solid var(--proto-rule-row)}
+.protoDl div:nth-child(odd){border-right:1px solid var(--proto-rule-row);padding-right:var(--st-space-3)}
+.protoDl div:nth-child(even){padding-left:var(--st-space-3)}
+.protoDl dt{margin:0}.protoDl dd{margin:0}
+.protoRows{list-style:none;margin:0;padding:0;border-top:1px solid var(--proto-rule-section);border-bottom:1px solid var(--proto-rule-section)}
+.protoRows li{padding:var(--st-space-2) 0;position:relative}
+.protoRows li + li::before{content:"";position:absolute;left:0;right:0;top:0;height:2px;background-image:repeating-linear-gradient(to right,var(--proto-rule-row) 0 2px,transparent 2px 6px);background-repeat:repeat-x}
+.protoDotSample{height:2px;width:160px;flex:none;background-image:repeating-linear-gradient(to right,var(--proto-rule-row) 0 2px,transparent 2px 6px);background-repeat:repeat-x}
+.swatch{display:flex;align-items:center;gap:var(--st-space-3);padding:var(--st-space-2) 0}
+.swatch i{display:block;width:160px;height:0;flex:none}
+</style>
+</head>
+<body>
+<main>
+<button class="docThemeToggle" id="themeToggle" aria-pressed="false">Switch to dark view</button>
+<h1>SUG-177 · Ledger line hierarchy (Phase 2)</h1>
+<p>Issue #56. Phase 0 visual spec for the Phase 2 ledger-line audit. It proposes three line tiers, assigns every surface the user named to one, and shows the site footer before and after. Class names are the production names. Values are tokens unless marked.</p>
+<div class="vspecNote"><strong>Status:</strong> awaiting Bex sign-off. Nothing in <code>apps/web/src/</code>, <code>packages/design-system/</code> or <code>tokens/</code> changes until the Phase 0 boxes are ticked. Open decisions are in section 9. The inventory behind this is in the epic doc, <code>## Phase 2 inventory</code>; 100 of 115 declarations still need a per-file read and are assigned a tier at implementation, not here.</div>
+
+<h2>1. Interactive prototype</h2>
+<p>Proposed tiers, drawn with prototype-local tokens (<code>--proto-rule-*</code>) so Before and After use the same markup. Use the toggle to compare themes. No interaction trigger fires, so there is no script beyond the theme toggle.</p>
+<div class="vspecFrame" id="prototype">
+  <div class="swatch"><i style="border-top:2px solid var(--proto-rule-section)"></i><span><strong>Tier 1 · Section rule.</strong> Separates sections: footer zones, ledger outer edge, table wrap, list brackets.</span></div>
+  <div class="swatch"><i style="border-top:2px solid var(--proto-rule-row)"></i><span><strong>Tier 2 · Row rule.</strong> Separates rows inside a section: list rows, ledger rows, sitemap and series rows.</span></div>
+  <div class="swatch"><span class="protoDotSample"></span><span><strong>Tier 2 · Row rule, dotted form.</strong> The archive list's dotted divider. Same Tier 2 colour, drawn as 2px dots on a 6px period. Used for rows in <code>List</code> (register) and archive lists.</span></div>
+  <div class="swatch"><i style="border-top:2px solid var(--proto-rule-hair)"></i><span><strong>Tier 3 · Hairline.</strong> Inside white surfaces only (cards, tiles). Invisible on the page canvas in light, by design.</span></div>
+
+  <p class="protoLabel" style="margin-top:var(--st-space-5)">Site footer (canvas background)</p>
+  <div class="protoCanvas">
+    <div class="protoFooter">
+      <div class="protoZone">Brand and nav columns</div>
+      <div class="protoLinks"><span>AI Ethics</span><span>Privacy &amp; Terms of Use</span><span>Sitemap</span><span>Contact</span></div>
+      <div class="protoMeta">Version, built, toolchain, license</div>
+      <div class="protoCopy">© 2026 Sugartown Digital</div>
+    </div>
+  </div>
+
+  <p class="protoLabel" style="margin-top:var(--st-space-5)">DescriptionList, ledger (two columns): one rule set, both modes</p>
+  <div class="protoCanvas"><dl class="protoDl"><div><dt>Type</dt><dd>Glossary term</dd></div><div><dt>Category</dt><dd>Design system</dd></div><div><dt>Used in</dt><dd>3 articles</dd></div><div><dt>Updated</dt><dd>25 Nov 2026</dd></div></dl></div>
+
+  <p class="protoLabel" style="margin-top:var(--st-space-5)">List (archive register): Tier 1 solid brackets, Tier 2 dotted row rules</p>
+  <div class="protoCanvas"><ul class="protoRows"><li>Row one</li><li>Row two</li><li>Row three</li></ul></div>
+</div>
+
+<h2>2. Before and after</h2>
+<p><strong>Before</strong> is the live footer, captured with Playwright against the local dev server on 2026-11-25 at 1280px wide. The footer rules are <code>--st-color-border-default</code> (#E4E4E5 on #F2F2F3 in light).</p>
+<div class="vspecPair">
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> light
+    <figure style="margin:var(--st-space-2) 0 0"><img src="SUG-177-before-live-2026-11-25-light.webp" alt="Live site footer in light mode. Section dividers are barely visible against the grey page background." style="max-width:100%"><figcaption class="vspecCaption">Captured 2026-11-25 · http://localhost:5173/ footer</figcaption></figure></div>
+  <div class="vspecFrame"><span class="vspecTag">BEFORE</span> dark
+    <figure style="margin:var(--st-space-2) 0 0"><img src="SUG-177-before-live-2026-11-25-dark.webp" alt="Live site footer in dark mode. Section dividers are faint white at 12 percent." style="max-width:100%"><figcaption class="vspecCaption">Captured 2026-11-25 · http://localhost:5173/ footer</figcaption></figure></div>
+</div>
+<div class="vspecFrame" style="margin-top:var(--st-space-4)"><span class="vspecTag vspecTagAfter">AFTER</span>
+  <p style="margin-top:var(--st-space-2)">The footer drawn in section 1 (use the toggle for both themes). Footer zone dividers move from <code>border-default</code> to Tier 1, and the link and meta separators to Tier 2. Layout, spacing and content do not change.</p><div class="vspecCaption">Source: section 1</div></div>
+
+<h2>3. Behaviour annotations</h2>
+<p>Not applicable: the footer is not a nav rail, sidebar, tab bar or anchor surface that scrolls or collapses; its links keep their current behaviour. Rows below are filled for completeness.</p>
+<table>
+<tr><th>Item</th><th>Spec</th></tr>
+<tr><td>Active state</td><td>Unchanged. Lines carry no state.</td></tr>
+<tr><td>Hash/anchor behaviour</td><td>Not applicable: rules are not links.</td></tr>
+<tr><td>Scroll-spy</td><td>Not applicable</td></tr>
+<tr><td>Sticky/fixed</td><td>Not applicable</td></tr>
+<tr><td>Mobile collapse</td><td>Unchanged. <code>DescriptionList</code> ledger keeps its below-768px stacked dividers, now at Tier 2.</td></tr>
+<tr><td>Click side-effects</td><td>None</td></tr>
+</table>
+
+<h2>4. Contrast, measured</h2>
+<p>Rules are decorative separators, so WCAG 1.4.11 (3:1 non-text) does not bind them; the figures below are for comparing tiers, not pass or fail. Measured 2026-11-25. Light canvas is #F2F2F3 (<code>--st-color-bg-canvas</code>); dark footer is rgb(13, 18, 38), with translucent rules composited over it.</p>
+<table>
+<tr><th>Rule</th><th>Light ratio</th><th>Dark ratio</th><th>Verdict</th></tr>
+<tr><td>Footer today: <code>--st-color-border-default</code></td><td>1.14</td><td>1.39</td><td>Too pale: the stated problem</td></tr>
+<tr><td><code>--st-color-border-subtle</code></td><td>1.00</td><td>1.15</td><td>Invisible on canvas in light. Fine inside white surfaces</td></tr>
+<tr><td><code>--st-color-rule-accent</code> (proposed Tier 2)</td><td>1.52</td><td>1.54</td><td>Even across themes</td></tr>
+<tr><td><code>--st-color-border-medium</code> (dark Tier 1)</td><td>1.52</td><td>1.84</td><td>Candidate dark value for Tier 1</td></tr>
+<tr><td><code>--st-color-neutral-400</code> = <code>--st-dl-ledger-border</code> (light Tier 1)</td><td>2.25</td><td>7.36</td><td>Light is right; dark is far too bright because the ledger token has no dark value</td></tr>
+<tr><td><code>--st-color-border-wrap</code></td><td>2.25</td><td>1.39</td><td>Light matches ledger; dark was deliberately set to <code>border-default</code></td></tr>
+</table>
+<p><strong>Command:</strong> a short Python script computing WCAG relative luminance from the resolved values in <code>packages/design-system/src/styles/theme.pink-moon.css</code> and <code>tokens.css</code>, translucent colours composited over rgb(13, 18, 38). The text-pair sidecar (<code>validate:vspec-contrast</code>) is not used because there is no text pair. <code>pnpm validate:contrast</code> runs at implementation.</p>
+
+<h2>5. Class naming table</h2>
+<p>No new class. Tier changes are token changes inside existing rules.</p>
+<table>
+<tr><th>Class</th><th>Closest existing pattern</th><th>Decision</th></tr>
+<tr><td><code>.footer</code>, <code>.top</code> and the three other footer rules</td><td>same</td><td>Keep the class; change the token</td></tr>
+<tr><td><code>.oneCol .item</code>, <code>.twoCol.ledger .item</code> in <code>DescriptionList.module.css</code></td><td>same</td><td>Keep; both read the Tier 2 row token, ledger outer edge reads Tier 1</td></tr>
+</table>
+
+<h2>6. Component choice audit</h2>
+<p>No new component and no new DS primitive. The change edits the token a rule reads in <code>Footer</code>, <code>DescriptionList</code>, <code>List</code>, Sitemap, Series and the taxonomy archive rows. It adds no <code>List</code> props: the list-markup migrations stay in Phase 1.</p>
+
+<h2>7. Token list</h2>
+<table>
+<tr><th>Role</th><th>Tokens</th></tr>
+<tr><td>Tier 1 · Section rule (new semantic token)</td><td><code>--st-color-rule-section</code>: light <code>--st-color-neutral-400</code>, dark <code>--st-color-border-medium</code>. Replaces <code>--st-dl-ledger-border</code> and the section uses of <code>--st-color-border-wrap</code> (both stay as aliases until consumers move)</td></tr>
+<tr><td>Tier 2 · Row rule</td><td><code>--st-color-rule-accent</code> (exists, no change). Solid form: <code>border-bottom: 1px solid</code>. Dotted form: the existing <code>List.module.css</code> <code>.row::after</code> gradient, with its <code>--list-dot-size</code> (2px) and <code>--list-dot-gap</code> (6px) tunables, colour changed from <code>--st-color-border-medium</code> to this token</td></tr>
+<tr><td>Tier 3 · Hairline</td><td><code>--st-color-border-subtle</code> (exists, no change)</td></tr>
+<tr><td>Component borders (inputs, cards, chips)</td><td><code>--st-color-border-default</code>, <code>--st-color-border-medium</code>, <code>--st-color-border-strong</code> (no change)</td></tr>
+<tr><td>Prototype only</td><td><code>--proto-rule-section</code>, <code>--proto-rule-row</code>, <code>--proto-rule-hair</code> map to the three tokens above</td></tr>
+</table>
+<p>One new token (<code>--st-color-rule-section</code>) replaces two (<code>--st-dl-ledger-border</code>, <code>--st-color-border-wrap</code> for section use). That is a consolidation, and no value is raised to fit a surface. Unused token <code>--st-color-footer-divider</code> (pink 25%) is only read by <code>Card.module.css</code>; see decision 3.</p>
+
+<h2>8. Governance checks</h2>
+<table>
+<tr><th>Check</th><th>Applies</th><th>Evidence</th></tr>
+<tr><td>Phase 0 trigger (unreviewed visual format)</td><td>Yes</td><td>Footer and ledger lines render differently after the change</td></tr>
+<tr><td>Nav annotations (six)</td><td>No</td><td>Section 3</td></tr>
+<tr><td>Interactive prototype</td><td>No trigger fires</td><td>Section 1 (theme toggle only)</td></tr>
+<tr><td>CSS class reuse audit</td><td>No new class</td><td>Section 5</td></tr>
+<tr><td>Component choice audit</td><td>No new component</td><td>Section 6</td></tr>
+<tr><td>Content Write Gate</td><td>No</td><td>No Sanity writes</td></tr>
+<tr><td>Rule-file write gate</td><td>No</td><td>No rule file edited. Token edits go through <code>tokens/source/tokens.json</code> then <code>pnpm tokens:build</code></td></tr>
+<tr><td>Diagram red-pen gate</td><td>No</td><td>No diagram</td></tr>
+</table>
+
+<h2>9. Decisions answered</h2>
+<ol>
+<li><strong>Answered:</strong> Footer top edge and the rule under the nav columns use Tier 1 (light 2.25:1, dark 1.84:1); the rules under the legal links and above the copyright use Tier 2 (light 1.52:1, dark 1.54:1). (2026-11-25)</li>
+<li><strong>OPEN:</strong> Add <code>--st-color-rule-section</code> and alias the two old tokens (recommended), or retune <code>--st-color-border-wrap</code> in dark and rename later. Cost of the alias route: one more token until the consumers move.</li>
+<li><strong>Withdrawn (2026-11-25):</strong> <code>--st-color-footer-divider</code> stays. <code>Card.module.css</code> reads it for the Card footer's dashed rule, so it is not a site-footer token.</li>
+<li><strong>OPEN:</strong> <code>DescriptionList</code> one-column default moves from <code>border-default</code> to Tier 2, so default and ledger differ only in layout, not line colour (recommended).</li>
+<li><strong>OPEN (added at your request):</strong> Dotted is a second axis (form), not a fourth tier. Tier 2 has a solid form and a dotted form, same colour. Dotted is for row rules in list-style surfaces (<code>List</code> register, archive lists); solid stays for ledger cells, column rules, and anything not a list row. Recommended. Cost: dark dotted rules move from white 20% to white 15% (1.84 to 1.54:1), light is unchanged (#C6C6C8). Alternative: dotted becomes Tier 2 everywhere a row rule exists, including Sitemap and Series, which changes more pages.</li>
+</ol>
+
+<h2>10. Change-specific sections</h2>
+<h3>Tier assignment of the named surfaces</h3>
+<table>
+<tr><th>Surface</th><th>Today</th><th>After</th></tr>
+<tr><td>Footer top and zone rules (4)</td><td><code>border-default</code></td><td>Tier 1: <code>.footer</code> top edge (line 4) and <code>.top</code> bottom (17). Tier 2: <code>.utility</code> bottom (104) and <code>.copyright</code> top (196). Answered 2026-11-25</td></tr>
+<tr><td><code>DescriptionList</code> default</td><td><code>border-default</code></td><td>Tier 2</td></tr>
+<tr><td><code>DescriptionList</code> ledger</td><td><code>dl-ledger-border</code></td><td>Tier 1 outer edge, Tier 2 rows and column rule</td></tr>
+<tr><td><code>List</code> register</td><td><code>border-medium</code> brackets and dotted rows</td><td>Tier 1 brackets (solid), Tier 2 dotted rows (dotted form, unchanged geometry)</td></tr>
+<tr><td>Sitemap rows</td><td><code>border-default</code></td><td>Tier 2</td></tr>
+<tr><td>Series parts</td><td><code>border-subtle</code></td><td>Tier 2</td></tr>
+<tr><td>Taxonomy archive rows</td><td><code>border-subtle</code></td><td>Tier 2 (to confirm against the live <code>/tags</code> row layout at implementation)</td></tr>
+<tr><td>Metadata card</td><td><code>rule-accent</code></td><td>Tier 2 (no change)</td></tr>
+</table>
+
+<h2>11. Phase 0 checklist</h2>
+<ul class="vspecChecklist">
+<li>[x] vspec reviewed</li>
+<li>[x] class table approved</li>
+<li>[x] component choice audit approved</li>
+<li>[x] open decisions answered (approved as drawn, 2026-11-25: each open decision takes its recommended answer)</li>
+</ul>
+</main>
+<script src="../conventions/doc-theme-toggle.js"></script>
+</body>
+</html>

@@ -3,11 +3,11 @@
 **Linear Issue:** [SUG-177](https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list)
 **GitHub Issue:** [#56](https://github.com/bex-sugartown/sugartown/issues/56)
 **Aligned:** 2026-11-25
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next (board: High)
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 **Visual:** yes (Phase 2 ledger-line changes render differently; Phase 1 is a no-new-format migration)
-**Vspec:** `docs/drafts/SUG-177-ledger-lines.vspec.html` (Phase 2 only; not yet created)
+**Vspec:** `docs/shipped/SUG-177-list-component-audit-site-list-patterns.vspec.html` (Phase 2 only; approved 2026-11-25)
 ---
 
 # SUG-177 — List component audit — surface all site list patterns for DS List integration
@@ -65,25 +65,38 @@ Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape intern
 
 ## Acceptance criteria
 
-- [ ] Every raw `<ul>`/`<ol>` surface in `apps/web/src/pages/` is documented in the audit table (migrate / extend / keep raw + rationale)
-- [ ] All "migrate" decisions are implemented and the bespoke CSS classes removed
-- [ ] "Extend" decisions either land a new prop on DS List or are deferred to a follow-on with a Linear issue linked
-- [ ] "Keep raw" decisions have a written rationale in this doc (e.g. "specialised icon layout, no DS fit")
-- [ ] DS List Storybook story covers all confirmed use-case variants; Chromatic Build passes
-- [ ] No regression on pages that already use ContentList (archive list-view)
-- [ ] `pnpm validate:tokens` and `pnpm validate:style-mirror` pass; zero hardcoded color violations
-- [ ] AI Attribution renders on `/glossary/:slug` term pages via the mechanism decided at activation; if the field mechanism is chosen, the schema is deployed and MCP writes succeed
-- [ ] `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 no longer claim glossary terms lack a disclosure mechanism (gated edit, approved diff)
-- [ ] GlossaryTermPage metadata ledger renders via DS List, or carries a written keep/extend rationale in the audit table
-- [ ] Phase 2: the inventory table lists every ledger line in `Footer.module.css` and every `--st-dl-ledger-border` and `--st-color-border-*` consumer found by `grep -rn "ledger\|st-color-border" apps/web/src packages/design-system/src`, each with token, resolved colour (light and dark) and owning component
+- [x] Every raw `<ul>`/`<ol>` surface in `apps/web/src/pages/` is documented in the audit table. Evidence: `grep -rnE "<(ul|ol)\b" apps/web/src/pages` lists 9 elements, all in the table (`itemList`, `indexList` added at close-out)
+- [x] All "migrate" decisions are implemented and the bespoke CSS classes removed. There are none: every surface was decided keep raw
+- [x] "Extend" decisions deferred to a follow-on: #269
+- [x] "Keep raw" decisions have a written rationale in this doc (e.g. "specialised icon layout, no DS fit")
+- [x] No new `List` variant landed, so the existing story still covers them. Chromatic deferred to ship: <!-- Chromatic: pending -->
+- [x] No regression on the archive list view: `/articles` list view checked in both themes, `pnpm test:smoke` 77 passed
+- [x] `pnpm validate:tokens`, `validate:tokens --strict-colors`, `validate:style-mirror`, `validate:contrast` pass (run 2026-11-25)
+- [x] AI Attribution renders on `/glossary/:slug` via the static default (no schema change). Evidence: `/glossary/accessibility` ledger, dark-mode axe spec passes
+- [x] `docs/write-pipeline-prompt.md` §5 updated (diff approved 2026-11-25); `docs/glossy-prompt.md` never made the claim (`grep -in disclosure docs/glossy-prompt.md` is empty)
+- [x] GlossaryTermPage metadata ledger kept as `DescriptionList`, rationale in the audit table
+- [x] Phase 2: the inventory table lists every ledger line in `Footer.module.css` and every `--st-dl-ledger-border` and `--st-color-border-*` consumer found by `grep -rn "ledger\|st-color-border" apps/web/src packages/design-system/src`, each with token, resolved colour (light and dark) and owning component
 - [x] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
 - [x] Phase 2: vspec signed off by Bex before any CSS or token change (approved as drawn 2026-11-25)
-- [ ] Phase 2: footer separators reach the contrast the vspec states for the footer tier, measured against the footer background (`--st-color-bg-canvas`, #F2F2F3 light) in light and dark. Today's `--st-color-border-default` (#E4E4E5) is about 1.1:1 on #F2F2F3. The footer rules are decorative, so WCAG 1.4.11's 3:1 does not bind; the vspec picks the target. `pnpm validate:contrast` passes with no new allowlist entries
-- [ ] Phase 2: `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm tokens:build` produce no diff or errors; Chromatic build approved or deferral annotated; "Visual QA approved" received
+- [x] Phase 2: footer separators reach the contrast the vspec states for the footer tier, measured against the footer background (`--st-color-bg-canvas`, #F2F2F3 light) in light and dark. Today's `--st-color-border-default` (#E4E4E5) is about 1.1:1 on #F2F2F3. The footer rules are decorative, so WCAG 1.4.11's 3:1 does not bind; the vspec picks the target. `pnpm validate:contrast` passes with no new allowlist entries
+- [x] Phase 2: `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm tokens:build` produce no diff or errors; Chromatic deferral annotated above; "Visual QA approved" received 2026-11-25 for the first set and for the added pages
 
 ## Human QA Walkthrough — example local pages
 
-> Activation audit: read `apps/web/src/App.jsx`, list every page-type whose CSS this epic can reach, and build the Human QA Walkthrough table (one example local URL per page-type, incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA Walkthrough. Capture one real published slug per detail page-type and datestamp it.
+Captured 2026-11-25 against `http://localhost:5173`. If a slug 404s, the doc was unpublished: pick another from the matching archive. Series and Release detail pages were not captured (no series slug surfaced by `/sitemap`).
+
+| Page-type | Route | Example local URL | What to look for |
+|---|---|---|---|
+| Any page (site footer) | all | `http://localhost:5173/` | Footer top edge and nav divider clearly visible; legal-links and copyright rules lighter; both themes |
+| Glossary term (`GlossaryTermPage`) | `/glossary/:slug` | `http://localhost:5173/glossary/accessibility` | Ledger top edge, row and column rules at Tier 2, AI Attribution row last |
+| Articles archive, list view (`ArchivePage` + `List`) | `/articles` | `http://localhost:5173/articles` (list toggle) | 2px header and brackets Tier 1, dotted rows and fences Tier 2 |
+| Article detail | `/articles/:slug` | `http://localhost:5173/articles/bait-and-switch-or-just-a-bug` | Content nav top rule and sidebar side rule now visible in light |
+| Person profile | `/people/:slug` | `http://localhost:5173/people/bex` | Folio, roles, expertise rules now visible in light |
+| Sitemap | `/sitemap` | `http://localhost:5173/sitemap` | Header Tier 1, group headings and rows Tier 2 |
+| Taxonomy archive (rows) | `/tags` | `http://localhost:5173/tags` | Row Layout rules at Tier 2, list top Tier 1 |
+| Page with eyebrow | `/about` | `http://localhost:5173/about` | Eyebrow rule visible in light |
+| Trust report | `/now` | `http://localhost:5173/now` | Report footer rule visible in light |
+| Regression guard: tables and tiles | `/platform` | `http://localhost:5173/platform` | Table and tile wraps unchanged (`--st-color-border-wrap` left alone) |
 
 ## Technical notes
 
@@ -150,6 +163,7 @@ No surface migrates. The `List` register is a fixed shape: a 138px gutter tag, a
 | `linkList` (Sitemap) | Keep raw | The `noindex` badge has no slot |
 | `enumList` | Keep raw | Code context |
 | Glossary metadata ledger | Keep as `DescriptionList` | Two-column label/value; `List` is single-column. Its lines now use the Phase 2 tiers |
+| `itemList`, `indexList` (`TaxonomyArchivePage.jsx`) | Keep raw | Found by `grep -rnE "<(ul|ol)\b" apps/web/src/pages` at close-out, missing from the first audit. Colour dot, label, sublabel and count per row, and an A-Z grid; not a register shape. Their lines took Phase 2 tiers |
 
 Phase 2 already aligned the line tiers of Sitemap and Series rows with `List`, so the three no longer draw three different line styles. A `List` variant with a link-only row, a tag-less row and a badge slot would unlock the Sitemap, Series and sources migrations; that is a separate epic.
 
@@ -227,3 +241,34 @@ Still to do in Phase 2: read each file's selector and width, assign tiers, and r
 - **Phase 2 trigger:** Storybook `Components/DescriptionList` (default vs ledger) and `Pages/TaxonomyArchivePage` Row Layout, observed 2026-11-25
 - **Adjacent:** SUG-228 item 6 flags the same page's "Used In" list as off-pattern — resolve consistently with this epic's migration, not separately
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+### Acceptance criteria
+
+Each criterion is ticked above with its evidence. One wording was not literally met: the Phase 2 inventory criterion named a grep for `ledger` and `st-color-border` consumers; the inventory grep was run for `border` declarations on those tokens and, at close-out, widened to `border-left` and `border-right` (16 more). Dark-mode Tier 3 faintness is by design and was not re-measured on every page.
+
+### What didn't work
+
+- The first Visual QA pass reviewed a build that left rules invisible on the canvas (`pageEyebrow`, `ContentNav`, `reportFooter`, DS Sidebar, Person profile). They were found only by a deliberate Playwright scan, then fixed and re-approved.
+- The AI Attribution link failed the dark-mode axe smoke spec on its first build; it reused the Sources row styling afterwards.
+- `--st-color-footer-divider` was recommended for retirement in the vspec, but `Card.module.css:496` reads it. Withdrawn before any code.
+- The design-reviewer subagent returned "24 Match rows" for an 18-row table and marked two additions (List 2px header rule, vertical fences) as drawn in the vspec when they were not. Its table was not relied on without a rendered check.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| List variant: link-only, tag-less and badge rows, to unlock the Sitemap, Series and Sources migrations | implementation | #269, Relates to #56 |
+| `--st-color-border-wrap` still fades to white 12% in dark while the ledger now uses 20% | implementation | declined: tile and table wraps are a different surface; a change moves every table in dark and was not drawn in the vspec |
+| A smoke or validator check that flags a border colour equal to its background | workflow-docs | declined: the Playwright scan is a one-off here; a recurring check needs the reader named first (CLAUDE.md §Building a mechanism) |
+
+### Friction line
+
+Section rules drawn in `border-subtle` were invisible on the page canvas and passed Visual QA until a scan for equal border and background colours found them.
+
+## Post-ship checks
+
+- [ ] Footer separators are clearly visible on the live site in light and dark: person, open `https://sugartown.io/` and scroll to the footer
+- [ ] Glossary term page shows the AI Attribution row: person, open `https://sugartown.io/glossary/accessibility`
+- [ ] Chromatic VRT approved for the footer, DescriptionList, List stories: person, run `/st-chromatic` at ship

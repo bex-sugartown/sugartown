@@ -12,6 +12,8 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 
 ## [Unreleased]
 
+- SUG-177: footer, ledger and list dividers now follow three line tiers, so footer separators and rules that were invisible on the page canvas (Person profile, page eyebrow, content nav) show; glossary term pages gain an AI Attribution row. (smoke 77 passed, tokens and contrast validators pass)
+
 ---
 
 ## [0.41.0] — 2026-11-24
