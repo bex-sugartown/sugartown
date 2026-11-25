@@ -191,7 +191,7 @@ decoupled from merge strategy — SUG-100 S9, `/mini-release` retired 2026-08-19
 | Tools | | |
 | Glossary terms | | |
 
-{Each new glossary term names the tests it passes (§1a). The epic recommends terms; `/glossy` creates them.}
+{Each new glossary term names the tests it passes (§1a). The epic recommends terms; `/st-glossy` creates them.}
 
 ## Scope
 

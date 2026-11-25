@@ -1,7 +1,7 @@
 # Write Pipeline — Shared Write-Time Rules
 
 Canonical home for every **register-agnostic** rule used by `/write-node`, `/write-blog`,
-`/write-casestudy`, and `/glossy`. Each of those skills references this doc instead of
+`/write-casestudy`, and `/st-glossy`. Each of those skills references this doc instead of
 repeating these rules — this is the SUG-210 fix for the failure mode where a rule (e.g. the
 2026-07-15 show-don't-tell update) gets patched into two or three files and missed on the
 fourth.
@@ -194,7 +194,7 @@ directly rather than this section.
 | Tag | Lowest. Pick from the existing list; a new tag needs editorial review | Readers would browse all content on the theme | 3 to 6 per piece |
 | Tool | Low. Pick from the existing list | A named product, vendor or platform (never a tag) | Per register, see its Step 1 |
 | Category | Structural. The list is fixed; a content epic never adds one | The piece sits under one of the site's broad pillars | 1 to 2 |
-| Glossary term | Highest. Research, sources, the two-gate `/glossy` flow, a definition to maintain | A reader needs the word defined to follow the piece, and all four tests below pass | 0 to 2 new per piece |
+| Glossary term | Highest. Research, sources, the two-gate `/st-glossy` flow, a definition to maintain | A reader needs the word defined to follow the piece, and all four tests below pass | 0 to 2 new per piece |
 
 **Recommend a new glossary term only when all four tests pass:**
 
@@ -205,7 +205,7 @@ directly rather than this section.
 
 A term and a tag can both apply to one concept: the tag groups content, the term defines it.
 The writing skills link existing terms and recommend new ones. They never create them.
-`/glossy` creates terms, and the Content Write Gate applies. Report each
+`/st-glossy` creates terms, and the Content Write Gate applies. Report each
 recommendation as: term, reason, tests passed.
 
 **To link an existing term, add an inline `glossaryTermRef` mark on its first mention.** Add a
@@ -213,7 +213,7 @@ markDef `{"_key": "<key>", "_type": "glossaryTermRef", "term": {"_type": "refere
 to the block, and put `<key>` in the `marks` of the span that carries the text. There is no
 `relatedTerms` field on article, node, caseStudy or page (retired by #136, 2026-09-25); writing
 one produces an Unknown field error in Studio. A reference can only target a published term,
-so link after `/glossy` has created the term and Bex has published it.
+so link after `/st-glossy` has created the term and Bex has published it.
 
 ---
 
@@ -415,7 +415,7 @@ copy) authorizes a `publish_documents` call. The agent creates drafts; a human p
 them. Publishing requires its own explicit, standalone instruction ("publish that," "make it
 live") — never inferred from approval of the drafted content.
 
-`/glossy` composes both gates explicitly in its own two-gate flow (Gate 1 = propose, Gate 2
+`/st-glossy` composes both gates explicitly in its own two-gate flow (Gate 1 = propose, Gate 2
 = create draft, publish = separate human action) — see `docs/glossy-prompt.md` for that
 skill's specific mechanics, which are out of scope for this doc.
 
@@ -432,7 +432,7 @@ After creating any draft, report at minimum:
 - Any images included — confirm alt text is present
 - Tracking issue link (created in §0) and its current state
 - Glossary terms: existing ones linked, new ones recommended (term, reason, tests passed).
-  New terms are not created here; `/glossy` does that
+  New terms are not created here; `/st-glossy` does that
 
 Register-specific report items (node's `aiDisclosure` string; article's `aiDisclosure`
 string plus any optional disclosure callout; case study's engagement facts, outcome tile

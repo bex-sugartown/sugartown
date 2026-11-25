@@ -119,7 +119,7 @@ Tier 1 gates still apply. In cloud, a gate never blocks the rest of the issue:
      unfollowable this run. `None` is a valid answer; a missing section is not.
    - a last line for Bex: `**Your next step:** in a local session, say "hand back {n}".`
 4. **Add the `handback-ready` label** with the GitHub MCP tool. It is how the local side finds
-   the run (`/morning` lists it, `/handback` reads it). If adding it fails, say so in the comment.
+   the run (`/st-morning` lists it, `/handback` reads it). If adding it fails, say so in the comment.
 5. **Leave the issue open, at `In Progress`.** Never close it. (`/st-ship` sweeps every `Done`
    issue into `Shipped`, and cloud work is still on a branch.)
 

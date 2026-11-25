@@ -5,7 +5,7 @@
  * Flags a release with steps left undone. Checks the newest local release tag vX.Y.0, or the
  * version given with --version X.Y.0.
  *
- * Reader: /morning (advisory), the Phase 4 closing status of docs/ship-prompt.md (blocking),
+ * Reader: /st-morning (advisory), the Phase 4 closing status of docs/ship-prompt.md (blocking),
  * and the completion checklist of docs/workflows/release-assistant-prompt.md.
  *
  * Exit codes: 0 every step met, 1 at least one unmet (each listed), 2 could not check

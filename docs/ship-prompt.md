@@ -409,7 +409,7 @@ cleanup, tracker update — retired, its logic absorbed here and gated behind `-
 close-out steps had two commands between them before this; SUG-100 §A10 has the full accounting.
 
 **The workflow:**
-- `/morning` — open the day, check status, DO NOT push
+- `/st-morning` — open the day, check status, DO NOT push
 - Work session — commit freely; a `post-commit` hook mirrors every commit to `origin` for free,
   so disk safety no longer depends on remembering to push (SUG-100 S13)
 - `/st-ship` — whenever you want to ship, not on a schedule — push, verify, transition `Done` →

@@ -1,5 +1,5 @@
 ---
-name: morning
+name: st-morning
 description: Run the Sugartown morning housekeeping check — git health, service status, branch briefing and recommended actions
 ---
 

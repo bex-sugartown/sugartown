@@ -58,11 +58,11 @@ it crosses the gate. Its 3 phases are not why.
 | # | Work unit | Phase | Scope items |
 |---|---|---|---|
 | 1 | Convert `/mini-release`'s 4 gates | 1 | 1 |
-| 2 | Convert `/morning`'s 3 gates | 1 | 1 |
+| 2 | Convert `/st-morning`'s 3 gates | 1 | 1 |
 | 3 | Convert `/eod`'s 4 gates | 1 | 1 |
-| 4 | Convert `/switch`'s 6 gates | 2 | 1 |
+| 4 | Convert `/st-switch`'s 6 gates | 2 | 1 |
 | 5 | Convert `/new-epic`'s Step 0 intake + 2 gates | 2 | 1 |
-| 6 | Convert `/glossy`'s 2 gates | 2 | 1 |
+| 6 | Convert `/st-glossy`'s 2 gates | 2 | 1 |
 | 7 | Convert `/chromatic`'s 2 gates | 2 | 1 |
 | 8 | Convert `epic-template.md`'s Phase 0 + Visual QA gates | 2 | 1 |
 | 9 | Convert `/update-cwv`'s 2 gates | 3 | 1 |

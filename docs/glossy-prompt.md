@@ -1,4 +1,4 @@
-# /glossy — Glossary Term Skill
+# /st-glossy — Glossary Term Skill
 
 Researches, drafts, and (on approval) publishes a `glossaryTerm` document to
 `sugartown.io/glossary`. Two gates: **Gate 1** proposes a fully-researched term
@@ -15,7 +15,7 @@ URL pattern: `/glossary/:slug`.
 
 ## Input modes — single, pasted batch, or uploaded file
 
-`/glossy` accepts one term or many. Detect the mode before doing anything else.
+`/st-glossy` accepts one term or many. Detect the mode before doing anything else.
 
 1. **Single term** — the argument is one term (optionally with context/links).
 2. **Pasted batch** — the argument (or a follow-up message) is a list: one term

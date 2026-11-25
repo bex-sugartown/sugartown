@@ -214,7 +214,7 @@ stage (SUG-246).
 | Tools | | |
 | Glossary terms | | |
 
-> Each new glossary term names the tests it passes. The epic recommends terms; `/glossy` creates them.
+> Each new glossary term names the tests it passes. The epic recommends terms; `/st-glossy` creates them.
 
 ---
 

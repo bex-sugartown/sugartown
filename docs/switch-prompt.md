@@ -11,7 +11,7 @@
 Keeps the same Sugartown repo in sync across two machines. It is the mirror of `/st-ship`:
 
 - `/st-ship` **closes** a machine — pushes accumulated commits to `origin/main` (one Netlify deploy).
-- `/switch` **opens** the machine you're returning to, or hands off the one you're leaving mid-day.
+- `/st-switch` **opens** the machine you're returning to, or hands off the one you're leaving mid-day.
 
 It reads first, then executes with confirmation at each step. It never force-pushes, never discards uncommitted work, and stops cold on divergence rather than guessing.
 
@@ -19,12 +19,12 @@ It reads first, then executes with confirmation at each step. It never force-pus
 
 ## The one rule that governs everything
 
-**Only what was pushed can be pulled.** A commit that lives only on the other machine — because that machine never ran `/st-ship` (or `/switch out`) — cannot be reached from here. There is no machine-to-machine link; the only shared point is `origin` on GitHub.
+**Only what was pushed can be pulled.** A commit that lives only on the other machine — because that machine never ran `/st-ship` (or `/st-switch out`) — cannot be reached from here. There is no machine-to-machine link; the only shared point is `origin` on GitHub.
 
 So the safe handoff order is always:
 
-1. On the machine you're **leaving** — push (via `/st-ship`, or `/switch out` before you're ready to ship).
-2. On the machine you're **arriving at** — pull (via `/switch`, default mode).
+1. On the machine you're **leaving** — push (via `/st-ship`, or `/st-switch out` before you're ready to ship).
+2. On the machine you're **arriving at** — pull (via `/st-switch`, default mode).
 
 If you skip step 1, step 2 has nothing new to pull, and that work is stranded until you get back to the machine that holds it.
 
@@ -34,14 +34,14 @@ If you skip step 1, step 2 has nothing new to pull, and that work is stranded un
 
 | You type | Mode | What it does |
 |----------|------|--------------|
-| `/switch` or `/switch in` | **ARRIVE** (default) | Fetch from origin, check for danger, then fast-forward your local `main` to whatever the other machine pushed. |
-| `/switch out` or `/switch leave` | **LEAVE** | Push current work to a free `handoff/*` branch (no Netlify deploy) so the other machine can pick it up before you've run `/st-ship`. |
+| `/st-switch` or `/st-switch in` | **ARRIVE** (default) | Fetch from origin, check for danger, then fast-forward your local `main` to whatever the other machine pushed. |
+| `/st-switch out` or `/st-switch leave` | **LEAVE** | Push current work to a free `handoff/*` branch (no Netlify deploy) so the other machine can pick it up before you've run `/st-ship`. |
 
-If the user types `/switch` with no argument, assume **ARRIVE** mode.
+If the user types `/st-switch` with no argument, assume **ARRIVE** mode.
 
 ---
 
-# MODE: ARRIVE (`/switch`, `/switch in`)
+# MODE: ARRIVE (`/st-switch`, `/st-switch in`)
 
 ### PHASE 1 — READ EVERYTHING (no changes yet)
 
@@ -87,7 +87,7 @@ Write a short, plain-English briefing. Assume the user is not reading git output
 
 **Handoff branches:** [list any `origin/handoff/*` branches with their newest commit date, or "none"]
 
-**Sanity check for the user (plain English):** "This pulls only what the other machine pushed. The newest thing on origin is from [date]. If you did work on the other machine after that and didn't run `/st-ship` or `/switch out` there, it isn't here yet — go back and push it first."
+**Sanity check for the user (plain English):** "This pulls only what the other machine pushed. The newest thing on origin is from [date]. If you did work on the other machine after that and didn't run `/st-ship` or `/st-switch out` there, it isn't here yet — go back and push it first."
 
 Then classify the situation into exactly one of these and state which it is:
 
@@ -184,22 +184,22 @@ Local state: [clean / list]
 Handoff branches consumed: [name / none]
 Unresolved: [none / describe]
 
-You're in sync. Run /morning next to check service health and start the day.
+You're in sync. Run /st-morning next to check service health and start the day.
 ```
 
 Then ask via `AskUserQuestion`:
 
 ```
-Question: "Want me to run /morning now to check dev servers and git health, or /restart to bring them up?"
+Question: "Want me to run /st-morning now to check dev servers and git health, or /restart to bring them up?"
 Options:
-  - "Run /morning"
+  - "Run /st-morning"
   - "Run /restart"
   - "Neither — I'll do it myself"
 ```
 
 ---
 
-# MODE: LEAVE — mid-day handoff (`/switch out`, `/switch leave`)
+# MODE: LEAVE — mid-day handoff (`/st-switch out`, `/st-switch leave`)
 
 Use this when you want to move to the other machine **now**, before you're ready to ship, without triggering a Netlify deploy. Feature-branch pushes are free; only pushes to `main` cost credits. So work-in-progress rides out on a temporary `handoff/*` branch.
 
@@ -218,7 +218,7 @@ Environment guard: same as ARRIVE — if `pwd` is not under `/Users/`, warn and 
 State plainly:
 - Current branch and how many commits are unpushed.
 - Any uncommitted/untracked files (these need to be committed to travel — a branch only carries commits, not working-tree changes).
-- The plan: "I'll commit your in-progress work, then push it to a free `handoff/*` branch. No Netlify deploy. On the other machine, `/switch` will find it and merge it onto `main`."
+- The plan: "I'll commit your in-progress work, then push it to a free `handoff/*` branch. No Netlify deploy. On the other machine, `/st-switch` will find it and merge it onto `main`."
 - Proposed branch name: `handoff/<this-machine>-<YYYY-MM-DD-HHMM>` (e.g. `handoff/desktop-2026-06-12-1530`). If the machine name isn't obvious, ask which machine this is (desktop / laptop) — free text, it's a short factual answer, not a decision. Then ask via `AskUserQuestion`:
   ```
   Question: "Use branch name handoff/<name>?"
@@ -251,27 +251,27 @@ State plainly:
    Commits carried: [count]
    Netlify deploy: none (feature branch)
 
-   On the other machine: run /switch — it'll find this branch and merge it onto main.
+   On the other machine: run /st-switch — it'll find this branch and merge it onto main.
    Remember: this is a parking branch, not a release. Real shipping still happens via /st-ship → main.
    ```
 
 **Hard rules for LEAVE:**
 - Never push to `main` in this mode — the whole point is to avoid the deploy. Pushing `main` is `/st-ship`'s job.
 - Never `git push --force`.
-- A `handoff/*` branch is temporary scaffolding, not shipped work. It is deleted once the other machine consumes it (Phase 3 of ARRIVE). Don't let handoff branches accumulate — flag any older than a few days during `/morning` or `/switch`.
+- A `handoff/*` branch is temporary scaffolding, not shipped work. It is deleted once the other machine consumes it (Phase 3 of ARRIVE). Don't let handoff branches accumulate — flag any older than a few days during `/st-morning` or `/st-switch`.
 
 ---
 
 ## Why this exists
 
-The push-once-at-`/st-ship` model (one Netlify deploy per ship, whenever that runs — the observed interval is 1–14 days, not daily) is great for credits but means a machine's work is invisible to its sibling until that push happens. `/switch` closes that gap from both sides:
+The push-once-at-`/st-ship` model (one Netlify deploy per ship, whenever that runs — the observed interval is 1–14 days, not daily) is great for credits but means a machine's work is invisible to its sibling until that push happens. `/st-switch` closes that gap from both sides:
 
-- **Handoff:** `/st-ship` on machine A → `/switch` on machine B. Clean fast-forward.
-- **Mid-day handoff:** `/switch out` on machine A pushes a free `handoff/*` branch → `/switch` on machine B merges it. No credits spent, no work stranded.
+- **Handoff:** `/st-ship` on machine A → `/st-switch` on machine B. Clean fast-forward.
+- **Mid-day handoff:** `/st-switch out` on machine A pushes a free `handoff/*` branch → `/st-switch` on machine B merges it. No credits spent, no work stranded.
 
 **The full cross-machine loop:**
-- `/switch` (in) — arrive at a machine, pull the latest pushed work
-- `/morning` — check health, start the day
+- `/st-switch` (in) — arrive at a machine, pull the latest pushed work
+- `/st-morning` — check health, start the day
 - Work — commit freely, never push
-- `/switch out` *(only if moving machines before you've shipped)* — park WIP on a free branch
+- `/st-switch out` *(only if moving machines before you've shipped)* — park WIP on a free branch
 - `/st-ship` — push to `main` once, deploy

@@ -425,7 +425,7 @@ The agent drafts. The agent proposes. The agent patches Sanity documents once a 
 
 **The only way the agent publishes something is an explicit, standalone instruction to do so** — "publish that," "make it live," "go ahead and publish" — given as its own instruction, not inferred from approval of the content itself. Absent that explicit instruction, every skill and every session stops at the draft and tells the human what's ready and where to find it — typically: open it in Studio and click Publish.
 
-This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/glossy`, `/write-blog`, `/write-node`, `/write-casestudy`, `/red-pen`) stops at this same line.
+This is the fail-softly layer referenced above: even a Content Write Gate failure — content written without a proper proposal — stays contained to a draft nobody sees until a human deliberately publishes it. Every skill that writes to Sanity (`/st-glossy`, `/write-blog`, `/write-node`, `/write-casestudy`, `/red-pen`) stops at this same line.
 
 **Response mechanism:** a negative/absence gate per `docs/conventions/human-gate-conventions.md` — no prompt shown; block on the absence of a standalone publish instruction, message kept to one sentence.
 

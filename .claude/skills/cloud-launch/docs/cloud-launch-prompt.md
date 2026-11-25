@@ -69,5 +69,5 @@ End the turn there.
 Write it in the session and as a comment on the issue, one action and when:
 
 > **Your next step:** wait for the cloud session to finish. You will see its evidence comment
-> on #{n} and a `handback-ready` label, and `/morning` lists it. Then say "hand back {n}" in a
+> on #{n} and a `handback-ready` label, and `/st-morning` lists it. Then say "hand back {n}" in a
 > local session.

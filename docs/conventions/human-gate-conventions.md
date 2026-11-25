@@ -47,7 +47,7 @@ Validators, pre-commit hooks, CI steps. No human in the loop by design.
 | Visual QA approval | `CLAUDE.md` close-out step 3, §When a vspec exists |
 | Chromatic approval | `CLAUDE.md` close-out step 4, `/chromatic` |
 | Push to `origin` | `/st-ship` |
-| Destructive git — `reset --hard`, branch delete, force push | `/st-ship`, `/morning` |
+| Destructive git — `reset --hard`, branch delete, force push | `/st-ship`, `/st-morning` |
 | Production data mutation | ad hoc — no owning section; see Known gaps |
 
 **10 gates. These are worth the interruption.** Adding a row is a deliberate act: it costs
@@ -79,7 +79,7 @@ high-blast-radius actions (push, publish, merge, delete), always include an expl
 "Stop — let me review again" option rather than relying on the human to type "stop."
 
 ### 2. Row-level multi-select batch gate
-Approve or reject individual items from a list — `/glossy`'s batch term approval,
+Approve or reject individual items from a list — `/st-glossy`'s batch term approval,
 `/red-pen`'s "apply 1,3,5."
 
 **Mechanism:** `AskUserQuestion` with `multiSelect: true`, one option per item, labeled with

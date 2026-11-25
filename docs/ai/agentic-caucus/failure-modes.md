@@ -35,7 +35,7 @@ likely it is to miss that a constraint has changed.
 **Consequence:** Incorrect assumptions about the current state of the codebase. Stale
 advice about which files exist or what a schema currently contains.
 
-**Mitigation:** Start a new session for new epics. Use `/morning` to re-establish ground
+**Mitigation:** Start a new session for new epics. Use `/st-morning` to re-establish ground
 truth from the actual repo state rather than session memory. The orient-before-acting
 protocol in CLAUDE.md exists specifically because of this failure mode.
 

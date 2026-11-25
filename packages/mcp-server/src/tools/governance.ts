@@ -69,7 +69,7 @@ const RULES: Record<string, GovernanceRule> = {
     status: 'active',
     instruction:
       'Read the actual files. Confirm against the actual codebase. Do not trust an agent\'s memory of what a ' +
-      'file contains without reading it. Start a new session for new epics; use /morning to re-establish ground ' +
+      'file contains without reading it. Start a new session for new epics; use /st-morning to re-establish ground ' +
       'truth from the actual repo state rather than session memory.',
     source: 'docs/ai/agentic-caucus/failure-modes.md',
   },
