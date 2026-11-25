@@ -15,7 +15,7 @@
 > - **Two deviations from this doc (deliberate):**
 >   1. **`theme.light.css` left untouched** — it is deprecated (SUG-83, "do not add new overrides here") and never applied at runtime (`index.html` only sets `light-pink-moon`/`dark-pink-moon`). The change lives in `theme.pink-moon.css` only; zero runtime difference.
 >   2. **Orphaned-token cleanup NOT done** — the audit's claim that `--st-code-inline-bg-dark` is unreferenced is **false**: it is live at `packages/design-system` CodeBlock `.inline` dark override (line 104). Deleting it would fail `validate:tokens`. Left in place. The web↔package CodeBlock mirror has also drifted (web uses `-bg-dark-maroon`, package uses `-bg-dark`) — a pre-existing issue this epic already scoped out. **Recommended follow-up ticket:** reconcile the CodeBlock inline-code mirror drift and decide the orphan's fate.
-> - **Chromatic:** deferred at ship time. <!-- Chromatic: pending -->
+> - **Chromatic:** deferred at ship time. <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 > - **Hover:** `.glossaryLink:hover` deepens to solid `lime-200` (not in the mock; approved at VQA).
 
 Two related glossary-term display fixes, bundled into one epic at Bex's request:

@@ -69,7 +69,7 @@ Write `docs/conventions/css-class-naming.md`. Evaluate and implement lint/valida
 - Refactoring `AlphaFilter` and `Pagination` to consume those primitives
 - Storybook stories
 
-<!-- Chromatic: pending — deferred to SUG-125 -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ## Technical notes
 

@@ -224,7 +224,7 @@ none
 
 none
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 Chromatic is deferred to the ship step: `SeoHead.jsx` was edited, but it renders no UI.
 
 ## Post-ship checks

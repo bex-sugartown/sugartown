@@ -141,7 +141,7 @@ Phase 0 (mockup gate) is satisfied by the design handoff itself: `Gap Analysis -
 
 ## Close-out (2026-06-12)
 
-<!-- Chromatic: pending — VRT deferred at close-out; new/updated stories (DescriptionList ledger family incl. LedgerWithChips, Chip AbbreviationBadge, Pages/GlossaryTermDetailPage, Pages/GlossaryArchivePage) verified manually on light-pink-moon + dark-pink-moon. Run Chromatic on next batch. -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 - **Visual QA approved** 2026-06-12 (Bex) after two design-feedback rounds:
   ledger border contrast (new `--st-dl-ledger-border` → neutral-400), connected

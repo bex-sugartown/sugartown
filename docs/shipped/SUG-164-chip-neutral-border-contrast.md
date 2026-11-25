@@ -79,7 +79,7 @@ Slugs captured 2026-10-12 from `apps/web/dist/` after the Phase 1 build (`ls app
 - **Dark value:** the dark theme sets `--st-color-rule-accent` to `rgba(255,255,255,0.15)`, which is also far under 3:1. The override applies to `--st-chip-border` only, leaving `rule-accent` and every divider as they are.
 - **Upstream dependencies:** none blocking. #160 (`validate:contrast`) lands after this so it needs no allowlist entry for the chip pair. Reviewed 2026-10-12: no in-flight epic touches `tokens.css` chip tokens.
 - **Found at build (2026-10-12):** `.filterChip` on archive pages (`apps/web/src/pages/pages.module.css:508`) uses `--st-color-border-medium`, not `--st-chip-border`, so it stays pale. It is a different token and outside the signed vspec, so it is left alone and filed as #167.
-- **Chromatic:** this push touches CSS tokens, so one human-approved Chromatic pass is owed; deferred to the ship step. <!-- Chromatic: pending -->
+- **Chromatic:** this push touches CSS tokens, so one human-approved Chromatic pass is owed; deferred to the ship step. <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 - **WCAG note:** 1.4.11 also allows a text label to identify a component without a visible boundary. This epic does not rely on that exception, which is why the border is darkened rather than documented away.
 - **Token pipeline:** edit `tokens/source/tokens.json`, then `pnpm tokens:build`; never hand-edit `tokens.css`.
 - **Model & Mode:** see below.
@@ -134,5 +134,5 @@ The vspec's dark panels used a different surface from the real card, so the appr
 
 ## Post-ship checks
 
-- [ ] Chromatic: one human-approved pass on the pushed commit, owed because this change touches CSS tokens (`/chromatic`, or at `/ship`) <!-- Chromatic: pending -->
+- [ ] Chromatic: one human-approved pass on the pushed commit, owed because this change touches CSS tokens (`/chromatic`, or at `/ship`) <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 - [ ] Production chips show the firmer outline in both themes: person, open any article page on sugartown.io and toggle the moon icon

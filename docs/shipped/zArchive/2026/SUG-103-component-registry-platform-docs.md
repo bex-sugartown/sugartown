@@ -49,7 +49,7 @@ The goal of SUG-103 was to make this governance publicly visible — discoverabl
 - [x] Auto-generated — build-time `?raw` import; no CI keepalive required (any update to MD is immediately reflected on next build/deploy)
 - [ ] Chromatic VRT — deferred; annotated as pending
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ---
 

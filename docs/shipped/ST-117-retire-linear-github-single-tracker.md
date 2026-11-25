@@ -221,7 +221,7 @@ approved (no vspec — data-source swap, not a new visual format; two elements f
 rather than padded in: the stale/empty-state Callouts on `/platform/governance`, never triggered
 live, and `TrustReportSection`'s `issueId` field, no page checked renders that component); 4
 Chromatic deferred to ship time (`GovernancePage.jsx` text/href changes only, no CSS or
-structural JSX) — <!-- Chromatic: pending -->; 5 N/A, real data verified flowing through CI
+structural JSX) — <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->; 5 N/A, real data verified flowing through CI
 above; 5b N/A, no epic-to-epic handoff; 6 moved to `docs/shipped/`; 6b N/A no vspec; 7 CHANGELOG
 line added; 8 issue closed; 9 tree clean.
 

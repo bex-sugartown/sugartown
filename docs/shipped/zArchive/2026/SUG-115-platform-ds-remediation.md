@@ -6,7 +6,7 @@
 **Audit source:** `Downloads/Project_Section_extracted/handoff_platform_audit/` (AUDIT.md, CHANGES.md, Platform Audit.html)
 **Branch audited:** `claude/condescending-chatterjee-611ed2`
 **Shipped:** 2026-05-14 — merged to `main`
-<!-- Chromatic: pending — CHROMATIC_PROJECT_TOKEN not set in shell; run manually -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ---
 

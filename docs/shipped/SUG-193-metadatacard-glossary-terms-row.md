@@ -41,4 +41,4 @@ MetadataCard merges both sources and deduplicates by `_id` before rendering.
 
 Mock-to-implementation verified 2026-06-23 on `/nodes/the-em-dash-that-came-back-from-the-dead`. Terms row shows "Large Language Model" and "Portable Text" extracted from inline `glossaryTermRef` marks. All label links working. Pair layout correct.
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->

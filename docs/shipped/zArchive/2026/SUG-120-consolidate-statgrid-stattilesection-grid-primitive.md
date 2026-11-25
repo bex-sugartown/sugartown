@@ -45,7 +45,7 @@ Four parallel grid-like surfaces existed with no single canonical path:
 - [x] `pnpm validate:tokens` — zero errors confirmed
 - [ ] Chromatic VRT — deferred; annotated as pending
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ## Acceptance criteria — verified
 

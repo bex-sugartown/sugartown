@@ -64,7 +64,7 @@ Not in scope: `TableBlockInput` Studio authoring UX, 860px breakpoint change, co
 ### Phase 4 — Dark mode QA + Chromatic
 - [x] Verify `accent` and `subdued` tones render correctly on `dark-pink-moon` in Storybook — layer: visual QA (stories added with dark-pink-moon theme param)
 - [x] Confirm no glassmorphism wash on table row backgrounds in dark mode — verified via token cascade audit (Phase 2 AC)
-- [ ] Run Chromatic VRT — baseline all table stories — layer: Chromatic <!-- Chromatic: pending -->
+- [ ] Run Chromatic VRT — baseline all table stories — layer: Chromatic <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 - [ ] Remove deprecated `<DataTable>` component after all callers migrate — next minor, separate commit
 
 ## Phases

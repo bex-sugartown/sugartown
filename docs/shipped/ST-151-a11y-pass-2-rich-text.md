@@ -175,7 +175,7 @@ Single phase.
 
 ## Close-out review
 
-<!-- Chromatic: pending (deferred to the ship step; ships with ST-150) -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ### Acceptance criteria
 

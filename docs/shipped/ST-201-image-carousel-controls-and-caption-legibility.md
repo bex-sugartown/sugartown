@@ -77,7 +77,7 @@ Single phase, after Phase 0 sign-off.
 - **GitHub:** [#201](https://github.com/bex-sugartown/sugartown/issues/201)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
 
-<!-- Chromatic: pending. CSS and a story changed; run at /ship (close-out step 4 deferral). -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ## Close-out review
 

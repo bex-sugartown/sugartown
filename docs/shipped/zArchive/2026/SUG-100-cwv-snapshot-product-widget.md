@@ -403,7 +403,7 @@ jobs:
 | LHCI desktop preset | Configured in `lighthouserc.js` |
 | CwvSnapshot component | Reads from `stats.json` correctly; form-factor toggle works |
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ---
 
@@ -450,7 +450,7 @@ All gaps resolved by SUG-106 (2026-05-10):
 
 ### Chromatic
 
-<!-- Chromatic: pending — no visual changes in SUG-106 -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ### Follow-on
 

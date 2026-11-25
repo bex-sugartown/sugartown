@@ -5,7 +5,7 @@
 **Shipped:** 2026-05-08
 **Priority:** High
 
-<!-- Chromatic: pending — SUG-105 -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ---
 

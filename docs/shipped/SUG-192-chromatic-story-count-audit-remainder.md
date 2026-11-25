@@ -52,5 +52,5 @@ Story counts are the real counts measured on the actual live component files (se
 
 39 → 19 stories (−51%). None of the six components exceed the 3-story cap anymore except PageSections, which is a section-builder registry (one story per section *type*, not per variant) — 9 stories for 8 distinct section types + 1 combined Snapshot is the correct shape for that file, not a violation of the convention.
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 Chromatic VRT was not run for this epic (credits constraint at close-out time). Every story-level change was instead verified manually in Storybook (screenshots taken for each new/changed story across both themes where relevant — see session transcript). This is a real gap, not a formality: the actual pixel diffs from consolidating/renaming/removing stories have not been confirmed by Chromatic. Run it at the next opportunity and treat any diffs as expected (removed stories won't re-baseline; changed stories should show only the intended layout/content changes).

@@ -1,7 +1,7 @@
 ---
 **Epic:** SUG-207 — North Star Case Study Template
 **Linear Issue:** [SUG-207](https://linear.app/sugartown/issue/SUG-207/north-star-case-study-template)
-**Status:** Shipped 2026-07-14 — Visual QA approved. <!-- Chromatic: pending -->
+**Status:** Shipped 2026-07-14 — Visual QA approved. <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 **Priority:** 🟢 Next
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
@@ -25,7 +25,7 @@ Shipped via merge strategy (b), one branch. **Visual QA approved** against the P
 - FAQ-accordion soft validation nudge — **added** (`.warning()` on `caseStudy.sections`).
 
 **Deferred / pending human action:**
-- <!-- Chromatic: pending --> Chromatic VRT not yet run.
+- <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). --> Chromatic VRT run later; accepted via build 119.
 - **7 case-study drafts** (`wp.caseStudy.166/271/274/280/286/294/388`) carry the `keyQuestions` unset and **must be published** by a human — MCP writes to drafts only. `keyQuestions` content was verified byte-preserved in every FAQ accordion before the unset.
 
 ---

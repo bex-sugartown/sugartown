@@ -146,7 +146,7 @@ The banner renders on every page, so every page-type is in reach.
 - **GitHub:** [#65](https://github.com/bex-sugartown/sugartown/issues/65)
 - Backfilled by the Phase 2 parity audit — `docs/briefs/linear-to-github-migration-plan.md` §5.1
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ## Close-out, 2026-09-19
 

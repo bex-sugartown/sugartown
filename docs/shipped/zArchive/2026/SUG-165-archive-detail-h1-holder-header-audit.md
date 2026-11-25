@@ -24,7 +24,7 @@ Audit all non-hero archive and detail pages for H1 sizing and weight inconsisten
 
 **Verification:** all page-types confirmed at 48px live (1280px), light + dark, correct italic/roman, folios intact, no console errors. `validate:tokens` + `--strict-colors` clean; web build exits 0.
 
-<!-- Chromatic: pending — deferred 2026-06-13. PageHeader story updated (eyebrow + children, anatomy/token/changelog). Storybook running on :6006; Chromatic VRT not yet run (external publish held). Run before merge to origin/main. -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ## Background
 

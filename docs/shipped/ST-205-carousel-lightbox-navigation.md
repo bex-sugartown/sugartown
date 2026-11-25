@@ -94,7 +94,7 @@ Built at activation from `apps/web/src/App.jsx` and a published-content query, 2
 - Follows [#201](https://github.com/bex-sugartown/sugartown/issues/201); touches the same files as [#204](https://github.com/bex-sugartown/sugartown/issues/204) reads from.
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
 
-<!-- Chromatic: pending. CSS, a component and two stories changed; run at /ship (close-out step 4 deferral). -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ## Close-out review
 

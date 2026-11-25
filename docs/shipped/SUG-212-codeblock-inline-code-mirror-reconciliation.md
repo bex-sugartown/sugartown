@@ -15,7 +15,7 @@
 > - **Tokens deleted (all confirmed unreferenced after reconciliation):** `--st-code-inline-bg-dark`, `--st-code-inline-bg-dark-maroon`, `--st-code-inline-border-dark-maroon`. `--st-color-maroon-300` kept (referenced elsewhere). Token count 658 → 655.
 > - **Root cause confirmed:** `validate-style-mirror.js` covers only the 6 style-dir files, **not** DS component CSS mirrors — so this drift was invisible to CI. **Recommended follow-up:** extend `validate-style-mirror.js` (or a sibling check) to cover DS component `.module.css` mirrors, so component drift is caught automatically.
 > - **Validators:** `validate:tokens`, `--strict-colors`, `validate:style-mirror`, lint all pass.
-> - **Chromatic:** deferred at ship time. <!-- Chromatic: pending -->
+> - **Chromatic:** deferred at ship time. <!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 Reconcile the drifted web↔package `CodeBlock.module.css` inline-code mirror and resolve the orphaned `--st-code-inline-bg-dark` token, both surfaced during SUG-211.
 

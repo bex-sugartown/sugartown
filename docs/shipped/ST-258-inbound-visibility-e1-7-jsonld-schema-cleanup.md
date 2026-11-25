@@ -98,7 +98,7 @@ The plan said `name` should be Becky Head. The page shows Becky Alice Head, and 
 
 Chromatic is deferred to ship, not a follow-up.
 
-<!-- Chromatic: pending -->
+<!-- Chromatic: done. Accepted by Bex via build 119, 2026-11-24 (deferred earlier). -->
 
 ### Friction line
 
