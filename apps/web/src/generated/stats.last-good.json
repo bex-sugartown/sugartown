@@ -82,47 +82,47 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-11-24T16:58:31.265Z",
+    "generatedAt": "2026-11-25T16:47:21.907Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 4276,
+          "lcp": 3257,
           "cls": 0,
           "inp": null,
-          "performance": 83,
+          "performance": 90,
           "accessibility": 100,
           "bestPractices": 96,
           "seo": 100,
-          "rating": "poor"
+          "rating": "needs-improvement"
         },
-        "lcp": 4276,
+        "lcp": 3257,
         "cls": 0,
         "inp": null,
-        "performance": 83,
+        "performance": 90,
         "accessibility": 100,
         "bestPractices": 96,
         "seo": 100,
-        "rating": "poor"
+        "rating": "needs-improvement"
       },
       "https://sugartown.io/articles": {
         "url": "https://sugartown.io/articles",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 4390,
+          "lcp": 4152,
           "cls": 0,
           "inp": null,
-          "performance": 84,
+          "performance": 86,
           "accessibility": 99,
           "bestPractices": 96,
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4390,
+        "lcp": 4152,
         "cls": 0,
         "inp": null,
-        "performance": 84,
+        "performance": 86,
         "accessibility": 99,
         "bestPractices": 96,
         "seo": 100,
@@ -132,19 +132,19 @@
         "url": "https://sugartown.io/case-studies",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 4242,
+          "lcp": 4105,
           "cls": 0,
           "inp": null,
-          "performance": 85,
+          "performance": 86,
           "accessibility": 99,
           "bestPractices": 96,
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4242,
+        "lcp": 4105,
         "cls": 0,
         "inp": null,
-        "performance": 85,
+        "performance": 86,
         "accessibility": 99,
         "bestPractices": 96,
         "seo": 100,
@@ -154,19 +154,19 @@
         "url": "https://sugartown.io/knowledge-graph",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 4703,
+          "lcp": 4599,
           "cls": 0,
           "inp": null,
-          "performance": 76,
+          "performance": 80,
           "accessibility": 95,
           "bestPractices": 96,
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4703,
+        "lcp": 4599,
         "cls": 0,
         "inp": null,
-        "performance": 76,
+        "performance": 80,
         "accessibility": 95,
         "bestPractices": 96,
         "seo": 100,
@@ -176,7 +176,7 @@
         "url": "https://sugartown.io/platform",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 4276,
+          "lcp": 4382,
           "cls": 0.629,
           "inp": null,
           "performance": 62,
@@ -185,7 +185,7 @@
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4276,
+        "lcp": 4382,
         "cls": 0.629,
         "inp": null,
         "performance": 62,
@@ -198,19 +198,19 @@
         "url": "https://sugartown.io/about",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 4527,
-          "cls": 0.023,
+          "lcp": 4417,
+          "cls": 0.008,
           "inp": null,
-          "performance": 83,
+          "performance": 81,
           "accessibility": 100,
           "bestPractices": 96,
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4527,
-        "cls": 0.023,
+        "lcp": 4417,
+        "cls": 0.008,
         "inp": null,
-        "performance": 83,
+        "performance": 81,
         "accessibility": 100,
         "bestPractices": 96,
         "seo": 100,
@@ -219,7 +219,7 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-11-24T16:58:31.630Z",
+    "fetchedAt": "2026-11-25T16:47:22.367Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
@@ -236,17 +236,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-11-24T17:01:32.801Z",
+    "fetchedAt": "2026-11-25T16:50:23.541Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
-    "openIssues": 105,
+    "openIssues": 103,
     "contributors": 3,
-    "lastCommit": "2026-11-24T16:26:52Z"
+    "lastCommit": "2026-11-25T11:26:22Z"
   },
   "sanity": {
-    "fetchedAt": "2026-11-24T17:01:33.363Z",
+    "fetchedAt": "2026-11-25T16:50:24.059Z",
     "counts": {
       "article": 18,
       "node": 52,
@@ -260,7 +260,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-11-24T17:01:33.586Z",
+    "generatedAt": "2026-11-25T16:50:24.269Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -6829,20 +6829,11 @@
       }
     ]
   },
-  "updatedAt": "2026-11-24T17:01:36.383Z",
+  "updatedAt": "2026-11-25T16:50:26.758Z",
   "githubRoadmap": {
-    "fetchedAt": "2026-11-24T17:01:36.383Z",
+    "fetchedAt": "2026-11-25T16:50:26.758Z",
     "inProgress": [],
     "backlog": [
-      {
-        "identifier": "#246",
-        "title": "Storybook stories fail color-contrast in 49 story files (the #50 gate's todo list)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/246",
-        "updatedAt": "2026-11-20T15:45:51Z",
-        "priority": "High",
-        "status": "Todo",
-        "projects": []
-      },
       {
         "identifier": "#189",
         "title": "Axe and link coverage for platform pages and /about",
@@ -7046,15 +7037,6 @@
         "title": "SUG-176 — Storybook story coverage for app-level composites",
         "url": "https://github.com/bex-sugartown/sugartown/issues/55",
         "updatedAt": "2026-09-05T14:44:13Z",
-        "priority": "Medium",
-        "status": "Backlog",
-        "projects": []
-      },
-      {
-        "identifier": "#56",
-        "title": "SUG-177 — List component audit — surface all site list patterns for DS List integration",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/56",
-        "updatedAt": "2026-09-05T14:44:15Z",
         "priority": "Medium",
         "status": "Backlog",
         "projects": []
@@ -7753,156 +7735,84 @@
         "projects": []
       },
       {
-        "identifier": "#268",
-        "title": "CI is red on main",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/268",
-        "updatedAt": "2026-11-24T16:29:26Z",
-        "priority": "No priority",
+        "identifier": "#269",
+        "title": "List variant: link-only, tag-less and badge rows",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/269",
+        "updatedAt": "2026-11-25T13:56:37Z",
+        "priority": "Medium",
         "status": "Backlog",
         "projects": []
       }
     ],
     "completed": [
       {
-        "identifier": "#265",
-        "title": "Remove the dead Sidebar toggle and SidebarNav collapsible summary",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/265",
-        "updatedAt": "2026-11-24T15:23:51Z",
+        "identifier": "#270",
+        "title": "Production colour tokens fail color-contrast: pink text and fills, Callout, Card, CodeBlock, Swatch",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/270",
+        "updatedAt": "2026-11-25T14:41:34Z",
         "priority": "No priority",
         "status": "Done",
         "projects": []
       },
       {
-        "identifier": "#264",
-        "title": "Disabled, error and loading states for DS interactive components, and Tile states",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/264",
-        "updatedAt": "2026-11-24T15:23:47Z",
+        "identifier": "#246",
+        "title": "Storybook stories fail color-contrast in 49 story files (the #50 gate's todo list)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/246",
+        "updatedAt": "2026-11-25T14:27:57Z",
         "priority": "High",
         "status": "Done",
         "projects": []
       },
       {
-        "identifier": "#262",
-        "title": "DS pressed state disappears in forced-colors mode, and hover sticks on touch",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/262",
-        "updatedAt": "2026-11-24T15:23:44Z",
+        "identifier": "#56",
+        "title": "SUG-177 — List component audit — surface all site list patterns for DS List integration",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/56",
+        "updatedAt": "2026-11-25T13:57:39Z",
         "priority": "High",
         "status": "Done",
         "projects": []
       },
       {
-        "identifier": "#266",
-        "title": "Contents strip hides behind the header until the page is scrolled",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/266",
-        "updatedAt": "2026-11-24T15:07:57Z",
-        "priority": "No priority",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#263",
-        "title": "Check composed hover and pressed contrast for every vspec in CI",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/263",
-        "updatedAt": "2026-11-24T14:55:52Z",
-        "priority": "High",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#261",
-        "title": "Render and verify Sidebar toggle, SidebarNav and PageSidebar link states",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/261",
-        "updatedAt": "2026-11-24T14:55:50Z",
-        "priority": "High",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#260",
-        "title": "Citation back-link resting colour is 4.45:1 in dark",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/260",
-        "updatedAt": "2026-11-24T12:51:07Z",
-        "priority": "High",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#252",
-        "title": "Extend the interaction state contract to links, rows, disclosures and form fields",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/252",
-        "updatedAt": "2026-11-24T12:17:32Z",
-        "priority": "Medium",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#247",
-        "title": "Carousel slide dots are below the 24px minimum target size (WCAG 2.5.8)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/247",
-        "updatedAt": "2026-11-24T12:12:03Z",
-        "priority": "High",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#164",
-        "title": "Citation component uses deprecated ARIA roles doc-endnote and doc-endnotes",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/164",
-        "updatedAt": "2026-11-24T12:06:40Z",
-        "priority": "High",
-        "status": "Done",
-        "projects": []
-      },
-      {
-        "identifier": "#258",
-        "title": "Inbound Visibility E1.7: JSON-LD schema cleanup (sameAs, alternateName, knowsAbout, Article images)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/258",
-        "updatedAt": "2026-11-23T14:40:49Z",
+        "identifier": "#93",
+        "title": "SUG-269 — Make the Sanity-backed validators probeable",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/93",
+        "updatedAt": "2026-11-25T12:08:14Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#257",
-        "title": "Inbound Visibility E1.3 + E1.5: soft 404 rule for tags, nodes and roadmap URLs, then a clean sitemap",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/257",
-        "updatedAt": "2026-11-23T14:40:48Z",
+        "identifier": "#84",
+        "title": "SUG-253 — CWV audit & Agentic Browsing fixes (llms.txt, accessibility tree, mobile performance)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/84",
+        "updatedAt": "2026-11-25T12:08:12Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#256",
-        "title": "Inbound Visibility E1.2 + E1.4: real 404 for unknown URLs and prerendered home and index routes",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/256",
-        "updatedAt": "2026-11-23T14:40:47Z",
+        "identifier": "#83",
+        "title": "SUG-252 — Add type-specific JSON-LD for Project and Tool detail pages",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/83",
+        "updatedAt": "2026-11-25T12:08:10Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#255",
-        "title": "Inbound Visibility E1.1: one canonical host, with /home and the other host redirecting to it",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/255",
-        "updatedAt": "2026-11-23T14:40:46Z",
+        "identifier": "#82",
+        "title": "SUG-251 — SEO meta & structured-data prerendering (fix CSR mainEntity race)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/82",
+        "updatedAt": "2026-11-25T12:08:09Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#259",
-        "title": "apps/studio/sanity.cli.ts points at a dataset that does not exist (test)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/259",
-        "updatedAt": "2026-11-23T14:28:49Z",
-        "priority": "No priority",
-        "status": "Shipped",
-        "projects": []
-      },
-      {
-        "identifier": "#169",
-        "title": "Status tokens --st-status-*-fg fail text contrast (draft, designing, testing, exploring, validated, active, archived, implemented, deprecated)",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/169",
-        "updatedAt": "2026-11-22T16:05:18Z",
+        "identifier": "#68",
+        "title": "SUG-206 — Property-cluster (hypertoken) drift audit",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/68",
+        "updatedAt": "2026-11-25T12:08:07Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
@@ -7911,34 +7821,106 @@
         "identifier": "#50",
         "title": "SUG-161 — Storybook testing infrastructure — interaction tests, a11y CI gate, Vitest",
         "url": "https://github.com/bex-sugartown/sugartown/issues/50",
-        "updatedAt": "2026-11-22T16:00:19Z",
+        "updatedAt": "2026-11-25T12:08:05Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#251",
-        "title": "DS interaction state contract for chips, toggles and buttons",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/251",
-        "updatedAt": "2026-11-22T14:03:16Z",
+        "identifier": "#268",
+        "title": "CI is red on main",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/268",
+        "updatedAt": "2026-11-25T12:08:03Z",
+        "priority": "No priority",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#266",
+        "title": "Contents strip hides behind the header until the page is scrolled",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/266",
+        "updatedAt": "2026-11-25T12:08:01Z",
+        "priority": "No priority",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#265",
+        "title": "Remove the dead Sidebar toggle and SidebarNav collapsible summary",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/265",
+        "updatedAt": "2026-11-25T12:08:00Z",
+        "priority": "No priority",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#264",
+        "title": "Disabled, error and loading states for DS interactive components, and Tile states",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/264",
+        "updatedAt": "2026-11-25T12:07:58Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#250",
-        "title": "Audit chip and toggle interaction states across the DS and web app",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/250",
-        "updatedAt": "2026-11-22T12:03:05Z",
+        "identifier": "#263",
+        "title": "Check composed hover and pressed contrast for every vspec in CI",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/263",
+        "updatedAt": "2026-11-25T12:07:56Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
       },
       {
-        "identifier": "#170",
-        "title": "Knowledge-graph Case chip is off-white text on a pink fill (3.24:1) in dark Pink Moon",
-        "url": "https://github.com/bex-sugartown/sugartown/issues/170",
-        "updatedAt": "2026-11-22T11:45:00Z",
+        "identifier": "#262",
+        "title": "DS pressed state disappears in forced-colors mode, and hover sticks on touch",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/262",
+        "updatedAt": "2026-11-25T12:07:55Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#261",
+        "title": "Render and verify Sidebar toggle, SidebarNav and PageSidebar link states",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/261",
+        "updatedAt": "2026-11-25T12:07:53Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#260",
+        "title": "Citation back-link resting colour is 4.45:1 in dark",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/260",
+        "updatedAt": "2026-11-25T12:07:50Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#259",
+        "title": "apps/studio/sanity.cli.ts points at a dataset that does not exist (test)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/259",
+        "updatedAt": "2026-11-25T12:07:49Z",
+        "priority": "No priority",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#258",
+        "title": "Inbound Visibility E1.7: JSON-LD schema cleanup (sameAs, alternateName, knowsAbout, Article images)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/258",
+        "updatedAt": "2026-11-25T12:07:47Z",
+        "priority": "High",
+        "status": "Shipped",
+        "projects": []
+      },
+      {
+        "identifier": "#257",
+        "title": "Inbound Visibility E1.3 + E1.5: soft 404 rule for tags, nodes and roadmap URLs, then a clean sitemap",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/257",
+        "updatedAt": "2026-11-25T12:07:46Z",
         "priority": "High",
         "status": "Shipped",
         "projects": []
