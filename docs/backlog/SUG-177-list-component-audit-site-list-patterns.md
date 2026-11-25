@@ -1,8 +1,10 @@
 ---
 **Epic:** SUG-177 — List component audit — surface all site list patterns for DS List integration
 **Linear Issue:** [SUG-177](https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list)
-**Status:** Backlog
-**Priority:** 🟣 Soon
+**GitHub Issue:** [#56](https://github.com/bex-sugartown/sugartown/issues/56)
+**Aligned:** 2026-11-25
+**Status:** In Progress
+**Priority:** 🟢 Next (board: High)
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
 **Visual:** yes (Phase 2 ledger-line changes render differently; Phase 1 is a no-new-format migration)
 **Vspec:** `docs/drafts/SUG-177-ledger-lines.vspec.html` (Phase 2 only; not yet created)
@@ -76,7 +78,7 @@ Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape intern
 - [ ] Phase 2: the inventory table lists every ledger line in `Footer.module.css` and every `--st-dl-ledger-border` and `--st-color-border-*` consumer found by `grep -rn "ledger\|st-color-border" apps/web/src packages/design-system/src`, each with token, resolved colour (light and dark) and owning component
 - [ ] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
 - [ ] Phase 2: vspec signed off by Bex before any CSS or token change
-- [ ] Phase 2: footer separators measure at least 3:1 against the footer background in light and dark (`pnpm validate:contrast` passes, no new allowlist entries)
+- [ ] Phase 2: footer separators reach the contrast the vspec states for the footer tier, measured against the footer background (`--st-color-bg-canvas`, #F2F2F3 light) in light and dark. Today's `--st-color-border-default` (#E4E4E5) is about 1.1:1 on #F2F2F3. The footer rules are decorative, so WCAG 1.4.11's 3:1 does not bind; the vspec picks the target. `pnpm validate:contrast` passes with no new allowlist entries
 - [ ] Phase 2: `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm tokens:build` produce no diff or errors; Chromatic build approved or deferral annotated; "Visual QA approved" received
 
 ## Human QA Walkthrough — example local pages
@@ -85,7 +87,7 @@ Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape intern
 
 ## Technical notes
 
-- **Activation audit — List primitive API:** read `apps/web/src/design-system/components/list/List.jsx` to confirm current props (`ordered`, `variant`, `spacing`, etc.) before assessing fit for each surface. Any "extend" decision requires the primitive to accept the new prop first.
+- **List primitive API (read 2026-11-25):** `packages/design-system/src/components/List/List.tsx`. Props: `variant` (`'register'` only), `items` (`ListRow`: `key`, `tag`, `tagTitle`, `leading`, `title`, `date`, `href`), `title`, `count`. No `ordered`, no tag-less row, no link-only row. Any "extend" decision requires the primitive to accept the new prop first. The web adapter is `apps/web/src/components/ContentList.jsx`; the old `apps/web/src/design-system/components/list/` path no longer exists.
 - **CSS removal rule:** when a bespoke class is removed from a page, grep for it across the entire repo to confirm it has no other consumers before deleting from the CSS module.
 - **No Content Write Gate** — no Sanity content changes in scope. (If the AI Attribution field mechanism is chosen and existing glossary terms need backfilled values, the gate fires for that patch — proposal table first.)
 - **No schema changes, with one carve-out** — the AI Attribution item may add a `glossaryTerm` disclosure field + GROQ projection if activation decides against a static default; that path requires `npx sanity schema deploy`. Everything else in this epic remains schema-free.
@@ -105,6 +107,65 @@ Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape intern
 - Phase 2 changes line colour, weight and token assignment only. It does not change list markup, DS List props or layout; those stay in Phase 1.
 - Phase 2 does not redesign the footer's layout or content, only its separators.
 - Phase 2 adds no tier or token that the inventory does not need. Raising a token value to fit one surface is not a fix; the hierarchy decides.
+
+## Start audit
+
+2026-11-25, `check-epic-doc.js --drift`: 52 rule files changed since 2026-06-16. Read: `.claude/rules/css-layout.md`, `tokens.md`, `storybook.md` (all touch Scope); skipped: the other 49 (Sanity, GROQ, write-pipeline, release and conventions files with no list or border content).
+
+| Finding | What the epic said | Fix |
+|---|---|---|
+| Dead path `apps/web/src/design-system/components/list/List.jsx` | Technical notes pointed there | Repointed to `packages/design-system/src/components/List/List.tsx` |
+| Priority drift | Header said Soon; board says High | Header now Next (High) |
+| Linear-era header | No GitHub link | Added `**GitHub Issue:** #56` |
+| Footer rule contrast | AC said 3:1 | Measured: `border-default` is about 1.1:1 on the footer canvas; decorative rules are outside WCAG 1.4.11, so the vspec sets the target |
+| `--st-color-footer-divider` (pink, 25%) is defined and unused by `Footer.module.css` | not mentioned | Phase 2 inventory item: adopt or retire |
+| `--st-dl-ledger-border` has no dark override | not mentioned | Phase 2 inventory item: it is #A3A3A3 in dark, brighter than any other dark rule |
+
+## Phase 1 audit table
+
+Read 2026-11-25. Fit is judged against the current `List` API (register rows: gutter tag, title, date, href).
+
+| Surface | File | Markup | Fit | Decision |
+|---|---|---|---|---|
+| `refList`/`refRow` | `GlossaryTermPage.jsx` `RefRows` | Chip (type label) + Link | Tag + title + href maps to a register row, but the 138px tag column and dotted rules do not fit a narrow ledger cell | Extend or keep: decide after the Phase 2 hierarchy fixes which rule the cell uses |
+| `sourcesList` | `GlossaryTermPage.jsx` | text, optional external `<a>` | No tag, external link | Keep raw until `List` accepts a tag-less row |
+| `seriesPartList` | `SeriesPage.jsx` | numbered `<ol>`: "Part N", type label, link | Tag = "Part N", title, href; type label has no slot | Extend (`tag` stays, add a secondary line) or keep |
+| `rolesList` | `PersonProfilePage.jsx` | plain strings | No link, no tag | Keep raw: a plain bulleted list |
+| `socialLinks` | `PersonProfilePage.jsx`, `Footer.jsx` | icon + text links | Icon layout | Keep raw: specialised layout |
+| `linkList` | `SitemapPage.jsx` | link + noindex badge + date | Title, date, href fit; badge has no slot | Extend (badge via `leading`/new slot) or keep |
+| `enumList` | `ContentModelsPage.jsx` | `<code>` value + title | Code context | Keep raw |
+| Glossary metadata ledger | `GlossaryTermPage.jsx:227` | `DescriptionList columns={2} ledger` | Label/value pairs, two columns; `List` is single-column rows | Keep as `DescriptionList`; it is the DS label/value primitive, and Phase 2 aligns its lines |
+
+Every "extend" and "keep" needs the Phase 2 line hierarchy first: the register's dotted `--st-color-border-medium` rule, `SitemapPage`'s solid `--st-color-border-default` rule and `seriesPartItem`'s `--st-color-border-subtle` rule are three different line styles for the same job. Migrating before the hierarchy is set would pick one by accident.
+
+## Phase 2 inventory (first pass)
+
+Command: `grep -rnE "border(-top|-bottom|-block|-inline)?(-color)?\s*:.*var\(--st-(color-border|dl-ledger|color-rule)[a-z-]*\)" apps/web/src packages/design-system/src --include='*.css'`, excluding `generated/` and the mirrored `apps/web/src/design-system/`. 115 declarations. Token resolution from `packages/design-system/src/styles/theme.pink-moon.css` and `tokens.css`.
+
+| Token | Light | Dark | Declarations |
+|---|---|---|---|
+| `--st-color-border-subtle` | #F2F2F3 | white 6% | 35 |
+| `--st-color-rule-accent` | #C6C6C8 | white 15% | 31 |
+| `--st-color-border-default` | #E4E4E5 | white 12% | 26 |
+| `--st-color-border-medium` | #C6C6C8 | white 20% | 13 |
+| `--st-color-border-wrap` | #A3A3A3 | white 12% | 4 |
+| `--st-dl-ledger-border` | #A3A3A3 | #A3A3A3 (no dark override) | 3 |
+| `--st-color-border-strong` | #525252 | white 35% | 3 |
+
+Surfaces in the lines the user named:
+
+| Surface | File | Token | Note |
+|---|---|---|---|
+| Site footer, 4 rules | `apps/web/src/components/Footer.module.css` lines 4, 17, 104, 196 | `border-default` | #E4E4E5 on #F2F2F3 canvas: the pale lines |
+| `DescriptionList` default | `DescriptionList.module.css` `.oneCol .item` | `border-default` | paler than ledger |
+| `DescriptionList` ledger | same file, `.ledger` rules | `dl-ledger-border` | #A3A3A3, darker; this is the default vs ledger difference |
+| `List` register | `List.module.css` | `border-medium` | bracket hairlines plus dotted row rule |
+| Sitemap rows | `SitemapPage.module.css` | `border-default` | solid, 4 declarations |
+| Series parts | `pages.module.css` `.seriesPartItem` | `border-subtle` | |
+| Taxonomy archive rows | `TaxonomyArchivePage.module.css` | `border-subtle` | 3 declarations |
+| Metadata card | `MetadataCard.module.css` | `rule-accent` | 3 declarations |
+
+Still to do in Phase 2: read each file's selector and width, assign tiers, and resolve the remaining 100 declarations by file (per-file counts are in the grep output above).
 
 ## Related
 
