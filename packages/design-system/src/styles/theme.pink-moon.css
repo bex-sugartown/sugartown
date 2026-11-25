@@ -213,6 +213,8 @@
   /* Borders */
   --st-color-border-default:    rgba(255, 255, 255, 0.12);
   --st-color-border-subtle:     rgba(255, 255, 255, 0.06);
+  /* Tier 1 section rule (SUG-177 Phase 2): white 20% via border-medium, so dark is not #A3A3A3 */
+  --st-color-rule-section:      var(--st-color-border-medium);
 
   /* Ledger: dark canvas + rule-accent */
   --st-color-canvas:            var(--st-color-midnight-800);     /* #141830 — elevated dark field */

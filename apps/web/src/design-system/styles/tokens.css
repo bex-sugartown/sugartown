@@ -428,7 +428,7 @@
   --st-color-text-muted: var(--st-color-softgrey-400);
   --st-color-text-brand: var(--st-color-pink-400);
   --st-color-border-wrap: var(--st-color-neutral-400);
-  --st-dl-ledger-border: var(--st-color-neutral-400);
+  --st-color-rule-section: var(--st-color-neutral-400);
   --st-color-canvas: var(--st-color-midnight-800);
   --st-color-surface-subtle: var(--st-color-softgrey-900);
   --st-shadow-elevation-float: var(--st-shadow-1);
@@ -559,6 +559,7 @@
   --st-color-focus: var(--st-color-pink);
   --st-color-bg-canvas: var(--st-color-midnight);
   --st-color-bg-midnight: var(--st-color-midnight);
+  --st-dl-ledger-border: var(--st-color-rule-section);
   --st-color-danger: var(--st-color-maroon);
   --st-page-gutter: var(--st-spacing-stack-lg);
   --st-status-active-fg: var(--st-color-seafoam);
