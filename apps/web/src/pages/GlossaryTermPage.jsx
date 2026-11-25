@@ -170,10 +170,13 @@ export default function GlossaryTermPage() {
           // (AI draft, human sign-off), so the value is the same for all terms.
           label: 'AI Attribution',
           value: (
-            <>
-              Drafted with Claude, edited and approved by Becky Alice Head. How Sugartown uses AI:
-              see the <Link to={AI_ETHICS_PATH}>AI Ethics policy</Link>.
-            </>
+            // Same muted, underlined-link treatment as the Sources row above (dark-mode contrast).
+            <ul className={styles.sourcesList}>
+              <li>
+                Drafted with Claude, edited and approved by Becky Alice Head. How Sugartown uses AI:
+                see the <Link to={AI_ETHICS_PATH}>AI Ethics policy</Link>.
+              </li>
+            </ul>
           ),
         },
       ].filter(Boolean)
