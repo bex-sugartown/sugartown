@@ -8,7 +8,7 @@
   flex-direction: column;
   gap: var(--st-space-half);
   padding-block: var(--st-space-2);
-  border-bottom: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 .oneCol .item:first-child {
@@ -39,10 +39,16 @@
    The last item spans full width only when it would otherwise dangle
    (odd item count); the row above's bottom rule doubles as its top rule.
    Collapses to stacked dividers below 768px.
-   One-column: stacked dividers pick up the darker ledger border. */
+   Line tiers (SUG-177 Phase 2): the ledger's top edge is the Tier 1 section
+   rule (--st-color-rule-section); every row and column rule is Tier 2
+   (--st-color-rule-accent), the same as the default list's dividers. */
 
-.oneCol.ledger .item {
-  border-bottom-color: var(--st-dl-ledger-border);
+.ledger {
+  border-top: 1px solid var(--st-color-rule-section);
+}
+
+.oneCol.ledger .item:first-child {
+  padding-top: var(--st-space-2);
 }
 
 .twoCol.ledger {
@@ -51,17 +57,12 @@
 
 .twoCol.ledger .item {
   padding-block: var(--st-space-3);
-  border-bottom: 1px solid var(--st-dl-ledger-border);
-}
-
-/* first row sits flush with the top */
-.twoCol.ledger .item:nth-child(-n + 2) {
-  padding-top: 0;
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 /* column divider — continuous because the row gap is 0 */
 .twoCol.ledger .item:nth-child(odd):not(:last-child) {
-  border-right: 1px solid var(--st-dl-ledger-border);
+  border-right: 1px solid var(--st-color-rule-accent);
   padding-right: var(--st-space-5);
 }
 
@@ -100,14 +101,9 @@
     padding-left: 0;
   }
 
-  /* second item is no longer in the first visual row */
-  .twoCol.ledger .item:nth-child(2) {
-    padding-top: var(--st-space-3);
-  }
-
   /* stacked: every row except the last keeps its divider */
   .twoCol.ledger .item:nth-child(odd):nth-last-child(2) {
-    border-bottom: 1px solid var(--st-dl-ledger-border);
+    border-bottom: 1px solid var(--st-color-rule-accent);
     padding-bottom: var(--st-space-3);
   }
 
