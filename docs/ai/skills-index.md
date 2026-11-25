@@ -77,8 +77,8 @@ versions are the planning/drafting layer for the same capability.
 | `sugartown-interview-prep` | Company name in interview context, "interview prep", "panel prep", "Q&A doc" | Builds interview prep artifacts: HTML case study and role-grouped Q&A doc. Evolves across rounds | 2026-03 |
 | `sugartown-interview-debrief` | "that interview was", "debrief", "how did I do", transcript shared | Post-interview debrief. Feeds back into case study and Q&A doc | 2026-03 |
 | `sugartown-interview-postmortem` | "rejected", "close out [company]", "post-mortem", process has ended | Close-out analysis after a process ends. Portable lessons, re-engagement plan if applicable | 2026-03 |
-| `glossy` | `/glossy`, "add a glossary term", "define X for the glossary" | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary | 2026-03 |
-| `switch` | `/switch` | Syncs the repo across machines (desktop/laptop). ARRIVE and LEAVE modes for safe handoff | 2026-03 |
+| `st-glossy` | `/st-glossy`, "add a glossary term", "define X for the glossary" | Two-gate flow: proposes a glossaryTerm for approval, then posts it live to sugartown.io/glossary | 2026-03 |
+| `st-switch` | `/st-switch` | Syncs the repo across machines (desktop/laptop). ARRIVE and LEAVE modes for safe handoff | 2026-03 |
 
 ---
 
