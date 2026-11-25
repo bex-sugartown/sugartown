@@ -128,9 +128,10 @@ export const TRUST_LINKS = {
  * path strings inline in Footer.jsx or any other component.
  */
 export const PRIVACY_PATH = '/privacy-and-terms'
+export const AI_ETHICS_PATH = '/ai-ethics'
 
 export const FOOTER_UTILITY_LINKS = [
-  { label: 'AI Ethics',            path: '/ai-ethics' },
+  { label: 'AI Ethics',            path: AI_ETHICS_PATH },
   { label: 'Privacy & Terms of Use', path: PRIVACY_PATH },
   { label: 'Sitemap',              path: '/sitemap' },
   { label: 'Contact',              path: '/contact' },

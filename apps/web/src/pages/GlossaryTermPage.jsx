@@ -10,7 +10,7 @@ import { useParams, Link } from 'react-router-dom'
 import { PortableText } from '@portabletext/react'
 import { detailPTComponents as sharedPTComponents } from '../lib/portableTextComponents'
 import { glossaryTermBySlugQuery } from '../lib/queries'
-import { getCanonicalPath } from '../lib/routes'
+import { getCanonicalPath, AI_ETHICS_PATH } from '../lib/routes'
 import { useSanityDoc } from '../lib/useSanityDoc'
 import { useSiteSettings } from '../lib/SiteSettingsContext'
 import { resolveSeo } from '../lib/seo'
@@ -163,6 +163,17 @@ export default function GlossaryTermPage() {
                 </li>
               ))}
             </ul>
+          ),
+        },
+        {
+          // SUG-177: static default disclosure. Every glossary term goes through /st-glossy
+          // (AI draft, human sign-off), so the value is the same for all terms.
+          label: 'AI Attribution',
+          value: (
+            <>
+              Drafted with Claude, edited and approved by Becky Alice Head. How Sugartown uses AI:
+              see the <Link to={AI_ETHICS_PATH}>AI Ethics policy</Link>.
+            </>
           ),
         },
       ].filter(Boolean)
