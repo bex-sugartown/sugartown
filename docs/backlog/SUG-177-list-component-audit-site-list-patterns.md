@@ -4,6 +4,8 @@
 **Status:** Backlog
 **Priority:** 🟣 Soon
 **Merge strategy:** (b) Single close-out — one long-lived branch, one mini-release at the end
+**Visual:** yes (Phase 2 ledger-line changes render differently; Phase 1 is a no-new-format migration)
+**Vspec:** `docs/drafts/SUG-177-ledger-lines.vspec.html` (Phase 2 only; not yet created)
 ---
 
 # SUG-177 — List component audit — surface all site list patterns for DS List integration
@@ -39,9 +41,25 @@ After this epic, every site list surface that maps cleanly to the DS List/ListIt
 - [ ] **Migrate the metadata ledger (GlossaryTermPage)** — `DescriptionList items columns={2} ledger` → DS List, per the audit's API-fit table; the Storybook `Components/List` story is the canonical usage reference; extend the primitive first if the label/value ledger fit requires it — layer: frontend + Storybook
 - [ ] **Document the glossary disclosure mechanism** — update `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 (glossary bullet) once the AI Attribution item ships; both are rule-defining files, so the Instruction & Rule File Write Gate fires at execution — layer: docs
 
+**Phase 2 — ledger-line audit (added 2026-11-25):**
+
+- [ ] **Inventory every ledger line on the site, footer first** — for each surface record: file, selector, border width, token, resolved colour in light and dark, and the component that draws it. Starting points: `apps/web/src/components/Footer.module.css` (lines 4, 17, 104, 196 use `--st-color-border-default`), `packages/design-system/src/components/DescriptionList/DescriptionList.module.css` (`--st-dl-ledger-border`), `packages/design-system/src/components/List/List.module.css` ("ledger nod" hairlines), `Card.module.css`, `FilterBar.module.css`, `apps/web/src/components/MetadataCard.module.css`, `TrustReportSection.jsx`, `ContentList.jsx`. Surfaces not yet read are found by grep at activation — layer: frontend (read-only)
+- [ ] **Explain the DescriptionList default vs ledger difference** — side by side in Storybook (`Components/DescriptionList`), naming every property that differs (colour token, weight, divider placement) — layer: Storybook (read-only)
+- [ ] **Audit `Pages/TaxonomyArchivePage` Row Layout (`/tags`)** and the other archive row surfaces against the same inventory — layer: frontend (read-only)
+- [ ] **Group similar line-drawing components and define the hierarchy** — a table of line tiers (for example page rule, section rule, row rule, cell rule) mapping each tier to one token, with every inventoried surface assigned a tier. Tier count and names are decided from the inventory, not before — layer: docs + tokens (proposal only)
+- [ ] **Vspec for the new hierarchy** — footer before/after in light and dark, plus one row each of DescriptionList default, DescriptionList ledger, List, and the `/tags` row layout, per `docs/conventions/vspec-template.html` — layer: docs (Phase 0 gate)
+- [ ] **Raise footer separation** — after vspec sign-off, change the footer lines to the tier token the hierarchy assigns, and align the other surfaces' tokens to their tiers where the vspec shows drift. Token changes go through `tokens/source/tokens.json` then `pnpm tokens:build` — layer: tokens + frontend + Storybook
+
+**Scope added 2026-11-25 (Phase 2, ledger-line audit):** the site's ledger lines look different from one surface to the next, and the site-wide footer's grey lines are too pale to separate its sections. Storybook shows `Components/DescriptionList` default vs ledger differing, and the same drift shows on `Pages/TaxonomyArchivePage` (Row Layout, `/tags`). This phase inventories every ledger line on the site (footer first), records which component and token draws each, groups similar components, and defines a hierarchy of line weights. The footer fix is the first change out of that hierarchy.
+
 ## Phases
 
-Single phase — audit → migrate confirmed surfaces → Storybook stories → close-out.
+| Phase | Scope | Gate |
+|---|---|---|
+| 1 | List audit → migrate confirmed surfaces → Storybook stories (the first 12 Scope items) | none |
+| 2 | Ledger-line audit → hierarchy → footer fix (the six items under "Phase 2" in Scope) | Phase 0 vspec sign-off before any CSS or token change |
+
+Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape internally: audit → migrate → stories → close-out.
 
 ## Acceptance criteria
 
@@ -55,6 +73,11 @@ Single phase — audit → migrate confirmed surfaces → Storybook stories → 
 - [ ] AI Attribution renders on `/glossary/:slug` term pages via the mechanism decided at activation; if the field mechanism is chosen, the schema is deployed and MCP writes succeed
 - [ ] `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 no longer claim glossary terms lack a disclosure mechanism (gated edit, approved diff)
 - [ ] GlossaryTermPage metadata ledger renders via DS List, or carries a written keep/extend rationale in the audit table
+- [ ] Phase 2: the inventory table lists every ledger line in `Footer.module.css` and every `--st-dl-ledger-border` and `--st-color-border-*` consumer found by `grep -rn "ledger\|st-color-border" apps/web/src packages/design-system/src`, each with token, resolved colour (light and dark) and owning component
+- [ ] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
+- [ ] Phase 2: vspec signed off by Bex before any CSS or token change
+- [ ] Phase 2: footer separators measure at least 3:1 against the footer background in light and dark (`pnpm validate:contrast` passes, no new allowlist entries)
+- [ ] Phase 2: `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm tokens:build` produce no diff or errors; Chromatic build approved or deferral annotated; "Visual QA approved" received
 
 ## Human QA Walkthrough — example local pages
 
@@ -79,11 +102,15 @@ Single phase — audit → migrate confirmed surfaces → Storybook stories → 
 - No changes to ContentList adapter or archive-mode list rendering.
 - No Sanity schema or GROQ query changes, **except** the AI Attribution carve-out above (a `glossaryTerm` disclosure field + projection, only if activation chooses the field mechanism over a static default).
 - No migration of FilterBar internal `<ul>` list — FilterBar has its own controlled rendering.
+- Phase 2 changes line colour, weight and token assignment only. It does not change list markup, DS List props or layout; those stay in Phase 1.
+- Phase 2 does not redesign the footer's layout or content, only its separators.
+- Phase 2 adds no tier or token that the inventory does not need. Raising a token value to fit one surface is not a fix; the hierarchy decides.
 
 ## Related
 
 - **Linear:** [SUG-177](https://linear.app/sugartown/issue/SUG-177/list-component-audit-surface-all-site-list-patterns-for-ds-list)
 - **Absorbed:** SUG-269 (AI Attribution item + DescriptionList→List migration) — created and cancelled 2026-08-05; its scope is carried in this doc, not tracked separately
 - **Upstream:** SUG-167 (List/ListItem DS primitive, shipped v0.26.9) — prerequisite
+- **Phase 2 trigger:** Storybook `Components/DescriptionList` (default vs ledger) and `Pages/TaxonomyArchivePage` Row Layout, observed 2026-11-25
 - **Adjacent:** SUG-228 item 6 flags the same page's "Used In" list as off-pattern — resolve consistently with this epic's migration, not separately
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
