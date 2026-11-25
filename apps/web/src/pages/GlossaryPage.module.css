@@ -64,7 +64,7 @@
   color: var(--st-color-text-muted);
   line-height: 1.65;
   padding: 0.3rem 0 0.9rem;
-  border-bottom: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-color-rule-accent);
   margin: 0;
 }
 

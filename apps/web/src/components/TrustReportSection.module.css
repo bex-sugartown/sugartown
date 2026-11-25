@@ -44,7 +44,7 @@
   display: flex;
   gap: 1.5rem;
   padding: var(--st-space-2) 0 0;
-  border-top: 1px solid var(--st-color-border-subtle);
+  border-top: 1px solid var(--st-color-rule-accent);
   margin-top: var(--st-space-3);
 }
 

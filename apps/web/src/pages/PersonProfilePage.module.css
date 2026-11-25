@@ -19,7 +19,7 @@
 /* ── Folio section ───────────────────────────────────────────────── */
 .profileFolio {
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
+  border-bottom: 1px solid var(--st-color-rule-section);
   margin-bottom: 0;
 }
 
@@ -81,7 +81,7 @@
 .rolesSection {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 .rolesHead {
@@ -105,7 +105,7 @@
   font-size: 0.9375rem;
   color: var(--st-color-text-primary);
   padding: 0.4rem 0 0.4rem 1rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
+  border-bottom: 1px solid var(--st-color-rule-accent);
   position: relative;
   line-height: 1.4;
 }
@@ -131,7 +131,7 @@
 .expertiseSection {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-  border-bottom: 1px solid var(--st-color-border-subtle);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 .expertiseHead {

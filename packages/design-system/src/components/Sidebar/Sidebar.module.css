@@ -126,11 +126,11 @@
   /* Border placement */
   .bpLg.sideRight {
     padding-left: 1rem;
-    border-left: 1px solid var(--st-color-border-subtle);
+    border-left: 1px solid var(--st-color-rule-accent);
   }
   .bpLg.sideLeft {
     padding-right: 1rem;
-    border-right: 1px solid var(--st-color-border-subtle);
+    border-right: 1px solid var(--st-color-rule-accent);
   }
 
   /* Sticky inner panel */
@@ -178,11 +178,11 @@
   /* Border placement */
   .bpMd.sideRight {
     padding-left: 1rem;
-    border-left: 1px solid var(--st-color-border-subtle);
+    border-left: 1px solid var(--st-color-rule-accent);
   }
   .bpMd.sideLeft {
     padding-right: 1rem;
-    border-right: 1px solid var(--st-color-border-subtle);
+    border-right: 1px solid var(--st-color-rule-accent);
   }
 
   /* Sticky inner panel */

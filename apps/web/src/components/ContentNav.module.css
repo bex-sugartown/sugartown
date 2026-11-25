@@ -9,7 +9,7 @@
   gap: var(--st-space-4);
   margin-top: var(--st-space-7);
   padding-top: var(--st-space-5);
-  border-top: 1px solid var(--st-color-border-subtle);
+  border-top: 1px solid var(--st-color-rule-accent);
 }
 
 /* ── Each direction slot ── */

@@ -17,7 +17,7 @@
 .header {
   margin-bottom: 2.5rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-color-rule-section);
 }
 
 .title {
@@ -62,7 +62,7 @@
   color: var(--st-color-brand-primary);
   margin: 0 0 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 1px solid var(--st-color-border-default);
+  border-bottom: 1px solid var(--st-color-rule-accent);
 }
 
 .groupCount {
