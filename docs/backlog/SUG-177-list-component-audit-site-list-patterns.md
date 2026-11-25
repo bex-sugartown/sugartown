@@ -46,11 +46,11 @@ After this epic, every site list surface that maps cleanly to the DS List/ListIt
 **Phase 2 — ledger-line audit (added 2026-11-25):**
 
 - [ ] **Inventory every ledger line on the site, footer first** — for each surface record: file, selector, border width, token, resolved colour in light and dark, and the component that draws it. Starting points: `apps/web/src/components/Footer.module.css` (lines 4, 17, 104, 196 use `--st-color-border-default`), `packages/design-system/src/components/DescriptionList/DescriptionList.module.css` (`--st-dl-ledger-border`), `packages/design-system/src/components/List/List.module.css` ("ledger nod" hairlines), `Card.module.css`, `FilterBar.module.css`, `apps/web/src/components/MetadataCard.module.css`, `TrustReportSection.jsx`, `ContentList.jsx`. Surfaces not yet read are found by grep at activation — layer: frontend (read-only)
-- [ ] **Explain the DescriptionList default vs ledger difference** — side by side in Storybook (`Components/DescriptionList`), naming every property that differs (colour token, weight, divider placement) — layer: Storybook (read-only)
+- [x] **Explain the DescriptionList default vs ledger difference** — side by side in Storybook (`Components/DescriptionList`), naming every property that differs (colour token, weight, divider placement) — layer: Storybook (read-only)
 - [ ] **Audit `Pages/TaxonomyArchivePage` Row Layout (`/tags`)** and the other archive row surfaces against the same inventory — layer: frontend (read-only)
-- [ ] **Group similar line-drawing components and define the hierarchy** — a table of line tiers (for example page rule, section rule, row rule, cell rule) mapping each tier to one token, with every inventoried surface assigned a tier. Tier count and names are decided from the inventory, not before — layer: docs + tokens (proposal only)
-- [ ] **Vspec for the new hierarchy** — footer before/after in light and dark, plus one row each of DescriptionList default, DescriptionList ledger, List, and the `/tags` row layout, per `docs/conventions/vspec-template.html` — layer: docs (Phase 0 gate)
-- [ ] **Raise footer separation** — after vspec sign-off, change the footer lines to the tier token the hierarchy assigns, and align the other surfaces' tokens to their tiers where the vspec shows drift. Token changes go through `tokens/source/tokens.json` then `pnpm tokens:build` — layer: tokens + frontend + Storybook
+- [x] **Group similar line-drawing components and define the hierarchy** — a table of line tiers (for example page rule, section rule, row rule, cell rule) mapping each tier to one token, with every inventoried surface assigned a tier. Tier count and names are decided from the inventory, not before — layer: docs + tokens (proposal only)
+- [x] **Vspec for the new hierarchy** — footer before/after in light and dark, plus one row each of DescriptionList default, DescriptionList ledger, List, and the `/tags` row layout, per `docs/conventions/vspec-template.html` — layer: docs (Phase 0 gate)
+- [x] **Raise footer separation** — after vspec sign-off, change the footer lines to the tier token the hierarchy assigns, and align the other surfaces' tokens to their tiers where the vspec shows drift. Token changes go through `tokens/source/tokens.json` then `pnpm tokens:build` — layer: tokens + frontend + Storybook
 
 **Scope added 2026-11-25 (Phase 2, ledger-line audit):** the site's ledger lines look different from one surface to the next, and the site-wide footer's grey lines are too pale to separate its sections. Storybook shows `Components/DescriptionList` default vs ledger differing, and the same drift shows on `Pages/TaxonomyArchivePage` (Row Layout, `/tags`). This phase inventories every ledger line on the site (footer first), records which component and token draws each, groups similar components, and defines a hierarchy of line weights. The footer fix is the first change out of that hierarchy.
 
@@ -76,8 +76,8 @@ Phase 2 starts after Phase 1 merges. Phase 1 keeps its single-phase shape intern
 - [ ] `docs/glossy-prompt.md` and `docs/write-pipeline-prompt.md` §5 no longer claim glossary terms lack a disclosure mechanism (gated edit, approved diff)
 - [ ] GlossaryTermPage metadata ledger renders via DS List, or carries a written keep/extend rationale in the audit table
 - [ ] Phase 2: the inventory table lists every ledger line in `Footer.module.css` and every `--st-dl-ledger-border` and `--st-color-border-*` consumer found by `grep -rn "ledger\|st-color-border" apps/web/src packages/design-system/src`, each with token, resolved colour (light and dark) and owning component
-- [ ] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
-- [ ] Phase 2: vspec signed off by Bex before any CSS or token change
+- [~] Phase 2: the hierarchy table assigns every inventoried surface to exactly one tier, and each tier maps to one token
+- [x] Phase 2: vspec signed off by Bex before any CSS or token change (approved as drawn 2026-11-25)
 - [ ] Phase 2: footer separators reach the contrast the vspec states for the footer tier, measured against the footer background (`--st-color-bg-canvas`, #F2F2F3 light) in light and dark. Today's `--st-color-border-default` (#E4E4E5) is about 1.1:1 on #F2F2F3. The footer rules are decorative, so WCAG 1.4.11's 3:1 does not bind; the vspec picks the target. `pnpm validate:contrast` passes with no new allowlist entries
 - [ ] Phase 2: `pnpm validate:tokens`, `pnpm validate:style-mirror` and `pnpm tokens:build` produce no diff or errors; Chromatic build approved or deferral annotated; "Visual QA approved" received
 
@@ -166,6 +166,24 @@ Surfaces in the lines the user named:
 | Metadata card | `MetadataCard.module.css` | `rule-accent` | 3 declarations |
 
 Still to do in Phase 2: read each file's selector and width, assign tiers, and resolve the remaining 100 declarations by file (per-file counts are in the grep output above).
+
+## Phase 2 hierarchy (implemented 2026-11-25, commits 5bbcdfd9 and 5f70df25)
+
+| Tier | Token | Light | Dark | Applied to |
+|---|---|---|---|---|
+| 1 Section rule | `--st-color-rule-section` (new; `--st-dl-ledger-border` now aliases it) | #A3A3A3 | white 20% | footer top edge and nav divider; `DescriptionList` ledger top edge; `List` register brackets and 2px header rule; taxonomy `.itemList` top |
+| 2 Row rule | `--st-color-rule-accent` | #C6C6C8 | white 15% | footer legal-links and copyright rules; `DescriptionList` default and ledger rows and column rule; `List` dotted rows and vertical fences; Sitemap rows; Series parts; taxonomy rows |
+| 3 Hairline | `--st-color-border-subtle` | #F2F2F3 | white 6% | unchanged; inside white surfaces only |
+
+**Corrections to the vspec found while implementing:**
+
+- `--st-color-footer-divider` is **not** retired. `Card.module.css:496` reads it (the Card footer's dashed rule), so it is a card token, not a site-footer token. Decision 3 in the vspec is withdrawn.
+- `--st-color-border-wrap` is left alone. Its dark value is deliberately `border-default` (theme comment, tile dividers), and changing it moves every table and tile wrap in dark, which the vspec did not draw.
+- `DescriptionList` ledger had no top edge before. It gets a Tier 1 top edge, drawn in the vspec, and its first row gained top padding to match.
+
+**Not yet assigned a tier** (about 90 of 115 declarations, mostly component borders and page rules): Sitemap header and section-heading underlines (`SitemapPage.module.css` lines 20, 65), `PersonProfilePage`, `GlossaryPage`, `PageSections`, `PageSidebar`, `SiteGraphPage`, `FilterBar`, `Sidebar`, `Accordion`, `Table`, `Card`. The `List` row hover repaint and `FilterBar` rules were not re-read. These follow the same hierarchy in a later pass.
+
+**Verified 2026-11-25:** `validate:tokens`, `validate:tokens --strict-colors`, `validate:style-mirror`, `validate:contrast` and `validate:css-names` pass. Computed colours match the vspec in both themes (footer, glossary ledger, articles list view). Chromatic and Visual QA are still open.
 
 ## Related
 
