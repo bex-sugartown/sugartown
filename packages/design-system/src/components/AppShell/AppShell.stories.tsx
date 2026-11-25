@@ -5,14 +5,13 @@ import { AppShell } from './AppShell';
 const meta: Meta<typeof AppShell> = {
   title: 'Foundations/Layout/AppShell',
   component: AppShell,
-  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen' },
 };
 export default meta;
 type Story = StoryObj<typeof AppShell>;
 
 const Strip = ({ children, bg, h }: { children: React.ReactNode; bg?: string; h?: string }) => (
-  <div style={{ background: bg ?? 'var(--st-color-brand-primary)', color: '#fff', padding: '12px 16px', height: h, fontFamily: 'var(--st-font-family-mono)', fontSize: '12px', boxSizing: 'border-box' }}>
+  <div style={{ background: bg ?? 'var(--st-color-pink-600)', color: '#fff', padding: '12px 16px', height: h, fontFamily: 'var(--st-font-family-mono)', fontSize: '12px', boxSizing: 'border-box' }}>
     {children}
   </div>
 );

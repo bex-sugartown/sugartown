@@ -37,7 +37,7 @@ export function DocSection({ n, title, priority, showBadge = false, children }: 
         marginBottom: 24,
       }}>
         <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-          <span style={monoLabel({ color: 'var(--st-color-pink)', letterSpacing: '0.06em' })}>
+          <span style={monoLabel({ color: 'var(--st-color-text-brand)', letterSpacing: '0.06em' })}>
             {n.padStart(2, '0')}
           </span>
           <span style={monoLabel({ color: 'var(--st-color-text-default)', letterSpacing: 'var(--st-label-tracking)', textTransform: 'uppercase' })}>
@@ -70,7 +70,7 @@ export function OverviewItem({ children }: { children: React.ReactNode }) {
       borderBottom: '1px solid var(--st-color-neutral-300)',
       fontSize: '0.9375rem', lineHeight: 1.55, color: 'var(--st-color-text-primary)',
     }}>
-      <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', color: 'var(--st-color-pink)', marginTop: 2, flexShrink: 0 }}>→</span>
+      <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', color: 'var(--st-color-text-brand)', marginTop: 2, flexShrink: 0 }}>→</span>
       <span>{children}</span>
     </li>
   );
@@ -156,7 +156,7 @@ export function DontItem({ children }: { children: React.ReactNode }) {
       borderBottom: '1px solid var(--st-color-neutral-300)',
       fontSize: '0.875rem', lineHeight: 1.5, color: 'var(--st-color-text-primary)',
     }}>
-      <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', fontWeight: 700, color: 'var(--st-color-pink)', marginTop: 1, flexShrink: 0 }}>✗</span>
+      <span style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '0.7rem', fontWeight: 700, color: 'var(--st-color-text-brand)', marginTop: 1, flexShrink: 0 }}>✗</span>
       <span>{children}</span>
     </li>
   );

@@ -30,7 +30,7 @@
   align-items: center;
   justify-content: center;
   height: 520px;
-  color: var(--st-label-color);
+  color: var(--st-color-softgrey-400); /* ST-270: the panel is dark in both themes; the themed label colour was 2.23:1 on it in light */
 }
 
 /* ── Legend ──────────────────────────────────────────────── */

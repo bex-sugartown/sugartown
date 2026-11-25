@@ -73,8 +73,6 @@ const meta: Meta<typeof FilterBar> = {
     onClearAll: { table: { disable: true } },
   },
   parameters: {
-    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-    a11y: { test: 'todo' },
     chromatic: { disableSnapshot: false },
     layout: 'padded',
   },
@@ -196,7 +194,7 @@ export const InDrawer: Story = {
             style={{
               flex: 2,
               padding: '8px 12px',
-              background: 'var(--st-color-brand-primary, #e91e8c)',
+              background: 'var(--st-color-pink-600)',
               border: 'none',
               color: '#fff',
               cursor: 'pointer',

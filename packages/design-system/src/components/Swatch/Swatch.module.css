@@ -10,7 +10,7 @@
   letter-spacing: 0.08em;
   text-transform: uppercase;
   user-select: none;
-  color: var(--st-color-text-muted);
+  color: var(--st-color-text-primary);
 }
 
 .dot {

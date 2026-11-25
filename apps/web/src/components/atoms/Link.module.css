@@ -1,5 +1,5 @@
 .link {
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-text-brand);
   text-decoration: none;
   transition: opacity var(--st-transition-fast);
 }

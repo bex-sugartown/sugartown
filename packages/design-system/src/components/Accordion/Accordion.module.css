@@ -131,7 +131,7 @@
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--st-color-pink);
+  color: var(--st-color-text-brand);
   padding-top: 0.25rem;
   line-height: 1;
 }

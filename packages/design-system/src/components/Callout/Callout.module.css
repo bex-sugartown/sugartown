@@ -76,15 +76,17 @@
 
 /* ── Light theme — accent matches variant; info is pink ──────────────────── */
 [data-theme="light-pink-moon"] .info    { --_callout-accent: var(--st-color-pink);       }
-[data-theme="light-pink-moon"] .tip     { --_callout-accent: var(--st-color-violet);     }
-[data-theme="light-pink-moon"] .warn    { --_callout-accent: var(--st-color-orange-400); }
+[data-theme="light-pink-moon"] .tip     { --_callout-accent: var(--st-color-violet-700); }
+[data-theme="light-pink-moon"] .warn    { --_callout-accent: var(--st-color-orange-800); }
 [data-theme="light-pink-moon"] .danger  { --_callout-accent: var(--st-color-maroon);     }
+/* ST-270: pink on the neutral-200 label strip is 2.84:1; the folio number takes the brand text colour (maroon, 4.82:1). The 2px top rule stays pink. */
+[data-theme="light-pink-moon"] .info .number { color: var(--st-color-text-brand); }
 
 /* ── Variant accents (dark default) ──────────────────────────────────────── */
 .info    { --_callout-accent: var(--st-color-pink);       }
 .tip     { --_callout-accent: var(--st-color-violet);     }
 .warn    { --_callout-accent: var(--st-color-orange-400); }
-.danger  { --_callout-accent: var(--st-color-maroon);     }
+.danger  { --_callout-accent: var(--st-color-maroon-300); }
 
 /* ── Banner variant — single-row strip, no label column ──────────────────── */
 .banner {

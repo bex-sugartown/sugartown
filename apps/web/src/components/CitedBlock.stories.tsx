@@ -7,8 +7,7 @@ const meta: Meta<typeof PageSections> = {
   title: 'Patterns/CitedBlock',
   component: PageSections,
   decorators: [(Story) => <MemoryRouter><Story /></MemoryRouter>],
-  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-  parameters: { a11y: { test: 'todo' }, chromatic: { disableSnapshot: false } },
+  parameters: { chromatic: { disableSnapshot: false } },
 };
 
 export default meta;

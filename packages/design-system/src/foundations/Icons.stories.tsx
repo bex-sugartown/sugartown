@@ -40,8 +40,6 @@ import {
 const meta: Meta = {
   title: 'Foundations/Icons',
   parameters: {
-    // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-    a11y: { test: 'todo' },
     layout: 'padded',
     chromatic: { disableSnapshot: false },
   },
@@ -87,7 +85,7 @@ const badge: React.CSSProperties = {
   fontFamily: 'var(--st-font-family-mono)',
   fontSize: '8px',
   fontWeight: 600,
-  color: 'var(--st-color-accent)',
+  color: 'var(--st-color-text-brand)',
   letterSpacing: '0.04em',
 }
 
@@ -126,9 +124,9 @@ export const Lucide = {
   render: () => (
     <div>
       <p style={attr}>
-        MIT · <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--st-color-accent)' }}>lucide.dev</a>
+        MIT · <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--st-color-text-brand)' }}>lucide.dev</a>
         {' '}· <code style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '11px' }}>lucide-react</code>
-        {' '}· <strong style={{ color: 'var(--st-color-accent)' }}>★ deployed</strong> = currently imported in production
+        {' '}· <strong style={{ color: 'var(--st-color-text-brand)' }}>★ deployed</strong> = currently imported in production
       </p>
 
       <p style={sectionLabel}>UI / navigation</p>
@@ -176,9 +174,9 @@ export const SimpleIconsBrands = {
   render: () => (
     <div>
       <p style={attr}>
-        CC0 1.0 · <a href="https://simpleicons.org" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--st-color-accent)' }}>simpleicons.org</a>
+        CC0 1.0 · <a href="https://simpleicons.org" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--st-color-text-brand)' }}>simpleicons.org</a>
         {' '}· <code style={{ fontFamily: 'var(--st-font-family-mono)', fontSize: '11px' }}>@icons-pack/react-simple-icons</code>
-        {' '}· all shown below are <strong style={{ color: 'var(--st-color-accent)' }}>★ deployed</strong> in SocialLink / PersonProfilePage
+        {' '}· all shown below are <strong style={{ color: 'var(--st-color-text-brand)' }}>★ deployed</strong> in SocialLink / PersonProfilePage
       </p>
 
       <p style={sectionLabel}>Social / platform</p>

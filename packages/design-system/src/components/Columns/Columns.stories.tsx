@@ -5,14 +5,13 @@ import { Columns } from './Columns';
 const meta: Meta<typeof Columns> = {
   title: 'Foundations/Layout/Columns',
   component: Columns,
-  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
+  parameters: { layout: 'padded' },
 };
 export default meta;
 type Story = StoryObj<typeof Columns>;
 
 const Cell = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ background: 'var(--st-color-brand-primary)', color: '#fff', padding: '24px 16px', fontFamily: 'var(--st-font-family-mono)', fontSize: '12px', textAlign: 'center' }}>
+  <div style={{ background: 'var(--st-color-pink-600)', color: '#fff', padding: '24px 16px', fontFamily: 'var(--st-font-family-mono)', fontSize: '12px', textAlign: 'center' }}>
     {children}
   </div>
 );

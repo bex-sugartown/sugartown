@@ -15,8 +15,7 @@ const meta: Meta<typeof SectionLabel> = {
   title: 'Components/SectionLabel',
   component: SectionLabel,
   tags: ['autodocs'],
-  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'padded' },
+  parameters: { layout: 'padded' },
   decorators: [
     (Story) => <div style={{ maxWidth: '720px' }}><Story /></div>,
   ],

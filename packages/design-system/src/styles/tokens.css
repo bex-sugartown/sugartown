@@ -92,6 +92,7 @@
   --st-color-violet-400: #c4b5fd;
   --st-color-violet-500: #a78bfa;
   --st-color-violet-600: #7c3aed;
+  --st-color-violet-700: #6d28d9;
   --st-color-amber-400: #fcd34d;
   --st-color-amber-500: #fbba24;
   --st-color-amber-600: #d97706;
@@ -100,6 +101,7 @@
   --st-color-orange-400: #fb923c;
   --st-color-orange-500: #f97316;
   --st-color-orange-700: #c2410c;
+  --st-color-orange-800: #9a3412;
   --st-color-sky-400: #7ec8f5;
   --st-color-sky-700: #0369a1;
   --st-color-blue-500: #0066cc;
@@ -286,7 +288,7 @@
   --st-color-pt-divider-dark-subtle: rgba(255, 36, 125, 0.15);
   --st-code-color-default: #f8f8f2;
   --st-code-color-comment: rgba(209, 255, 29, 0.50);
-  --st-code-color-meta-dim: rgba(255, 255, 255, 0.40);
+  --st-code-color-meta-dim: rgba(255, 255, 255, 0.60);
   --st-code-color-meta-mid: rgba(255, 255, 255, 0.60);
   --st-code-color-line-num: rgba(255, 255, 255, 0.45);
   --st-code-color-line-border: rgba(255, 255, 255, 0.15);
@@ -560,6 +562,7 @@
   --st-color-bg-canvas: var(--st-color-midnight);
   --st-color-bg-midnight: var(--st-color-midnight);
   --st-dl-ledger-border: var(--st-color-rule-section);
+  --st-color-link-default: var(--st-color-text-brand);
   --st-color-danger: var(--st-color-maroon);
   --st-page-gutter: var(--st-spacing-stack-lg);
   --st-status-active-fg: var(--st-color-seafoam);
@@ -612,8 +615,8 @@
   --st-code-inline-text: var(--st-color-text-brand);
   --st-glossary-annotation-color: var(--st-color-pink); /** Inline glossary-term annotation trigger underline (ST-151: the dotted rule only; text uses --st-glossary-annotation-fg). Pink in both themes. */
   --st-citation-color: var(--st-color-text-secondary);
-  --st-citation-index-color: var(--st-color-pink);
-  --st-citation-marker-color: var(--st-color-pink);
+  --st-citation-index-color: var(--st-color-text-brand);
+  --st-citation-marker-color: var(--st-color-text-brand);
   --st-media-radius: var(--st-radius-media);
   --st-media-duotone-pink: var(--st-color-pink);
   --st-media-duotone-seafoam: var(--st-color-seafoam);
@@ -628,9 +631,9 @@
   --st-segmented-active-fg: var(--st-color-text-default);
   --st-pri-high: var(--st-color-pink);
   --st-breadcrumb-link-color: var(--st-color-text-muted);
+  --st-breadcrumb-current-color: var(--st-color-text-brand);
   --st-breadcrumb-sep-color: var(--st-color-text-muted);
   --st-glossary-annotation-fg: var(--st-color-text-default);
-  --st-color-link-default: var(--st-color-brand-primary);
   --st-color-link-hover: var(--st-color-brand-secondary);
   --st-chip-rubric-fg: var(--st-chip-fg);
   --st-button-bg: var(--st-color-accent-primary);
@@ -646,5 +649,4 @@
   --st-color-bg-void: var(--st-color-bg-midnight);
   --st-focus: var(--st-color-focus);
   --st-focus-ring: 2px solid var(--st-color-focus);
-  --st-breadcrumb-current-color: var(--st-color-brand-primary);
 }

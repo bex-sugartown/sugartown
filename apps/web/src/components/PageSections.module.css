@@ -882,7 +882,7 @@
   font-family: var(--st-font-family-mono);
   font-size: 0.6rem;
   letter-spacing: 0.07em;
-  color: var(--st-color-brand-primary);
+  color: var(--st-color-text-brand);
   text-decoration: none;
   border-bottom: 1px dotted var(--st-color-brand-primary);
 }

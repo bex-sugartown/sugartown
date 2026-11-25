@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './Swatch.module.css';
 
 export interface SwatchProps {
-  /** CSS color value for the swatch dot and label. null = outlined empty square. */
+  /** CSS color value for the swatch dot. The label stays on the text colour so it keeps 4.5:1 (ST-270). null = outlined empty square. */
   color: string | null;
   /** Text label rendered beside the swatch. */
   label: string;
@@ -19,7 +19,7 @@ export const Swatch: React.FC<SwatchProps> = ({ color, label, size = 8, classNam
   }
 
   return (
-    <span className={[styles.swatch, className].filter(Boolean).join(' ')} style={color ? { color } : undefined}>
+    <span className={[styles.swatch, className].filter(Boolean).join(' ')}>
       <span
         className={color ? styles.dot : `${styles.dot} ${styles.dotOutlined}`}
         style={dotStyle}

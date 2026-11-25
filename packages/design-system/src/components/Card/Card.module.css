@@ -522,6 +522,10 @@
   line-height: 1.4;
 }
 
+.nextStep {
+  color: var(--st-color-text-secondary); /* ST-270: text-muted was 4.11:1 on the neutral-200 label strip */
+}
+
 .nextStepLabel,
 .aiToolLabel {
   font-weight: 700;

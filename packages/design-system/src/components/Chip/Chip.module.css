@@ -36,7 +36,7 @@
 
   background: var(--st-color-white);
   border: 1px solid var(--_chip-color);
-  color: var(--_chip-color);
+  color: var(--_chip-text, var(--_chip-color));
 
   user-select: none;
   text-decoration: none !important; /* prevent global link underline */
@@ -104,6 +104,14 @@
   font-size: clamp(9px, 3.2cqw, 14px);
   padding: 0.35em 0.6em;
   min-height: 0;
+}
+
+/* ST-270: on light, hue text is mixed toward ink so any colorHex (gold #d4a853 was 2.2:1 on white) keeps 4.5:1. Border and dot keep the hue. */
+:global([data-theme="light-pink-moon"]) .chip {
+  --_chip-text: color-mix(in srgb, var(--_chip-color) 50%, var(--st-color-ink));
+}
+:global([data-theme="light-pink-moon"]) .tinted:not(.active) {
+  color: var(--_chip-text);
 }
 
 /* ── Named color presets ────────────────────────────────
@@ -208,7 +216,7 @@
 :global([data-theme="dark-pink-moon"]) .tinted:not(.active) {
   background: color-mix(in srgb, var(--_chip-color) 5%, color-mix(in srgb, white 5%, var(--st-color-canvas)));
   border-color: var(--_chip-color);
-  color: var(--_chip-color);
+  color: color-mix(in srgb, var(--_chip-color) 75%, var(--st-color-text-primary)); /* ST-270: pink was 4.07:1 on the tinted fill */
 }
 .tinted.interactive:hover {
   background: color-mix(in srgb, var(--_chip-color) 25%, var(--st-color-canvas));

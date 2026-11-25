@@ -4,15 +4,13 @@ import { Stack } from './Stack';
 
 const meta: Meta<typeof Stack> = {
   title: 'Foundations/Layout/Stack',
-  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-  parameters: { a11y: { test: 'todo' } },
   component: Stack,
 };
 export default meta;
 type Story = StoryObj<typeof Stack>;
 
 const Box = ({ children }: { children: React.ReactNode }) => (
-  <div style={{ background: 'var(--st-color-brand-primary)', color: '#fff', padding: '12px 20px', fontFamily: 'var(--st-font-family-mono)', fontSize: '12px', whiteSpace: 'nowrap' }}>
+  <div style={{ background: 'var(--st-color-pink-600)', color: '#fff', padding: '12px 20px', fontFamily: 'var(--st-font-family-mono)', fontSize: '12px', whiteSpace: 'nowrap' }}>
     {children}
   </div>
 );

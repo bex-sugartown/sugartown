@@ -5,14 +5,13 @@ import { Page } from './Page';
 const meta: Meta<typeof Page> = {
   title: 'Foundations/Layout/Page',
   component: Page,
-  // #270: known color-contrast failure, reported by the a11y gate (#50) without failing it. Remove when #270 is fixed.
-  parameters: { a11y: { test: 'todo' }, layout: 'fullscreen' },
+  parameters: { layout: 'fullscreen' },
 };
 export default meta;
 type Story = StoryObj<typeof Page>;
 
 const Strip = ({ children, bg }: { children: React.ReactNode; bg?: string }) => (
-  <div style={{ background: bg ?? 'var(--st-color-brand-primary)', color: '#fff', padding: '12px 16px', fontFamily: 'var(--st-font-family-mono)', fontSize: '12px' }}>
+  <div style={{ background: bg ?? 'var(--st-color-pink-600)', color: '#fff', padding: '12px 16px', fontFamily: 'var(--st-font-family-mono)', fontSize: '12px' }}>
     {children}
   </div>
 );

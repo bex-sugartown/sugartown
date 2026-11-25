@@ -22,7 +22,7 @@
   font-size: var(--st-label-size);
   font-weight: var(--st-label-weight);
   letter-spacing: 0.06em;
-  color: var(--st-color-pink);
+  color: var(--st-color-text-brand);
   line-height: 1;
 }
 
