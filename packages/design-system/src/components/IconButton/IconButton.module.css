@@ -31,18 +31,22 @@
 .square { border-radius: var(--st-radius-xs); }
 .circle { border-radius: var(--st-radius-full); }
 
-.iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
-  color: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-  background-color: var(--st-icon-button-bg);
-  transform: translateY(-1px);
-  box-shadow: var(--st-state-hover-glow);
+@media (hover: hover) {
+  .iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
+    color: var(--st-color-brand-primary);
+    border-color: var(--st-color-brand-primary);
+    background-color: var(--st-icon-button-bg);
+    transform: translateY(-1px);
+    box-shadow: var(--st-state-hover-glow);
+  }
 }
 
 /* No motion on hover for visitors who ask for less */
 @media (prefers-reduced-motion: reduce) {
-  .iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
-    transform: none;
+  @media (hover: hover) {
+    .iconButton:hover:not(:disabled):not([aria-disabled="true"]) {
+      transform: none;
+    }
   }
 }
 
@@ -53,11 +57,13 @@
   color: var(--st-color-bg-canvas);
 }
 
-.iconButton.iconButtonActive:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--st-color-text-default);
-  border-color: var(--st-color-pink);
-  color: var(--st-color-bg-canvas);
-  transform: none;
+@media (hover: hover) {
+  .iconButton.iconButtonActive:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--st-color-text-default);
+    border-color: var(--st-color-pink);
+    color: var(--st-color-bg-canvas);
+    transform: none;
+  }
 }
 
 /* Pressed (ST-251): pink border plus the pressed shade, label in text-default */
@@ -87,9 +93,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .iconButton:hover:not(:disabled) {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .iconButton:hover:not(:disabled) {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .iconButton:active:not(:disabled) {
     outline: 3px solid Highlight;

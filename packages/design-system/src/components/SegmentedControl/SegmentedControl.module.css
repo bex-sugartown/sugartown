@@ -49,10 +49,12 @@
   margin-left: -1px;
 }
 
-.pillSegment:hover {
-  border-color: var(--st-color-brand-primary);
-  box-shadow: var(--st-state-hover-glow);
-  z-index: 1;
+@media (hover: hover) {
+  .pillSegment:hover {
+    border-color: var(--st-color-brand-primary);
+    box-shadow: var(--st-state-hover-glow);
+    z-index: 1;
+  }
 }
 
 /* Selected: solid fill, same as Tag and Badge. Stays in place on hover. */
@@ -63,8 +65,10 @@
   z-index: 1;
 }
 
-.pillSegment.pillActive:hover {
-  border-color: var(--st-color-pink);
+@media (hover: hover) {
+  .pillSegment.pillActive:hover {
+    border-color: var(--st-color-pink);
+  }
 }
 
 .pillSegment:active {
@@ -107,17 +111,21 @@
   transition: color 0.15s, border-color 0.15s, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.iconBtn:hover {
-  color: var(--st-color-brand-primary);
-  border-color: var(--st-color-brand-primary);
-  transform: translateY(-1px);
-  box-shadow: var(--st-state-hover-glow);
+@media (hover: hover) {
+  .iconBtn:hover {
+    color: var(--st-color-brand-primary);
+    border-color: var(--st-color-brand-primary);
+    transform: translateY(-1px);
+    box-shadow: var(--st-state-hover-glow);
+  }
 }
 
 /* No motion on hover for visitors who ask for less */
 @media (prefers-reduced-motion: reduce) {
-  .iconBtn:hover {
-    transform: none;
+  @media (hover: hover) {
+    .iconBtn:hover {
+      transform: none;
+    }
   }
 }
 
@@ -127,9 +135,11 @@
   color: var(--st-color-bg-canvas);
 }
 
-.iconBtn.iconBtnActive:hover {
-  border-color: var(--st-color-pink);
-  transform: none;
+@media (hover: hover) {
+  .iconBtn.iconBtnActive:hover {
+    border-color: var(--st-color-pink);
+    transform: none;
+  }
 }
 
 .iconBtn:active {
@@ -151,10 +161,12 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .pillSegment:hover,
-  .iconBtn:hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .pillSegment:hover,
+    .iconBtn:hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .pillSegment:active,
   .iconBtn:active {

@@ -54,17 +54,21 @@
   cursor: pointer;
 }
 
-.interactive:hover {
-  transform: translateY(-1px);
-  background: var(--st-chip-tag-bg);
-  border-color: var(--st-color-pink);
-  box-shadow: var(--st-state-hover-glow);
+@media (hover: hover) {
+  .interactive:hover {
+    transform: translateY(-1px);
+    background: var(--st-chip-tag-bg);
+    border-color: var(--st-color-pink);
+    box-shadow: var(--st-state-hover-glow);
+  }
 }
 
 /* ST-150: no motion on hover for visitors who ask for less */
 @media (prefers-reduced-motion: reduce) {
-  .interactive:hover {
-    transform: none;
+  @media (hover: hover) {
+    .interactive:hover {
+      transform: none;
+    }
   }
 }
 
@@ -82,11 +86,13 @@
 }
 
 /* Selected + hover (ST-251): stays in place, pink border and glow only */
-.active.interactive:hover {
-  background: var(--st-color-text-default);
-  border-color: var(--st-color-pink);
-  box-shadow: var(--st-state-hover-glow);
-  transform: none;
+@media (hover: hover) {
+  .active.interactive:hover {
+    background: var(--st-color-text-default);
+    border-color: var(--st-color-pink);
+    box-shadow: var(--st-state-hover-glow);
+    transform: none;
+  }
 }
 
 /* ── Size modifier ───────────────────────────────────── */
@@ -218,20 +224,24 @@
   border-color: var(--_chip-color);
   color: color-mix(in srgb, var(--_chip-color) 75%, var(--st-color-text-primary)); /* ST-270: pink was 4.07:1 on the tinted fill */
 }
-.tinted.interactive:hover {
-  background: color-mix(in srgb, var(--_chip-color) 25%, var(--st-color-canvas));
-  border-color: var(--_chip-color);
-  box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
+@media (hover: hover) {
+  .tinted.interactive:hover {
+    background: color-mix(in srgb, var(--_chip-color) 25%, var(--st-color-canvas));
+    border-color: var(--_chip-color);
+    box-shadow: 0 2px 5px color-mix(in srgb, var(--_chip-color) 15%, transparent);
+  }
 }
 .tinted.active {
   background: var(--_chip-color);
   border-color: var(--_chip-color);
   color: var(--st-color-white);
 }
-.tinted.active.interactive:hover {
-  background: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
-  border-color: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
-  transform: none;
+@media (hover: hover) {
+  .tinted.active.interactive:hover {
+    background: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
+    border-color: color-mix(in srgb, var(--_chip-color) 85%, var(--st-color-black));
+    transform: none;
+  }
 }
 /* Dark: bright fills take an ink label (white on lime is ~1.1:1). Pink uses pink-600 with white (4.80:1; pink-500 was 3.62:1). */
 :global([data-theme="dark-pink-moon"]) .tinted.active {
@@ -251,20 +261,26 @@
 }
 
 /* Rule-dot hover: lift, pink border and glow (ST-150: every linked chip gets the pink hover; ST-251: the glow is part of the contract), no color-mix tint */
-.ruleDot.interactive:hover {
-  background: var(--st-chip-bg);
-  border-color: var(--st-color-pink);
-  box-shadow: var(--st-state-hover-glow);
+@media (hover: hover) {
+  .ruleDot.interactive:hover {
+    background: var(--st-chip-bg);
+    border-color: var(--st-color-pink);
+    box-shadow: var(--st-state-hover-glow);
+  }
 }
-.ruleDot.active.interactive:hover {
-  background: var(--st-color-text-default);
+@media (hover: hover) {
+  .ruleDot.active.interactive:hover {
+    background: var(--st-color-text-default);
+  }
 }
 
 /* Featured hover: pink border and glow, same as every chip */
-.featured.interactive:hover {
-  background: var(--st-chip-rubric-bg);
-  border-color: var(--st-color-pink);
-  box-shadow: var(--st-state-hover-glow);
+@media (hover: hover) {
+  .featured.interactive:hover {
+    background: var(--st-chip-rubric-bg);
+    border-color: var(--st-color-pink);
+    box-shadow: var(--st-state-hover-glow);
+  }
 }
 
 /* ── Pressed (ST-251) ─────────────────────────────────────
@@ -321,9 +337,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .interactive:hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .interactive:hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .interactive:active {
     outline: 3px solid Highlight;

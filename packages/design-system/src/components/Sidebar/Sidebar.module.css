@@ -32,12 +32,16 @@
   color: var(--st-color-text-muted);
 }
 .panel[open] > .toggle::before { transform: rotate(90deg); }
-.toggle:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .toggle:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
-.toggle:hover::before { color: var(--st-color-brand-primary); }
+@media (hover: hover) {
+  .toggle:hover::before { color: var(--st-color-brand-primary); }
+}
 .toggle:active {
   color: var(--st-color-text-default);
   box-shadow: inset 0 0 0 100px var(--st-state-pressed-shade);
@@ -199,9 +203,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .toggle:hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .toggle:hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .toggle:active {
     outline: 3px solid Highlight;

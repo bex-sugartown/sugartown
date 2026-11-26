@@ -26,22 +26,33 @@
 }
 
 /* Border accent on hover — all cards, linked or not */
-.card:hover {
-  border-color: var(--st-card-hover-border, var(--st-color-border-default));
+@media (hover: hover) {
+  .card:hover {
+    border-color: var(--st-card-hover-border, var(--st-color-border-default));
+  }
 }
 
 /* Hover lift — only when card has a link (title link ::after covers the card) */
-.card:has(.titleLink):hover {
-  box-shadow: var(--st-card-hover-shadow);
-  transform: translateY(var(--st-card-hover-translate-y));
+@media (hover: hover) {
+  .card:has(.titleLink):hover {
+    box-shadow: var(--st-card-hover-shadow);
+    transform: translateY(var(--st-card-hover-translate-y));
+  }
 }
 
 /* Hover/focus underline on title — affordance for "card is a link" */
-.card:has(.titleLink):hover .titleLink,
 .titleLink:focus-visible {
   text-decoration: underline;
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
+}
+
+@media (hover: hover) {
+  .card:has(.titleLink):hover .titleLink {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+  }
 }
 
 /* ── accentColor colorway ──────────────────────────────────────────────────── */
@@ -83,14 +94,19 @@
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.card:hover .thumbnailImg {
-  transform: scale(1.05);
+@media (hover: hover) {
+  .card:hover .thumbnailImg {
+    transform: scale(1.05);
+  }
 }
 
 /* ST-150: no motion on hover for visitors who ask for less */
 @media (prefers-reduced-motion: reduce) {
-  .card:hover .thumbnailImg, .card:has(.titleLink):hover {
-    transform: none;
+  @media (hover: hover) {
+    .card:hover .thumbnailImg,
+    .card:has(.titleLink):hover {
+      transform: none;
+    }
   }
 }
 
@@ -124,8 +140,10 @@
   text-decoration: none;
 }
 
-.folioLabel a:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .folioLabel a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Inline badge — same visual as .statusBadge but not absolutely positioned.
@@ -189,14 +207,18 @@
 }
 
 /* Single-link case: hover the element itself */
-.footerCategoryLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .footerCategoryLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Multi-link case (span containing <a> children): suppress span-level underline,
    let individual links handle their own hover */
-.footerCategoryLink:has(a):hover {
-  text-decoration: none;
+@media (hover: hover) {
+  .footerCategoryLink:has(a):hover {
+    text-decoration: none;
+  }
 }
 
 .footerCategoryLink a {
@@ -204,8 +226,10 @@
   text-decoration: none;
 }
 
-.footerCategoryLink a:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .footerCategoryLink a:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Date inside Ledger footer — step up from default muted to badge weight */
@@ -257,8 +281,10 @@
   z-index: 1;
 }
 
-.categoryLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .categoryLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Status badge ────────────────────────────────────────────────────────── */
@@ -395,8 +421,10 @@
   z-index: 1;
 }
 
-.projectLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .projectLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .projectValue {
@@ -545,8 +573,10 @@
   letter-spacing: 0.04em;
 }
 
-.kpiLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .kpiLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Variant: listing ────────────────────────────────────────────────────── */
@@ -588,9 +618,11 @@
   cursor: default;
 }
 
-.variantMetadata.card:has(.titleLink):hover {
-  box-shadow: var(--st-card-shadow);
-  transform: none;
+@media (hover: hover) {
+  .variantMetadata.card:has(.titleLink):hover {
+    box-shadow: var(--st-card-shadow);
+    transform: none;
+  }
 }
 
 .variantMetadata .header {
@@ -694,9 +726,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .card:has(.titleLink):hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .card:has(.titleLink):hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .card:has(.titleLink:active) {
     outline: 3px solid Highlight;

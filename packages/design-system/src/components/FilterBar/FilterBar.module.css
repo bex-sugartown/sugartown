@@ -43,9 +43,11 @@
   line-height: 1.4;
 }
 
-.clearAllButton:hover {
-  color: var(--st-color-text-default);
-  border-color: var(--st-color-text-default);
+@media (hover: hover) {
+  .clearAllButton:hover {
+    color: var(--st-color-text-default);
+    border-color: var(--st-color-text-default);
+  }
 }
 
 .clearAllButton:active {
@@ -170,16 +172,20 @@
   width: 100%;
 }
 
-.optionLabel:hover .optionName {
-  color: var(--st-color-text-default); /* ST-252: brand-primary text was 3.47:1; the pink moves to the underline */
-  text-decoration: underline;
-  text-decoration-color: var(--st-color-pink);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .optionLabel:hover .optionName {
+    color: var(--st-color-text-default); /* ST-252: brand-primary text was 3.47:1; the pink moves to the underline */
+    text-decoration: underline;
+    text-decoration-color: var(--st-color-pink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 
-.optionLabel:hover .optionCheckbox {
-  border-color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .optionLabel:hover .optionCheckbox {
+    border-color: var(--st-color-brand-primary);
+  }
 }
 
 .optionLabel:active {
@@ -229,10 +235,12 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .optionLabel:hover,
-  .clearAllButton:hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .optionLabel:hover,
+    .clearAllButton:hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .optionLabel:active,
   .clearAllButton:active {

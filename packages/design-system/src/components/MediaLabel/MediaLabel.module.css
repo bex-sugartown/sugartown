@@ -31,8 +31,10 @@
   align-items: center;
 }
 
-.mediaLabel:hover {
-  box-shadow: 0 0 0 1px var(--st-color-pink); /* ST-252: pink edge on hover; not a control, so no pressed state */
+@media (hover: hover) {
+  .mediaLabel:hover {
+    box-shadow: 0 0 0 1px var(--st-color-pink); /* ST-252: pink edge on hover; not a control, so no pressed state */
+  }
 }
 
 .mediaLabel:focus-visible {
@@ -80,12 +82,19 @@
 /* 320px and up: detail expands, up to 16 characters then an ellipsis */
 @container (min-width: 320px) {
   .detail { display: inline; }
-  .mediaLabel:hover .detail,
   .mediaLabel:focus-visible .detail,
   .mediaLabel[data-open='true'] .detail {
     max-width: 16ch;
     opacity: 1;
     margin-left: 0.6em;
+  }
+
+  @media (hover: hover) {
+    .mediaLabel:hover .detail {
+      max-width: 16ch;
+      opacity: 1;
+      margin-left: 0.6em;
+    }
   }
 }
 

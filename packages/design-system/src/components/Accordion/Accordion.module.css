@@ -37,15 +37,19 @@
   transition: color 0.2s ease;
 }
 
-.trigger:hover .triggerLabel {
-  color: var(--st-color-text-default);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .trigger:hover .triggerLabel {
+    color: var(--st-color-text-default);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 
-.trigger:hover .chevron {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .trigger:hover .chevron {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .trigger:active {
@@ -144,9 +148,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .trigger:hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .trigger:hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .trigger:active {
     outline: 3px solid Highlight;

@@ -27,8 +27,10 @@
   transition: opacity 0.15s ease;
 }
 
-.markerLink:hover {
-  opacity: 0.85;
+@media (hover: hover) {
+  .markerLink:hover {
+    opacity: 0.85;
+  }
 }
 
 .markerLink:active {
@@ -78,8 +80,10 @@
   text-underline-offset: 2px;
 }
 
-.note a:hover {
-  opacity: 0.85;
+@media (hover: hover) {
+  .note a:hover {
+    opacity: 0.85;
+  }
 }
 
 /* ── Back-link to the marker (ST-151) ─────────────── */
@@ -90,8 +94,10 @@
   margin-left: 0.25em;
 }
 
-.backLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .backLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .backLink:active {

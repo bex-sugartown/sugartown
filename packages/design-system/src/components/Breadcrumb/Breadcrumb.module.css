@@ -21,11 +21,13 @@
   white-space: nowrap;
 }
 
-.link:hover {
-  color: var(--st-color-text-default);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--st-color-text-default);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 
 .link:active {

@@ -59,8 +59,10 @@
   color: var(--st-color-white);
 }
 
-.primary:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--st-color-pink-700);   /* 6.90:1 */
+@media (hover: hover) {
+  .primary:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--st-color-pink-700);   /* 6.90:1 */
+  }
 }
 
 /* Pressed (ST-251): hover fill plus the pressed shade, drawn as an inset shadow so the label colour is untouched */
@@ -76,8 +78,10 @@
   color: var(--st-color-charcoal);
 }
 
-.secondary:hover:not(:disabled):not([aria-disabled="true"]) {
-  background-color: var(--st-color-lime-500);
+@media (hover: hover) {
+  .secondary:hover:not(:disabled):not([aria-disabled="true"]) {
+    background-color: var(--st-color-lime-500);
+  }
 }
 
 .secondary:active:not(:disabled):not([aria-disabled="true"]) {
@@ -95,9 +99,11 @@
   color: var(--st-button-tertiary-text);
 }
 
-.tertiary:hover:not(:disabled):not([aria-disabled="true"]) {
-  border-color: var(--st-color-border-medium);
-  color: var(--st-color-text-muted);
+@media (hover: hover) {
+  .tertiary:hover:not(:disabled):not([aria-disabled="true"]) {
+    border-color: var(--st-color-border-medium);
+    color: var(--st-color-text-muted);
+  }
 }
 
 .tertiary:active:not(:disabled):not([aria-disabled="true"]) {
@@ -109,9 +115,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .button:hover:not(:disabled):not([aria-disabled="true"]) {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .button:hover:not(:disabled):not([aria-disabled="true"]) {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .button:active:not(:disabled):not([aria-disabled="true"]) {
     outline: 3px solid Highlight;

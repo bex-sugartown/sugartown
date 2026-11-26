@@ -26,9 +26,11 @@
   color: var(--st-color-text-muted);
 }
 
-.active:hover {
-  border-color: var(--st-color-pink);
-  color: var(--st-color-text-default);
+@media (hover: hover) {
+  .active:hover {
+    border-color: var(--st-color-pink);
+    color: var(--st-color-text-default);
+  }
 }
 
 .selected {
@@ -37,8 +39,10 @@
   color: var(--st-color-bg-canvas);
 }
 
-.selected:hover {
-  border-color: var(--st-color-pink);
+@media (hover: hover) {
+  .selected:hover {
+    border-color: var(--st-color-pink);
+  }
 }
 
 /* Pressed (ST-252): pink border plus the #251 shade. */
@@ -69,9 +73,11 @@
 /* Forced colours (#262): the browser removes box-shadow and replaces colours, so pressed matched hover and
    some hover matched rest. Outlines in the Highlight system colour survive: 1px hover, 3px pressed. */
 @media (forced-colors: active) {
-  .cell:hover {
-    outline: 1px solid Highlight;
-    outline-offset: -1px;
+  @media (hover: hover) {
+    .cell:hover {
+      outline: 1px solid Highlight;
+      outline-offset: -1px;
+    }
   }
   .cell:active {
     outline: 3px solid Highlight;

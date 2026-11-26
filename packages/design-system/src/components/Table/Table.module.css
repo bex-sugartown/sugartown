@@ -120,7 +120,9 @@
 }
 
 .table thead th a { text-decoration: underline; }
-.table thead th a:hover { text-decoration: none; }
+@media (hover: hover) {
+  .table thead th a:hover { text-decoration: none; }
+}
 
 /* ── Tone: accent ───────────────────────────────────────────────────────────── */
 .toneAccent thead th {
@@ -156,8 +158,10 @@
   transition: background 150ms ease;
 }
 /* !important beats zebra nth-child rules at equal specificity */
-.table tbody tr:hover td {
-  background: var(--st-table-row-hover-bg) !important;
+@media (hover: hover) {
+  .table tbody tr:hover td {
+    background: var(--st-table-row-hover-bg) !important;
+  }
 }
 
 /* ── Layout: fixed ──────────────────────────────────────────────────────────── */
