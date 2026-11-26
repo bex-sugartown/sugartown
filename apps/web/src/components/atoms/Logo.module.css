@@ -3,8 +3,10 @@
   transition: opacity var(--st-transition-fast);
 }
 
-.logoLink:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  .logoLink:hover {
+    opacity: 0.8;
+  }
 }
 
 .logoLink:focus {

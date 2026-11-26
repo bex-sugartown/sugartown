@@ -63,8 +63,10 @@
   text-decoration: none;
 }
 
-.placeholderLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .placeholderLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Article / Node / CaseStudy detail pages ─────────────────────── */
@@ -241,8 +243,10 @@
   text-underline-offset: var(--st-link-underline-offset);
 }
 
-.detailContent a:hover {
-  text-decoration-thickness: 2px;
+@media (hover: hover) {
+  .detailContent a:hover {
+    text-decoration-thickness: 2px;
+  }
 }
 
 .detailContent blockquote {
@@ -423,7 +427,9 @@
   line-height: 1.4;
   transition: color var(--st-transition-fast);
 }
-.seriesPartLink:hover { color: var(--st-color-brand-primary); }
+@media (hover: hover) {
+  .seriesPartLink:hover { color: var(--st-color-brand-primary); }
+}
 
 /* ── Archive filter + content layout ─────────────────────────────── */
 
@@ -534,8 +540,10 @@
   text-underline-offset: 2px;
 }
 
-.clearFiltersLink:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  .clearFiltersLink:hover {
+    opacity: 0.8;
+  }
 }
 
 .clearFiltersLink:focus-visible {
@@ -617,8 +625,10 @@
   text-decoration: none;
 }
 
-.graphHubCardCta:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .graphHubCardCta:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Left group: toggle buttons + divider + FilterStrip — all on one line */

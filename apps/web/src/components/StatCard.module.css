@@ -14,9 +14,11 @@
   color: inherit;
   transition: background 120ms;
 }
-.linked:hover {
-  background: var(--st-tile-bg-hover, var(--st-color-bg-subtle));
-  box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
+@media (hover: hover) {
+  .linked:hover {
+    background: var(--st-tile-bg-hover, var(--st-color-bg-subtle));
+    box-shadow: inset 0 2px 0 var(--st-color-brand-primary);
+  }
 }
 
 /* ── Label ─────────────────────────────────────────────────────────── */

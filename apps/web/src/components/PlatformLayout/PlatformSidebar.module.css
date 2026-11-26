@@ -18,8 +18,10 @@
   padding: 0;
   transition: color var(--st-transition-fast);
 }
-.sectionLabel:hover {
-  color: var(--st-color-text-default);
+@media (hover: hover) {
+  .sectionLabel:hover {
+    color: var(--st-color-text-default);
+  }
 }
 .sectionLabelActive {
   color: var(--st-color-brand-primary);
@@ -36,8 +38,10 @@
   border-left: 2px solid transparent;
   transition: color var(--st-transition-fast), border-color var(--st-transition-fast);
 }
-.navLink:hover {
-  color: var(--st-color-text-default);
+@media (hover: hover) {
+  .navLink:hover {
+    color: var(--st-color-text-default);
+  }
 }
 .navLinkActive {
   color: var(--st-color-text-default);

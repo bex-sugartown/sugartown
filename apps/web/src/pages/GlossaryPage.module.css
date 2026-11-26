@@ -55,8 +55,10 @@
   text-decoration: none;
 }
 
-.termLink:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .termLink:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .termDd {
@@ -137,8 +139,10 @@
   text-decoration: none;
 }
 
-.refRow a:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .refRow a:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .chipRow {
@@ -168,8 +172,10 @@
   text-decoration: underline;
 }
 
-.sourcesList a:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .sourcesList a:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* ── Glossary annotation — inline PT mark (ST-151; supersedes SUG-211 Option E) ───────────────
@@ -190,8 +196,10 @@
 }
 
 /* Hover deepens the pink wash */
-.glossaryLink:hover {
-  background-color: var(--st-glossary-annotation-bg-hover);
+@media (hover: hover) {
+  .glossaryLink:hover {
+    background-color: var(--st-glossary-annotation-bg-hover);
+  }
 }
 
 dfn.glossaryLink {
@@ -302,6 +310,8 @@ dfn.glossaryLink {
   text-decoration: none;
 }
 
-.popoverLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .popoverLink:hover {
+    text-decoration: underline;
+  }
 }

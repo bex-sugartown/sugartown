@@ -31,8 +31,10 @@
   color: inherit;
   text-decoration: none;
 }
-.eyebrowLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .eyebrowLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .heading {
@@ -95,8 +97,10 @@
   transition: color var(--st-transition-fast);
 }
 
-.trustLink:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .trustLink:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* ── Governance inline styles → CSS classes (§06, §13) ───── */
@@ -107,8 +111,10 @@
   font-size: var(--st-font-size-sm);
   text-decoration: none;
 }
-.releaseVersionLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .releaseVersionLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .sectionLede {
@@ -122,8 +128,10 @@
   text-decoration: none;
   border-bottom: 1px solid currentColor;
 }
-.inlineLink:hover {
-  color: var(--st-color-link-hover);
+@media (hover: hover) {
+  .inlineLink:hover {
+    color: var(--st-color-link-hover);
+  }
 }
 
 /* ── Roadmap table helpers ──────────────────────────────── */
@@ -226,8 +234,10 @@
   text-decoration: none;
 }
 
-.schemaObjLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .schemaObjLink:hover {
+    text-decoration: underline;
+  }
 }
 
 

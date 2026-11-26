@@ -7,8 +7,10 @@
   position: relative;
 }
 
-.navItem:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .navItem:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .navItem.active {
@@ -112,9 +114,11 @@
   transition: color 150ms ease, background-color 150ms ease;
 }
 
-.childItem:hover {
-  color: var(--st-color-brand-primary);
-  background-color: var(--st-color-bg-elevated);
+@media (hover: hover) {
+  .childItem:hover {
+    color: var(--st-color-brand-primary);
+    background-color: var(--st-color-bg-elevated);
+  }
 }
 
 .childItem:focus {

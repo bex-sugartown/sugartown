@@ -46,9 +46,11 @@
   text-underline-offset: var(--st-link-underline-offset);
 }
 
-.link:hover {
-  color: var(--st-color-link-hover);
-  text-decoration-thickness: 2px;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--st-color-link-hover);
+    text-decoration-thickness: 2px;
+  }
 }
 
 .strong {

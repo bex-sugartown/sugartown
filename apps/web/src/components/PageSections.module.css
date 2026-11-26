@@ -34,14 +34,18 @@
   transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.heroWithImage:hover::after {
-  transform: scale(1.05);
+@media (hover: hover) {
+  .heroWithImage:hover::after {
+    transform: scale(1.05);
+  }
 }
 
 /* ST-150: no motion on hover for visitors who ask for less */
 @media (prefers-reduced-motion: reduce) {
-  .heroWithImage:hover::after {
-    transform: none;
+  @media (hover: hover) {
+    .heroWithImage:hover::after {
+      transform: none;
+    }
   }
 }
 
@@ -323,8 +327,10 @@
   transition: background 120ms ease;
 }
 
-.heroStatItem:hover {
-  background: var(--st-color-white-08);
+@media (hover: hover) {
+  .heroStatItem:hover {
+    background: var(--st-color-white-08);
+  }
 }
 
 .heroStatValue {
@@ -414,10 +420,12 @@
   transition: opacity 0.2s ease;
 }
 
-.link:hover {
-  color: var(--st-color-link-hover);
-  text-decoration-thickness: 2px;
-  opacity: 1;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--st-color-link-hover);
+    text-decoration-thickness: 2px;
+    opacity: 1;
+  }
 }
 
 .strong {
@@ -599,9 +607,11 @@
   transition: background 0.2s;
 }
 
-.carouselArrow:hover,
-.imageExpand:hover {
-  background: var(--st-color-pink);
+@media (hover: hover) {
+  .carouselArrow:hover,
+  .imageExpand:hover {
+    background: var(--st-color-pink);
+  }
 }
 
 .carouselArrow:focus-visible,
@@ -657,8 +667,10 @@
   transition: background 0.2s, transform 0.2s;
 }
 
-.carouselDot:hover::before {
-  background: var(--st-color-text-secondary);
+@media (hover: hover) {
+  .carouselDot:hover::before {
+    background: var(--st-color-text-secondary);
+  }
 }
 
 .carouselDotActive::before {
@@ -890,8 +902,10 @@
 .citedBlockRefsList a::before { content: '['; color: var(--st-color-text-muted); }
 .citedBlockRefsList a::after  { content: ']'; color: var(--st-color-text-muted); }
 
-.citedBlockRefsList a:hover {
-  border-bottom-style: solid;
+@media (hover: hover) {
+  .citedBlockRefsList a:hover {
+    border-bottom-style: solid;
+  }
 }
 
 /* Recent Content Ticker — wide max-width, needs own gutter (not inside detailContext) */
@@ -1011,8 +1025,10 @@
   text-decoration: underline;
 }
 
-:global(.st-html-section) table thead th a:hover {
-  text-decoration: none;
+@media (hover: hover) {
+  :global(.st-html-section) table thead th a:hover {
+    text-decoration: none;
+  }
 }
 
 /* Automatic zebra striping — all htmlSection tables */
@@ -1162,10 +1178,12 @@
   transition: opacity 0.2s ease;
 }
 
-:global(.st-html-section) a:hover {
-  color: var(--st-color-link-hover, var(--st-color-brand-primary));
-  text-decoration-thickness: 2px;
-  opacity: 0.8;
+@media (hover: hover) {
+  :global(.st-html-section) a:hover {
+    color: var(--st-color-link-hover, var(--st-color-brand-primary));
+    text-decoration-thickness: 2px;
+    opacity: 0.8;
+  }
 }
 
 /* Responsive */

@@ -23,8 +23,10 @@
   text-underline-offset: 2px;
 }
 
-.link:hover {
-  text-decoration-thickness: 2px;
+@media (hover: hover) {
+  .link:hover {
+    text-decoration-thickness: 2px;
+  }
 }
 
 /* Background color variants */

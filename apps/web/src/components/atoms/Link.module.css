@@ -4,8 +4,10 @@
   transition: opacity var(--st-transition-fast);
 }
 
-.link:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  .link:hover {
+    opacity: 0.8;
+  }
 }
 
 .link:focus {

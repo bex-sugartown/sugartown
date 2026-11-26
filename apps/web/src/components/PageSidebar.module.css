@@ -53,12 +53,14 @@
   line-height: 1.4;
   transition: color var(--st-transition-fast);
 }
-.relatedLink:hover {
-  color: var(--st-color-text-default);
-  text-decoration: underline;
-  text-decoration-color: var(--st-color-pink);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .relatedLink:hover {
+    color: var(--st-color-text-default);
+    text-decoration: underline;
+    text-decoration-color: var(--st-color-pink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 .relatedLink:active {
   color: var(--st-color-text-default);
@@ -92,9 +94,13 @@
   margin-bottom: 0.125rem;
   font-weight: 500;
 }
-.seriesLink:hover,
-.seriesLink:hover strong { color: var(--st-color-text-default); }
-.seriesLink:hover strong { text-decoration: underline; text-decoration-color: var(--st-color-pink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+@media (hover: hover) {
+  .seriesLink:hover,
+  .seriesLink:hover strong { color: var(--st-color-text-default); }
+}
+@media (hover: hover) {
+  .seriesLink:hover strong { text-decoration: underline; text-decoration-color: var(--st-color-pink); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+}
 .seriesLink:active strong { text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .seriesLink:focus-visible {
   outline: var(--st-focus-ring);
@@ -123,12 +129,14 @@
   text-decoration: none;
   transition: color var(--st-transition-fast);
 }
-.ethicsLink:hover {
-  color: var(--st-color-text-default);
-  text-decoration: underline;
-  text-decoration-color: var(--st-color-pink);
-  text-decoration-thickness: 1px;
-  text-underline-offset: 3px;
+@media (hover: hover) {
+  .ethicsLink:hover {
+    color: var(--st-color-text-default);
+    text-decoration: underline;
+    text-decoration-color: var(--st-color-pink);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
 }
 .ethicsLink:active {
   color: var(--st-color-text-default);

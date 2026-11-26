@@ -83,8 +83,10 @@
   text-underline-offset: 2px;
 }
 
-.callNumberLink:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .callNumberLink:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* ── Links within scalar values ── */
@@ -96,9 +98,11 @@
   text-underline-offset: 2px;
 }
 
-.typeLink:hover,
-.authorLink:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .typeLink:hover,
+  .authorLink:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* Chip label archive links (Tools, Category, Terms, Tags headings) */
@@ -107,10 +111,12 @@
   text-decoration: none;
 }
 
-.chipLabelLink:hover {
-  color: var(--st-color-brand-primary);
-  text-decoration: underline;
-  text-underline-offset: 2px;
+@media (hover: hover) {
+  .chipLabelLink:hover {
+    color: var(--st-color-brand-primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 }
 
 /* ── Chip sections — border-based dividers (no bg-through-gap) ── */

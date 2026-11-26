@@ -103,9 +103,11 @@
   white-space: nowrap;
 }
 
-.link:hover {
-  color: var(--st-color-link-hover, var(--st-color-brand-primary));
-  text-decoration: underline;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--st-color-link-hover, var(--st-color-brand-primary));
+    text-decoration: underline;
+  }
 }
 
 /* ── Date ────────────────────────────────────────────────────── */

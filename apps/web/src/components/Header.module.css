@@ -57,8 +57,10 @@
   transition: color 150ms ease;
 }
 
-.hamburger:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .hamburger:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .hamburger:focus-visible {

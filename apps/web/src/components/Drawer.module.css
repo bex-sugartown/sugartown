@@ -64,8 +64,10 @@
   transition: color 150ms ease;
 }
 
-.closeButton:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .closeButton:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .closeButton:focus-visible {
@@ -101,8 +103,10 @@
   flex: 1;
 }
 
-.navItem:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .navItem:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .navItem.active {
@@ -133,8 +137,10 @@
   flex-shrink: 0;
 }
 
-.accordionToggle:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .accordionToggle:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .accordionToggleOpen {
@@ -172,8 +178,10 @@
   transition: color 150ms ease;
 }
 
-.childItem:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .childItem:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 .childItem.active {
@@ -216,8 +224,10 @@
   transition: color 150ms ease;
 }
 
-.footerLink:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .footerLink:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* Social / Connect */

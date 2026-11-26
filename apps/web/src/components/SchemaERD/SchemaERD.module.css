@@ -83,8 +83,10 @@
   transition: border-color var(--st-transition-fast);
 }
 
-.entityCard:hover {
-  border-color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .entityCard:hover {
+    border-color: var(--st-color-brand-primary);
+  }
 }
 
 .entityCardSelected {
@@ -210,8 +212,10 @@
   text-decoration: none;
 }
 
-.sidebarRenderedByLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .sidebarRenderedByLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .sidebarBody {
@@ -269,8 +273,10 @@
   padding: 0;
 }
 
-.sidebarRelLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .sidebarRelLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .sidebarRelLabel {

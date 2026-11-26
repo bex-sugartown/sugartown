@@ -22,8 +22,10 @@
   text-decoration: none;
   margin-top: 0.375rem;
 }
-.toolUrl:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .toolUrl:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Content sections ────────────────────────────────────────────── */

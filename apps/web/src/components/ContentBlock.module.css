@@ -40,10 +40,12 @@
   transition: opacity 0.2s ease;
 }
 
-.link:hover {
-  color: var(--st-color-link-hover);
-  text-decoration-thickness: 2px;
-  opacity: 1;
+@media (hover: hover) {
+  .link:hover {
+    color: var(--st-color-link-hover);
+    text-decoration-thickness: 2px;
+    opacity: 1;
+  }
 }
 
 .strong {

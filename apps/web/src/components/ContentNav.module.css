@@ -58,9 +58,11 @@
   transition: color 0.15s ease;
 }
 
-.item:hover .title {
-  color: var(--st-color-text-brand);
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 0.15em;
+@media (hover: hover) {
+  .item:hover .title {
+    color: var(--st-color-text-brand);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.15em;
+  }
 }

@@ -57,8 +57,10 @@
   letter-spacing: 0.04em;
 }
 
-.footerLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .footerLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Version link (recent-releases variant) ─────────── */
@@ -71,8 +73,10 @@
   font-weight: var(--st-font-weight-semibold);
 }
 
-.versionLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .versionLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Multi-report layout (reports[] array, SUG-100) ──── */

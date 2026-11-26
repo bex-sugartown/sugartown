@@ -32,6 +32,8 @@
   transition: opacity 0.15s ease;
 }
 
-.studioLink:hover {
-  opacity: 1;
+@media (hover: hover) {
+  .studioLink:hover {
+    opacity: 1;
+  }
 }

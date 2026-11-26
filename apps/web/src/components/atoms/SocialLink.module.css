@@ -11,10 +11,12 @@
   color: var(--st-color-brand-primary);
 }
 
-.socialLink:hover {
-  background-color: var(--st-color-brand-primary);
-  color: var(--st-color-white);
-  transform: translateY(-2px);
+@media (hover: hover) {
+  .socialLink:hover {
+    background-color: var(--st-color-brand-primary);
+    color: var(--st-color-white);
+    transform: translateY(-2px);
+  }
 }
 
 .socialLink:focus {

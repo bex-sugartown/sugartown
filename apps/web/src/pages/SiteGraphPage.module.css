@@ -26,8 +26,10 @@
   text-decoration: none;
 }
 
-.eyebrowLink:hover {
-  color: var(--st-color-text-primary);
+@media (hover: hover) {
+  .eyebrowLink:hover {
+    color: var(--st-color-text-primary);
+  }
 }
 
 .eyebrowSep {
@@ -157,8 +159,10 @@
   text-decoration: none;
 }
 
-.railKickerType:hover {
-  color: var(--st-color-text-primary);
+@media (hover: hover) {
+  .railKickerType:hover {
+    color: var(--st-color-text-primary);
+  }
 }
 
 .railKickerSep {
@@ -171,8 +175,10 @@
   text-decoration: none;
 }
 
-.railKickerProject:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .railKickerProject:hover {
+    text-decoration: underline;
+  }
 }
 
 /* Hub card — project/category selected state */
@@ -216,8 +222,10 @@
   text-decoration: none;
 }
 
-.railHubLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .railHubLink:hover {
+    text-decoration: underline;
+  }
 }
 
 /* ── Fullscreen overlay ──────────────────────────────────── */
@@ -266,9 +274,11 @@
   transition: color 80ms, border-color 80ms;
 }
 
-.fsClose:hover {
-  color: var(--st-color-text-primary);
-  border-color: var(--st-color-border-medium);
+@media (hover: hover) {
+  .fsClose:hover {
+    color: var(--st-color-text-primary);
+    border-color: var(--st-color-border-medium);
+  }
 }
 
 .fsBody {

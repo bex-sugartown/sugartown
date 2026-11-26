@@ -68,8 +68,10 @@
   text-underline-offset: 2px;
 }
 
-.bodyLink:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  .bodyLink:hover {
+    opacity: 0.8;
+  }
 }
 
 /* ── Overlay treatments ───────────────────────────────── */
@@ -163,8 +165,10 @@
   text-underline-offset: 2px;
 }
 
-.citationLink:hover {
-  opacity: 0.8;
+@media (hover: hover) {
+  .citationLink:hover {
+    opacity: 0.8;
+  }
 }
 
 /* ── Footer content wrapper (citations + tags beneath dashed line) ─── */

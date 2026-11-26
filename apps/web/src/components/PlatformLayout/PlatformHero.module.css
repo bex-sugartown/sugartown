@@ -23,8 +23,10 @@
   text-decoration: none;
 }
 
-.eyebrowLink:hover {
-  text-decoration: underline;
+@media (hover: hover) {
+  .eyebrowLink:hover {
+    text-decoration: underline;
+  }
 }
 
 .heading {

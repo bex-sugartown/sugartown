@@ -67,9 +67,11 @@
   transition: border-color 0.15s, color 0.15s;
 }
 
-.socialLink:hover {
-  border-color: var(--st-color-pink);
-  color: var(--st-color-pink);
+@media (hover: hover) {
+  .socialLink:hover {
+    border-color: var(--st-color-pink);
+    color: var(--st-color-pink);
+  }
 }
 
 /* ── Bio ─────────────────────────────────────────────────────────── */

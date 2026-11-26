@@ -89,8 +89,10 @@
   z-index: 1;
 }
 
-.closeButton:hover {
-  background: var(--st-color-pink);
+@media (hover: hover) {
+  .closeButton:hover {
+    background: var(--st-color-pink);
+  }
 }
 
 .closeButton:focus-visible {
@@ -120,8 +122,10 @@
   z-index: 1;
 }
 
-.navButton:hover {
-  background: var(--st-color-pink);
+@media (hover: hover) {
+  .navButton:hover {
+    background: var(--st-color-pink);
+  }
 }
 
 .navButton:focus-visible {

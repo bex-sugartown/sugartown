@@ -89,9 +89,11 @@
   text-underline-offset: 2px;
 }
 
-.linkList a:hover {
-  color: var(--st-color-brand-primary);
-  text-decoration: underline;
+@media (hover: hover) {
+  .linkList a:hover {
+    color: var(--st-color-brand-primary);
+    text-decoration: underline;
+  }
 }
 
 /* ── Zone 2: utility row ─────────────────────────────────────── */
@@ -112,9 +114,11 @@
   text-underline-offset: 2px;
 }
 
-.utilityLink:hover {
-  color: var(--st-color-brand-primary);
-  text-decoration: underline;
+@media (hover: hover) {
+  .utilityLink:hover {
+    color: var(--st-color-brand-primary);
+    text-decoration: underline;
+  }
 }
 
 /* "Cookie settings" is a <button> styled as a utility link (SUG-202). */
@@ -167,8 +171,10 @@ button.utilityLink {
   text-underline-offset: 2px;
 }
 
-.colophonLink:hover {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .colophonLink:hover {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* Toolchain chips — pink in light mode, lime in dark mode.

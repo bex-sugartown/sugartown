@@ -81,12 +81,16 @@
   transition: background 0.1s;
 }
 
-.itemLink:hover {
-  background: var(--st-color-bg-subtle);
+@media (hover: hover) {
+  .itemLink:hover {
+    background: var(--st-color-bg-subtle);
+  }
 }
 
-.itemLink:hover .itemLabel {
-  color: var(--st-color-brand-primary);
+@media (hover: hover) {
+  .itemLink:hover .itemLabel {
+    color: var(--st-color-brand-primary);
+  }
 }
 
 /* ── Color dot (categories, projects) ────────────────────────────── */
@@ -223,9 +227,11 @@
   border-bottom: none;
 }
 
-.listItem:hover {
-  padding-left: 12px;
-  color: var(--st-color-maroon);
+@media (hover: hover) {
+  .listItem:hover {
+    padding-left: 12px;
+    color: var(--st-color-maroon);
+  }
 }
 
 /* Label + sublabel stacked */
