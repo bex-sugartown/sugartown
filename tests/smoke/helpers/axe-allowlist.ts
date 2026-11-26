@@ -21,4 +21,11 @@ export const AXE_ALLOWLIST: AxeAllowEntry[] = [
   // that adds filter options or glossary terms can fail the gate until the owning issue is fixed.
   // #171: text-brand (#ff247d) on the dark surface, 4.28 to 4.44:1 (18 nodes, 3 of them on #1c2240 at 4.28:1).
   { rule: 'color-contrast', route: '/', theme: 'dark', date: '2026-11-02', issue: '#171', maxNodes: 18 },
+  // /platform/governance, recorded 2026-11-26 when #189 added it. Contrast counts follow page content (releases, roadmap rows).
+  // #271: color-contrast, 19 nodes light and 25 dark.
+  { rule: 'color-contrast', route: '/platform/governance', theme: 'light', date: '2026-11-26', issue: '#271', maxNodes: 19 },
+  { rule: 'color-contrast', route: '/platform/governance', theme: 'dark', date: '2026-11-26', issue: '#271', maxNodes: 25 },
+  // #272: the roadmap scroll region is not keyboard focusable (1 node, both themes).
+  { rule: 'scrollable-region-focusable', route: '/platform/governance', theme: 'light', date: '2026-11-26', issue: '#272', maxNodes: 1 },
+  { rule: 'scrollable-region-focusable', route: '/platform/governance', theme: 'dark', date: '2026-11-26', issue: '#272', maxNodes: 1 },
 ]

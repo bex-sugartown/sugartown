@@ -6,7 +6,7 @@ import { applyTheme, assertTheme } from './helpers/theme'
 
 // The five smoke routes (homepage, archive, detail, taxonomy, 404), then one
 // discovered detail page for each of case study, node and glossary term below.
-// Still a sample, not every page type: platform pages are not covered (ST-166). /about joined in #165.
+// Still a sample, not every page type. /about joined in #165; /platform and /platform/governance in #189.
 // Each route waits for the same content its smoke spec asserts, so axe scans
 // rendered content and not a loading state.
 const ROUTES: { path: string; ready: (page: import('@playwright/test').Page) => Promise<void> }[] = [
@@ -15,6 +15,8 @@ const ROUTES: { path: string; ready: (page: import('@playwright/test').Page) => 
   { path: '/tools/vercel', ready: (p) => p.getByRole('heading', { level: 1 }).waitFor() },
   { path: '/categories/governance', ready: (p) => p.getByText(/^\d+ items?$/).waitFor() },
   { path: '/about', ready: (p) => p.getByRole('heading', { level: 1 }).waitFor() },
+  { path: '/platform', ready: (p) => p.getByRole('heading', { level: 1 }).waitFor() },
+  { path: '/platform/governance', ready: (p) => p.getByRole('heading', { level: 1 }).waitFor() },
   { path: '/this-route-does-not-exist-smoke-test', ready: (p) => p.getByRole('heading', { level: 1 }).waitFor() },
 ]
 

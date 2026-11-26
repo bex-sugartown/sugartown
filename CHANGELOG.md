@@ -16,6 +16,7 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - #246: Storybook docs pages and 10 story files now pass the colour-contrast gate in both themes; 15 of 49 `todo` entries retired, the remaining 34 (production colour tokens) moved to #270. (a11y gate 780 of 780 pass)
 - #270: pink text, Callout tip and warn, Card next step, CodeBlock labels, Swatch and Chip labels now meet 4.5:1 contrast in both themes; the last 34 Storybook `todo` entries are gone and the a11y gate runs with none. (a11y gate 780 of 780, smoke 77 passed)
 - #267: hover effects (lifts, glows, washes, underlines) apply only on devices that can hover, so a tap on a phone no longer leaves them stuck; a new check fails any hover rule outside `(hover: hover)`. (159 rules in 53 stylesheets, smoke 78 passed, Chromatic build 121 no changes)
+- #189: the axe accessibility gate now scans /platform and /platform/governance in both themes (/about was already in); /platform is clean, and /platform/governance carries two known failures, tracked in #271 (colour contrast) and #272 (roadmap scroll region keyboard access). (smoke 84 passed)
 
 ---
 
