@@ -6,6 +6,8 @@
  *   - hover rule present            -> pressed (:active) rule present
  *   - clickable or focusable markup -> focus rule present (:focus-visible, or :focus for form fields)
  *   - `disabled` in the TSX         -> a disabled rule present
+ *   - every `:hover` selector in any stylesheet sits inside `@media (hover: hover)` (#267), so a tap
+ *     on a touch device does not leave the hover look behind; pressed stays the touch feedback
  *
  * The contract is docs/shipped/ST-251-*.md and ST-252-*.md. Known gaps live in
  * state-allowlist.json next to this file, each with a reason. A gap that is not allowlisted fails;
@@ -14,7 +16,7 @@
  * Run: node scripts/validate-states.js   (pnpm validate:states)
  * Reader: .husky/pre-commit and the lint job in .github/workflows/ci.yml.
  */
-import { readdirSync, readFileSync, existsSync } from 'node:fs'
+import { readdirSync, readFileSync, existsSync, statSync } from 'node:fs'
 import { resolve, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -44,6 +46,38 @@ for (const dir of DIRS) {
   }
 }
 
+// #267: a `:hover` rule outside `@media (hover: hover)` sticks after a tap on touch devices.
+const CSS_ROOTS = [join(ROOT, 'packages/design-system/src'), join(ROOT, 'apps/web/src')]
+const cssFiles = (dir) =>
+  readdirSync(dir).flatMap((n) => {
+    const p = join(dir, n)
+    if (n === 'node_modules' || n === 'generated') return []
+    return statSync(p).isDirectory() ? cssFiles(p) : n.endsWith('.css') ? [p] : []
+  })
+const unguarded = []
+for (const file of CSS_ROOTS.flatMap(cssFiles)) {
+  const css = readFileSync(file, 'utf8').replace(/\/\*[\s\S]*?\*\//g, (c) => c.replace(/[^\n]/g, ' '))
+  const stack = [] // one entry per open brace: its prelude text
+  let prelude = ''
+  let line = 1
+  for (const ch of css) {
+    if (ch === '\n') line++
+    if (ch === '{') {
+      const guarded = stack.some((p) => /@media[^{]*\(\s*hover\s*:\s*hover\s*\)/.test(p))
+      if (/:hover\b/.test(prelude) && !prelude.trim().startsWith('@') && !guarded) {
+        unguarded.push(`${file.slice(ROOT.length + 1)}:${line}  ${prelude.trim().replace(/\s+/g, ' ').slice(0, 70)}`)
+      }
+      stack.push(prelude)
+      prelude = ''
+    } else if (ch === '}') {
+      stack.pop()
+      prelude = ''
+    } else if (ch === ';') {
+      prelude = ''
+    } else prelude += ch
+  }
+}
+
 const allowed = new Map(allow.map((a) => [`${a.component}: ${a.state}`, a.reason]))
 const unlisted = gaps.filter((g) => !allowed.has(g))
 const stale = [...allowed.keys()].filter((k) => !gaps.includes(k))
@@ -58,5 +92,9 @@ if (stale.length) {
   console.log('Allowlist entries whose gap is closed (remove them from scripts/state-allowlist.json):')
   stale.forEach((g) => console.log('  - ' + g))
 }
-if (unlisted.length || stale.length) process.exit(1)
+if (unguarded.length) {
+  console.log('Hover rules outside @media (hover: hover) (wrap each one; keep a :focus-visible selector outside it):')
+  unguarded.forEach((g) => console.log('  - ' + g))
+}
+if (unlisted.length || stale.length || unguarded.length) process.exit(1)
 console.log('All components cover the states they declare.')

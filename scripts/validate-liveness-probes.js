@@ -667,6 +667,18 @@ const PROBES = [
   },
 
   {
+    gate: 'validate:states (hover guard)',
+    why: 'a :hover rule outside @media (hover: hover) must be rejected, because it sticks after a tap on touch (#267)',
+    run: () =>
+      gateProbe({
+        cmd: 'pnpm',
+        args: ['--filter', 'web', 'validate:states'],
+        success: 'rejected the unguarded hover rule',
+        breakIt: () => tempFile('apps/web/src/__liveness_hover_probe__.css', '.probe:hover { color: red; }\n'),
+      }),
+  },
+
+  {
     gate: 'validate:vspec-contrast',
     why: 'a vspec pair under its minimum (a grey label at about 2.5:1) must be rejected (#263)',
     run: () =>
