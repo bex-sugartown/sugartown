@@ -712,6 +712,12 @@ State how re-running the script produces no change:
 
 ## Close-out review [REQUIRED at close-out]
 
+> **Collaboration time.** Run `pnpm collab:time <issue>` and paste its row into this section.
+> Generated, never hand-written; `/st-collab-time` has the method and how to read the number.
+> Deliberately prose rather than its own `###`: `check-epic-doc.js` treats every `###` under a
+> required section as a required subsection, and adding one here newly failed 42 already-shipped
+> epics (measured 2026-11-27).
+
 ### Acceptance criteria
 
 > Each criterion above: ticked with its evidence, or why not. A criterion that can only be

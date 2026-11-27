@@ -444,6 +444,8 @@ After creating any draft, report at minimum:
 - Tracking issue link (created in §0) and its current state
 - Glossary terms: existing ones linked, new ones recommended (term, reason, tests passed).
   New terms are not created here; `/st-glossy` does that
+- Collaboration time: run `pnpm collab:time <issue>` and put the row in the working draft's
+  front matter, per `/st-collab-time`. Never into Sanity; no document type has a field for it
 
 Register-specific report items (node's `aiDisclosure` string; article's `aiDisclosure`
 string plus any optional disclosure callout; case study's engagement facts, outcome tile
