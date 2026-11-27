@@ -15,6 +15,14 @@ It reports active time, Bex's message count and the date range, then prints a re
 metadata row. `--json` for machine use. `--loose` to include sessions that mention the target
 without editing it.
 
+```bash
+pnpm collab:time <id> --check <file>
+```
+
+Compares the figure stored in that file against the live one. Exits 0 when they match, non-zero
+with both numbers when they have drifted, or when the file carries no figure at all. Run it
+before quoting a stored number.
+
 The figure is generated, never hand-written (CLAUDE.md §Building a mechanism: a register is
 generated or it does not exist). If the number in a document disagrees with the command, the
 command is right.
@@ -55,9 +63,15 @@ before citing.
 
 ## When to run it
 
-At close-out, once. The figure is a snapshot of a still-running session if measured earlier, and
-it moves while the work moves. Re-measure only if the document is reopened for substantial work,
-and replace the row rather than adding a second one.
+**Write the row at close-out, once.** Not on every commit: a metadata row rewritten each time
+churns the file and buries real diffs in time-figure noise.
+
+**A stored figure is stale the moment it is written**, because the session that wrote it is
+still running. That is not a flaw to fix by writing more often, it is why `--check` exists.
+Treat the row as a dated snapshot and the command as the truth. Re-measure when the document
+is reopened for substantial work, and replace the row rather than adding a second one.
+
+(2026-11-27: the first ST-218 row read 2h 45m and was an hour out within the same session.)
 
 ## Reading the number honestly
 
@@ -71,6 +85,15 @@ State these whenever the figure is quoted outside the document:
   is why the command prints both.
 
 ## Attribution, and why it is strict
+
+**Attribution is per session, not per file.** Once a session qualifies, all of its active time
+counts, including work on files that do not match the target at all. This is why a red-pen
+round, a review archive, a handoff file and a preview page are already captured without any of
+them needing the document's name, and why there is no list of related paths to maintain.
+
+The exposure runs the other way: a session that mixes this work with something unrelated
+credits all of it to the target, and nothing flags that. Read a figure from a mixed session as
+an upper bound.
 
 A session counts only when it **edited a file whose path contains the target**, or **committed
 or commented on it**. A session that merely mentions the target is excluded and listed, with its

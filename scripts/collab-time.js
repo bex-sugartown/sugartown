@@ -34,9 +34,13 @@ const args = process.argv.slice(2)
 const target = args.find((a) => !a.startsWith('--'))
 const asJson = args.includes('--json')
 const loose = args.includes('--loose')
+const checkIdx = args.indexOf('--check')
+const checkPath = checkIdx !== -1 ? args[checkIdx + 1] : null
 
-if (!target) {
-  console.error('usage: node scripts/collab-time.js <issue-number|slug|doc-id> [--json] [--loose]')
+if (!target || (checkIdx !== -1 && !checkPath)) {
+  console.error(
+    'usage: node scripts/collab-time.js <issue-number|slug|doc-id> [--json] [--loose] [--check <file>]',
+  )
   process.exit(2)
 }
 
@@ -183,6 +187,51 @@ const cmd = `pnpm collab:time ${target}`
 const metadata =
   `${hm(looseTotal)} active across ${days.length} day${days.length === 1 ? '' : 's'}, ` +
   `${range} · ${bexMsgs} messages from Bex · measured ${measured} by \`${cmd}\``
+
+if (checkPath) {
+  // Staleness check. A stored figure is a hand-copied register and drifts the
+  // moment it is written, so make the drift detectable rather than silent.
+  let doc
+  try {
+    doc = fs.readFileSync(checkPath, 'utf8')
+  } catch {
+    console.error(`collab-time: cannot read ${checkPath}`)
+    process.exit(2)
+  }
+  // Match "<n>h <nn>m active across <n> day(s)" in whatever markup wraps it.
+  const found = doc.match(/(\d+h\s*\d+m|\d+m)\s+active across\s+(\d+)\s+day/)
+  if (!found) {
+    console.error(`collab-time: no collaboration figure found in ${checkPath}`)
+    console.error(`  expected a row containing "<time> active across <n> days"`)
+    process.exit(1)
+  }
+  const storedTime = found[1].replace(/\s+/g, ' ')
+  const liveTime = hm(looseTotal)
+  const storedDays = Number(found[2])
+
+  // Tolerance. A row goes out of date by a few minutes while the session that
+  // wrote it is still running, so an exact match would fail constantly and the
+  // check would be ignored. Flag only drift worth acting on: more than
+  // TOLERANCE_MIN, or a change in the number of days.
+  const TOLERANCE_MIN = 20
+  const parseHm = (s) => {
+    const h = /(\d+)h/.exec(s)
+    const m = /(\d+)m/.exec(s)
+    return (h ? Number(h[1]) * 60 : 0) + (m ? Number(m[1]) : 0)
+  }
+  const driftMin = Math.abs(parseHm(storedTime) - Math.round(looseTotal / 60))
+  if (storedDays === days.length && driftMin <= TOLERANCE_MIN) {
+    const note = driftMin ? ` (${driftMin}m drift, within tolerance)` : ''
+    console.log(`collab-time: up to date — stored ${storedTime}, live ${liveTime}${note}`)
+    process.exit(0)
+  }
+  console.error(`collab-time: STALE in ${checkPath}`)
+  console.error(`  stored: ${storedTime} across ${storedDays} day(s)`)
+  console.error(`  live:   ${liveTime} across ${days.length} day(s), ${bexMsgs} messages`)
+  console.error(`  drift:  ${driftMin} minutes, tolerance ${TOLERANCE_MIN}`)
+  console.error(`  fix:    re-run \`pnpm collab:time ${target}\` and replace the row`)
+  process.exit(1)
+}
 
 if (asJson) {
   console.log(
