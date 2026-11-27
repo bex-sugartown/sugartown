@@ -209,3 +209,38 @@ not resolve), served by `pnpm --filter web dev`.
 
 **Follow-up filed.** [#274](https://github.com/bex-sugartown/sugartown/issues/274), the missing
 elk layout package.
+
+
+## Gate 2 application log, round 3 — the year plan
+
+**2026-11-27.** Bex asked for a 1, 2, 3 (maybe 4) year plan, as a Gantt plus a branch chart.
+
+**The Gantt came back, and this time it works.** The earlier failure was partly mine: too many
+sections and labels far too long for the bars. Tightened to two sections and four short labels,
+it renders in palette with the text inside the bars. Two things made it:
+
+- `:crit` on years 3 and 4 fills them solid, which is exactly the "maybe 4" distinction Bex
+  asked for. The contingent years now look contingent.
+- Short labels. "Year 1 to age 55" fits a bar; "Five requirement lines, one cost model" did not.
+
+**Placement avoids a duplication.** The Gantt replaced the Sanders four-year *table* in §4
+rather than being added to §7. It carries the same four rows plus the majority window the table
+could not show, so the phase-in is now stated once rather than in two sections.
+
+**The branch chart was rewired to the year plan**: Year 1 and Year 2 run before the January
+2029 diamond, and the Won branch carries Year 3 and Year 4. §4 is the spec as a timeline; §7 is
+what happens to it at the fork.
+
+**Known cosmetic defect, not fixed.** The Gantt's x-axis repeats the year on every tick
+(2027 ×4, 2028 ×4). `tickInterval 1year` was tried in both positions, before and after
+`axisFormat`, and is ignored by mermaid 11.13.0 here. It reads as a quarterly grid labelled by
+year. Left as-is rather than chased further.
+
+**Verification.** All four diagrams were extracted from the draft verbatim and re-rendered
+through the real config. All four render, no console errors, no tag or escape leakage.
+
+**Length.** The round went 2,494 → 2,552, over the 2,500 ceiling, and was trimmed back to
+**2,493**. The trim surfaced a duplication worth recording: the new roadmap notes restated the
+"hardest thing first" point that §7's existing paragraph already made better, so the new version
+was cut rather than the old one. Two tables and four mermaid blocks now, down from three tables
+and three diagrams.
