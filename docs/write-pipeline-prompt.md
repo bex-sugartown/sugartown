@@ -297,6 +297,15 @@ architecture: consider a `mermaidSection` diagram instead. See
 Case study note: the outcome tiles (`cardSection`) are already the canonical table for
 before/after metrics — don't also narrate those same numbers as prose in the Overview.
 
+### 3d. Fact check
+
+Run `/st-fact-check` over the draft's checkable claims before the compliance gate. It holds the
+method: open the primary source, record a claim table, and list what only Bex can check. A
+figure sourced from reporting, a summary or a search result is not verified.
+
+Blocking for any draft carrying figures, dates, votes, statute references or quotes. A draft
+with none of those records that it had none.
+
 ---
 
 ## 4. Brand voice compliance gate (blocking — runs before any Sanity write)

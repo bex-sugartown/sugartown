@@ -1,7 +1,7 @@
 # Skills Index
 
 **Version:** v1.1
-**Last updated:** 2026-11-25 (generated block)
+**Last updated:** 2026-11-27 (generated block)
 **Owner:** Bex Head
 
 ---
@@ -28,6 +28,7 @@ not the table. `pnpm docs:skills-index --check` fails when it is stale.
 | `st-chromatic` | `/st-chromatic` | `skills/` | Run Chromatic VRT, report visual diffs, gate on human approval, record status |
 | `st-cloud-launch` | `/st-cloud-launch` | `skills/` | Prepare a cloud session for an issue labelled cloud (start review, In Progress, starting branch, the filled launch prompt), then walk Bex through starting it with AskUserQuestion. |
 | `st-epic-writer` | `/st-epic-writer` | `skills/` | Write a Claude Code epic execution prompt for Sugartown monorepo implementation work. |
+| `st-fact-check` | `/st-fact-check` | `skills/` | Verify the factual claims in a draft against primary sources and produce a claim table plus a human handoff list. |
 | `st-fsd-writer` | `/st-fsd-writer` | `skills/` | Write a Functional Specification Document (FSD) for Sugartown work: the design layer that says how the system will implement the requirements in an AI PRD. |
 | `st-glossy` | `/st-glossy` | `skills/` | Research, draft, and publish Sugartown glossaryTerm(s) to /glossary. |
 | `st-handback` | `/st-handback` | `skills/` | Finish a cloud run locally: review the cloud branch with the cloud-handback-reviewer agent, merge it, run the checks the diff needs, close out, close the issue, and triage the run's procedure notes. |

@@ -53,6 +53,8 @@ Check every factual claim: names, dates, version numbers, metrics, tool names, l
 
 Do not guess. "I could not verify the 40% figure" is a legitimate finding. A confident correction based on a hunch is not.
 
+**Use `/st-fact-check` for the method.** It holds the source hierarchy (a secondary source is a lead, not a citation), the claim-table format, the routes to try when a primary source will not open, and the human handoff list. The three outcomes above stay defined here, because they are part of this report's shape; everything about *how* to reach one lives in that skill. A claim verified only against reporting or a search snippet is Unverifiable, not Verified.
+
 ### Pass 2: Voice compliance (blocking-ish)
 
 Run the anti-slop checklist from the brand voice guide mechanically, respecting the register exemptions from Step 2: banned vocabulary, em dashes (outside nodes), decorative emoji (outside nodes), hedge stacking, filler transitions, unearned "we", empty adjective triads, sentence-opening repetition, list-itis. Also check the first-person contract: in articles, Bex directs and the AI builds; a sentence where Bex claims to have written the migration script is a voice violation, not a style preference.
