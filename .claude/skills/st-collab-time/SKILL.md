@@ -19,9 +19,14 @@ without editing it.
 pnpm collab:time <id> --check <file>
 ```
 
-Compares the figure stored in that file against the live one. Exits 0 when they match, non-zero
+Compares the figure stored in that file against the live one. Exits 0 when they agree, non-zero
 with both numbers when they have drifted, or when the file carries no figure at all. Run it
 before quoting a stored number.
+
+**It tolerates 20 minutes of drift**, and flags any change in the number of days. Without a
+tolerance the check fails constantly: a row goes out of date by a few minutes while the session
+that wrote it is still running, and a check that cries wolf gets ignored. (2026-11-27: a freshly
+written row drifted three minutes before the next command finished.)
 
 The figure is generated, never hand-written (CLAUDE.md §Building a mechanism: a register is
 generated or it does not exist). If the number in a document disagrees with the command, the
