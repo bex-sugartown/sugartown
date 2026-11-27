@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-26T16:24:10.255Z",
+  "generatedAt": "2026-11-27T16:08:43.868Z",
   "release": {
     "current": {
       "version": "0.41.0",
@@ -83,14 +83,14 @@
   },
   "perf": {
     "stale": false,
-    "generatedAt": "2026-11-26T16:22:14.249Z",
+    "generatedAt": "2026-11-27T16:06:32.934Z",
     "runs": {
       "https://sugartown.io/": {
         "url": "https://sugartown.io/",
         "mobile": {
           "url": "https://sugartown.io/",
-          "lcp": 4216,
-          "cls": 0.001,
+          "lcp": 4088,
+          "cls": 0,
           "inp": null,
           "performance": 84,
           "accessibility": 100,
@@ -98,8 +98,8 @@
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4216,
-        "cls": 0.001,
+        "lcp": 4088,
+        "cls": 0,
         "inp": null,
         "performance": 84,
         "accessibility": 100,
@@ -111,7 +111,7 @@
         "url": "https://sugartown.io/articles",
         "mobile": {
           "url": "https://sugartown.io/articles",
-          "lcp": 4243,
+          "lcp": 4263,
           "cls": 0,
           "inp": null,
           "performance": 86,
@@ -120,7 +120,7 @@
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4243,
+        "lcp": 4263,
         "cls": 0,
         "inp": null,
         "performance": 86,
@@ -133,7 +133,7 @@
         "url": "https://sugartown.io/case-studies",
         "mobile": {
           "url": "https://sugartown.io/case-studies",
-          "lcp": 4247,
+          "lcp": 4256,
           "cls": 0,
           "inp": null,
           "performance": 86,
@@ -142,7 +142,7 @@
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4247,
+        "lcp": 4256,
         "cls": 0,
         "inp": null,
         "performance": 86,
@@ -155,19 +155,19 @@
         "url": "https://sugartown.io/knowledge-graph",
         "mobile": {
           "url": "https://sugartown.io/knowledge-graph",
-          "lcp": 4553,
-          "cls": 0.087,
+          "lcp": 4517,
+          "cls": 0,
           "inp": null,
-          "performance": 82,
+          "performance": 84,
           "accessibility": 95,
           "bestPractices": 96,
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4553,
-        "cls": 0.087,
+        "lcp": 4517,
+        "cls": 0,
         "inp": null,
-        "performance": 82,
+        "performance": 84,
         "accessibility": 95,
         "bestPractices": 96,
         "seo": 100,
@@ -177,8 +177,8 @@
         "url": "https://sugartown.io/platform",
         "mobile": {
           "url": "https://sugartown.io/platform",
-          "lcp": 4264,
-          "cls": 0.629,
+          "lcp": 4203,
+          "cls": 0.63,
           "inp": null,
           "performance": 62,
           "accessibility": 100,
@@ -186,8 +186,8 @@
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4264,
-        "cls": 0.629,
+        "lcp": 4203,
+        "cls": 0.63,
         "inp": null,
         "performance": 62,
         "accessibility": 100,
@@ -199,8 +199,8 @@
         "url": "https://sugartown.io/about",
         "mobile": {
           "url": "https://sugartown.io/about",
-          "lcp": 4389,
-          "cls": 0.023,
+          "lcp": 4298,
+          "cls": 0.032,
           "inp": null,
           "performance": 85,
           "accessibility": 100,
@@ -208,8 +208,8 @@
           "seo": 100,
           "rating": "poor"
         },
-        "lcp": 4389,
-        "cls": 0.023,
+        "lcp": 4298,
+        "cls": 0.032,
         "inp": null,
         "performance": 85,
         "accessibility": 100,
@@ -220,13 +220,13 @@
     }
   },
   "crux": {
-    "fetchedAt": "2026-11-26T16:22:14.438Z",
+    "fetchedAt": "2026-11-27T16:06:33.072Z",
     "origin": "https://sugartown.io",
     "available": false,
     "reason": "no-data"
   },
   "security": {
-    "fetchedAt": "2026-11-26T16:24:06.952Z",
+    "fetchedAt": "2026-11-27T16:08:38.299Z",
     "vulnerabilities": {
       "total": 394,
       "critical": 12,
@@ -237,17 +237,17 @@
     }
   },
   "github": {
-    "fetchedAt": "2026-11-26T16:24:07.792Z",
+    "fetchedAt": "2026-11-27T16:08:39.114Z",
     "repo": "bex-sugartown/sugartown",
     "stars": 1,
     "watchers": 1,
     "forks": 0,
-    "openIssues": 103,
+    "openIssues": 105,
     "contributors": 3,
-    "lastCommit": "2026-11-25T17:19:03Z"
+    "lastCommit": "2026-11-26T16:24:10Z"
   },
   "sanity": {
-    "fetchedAt": "2026-11-26T16:24:08.041Z",
+    "fetchedAt": "2026-11-27T16:08:39.453Z",
     "counts": {
       "article": 18,
       "node": 52,
@@ -261,7 +261,7 @@
     }
   },
   "siteGraph": {
-    "generatedAt": "2026-11-26T16:24:08.193Z",
+    "generatedAt": "2026-11-27T16:08:39.672Z",
     "nodes": [
       {
         "id": "project:sugartown-cms",
@@ -6106,7 +6106,7 @@
     ]
   },
   "githubRoadmap": {
-    "fetchedAt": "2026-11-26T16:24:10.253Z",
+    "fetchedAt": "2026-11-27T16:08:43.867Z",
     "inProgress": [],
     "backlog": [
       {
@@ -6842,7 +6842,7 @@
         "identifier": "#218",
         "title": "Article: Blu-nami Congress Needs a Product Manager for Its Roadmap",
         "url": "https://github.com/bex-sugartown/sugartown/issues/218",
-        "updatedAt": "2026-11-26T13:16:39Z",
+        "updatedAt": "2026-11-27T16:00:41Z",
         "priority": "Medium",
         "status": "Backlog",
         "projects": []
@@ -7014,6 +7014,24 @@
         "title": "a11y: governance roadmap scroll region has no keyboard access",
         "url": "https://github.com/bex-sugartown/sugartown/issues/272",
         "updatedAt": "2026-11-26T13:04:07Z",
+        "priority": "No priority",
+        "status": "Backlog",
+        "projects": []
+      },
+      {
+        "identifier": "#273",
+        "title": "Article: What a Year of Recruiters Taught Me (working title)",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/273",
+        "updatedAt": "2026-11-27T12:09:24Z",
+        "priority": "No priority",
+        "status": "Todo",
+        "projects": []
+      },
+      {
+        "identifier": "#274",
+        "title": "PageSections mermaid config requests elk layout, but no elk package is installed",
+        "url": "https://github.com/bex-sugartown/sugartown/issues/274",
+        "updatedAt": "2026-11-27T15:59:57Z",
         "priority": "No priority",
         "status": "Backlog",
         "projects": []
