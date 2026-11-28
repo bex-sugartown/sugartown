@@ -33,8 +33,8 @@ Not applicable, no content piece.
 - [x] Sort state in the URL query string, alongside existing filter params, so a sorted view is shareable and survives reload — layer: frontend
 - [x] Control wired into every archive route that lists documents (read `App.jsx`; see Technical notes) — layer: frontend
 - [x] Storybook story for the control, one multi-case story — layer: Storybook
-- [ ] Decide what `publishedAt` means for a rewritten document, then apply it: either a Studio field description and validation hint, or an `updatedAt`-style field with a schema deploy — layer: schema
-- [ ] Re-date the #116 node's `publishedAt` once Bex picks the date, proposed as a before/after table first — layer: content
+- [x] Decide what `publishedAt` means for a rewritten document, then apply it: either a Studio field description and validation hint, or an `updatedAt`-style field with a schema deploy — layer: schema (decided 2026-11-28: description only, see Phase 2 decision)
+- [~] Re-date the #116 node's `publishedAt` once Bex picks the date, proposed as a before/after table first — layer: content (dropped 2026-11-28 by Bex: the node is unpublished and on hold, and its local draft already shows 27 Nov 2026)
 
 ## Phases
 
@@ -60,6 +60,15 @@ Not applicable, no content piece.
 > can reach, and build the Human QA Walkthrough table (one example local URL per page-type,
 > incl. unchanged pages as regression guards) per `docs/epic-template.md` §Human QA
 > Walkthrough. Capture one real published slug per detail page-type and datestamp it.
+
+## Phase 2 decision (2026-11-28)
+
+`publishedAt` means the date a rewrite went live. When an old piece is rewritten and published again, the author sets it to the new date. Applied as a Studio field description on `article.ts`, `caseStudy.ts` and `node.ts` (`releaseNote.releasedAt` is a ship date and is unchanged); no new field. Schema deployed with `npx sanity schema deploy` (1 of 1). The Updated sort (`_updatedAt`) is the safety net when the date is not reset. Rejected: a separate editorial "last revised" field (schema change on four types plus a backfill).
+
+Found while reading, not acted on: `archivePage.ts` already has a `sortBy` field ("Sort Order (coming soon)", Deferred tab, not wired in the web app) and `node.ts` already has an `updatedAt` field. A per-archive default sort could read `sortBy`, which belongs with #37.
+
+<!-- Chromatic: pending -->
+Chromatic deferred to the ship step by Bex, 2026-11-28. Phase 1 touched CSS, component JSX and three stories.
 
 ## Technical notes
 

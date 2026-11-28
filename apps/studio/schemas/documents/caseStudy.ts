@@ -123,7 +123,7 @@ export default defineType({
       name: 'publishedAt',
       title: 'Published At',
       type: 'datetime',
-      description: 'When was this case study published?',
+      description: 'When was this case study published? When an old piece is rewritten and published again, set this to the date the rewrite goes live. Archives sorted by Published use this date; Updated uses the last edit.',
       group: 'metadata',
       validation: (Rule) => Rule.required().error('Published date is required'),
       initialValue: () => new Date().toISOString()
