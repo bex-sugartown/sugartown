@@ -339,10 +339,12 @@
 }
 
 /* ── Unified archive toolbar ─────────────────────────────────────── */
+/* Three columns (ST-275): view toggle left, item count centred, Sort by group right. */
 .archiveToolbar {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
+  gap: var(--st-space-3);
   padding: 10px 16px;
   border-bottom: 1px solid var(--st-color-rule-accent);
   background: var(--st-color-bg-surface);
@@ -644,6 +646,30 @@
   background: var(--st-color-rule-accent);
   margin: 0 10px;
   flex-shrink: 0;
+}
+
+/* Sort by group, right column of .archiveToolbar. Below 768px the toolbar is two columns
+   (toggle, count) and this group takes its own full-width row. */
+.archiveSort {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--st-space-2);
+  justify-self: end;
+}
+
+@media (max-width: 767px) {
+  .archiveToolbar {
+    grid-template-columns: 1fr auto;
+  }
+  .archiveSort {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+    overflow-x: auto;
+  }
+  /* The group keeps aria-label="Sort by"; the visible label gives way so three chips fit at 375px. */
+  .archiveSort .archiveToolbarKicker {
+    display: none;
+  }
 }
 
 /* Right-side kicker stat */

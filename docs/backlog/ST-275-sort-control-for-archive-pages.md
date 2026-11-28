@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-275 — Sort control for archive pages
 **Issue:** [#275](https://github.com/bex-sugartown/sugartown/issues/275)
-**Status:** Backlog
+**Status:** In Progress
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at the end of each
 **Visual:** yes
@@ -14,7 +14,7 @@ Archive pages sort by a fixed `publishedAt` order; readers get a sort control, a
 
 ## Background
 
-Every archive query hard-codes `order(publishedAt desc)` (`apps/web/src/lib/queries.js:308` nodes, `:666` articles, `:978` case studies), and the merged `/library` view re-sorts client-side on the same field (`apps/web/src/pages/ArchivePage.jsx:198`). The node "AI Illustration Review" (#116) was published on 2026-11-28 with `publishedAt` 2026-01-01 (its original draft date), so it sorts to the bottom of `/library?contentType=node` and was not found. The node schema's `initialValue` is the creation time (`apps/studio/schemas/documents/node.ts:211`), so the cause is a rewritten old document keeping its first date, not a missing default. Affected surfaces: `/library`, `/nodes`, `/articles`, `/case-studies`, `/releases`.
+Every archive query hard-codes `order(publishedAt desc)` (`ARCHIVE_QUERIES` in `apps/web/src/pages/ArchivePage.jsx`, lines 100 to 153; corrected 2026-11-28, the `queries.js` lines this doc first cited are other queries), and the merged `/library` view re-sorts client-side on the same field (`apps/web/src/pages/ArchivePage.jsx:198`). The node "AI Illustration Review" (#116) was published on 2026-11-28 with `publishedAt` 2026-01-01 (its original draft date), so it sorts to the bottom of `/library?contentType=node` and was not found. The node schema's `initialValue` is the creation time (`apps/studio/schemas/documents/node.ts:211`), so the cause is a rewritten old document keeping its first date, not a missing default. Affected surfaces: `/library`, `/nodes`, `/articles`, `/case-studies`, `/releases`.
 
 ## Objective
 
@@ -26,13 +26,13 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] Vspec for the sort control: placement, options, default, active state, mobile, URL behaviour — layer: design
-- [ ] Sort options defined and mapped to fields (`publishedAt`, `_updatedAt`, `title`) per archive type, with the default staying newest published — layer: query
-- [ ] Archive queries return every field the sort options need (`_updatedAt` at minimum) — layer: query
-- [ ] Sort control component, reusing an existing DS primitive if one fits (Component choice audit first) — layer: frontend
-- [ ] Sort state in the URL query string, alongside existing filter params, so a sorted view is shareable and survives reload — layer: frontend
-- [ ] Control wired into every archive route that lists documents (read `App.jsx`; see Technical notes) — layer: frontend
-- [ ] Storybook story for the control, one multi-case story — layer: Storybook
+- [x] Vspec for the sort control: placement, options, default, active state, mobile, URL behaviour — layer: design
+- [x] Sort options defined and mapped to fields (`publishedAt`, `_updatedAt`, `title`) per archive type, with the default staying newest published — layer: query
+- [x] Archive queries return every field the sort options need (`_updatedAt` at minimum) — layer: query
+- [x] Sort control component, reusing an existing DS primitive if one fits (Component choice audit first) — layer: frontend
+- [x] Sort state in the URL query string, alongside existing filter params, so a sorted view is shareable and survives reload — layer: frontend
+- [x] Control wired into every archive route that lists documents (read `App.jsx`; see Technical notes) — layer: frontend
+- [x] Storybook story for the control, one multi-case story — layer: Storybook
 - [ ] Decide what `publishedAt` means for a rewritten document, then apply it: either a Studio field description and validation hint, or an `updatedAt`-style field with a schema deploy — layer: schema
 - [ ] Re-date the #116 node's `publishedAt` once Bex picks the date, proposed as a before/after table first — layer: content
 

@@ -48,12 +48,14 @@ import { generateJsonLd } from '../lib/jsonLd'
 import SeoHead from '../components/SeoHead'
 import ContentCard from '../components/ContentCard'
 import ContentList from '../components/ContentList'
-import { FilterBar, Button, Chip } from '../design-system'
+import { FilterBar, Button, Chip, SegmentedControl } from '../design-system'
 import ViewToggle from '../components/ViewToggle'
 import Pagination from '../components/Pagination'
 import { archivePageBySlugQuery, facetsRawQuery } from '../lib/queries'
 import { buildFilterModel } from '../lib/filterModel'
 import { useFilterState } from '../lib/useFilterState'
+import { useSortState } from '../lib/useSortState'
+import { SORT_OPTIONS, dateFieldFor, getSortOption, sortItems } from '../lib/archiveSort'
 import { applyFilters, paginateItems } from '../lib/applyFilters'
 import DraftBadge from '../components/DraftBadge'
 import { PortableText } from '@portabletext/react'
@@ -106,6 +108,7 @@ const ARCHIVE_QUERIES = {
       "slug": slug.current,
       excerpt,
       publishedAt,
+      _updatedAt,
       ${TAXONOMY_PROJECTION},
       ${ENUM_PROJECTION}
     }
@@ -120,6 +123,7 @@ const ARCHIVE_QUERIES = {
       aiTool,
       conversationType,
       publishedAt,
+      _updatedAt,
       ${TAXONOMY_PROJECTION},
       ${ENUM_PROJECTION}
     }
@@ -134,6 +138,7 @@ const ARCHIVE_QUERIES = {
       version,
       // Noon UTC so a date-only value renders as the same day in every timezone.
       "publishedAt": releasedAt + "T12:00:00Z",
+      _updatedAt,
       ${TAXONOMY_PROJECTION},
       ${ENUM_PROJECTION}
     }
@@ -146,6 +151,8 @@ const ARCHIVE_QUERIES = {
       "slug": slug.current,
       excerpt,
       role,
+      publishedAt,
+      _updatedAt,
       ${TAXONOMY_PROJECTION},
       ${ENUM_PROJECTION}
     }
@@ -187,16 +194,21 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
     isMultiType && contentTypes.includes('releaseNote') ? ARCHIVE_QUERIES.releaseNote : null
   )
 
-  // Merged + sorted items for multi-type; passthrough for single-type
+  // URL-driven sort (?sort=, ?order=); default is newest published first (ST-275)
+  const { sort, setSort } = useSortState()
+
+  // Merged items for multi-type, passthrough for single-type, then ordered by the sort state
   const allItems = useMemo(() => {
-    if (!isMultiType) return singleItems ?? []
-    return [
-      ...(articleItems ?? []),
-      ...(nodeItems ?? []),
-      ...(caseStudyItems ?? []),
-      ...(releaseNoteItems ?? []),
-    ].sort((a, b) => (b.publishedAt ?? '').localeCompare(a.publishedAt ?? ''))
-  }, [isMultiType, singleItems, articleItems, nodeItems, caseStudyItems, releaseNoteItems])
+    const merged = isMultiType
+      ? [
+          ...(articleItems ?? []),
+          ...(nodeItems ?? []),
+          ...(caseStudyItems ?? []),
+          ...(releaseNoteItems ?? []),
+        ]
+      : singleItems ?? []
+    return sortItems(merged, sort)
+  }, [isMultiType, singleItems, articleItems, nodeItems, caseStudyItems, releaseNoteItems, sort])
 
   const itemsLoading = isMultiType
     ? (articleLoading || nodeLoading || caseStudyLoading || releaseNoteLoading)
@@ -327,6 +339,21 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
           graphLabel="View in knowledge graph"
         />
         <span className={styles.archiveToolbarKicker}>{totalItems} {contentTypeLabel}</span>
+        {/* Sort is hidden in graph view, which has no ordered list. The empty span keeps the count centred. */}
+        {isGraphView ? (
+          <span />
+        ) : (
+          <div className={styles.archiveSort}>
+            <span className={styles.archiveToolbarKicker}>Sort by</span>
+            <SegmentedControl
+              options={SORT_OPTIONS.map((o) => ({ value: o.key, label: o.label }))}
+              value={sort.key}
+              onChange={setSort}
+              aria-label="Sort by"
+              activeDirection={sort.dir}
+            />
+          </div>
+        )}
       </div>
 
       {/* Mobile filter strip — hidden ≥768px via CSS */}
@@ -451,6 +478,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
               <ContentList
                 items={pageItems}
                 docType={isMultiType ? undefined : docType}
+                dateField={dateFieldFor(sort.key)}
+                columnHeads={{ tag: 'Category', title: 'Title', date: getSortOption(sort.key).columnHead }}
               />
             ) : (
               <div className={styles.archiveGrid} data-layout={layout}>
@@ -465,6 +494,8 @@ function ArchiveListing({ contentType, archiveDoc, archiveSlug }) {
                     imageOverride={archiveDoc?.cardOptions?.imageOverride ?? null}
                     categoryPosition={archiveDoc?.cardOptions?.categoryPosition}
                     draftIds={draftIds}
+                    dateField={dateFieldFor(sort.key)}
+                    dateLabel={getSortOption(sort.key).dateLabel}
                   />
                 ))}
               </div>

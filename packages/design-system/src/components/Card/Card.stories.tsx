@@ -353,3 +353,15 @@ export const Snapshot: Story = {
   ),
 };
 
+
+/** Footer date label (ST-275): PUB and UPD follow the archive sort, and no label leaves a bare date. */
+export const DateLabels: Story = {
+  parameters: { layout: 'padded', chromatic: { disableSnapshot: false } },
+  render: () => (
+    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '1.5rem', maxWidth: '1100px' }}>
+      <Card {...ARTICLE_MINIMAL} date="2026-01-01T00:00:00Z" dateLabel="PUB" />
+      <Card {...ARTICLE_MINIMAL} date="2026-11-28T00:00:00Z" dateLabel="UPD" />
+      <Card {...ARTICLE_MINIMAL} date="2026-11-28T00:00:00Z" />
+    </div>
+  ),
+};

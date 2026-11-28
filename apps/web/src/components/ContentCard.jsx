@@ -81,6 +81,8 @@ export default function ContentCard({
   showFolio = true,
   suppressEyebrow = false,
   suppressStatus = false,
+  dateField = 'publishedAt',
+  dateLabel,
 }) {
   const docType   = docTypeProp ?? DOC_TYPE_MAP[item._type] ?? item._type
   const path      = getCanonicalPath({ docType, slug: item.slug })
@@ -213,7 +215,8 @@ export default function ContentCard({
       thumbnailAlt={item.cardImageAlt ?? item.heroImageAlt ?? ''}
       tools={toolsDisplay}
       tags={tagsDisplay}
-      date={item.publishedAt}
+      date={item[dateField]}
+      dateLabel={dateLabel}
       showFolio={showFolio}
       // SUG-48: aiTool removed — deprecated, tools[] taxonomy is canonical
     />

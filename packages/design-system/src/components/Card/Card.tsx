@@ -123,6 +123,8 @@ export interface CardProps {
   // Footer
   /** ISO date string — component formats for display. */
   date?: string;
+  /** Short label shown before the date, e.g. "PUB" or "UPD". Omit for a bare date. */
+  dateLabel?: string;
   /** "Next Step: [text]" — renders in footer-left. */
   nextStep?: string;
   /**
@@ -217,6 +219,7 @@ export const Card: React.FC<CardProps> = ({
   toolsLabel = 'Tools',
   tagsLabel = 'Tags',
   date,
+  dateLabel,
   nextStep,
   aiTool,
   kpiLink,
@@ -434,7 +437,7 @@ export const Card: React.FC<CardProps> = ({
             )}
           </div>
           <div className={styles.footerRight}>
-            {date && <time className={styles.date} dateTime={date}>{formatDate(date)}</time>}
+            {date && <time className={styles.date} dateTime={date}>{dateLabel ? `${dateLabel} ` : ''}{formatDate(date)}</time>}
           </div>
         </>
       )}

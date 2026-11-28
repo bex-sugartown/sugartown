@@ -153,3 +153,50 @@ export const IconThreeOptions: Story = {
     />
   ),
 };
+
+// ── Pill with a sort direction (ST-275) ───────────────────────────────────────
+// The active option shows an arrow and its accessible name carries the direction. Choosing the
+// active option again calls onChange with the same value, and the parent flips the direction.
+function SortDemo({ start }: { start: { value: string; dir: 'asc' | 'desc' } }) {
+  const [state, setState] = useState(start);
+  return (
+    <SegmentedControl
+      variant="pill"
+      aria-label="Sort by"
+      value={state.value}
+      activeDirection={state.dir}
+      onChange={(v) =>
+        setState((s) => (s.value === v ? { value: v, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { value: v, dir: v === 'title' ? 'asc' : 'desc' }))
+      }
+      options={[
+        { label: 'Published', value: 'published' },
+        { label: 'Updated', value: 'updated' },
+        { label: 'Alphabetical', value: 'title' },
+      ]}
+    />
+  );
+}
+
+export const PillSortDirection: Story = {
+  name: 'Pill — Sort direction',
+  parameters: { layout: 'padded', chromatic: { disableSnapshot: false } },
+  render: () => (
+    <div style={{ display: 'grid', gap: '1rem' }}>
+      <SortDemo start={{ value: 'published', dir: 'desc' }} />
+      <SortDemo start={{ value: 'title', dir: 'asc' }} />
+      {/* 293px is the width the group gets on a 375px phone: all three chips must fit */}
+      <div style={{ width: 293 }}>
+        <SortDemo start={{ value: 'title', dir: 'desc' }} />
+      </div>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const group = within(canvasElement).getAllByRole('radiogroup', { name: 'Sort by' })[0];
+    const published = within(group).getByRole('radio', { name: 'Published, descending' });
+    await expect(published).toHaveAttribute('aria-checked', 'true');
+    await userEvent.click(published);
+    await expect(within(group).getByRole('radio', { name: 'Published, ascending' })).toHaveAttribute('aria-checked', 'true');
+    await userEvent.click(within(group).getByRole('radio', { name: 'Alphabetical' }));
+    await expect(within(group).getByRole('radio', { name: 'Alphabetical, ascending' })).toBeInTheDocument();
+  },
+};

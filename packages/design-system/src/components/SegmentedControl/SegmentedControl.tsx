@@ -30,6 +30,12 @@ export interface SegmentedControlProps {
   /** Accessible label for the control group */
   'aria-label'?: string;
   className?: string;
+  /**
+   * Sort direction of the active option ("pill" only). Shows an arrow in the active
+   * segment and adds the direction to its accessible name. The parent flips it when the
+   * active option is chosen again, since onChange fires with the same value (ST-275).
+   */
+  activeDirection?: 'asc' | 'desc';
 }
 
 export const SegmentedControl: React.FC<SegmentedControlProps> = ({
@@ -39,6 +45,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
   variant = 'pill',
   'aria-label': ariaLabel = 'View options',
   className,
+  activeDirection,
 }) => {
   const hasLinks = options.some((o) => o.href);
   const handleKeyDown = useCallback(
@@ -78,12 +85,18 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
           .filter(Boolean)
           .join(' ');
 
+        const showDirection = isActive && variant === 'pill' && activeDirection;
+        const directionName = activeDirection === 'asc' ? 'ascending' : 'descending';
         const content = (
           <>
             {opt.icon}
             {opt.label && <span>{opt.label}</span>}
+            {showDirection && <span aria-hidden="true">{activeDirection === 'asc' ? '↑' : '↓'}</span>}
           </>
         );
+        const accessibleName = showDirection
+          ? `${opt.ariaLabel ?? opt.label}, ${directionName}`
+          : opt.ariaLabel ?? opt.label;
 
         if (opt.href) {
           return (
@@ -91,7 +104,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
               key={opt.value}
               href={opt.href}
               className={btnClass}
-              aria-label={opt.ariaLabel ?? opt.label}
+              aria-label={accessibleName}
               aria-current={isActive ? 'page' : undefined}
             >
               {content}
@@ -106,7 +119,7 @@ export const SegmentedControl: React.FC<SegmentedControlProps> = ({
             {...(hasLinks
               ? { 'aria-pressed': isActive }
               : { role: 'radio', 'aria-checked': isActive, tabIndex: isActive ? 0 : -1 })}
-            aria-label={opt.ariaLabel ?? opt.label}
+            aria-label={accessibleName}
             className={btnClass}
             onClick={() => onChange(opt.value)}
           >

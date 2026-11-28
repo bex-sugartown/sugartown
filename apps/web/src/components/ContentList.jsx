@@ -30,7 +30,7 @@ function formatDate(iso) {
   return d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
 }
 
-function toRow(item, fallbackDocType) {
+function toRow(item, fallbackDocType, dateField) {
   const docType = fallbackDocType ?? item._type
   const status = item.status?.toLowerCase()
   // Node rows show status (+ dot); others show their first category. The type
@@ -47,13 +47,15 @@ function toRow(item, fallbackDocType) {
     key: item._id,
     tag,
     title: item.title,
-    date: formatDate(item.publishedAt),
+    date: formatDate(item[dateField]),
     href: getCanonicalPath({ docType, slug: item.slug }),
     leading: useStatus ? <span className={styles.statusDot} data-status={status} /> : null,
   }
 }
 
-export default function ContentList({ items = [], docType, title, count }) {
-  const rows = items.map((item) => toRow(item, docType))
-  return <List variant="register" items={rows} title={title} count={count} />
+// dateField: which item field the date column shows (publishedAt by default; ST-275 archives
+// pass the field that follows the sort). columnHeads: optional header row for the three columns.
+export default function ContentList({ items = [], docType, title, count, dateField = 'publishedAt', columnHeads }) {
+  const rows = items.map((item) => toRow(item, docType, dateField))
+  return <List variant="register" items={rows} title={title} count={count} columnHeads={columnHeads} />
 }

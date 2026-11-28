@@ -120,3 +120,18 @@ export const NarrowColumn: Story = {
   ),
   args: { variant: 'register', title: 'Related', items: NODE_ROWS },
 }
+
+/** Column header row (ST-275): the date header follows the sort, and the row hides when the list is narrow. */
+export const WithColumnHeads: Story = {
+  parameters: { layout: 'padded', chromatic: { disableSnapshot: false } },
+  render: () => (
+    <div style={{ display: 'grid', gap: '2rem' }}>
+      <List variant="register" items={ARTICLE_ROWS} columnHeads={{ tag: 'Category', title: 'Title', date: 'Published' }} />
+      <List variant="register" items={ARTICLE_ROWS} columnHeads={{ tag: 'Category', title: 'Title', date: 'Updated' }} />
+      {/* Below 560px the rows stack and the header is hidden */}
+      <div style={{ width: 400 }}>
+        <List variant="register" items={ARTICLE_ROWS} columnHeads={{ tag: 'Category', title: 'Title', date: 'Published' }} />
+      </div>
+    </div>
+  ),
+}

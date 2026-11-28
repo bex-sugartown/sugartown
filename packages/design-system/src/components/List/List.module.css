@@ -45,6 +45,29 @@
   letter-spacing: 0.06em;
 }
 
+/* ── Column header row (optional, text only) ──
+   Widths mirror .rowTag (138px) and the register's .rowDate (96px) so the labels sit over
+   their columns. Hidden when the rows stack, same breakpoint as the row layout. ST-275. */
+.columnHeads {
+  composes: monoLabel from '../../styles/type.module.css';
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 0 2px var(--st-space-1);
+  color: var(--st-color-text-muted);
+}
+.columnHeads span:first-child {
+  flex: 0 0 138px;
+}
+.columnHeads span:nth-child(2) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+.columnHeads span:last-child {
+  flex: 0 0 96px;
+  text-align: right;
+}
+
 /* ── List <ul> reset + bracketing hairlines (the "ledger nod") ── */
 .list {
   list-style: none;
@@ -217,6 +240,9 @@
    Below 560px: drop the vertical rules and stack the row as
    [ TAG ............ DATE ] over [ Title ]. */
 @container (max-width: 560px) {
+  .columnHeads {
+    display: none;
+  }
   .register {
     background-image: none;
   }

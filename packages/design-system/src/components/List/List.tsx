@@ -44,6 +44,11 @@ export interface ListProps {
   title?: string
   /** Count shown right-aligned in the head; defaults to items.length. */
   count?: number
+  /**
+   * Optional column header row above the rows. Text only, not interactive. Omit to
+   * render no header. Hidden when the rows stack (narrow container). ST-275.
+   */
+  columnHeads?: { tag?: string; title?: string; date?: string }
 }
 
 export function ListItem({ tag, tagTitle, leading, title, date, href }: ListItemProps) {
@@ -74,13 +79,20 @@ export function ListItem({ tag, tagTitle, leading, title, date, href }: ListItem
   )
 }
 
-export function List({ variant = 'register', items = [], title, count }: ListProps) {
+export function List({ variant = 'register', items = [], title, count, columnHeads }: ListProps) {
   return (
     <div className={styles.listBlock}>
       {title && (
         <div className={styles.listHead}>
           <h2 className={styles.listHeadTitle}>{title}</h2>
           <span className={styles.listHeadCount}>{count != null ? count : items.length}</span>
+        </div>
+      )}
+      {columnHeads && (
+        <div className={styles.columnHeads} aria-hidden="true">
+          <span>{columnHeads.tag}</span>
+          <span>{columnHeads.title}</span>
+          <span>{columnHeads.date}</span>
         </div>
       )}
       <ul className={`${styles.list} ${styles[variant]}`}>
