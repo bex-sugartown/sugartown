@@ -18,7 +18,6 @@ Versioning: [Semantic Versioning](https://semver.org/spec/v2.0.0.html)
 - #267: hover effects (lifts, glows, washes, underlines) apply only on devices that can hover, so a tap on a phone no longer leaves them stuck; a new check fails any hover rule outside `(hover: hover)`. (159 rules in 53 stylesheets, smoke 78 passed, Chromatic build 121 no changes)
 - #189: the axe accessibility gate now scans /platform and /platform/governance in both themes (/about was already in); /platform is clean, and /platform/governance carries two known failures, tracked in #271 (colour contrast) and #272 (roadmap scroll region keyboard access). (smoke 84 passed)
 - #226: the AI ethics brief no longer says no image is flagged or stamped; image 3 is, on its five uses since #225. The live /ai-ethics page already read correctly (scanned 2026-11-28).
-- #116: the node "AI Illustration Review: Every Image Passed. None of Them Should Have." is published at /nodes/ai-illustration-review-ethics-accessibility-ip-guardrails, with alt text, the AI label and stamped copies on all three images (three red-pen rounds; `pnpm export:draft check` matched).
 
 ---
 
