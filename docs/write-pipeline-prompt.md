@@ -215,6 +215,18 @@ to the block, and put `<key>` in the `marks` of the span that carries the text. 
 one produces an Unknown field error in Studio. A reference can only target a published term,
 so link after `/st-glossy` has created the term and Bex has published it.
 
+**Link the first mention in the main content, once per document.** Main content is the body of
+the document, including accordion items. Do not link a term inside a changelog, a release-note
+"not in this release" list, a caption, a heading or a metadata field. If the first mention sits
+in one of those, link the first mention in the body instead. (ai-ethics, 2026-11-28: C2PA and
+IPTC were linked in the Changelog, the last section on the page, instead of in Principle 13.)
+
+**The TERMS chips on the metadata card come from these links, so a linked term always gets a chip.**
+`INLINE_TERMS_PROJECTION` in `apps/web/src/lib/queries.js` collects every linked term from text
+sections, callouts and accordion items. Do not add or edit chips by hand. A new section type that
+holds rich text adds its path to that projection. (FX Networks, 2026-11-28: WCAG was linked in a
+callout and got no chip, because the query read text sections only.)
+
 ---
 
 ## 2. Metadata reference field matrix

@@ -401,6 +401,9 @@ Block shape: `{ "_key": "...", "_type": "code", "code": "<the literal text with 
 - Fields written vs left blank
 - Relations wired (with names)
 - Sources attached
+- If existing documents already mention the term, link it as a draft edit per
+  `docs/write-pipeline-prompt.md` §1 (first mention in the main content, once per document,
+  never in a changelog), and report each document.
 - Tell the user the term(s) are drafted and ready, and that publishing is theirs to
   do — from Studio, or by giving you a separate explicit "publish that" instruction
   if they want it live now. The web client uses `perspective: 'published'`, so
