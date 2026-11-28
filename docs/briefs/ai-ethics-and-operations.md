@@ -245,10 +245,10 @@ This is distinct from #3 (Transparency about AI involvement at the system level)
 
 | Layer | What it is | Survives a download or repost | Status |
 |---|---|---|---|
-| Metadata | IPTC digital source type and the AI system used, written into stamped JPEG copies that the site serves as-is (the Sanity image CDN strips embedded metadata, so the stamped copies bypass it) | Until another site strips it | Tooling built (ST-178, ST-181: page copies, a 1200 x 630 share image, tool version); no image has been stamped yet |
+| Metadata | IPTC digital source type and the AI system used, written into stamped JPEG copies that the site serves as-is (the Sanity image CDN strips embedded metadata, so the stamped copies bypass it) | Until another site strips it | Tooling built (ST-178, ST-181: page copies, a 1200 x 630 share image, tool version). Stamped: the redacted image 3 on its five uses (#225, 2026-11-14); images 1 and 2 are attached in the unpublished #116 node draft |
 | Invisible watermark and C2PA signing | Hidden watermark or signed credential, so a label can be recovered after metadata is stripped | Often | Not done (ST-181 audit, 2026-10-31): both need a signing product that has passed C2PA conformance, a certificate from a trusted authority and a lookup service. Revisit through a new issue |
-| Visible mark | The same label as the on-site badge, baked into the image pixels | Until the image is cropped | Tooling built, ST-178; no image has been stamped yet |
-| On-site label | Alt text or caption flag, and an "AI-generated" label on the image from SUG-178 | No, it lives in the page | Alt text and caption in use. The AI-generated label is live (SUG-178, SUG-178 follow-ups ST-179 and ST-181); no image is flagged yet |
+| Visible mark | The same label as the on-site badge, baked into the image pixels | Until the image is cropped | Tooling built, ST-178. Baked into the stamped copies of image 3 (#225) and, in the unpublished #116 node draft, images 1 and 2 |
+| On-site label | Alt text or caption flag, and an "AI-generated" label on the image from SUG-178 | No, it lives in the page | Alt text and caption in use. The AI-generated label is live (SUG-178, SUG-178 follow-ups ST-179 and ST-181). Flagged: image 3 on five uses across three published pages (#225); the #116 node images are flagged in its unpublished draft |
 
 No layer is tamper-proof. The aim is that an honest reader, or an honest platform, can tell. Known gap: stamping re-encodes the image, which drops any Content Credentials the generator embedded.
 
@@ -375,6 +375,7 @@ And if something breaks? A human apologizes. Not a model.
 
 ### Unreleased
 
+- Principle 13 status cells corrected (#226): they said no image was flagged or stamped; image 3 has been since #225 (2026-11-14), and the #116 node images are attached in its unpublished draft
 - Principle 13 corrected after the ST-181 audit: Article 50's marking duty sits with providers of generative AI systems and deployers owe disclosure for deepfakes and public-interest text, so the labelling layers are voluntary. Added share images, the tool-version field, and the known re-encoding gap
 - Principle 13: added the layered labelling table for AI-generated images (metadata, invisible watermark and C2PA signing, visible mark, on-site label) and an EU AI Act Article 50 direction note. Updated after the ST-178 audit: the Sanity image CDN strips embedded metadata, so stamped copies are served as file assets; watermarking and C2PA signing are not done
 
