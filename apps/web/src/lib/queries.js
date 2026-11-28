@@ -104,6 +104,20 @@ export const GLOSSARY_TERM_FRAGMENT = `
 `
 
 /**
+ * INLINE_TERMS_PROJECTION
+ * Every glossary term linked inline anywhere in a document's sections, for the MetadataCard
+ * TERMS chips. Reads each place a section holds Portable Text: `content` (text sections),
+ * `body` (callouts) and `items[].content` (accordions). A chip is derived from a link, never
+ * maintained by hand. Add a path here when a new section type carries rich text.
+ * Usage: "inlineTerms": ${INLINE_TERMS_PROJECTION}
+ */
+export const INLINE_TERMS_PROJECTION = `
+    coalesce(sections[].content[].markDefs[_type == "glossaryTermRef"].term->{${GLOSSARY_TERM_FRAGMENT}}, [])
+    + coalesce(sections[].body[].markDefs[_type == "glossaryTermRef"].term->{${GLOSSARY_TERM_FRAGMENT}}, [])
+    + coalesce(sections[].items[].content[].markDefs[_type == "glossaryTermRef"].term->{${GLOSSARY_TERM_FRAGMENT}}, [])
+`
+
+/**
  * TAXONOMY_FRAGMENT
  * Composite canonical taxonomy projection for all top-level content types.
  * Bundles all five taxonomy primitives into a single reusable spread.
@@ -478,7 +492,7 @@ export const nodeBySlugQuery = `
     authors[]->{${PERSON_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
-    "inlineTerms": sections[_type == "textSection"][].content[].markDefs[_type == "glossaryTermRef"][].term->{${GLOSSARY_TERM_FRAGMENT}},
+    "inlineTerms": ${INLINE_TERMS_PROJECTION},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     related[]->{_id, _type, title, "slug": slug.current},
@@ -690,7 +704,7 @@ export const articleBySlugQuery = `
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
     "inlineTerms": coalesce(content[].markDefs[_type == "glossaryTermRef"].term->{${GLOSSARY_TERM_FRAGMENT}}, [])
-      + coalesce(sections[_type == "textSection"][].content[].markDefs[_type == "glossaryTermRef"][].term->{${GLOSSARY_TERM_FRAGMENT}}, []),
+      + ${INLINE_TERMS_PROJECTION},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     related[]->{_id, _type, title, "slug": slug.current},
@@ -1143,7 +1157,7 @@ export const caseStudyBySlugQuery = `
     "tools": tools[]->{${TOOL_FRAGMENT}},
     categories[]->{${CATEGORY_FRAGMENT}},
     tags[]->{${TAG_FRAGMENT}},
-    "inlineTerms": sections[_type == "textSection"][].content[].markDefs[_type == "glossaryTermRef"][].term->{${GLOSSARY_TERM_FRAGMENT}},
+    "inlineTerms": ${INLINE_TERMS_PROJECTION},
     projects[]->{${PROJECT_FRAGMENT}},
     relatedProjects[]->{${PROJECT_FRAGMENT}},
     related[]->{_id, _type, title, "slug": slug.current},
