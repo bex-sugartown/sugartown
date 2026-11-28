@@ -1,7 +1,7 @@
 ---
 **Epic:** ST-275 — Sort control for archive pages
 **Issue:** [#275](https://github.com/bex-sugartown/sugartown/issues/275)
-**Status:** In Progress
+**Status:** Done
 **Priority:** 🟢 Next
 **Merge strategy:** (a) Merge-as-you-go — one commit per phase, one CHANGELOG line at the end of each
 **Visual:** yes
@@ -96,3 +96,46 @@ Chromatic deferred to the ship step by Bex, 2026-11-28. Phase 1 touched CSS, com
 - **Triggered by:** [#116](https://github.com/bex-sugartown/sugartown/issues/116)
 - **Adjacent:** [#37](https://github.com/bex-sugartown/sugartown/issues/37), [#210](https://github.com/bex-sugartown/sugartown/issues/210)
 - **Epic template:** `docs/epic-template.md` — complete Doc Type Coverage, Query Layer Checklist, Schema Enum Audit, and Files to Modify at activation time
+
+## Close-out review
+
+Collaboration: 1h 55m active across 1 day, 2026-11-28 · 12 messages from Bex · measured 2026-11-28 by `pnpm collab:time 275`.
+
+### Acceptance criteria
+
+- [x] On `/library?contentType=node`, "Updated" puts #116 above nodes with a later `publishedAt`: browser check 2026-11-28 with `?sort=updated`, first row is the #116 node (draft preview, since the node is unpublished). The live-site half is a Post-ship check.
+- [x] Each option reorders in both directions and the choice is in the URL: clicked Updated (flip), Alphabetical (flip) and Published in the browser, URLs `?sort=updated&order=asc`, `?sort=title`, `?sort=title&order=desc`, then none. `apps/web/src/lib/archiveSort.test.js`, 8 tests.
+- [x] Reloading a sorted URL shows the same order: loaded `/library?contentType=node&sort=updated` directly, chip and order matched.
+- [x] No sort param renders newest published first, as before: default unit test, and the first two rows matched the pre-change screenshot (`docs/drafts/ST-275-before-live-2026-11-28.webp`).
+- [x] The control appears on every archive route and on none of the others: present on `/articles`, `/nodes`, `/case-studies`, `/releases`, `/library`; absent on `/library?view=graph`, `/glossary`, `/tags`.
+- [x] `pnpm validate:tokens` (and `--strict-colors`), `pnpm test:smoke` (84 passed) pass. Axe: the committed gate does not scan `/library`; an ad hoc axe pass on `/library` grid and list in both themes found no violations. Gate coverage is #276.
+- [x] Phase 2: the decision on `publishedAt` is in this doc (§Phase 2 decision). The #116 re-date was dropped from scope by Bex on 2026-11-28, so no content was changed.
+- [x] No schema field added: description text only on three schemas; schema deployed (1 of 1).
+
+### What didn't work
+
+- The vspec said the list column header would reuse `.archiveToolbarKicker`. That class is app-level and a DS `List` cannot import it, so the build needed a new `.columnHeads` class, which went back to Bex for approval.
+- The web app reads the design-system package from `dist`. The new props did not show until the package was rebuilt (`pnpm --filter @sugartown/design-system build`); the first browser check showed no arrow and no label.
+- Three chips did not fit at 375px. The "Sort by" label now hides below 768px.
+- The design-reviewer flagged three hardcoded values in `pages.module.css` as drift. All three predate this epic (checked with `git show 54d98f0e~1`), so they were left alone.
+
+### Follow-ups
+
+| Follow-up | Kind | Where it went |
+|---|---|---|
+| Add `/library` grid and list to the axe gate | implementation | #276 |
+| Wire `archivePage.sortBy` ("Sort Order (coming soon)", Deferred tab) as a per-archive default sort | implementation | declined: #37 already lists "sort options" among the unwired Advanced fields |
+| Check the three new stories (SegmentedControl, List, Card) in Storybook on default and `dark-pink-moon` | implementation | declined: done in this epic, 2026-11-28. Rendered and axe-scanned all six story and theme pairs (no violations, no page errors); screenshots read for dark |
+| Archive toolbar padding, divider margin and kicker size are hardcoded px | implementation | declined: existing values on surfaces this epic did not change |
+
+### Friction line
+
+A vspec line promised no new class for the list column header without checking that the class it named was reachable from the design system.
+
+---
+
+## Post-ship checks
+
+- [ ] Chromatic: run at the ship step, approve the three new stories and the toolbar change (`<!-- Chromatic: pending -->` above): person approves in Chromatic
+- [ ] Live sort: on production `/library?contentType=node`, choose Updated and confirm the order changes and the URL carries `?sort=updated`: `curl -s https://sugartown.io/library` cannot show it, so person
+- [ ] Case study dates: production `/case-studies` cards show "PUB" dates (they showed none before): person
