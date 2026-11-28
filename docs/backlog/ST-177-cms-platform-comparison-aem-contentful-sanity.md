@@ -64,6 +64,8 @@ Start review 2026-11-28. `check-epic-doc.js` exit 0; `--drift` listed 31 changed
 - Header was Backlog / Next while the board read Todo / High; header corrected. Issue body said five columns; updated to six with Storyblok.
 - Merge strategy changed from (b) to (a), work on `main` (Bex, 2026-11-28).
 - Vspec scope (Bex, 2026-11-28): layout and token mapping are signed off at Phase 0; cell text shows as unverified and is checked against vendor docs in Phase 1 for the red-pen table.
+- Figma probe 2026-11-28 (throwaway FigJam file): `use_figma` sets EB Garamond, Courier Prime, Cormorant Garamond, DM Sans and IBM Plex Mono on FigJam text and shape text, none missing; section, shape and connector fills and strokes read back the exact Pink Moon hex. Shapes carry FigJam's default grey stroke unless set. FigJam's font menu shows only its four presets, so later hand edits keep the font only on existing text. No fallback needed.
+- Font stack corrected (Bex, 2026-11-28): the epic named EB Garamond and Courier Prime; the site ships Cormorant Garamond, DM Sans and IBM Plex Mono (`tokens.css` `--st-font-family-*`, `apps/web/index.html` font link). The diagram uses the shipped stack. The same stale names in the `CLAUDE.md` header are filed separately.
 - Live-site criteria: none; nothing publishes, so `## Post-ship checks` stays empty.
 
 ## Objective
@@ -76,7 +78,7 @@ Not applicable, no content piece.
 
 ## Scope
 
-- [ ] FigJam diagram, six columns (AEM traditional, AEM headless, AEM Edge Delivery Services, Contentful, Storyblok, Sanity), tree plus both tables, in Pink Moon light colours and fonts (EB Garamond headings, Courier Prime metadata) — layer: design. Phase 1.
+- [ ] FigJam diagram, six columns (AEM traditional, AEM headless, AEM Edge Delivery Services, Contentful, Storyblok, Sanity), tree plus both tables, in Pink Moon light colours and fonts (Cormorant Garamond headings, DM Sans body, IBM Plex Mono metadata: `--st-font-family-narrative`, `-ui`, `-mono`) — layer: design. Phase 1.
 - [ ] Exported SVG committed to `docs/diagrams/cms-platform-comparison.svg` before any publish, as the diagram's source of record — layer: docs. Phase 1.
 - [ ] Red-pen claim table at `docs/diagrams/redpen-cms-platform-comparison.md`: one row per box, arrow and label, each with evidence and a class (enforced-by-code, measured, convention, roadmap); EDS rows verified against Adobe docs first — layer: docs. Phase 1.
 - [ ] Recommendations brief at `docs/briefs/cms-platform-comparison-recommendations.md`: how to make the transferable-skills case, with the Dice sample recorded as an estimate with its method and limits — layer: docs. Phase 2.
