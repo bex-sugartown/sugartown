@@ -1,9 +1,10 @@
 ---
 **Epic:** ST-177 — CMS platform comparison: AEM, Contentful, Sanity
 **Issue:** [#177](https://github.com/bex-sugartown/sugartown/issues/177)
-**Status:** Backlog
-**Priority:** 🟢 Next
-**Merge strategy:** (b) Single close-out — one long-lived branch, one CHANGELOG line at the end
+**Status:** In Progress
+**Priority:** High
+**Merge strategy:** (a) Merge-as-you-go — commits land on `main` locally, one CHANGELOG line at the end (changed from (b) at the 2026-11-28 start review, Bex's call: docs-only work, no branch)
+**Aligned:** 2026-11-28
 **Visual:** yes
 **Vspec:** `docs/drafts/ST-177-cms-platform-comparison-aem-contentful-sanity.vspec.html`
 ---
@@ -50,6 +51,20 @@ CMS comes first. The same layout (tree, "same job, different name" table, "where
 - Ask Adobe, a partner or an analyst for an adoption split, or find one in Adobe earnings material or Gartner and Forrester reports.
 - Verify the Edge Delivery Services claims against Adobe documentation (see the red-pen scope item).
 - Say "in the postings I reviewed" in any reader-facing text, never a percentage.
+
+## Start audit
+
+Start review 2026-11-28. `check-epic-doc.js` exit 0; `--drift` listed 31 changed rule files since 2026-10-21. Read: `vspec-rules.md`, `vspec-template.html`, `CLAUDE.md` diagram and Done rules, `instruction-writing-style.md`. Skipped as off-topic for a docs-and-FigJam epic: the `st-` rename commits, `tokens.md`, `groq.md`, `storybook.md`, write-pipeline templates.
+
+- Vspec template now has 11 sections and a real dated Before. The epic says rebuild from the local SVG draft; the Before is a render of `docs/drafts/cms-platform-comparison.svg`, dated, not hand-built markup.
+- Vspec rules now expect a probe before the vspec. The epic's Figma tooling audit is that probe; it runs before the vspec is written (Bex approved a throwaway FigJam test file).
+- `validate:diagram-assets` (#182) checks published diagrams against committed sources. Publishing is a Non-Goal, so it does not run here.
+- Em dash rule narrowed to customer-facing content (2026-11-07). The AC already limits the ban to the brief's reader-facing sentences; no change.
+- The four paths `--drift` reports missing are this epic's outputs, not stale references.
+- Header was Backlog / Next while the board read Todo / High; header corrected. Issue body said five columns; updated to six with Storyblok.
+- Merge strategy changed from (b) to (a), work on `main` (Bex, 2026-11-28).
+- Vspec scope (Bex, 2026-11-28): layout and token mapping are signed off at Phase 0; cell text shows as unverified and is checked against vendor docs in Phase 1 for the red-pen table.
+- Live-site criteria: none; nothing publishes, so `## Post-ship checks` stays empty.
 
 ## Objective
 
